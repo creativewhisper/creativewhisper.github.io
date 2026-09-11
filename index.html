@@ -325,11 +325,31 @@ section{position:relative}
 .b7{grid-column:10 / span 3;grid-row:span 2}
 .b6,.b7{align-self:stretch}
 .bts-grid figcaption{position:absolute;left:10px;bottom:8px;color:rgba(236,230,219,.8)}
-.specs{display:grid;grid-template-columns:repeat(4,1fr);margin:18px 0 0;border-top:1px solid var(--line)}
-.specs div{padding:22px 20px;border-bottom:1px solid var(--line);border-left:1px solid var(--line)}
-.specs div:nth-child(4n+1){border-left:0;padding-left:0}
-.specs dt{font-family:var(--f-caps);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-.specs dd{margin:8px 0 0;font-family:var(--f-display);font-size:var(--t-md);line-height:1.2}
+
+/* ---------- equipo ---------- */
+.kit{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(210px,21vw,300px);gap:14px}
+.kit-item{position:relative;margin:0;overflow:hidden;background:var(--ink-2);isolation:isolate}
+.kit-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(.4) contrast(1.06) brightness(.82);transition:filter .8s var(--ease),transform 1.4s var(--ease)}
+.kit-item:hover img{filter:none;transform:scale(1.04)}
+.kit-item::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to top,rgba(10,9,8,.92) 0%,rgba(10,9,8,.35) 38%,rgba(10,9,8,0) 62%)}
+.kit-item figcaption{position:absolute;z-index:2;left:18px;right:18px;bottom:16px;display:grid;gap:3px}
+.kit-item .label{font-size:10px}
+.kit-item strong{font-family:var(--f-display);font-weight:400;font-size:var(--t-md);line-height:1.1;color:var(--bone)}
+.kit-item .mono{margin-top:2px}
+.kit-feature{grid-column:span 2;grid-row:span 2}
+.kit-feature strong{font-size:var(--t-lg)}
+.kit-wide{grid-column:span 2}
+.kit-product{background:radial-gradient(70% 60% at 50% 42%,#2a2621 0%,var(--ink-2) 70%)}
+.kit-product img{object-fit:contain;inset:8% 10% 30%;width:80%;height:62%;filter:grayscale(.2) brightness(.95)}
+.kit-formats{display:flex;flex-direction:column;justify-content:space-between;padding:20px 18px 16px;border:1px solid var(--line)}
+.kit-formats::after{display:none}
+.kit-formats figcaption{position:static}
+.frames-ar{display:grid;grid-template-columns:auto auto;gap:18px 20px;align-content:center;justify-content:start;flex:1;padding-block:10px}
+.frames-ar span{display:grid;gap:6px;justify-items:start}
+.frames-ar i{display:block;height:clamp(40px,4vw,58px);border:1px solid var(--metal-deep)}
+.frames-ar span:hover i{border-color:var(--metal)}
 
 /* ---------- preguntas ---------- */
 .faq{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
@@ -455,9 +475,16 @@ dialog.lightbox::backdrop{background:rgba(5,5,4,.94)}
   .bts-grid figure{grid-column:auto !important;grid-row:auto !important;aspect-ratio:4/5}
   .bts-grid .b1{grid-column:1 / -1 !important;aspect-ratio:3/2}
   .bts-grid .b6,.bts-grid .b7{display:none}
-  .specs{grid-template-columns:1fr 1fr}
-  .specs div,.specs div:nth-child(4n+1){padding:18px 12px 18px 0;border-left:0}
   .hud{display:none}
+  .kit{grid-template-columns:1fr 1fr;grid-auto-rows:clamp(190px,56vw,240px);gap:10px}
+  .kit-feature{grid-column:1 / -1;grid-row:span 2}
+  .kit-formats{padding:14px 12px 12px}
+  .kit-formats .mono:not(em){display:none}
+  .frames-ar{gap:8px 14px;padding-block:4px}
+  .frames-ar i{height:26px}
+  .kit-wide{grid-column:1 / -1}
+  .kit-item figcaption{left:12px;right:12px;bottom:12px}
+  .kit-item strong{font-size:19px}
   .foot-col,.foot-col:first-of-type{grid-column:span 6}
   .case-media .inset{width:44%;bottom:-16%}
 }
@@ -550,6 +577,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       <a href="#trabajo">Trabajo</a>
       <a href="#viaje">Viaje del cliente</a>
       <a href="#servicios">Servicios</a>
+      <a href="#equipo">Equipo</a>
       <a href="#caso">Caso</a>
       <a class="btn" href="#contacto">Agendar reunión <span class="arrow">→</span></a>
     </nav>
@@ -823,17 +851,56 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
         <figure class="b6"><img src="assets/bts-hoja.webp" alt="Guion impreso en manos del actor" loading="lazy"></figure>
         <figure class="b7"><img src="assets/bts-perfil.webp" alt="Operador de audio con audífonos frente a la consola" loading="lazy" style="object-position:50% 30%"></figure>
       </div>
-      <span class="label" style="display:block;margin-top:72px">Equipo</span>
-      <dl class="specs">
-        <div><dt>Cámara</dt><dd>Sony FX2 · Cinema Line</dd></div>
-        <div><dt>Audio</dt><dd>DJI Mic</dd></div>
-        <div><dt>Estabilizador</dt><dd>DJI RS 4 Mini</dd></div>
-        <div><dt>Tomas aéreas</dt><dd>Dron DJI Mini 4K</dd></div>
-        <div><dt>Voz</dt><dd>Estudio de locución</dd></div>
-        <div><dt>Color y edición</dt><dd>DaVinci Resolve Studio</dd></div>
-        <div><dt>Set</dt><dd>Estudio profesional</dd></div>
-        <div><dt>Formatos</dt><dd>9:16 · 4:5 · 16:9 · 2.39:1</dd></div>
-      </dl>
+    </div>
+  </section>
+
+  <!-- ===================== EQUIPO ===================== -->
+  <section class="block" id="equipo" style="padding-top:0" data-scene="Equipo">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">Equipo</span>
+        <h2>Herramientas de cine, <em>a escala de marca.</em></h2>
+        <div class="aside"><p>Cámara de la línea Cinema, audio inalámbrico, estabilizador, dron y un estudio propio para voz y postproducción. Todo lo que ves en pantalla sale de aquí.</p></div>
+      </div>
+      <div class="kit">
+        <figure class="kit-item kit-feature">
+          <img src="assets/eq-fx2.webp" alt="Cámara Sony FX2 de la línea Cinema en manos de un camarógrafo" loading="lazy" style="object-position:30% 50%">
+          <figcaption><span class="label">Cámara</span><strong>Sony FX2 · Cinema Line</strong><span class="mono">4K · Video y foto</span></figcaption>
+        </figure>
+        <figure class="kit-item">
+          <img src="assets/eq-rs4mini.webp" alt="Estabilizador DJI RS 4 Mini con cámara montada" loading="lazy" style="object-position:50% 40%">
+          <figcaption><span class="label">Estabilizador</span><strong>DJI RS 4 Mini</strong><span class="mono">Movimientos fluidos</span></figcaption>
+        </figure>
+        <figure class="kit-item kit-product">
+          <img src="assets/eq-djimic.webp" alt="Micrófonos inalámbricos DJI Mic en su estuche de carga" loading="lazy">
+          <figcaption><span class="label">Audio</span><strong>DJI Mic</strong><span class="mono">Inalámbrico</span></figcaption>
+        </figure>
+        <figure class="kit-item">
+          <img src="assets/eq-dron.webp" alt="Dron DJI Mini volando en un bosque" loading="lazy" style="object-position:50% 45%">
+          <figcaption><span class="label">Tomas aéreas</span><strong>Dron DJI Mini</strong><span class="mono">4K desde el aire</span></figcaption>
+        </figure>
+        <figure class="kit-item">
+          <img src="assets/eq-voz.webp" alt="Dos actores grabando voces con audífonos en el estudio de locución" loading="lazy" style="object-position:50% 30%">
+          <figcaption><span class="label">Voz</span><strong>Estudio de locución</strong><span class="mono">Doblaje · Locución · ADR</span></figcaption>
+        </figure>
+        <figure class="kit-item kit-wide">
+          <img src="assets/eq-estudio.webp" alt="Estudio profesional con paneles acústicos naranjas y monitor de edición" loading="lazy" style="object-position:50% 40%">
+          <figcaption><span class="label">Set</span><strong>Estudio profesional</strong><span class="mono">Grabación · Revisión en pantalla</span></figcaption>
+        </figure>
+        <figure class="kit-item">
+          <img src="assets/eq-edicion.webp" alt="Editor revisando audio y video en la sala de postproducción" loading="lazy" style="object-position:50% 25%">
+          <figcaption><span class="label">Color y edición</span><strong>DaVinci Resolve Studio</strong><span class="mono">Montaje · Color · Mezcla</span></figcaption>
+        </figure>
+        <figure class="kit-item kit-formats">
+          <div class="frames-ar" aria-hidden="true">
+            <span><i style="aspect-ratio:9/16"></i><em class="mono">9:16</em></span>
+            <span><i style="aspect-ratio:4/5"></i><em class="mono">4:5</em></span>
+            <span><i style="aspect-ratio:16/9"></i><em class="mono">16:9</em></span>
+            <span><i style="aspect-ratio:2.39/1"></i><em class="mono">2.39:1</em></span>
+          </div>
+          <figcaption><span class="label">Entrega</span><strong>Todos los formatos</strong><span class="mono">Redes · Web · Pantalla grande</span></figcaption>
+        </figure>
+      </div>
     </div>
   </section>
 
@@ -912,7 +979,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       </div>
       <div class="foot-col">
         <span class="label">Estudio</span>
-        <a href="#trabajo">Trabajo</a><a href="#viaje">Viaje del cliente</a><a href="#servicios">Servicios</a><a href="#caso">Caso</a>
+        <a href="#trabajo">Trabajo</a><a href="#viaje">Viaje del cliente</a><a href="#servicios">Servicios</a><a href="#equipo">Equipo</a><a href="#caso">Caso</a>
       </div>
       <div class="foot-col">
         <span class="label">Hablemos</span>
@@ -1026,14 +1093,14 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 
   /* reveal: solo lo que está fuera de pantalla al cargar */
   if (!reduce && "IntersectionObserver" in window) {
-    const targets = $$(".sec-head, .reel, .jf, .svc, .case-media, .case-body, .bts-grid figure, .specs, .faq-list, .brief, .ident");
+    const targets = $$(".sec-head, .reel, .jf, .svc, .case-media, .case-body, .bts-grid figure, .kit-item, .faq-list, .brief, .ident");
     const io = new IntersectionObserver(es => es.forEach(e => {
       if (e.isIntersecting) { e.target.classList.add("is-revealed"); e.target.classList.remove("will-reveal"); io.unobserve(e.target); }
     }), { rootMargin: "0px 0px -8% 0px" });
     targets.forEach((el, i) => {
       if (el.getBoundingClientRect().top > innerHeight) {
         el.classList.add("will-reveal");
-        el.style.transitionDelay = (el.matches(".reel, .jf, .bts-grid figure") ? (Array.from(el.parentNode.children).indexOf(el) % 5) * 90 : 0) + "ms";
+        el.style.transitionDelay = (el.matches(".reel, .jf, .bts-grid figure, .kit-item") ? (Array.from(el.parentNode.children).indexOf(el) % 5) * 90 : 0) + "ms";
         io.observe(el);
       }
     });
