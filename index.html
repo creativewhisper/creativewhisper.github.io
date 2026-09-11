@@ -121,7 +121,9 @@ p{margin:0}
 .brand{display:flex;align-items:center;gap:12px}
 .brand img{width:54px;height:auto}
 .brand span{font-family:var(--f-caps);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--bone)}
-.nav-links{display:flex;align-items:center;gap:34px;font-size:var(--t-sm);color:var(--mute)}
+.nav-links{display:flex;align-items:center;gap:clamp(18px,2.4vw,34px);font-size:var(--t-sm);color:var(--mute)}
+.nav-links a{white-space:nowrap}
+@media (max-width:1180px){.brand span{display:none}}
 .nav-links a{position:relative;transition:color .3s}
 .nav-links a:hover{color:var(--bone)}
 .nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--metal);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
