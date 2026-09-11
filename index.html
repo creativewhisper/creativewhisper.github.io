@@ -461,14 +461,83 @@ dialog.lightbox::backdrop{background:rgba(5,5,4,.94)}
   .foot-col,.foot-col:first-of-type{grid-column:span 6}
   .case-media .inset{width:44%;bottom:-16%}
 }
+/* ---------- intro ---------- */
+html.intro-playing{overflow:hidden}
+html.intro-playing .frame::before,html.intro-playing .frame::after,
+html.intro-playing .hero-title .ln > span{animation-play-state:paused}
+.intro{position:fixed;inset:0;z-index:200;display:grid;place-items:center;overflow:hidden;cursor:pointer;
+  animation:introEnd 0s linear 3.3s forwards}
+.intro-half{position:absolute;left:0;right:0;height:50.2%;background:var(--ink)}
+.intro-half.top{top:0;animation:splitTop 1s var(--ease-cine) 2.25s forwards}
+.intro-half.bottom{bottom:0;animation:splitBottom 1s var(--ease-cine) 2.25s forwards}
+.intro-half.top::after,.intro-half.bottom::before{content:"";position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(205,191,166,.55),transparent);opacity:0;animation:seam .9s ease 2.05s forwards}
+.intro-half.top::after{bottom:0}.intro-half.bottom::before{top:0}
+.intro-core{position:relative;z-index:2;display:grid;justify-items:center;gap:clamp(14px,2vw,22px);
+  max-width:100vw;padding-inline:16px;animation:coreOut .45s ease 2.05s forwards}
+.intro-mark{position:relative;width:clamp(120px,15vw,200px);animation:markIn 1.1s var(--ease) .2s both}
+.intro-mark img{width:100%;height:auto}
+.intro-mark .shine{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,247,228,.95) 50%,transparent 62%) no-repeat;
+  background-size:260% 100%;background-position:120% 0;
+  -webkit-mask:url("assets/intro-mark.png") center / contain no-repeat;mask:url("assets/intro-mark.png") center / contain no-repeat;
+  animation:shine 1.3s ease-in-out .95s both}
+.intro-word{font-family:var(--f-caps);font-weight:400;font-size:clamp(15px,2vw,26px);color:var(--bone);white-space:nowrap;
+  letter-spacing:.34em;margin-right:-.34em;animation:wordIn 1.2s var(--ease) .75s both}
+.intro-sub{display:flex;align-items:center;gap:14px;animation:fadeUp .8s var(--ease) 1.25s both}
+.intro-sub span{font-family:var(--f-caps);font-size:clamp(9px,.8vw,11px);letter-spacing:.5em;margin-right:-.5em;color:var(--metal)}
+.intro-sub i{display:block;width:clamp(28px,5vw,64px);height:1px;background:var(--metal-deep);transform:scaleX(0);animation:lineIn .8s var(--ease) 1.35s forwards}
+.intro-sub i:first-child{transform-origin:right}.intro-sub i:last-child{transform-origin:left}
+.intro-meta{position:absolute;z-index:2;left:var(--gutter);right:var(--gutter);bottom:clamp(18px,3vw,32px);
+  display:flex;justify-content:space-between;align-items:center;color:var(--mute);animation:coreOut .45s ease 2.05s forwards}
+.intro-meta .mono{color:inherit}
+.intro-skip{font-family:var(--f-caps);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);padding:8px 0;transition:color .3s}
+.intro-skip:hover{color:var(--bone)}
+.intro.is-leaving{animation:introEnd 0s linear .8s forwards}
+.intro.is-leaving .intro-core,.intro.is-leaving .intro-meta{animation:coreOut .25s ease forwards}
+.intro.is-leaving .intro-half.top{animation:splitTop .8s var(--ease-cine) .1s forwards}
+.intro.is-leaving .intro-half.bottom{animation:splitBottom .8s var(--ease-cine) .1s forwards}
+@keyframes markIn{from{opacity:0;filter:blur(14px);transform:translateY(12px) scale(1.08)}to{opacity:1;filter:blur(0);transform:none}}
+@keyframes shine{from{background-position:120% 0}to{background-position:-20% 0}}
+@keyframes wordIn{from{opacity:0;letter-spacing:.95em;margin-right:-.95em;filter:blur(6px)}to{opacity:1;letter-spacing:.34em;margin-right:-.34em;filter:blur(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes lineIn{to{transform:scaleX(1)}}
+@keyframes seam{0%{opacity:0}40%{opacity:1}100%{opacity:0}}
+@keyframes coreOut{to{opacity:0;transform:scale(.985)}}
+@keyframes splitTop{to{transform:translateY(-101%)}}
+@keyframes splitBottom{to{transform:translateY(101%)}}
+@keyframes introEnd{to{visibility:hidden;pointer-events:none}}
+
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
   .will-reveal{opacity:1;transform:none}
   .grain{display:none}
+  .intro{display:none}
 }
 </style>
 </head>
 <body>
+<div class="intro" id="intro">
+  <div class="intro-half top"></div>
+  <div class="intro-half bottom"></div>
+  <div class="intro-core" aria-hidden="true">
+    <div class="intro-mark"><img src="assets/intro-mark.png" alt="" width="520" height="336"><span class="shine"></span></div>
+    <div class="intro-word">CREATIVE WHISPER</div>
+    <div class="intro-sub"><i></i><span>PRODUCTIONS</span><i></i></div>
+  </div>
+  <div class="intro-meta">
+    <span class="mono rec" aria-hidden="true"><span id="introTc">00:00:00:00</span></span>
+    <button class="intro-skip" type="button" id="introSkip">Saltar intro</button>
+  </div>
+</div>
+<script>
+(function () {
+  var el = document.getElementById("intro");
+  if (!el) return;
+  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) { el.remove(); return; }
+  document.documentElement.classList.add("intro-playing");
+})();
+</script>
 <a class="skip" href="#trabajo" style="position:absolute;left:-9999px">Saltar al contenido</a>
 
 <header class="site-header" id="top">
@@ -920,6 +989,30 @@ dialog.lightbox::backdrop{background:rgba(5,5,4,.94)}
   const tc = $("#tc"), t0 = performance.now(), base = (60 + 24) * 24; // 00:01:24:00
   const tick = now => { tc.textContent = toTC(base + Math.floor((now - t0) / 1000 * 24)); requestAnimationFrame(tick); };
   if (!reduce) requestAnimationFrame(tick);
+
+  /* intro */
+  const intro = $("#intro");
+  if (intro) {
+    let done = false, raf;
+    const t0i = performance.now();
+    const introTc = $("#introTc");
+    const tickIntro = now => { introTc.textContent = toTC(Math.floor((now - t0i) / 1000 * 24)); raf = requestAnimationFrame(tickIntro); };
+    const finish = () => {
+      if (done) return; done = true;
+      cancelAnimationFrame(raf);
+      document.documentElement.classList.remove("intro-playing");
+      ["pointerdown", "keydown", "wheel", "touchstart"].forEach(ev => removeEventListener(ev, leave));
+      setTimeout(() => intro.remove(), 1200);
+    };
+    const leave = () => {
+      if (done || intro.classList.contains("is-leaving") || performance.now() - t0i > 2150) return;
+      intro.classList.add("is-leaving");
+      setTimeout(finish, 450);
+    };
+    requestAnimationFrame(tickIntro);
+    setTimeout(finish, 2600);
+    ["pointerdown", "keydown", "wheel", "touchstart"].forEach(ev => addEventListener(ev, leave, { passive: true }));
+  }
 
   /* HUD: timecode de scroll + escena */
   const hudTc = $("#hudTc"), hudScene = $("#hudScene");
