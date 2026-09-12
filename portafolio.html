@@ -1,0 +1,1078 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0908">
+<link rel="icon" href="assets/monograma-cw.png">
+<title>Fotografía automotriz — Creative Whisper</title>
+<meta name="description" content="Portafolio de fotografía automotriz de Creative Whisper Productions: 9 marcas, 20 líneas de vehículos y composiciones visuales para redes.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Creative Whisper Productions">
+<meta property="og:title" content="Fotografía automotriz — Creative Whisper">
+<meta property="og:description" content="9 marcas, 20 líneas de vehículos y composiciones visuales para redes.">
+<meta property="og:url" content="https://creativewhisper.github.io/portafolio.html">
+<meta property="og:image" content="https://creativewhisper.github.io/assets/og-cw.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<style>
+/* =========================================================
+   CREATIVE WHISPER — tokens
+   Un solo mundo visual (negro de sala de cine). Sin tema claro a propósito.
+   ========================================================= */
+:root{
+  color-scheme: dark;
+  --ink:#0A0908;        /* fondo: negro cálido, igual al del logo */
+  --ink-2:#12100E;      /* superficie levantada */
+  --ink-3:#1B1815;      /* perforaciones, bordes densos */
+  --bone:#ECE6DB;       /* texto principal */
+  --mute:#9A9185;       /* texto secundario */
+  --mute-2:#6B6358;     /* texto en reposo (manifiesto) */
+  --metal:#CDBFA6;      /* champagne plata del monograma */
+  --metal-deep:#857A69;
+  --line:rgba(236,230,219,.12);
+  --line-2:rgba(236,230,219,.22);
+  --rec:#D9412B;        /* solo el punto de REC */
+
+  --f-display:"Cormorant", "Cormorant Garamond", Garamond, "Times New Roman", serif;
+  --f-caps:"Cinzel", "Trajan Pro", "Cormorant", Georgia, serif;
+  --f-body:"Hanken Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --t-label:11px;
+  --t-sm:14px;
+  --t-base:17px;
+  --t-md:clamp(22px, 1.8vw, 26px);
+  --t-lg:clamp(28px, 2.8vw, 38px);
+  --t-xl:clamp(40px, 5.4vw, 80px);
+  --t-hero:clamp(44px, 7.2vw, 122px);
+
+  --gutter:clamp(16px, 4vw, 56px);
+  --max:1440px;
+  --ease:cubic-bezier(.2,.7,.1,1);
+  --ease-cine:cubic-bezier(.76,0,.24,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  margin:0;background:var(--ink);color:var(--bone);
+  font-family:var(--f-body);font-size:var(--t-base);line-height:1.6;
+  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+  overflow-x:hidden;
+}
+img,video{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--metal);color:var(--ink)}
+:focus-visible{outline:1px solid var(--metal);outline-offset:4px}
+
+.wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
+.label{
+  font-family:var(--f-caps);font-size:var(--t-label);font-weight:500;
+  letter-spacing:.24em;text-transform:uppercase;color:var(--metal);
+}
+.mono{font-family:var(--f-mono);font-size:var(--t-label);letter-spacing:.06em;color:var(--mute);font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:var(--f-display);font-weight:300;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h2{font-size:var(--t-xl);line-height:1}
+h2 em,h1 em{font-style:italic;font-weight:300}
+p{margin:0}
+.metal-text{
+  background:linear-gradient(100deg,#F3EBDD 0%,#CDBFA6 35%,#8E8472 55%,#E6DCCB 75%,#A99C86 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+
+/* grano de película */
+.grain{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.07;mix-blend-mode:overlay;animation:grain 1s steps(6) infinite}
+@keyframes grain{
+  0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}
+  60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}
+}
+
+/* ---------- botones ---------- */
+.btn{
+  display:inline-flex;align-items:center;gap:12px;
+  font-family:var(--f-body);font-size:var(--t-sm);font-weight:500;letter-spacing:.04em;
+  padding:15px 24px;border:1px solid var(--line-2);color:var(--bone);
+  transition:background .4s var(--ease),color .4s var(--ease),border-color .4s var(--ease);
+  white-space:nowrap;
+}
+.btn:hover{border-color:var(--metal);color:var(--metal)}
+.btn--solid{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.btn--solid:hover{background:var(--metal);border-color:var(--metal);color:var(--ink)}
+.btn .play{width:0;height:0;border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
+.btn .arrow{display:inline-block;transition:transform .4s var(--ease)}
+.btn:hover .arrow{transform:translateX(4px)}
+
+/* ---------- header ---------- */
+.site-header{
+  position:fixed;top:0;left:0;right:0;z-index:60;
+  transition:background .5s var(--ease),border-color .5s var(--ease);
+  border-bottom:1px solid transparent;
+}
+.site-header.is-scrolled{background:rgba(10,9,8,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:76px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:54px;height:auto}
+.brand span{font-family:var(--f-caps);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--bone)}
+.nav-links{display:flex;align-items:center;gap:clamp(18px,2.4vw,34px);font-size:var(--t-sm);color:var(--mute)}
+.nav-links a{white-space:nowrap}
+@media (max-width:1180px){.brand span{display:none}}
+.nav-links a{position:relative;transition:color .3s}
+.nav-links a:hover{color:var(--bone)}
+.nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--metal);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+.nav-links a:not(.btn):hover::after{transform:scaleX(1);transform-origin:left}
+.nav-links .btn{padding:11px 18px;color:var(--bone)}
+.menu-toggle{display:none;width:44px;height:44px;position:relative}
+.menu-toggle span{position:absolute;left:10px;right:10px;height:1px;background:var(--bone);transition:transform .4s var(--ease),top .4s var(--ease)}
+.menu-toggle span:nth-child(1){top:18px}.menu-toggle span:nth-child(2){top:26px}
+.site-header.is-open .menu-toggle span:nth-child(1){top:22px;transform:rotate(45deg)}
+.site-header.is-open .menu-toggle span:nth-child(2){top:22px;transform:rotate(-45deg)}
+
+/* ---------- hero ---------- */
+.hero{padding-top:92px}
+.frame{
+  position:relative;aspect-ratio:2.39/1;overflow:hidden;background:#000;
+  max-height:calc(100vh - 220px);min-height:420px;width:100%;
+}
+.frame::before,.frame::after{ /* barras de letterbox que se abren */
+  content:"";position:absolute;left:0;right:0;height:50.5%;background:var(--ink);z-index:6;
+  animation:bars 1.3s var(--ease-cine) .15s both;
+}
+.frame::before{top:0;transform-origin:top}
+.frame::after{bottom:0;transform-origin:bottom}
+@keyframes bars{from{transform:scaleY(1)}to{transform:scaleY(0)}}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s var(--ease)}
+.slide.is-on{opacity:1}
+.slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.04)}
+.slide.is-on img{animation:push 9s linear both}
+@keyframes push{from{transform:scale(1.04)}to{transform:scale(1.13)}}
+.frame-shade{position:absolute;inset:0;z-index:2;background:
+  linear-gradient(to top,rgba(10,9,8,.94) 0%,rgba(10,9,8,.55) 38%,rgba(10,9,8,.08) 68%,rgba(10,9,8,.45) 100%),
+  linear-gradient(to right,rgba(10,9,8,.55) 0%,rgba(10,9,8,0) 55%)}
+.vf{position:absolute;inset:18px;z-index:3;pointer-events:none}
+.vf i{position:absolute;width:26px;height:26px;border-color:rgba(236,230,219,.55);border-style:solid;border-width:0}
+.vf i:nth-child(1){top:0;left:0;border-top-width:1px;border-left-width:1px}
+.vf i:nth-child(2){top:0;right:0;border-top-width:1px;border-right-width:1px}
+.vf i:nth-child(3){bottom:0;left:0;border-bottom-width:1px;border-left-width:1px}
+.vf i:nth-child(4){bottom:0;right:0;border-bottom-width:1px;border-right-width:1px}
+.vf-bar{position:absolute;top:6px;left:40px;right:40px;display:flex;justify-content:space-between;gap:16px;color:rgba(236,230,219,.8)}
+.vf-bar .mono{color:inherit}
+.ar-tall{display:none}
+.rec{display:inline-flex;align-items:center;gap:8px}
+.rec::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--rec);animation:blink 1.6s steps(2) infinite}
+@keyframes blink{50%{opacity:.15}}
+.vf-cross{position:absolute;left:50%;top:50%;width:22px;height:22px;transform:translate(-50%,-50%);opacity:.35}
+.vf-cross::before,.vf-cross::after{content:"";position:absolute;background:var(--bone)}
+.vf-cross::before{left:50%;top:0;bottom:0;width:1px}
+.vf-cross::after{top:50%;left:0;right:0;height:1px}
+.vf-tc{position:absolute;right:40px;bottom:6px;color:rgba(236,230,219,.8)}
+.hero-title{
+  position:absolute;z-index:4;left:clamp(28px,4.4vw,72px);right:clamp(28px,4.4vw,72px);bottom:clamp(40px,4.6vw,78px);
+  font-size:var(--t-hero);line-height:.94;letter-spacing:-.02em;
+}
+.hero-title .ln{display:block;overflow:hidden;padding-bottom:.08em}
+.hero-title .ln > span{display:block;animation:rise 1.2s var(--ease) both}
+.hero-title .ln:nth-child(1) > span{animation-delay:.75s}
+.hero-title .ln:nth-child(2) > span{animation-delay:.9s}
+@keyframes rise{from{transform:translateY(105%)}to{transform:translateY(0)}}
+.hero-title em{padding-right:.06em}
+.scene{position:absolute;z-index:4;left:clamp(28px,4.4vw,72px);top:52px;display:flex;align-items:center;gap:10px;color:rgba(236,230,219,.75)}
+.scene .mono{color:inherit;transition:opacity .6s}
+
+.hero-foot{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;padding-block:36px 8px}
+.hero-foot .lede{grid-column:1 / span 6;font-size:clamp(17px,1.35vw,20px);color:var(--mute);max-width:56ch}
+.hero-foot .lede strong{color:var(--bone);font-weight:500}
+.hero-actions{grid-column:8 / span 5;display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+
+/* ---------- marquee ---------- */
+.marquee{margin-top:64px;border-block:1px solid var(--line);overflow:hidden;padding-block:22px}
+.marquee-track{display:flex;width:max-content;animation:slide 48s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+.marquee-group{display:flex;align-items:center;gap:40px;padding-right:40px}
+.marquee-group span{font-family:var(--f-display);font-style:italic;font-weight:300;font-size:clamp(28px,3vw,44px);color:var(--bone);white-space:nowrap}
+.marquee-group b{width:10px;height:14px;border:1px solid var(--metal-deep);border-radius:2px;flex:none}
+@keyframes slide{to{transform:translateX(-50%)}}
+
+/* ---------- secciones ---------- */
+section{position:relative}
+.block{padding-block:clamp(88px,11vw,168px)}
+.sec-head{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;margin-bottom:clamp(40px,5vw,72px)}
+.sec-head .label{grid-column:1 / -1}
+.sec-head h2{grid-column:1 / span 7}
+.sec-head .aside{grid-column:9 / span 4;color:var(--mute);font-size:var(--t-base);max-width:44ch}
+.sec-head .aside .btn{margin-top:20px}
+
+/* reveal (solo para lo que empieza fuera de pantalla) */
+.will-reveal{opacity:0;transform:translateY(28px)}
+.is-revealed{opacity:1;transform:none;transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
+
+/* ---------- reel ---------- */
+.reels{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;align-items:start}
+.reel{margin:0}
+.reel:nth-child(even){margin-top:56px}
+.reel-media{position:relative;aspect-ratio:9/16;background:#000;overflow:hidden;cursor:pointer}
+.reel-media img,.reel-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease),opacity .6s}
+.reel-media video{opacity:0}
+.reel-media.is-playing video{opacity:1}
+.reel:hover .reel-media img,.reel:hover .reel-media video{transform:scale(1.035)}
+.reel-media::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,8,.6),transparent 40%);pointer-events:none}
+.reel-tag{position:absolute;z-index:2;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;color:rgba(236,230,219,.85)}
+.reel-tag .mono{color:inherit}
+.reel figcaption{padding-top:16px;display:grid;gap:4px}
+.reel h3{font-size:var(--t-md);line-height:1.15;font-weight:400}
+.reel .label{font-size:10px;color:var(--mute)}
+.reel-cta{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap}
+
+/* ---------- manifiesto ---------- */
+.manifest{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:center}
+.manifest-text{grid-column:1 / span 7}
+.manifest-text p{font-family:var(--f-display);font-weight:300;font-size:clamp(30px,3.5vw,54px);line-height:1.12;letter-spacing:-.01em}
+.manifest-text .w{color:var(--mute-2);transition:color .5s var(--ease)}
+.manifest-text .w.on{color:var(--bone)}
+.manifest-text .w.em{font-style:italic}
+.manifest-text .w.em.on{color:var(--metal)}
+.manifest-sign{margin-top:36px;display:flex;align-items:center;gap:16px;color:var(--mute)}
+.manifest-sign::before{content:"";width:48px;height:1px;background:var(--metal-deep)}
+.ident{grid-column:9 / span 4}
+.ident-frame{position:relative;aspect-ratio:16/9;background:#000;overflow:hidden}
+.ident-frame video,.ident-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.ident-frame .vf{inset:10px}
+.ident-frame .vf i{width:16px;height:16px}
+.ident figcaption{display:flex;justify-content:space-between;gap:12px;padding-top:14px}
+
+/* ---------- viaje del cliente (tira de película) ---------- */
+.journey{background:#050504;border-block:1px solid var(--line)}
+.strip{position:relative;padding-block:30px}
+.strip::before,.strip::after{
+  content:"";position:absolute;left:0;right:0;height:10px;
+  background:repeating-linear-gradient(90deg,transparent 0 12px,var(--ink-3) 12px 26px,transparent 26px 34px);
+}
+.strip::before{top:10px}.strip::after{bottom:10px}
+.frames{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.jf{display:grid;gap:18px;align-content:start}
+.jf-img{position:relative;aspect-ratio:4/5;overflow:hidden;background:#000}
+.jf-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05);transition:transform 1.4s var(--ease),filter .8s}
+.jf:hover .jf-img img{transform:scale(1.05);filter:saturate(1) contrast(1.05)}
+.jf-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,5,4,.55),transparent 35%)}
+.jf-num{position:absolute;z-index:2;top:14px;left:16px;font-family:var(--f-caps);font-size:30px;line-height:1;color:var(--bone)}
+.jf-stage{position:absolute;z-index:2;top:20px;right:16px}
+.jf-body{padding-inline:4px}
+.jf-body h3{font-size:var(--t-lg);line-height:1.05;margin-bottom:12px}
+.jf-body p{color:var(--mute);font-size:15px;max-width:34ch}
+.jf-body .mono{display:block;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
+.journey-arrow{display:flex;align-items:center;gap:14px;margin-top:40px;color:var(--mute)}
+.journey-arrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--metal-deep),transparent)}
+
+/* ---------- servicios ---------- */
+.services{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.services-head{grid-column:1 / span 4;align-self:start;position:sticky;top:120px}
+.services-head h2{margin-block:18px 22px}
+.services-head p{color:var(--mute);max-width:36ch}
+.svc-list{grid-column:6 / span 7;list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
+.svc-group{padding-block:52px 16px}
+.svc-group:first-child{padding-top:0}
+.svc{display:grid;grid-template-columns:1fr auto;gap:8px 24px;padding-block:30px;border-top:1px solid var(--line);position:relative}
+.svc h3{font-size:clamp(28px,2.8vw,40px);line-height:1.05;transition:transform .6s var(--ease),color .4s}
+.svc p{grid-column:1;color:var(--mute);max-width:52ch;font-size:16px}
+.svc .mono{grid-column:2;grid-row:1 / span 2;align-self:start;text-align:right;padding-top:10px;line-height:1.9}
+.svc:hover h3{transform:translateX(10px);color:var(--metal)}
+.svc-thumb{display:none}
+.cursor-img{
+  position:fixed;left:0;top:0;z-index:40;width:240px;aspect-ratio:4/5;pointer-events:none;overflow:hidden;
+  opacity:0;transform:translate(-50%,-50%) scale(.85);transition:opacity .35s var(--ease),transform .5s var(--ease);
+}
+.cursor-img.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.cursor-img img{width:100%;height:100%;object-fit:cover}
+
+/* ---------- caso ---------- */
+.case{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
+.case-media{grid-column:1 / span 7;position:relative}
+.case-media .main{aspect-ratio:3/2;overflow:hidden;background:#000}
+.case-media .main img{width:100%;height:100%;object-fit:cover}
+.case-media .inset{position:absolute;right:-6%;bottom:-12%;width:38%;aspect-ratio:4/5;overflow:hidden;border:8px solid var(--ink)}
+.case-media .inset img{width:100%;height:100%;object-fit:cover}
+.case-body{grid-column:9 / span 4}
+.case-body h2{font-style:italic;margin-block:16px 22px}
+.case-body > p{color:var(--mute)}
+.facts{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:34px 0 0;border-top:1px solid var(--line)}
+.facts div{padding:18px 0;border-bottom:1px solid var(--line)}
+.facts div:nth-child(odd){padding-right:16px;border-right:1px solid var(--line)}
+.facts div:nth-child(even){padding-left:20px}
+.facts dt{font-family:var(--f-caps);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.facts dd{margin:4px 0 0;font-family:var(--f-display);font-size:40px;line-height:1;font-weight:300;font-variant-numeric:lining-nums}
+.facts dd small{font-size:18px;color:var(--mute);margin-left:4px}
+.credits{margin-top:30px;display:grid;gap:14px}
+.credits div{display:grid;gap:2px}
+.credits .role{font-family:var(--f-caps);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--metal-deep)}
+.credits .who{font-family:var(--f-caps);font-size:15px;letter-spacing:.14em;text-transform:uppercase}
+
+/* ---------- detrás de cámaras ---------- */
+.bts-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:clamp(90px,9vw,130px);gap:14px}
+.bts-grid figure{margin:0;overflow:hidden;background:#000;position:relative}
+.bts-grid img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
+.bts-grid figure:hover img{transform:scale(1.04)}
+.b1{grid-column:1 / span 5;grid-row:span 4}
+.b2{grid-column:6 / span 4;grid-row:span 3}
+.b3{grid-column:10 / span 3;grid-row:span 4}
+.b4{grid-column:6 / span 4;grid-row:span 3}
+.b5{grid-column:1 / span 3;grid-row:span 2}
+.b6{grid-column:4 / span 2;grid-row:span 2}
+.b7{grid-column:10 / span 3;grid-row:span 2}
+.b6,.b7{align-self:stretch}
+.bts-grid figcaption{position:absolute;left:10px;bottom:8px;color:rgba(236,230,219,.8)}
+
+/* ---------- equipo ---------- */
+.kit{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(210px,21vw,300px);gap:14px}
+.kit-item{position:relative;margin:0;overflow:hidden;background:var(--ink-2);isolation:isolate}
+.kit-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  filter:grayscale(.4) contrast(1.06) brightness(.82);transition:filter .8s var(--ease),transform 1.4s var(--ease)}
+.kit-item:hover img{filter:none;transform:scale(1.04)}
+.kit-item::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
+  background:linear-gradient(to top,rgba(10,9,8,.92) 0%,rgba(10,9,8,.35) 38%,rgba(10,9,8,0) 62%)}
+.kit-item figcaption{position:absolute;z-index:2;left:18px;right:18px;bottom:16px;display:grid;gap:3px}
+.kit-item .label{font-size:10px}
+.kit-item strong{font-family:var(--f-display);font-weight:400;font-size:var(--t-md);line-height:1.1;color:var(--bone)}
+.kit-item .mono{margin-top:2px}
+.kit-feature{grid-column:span 2;grid-row:span 2}
+.kit-feature strong{font-size:var(--t-lg)}
+.kit-wide{grid-column:span 2}
+.kit-product{background:radial-gradient(70% 60% at 50% 42%,#2a2621 0%,var(--ink-2) 70%)}
+.kit-product img{object-fit:contain;inset:8% 10% 30%;width:80%;height:62%;filter:grayscale(.2) brightness(.95)}
+.kit-formats{display:flex;flex-direction:column;justify-content:space-between;padding:20px 18px 16px;border:1px solid var(--line)}
+.kit-formats::after{display:none}
+.kit-formats figcaption{position:static}
+.frames-ar{display:grid;grid-template-columns:auto auto;gap:18px 20px;align-content:center;justify-content:start;flex:1;padding-block:10px}
+.frames-ar span{display:grid;gap:6px;justify-items:start}
+.frames-ar i{display:block;height:clamp(40px,4vw,58px);border:1px solid var(--metal-deep)}
+.frames-ar span:hover i{border-color:var(--metal)}
+
+/* ---------- preguntas ---------- */
+.faq{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
+.faq-head{grid-column:1 / span 4}
+.faq-head h2{margin-top:18px}
+.faq-list{grid-column:6 / span 7;border-bottom:1px solid var(--line)}
+.faq details{border-top:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding-block:26px;font-family:var(--f-display);font-size:var(--t-md);line-height:1.2}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary i{position:relative;width:14px;height:14px;flex:none}
+.faq summary i::before,.faq summary i::after{content:"";position:absolute;background:var(--metal);left:0;right:0;top:50%;height:1px;transition:transform .4s var(--ease)}
+.faq summary i::after{transform:rotate(90deg)}
+.faq details[open] summary i::after{transform:rotate(0)}
+.faq details p{color:var(--mute);padding-bottom:28px;max-width:60ch}
+
+/* ---------- contacto ---------- */
+.contact{background:radial-gradient(55% 60% at 18% 35%,rgba(205,191,166,.075),transparent 75%)}
+.contact-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
+.contact-copy{grid-column:1 / span 6}
+.contact-copy h2{font-size:clamp(44px,6vw,96px);margin-block:18px 28px}
+.contact-copy p{color:var(--mute);max-width:44ch}
+.contact-lines{margin-top:40px;display:grid;gap:10px}
+.contact-lines a{font-family:var(--f-display);font-size:var(--t-lg);width:fit-content;max-width:100%;overflow-wrap:anywhere;border-bottom:1px solid var(--line-2);line-height:1.2;transition:border-color .3s,color .3s}
+.contact-lines a:hover{color:var(--metal);border-color:var(--metal)}
+.brief{grid-column:8 / span 5;position:relative;min-width:0;display:grid;gap:26px;padding:clamp(24px,3vw,40px);background:var(--ink-2);border:1px solid var(--line)}
+.brief .row{display:grid;gap:8px}
+.brief label,.brief legend{font-family:var(--f-caps);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.brief input,.brief textarea{
+  width:100%;background:transparent;border:0;border-bottom:1px solid var(--line-2);color:var(--bone);
+  font-family:var(--f-body);font-size:17px;padding:8px 0 10px;border-radius:0;outline:none;transition:border-color .3s;
+}
+.brief textarea{resize:vertical;min-height:84px}
+.brief input:focus,.brief textarea:focus{border-color:var(--metal)}
+.brief input::placeholder,.brief textarea::placeholder{color:var(--mute-2)}
+.brief fieldset{border:0;margin:0;padding:0;display:grid;gap:12px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips{position:relative}
+.chips input{position:absolute;left:0;top:0;width:1px;height:1px;margin:0;opacity:0;pointer-events:none}
+.chips label{font-family:var(--f-body);font-size:13px;letter-spacing:.02em;text-transform:none;color:var(--bone);padding:8px 14px;border:1px solid var(--line-2);cursor:pointer;transition:all .3s}
+.chips input:checked + label{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.chips input:focus-visible + label{outline:1px solid var(--metal);outline-offset:3px}
+.brief .btn{justify-content:center}
+.brief .note{font-size:13px;color:var(--mute-2)}
+
+/* ---------- footer ---------- */
+.site-footer{border-top:1px solid var(--line);padding-block:56px 28px}
+.foot-top{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
+.foot-brand{grid-column:1 / span 4;display:grid;gap:18px;color:var(--mute);font-size:15px}
+.foot-brand img{width:180px;height:auto}
+.foot-col{grid-column:span 2;display:grid;gap:10px;font-size:15px;align-content:start}
+.foot-col:first-of-type{grid-column:7 / span 2}
+.foot-col .label{margin-bottom:6px;color:var(--mute)}
+.foot-col a{color:var(--bone);width:fit-content;transition:color .3s}
+.foot-col a:hover{color:var(--metal)}
+.wordmark{margin-top:64px;width:100%;height:auto;display:block}
+.foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
+
+/* HUD timecode */
+.hud{position:fixed;left:18px;bottom:16px;z-index:50;display:flex;gap:14px;align-items:center;pointer-events:none;color:var(--mute);opacity:.9}
+.hud .mono{color:inherit}
+.hud .sep{width:1px;height:10px;background:var(--line-2)}
+
+/* lightbox */
+dialog.lightbox{padding:0;border:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100vh;margin:0}
+dialog.lightbox::backdrop{background:rgba(5,5,4,.94)}
+.lb-inner{width:100%;height:100%;display:grid;place-items:center;padding:56px 16px 24px}
+.lb-inner video{max-height:calc(100vh - 100px);width:auto;max-width:100%;aspect-ratio:9/16;background:#000}
+.lb-close{position:fixed;top:14px;right:16px;display:flex;align-items:center;gap:10px;padding:10px 12px;color:var(--bone)}
+.lb-close .label{color:var(--bone)}
+
+/* ---------- responsive ---------- */
+@media (max-width:1100px){
+  .reels{grid-template-columns:repeat(3,1fr)}
+  .reel:nth-child(even){margin-top:0}
+  .reel:nth-child(n+4){display:none}
+  .manifest-text{grid-column:1 / -1}
+  .ident{grid-column:1 / span 8}
+  .services-head{grid-column:1 / -1;position:static}
+  .svc-list{grid-column:1 / -1}
+  .case-media{grid-column:1 / -1}
+  .case-media .inset{right:4%}
+  .case-body{grid-column:1 / -1;margin-top:60px;max-width:640px}
+  .faq-head,.faq-list{grid-column:1 / -1}
+  .contact-copy,.brief{grid-column:1 / -1}
+  .brief{max-width:640px}
+  .foot-brand{grid-column:1 / -1}
+  .foot-col,.foot-col:first-of-type{grid-column:span 4}
+}
+@media (max-width:860px){
+  .nav-links{
+    position:fixed;inset:76px 0 auto 0;flex-direction:column;align-items:flex-start;gap:0;
+    background:rgba(10,9,8,.97);padding:8px var(--gutter) 28px;border-bottom:1px solid var(--line);
+    transform:translateY(-8px);opacity:0;visibility:hidden;transition:all .4s var(--ease);
+  }
+  .nav-links a:not(.btn){font-family:var(--f-display);font-size:32px;color:var(--bone);padding-block:10px;width:100%;border-bottom:1px solid var(--line)}
+  .nav-links a:not(.btn)::after{display:none}
+  .nav-links .btn{margin-top:22px}
+  .site-header.is-open{background:rgba(10,9,8,.97)}
+  .site-header.is-open .nav-links{transform:none;opacity:1;visibility:visible}
+  .menu-toggle{display:block}
+  .brand span{display:none}
+  .frame{aspect-ratio:4/5;max-height:none;min-height:0}
+  .vf-bar .hide-sm,.ar-wide{display:none}
+  .ar-tall{display:inline}
+  .hero-foot{grid-template-columns:1fr;gap:26px}
+  .hero-foot .lede,.hero-actions{grid-column:1 / -1;justify-content:flex-start}
+  .sec-head h2,.sec-head .aside{grid-column:1 / -1}
+  .reels,.frames{
+    display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:64%;
+    overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gutter);gap:12px;padding-bottom:6px;
+    margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter);scrollbar-width:none;
+  }
+  .reels::-webkit-scrollbar,.frames::-webkit-scrollbar{display:none}
+  .frames{grid-auto-columns:80%}
+  .reel,.jf{scroll-snap-align:start}
+  .reel:nth-child(n+4){display:block}
+  .ident{grid-column:1 / -1}
+  .svc{grid-template-columns:1fr 88px}
+  .svc .mono{grid-column:1;grid-row:auto;text-align:left;padding-top:4px}
+  .svc-thumb{display:block;grid-column:2;grid-row:1 / span 3;aspect-ratio:4/5;overflow:hidden;align-self:start}
+  .svc-thumb img{width:100%;height:100%;object-fit:cover}
+  .bts-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:auto}
+  .bts-grid figure{grid-column:auto !important;grid-row:auto !important;aspect-ratio:4/5}
+  .bts-grid .b1{grid-column:1 / -1 !important;aspect-ratio:3/2}
+  .bts-grid .b6,.bts-grid .b7{display:none}
+  .hud{display:none}
+  .kit{grid-template-columns:1fr 1fr;grid-auto-rows:clamp(190px,56vw,240px);gap:10px}
+  .kit-feature{grid-column:1 / -1;grid-row:span 2}
+  .kit-formats{padding:14px 12px 12px}
+  .kit-formats .mono:not(em){display:none}
+  .frames-ar{gap:8px 14px;padding-block:4px}
+  .frames-ar i{height:26px}
+  .kit-wide{grid-column:1 / -1}
+  .kit-item figcaption{left:12px;right:12px;bottom:12px}
+  .kit-item strong{font-size:19px}
+  .foot-col,.foot-col:first-of-type{grid-column:span 6}
+  .case-media .inset{width:44%;bottom:-16%}
+}
+/* ---------- intro ---------- */
+html.intro-playing{overflow:hidden}
+html.intro-playing .frame::before,html.intro-playing .frame::after,
+html.intro-playing .hero-title .ln > span{animation-play-state:paused}
+.intro{position:fixed;inset:0;z-index:200;display:grid;place-items:center;overflow:hidden;cursor:pointer;
+  animation:introEnd 0s linear 3.3s forwards}
+.intro-half{position:absolute;left:0;right:0;height:50.2%;background:var(--ink)}
+.intro-half.top{top:0;animation:splitTop 1s var(--ease-cine) 2.25s forwards}
+.intro-half.bottom{bottom:0;animation:splitBottom 1s var(--ease-cine) 2.25s forwards}
+.intro-half.top::after,.intro-half.bottom::before{content:"";position:absolute;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,rgba(205,191,166,.55),transparent);opacity:0;animation:seam .9s ease 2.05s forwards}
+.intro-half.top::after{bottom:0}.intro-half.bottom::before{top:0}
+.intro-core{position:relative;z-index:2;display:grid;justify-items:center;gap:clamp(14px,2vw,22px);
+  max-width:100vw;padding-inline:16px;animation:coreOut .45s ease 2.05s forwards}
+.intro-mark{position:relative;width:clamp(120px,15vw,200px);animation:markIn 1.1s var(--ease) .2s both}
+.intro-mark img{width:100%;height:auto}
+.intro-mark .shine{position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,247,228,.95) 50%,transparent 62%) no-repeat;
+  background-size:260% 100%;background-position:120% 0;
+  -webkit-mask:url("assets/intro-mark.png") center / contain no-repeat;mask:url("assets/intro-mark.png") center / contain no-repeat;
+  animation:shine 1.3s ease-in-out .95s both}
+.intro-word{font-family:var(--f-caps);font-weight:400;font-size:clamp(15px,2vw,26px);color:var(--bone);white-space:nowrap;
+  letter-spacing:.34em;margin-right:-.34em;animation:wordIn 1.2s var(--ease) .75s both}
+.intro-sub{display:flex;align-items:center;gap:14px;animation:fadeUp .8s var(--ease) 1.25s both}
+.intro-sub span{font-family:var(--f-caps);font-size:clamp(9px,.8vw,11px);letter-spacing:.5em;margin-right:-.5em;color:var(--metal)}
+.intro-sub i{display:block;width:clamp(28px,5vw,64px);height:1px;background:var(--metal-deep);transform:scaleX(0);animation:lineIn .8s var(--ease) 1.35s forwards}
+.intro-sub i:first-child{transform-origin:right}.intro-sub i:last-child{transform-origin:left}
+.intro-meta{position:absolute;z-index:2;left:var(--gutter);right:var(--gutter);bottom:clamp(18px,3vw,32px);
+  display:flex;justify-content:space-between;align-items:center;color:var(--mute);animation:coreOut .45s ease 2.05s forwards}
+.intro-meta .mono{color:inherit}
+.intro-skip{font-family:var(--f-caps);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);padding:8px 0;transition:color .3s}
+.intro-skip:hover{color:var(--bone)}
+.intro.is-leaving{animation:introEnd 0s linear .8s forwards}
+.intro.is-leaving .intro-core,.intro.is-leaving .intro-meta{animation:coreOut .25s ease forwards}
+.intro.is-leaving .intro-half.top{animation:splitTop .8s var(--ease-cine) .1s forwards}
+.intro.is-leaving .intro-half.bottom{animation:splitBottom .8s var(--ease-cine) .1s forwards}
+@keyframes markIn{from{opacity:0;filter:blur(14px);transform:translateY(12px) scale(1.08)}to{opacity:1;filter:blur(0);transform:none}}
+@keyframes shine{from{background-position:120% 0}to{background-position:-20% 0}}
+@keyframes wordIn{from{opacity:0;letter-spacing:.95em;margin-right:-.95em;filter:blur(6px)}to{opacity:1;letter-spacing:.34em;margin-right:-.34em;filter:blur(0)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes lineIn{to{transform:scaleX(1)}}
+@keyframes seam{0%{opacity:0}40%{opacity:1}100%{opacity:0}}
+@keyframes coreOut{to{opacity:0;transform:scale(.985)}}
+@keyframes splitTop{to{transform:translateY(-101%)}}
+@keyframes splitBottom{to{transform:translateY(101%)}}
+@keyframes introEnd{to{visibility:hidden;pointer-events:none}}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
+  .will-reveal{opacity:1;transform:none}
+  .grain{display:none}
+  .intro{display:none}
+}
+
+/* ---------- portafolio ---------- */
+.page-hero{padding-top:118px}
+.page-hero h1{font-size:clamp(44px,7vw,110px);line-height:.95;letter-spacing:-.02em;margin-block:16px 0}
+.page-hero .lede{margin-top:26px;max-width:60ch;color:var(--mute);font-size:clamp(16px,1.3vw,19px)}
+.counts{display:flex;flex-wrap:wrap;gap:0;margin-top:44px;border-top:1px solid var(--line)}
+.counts div{padding:20px 34px 20px 0;border-right:1px solid var(--line);margin-right:34px}
+.counts div:last-child{border-right:0;margin-right:0;padding-right:0}
+.counts dt{font-family:var(--f-caps);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
+.counts dd{margin:6px 0 0;font-family:var(--f-display);font-size:clamp(34px,4vw,54px);line-height:1;font-weight:300}
+.filters{position:sticky;top:76px;z-index:40;display:flex;flex-wrap:wrap;gap:8px;padding-block:18px;
+  background:linear-gradient(to bottom,var(--ink) 72%,rgba(10,9,8,0));margin-bottom:20px}
+.filters button{font-size:13px;letter-spacing:.02em;padding:8px 15px;border:1px solid var(--line-2);color:var(--mute);transition:all .3s}
+.filters button:hover{color:var(--bone);border-color:var(--metal-deep)}
+.filters button[aria-pressed="true"]{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.shots{columns:4;column-gap:14px}
+.shot{break-inside:avoid;margin:0 0 14px;position:relative;background:var(--ink-2);cursor:zoom-in;overflow:hidden}
+.shot img{width:100%;height:auto;display:block;transition:transform 1.2s var(--ease),opacity .6s}
+.shot:hover img{transform:scale(1.03)}
+.shot figcaption{position:absolute;inset:auto 0 0 0;padding:34px 14px 12px;display:flex;justify-content:space-between;align-items:end;gap:10px;
+  background:linear-gradient(to top,rgba(10,9,8,.88),transparent);opacity:0;transition:opacity .4s var(--ease)}
+.shot:hover figcaption,.shot:focus-within figcaption{opacity:1}
+.shot .name{font-family:var(--f-display);font-size:19px;line-height:1.1;color:var(--bone)}
+.shot .name em{display:block;font-family:var(--f-caps);font-size:9px;font-style:normal;letter-spacing:.24em;text-transform:uppercase;color:var(--metal);margin-bottom:4px}
+.shot.is-hidden{display:none}
+.brands-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);margin-top:8px}
+.brands-strip span{padding:26px 10px;border-bottom:1px solid var(--line);font-family:var(--f-caps);font-size:clamp(15px,1.5vw,22px);letter-spacing:.14em;text-transform:uppercase;color:var(--bone)}
+.brands-strip span small{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;color:var(--mute);text-transform:none;margin-top:8px}
+.viewer{position:fixed;inset:0;z-index:120;background:rgba(6,5,5,.96);display:none;place-items:center;padding:64px 16px 72px}
+.viewer.is-open{display:grid}
+.viewer img{max-width:min(100%,1400px);max-height:calc(100vh - 150px);width:auto;height:auto;object-fit:contain}
+.viewer .v-bar{position:fixed;left:0;right:0;bottom:0;padding:16px var(--gutter) 22px;display:flex;justify-content:space-between;align-items:center;gap:16px}
+.viewer .v-name{font-family:var(--f-display);font-size:22px}
+.viewer .v-name em{font-style:normal;color:var(--mute)}
+.viewer button{padding:10px 14px;color:var(--bone)}
+.viewer .v-close{position:fixed;top:14px;right:16px}
+.viewer .v-prev,.viewer .v-next{position:fixed;top:50%;transform:translateY(-50%);font-size:26px;line-height:1;padding:18px}
+.viewer .v-prev{left:6px}.viewer .v-next{right:6px}
+@media (max-width:1100px){.shots{columns:3}}
+@media (max-width:860px){
+  .shots{columns:2;column-gap:10px}
+  .shot{margin-bottom:10px}
+  .filters{top:76px;gap:6px;margin-inline:calc(var(--gutter)*-1);padding-inline:var(--gutter);overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
+  .filters::-webkit-scrollbar{display:none}
+  .filters button{white-space:nowrap}
+  .counts div{padding:16px 18px 16px 0;margin-right:18px}
+  .brands-strip{grid-template-columns:1fr 1fr}
+  .shot figcaption{opacity:1;background:linear-gradient(to top,rgba(10,9,8,.8),transparent)}
+  .shot .name{font-size:15px}
+}
+@media (max-width:420px){.shots{columns:1}}
+</style>
+</head>
+<body>
+<a class="skip" href="#galeria" style="position:absolute;left:-9999px">Saltar a la galería</a>
+
+<header class="site-header" id="top">
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Creative Whisper, inicio">
+      <img src="assets/monograma-cw.png" alt="" width="240" height="155">
+      <span>Creative Whisper</span>
+    </a>
+    <nav class="nav-links" id="menu" aria-label="Principal">
+      <a href="index.html">Inicio</a>
+      <a href="index.html#trabajo">Trabajo</a>
+      <a href="index.html#servicios">Servicios</a>
+      <a href="index.html#equipo">Equipo</a>
+      <a class="btn" href="index.html#contacto">Agendar reunión <span class="arrow">→</span></a>
+    </nav>
+    <button class="menu-toggle" type="button" aria-controls="menu" aria-expanded="false" aria-label="Abrir menú"><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <section class="page-hero block" style="padding-bottom:0" data-scene="Fotografía">
+    <div class="wrap">
+      <span class="label">Portafolio · Fotografía automotriz</span>
+      <h1>Autos que se venden <em>con la mirada.</em></h1>
+      <p class="lede">Fotografía de producto para concesionarios y lanzamientos: exteriores, interiores, detalles de acabado y composiciones para redes. Cada marca con su propio lenguaje visual, del piso de ventas a la montaña.</p>
+      <dl class="counts">
+        <div><dt>Marcas</dt><dd>9</dd></div>
+        <div><dt>Líneas de vehículos</dt><dd>20</dd></div>
+        <div><dt>Fotos del archivo</dt><dd>+700</dd></div>
+        <div><dt>Formatos</dt><dd>Foto · Composición</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="block" id="galeria" style="padding-top:clamp(48px,6vw,80px)" data-scene="Galería">
+    <div class="wrap">
+      <div class="filters" role="group" aria-label="Filtrar por marca">
+        <button type="button" data-filter="todas" aria-pressed="true">Todas</button>
+        <button type="button" data-filter="byd" aria-pressed="false">BYD</button>
+        <button type="button" data-filter="citroen" aria-pressed="false">Citroën</button>
+        <button type="button" data-filter="ds" aria-pressed="false">DS</button>
+        <button type="button" data-filter="dongfeng" aria-pressed="false">Dongfeng</button>
+        <button type="button" data-filter="fiat" aria-pressed="false">Fiat</button>
+        <button type="button" data-filter="jeep" aria-pressed="false">Jeep</button>
+        <button type="button" data-filter="ram" aria-pressed="false">Ram</button>
+        <button type="button" data-filter="royal-enfield" aria-pressed="false">Royal Enfield</button>
+        <button type="button" data-filter="subaru" aria-pressed="false">Subaru</button>
+      </div>
+      <div class="shots" id="shots">
+        <figure class="shot" data-brand="byd" data-i="0" data-name="Atto 8" data-brandname="BYD" tabindex="0">
+          <img src="assets/auto/byd-atto-8-00.webp" alt="BYD Atto 8 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>BYD</em>Atto 8</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="byd" data-i="1" data-name="Atto 8" data-brandname="BYD" tabindex="0">
+          <img src="assets/auto/byd-atto-8-01.webp" alt="BYD Atto 8 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>BYD</em>Atto 8</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="byd" data-i="2" data-name="Atto 8" data-brandname="BYD" tabindex="0">
+          <img src="assets/auto/byd-atto-8-02.webp" alt="BYD Atto 8 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>BYD</em>Atto 8</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="byd" data-i="3" data-name="Atto 8" data-brandname="BYD" tabindex="0">
+          <img src="assets/auto/byd-atto-8-03.webp" alt="BYD Atto 8 — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>Atto 8</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="byd" data-i="4" data-name="Seagull" data-brandname="BYD" tabindex="0">
+          <img src="assets/auto/byd-seagull-04.webp" alt="BYD Seagull — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>BYD</em>Seagull</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="byd" data-i="5" data-name="Seagull" data-brandname="BYD" tabindex="0">
+          <img src="assets/auto/byd-seagull-05.webp" alt="BYD Seagull — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>BYD</em>Seagull</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="byd" data-i="6" data-name="Seagull" data-brandname="BYD" tabindex="0">
+          <img src="assets/auto/byd-seagull-06.webp" alt="BYD Seagull — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>Seagull</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="byd" data-i="7" data-name="Sealion 7" data-brandname="BYD" tabindex="0">
+          <img src="assets/auto/byd-sealion-7-07.webp" alt="BYD Sealion 7 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>BYD</em>Sealion 7</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="byd" data-i="8" data-name="Sealion 7" data-brandname="BYD" tabindex="0">
+          <img src="assets/auto/byd-sealion-7-08.webp" alt="BYD Sealion 7 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>BYD</em>Sealion 7</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="byd" data-i="9" data-name="Yuan Pro" data-brandname="BYD" tabindex="0">
+          <img src="assets/auto/byd-yuan-pro-09.webp" alt="BYD Yuan Pro — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>BYD</em>Yuan Pro</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="citroen" data-i="10" data-name="Berlingo" data-brandname="Citroën" tabindex="0">
+          <img src="assets/auto/citroen-berlingo-10.webp" alt="Citroën Berlingo — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Citroën</em>Berlingo</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="citroen" data-i="11" data-name="Berlingo" data-brandname="Citroën" tabindex="0">
+          <img src="assets/auto/citroen-berlingo-11.webp" alt="Citroën Berlingo — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Citroën</em>Berlingo</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="citroen" data-i="12" data-name="C3 Aircross" data-brandname="Citroën" tabindex="0">
+          <img src="assets/auto/citroen-c3-aircross-12.webp" alt="Citroën C3 Aircross — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Citroën</em>C3 Aircross</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="citroen" data-i="13" data-name="C3 Aircross" data-brandname="Citroën" tabindex="0">
+          <img src="assets/auto/citroen-c3-aircross-13.webp" alt="Citroën C3 Aircross — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Citroën</em>C3 Aircross</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="citroen" data-i="14" data-name="C3 Aircross" data-brandname="Citroën" tabindex="0">
+          <img src="assets/auto/citroen-c3-aircross-14.webp" alt="Citroën C3 Aircross — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>C3 Aircross</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="citroen" data-i="15" data-name="C4" data-brandname="Citroën" tabindex="0">
+          <img src="assets/auto/citroen-c4-15.webp" alt="Citroën C4 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Citroën</em>C4</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="citroen" data-i="16" data-name="C4" data-brandname="Citroën" tabindex="0">
+          <img src="assets/auto/citroen-c4-16.webp" alt="Citroën C4 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Citroën</em>C4</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="citroen" data-i="17" data-name="C4" data-brandname="Citroën" tabindex="0">
+          <img src="assets/auto/citroen-c4-17.webp" alt="Citroën C4 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Citroën</em>C4</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="citroen" data-i="18" data-name="C4" data-brandname="Citroën" tabindex="0">
+          <img src="assets/auto/citroen-c4-18.webp" alt="Citroën C4 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Citroën</em>C4</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="citroen" data-i="19" data-name="C4" data-brandname="Citroën" tabindex="0">
+          <img src="assets/auto/citroen-c4-19.webp" alt="Citroën C4 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Citroën</em>C4</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="citroen" data-i="20" data-name="C4" data-brandname="Citroën" tabindex="0">
+          <img src="assets/auto/citroen-c4-20.webp" alt="Citroën C4 — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>C4</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="ds" data-i="21" data-name="Línea DS" data-brandname="DS" tabindex="0">
+          <img src="assets/auto/ds-linea-21.webp" alt="DS — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>DS</em>Línea DS</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="ds" data-i="22" data-name="Línea DS" data-brandname="DS" tabindex="0">
+          <img src="assets/auto/ds-linea-22.webp" alt="DS — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>DS</em>Línea DS</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="ds" data-i="23" data-name="Línea DS" data-brandname="DS" tabindex="0">
+          <img src="assets/auto/ds-linea-23.webp" alt="DS — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>DS</em>Línea DS</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="ds" data-i="24" data-name="Línea DS" data-brandname="DS" tabindex="0">
+          <img src="assets/auto/ds-linea-24.webp" alt="DS — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>DS</em>Línea DS</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="ds" data-i="25" data-name="Línea DS" data-brandname="DS" tabindex="0">
+          <img src="assets/auto/ds-linea-25.webp" alt="DS — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>DS</em>Línea DS</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="dongfeng" data-i="26" data-name="Camión C1217" data-brandname="Dongfeng" tabindex="0">
+          <img src="assets/auto/dongfeng-camion-c1217-26.webp" alt="Dongfeng Camión C1217 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Dongfeng</em>Camión C1217</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="dongfeng" data-i="27" data-name="Camión C1217" data-brandname="Dongfeng" tabindex="0">
+          <img src="assets/auto/dongfeng-camion-c1217-27.webp" alt="Dongfeng Camión C1217 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Dongfeng</em>Camión C1217</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="dongfeng" data-i="28" data-name="Camión E 613" data-brandname="Dongfeng" tabindex="0">
+          <img src="assets/auto/dongfeng-camion-e-613-28.webp" alt="Dongfeng Camión E 613 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Dongfeng</em>Camión E 613</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="dongfeng" data-i="29" data-name="Camión E 613" data-brandname="Dongfeng" tabindex="0">
+          <img src="assets/auto/dongfeng-camion-e-613-29.webp" alt="Dongfeng Camión E 613 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Dongfeng</em>Camión E 613</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="dongfeng" data-i="30" data-name="Forthing" data-brandname="Dongfeng" tabindex="0">
+          <img src="assets/auto/dongfeng-forthing-30.webp" alt="Dongfeng Forthing — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Dongfeng</em>Forthing</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="dongfeng" data-i="31" data-name="Forthing" data-brandname="Dongfeng" tabindex="0">
+          <img src="assets/auto/dongfeng-forthing-31.webp" alt="Dongfeng Forthing — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Dongfeng</em>Forthing</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="dongfeng" data-i="32" data-name="Nammi 01" data-brandname="Dongfeng" tabindex="0">
+          <img src="assets/auto/dongfeng-nammi-01-32.webp" alt="Dongfeng Nammi 01 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Dongfeng</em>Nammi 01</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="dongfeng" data-i="33" data-name="Nammi 01" data-brandname="Dongfeng" tabindex="0">
+          <img src="assets/auto/dongfeng-nammi-01-33.webp" alt="Dongfeng Nammi 01 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Dongfeng</em>Nammi 01</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="dongfeng" data-i="34" data-name="Vigo" data-brandname="Dongfeng" tabindex="0">
+          <img src="assets/auto/dongfeng-vigo-34.webp" alt="Dongfeng Vigo — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Dongfeng</em>Vigo</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="dongfeng" data-i="35" data-name="Vigo" data-brandname="Dongfeng" tabindex="0">
+          <img src="assets/auto/dongfeng-vigo-35.webp" alt="Dongfeng Vigo — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Dongfeng</em>Vigo</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="fiat" data-i="36" data-name="600" data-brandname="Fiat" tabindex="0">
+          <img src="assets/auto/fiat-600-36.webp" alt="Fiat 600 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Fiat</em>600</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="fiat" data-i="37" data-name="600" data-brandname="Fiat" tabindex="0">
+          <img src="assets/auto/fiat-600-37.webp" alt="Fiat 600 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Fiat</em>600</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="fiat" data-i="38" data-name="600" data-brandname="Fiat" tabindex="0">
+          <img src="assets/auto/fiat-600-38.webp" alt="Fiat 600 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Fiat</em>600</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="fiat" data-i="39" data-name="600" data-brandname="Fiat" tabindex="0">
+          <img src="assets/auto/fiat-600-39.webp" alt="Fiat 600 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Fiat</em>600</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="fiat" data-i="40" data-name="600" data-brandname="Fiat" tabindex="0">
+          <img src="assets/auto/fiat-600-40.webp" alt="Fiat 600 — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>600</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="fiat" data-i="41" data-name="Pulse" data-brandname="Fiat" tabindex="0">
+          <img src="assets/auto/fiat-pulse-41.webp" alt="Fiat Pulse — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Fiat</em>Pulse</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="fiat" data-i="42" data-name="Pulse" data-brandname="Fiat" tabindex="0">
+          <img src="assets/auto/fiat-pulse-42.webp" alt="Fiat Pulse — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Fiat</em>Pulse</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="fiat" data-i="43" data-name="Pulse" data-brandname="Fiat" tabindex="0">
+          <img src="assets/auto/fiat-pulse-43.webp" alt="Fiat Pulse — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Fiat</em>Pulse</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="fiat" data-i="44" data-name="Pulse" data-brandname="Fiat" tabindex="0">
+          <img src="assets/auto/fiat-pulse-44.webp" alt="Fiat Pulse — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>Pulse</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="jeep" data-i="45" data-name="Avenger" data-brandname="Jeep" tabindex="0">
+          <img src="assets/auto/jeep-avenger-45.webp" alt="Jeep Avenger — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Jeep</em>Avenger</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="jeep" data-i="46" data-name="Avenger" data-brandname="Jeep" tabindex="0">
+          <img src="assets/auto/jeep-avenger-46.webp" alt="Jeep Avenger — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Jeep</em>Avenger</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="jeep" data-i="47" data-name="Avenger" data-brandname="Jeep" tabindex="0">
+          <img src="assets/auto/jeep-avenger-47.webp" alt="Jeep Avenger — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Jeep</em>Avenger</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="jeep" data-i="48" data-name="Avenger" data-brandname="Jeep" tabindex="0">
+          <img src="assets/auto/jeep-avenger-48.webp" alt="Jeep Avenger — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Jeep</em>Avenger</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="jeep" data-i="49" data-name="Avenger" data-brandname="Jeep" tabindex="0">
+          <img src="assets/auto/jeep-avenger-49.webp" alt="Jeep Avenger — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>Avenger</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="jeep" data-i="50" data-name="Avenger" data-brandname="Jeep" tabindex="0">
+          <img src="assets/auto/jeep-avenger-50.webp" alt="Jeep Avenger — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>Avenger</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="jeep" data-i="51" data-name="Compass" data-brandname="Jeep" tabindex="0">
+          <img src="assets/auto/jeep-compass-51.webp" alt="Jeep Compass — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Jeep</em>Compass</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="ram" data-i="52" data-name="1500" data-brandname="Ram" tabindex="0">
+          <img src="assets/auto/ram-1500-52.webp" alt="Ram 1500 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Ram</em>1500</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="ram" data-i="53" data-name="1500" data-brandname="Ram" tabindex="0">
+          <img src="assets/auto/ram-1500-53.webp" alt="Ram 1500 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Ram</em>1500</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="ram" data-i="54" data-name="1500" data-brandname="Ram" tabindex="0">
+          <img src="assets/auto/ram-1500-54.webp" alt="Ram 1500 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Ram</em>1500</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="ram" data-i="55" data-name="1500" data-brandname="Ram" tabindex="0">
+          <img src="assets/auto/ram-1500-55.webp" alt="Ram 1500 — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Ram</em>1500</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="ram" data-i="56" data-name="1500" data-brandname="Ram" tabindex="0">
+          <img src="assets/auto/ram-1500-56.webp" alt="Ram 1500 — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>1500</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="royal-enfield" data-i="57" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
+          <img src="assets/auto/royal-enfield-linea-57.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="royal-enfield" data-i="58" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
+          <img src="assets/auto/royal-enfield-linea-58.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="royal-enfield" data-i="59" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
+          <img src="assets/auto/royal-enfield-linea-59.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="royal-enfield" data-i="60" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
+          <img src="assets/auto/royal-enfield-linea-60.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="royal-enfield" data-i="61" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
+          <img src="assets/auto/royal-enfield-linea-61.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="royal-enfield" data-i="62" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
+          <img src="assets/auto/royal-enfield-linea-62.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="subaru" data-i="63" data-name="Crosstrek" data-brandname="Subaru" tabindex="0">
+          <img src="assets/auto/subaru-crosstrek-63.webp" alt="Subaru Crosstrek — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Subaru</em>Crosstrek</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="subaru" data-i="64" data-name="Crosstrek" data-brandname="Subaru" tabindex="0">
+          <img src="assets/auto/subaru-crosstrek-64.webp" alt="Subaru Crosstrek — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>Crosstrek</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="subaru" data-i="65" data-name="Crosstrek" data-brandname="Subaru" tabindex="0">
+          <img src="assets/auto/subaru-crosstrek-65.webp" alt="Subaru Crosstrek — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>Crosstrek</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="subaru" data-i="66" data-name="Crosstrek" data-brandname="Subaru" tabindex="0">
+          <img src="assets/auto/subaru-crosstrek-66.webp" alt="Subaru Crosstrek — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Subaru</em>Crosstrek</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="subaru" data-i="67" data-name="Crosstrek" data-brandname="Subaru" tabindex="0">
+          <img src="assets/auto/subaru-crosstrek-67.webp" alt="Subaru Crosstrek — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Subaru</em>Crosstrek</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="subaru" data-i="68" data-name="Forester" data-brandname="Subaru" tabindex="0">
+          <img src="assets/auto/subaru-forester-68.webp" alt="Subaru Forester — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Subaru</em>Forester</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="subaru" data-i="69" data-name="Forester" data-brandname="Subaru" tabindex="0">
+          <img src="assets/auto/subaru-forester-69.webp" alt="Subaru Forester — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Subaru</em>Forester</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="subaru" data-i="70" data-name="WRX" data-brandname="Subaru" tabindex="0">
+          <img src="assets/auto/subaru-wrx-70.webp" alt="Subaru WRX — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Subaru</em>WRX</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="subaru" data-i="71" data-name="WRX" data-brandname="Subaru" tabindex="0">
+          <img src="assets/auto/subaru-wrx-71.webp" alt="Subaru WRX — fotografía de producto" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Subaru</em>WRX</span></figcaption>
+        </figure>
+        <figure class="shot" data-brand="subaru" data-i="72" data-name="WRX" data-brandname="Subaru" tabindex="0">
+          <img src="assets/auto/subaru-wrx-72.webp" alt="Subaru WRX — composición visual" loading="lazy" decoding="async">
+          <figcaption><span class="name"><em>Composición visual</em>WRX</span></figcaption>
+        </figure>
+      </div>
+      <p class="mono" id="empty" hidden style="padding-block:40px">No hay fotos de esa marca.</p>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0" data-scene="Marcas">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">Marcas</span>
+        <h2>Con quienes hemos <em>trabajado.</em></h2>
+        <div class="aside"><p>Sesiones de producto, lanzamientos y contenido para redes junto a sus concesionarios en Ecuador.</p></div>
+      </div>
+      <div class="brands-strip">
+        <span>BYD<small>Atto 8, Seagull, Sealion 7, Yuan Pro</small></span>
+        <span>Citroën<small>Berlingo, C3 Aircross, C4</small></span>
+        <span>DS<small>Línea completa</small></span>
+        <span>Dongfeng<small>Camión C1217, Camión E 613, Forthing, Nammi 01, Vigo</small></span>
+        <span>Fiat<small>600, Pulse</small></span>
+        <span>Jeep<small>Avenger, Compass</small></span>
+        <span>Ram<small>1500</small></span>
+        <span>Royal Enfield<small>Línea completa</small></span>
+        <span>Subaru<small>Crosstrek, Forester, WRX</small></span>
+      </div>
+    </div>
+  </section>
+
+  <section class="block contact" style="padding-top:clamp(60px,7vw,110px)" data-scene="Contacto">
+    <div class="wrap" style="display:grid;gap:30px;justify-items:start">
+      <span class="label">Siguiente rodaje</span>
+      <h2 style="max-width:16ch">¿Tu marca necesita fotos <em class="metal-text">que vendan?</em></h2>
+      <p style="color:var(--mute);max-width:52ch">Cotizamos por sesión o por línea de vehículos, con entrega en formatos listos para web, ficha de producto y redes.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a class="btn btn--solid" href="https://wa.me/593969577774" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arrow">→</span></a>
+        <a class="btn" href="index.html#contacto">Ver todos los servicios</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <img src="assets/logo-cw.png" alt="Creative Whisper Productions" width="900" height="606" loading="lazy">
+        <p>Productora audiovisual · Quito, Ecuador</p>
+      </div>
+      <div class="foot-col">
+        <span class="label">Estudio</span>
+        <a href="index.html#trabajo">Trabajo</a><a href="index.html#viaje">Viaje del cliente</a><a href="index.html#servicios">Servicios</a><a href="index.html#equipo">Equipo</a>
+      </div>
+      <div class="foot-col">
+        <span class="label">Hablemos</span>
+        <a href="index.html#contacto">Agendar reunión</a><a href="https://wa.me/593969577774" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">Instagram</a>
+      </div>
+      <div class="foot-col">
+        <span class="label">Ver</span>
+        <a href="index.html">Inicio</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span class="mono">© 2026 Creative Whisper Productions</span>
+      <a class="mono" href="#top">Volver arriba ↑</a>
+    </div>
+  </div>
+</footer>
+
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+  <button class="v-close" type="button" id="vClose"><span class="label" style="color:var(--bone)">Cerrar</span> ✕</button>
+  <button class="v-prev" type="button" id="vPrev" aria-label="Anterior">‹</button>
+  <button class="v-next" type="button" id="vNext" aria-label="Siguiente">›</button>
+  <img id="vImg" alt="">
+  <div class="v-bar"><span class="v-name" id="vName"></span><span class="mono" id="vCount"></span></div>
+</div>
+
+<canvas id="grainSrc" width="160" height="160" hidden></canvas>
+<div class="grain" id="grain" aria-hidden="true"></div>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  try {
+    const c = $("#grainSrc"), x = c.getContext("2d"), d = x.createImageData(160, 160);
+    for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i+1] = d.data[i+2] = v; d.data[i+3] = 255; }
+    x.putImageData(d, 0, 0); $("#grain").style.backgroundImage = `url(${c.toDataURL()})`;
+  } catch (e) {}
+
+  const header = $(".site-header"), toggle = $(".menu-toggle");
+  const onScroll = () => header.classList.toggle("is-scrolled", scrollY > 30);
+  addEventListener("scroll", onScroll, { passive: true }); onScroll();
+  toggle.addEventListener("click", () => {
+    const open = header.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", open);
+  });
+  $$("#menu a").forEach(a => a.addEventListener("click", () => header.classList.remove("is-open")));
+
+  /* filtros */
+  const shots = $$(".shot"), empty = $("#empty");
+  $$(".filters button").forEach(b => b.addEventListener("click", () => {
+    const f = b.dataset.filter;
+    $$(".filters button").forEach(o => o.setAttribute("aria-pressed", o === b));
+    let n = 0;
+    shots.forEach(s => {
+      const show = f === "todas" || s.dataset.brand === f;
+      s.classList.toggle("is-hidden", !show); if (show) n++;
+    });
+    empty.hidden = n > 0;
+  }));
+
+  /* visor */
+  const viewer = $("#viewer"), vImg = $("#vImg"), vName = $("#vName"), vCount = $("#vCount");
+  let order = [], pos = 0;
+  const visible = () => shots.filter(s => !s.classList.contains("is-hidden"));
+  const show = i => {
+    pos = (i + order.length) % order.length;
+    const s = order[pos], img = $("img", s);
+    vImg.src = img.src; vImg.alt = img.alt;
+    vName.innerHTML = `${s.dataset.name} <em>· ${s.dataset.brandname}</em>`;
+    vCount.textContent = `${String(pos + 1).padStart(2, "0")} / ${String(order.length).padStart(2, "0")}`;
+  };
+  const open = s => { order = visible(); show(order.indexOf(s)); viewer.classList.add("is-open"); document.documentElement.style.overflow = "hidden"; };
+  const close = () => { viewer.classList.remove("is-open"); document.documentElement.style.overflow = ""; vImg.src = ""; };
+  shots.forEach(s => {
+    s.addEventListener("click", () => open(s));
+    s.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(s); } });
+  });
+  $("#vClose").addEventListener("click", close);
+  $("#vPrev").addEventListener("click", e => { e.stopPropagation(); show(pos - 1); });
+  $("#vNext").addEventListener("click", e => { e.stopPropagation(); show(pos + 1); });
+  viewer.addEventListener("click", e => { if (e.target === viewer || e.target === vImg) close(); });
+  addEventListener("keydown", e => {
+    if (!viewer.classList.contains("is-open")) return;
+    if (e.key === "Escape") close();
+    if (e.key === "ArrowLeft") show(pos - 1);
+    if (e.key === "ArrowRight") show(pos + 1);
+  });
+})();
+</script>
+</body>
+</html>
