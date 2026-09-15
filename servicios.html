@@ -605,6 +605,33 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
   .checks li{grid-template-columns:1fr;gap:4px}
   .checks .k{min-width:0}
 }
+
+/* ---------- material audiovisual de servicios ---------- */
+.srv-hero{display:grid;grid-template-columns:1fr minmax(300px,460px);gap:clamp(24px,3.4vw,52px);align-items:center}
+.srv-hero-txt .lede{grid-column:auto;margin-top:24px}
+.srv-media{display:grid;grid-template-columns:1.08fr .92fr;grid-template-rows:1fr 1fr;gap:10px;height:clamp(330px,42vw,500px)}
+.srv-media figure{margin:0;position:relative;overflow:hidden;background:#000;border:1px solid var(--line)}
+.srv-media .s1{grid-row:1 / span 2}
+.srv-media img,.srv-media video{width:100%;height:100%;object-fit:cover;display:block}
+.srv-media .s3 img{filter:grayscale(.35) brightness(.88);transition:filter .6s var(--ease)}
+.srv-media figure:hover img{filter:none}
+.tag-rec{position:absolute;z-index:2;left:12px;bottom:11px;color:var(--bone);text-shadow:0 1px 6px rgba(0,0,0,.9)}
+@media (max-width:900px){.srv-hero{grid-template-columns:1fr}.srv-media{height:clamp(300px,74vw,420px);order:-1}}
+.steps .sh{margin:0 0 16px;position:relative;aspect-ratio:4/3;overflow:hidden;background:#000}
+.steps .sh img{width:100%;height:100%;object-fit:cover;filter:grayscale(.5) brightness(.76);transition:filter .6s var(--ease),transform .9s var(--ease)}
+.steps > div:hover .sh img{filter:none;transform:scale(1.04)}
+@media (max-width:860px){.steps .sh{aspect-ratio:16/9}}
+.ratios{display:flex;flex-wrap:wrap;gap:clamp(12px,1.6vw,20px);align-items:flex-end;margin-top:20px}
+.ratios figure{margin:0;display:grid;gap:8px;justify-items:start}
+.ratios img{display:block;height:clamp(104px,12.6vw,186px);width:auto;border:1px solid var(--line-2)}
+.ratios figcaption{color:var(--mute)}
+.srv-band{position:relative;margin-block:clamp(40px,5vw,72px) 0;background:#000;border-block:1px solid var(--line);overflow:hidden}
+.srv-band video{width:100%;height:clamp(230px,38vw,460px);object-fit:cover;display:block;filter:brightness(.8)}
+.srv-band::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(10,9,8,.94) 0%,rgba(10,9,8,.2) 58%,rgba(10,9,8,.5) 100%)}
+.srv-band .cap{position:absolute;z-index:2;inset:auto 0 clamp(18px,3vw,34px) 0;max-width:1240px;margin-inline:auto;padding-inline:var(--gutter);display:grid;gap:10px}
+.srv-band .cap h3{font-family:var(--f-display);font-weight:300;font-size:clamp(21px,2.5vw,34px);line-height:1.05;margin:0}
+.srv-band .cap p{max-width:52ch;color:var(--mute);font-size:15px;margin:0}
+.srv-band .mk{position:absolute;z-index:2;top:16px;left:var(--gutter);color:var(--bone);text-shadow:0 1px 6px rgba(0,0,0,.9)}
 </style>
 </head>
 <body>
@@ -635,13 +662,26 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 
 <main>
   <section class="page-hero block" style="padding-bottom:0" data-scene="Servicios">
-    <div class="wrap">
-      <span class="label">Servicios</span>
-      <h1>Todo lo que tu marca puede decir <em>con una cámara.</em></h1>
-      <p class="lede">Escribimos, filmamos, grabamos el sonido, editamos y medimos. Cada servicio está pensado para una etapa del viaje de tu cliente: que te descubran, que te conozcan, que te elijan y que te recomienden.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:34px">
-        <a class="btn btn--solid" href="https://wa.me/593969577774" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arrow">→</span></a>
-        <a class="btn" href="index.html#viaje">Ver el viaje del cliente</a>
+    <div class="wrap srv-hero">
+      <div class="srv-hero-txt">
+        <span class="label">Servicios</span>
+        <h1>Todo lo que tu marca puede decir <em>con una cámara.</em></h1>
+        <p class="lede">Escribimos, filmamos, grabamos el sonido, editamos y medimos. Cada servicio está pensado para una etapa del viaje de tu cliente: que te descubran, que te conozcan, que te elijan y que te recomienden.</p>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:34px">
+          <a class="btn btn--solid" href="https://wa.me/593969577774" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arrow">→</span></a>
+          <a class="btn" href="index.html#viaje">Ver el viaje del cliente</a>
+        </div>
+      </div>
+      <div class="srv-media">
+        <figure class="s1">
+          <video src="assets/clip-ficcion.mp4" poster="assets/clip-ficcion.webp" muted loop playsinline autoplay preload="metadata" aria-label="Fragmento de una pieza de ficción"></video>
+          <span class="mono rec tag-rec">FICCIÓN</span>
+        </figure>
+        <figure class="s2">
+          <video src="assets/clip-entrevista.mp4" poster="assets/clip-entrevista.webp" muted loop playsinline autoplay preload="metadata" aria-label="Fragmento de una entrevista de marca"></video>
+          <span class="mono rec tag-rec">ENTREVISTA</span>
+        </figure>
+        <figure class="s3"><img src="assets/clip-evento.webp" alt="Cobertura de un evento de marca." loading="lazy"></figure>
       </div>
     </div>
   </section>
@@ -654,11 +694,11 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
         <div class="aside"><p>El mismo camino para un reel de quince segundos o para un cortometraje: primero la idea, después la cámara.</p></div>
       </div>
       <div class="steps">
-        <div><span class="n">01</span><h3>Briefing</h3><p>Media hora para entender tu marca, a quién le hablas y en qué etapa está tu cliente. De ahí sale el objetivo del video.</p><span class="mono">Reunión · Propuesta</span></div>
-        <div><span class="n">02</span><h3>Concepto y guion</h3><p>Escribimos la idea y el guion, elegimos locaciones y armamos el plan de rodaje para que nada se improvise en set.</p><span class="mono">Guion · Plan de rodaje</span></div>
-        <div><span class="n">03</span><h3>Rodaje</h3><p>Filmamos con cámara de línea Cinema, audio inalámbrico, estabilizador y dron cuando la historia lo pide.</p><span class="mono">Sony FX2 · Dron · Audio</span></div>
-        <div><span class="n">04</span><h3>Postproducción</h3><p>Montaje, color, mezcla de audio y las versiones para cada formato: horizontal para web y vertical para redes.</p><span class="mono">Montaje · Color · Mezcla</span></div>
-        <div><span class="n">05</span><h3>Entrega y medición</h3><p>Entregamos los archivos listos para publicar y revisamos cómo rindió cada pieza para ajustar la siguiente.</p><span class="mono">Entrega · Reporte</span></div>
+        <div><figure class="sh"><img src="assets/bts-hoja.webp" alt="Notas y documento de briefing sobre la mesa." loading="lazy"></figure><span class="n">01</span><h3>Briefing</h3><p>Media hora para entender tu marca, a quién le hablas y en qué etapa está tu cliente. De ahí sale el objetivo del video.</p><span class="mono">Reunión · Propuesta</span></div>
+        <div><figure class="sh"><img src="assets/bts-guion.webp" alt="Guion y plan de rodaje sobre la mesa." loading="lazy"></figure><span class="n">02</span><h3>Concepto y guion</h3><p>Escribimos la idea y el guion, elegimos locaciones y armamos el plan de rodaje para que nada se improvise en set.</p><span class="mono">Guion · Plan de rodaje</span></div>
+        <div><figure class="sh"><img src="assets/eq-fx2.webp" alt="Cámara en mano durante el rodaje." loading="lazy"></figure><span class="n">03</span><h3>Rodaje</h3><p>Filmamos con cámara de línea Cinema, audio inalámbrico, estabilizador y dron cuando la historia lo pide.</p><span class="mono">Sony FX2 · Dron · Audio</span></div>
+        <div><figure class="sh"><img src="assets/bts-monitor.webp" alt="Montaje y color en la sala de edición." loading="lazy"></figure><span class="n">04</span><h3>Postproducción</h3><p>Montaje, color, mezcla de audio y las versiones para cada formato: horizontal para web y vertical para redes.</p><span class="mono">Montaje · Color · Mezcla</span></div>
+        <div><figure class="sh"><img src="assets/bts-pantalla.webp" alt="Revisión de la pieza final en pantalla." loading="lazy"></figure><span class="n">05</span><h3>Entrega y medición</h3><p>Entregamos los archivos listos para publicar y revisamos cómo rindió cada pieza para ajustar la siguiente.</p><span class="mono">Entrega · Reporte</span></div>
       </div>
     </div>
   </section>
@@ -801,18 +841,23 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
     </div>
   </section>
 
+
+  <section class="srv-band">
+    <video src="assets/reel-auto-loop.mp4" poster="assets/reel-auto-poster.webp" muted loop playsinline autoplay preload="metadata" aria-label="Cobertura de un festival off-road"></video>
+    <span class="mono mk">COBERTURA · FESTIVAL OFF-ROAD</span>
+    <div class="cap">
+      <h3>Una marca no se explica. <em>Se muestra.</em></h3>
+      <p>Cámara de línea Cinema, audio inalámbrico, estabilizador y dron. El mismo equipo, del brief a la entrega.</p>
+    </div>
+  </section>
+
   <section class="block" style="padding-top:0" data-scene="Entrega">
     <div class="wrap deliver">
       <div class="d-left">
         <span class="label">Entrega</span>
         <h2 style="margin-block:16px 22px">Un rodaje, <em>todos los formatos.</em></h2>
         <p style="color:var(--mute);max-width:44ch">De la misma sesión salen las versiones para web, para la ficha de producto y para redes. Sin volver a grabar.</p>
-        <div class="ratios" aria-hidden="true">
-          <span><i style="aspect-ratio:9/16"></i><em class="mono">9:16</em></span>
-          <span><i style="aspect-ratio:4/5"></i><em class="mono">4:5</em></span>
-          <span><i style="aspect-ratio:16/9"></i><em class="mono">16:9</em></span>
-          <span><i style="aspect-ratio:2.39/1"></i><em class="mono">2.39:1</em></span>
-        </div>
+
       </div>
       <div class="d-right">
         <ul class="checks">
@@ -825,6 +870,17 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
         </ul>
       </div>
     </div>
+
+    <div class="wrap">
+      <p class="mono" style="margin-top:clamp(26px,3vw,44px)">La misma toma, cuatro formatos</p>
+      <div class="ratios">
+        <figure><img src="assets/srv/fmt-916.webp" alt="La misma toma recortada en vertical 9:16." loading="lazy"><figcaption class="mono">9:16 · Reels y TikTok</figcaption></figure>
+        <figure><img src="assets/srv/fmt-45.webp" alt="La misma toma recortada en 4:5." loading="lazy"><figcaption class="mono">4:5 · Feed</figcaption></figure>
+        <figure><img src="assets/srv/fmt-169.webp" alt="La misma toma en 16:9." loading="lazy"><figcaption class="mono">16:9 · Web y YouTube</figcaption></figure>
+        <figure><img src="assets/srv/fmt-239.webp" alt="La misma toma en formato cine 2.39:1." loading="lazy"><figcaption class="mono">2.39:1 · Cine</figcaption></figure>
+      </div>
+    </div>
+
   </section>
 
   <section class="block" style="padding-top:0" data-scene="Preguntas">
