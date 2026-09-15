@@ -317,6 +317,7 @@ svg .seg{transition:opacity .3s}
 .site-header.is-open .menu-toggle span:nth-child(2){top:22px;transform:rotate(-45deg)}
 .nav-quick{display:none;gap:16px;align-items:center;margin-left:auto;margin-right:4px}
 .nav-quick a{font-family:var(--f-caps);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone);white-space:nowrap;text-decoration:none}
+@media (max-width:440px){.nav-quick{gap:11px}.nav-quick a{font-size:10px;letter-spacing:.08em}}
 @media (max-width:860px){
   .nav-links{position:fixed;inset:76px 0 auto 0;flex-direction:column;align-items:flex-start;gap:0;background:rgba(10,9,8,.97);padding:8px var(--gutter) 28px;border-bottom:1px solid var(--line);transform:translateY(-8px);opacity:0;visibility:hidden;transition:all .4s var(--ease)}
   .nav-links a:not(.btn){font-family:var(--f-display);font-size:32px;color:var(--bone);padding-block:10px;width:100%;border-bottom:1px solid var(--line)}
@@ -364,6 +365,7 @@ svg .seg{transition:opacity .3s}
     </nav>
     <div class="nav-quick">
       <a href="portafolio.html">Fotografía</a>
+      <a href="servicios.html">Servicios</a>
       <a href="datos.html">Datos</a>
     </div>
     <button class="menu-toggle" type="button" aria-controls="menu" aria-expanded="false" aria-label="Abrir menú"><span></span><span></span></button>
