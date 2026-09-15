@@ -191,6 +191,18 @@ p{margin:0}
 .hero-foot .lede strong{color:var(--bone);font-weight:500}
 .hero-actions{grid-column:8 / span 5;display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
 
+/* ---------- hero en video + marcas ---------- */
+.frame--video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.nav-quick{display:none;gap:16px;align-items:center;margin-left:auto;margin-right:4px}
+.nav-quick a{font-family:var(--f-caps);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone);white-space:nowrap}
+.clients{margin-top:44px;padding-top:26px;border-top:1px solid var(--line)}
+.clients-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:22px}
+.clients-head a{font-size:13px;color:var(--mute);border-bottom:1px solid var(--line-2);transition:color .3s,border-color .3s}
+.clients-head a:hover{color:var(--metal);border-color:var(--metal)}
+.clients-row{display:grid;grid-template-columns:repeat(10,1fr);gap:clamp(14px,2vw,30px);align-items:center}
+.clients-row img{width:100%;height:clamp(24px,2.6vw,36px);object-fit:contain;opacity:.55;filter:saturate(0);transition:opacity .4s var(--ease),transform .5s var(--ease)}
+.clients-row a:hover img,.clients-row img:hover{opacity:1;transform:translateY(-2px)}
+
 /* ---------- marquee ---------- */
 .marquee{margin-top:64px;border-block:1px solid var(--line);overflow:hidden;padding-block:22px}
 .marquee-track{display:flex;width:max-content;animation:slide 48s linear infinite}
@@ -452,6 +464,9 @@ dialog.lightbox::backdrop{background:rgba(5,5,4,.94)}
   .site-header.is-open{background:rgba(10,9,8,.97)}
   .site-header.is-open .nav-links{transform:none;opacity:1;visibility:visible}
   .menu-toggle{display:block}
+  .nav-quick{display:flex}
+  .clients-row{grid-template-columns:repeat(5,1fr);gap:18px 14px}
+  .clients-row img{height:26px}
   .brand span{display:none}
   .frame{aspect-ratio:4/5;max-height:none;min-height:0}
   .vf-bar .hide-sm,.ar-wide{display:none}
@@ -541,6 +556,8 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
   *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
   .will-reveal{opacity:1;transform:none}
   .grain{display:none}
+  .frame::before,.frame::after{display:none}
+  .hero-title .ln > span{transform:none}
   .intro{display:none}
 }
 </style>
@@ -576,13 +593,17 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       <span>Creative Whisper</span>
     </a>
     <nav class="nav-links" id="menu" aria-label="Principal">
+      <a href="portafolio.html">Fotografía</a>
+      <a href="servicios.html">Servicios</a>
       <a href="#trabajo">Trabajo</a>
       <a href="#viaje">Viaje del cliente</a>
-      <a href="#servicios">Servicios</a>
       <a href="#equipo">Equipo</a>
-      <a href="portafolio.html">Fotografía</a>
       <a class="btn" href="#contacto">Agendar reunión <span class="arrow">→</span></a>
     </nav>
+    <div class="nav-quick">
+      <a href="portafolio.html">Fotografía</a>
+      <a href="servicios.html">Servicios</a>
+    </div>
     <button class="menu-toggle" type="button" aria-controls="menu" aria-expanded="false" aria-label="Abrir menú"><span></span><span></span></button>
   </div>
 </header>
@@ -591,18 +612,16 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
   <!-- ===================== HERO ===================== -->
   <section class="hero" data-scene="Apertura">
     <div class="wrap">
-      <div class="frame">
-        <div class="slide is-on" data-label="Cabina de doblaje"><img src="assets/hero-retrato.webp" alt="Actor con audífonos en una cabina de grabación con paneles acústicos naranjas" style="object-position:30% 40%"></div>
-        <div class="slide" data-label="Sesión de ADR"><img src="assets/hero-monitor.webp" alt="Editor de audio frente a un monitor con la línea de tiempo abierta" loading="lazy" style="object-position:50% 30%"></div>
-        <div class="slide" data-label="Revisión en pantalla"><img src="assets/hero-escena.webp" alt="Escena de ficción reproduciéndose en el monitor durante la edición" loading="lazy" style="object-position:50% 40%"></div>
+      <div class="frame frame--video">
+        <video class="hero-video" id="heroVideo" src="assets/reel-auto-loop.mp4" poster="assets/reel-auto-poster.webp" muted loop playsinline autoplay preload="metadata" aria-label="Cobertura del festival off-road"></video>
         <div class="frame-shade"></div>
         <div class="vf" aria-hidden="true">
           <i></i><i></i><i></i><i></i>
-          <div class="vf-bar"><span class="mono rec">REC</span><span class="mono hide-sm">SONY FX2 · 4K · 23.98 fps</span><span class="mono"><span class="ar-wide">2.39 : 1</span><span class="ar-tall">4 : 5</span></span></div>
+          <div class="vf-bar"><span class="mono rec">REC</span><span class="mono hide-sm">4K · 23.98 fps · Cobertura off-road</span><span class="mono"><span class="ar-wide">2.39 : 1</span><span class="ar-tall">4 : 5</span></span></div>
           <div class="vf-cross"></div>
           <span class="vf-tc mono" id="tc">00:01:24:00</span>
         </div>
-        <div class="scene" aria-hidden="true"><span class="label" style="color:inherit;font-size:10px">Escena</span><span class="mono" id="sceneLabel">Cabina de doblaje</span></div>
+        <div class="scene" aria-hidden="true"><span class="label" style="color:inherit;font-size:10px">En pantalla</span><span class="mono" id="sceneLabel">Festival off-road · Cobertura</span></div>
         <h1 class="hero-title">
           <span class="ln"><span>Las marcas que se recuerdan</span></span>
           <span class="ln"><span>no gritan. <em class="metal-text">Susurran.</em></span></span>
@@ -613,7 +632,26 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
         <p class="lede"><strong>Creative Whisper Productions</strong> es una productora audiovisual en Quito. Filmamos el viaje de tus clientes —desde que te descubren hasta que te recomiendan— con lenguaje de cine y formatos listos para redes.</p>
         <div class="hero-actions">
           <a class="btn btn--solid" href="#contacto">Agendar reunión <span class="arrow">→</span></a>
-          <button class="btn" type="button" data-reel><span class="play"></span> Ver reel · 0:51</button>
+          <button class="btn" type="button" data-reel data-src="assets/reel-auto-full.mp4" data-aspect="16/9" data-poster="assets/reel-auto-poster.webp"><span class="play"></span> Ver el video completo · 0:47</button>
+        </div>
+      </div>
+
+      <div class="clients">
+        <div class="clients-head">
+          <span class="label">Marcas con las que hemos trabajado</span>
+          <a href="portafolio.html">Ver la fotografía automotriz →</a>
+        </div>
+        <div class="clients-row">
+          <img src="assets/marcas/byd.png" alt="BYD" loading="lazy">
+          <img src="assets/marcas/citroen.png" alt="Citroën" loading="lazy">
+          <img src="assets/marcas/dongfeng.png" alt="Dongfeng" loading="lazy">
+          <img src="assets/marcas/ds.png" alt="DS Automobiles" loading="lazy">
+          <img src="assets/marcas/fiat.png" alt="Fiat" loading="lazy">
+          <img src="assets/marcas/jeep.png" alt="Jeep" loading="lazy">
+          <img src="assets/marcas/ram.png" alt="Ram" loading="lazy">
+          <img src="assets/marcas/royal-enfield.png" alt="Royal Enfield" loading="lazy">
+          <img src="assets/marcas/subaru.png" alt="Subaru" loading="lazy">
+          <img src="assets/marcas/usfq.png" alt="USFQ" loading="lazy">
         </div>
       </div>
     </div>
@@ -747,6 +785,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
         <span class="label">Servicios</span>
         <h2>Del guion a la <em>última toma.</em></h2>
         <p>Encontramos la historia, la filmamos, la editamos y medimos cómo funciona. Un solo equipo responsable de que tu marca se sienta igual en cada formato.</p>
+        <a class="btn" href="servicios.html" style="margin-top:26px">Ver todos los servicios <span class="arrow">→</span></a>
       </div>
       <ul class="svc-list">
         <li class="svc-group"><span class="label">Estrategia</span></li>
@@ -983,7 +1022,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       </div>
       <div class="foot-col">
         <span class="label">Estudio</span>
-        <a href="#trabajo">Trabajo</a><a href="#viaje">Viaje del cliente</a><a href="#servicios">Servicios</a><a href="#equipo">Equipo</a><a href="#caso">Caso</a><a href="portafolio.html">Fotografía automotriz</a>
+        <a href="#trabajo">Trabajo</a><a href="#viaje">Viaje del cliente</a><a href="servicios.html">Servicios</a><a href="#equipo">Equipo</a><a href="#caso">Caso</a><a href="portafolio.html">Fotografía automotriz</a>
       </div>
       <div class="foot-col">
         <span class="label">Hablemos</span>
@@ -1048,7 +1087,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
   /* hero: diapositivas + timecode */
   const slides = $$(".slide"), sceneLabel = $("#sceneLabel");
   let si = 0;
-  if (!reduce) setInterval(() => {
+  if (!reduce && slides.length > 1) setInterval(() => {
     slides[si].classList.remove("is-on");
     si = (si + 1) % slides.length;
     slides[si].classList.add("is-on");
@@ -1083,6 +1122,16 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
     requestAnimationFrame(tickIntro);
     setTimeout(finish, 2600);
     ["pointerdown", "keydown", "wheel", "touchstart"].forEach(ev => addEventListener(ev, leave, { passive: true }));
+  }
+
+  /* video del hero: se pausa cuando no está en pantalla */
+  const heroVideo = $("#heroVideo");
+  if (heroVideo && "IntersectionObserver" in window) {
+    if (reduce) heroVideo.removeAttribute("autoplay");
+    new IntersectionObserver(es => es.forEach(e => {
+      if (reduce) return;
+      if (e.isIntersecting) heroVideo.play().catch(() => {}); else heroVideo.pause();
+    }), { threshold: .15 }).observe(heroVideo);
   }
 
   /* HUD: timecode de scroll + escena */
@@ -1159,7 +1208,14 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 
   /* lightbox del reel */
   const lb = $("#lightbox"), lbv = $("#lbVideo");
-  const openReel = () => {
+  const openReel = e => {
+    const b = e && e.currentTarget && e.currentTarget.dataset ? e.currentTarget.dataset : {};
+    const src = b.src || "assets/reel-cw.mp4";
+    if (lbv.getAttribute("src") !== src) {
+      lbv.setAttribute("src", src);
+      lbv.setAttribute("poster", b.poster || "assets/clip-evento.webp");
+      lbv.style.aspectRatio = b.aspect || "9 / 16";
+    }
     if (typeof lb.showModal === "function") lb.showModal(); else lb.setAttribute("open", "");
     lbv.preload = "auto"; lbv.muted = false; lbv.play().catch(() => {});
   };

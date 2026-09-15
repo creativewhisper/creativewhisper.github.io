@@ -5,16 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#0A0908">
 <link rel="icon" href="assets/monograma-cw.png">
-<title>Fotografía automotriz — Creative Whisper</title>
-<meta name="description" content="Portafolio de fotografía automotriz de Creative Whisper Productions: 9 marcas, 20 líneas de vehículos y composiciones visuales para redes.">
+<title>Servicios — Creative Whisper</title>
+<meta name="description" content="Servicios de Creative Whisper Productions: video de marca, contenido vertical, testimonios, fotografía de producto, eventos, doblaje y análisis de datos.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Creative Whisper Productions">
-<meta property="og:title" content="Fotografía automotriz — Creative Whisper">
-<meta property="og:description" content="9 marcas, 20 líneas de vehículos y composiciones visuales para redes.">
-<meta property="og:url" content="https://creativewhisper.github.io/portafolio.html">
+<meta property="og:title" content="Servicios — Creative Whisper">
+<meta property="og:description" content="Video de marca, contenido vertical, testimonios, fotografía, eventos, doblaje y análisis de datos.">
+<meta property="og:url" content="https://creativewhisper.github.io/servicios.html">
 <meta property="og:image" content="https://creativewhisper.github.io/assets/og-cw.jpg">
 <meta name="twitter:card" content="summary_large_image">
 <style>
@@ -556,60 +556,58 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
   .hero-title .ln > span{transform:none}
   .intro{display:none}
 }
-/* ---------- portafolio ---------- */
+
+/* ---------- página de servicios ---------- */
 .page-hero{padding-top:118px}
-.page-hero h1{font-size:clamp(44px,7vw,110px);line-height:.95;letter-spacing:-.02em;margin-block:16px 0}
-.page-hero .lede{margin-top:26px;max-width:60ch;color:var(--mute);font-size:clamp(16px,1.3vw,19px)}
-.counts{display:flex;flex-wrap:wrap;gap:0;margin-top:44px;border-top:1px solid var(--line)}
-.counts div{padding:20px 34px 20px 0;border-right:1px solid var(--line);margin-right:34px}
-.counts div:last-child{border-right:0;margin-right:0;padding-right:0}
-.counts dt{font-family:var(--f-caps);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-.counts dd{margin:6px 0 0;font-family:var(--f-display);font-size:clamp(34px,4vw,54px);line-height:1;font-weight:300}
-.filters{position:sticky;top:76px;z-index:40;display:flex;flex-wrap:wrap;gap:8px;padding-block:18px;
-  background:linear-gradient(to bottom,var(--ink) 72%,rgba(10,9,8,0));margin-bottom:20px}
-.filters button{font-size:13px;letter-spacing:.02em;padding:8px 15px;border:1px solid var(--line-2);color:var(--mute);transition:all .3s}
-.filters button:hover{color:var(--bone);border-color:var(--metal-deep)}
-.filters button[aria-pressed="true"]{background:var(--bone);color:var(--ink);border-color:var(--bone)}
-.shots{columns:4;column-gap:14px}
-.shot{break-inside:avoid;margin:0 0 14px;position:relative;background:var(--ink-2);cursor:zoom-in;overflow:hidden}
-.shot img{width:100%;height:auto;display:block;transition:transform 1.2s var(--ease),opacity .6s}
-.shot:hover img{transform:scale(1.03)}
-.shot figcaption{position:absolute;inset:auto 0 0 0;padding:34px 14px 12px;display:flex;justify-content:space-between;align-items:end;gap:10px;
-  background:linear-gradient(to top,rgba(10,9,8,.88),transparent);opacity:0;transition:opacity .4s var(--ease)}
-.shot:hover figcaption,.shot:focus-within figcaption{opacity:1}
-.shot .name{font-family:var(--f-display);font-size:19px;line-height:1.1;color:var(--bone)}
-.shot .name em{display:block;font-family:var(--f-caps);font-size:9px;font-style:normal;letter-spacing:.24em;text-transform:uppercase;color:var(--metal);margin-bottom:4px}
-.shot.is-hidden{display:none}
-.brands-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);margin-top:8px}
-.brands-strip span{padding:26px 10px;border-bottom:1px solid var(--line);font-family:var(--f-caps);font-size:clamp(15px,1.5vw,22px);letter-spacing:.14em;text-transform:uppercase;color:var(--bone)}
-.brands-strip span small{display:block;font-family:var(--f-mono);font-size:10px;letter-spacing:.06em;color:var(--mute);text-transform:none;margin-top:8px}
-.viewer{position:fixed;inset:0;z-index:120;background:rgba(6,5,5,.96);display:none;place-items:center;padding:64px 16px 72px}
-.viewer.is-open{display:grid}
-.viewer img{max-width:min(100%,1400px);max-height:calc(100vh - 150px);width:auto;height:auto;object-fit:contain}
-.viewer .v-bar{position:fixed;left:0;right:0;bottom:0;padding:16px var(--gutter) 22px;display:flex;justify-content:space-between;align-items:center;gap:16px}
-.viewer .v-name{font-family:var(--f-display);font-size:22px}
-.viewer .v-name em{font-style:normal;color:var(--mute)}
-.viewer button{padding:10px 14px;color:var(--bone)}
-.viewer .v-close{position:fixed;top:14px;right:16px}
-.viewer .v-prev,.viewer .v-next{position:fixed;top:50%;transform:translateY(-50%);font-size:26px;line-height:1;padding:18px}
-.viewer .v-prev{left:6px}.viewer .v-next{right:6px}
-@media (max-width:1100px){.shots{columns:3}}
-@media (max-width:860px){
-  .shots{columns:2;column-gap:10px}
-  .shot{margin-bottom:10px}
-  .filters{top:76px;gap:6px;margin-inline:calc(var(--gutter)*-1);padding-inline:var(--gutter);overflow-x:auto;flex-wrap:nowrap;scrollbar-width:none}
-  .filters::-webkit-scrollbar{display:none}
-  .filters button{white-space:nowrap}
-  .counts div{padding:16px 18px 16px 0;margin-right:18px}
-  .brands-strip{grid-template-columns:1fr 1fr}
-  .shot figcaption{opacity:1;background:linear-gradient(to top,rgba(10,9,8,.8),transparent)}
-  .shot .name{font-size:15px}
+.page-hero h1{font-size:clamp(42px,6.6vw,104px);line-height:.96;letter-spacing:-.02em;margin-block:16px 0}
+.page-hero .lede{margin-top:26px;max-width:62ch;color:var(--mute);font-size:clamp(16px,1.3vw,19px)}
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--line)}
+.steps div{padding:26px 22px 30px 0;border-right:1px solid var(--line)}
+.steps div:last-child{border-right:0}
+.steps div + div{padding-left:22px}
+.steps .n{font-family:var(--f-caps);font-size:12px;letter-spacing:.2em;color:var(--metal)}
+.steps h3{font-size:var(--t-md);line-height:1.15;margin:10px 0 10px}
+.steps p{font-size:15px;color:var(--mute)}
+.steps .mono{display:block;margin-top:14px}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{margin:0;display:grid;grid-template-rows:auto 1fr;background:var(--ink-2);border:1px solid var(--line)}
+.card .ph{position:relative;aspect-ratio:4/3;overflow:hidden;background:#000}
+.card .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.35) brightness(.85);transition:filter .8s var(--ease),transform 1.4s var(--ease)}
+.card:hover .ph img{filter:none;transform:scale(1.04)}
+.card .body{padding:22px 22px 26px;display:grid;align-content:start;gap:12px}
+.card h3{font-size:var(--t-md);line-height:1.15}
+.card p{color:var(--mute);font-size:15px}
+.card ul{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:7px}
+.card li{position:relative;padding-left:18px;font-size:14px;color:var(--bone)}
+.card li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:1px;background:var(--metal)}
+.card .mono{margin-top:8px;padding-top:12px;border-top:1px solid var(--line)}
+.deliver{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
+.deliver .d-left{grid-column:1 / span 5}
+.deliver .d-right{grid-column:7 / span 6}
+.ratios{display:flex;flex-wrap:wrap;gap:26px;align-items:flex-end;margin-top:26px}
+.ratios span{display:grid;gap:8px;justify-items:start}
+.ratios i{display:block;height:clamp(52px,6vw,78px);border:1px solid var(--metal-deep)}
+.checks{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
+.checks li{padding:18px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline}
+.checks .k{font-family:var(--f-caps);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--metal);min-width:132px}
+.checks .v{color:var(--bone);font-size:16px}
+@media (max-width:1100px){
+  .cards{grid-template-columns:repeat(2,1fr)}
+  .steps{grid-template-columns:repeat(2,1fr)}
+  .steps div{border-right:0;border-bottom:1px solid var(--line);padding:22px 0 24px}
+  .steps div + div{padding-left:0}
+  .deliver .d-left,.deliver .d-right{grid-column:1 / -1}
 }
-@media (max-width:420px){.shots{columns:1}}
+@media (max-width:760px){
+  .cards{grid-template-columns:1fr}
+  .steps{grid-template-columns:1fr}
+  .checks li{grid-template-columns:1fr;gap:4px}
+  .checks .k{min-width:0}
+}
 </style>
 </head>
 <body>
-<a class="skip" href="#galeria" style="position:absolute;left:-9999px">Saltar a la galería</a>
+<a class="skip" href="#servicios" style="position:absolute;left:-9999px">Saltar al contenido</a>
 
 <header class="site-header" id="top">
   <div class="wrap nav">
@@ -618,14 +616,14 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       <span>Creative Whisper</span>
     </a>
     <nav class="nav-links" id="menu" aria-label="Principal">
+      <a href="portafolio.html">Fotografía</a>
       <a href="index.html">Inicio</a>
       <a href="index.html#trabajo">Trabajo</a>
-      <a href="servicios.html">Servicios</a>
       <a href="index.html#equipo">Equipo</a>
       <a class="btn" href="index.html#contacto">Agendar reunión <span class="arrow">→</span></a>
     </nav>
     <div class="nav-quick">
-      <a href="servicios.html">Servicios</a>
+      <a href="portafolio.html">Fotografía</a>
       <a href="index.html">Inicio</a>
     </div>
     <button class="menu-toggle" type="button" aria-controls="menu" aria-expanded="false" aria-label="Abrir menú"><span></span><span></span></button>
@@ -633,361 +631,234 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 </header>
 
 <main>
-  <section class="page-hero block" style="padding-bottom:0" data-scene="Fotografía">
+  <section class="page-hero block" style="padding-bottom:0" data-scene="Servicios">
     <div class="wrap">
-      <span class="label">Portafolio · Fotografía automotriz</span>
-      <h1>Autos que se venden <em>con la mirada.</em></h1>
-      <p class="lede">Fotografía de producto para concesionarios y lanzamientos: exteriores, interiores, detalles de acabado y composiciones para redes. Cada marca con su propio lenguaje visual, del piso de ventas a la montaña.</p>
-      <dl class="counts">
-        <div><dt>Marcas</dt><dd>9</dd></div>
-        <div><dt>Líneas de vehículos</dt><dd>20</dd></div>
-        <div><dt>Fotos del archivo</dt><dd>+700</dd></div>
-        <div><dt>Formatos</dt><dd>Foto · Composición</dd></div>
-      </dl>
+      <span class="label">Servicios</span>
+      <h1>Todo lo que tu marca puede decir <em>con una cámara.</em></h1>
+      <p class="lede">Escribimos, filmamos, grabamos el sonido, editamos y medimos. Cada servicio está pensado para una etapa del viaje de tu cliente: que te descubran, que te conozcan, que te elijan y que te recomienden.</p>
+      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:34px">
+        <a class="btn btn--solid" href="https://wa.me/593969577774" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arrow">→</span></a>
+        <a class="btn" href="index.html#viaje">Ver el viaje del cliente</a>
+      </div>
     </div>
   </section>
 
-  <section class="block" id="galeria" style="padding-top:clamp(48px,6vw,80px)" data-scene="Galería">
-    <div class="wrap">
-      <div class="filters" role="group" aria-label="Filtrar por marca">
-        <button type="button" data-filter="todas" aria-pressed="true">Todas</button>
-        <button type="button" data-filter="byd" aria-pressed="false">BYD</button>
-        <button type="button" data-filter="citroen" aria-pressed="false">Citroën</button>
-        <button type="button" data-filter="ds" aria-pressed="false">DS</button>
-        <button type="button" data-filter="dongfeng" aria-pressed="false">Dongfeng</button>
-        <button type="button" data-filter="fiat" aria-pressed="false">Fiat</button>
-        <button type="button" data-filter="jeep" aria-pressed="false">Jeep</button>
-        <button type="button" data-filter="ram" aria-pressed="false">Ram</button>
-        <button type="button" data-filter="royal-enfield" aria-pressed="false">Royal Enfield</button>
-        <button type="button" data-filter="subaru" aria-pressed="false">Subaru</button>
-      </div>
-      <div class="shots" id="shots">
-        <figure class="shot" data-brand="byd" data-i="0" data-name="Atto 8" data-brandname="BYD" tabindex="0">
-          <img src="assets/auto/byd-atto-8-00.webp" alt="BYD Atto 8 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>BYD</em>Atto 8</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="byd" data-i="1" data-name="Atto 8" data-brandname="BYD" tabindex="0">
-          <img src="assets/auto/byd-atto-8-01.webp" alt="BYD Atto 8 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>BYD</em>Atto 8</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="byd" data-i="2" data-name="Atto 8" data-brandname="BYD" tabindex="0">
-          <img src="assets/auto/byd-atto-8-02.webp" alt="BYD Atto 8 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>BYD</em>Atto 8</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="byd" data-i="3" data-name="Atto 8" data-brandname="BYD" tabindex="0">
-          <img src="assets/auto/byd-atto-8-03.webp" alt="BYD Atto 8 — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>Atto 8</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="byd" data-i="4" data-name="Seagull" data-brandname="BYD" tabindex="0">
-          <img src="assets/auto/byd-seagull-04.webp" alt="BYD Seagull — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>BYD</em>Seagull</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="byd" data-i="5" data-name="Seagull" data-brandname="BYD" tabindex="0">
-          <img src="assets/auto/byd-seagull-05.webp" alt="BYD Seagull — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>BYD</em>Seagull</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="byd" data-i="6" data-name="Seagull" data-brandname="BYD" tabindex="0">
-          <img src="assets/auto/byd-seagull-06.webp" alt="BYD Seagull — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>Seagull</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="byd" data-i="7" data-name="Sealion 7" data-brandname="BYD" tabindex="0">
-          <img src="assets/auto/byd-sealion-7-07.webp" alt="BYD Sealion 7 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>BYD</em>Sealion 7</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="byd" data-i="8" data-name="Sealion 7" data-brandname="BYD" tabindex="0">
-          <img src="assets/auto/byd-sealion-7-08.webp" alt="BYD Sealion 7 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>BYD</em>Sealion 7</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="byd" data-i="9" data-name="Yuan Pro" data-brandname="BYD" tabindex="0">
-          <img src="assets/auto/byd-yuan-pro-09.webp" alt="BYD Yuan Pro — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>BYD</em>Yuan Pro</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="citroen" data-i="10" data-name="Berlingo" data-brandname="Citroën" tabindex="0">
-          <img src="assets/auto/citroen-berlingo-10.webp" alt="Citroën Berlingo — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Citroën</em>Berlingo</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="citroen" data-i="11" data-name="Berlingo" data-brandname="Citroën" tabindex="0">
-          <img src="assets/auto/citroen-berlingo-11.webp" alt="Citroën Berlingo — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Citroën</em>Berlingo</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="citroen" data-i="12" data-name="C3 Aircross" data-brandname="Citroën" tabindex="0">
-          <img src="assets/auto/citroen-c3-aircross-12.webp" alt="Citroën C3 Aircross — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Citroën</em>C3 Aircross</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="citroen" data-i="13" data-name="C3 Aircross" data-brandname="Citroën" tabindex="0">
-          <img src="assets/auto/citroen-c3-aircross-13.webp" alt="Citroën C3 Aircross — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Citroën</em>C3 Aircross</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="citroen" data-i="14" data-name="C3 Aircross" data-brandname="Citroën" tabindex="0">
-          <img src="assets/auto/citroen-c3-aircross-14.webp" alt="Citroën C3 Aircross — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>C3 Aircross</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="citroen" data-i="15" data-name="C4" data-brandname="Citroën" tabindex="0">
-          <img src="assets/auto/citroen-c4-15.webp" alt="Citroën C4 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Citroën</em>C4</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="citroen" data-i="16" data-name="C4" data-brandname="Citroën" tabindex="0">
-          <img src="assets/auto/citroen-c4-16.webp" alt="Citroën C4 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Citroën</em>C4</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="citroen" data-i="17" data-name="C4" data-brandname="Citroën" tabindex="0">
-          <img src="assets/auto/citroen-c4-17.webp" alt="Citroën C4 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Citroën</em>C4</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="citroen" data-i="18" data-name="C4" data-brandname="Citroën" tabindex="0">
-          <img src="assets/auto/citroen-c4-18.webp" alt="Citroën C4 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Citroën</em>C4</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="citroen" data-i="19" data-name="C4" data-brandname="Citroën" tabindex="0">
-          <img src="assets/auto/citroen-c4-19.webp" alt="Citroën C4 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Citroën</em>C4</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="citroen" data-i="20" data-name="C4" data-brandname="Citroën" tabindex="0">
-          <img src="assets/auto/citroen-c4-20.webp" alt="Citroën C4 — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>C4</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="ds" data-i="21" data-name="Línea DS" data-brandname="DS" tabindex="0">
-          <img src="assets/auto/ds-linea-21.webp" alt="DS — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>DS</em>Línea DS</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="ds" data-i="22" data-name="Línea DS" data-brandname="DS" tabindex="0">
-          <img src="assets/auto/ds-linea-22.webp" alt="DS — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>DS</em>Línea DS</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="ds" data-i="23" data-name="Línea DS" data-brandname="DS" tabindex="0">
-          <img src="assets/auto/ds-linea-23.webp" alt="DS — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>DS</em>Línea DS</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="ds" data-i="24" data-name="Línea DS" data-brandname="DS" tabindex="0">
-          <img src="assets/auto/ds-linea-24.webp" alt="DS — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>DS</em>Línea DS</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="ds" data-i="25" data-name="Línea DS" data-brandname="DS" tabindex="0">
-          <img src="assets/auto/ds-linea-25.webp" alt="DS — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>DS</em>Línea DS</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="dongfeng" data-i="26" data-name="Camión C1217" data-brandname="Dongfeng" tabindex="0">
-          <img src="assets/auto/dongfeng-camion-c1217-26.webp" alt="Dongfeng Camión C1217 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Dongfeng</em>Camión C1217</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="dongfeng" data-i="27" data-name="Camión C1217" data-brandname="Dongfeng" tabindex="0">
-          <img src="assets/auto/dongfeng-camion-c1217-27.webp" alt="Dongfeng Camión C1217 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Dongfeng</em>Camión C1217</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="dongfeng" data-i="28" data-name="Camión E 613" data-brandname="Dongfeng" tabindex="0">
-          <img src="assets/auto/dongfeng-camion-e-613-28.webp" alt="Dongfeng Camión E 613 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Dongfeng</em>Camión E 613</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="dongfeng" data-i="29" data-name="Camión E 613" data-brandname="Dongfeng" tabindex="0">
-          <img src="assets/auto/dongfeng-camion-e-613-29.webp" alt="Dongfeng Camión E 613 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Dongfeng</em>Camión E 613</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="dongfeng" data-i="30" data-name="Forthing" data-brandname="Dongfeng" tabindex="0">
-          <img src="assets/auto/dongfeng-forthing-30.webp" alt="Dongfeng Forthing — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Dongfeng</em>Forthing</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="dongfeng" data-i="31" data-name="Forthing" data-brandname="Dongfeng" tabindex="0">
-          <img src="assets/auto/dongfeng-forthing-31.webp" alt="Dongfeng Forthing — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Dongfeng</em>Forthing</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="dongfeng" data-i="32" data-name="Nammi 01" data-brandname="Dongfeng" tabindex="0">
-          <img src="assets/auto/dongfeng-nammi-01-32.webp" alt="Dongfeng Nammi 01 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Dongfeng</em>Nammi 01</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="dongfeng" data-i="33" data-name="Nammi 01" data-brandname="Dongfeng" tabindex="0">
-          <img src="assets/auto/dongfeng-nammi-01-33.webp" alt="Dongfeng Nammi 01 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Dongfeng</em>Nammi 01</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="dongfeng" data-i="34" data-name="Vigo" data-brandname="Dongfeng" tabindex="0">
-          <img src="assets/auto/dongfeng-vigo-34.webp" alt="Dongfeng Vigo — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Dongfeng</em>Vigo</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="dongfeng" data-i="35" data-name="Vigo" data-brandname="Dongfeng" tabindex="0">
-          <img src="assets/auto/dongfeng-vigo-35.webp" alt="Dongfeng Vigo — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Dongfeng</em>Vigo</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="fiat" data-i="36" data-name="600" data-brandname="Fiat" tabindex="0">
-          <img src="assets/auto/fiat-600-36.webp" alt="Fiat 600 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Fiat</em>600</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="fiat" data-i="37" data-name="600" data-brandname="Fiat" tabindex="0">
-          <img src="assets/auto/fiat-600-37.webp" alt="Fiat 600 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Fiat</em>600</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="fiat" data-i="38" data-name="600" data-brandname="Fiat" tabindex="0">
-          <img src="assets/auto/fiat-600-38.webp" alt="Fiat 600 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Fiat</em>600</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="fiat" data-i="39" data-name="600" data-brandname="Fiat" tabindex="0">
-          <img src="assets/auto/fiat-600-39.webp" alt="Fiat 600 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Fiat</em>600</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="fiat" data-i="40" data-name="600" data-brandname="Fiat" tabindex="0">
-          <img src="assets/auto/fiat-600-40.webp" alt="Fiat 600 — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>600</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="fiat" data-i="41" data-name="Pulse" data-brandname="Fiat" tabindex="0">
-          <img src="assets/auto/fiat-pulse-41.webp" alt="Fiat Pulse — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Fiat</em>Pulse</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="fiat" data-i="42" data-name="Pulse" data-brandname="Fiat" tabindex="0">
-          <img src="assets/auto/fiat-pulse-42.webp" alt="Fiat Pulse — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Fiat</em>Pulse</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="fiat" data-i="43" data-name="Pulse" data-brandname="Fiat" tabindex="0">
-          <img src="assets/auto/fiat-pulse-43.webp" alt="Fiat Pulse — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Fiat</em>Pulse</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="fiat" data-i="44" data-name="Pulse" data-brandname="Fiat" tabindex="0">
-          <img src="assets/auto/fiat-pulse-44.webp" alt="Fiat Pulse — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>Pulse</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="jeep" data-i="45" data-name="Avenger" data-brandname="Jeep" tabindex="0">
-          <img src="assets/auto/jeep-avenger-45.webp" alt="Jeep Avenger — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Jeep</em>Avenger</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="jeep" data-i="46" data-name="Avenger" data-brandname="Jeep" tabindex="0">
-          <img src="assets/auto/jeep-avenger-46.webp" alt="Jeep Avenger — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Jeep</em>Avenger</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="jeep" data-i="47" data-name="Avenger" data-brandname="Jeep" tabindex="0">
-          <img src="assets/auto/jeep-avenger-47.webp" alt="Jeep Avenger — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Jeep</em>Avenger</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="jeep" data-i="48" data-name="Avenger" data-brandname="Jeep" tabindex="0">
-          <img src="assets/auto/jeep-avenger-48.webp" alt="Jeep Avenger — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Jeep</em>Avenger</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="jeep" data-i="49" data-name="Avenger" data-brandname="Jeep" tabindex="0">
-          <img src="assets/auto/jeep-avenger-49.webp" alt="Jeep Avenger — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>Avenger</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="jeep" data-i="50" data-name="Avenger" data-brandname="Jeep" tabindex="0">
-          <img src="assets/auto/jeep-avenger-50.webp" alt="Jeep Avenger — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>Avenger</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="jeep" data-i="51" data-name="Compass" data-brandname="Jeep" tabindex="0">
-          <img src="assets/auto/jeep-compass-51.webp" alt="Jeep Compass — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Jeep</em>Compass</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="ram" data-i="52" data-name="1500" data-brandname="Ram" tabindex="0">
-          <img src="assets/auto/ram-1500-52.webp" alt="Ram 1500 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Ram</em>1500</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="ram" data-i="53" data-name="1500" data-brandname="Ram" tabindex="0">
-          <img src="assets/auto/ram-1500-53.webp" alt="Ram 1500 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Ram</em>1500</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="ram" data-i="54" data-name="1500" data-brandname="Ram" tabindex="0">
-          <img src="assets/auto/ram-1500-54.webp" alt="Ram 1500 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Ram</em>1500</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="ram" data-i="55" data-name="1500" data-brandname="Ram" tabindex="0">
-          <img src="assets/auto/ram-1500-55.webp" alt="Ram 1500 — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Ram</em>1500</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="ram" data-i="56" data-name="1500" data-brandname="Ram" tabindex="0">
-          <img src="assets/auto/ram-1500-56.webp" alt="Ram 1500 — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>1500</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="royal-enfield" data-i="57" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
-          <img src="assets/auto/royal-enfield-linea-57.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="royal-enfield" data-i="58" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
-          <img src="assets/auto/royal-enfield-linea-58.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="royal-enfield" data-i="59" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
-          <img src="assets/auto/royal-enfield-linea-59.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="royal-enfield" data-i="60" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
-          <img src="assets/auto/royal-enfield-linea-60.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="royal-enfield" data-i="61" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
-          <img src="assets/auto/royal-enfield-linea-61.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="royal-enfield" data-i="62" data-name="Línea Royal Enfield" data-brandname="Royal Enfield" tabindex="0">
-          <img src="assets/auto/royal-enfield-linea-62.webp" alt="Royal Enfield — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Royal Enfield</em>Línea Royal Enfield</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="subaru" data-i="63" data-name="Crosstrek" data-brandname="Subaru" tabindex="0">
-          <img src="assets/auto/subaru-crosstrek-63.webp" alt="Subaru Crosstrek — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Subaru</em>Crosstrek</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="subaru" data-i="64" data-name="Crosstrek" data-brandname="Subaru" tabindex="0">
-          <img src="assets/auto/subaru-crosstrek-64.webp" alt="Subaru Crosstrek — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>Crosstrek</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="subaru" data-i="65" data-name="Crosstrek" data-brandname="Subaru" tabindex="0">
-          <img src="assets/auto/subaru-crosstrek-65.webp" alt="Subaru Crosstrek — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>Crosstrek</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="subaru" data-i="66" data-name="Crosstrek" data-brandname="Subaru" tabindex="0">
-          <img src="assets/auto/subaru-crosstrek-66.webp" alt="Subaru Crosstrek — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Subaru</em>Crosstrek</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="subaru" data-i="67" data-name="Crosstrek" data-brandname="Subaru" tabindex="0">
-          <img src="assets/auto/subaru-crosstrek-67.webp" alt="Subaru Crosstrek — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Subaru</em>Crosstrek</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="subaru" data-i="68" data-name="Forester" data-brandname="Subaru" tabindex="0">
-          <img src="assets/auto/subaru-forester-68.webp" alt="Subaru Forester — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Subaru</em>Forester</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="subaru" data-i="69" data-name="Forester" data-brandname="Subaru" tabindex="0">
-          <img src="assets/auto/subaru-forester-69.webp" alt="Subaru Forester — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Subaru</em>Forester</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="subaru" data-i="70" data-name="WRX" data-brandname="Subaru" tabindex="0">
-          <img src="assets/auto/subaru-wrx-70.webp" alt="Subaru WRX — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Subaru</em>WRX</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="subaru" data-i="71" data-name="WRX" data-brandname="Subaru" tabindex="0">
-          <img src="assets/auto/subaru-wrx-71.webp" alt="Subaru WRX — fotografía de producto" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Subaru</em>WRX</span></figcaption>
-        </figure>
-        <figure class="shot" data-brand="subaru" data-i="72" data-name="WRX" data-brandname="Subaru" tabindex="0">
-          <img src="assets/auto/subaru-wrx-72.webp" alt="Subaru WRX — composición visual" loading="lazy" decoding="async">
-          <figcaption><span class="name"><em>Composición visual</em>WRX</span></figcaption>
-        </figure>
-      </div>
-      <p class="mono" id="empty" hidden style="padding-block:40px">No hay fotos de esa marca.</p>
-    </div>
-  </section>
-
-  <section class="block" style="padding-top:0" data-scene="Marcas">
+  <section class="block" id="proceso" data-scene="Proceso">
     <div class="wrap">
       <div class="sec-head">
-        <span class="label">Marcas</span>
-        <h2>Con quienes hemos <em>trabajado.</em></h2>
-        <div class="aside"><p>Sesiones de producto, lanzamientos y contenido para redes junto a sus concesionarios en Ecuador.</p></div>
+        <span class="label">Cómo trabajamos</span>
+        <h2>Cinco pasos, <em>sin sorpresas.</em></h2>
+        <div class="aside"><p>El mismo camino para un reel de quince segundos o para un cortometraje: primero la idea, después la cámara.</p></div>
       </div>
-      <div class="brands-strip">
-        <span>BYD<small>Atto 8, Seagull, Sealion 7, Yuan Pro</small></span>
-        <span>Citroën<small>Berlingo, C3 Aircross, C4</small></span>
-        <span>DS<small>Línea completa</small></span>
-        <span>Dongfeng<small>Camión C1217, Camión E 613, Forthing, Nammi 01, Vigo</small></span>
-        <span>Fiat<small>600, Pulse</small></span>
-        <span>Jeep<small>Avenger, Compass</small></span>
-        <span>Ram<small>1500</small></span>
-        <span>Royal Enfield<small>Línea completa</small></span>
-        <span>Subaru<small>Crosstrek, Forester, WRX</small></span>
+      <div class="steps">
+        <div><span class="n">01</span><h3>Briefing</h3><p>Media hora para entender tu marca, a quién le hablas y en qué etapa está tu cliente. De ahí sale el objetivo del video.</p><span class="mono">Reunión · Propuesta</span></div>
+        <div><span class="n">02</span><h3>Concepto y guion</h3><p>Escribimos la idea y el guion, elegimos locaciones y armamos el plan de rodaje para que nada se improvise en set.</p><span class="mono">Guion · Plan de rodaje</span></div>
+        <div><span class="n">03</span><h3>Rodaje</h3><p>Filmamos con cámara de línea Cinema, audio inalámbrico, estabilizador y dron cuando la historia lo pide.</p><span class="mono">Sony FX2 · Dron · Audio</span></div>
+        <div><span class="n">04</span><h3>Postproducción</h3><p>Montaje, color, mezcla de audio y las versiones para cada formato: horizontal para web y vertical para redes.</p><span class="mono">Montaje · Color · Mezcla</span></div>
+        <div><span class="n">05</span><h3>Entrega y medición</h3><p>Entregamos los archivos listos para publicar y revisamos cómo rindió cada pieza para ajustar la siguiente.</p><span class="mono">Entrega · Reporte</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="servicios" style="padding-top:0" data-scene="Servicios">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="label">Qué hacemos</span>
+        <h2>Servicios <em>en detalle.</em></h2>
+        <div class="aside"><p>Se pueden contratar por separado o combinados en un plan de contenido. Cotizamos por proyecto, según alcance y días de rodaje.</p></div>
+      </div>
+      <div class="cards">
+        <figure class="card">
+          <div class="ph"><img src="assets/edicion-still.webp" alt="Video de marca" loading="lazy"></div>
+          <div class="body">
+            <h3>Video de marca</h3>
+            <p>La pieza central de tu comunicación: quién eres, cómo trabajas y por qué deberían elegirte.</p>
+            <ul>
+              <li>Concepto y guion</li>
+              <li>Rodaje con cámara de línea Cinema</li>
+              <li>Tomas aéreas cuando suman</li>
+              <li>Versión larga y cortes para redes</li>
+            </ul>
+            <span class="mono">16:9 · 4K · Dron</span>
+          </div>
+        </figure>
+        <figure class="card">
+          <div class="ph"><img src="assets/f-entrevista.webp" alt="Contenido vertical" loading="lazy"></div>
+          <div class="body">
+            <h3>Contenido vertical</h3>
+            <p>Reels y TikToks pensados para retener en los primeros segundos, filmados con la misma calidad que un spot.</p>
+            <ul>
+              <li>Paquete de piezas por sesión</li>
+              <li>Ganchos pensados para cada pieza</li>
+              <li>Subtítulos quemados</li>
+              <li>Formatos 9:16 y 4:5</li>
+            </ul>
+            <span class="mono">9:16 · 4:5</span>
+          </div>
+        </figure>
+        <figure class="card">
+          <div class="ph"><img src="assets/f-testimonio.webp" alt="Testimonios y casos" loading="lazy"></div>
+          <div class="body">
+            <h3>Testimonios y casos</h3>
+            <p>Tus clientes hablando por ti: la prueba que resuelve la última duda antes de comprar.</p>
+            <ul>
+              <li>Guía de preguntas</li>
+              <li>Luz y audio cuidados</li>
+              <li>Placas con nombre y cargo</li>
+              <li>Versión larga y cortes</li>
+            </ul>
+            <span class="mono">Entrevista · Lower thirds</span>
+          </div>
+        </figure>
+        <figure class="card">
+          <div class="ph"><img src="assets/eq-fx2.webp" alt="Fotografía de producto" loading="lazy"></div>
+          <div class="body">
+            <h3>Fotografía de producto</h3>
+            <p>Fotos de catálogo, ficha de producto y redes. Nuestra experiencia más fuerte: más de 700 fotos automotrices.</p>
+            <ul>
+              <li>Exteriores, interiores y detalle</li>
+              <li>Retoque y color</li>
+              <li>Composiciones para publicaciones</li>
+              <li>Entrega en web y alta resolución</li>
+            </ul>
+            <span class="mono">Foto · Composición</span>
+          </div>
+        </figure>
+        <figure class="card">
+          <div class="ph"><img src="assets/cade-evento.webp" alt="Cobertura de eventos" loading="lazy"></div>
+          <div class="body">
+            <h3>Cobertura de eventos</h3>
+            <p>El ambiente, la gente y los momentos que después se vuelven contenido para todo el año.</p>
+            <ul>
+              <li>Cobertura del día completo</li>
+              <li>Aftermovie</li>
+              <li>Piezas verticales para el mismo día</li>
+              <li>Fotografía del evento</li>
+            </ul>
+            <span class="mono">Aftermovie · Foto</span>
+          </div>
+        </figure>
+        <figure class="card">
+          <div class="ph"><img src="assets/adr-dos.webp" alt="Doblaje, locución y ADR" loading="lazy"></div>
+          <div class="body">
+            <h3>Doblaje, locución y ADR</h3>
+            <p>Voces limpias y sincronizadas para ficción, spots y cápsulas institucionales.</p>
+            <ul>
+              <li>Casting de voces</li>
+              <li>Grabación en estudio de locución</li>
+              <li>Sincronía y edición</li>
+              <li>Mezcla final</li>
+            </ul>
+            <span class="mono">Voz · Mezcla</span>
+          </div>
+        </figure>
+        <figure class="card">
+          <div class="ph"><img src="assets/bts-notas.webp" alt="Actores y creadores" loading="lazy"></div>
+          <div class="body">
+            <h3>Actores y creadores</h3>
+            <p>Ponemos cara y voz a tu marca con perfiles elegidos según tu público y el tono de la pieza.</p>
+            <ul>
+              <li>Propuesta de perfiles</li>
+              <li>Dirección en set</li>
+              <li>Contenido tipo UGC</li>
+              <li>Coordinación de agenda</li>
+            </ul>
+            <span class="mono">Casting · UGC</span>
+          </div>
+        </figure>
+        <figure class="card">
+          <div class="ph"><img src="assets/f-lectura.webp" alt="Cortometrajes y branded content" loading="lazy"></div>
+          <div class="body">
+            <h3>Cortometrajes y branded content</h3>
+            <p>Historias largas para instituciones y marcas que quieren emocionar, no solo informar.</p>
+            <ul>
+              <li>Guion creativo y técnico</li>
+              <li>Dirección y fotografía</li>
+              <li>Montaje y postproducción</li>
+              <li>Créditos y entrega final</li>
+            </ul>
+            <span class="mono">Guion · Dirección · Montaje</span>
+          </div>
+        </figure>
+        <figure class="card">
+          <div class="ph"><img src="assets/bts-edicion.webp" alt="Análisis de datos" loading="lazy"></div>
+          <div class="body">
+            <h3>Análisis de datos</h3>
+            <p>Medimos cómo rinde cada pieza en cada etapa del viaje del cliente y decidimos con datos qué filmar después.</p>
+            <ul>
+              <li>Métricas por pieza y formato</li>
+              <li>Lectura por etapa del viaje</li>
+              <li>Recomendaciones para el siguiente rodaje</li>
+              <li>Reporte simple y claro</li>
+            </ul>
+            <span class="mono">Métricas · Reporte</span>
+          </div>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0" data-scene="Entrega">
+    <div class="wrap deliver">
+      <div class="d-left">
+        <span class="label">Entrega</span>
+        <h2 style="margin-block:16px 22px">Un rodaje, <em>todos los formatos.</em></h2>
+        <p style="color:var(--mute);max-width:44ch">De la misma sesión salen las versiones para web, para la ficha de producto y para redes. Sin volver a grabar.</p>
+        <div class="ratios" aria-hidden="true">
+          <span><i style="aspect-ratio:9/16"></i><em class="mono">9:16</em></span>
+          <span><i style="aspect-ratio:4/5"></i><em class="mono">4:5</em></span>
+          <span><i style="aspect-ratio:16/9"></i><em class="mono">16:9</em></span>
+          <span><i style="aspect-ratio:2.39/1"></i><em class="mono">2.39:1</em></span>
+        </div>
+      </div>
+      <div class="d-right">
+        <ul class="checks">
+          <li><span class="k">Video</span><span class="v">Archivo final en 4K y versión liviana para redes</span></li>
+          <li><span class="k">Cortes</span><span class="v">Versión larga y piezas cortas del mismo material</span></li>
+          <li><span class="k">Foto</span><span class="v">Selección editada en alta resolución y en tamaño web</span></li>
+          <li><span class="k">Audio</span><span class="v">Mezcla final; locución y doblaje cuando el proyecto lo incluye</span></li>
+          <li><span class="k">Equipo</span><span class="v">Sony FX2, DJI Mic, RS 4 Mini, dron DJI Mini y estudio de locución</span></li>
+          <li><span class="k">Medición</span><span class="v">Reporte de cómo rindió cada pieza, si trabajamos el plan completo</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" style="padding-top:0" data-scene="Preguntas">
+    <div class="wrap faq">
+      <div class="faq-head">
+        <span class="label">Preguntas</span>
+        <h2>Antes de <em>cotizar.</em></h2>
+      </div>
+      <div class="faq-list">
+        <details open>
+          <summary>¿Cómo cobran? <i></i></summary>
+          <p>Por proyecto. El precio depende del alcance: días de rodaje, locaciones, si hay actores o locución y cuántas piezas finales necesitas. Después de la reunión te enviamos una propuesta con todo detallado.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto se demora? <i></i></summary>
+          <p>Depende del proyecto. Un paquete de piezas para redes es cuestión de días; un video de marca o un cortometraje toma semanas porque incluye guion, rodaje y postproducción.</p>
+        </details>
+        <details>
+          <summary>¿Trabajan fuera de Quito? <i></i></summary>
+          <p>Sí. Salimos a otras ciudades y a exteriores; el viaje y la logística se suman a la propuesta.</p>
+        </details>
+        <details>
+          <summary>¿Puedo contratar solo fotografía o solo edición? <i></i></summary>
+          <p>Sí. Puedes contratar un servicio suelto, aunque casi siempre rinde más combinar foto y video del mismo rodaje.</p>
+        </details>
       </div>
     </div>
   </section>
 
   <section class="block contact" style="padding-top:clamp(60px,7vw,110px)" data-scene="Contacto">
     <div class="wrap" style="display:grid;gap:30px;justify-items:start">
-      <span class="label">Siguiente rodaje</span>
-      <h2 style="max-width:16ch">¿Tu marca necesita fotos <em class="metal-text">que vendan?</em></h2>
-      <p style="color:var(--mute);max-width:52ch">Cotizamos por sesión o por línea de vehículos, con entrega en formatos listos para web, ficha de producto y redes.</p>
+      <span class="label">Siguiente paso</span>
+      <h2 style="max-width:18ch">Cuéntanos qué necesitas <em class="metal-text">y te armamos la propuesta.</em></h2>
+      <p style="color:var(--mute);max-width:52ch">Una reunión corta basta para entender tu marca y proponerte qué filmar primero.</p>
       <div style="display:flex;gap:12px;flex-wrap:wrap">
         <a class="btn btn--solid" href="https://wa.me/593969577774" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arrow">→</span></a>
-        <a class="btn" href="index.html#contacto">Ver todos los servicios</a>
+        <a class="btn" href="index.html#contacto">Llenar el formulario</a>
       </div>
     </div>
   </section>
@@ -1002,7 +873,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       </div>
       <div class="foot-col">
         <span class="label">Estudio</span>
-        <a href="index.html#trabajo">Trabajo</a><a href="index.html#viaje">Viaje del cliente</a><a href="servicios.html">Servicios</a><a href="index.html#equipo">Equipo</a>
+        <a href="index.html">Inicio</a><a href="index.html#trabajo">Trabajo</a><a href="index.html#viaje">Viaje del cliente</a><a href="index.html#equipo">Equipo</a>
       </div>
       <div class="foot-col">
         <span class="label">Hablemos</span>
@@ -1010,7 +881,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       </div>
       <div class="foot-col">
         <span class="label">Ver</span>
-        <a href="index.html">Inicio</a>
+        <a href="portafolio.html">Fotografía automotriz</a>
       </div>
     </div>
     <div class="foot-bottom">
@@ -1020,14 +891,6 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
   </div>
 </footer>
 
-<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Foto ampliada">
-  <button class="v-close" type="button" id="vClose"><span class="label" style="color:var(--bone)">Cerrar</span> ✕</button>
-  <button class="v-prev" type="button" id="vPrev" aria-label="Anterior">‹</button>
-  <button class="v-next" type="button" id="vNext" aria-label="Siguiente">›</button>
-  <img id="vImg" alt="">
-  <div class="v-bar"><span class="v-name" id="vName"></span><span class="mono" id="vCount"></span></div>
-</div>
-
 <canvas id="grainSrc" width="160" height="160" hidden></canvas>
 <div class="grain" id="grain" aria-hidden="true"></div>
 
@@ -1035,14 +898,11 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 (() => {
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-
   try {
     const c = $("#grainSrc"), x = c.getContext("2d"), d = x.createImageData(160, 160);
     for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i+1] = d.data[i+2] = v; d.data[i+3] = 255; }
     x.putImageData(d, 0, 0); $("#grain").style.backgroundImage = `url(${c.toDataURL()})`;
   } catch (e) {}
-
   const header = $(".site-header"), toggle = $(".menu-toggle");
   const onScroll = () => header.classList.toggle("is-scrolled", scrollY > 30);
   addEventListener("scroll", onScroll, { passive: true }); onScroll();
@@ -1051,47 +911,6 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
     toggle.setAttribute("aria-expanded", open);
   });
   $$("#menu a").forEach(a => a.addEventListener("click", () => header.classList.remove("is-open")));
-
-  /* filtros */
-  const shots = $$(".shot"), empty = $("#empty");
-  $$(".filters button").forEach(b => b.addEventListener("click", () => {
-    const f = b.dataset.filter;
-    $$(".filters button").forEach(o => o.setAttribute("aria-pressed", o === b));
-    let n = 0;
-    shots.forEach(s => {
-      const show = f === "todas" || s.dataset.brand === f;
-      s.classList.toggle("is-hidden", !show); if (show) n++;
-    });
-    empty.hidden = n > 0;
-  }));
-
-  /* visor */
-  const viewer = $("#viewer"), vImg = $("#vImg"), vName = $("#vName"), vCount = $("#vCount");
-  let order = [], pos = 0;
-  const visible = () => shots.filter(s => !s.classList.contains("is-hidden"));
-  const show = i => {
-    pos = (i + order.length) % order.length;
-    const s = order[pos], img = $("img", s);
-    vImg.src = img.src; vImg.alt = img.alt;
-    vName.innerHTML = `${s.dataset.name} <em>· ${s.dataset.brandname}</em>`;
-    vCount.textContent = `${String(pos + 1).padStart(2, "0")} / ${String(order.length).padStart(2, "0")}`;
-  };
-  const open = s => { order = visible(); show(order.indexOf(s)); viewer.classList.add("is-open"); document.documentElement.style.overflow = "hidden"; };
-  const close = () => { viewer.classList.remove("is-open"); document.documentElement.style.overflow = ""; vImg.src = ""; };
-  shots.forEach(s => {
-    s.addEventListener("click", () => open(s));
-    s.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(s); } });
-  });
-  $("#vClose").addEventListener("click", close);
-  $("#vPrev").addEventListener("click", e => { e.stopPropagation(); show(pos - 1); });
-  $("#vNext").addEventListener("click", e => { e.stopPropagation(); show(pos + 1); });
-  viewer.addEventListener("click", e => { if (e.target === viewer || e.target === vImg) close(); });
-  addEventListener("keydown", e => {
-    if (!viewer.classList.contains("is-open")) return;
-    if (e.key === "Escape") close();
-    if (e.key === "ArrowLeft") show(pos - 1);
-    if (e.key === "ArrowRight") show(pos + 1);
-  });
 })();
 </script>
 </body>
