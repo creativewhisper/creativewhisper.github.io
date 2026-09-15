@@ -632,6 +632,9 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 .srv-band .cap h3{font-family:var(--f-display);font-weight:300;font-size:clamp(21px,2.5vw,34px);line-height:1.05;margin:0}
 .srv-band .cap p{max-width:52ch;color:var(--mute);font-size:15px;margin:0}
 .srv-band .mk{position:absolute;z-index:2;top:16px;left:var(--gutter);color:var(--bone);text-shadow:0 1px 6px rgba(0,0,0,.9)}
+.card--first{border-color:var(--line-2)}
+.card--first .body{background:linear-gradient(180deg,rgba(205,191,166,.05),transparent 60%)}
+.card--first .btn{width:fit-content}
 </style>
 </head>
 <body>
@@ -666,7 +669,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       <div class="srv-hero-txt">
         <span class="label">Servicios</span>
         <h1>Todo lo que tu marca puede decir <em>con una cámara.</em></h1>
-        <p class="lede">Escribimos, filmamos, grabamos el sonido, editamos y medimos. Cada servicio está pensado para una etapa del viaje de tu cliente: que te descubran, que te conozcan, que te elijan y que te recomienden.</p>
+        <p class="lede">Empieza antes de la cámara: analizamos los datos de tu empresa para saber qué campaña hace falta. Después escribimos, filmamos, grabamos el sonido, editamos y medimos. Cada pieza responde a una etapa del viaje de tu cliente: que te descubran, que te conozcan, que te elijan y que te recomienden.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:34px">
           <a class="btn btn--solid" href="https://wa.me/593969577774" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arrow">→</span></a>
           <a class="btn" href="index.html#viaje">Ver el viaje del cliente</a>
@@ -708,9 +711,25 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       <div class="sec-head">
         <span class="label">Qué hacemos</span>
         <h2>Servicios <em>en detalle.</em></h2>
-        <div class="aside"><p>Se pueden contratar por separado o combinados en un plan de contenido. Cotizamos por proyecto, según alcance y días de rodaje.</p></div>
+        <div class="aside"><p>El análisis de datos va primero porque de ahí sale todo lo demás. Se pueden contratar por separado o combinados en un plan de contenido. Cotizamos por proyecto, según alcance y días de rodaje.</p></div>
       </div>
       <div class="cards">
+        <figure class="card card--first">
+          <div class="ph"><img src="assets/datos/codigo.webp" alt="Análisis de datos" loading="lazy"></div>
+          <div class="body">
+            <span class="mono" style="color:var(--metal)">NUESTRO DIFERENCIAL</span>
+            <h3>Análisis de datos</h3>
+            <p>Analizamos los datos de tu empresa —ventas, CRM, punto de venta, redes— para decidir a quién hablarle, con qué producto y en qué momento. La campaña sale de ahí, no de una intuición.</p>
+            <ul>
+              <li>Gobernanza y arquitectura de datos</li>
+              <li>Limpieza, modelos y machine learning</li>
+              <li>Segmentación de clientes e insight accionable</li>
+              <li>Evaluación y ajuste de las campañas anteriores</li>
+            </ul>
+            <span class="mono">Máster en Business Analytics</span>
+            <a class="btn" href="datos.html" style="margin-top:18px">Ver el servicio completo <span class="arrow">→</span></a>
+          </div>
+        </figure>
         <figure class="card">
           <div class="ph"><img src="assets/edicion-still.webp" alt="Video de marca" loading="lazy"></div>
           <div class="body">
@@ -823,21 +842,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
             <span class="mono">Guion · Dirección · Montaje</span>
           </div>
         </figure>
-        <figure class="card">
-          <div class="ph"><img src="assets/bts-edicion.webp" alt="Análisis de datos" loading="lazy"></div>
-          <div class="body">
-            <h3>Análisis de datos</h3>
-            <p>Medimos cómo rinde cada pieza en cada etapa del viaje del cliente y decidimos con datos qué filmar después.</p>
-            <ul>
-              <li>Métricas por pieza y formato</li>
-              <li>Lectura por etapa del viaje</li>
-              <li>Recomendaciones para el siguiente rodaje</li>
-              <li>Reporte simple y claro</li>
-            </ul>
-            <span class="mono">Métricas · Reporte</span>
-          </div>
-        </figure>
-      </div>
+              </div>
     </div>
   </section>
 

@@ -561,6 +561,22 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
   .hero-title .ln > span{transform:none}
   .intro{display:none}
 }
+
+/* ---------- diferencial: datos ---------- */
+.dif{display:grid;grid-template-columns:1fr minmax(300px,460px);gap:clamp(26px,4vw,60px);align-items:center}
+.dif-txt h2{margin:14px 0 18px}
+.dif-txt p{color:var(--mute);max-width:56ch}
+.dif-list{list-style:none;margin:22px 0 28px;padding:0;display:grid;gap:9px}
+.dif-list li{position:relative;padding-left:20px;color:var(--bone);font-size:15px}
+.dif-list li::before{content:"";position:absolute;left:0;top:11px;width:10px;height:1px;background:var(--metal)}
+.dif-media{display:grid;grid-template-columns:1.08fr .92fr;grid-template-rows:1fr 1fr;gap:10px;height:clamp(330px,42vw,500px)}
+.dif-media figure{margin:0;position:relative;overflow:hidden;background:#000;border:1px solid var(--line)}
+.dif-media .d1{grid-row:1 / span 2}
+.dif-media img,.dif-media video{width:100%;height:100%;object-fit:cover;display:block}
+.dif-media .d2 img,.dif-media .d3 img{filter:grayscale(.4) brightness(.84);transition:filter .6s var(--ease)}
+.dif-media figure:hover img{filter:none}
+.tag-rec{position:absolute;z-index:2;left:12px;bottom:11px;color:var(--bone);text-shadow:0 1px 6px rgba(0,0,0,.9)}
+@media (max-width:900px){.dif{grid-template-columns:1fr}.dif-media{height:clamp(300px,74vw,420px)}}
 </style>
 </head>
 <body>
@@ -787,22 +803,22 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       <div class="services-head">
         <span class="label">Servicios</span>
         <h2>Del guion a la <em>última toma.</em></h2>
-        <p>Encontramos la historia, la filmamos, la editamos y medimos cómo funciona. Un solo equipo responsable de que tu marca se sienta igual en cada formato.</p>
+        <p>El análisis de datos decide qué hay que contar; nosotros lo filmamos, lo editamos y medimos cómo funcionó. Un solo equipo responsable de las dos mitades.</p>
         <a class="btn" href="servicios.html" style="margin-top:26px">Ver todos los servicios <span class="arrow">→</span></a>
       </div>
       <ul class="svc-list">
         <li class="svc-group"><span class="label">Estrategia</span></li>
+        <li class="svc" data-img="assets/datos/codigo.webp">
+          <h3>Análisis de datos</h3>
+          <p>Analizamos los datos de tu empresa para decidir a quién hablarle y con qué producto: gobernanza, limpieza, modelos y segmentación. La campaña sale de ahí.</p>
+          <span class="mono">Segmentación<br>Insight</span>
+          <div class="svc-thumb"><img src="assets/datos/codigo.webp" alt="" loading="lazy"></div>
+        </li>
         <li class="svc" data-img="assets/bts-guion.webp">
           <h3>Storytelling y guion</h3>
           <p>Encontramos la historia antes de encender la cámara: el mensaje, la estructura y el guion de cada pieza.</p>
           <span class="mono">Concepto<br>Guion</span>
           <div class="svc-thumb"><img src="assets/bts-guion.webp" alt="" loading="lazy"></div>
-        </li>
-        <li class="svc" data-img="assets/bts-edicion.webp">
-          <h3>Análisis de datos</h3>
-          <p>Medimos cómo rinde cada video en cada etapa del viaje del cliente y usamos esos datos para decidir qué filmar después.</p>
-          <span class="mono">Métricas<br>Reportes</span>
-          <div class="svc-thumb"><img src="assets/bts-edicion.webp" alt="" loading="lazy"></div>
         </li>
         <li class="svc-group"><span class="label">Producción</span></li>
         <li class="svc" data-img="assets/edicion-still.webp">
@@ -851,6 +867,33 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       </ul>
     </div>
     <div class="cursor-img" aria-hidden="true"><img alt="" src="assets/edicion-still.webp"></div>
+  </section>
+
+
+  <!-- ===================== DIFERENCIAL: DATOS ===================== -->
+  <section class="block" id="diferencial" style="padding-top:0" data-scene="Datos">
+    <div class="wrap dif">
+      <div class="dif-txt">
+        <span class="label">Nuestro diferencial</span>
+        <h2>Primero el dato. <em>Después la cámara.</em></h2>
+        <p>La mayoría de productoras empieza en el guion. Nosotros empezamos en tu base de datos: ventas, CRM, punto de venta y redes. De ahí sale a quién hablarle, con qué producto y en qué momento — y recién ahí se enciende la cámara.</p>
+        <ul class="dif-list">
+          <li>Gobernanza y arquitectura de datos</li>
+          <li>Limpieza, modelos y machine learning</li>
+          <li>Segmentación de clientes e insight accionable</li>
+          <li>Evaluación de las campañas que ya hicimos juntos</li>
+        </ul>
+        <a class="btn" href="datos.html">Ver cómo trabajamos el dato <span class="arrow">→</span></a>
+      </div>
+      <div class="dif-media">
+        <figure class="d1">
+          <video src="assets/datos/reto-loop.mp4" poster="assets/datos/reto-poster.webp" muted loop playsinline autoplay preload="metadata" aria-label="Equipo de analítica trabajando sobre una base de datos"></video>
+          <span class="mono rec tag-rec">ANALÍTICA</span>
+        </figure>
+        <figure class="d2"><img src="assets/datos/escenario-1.webp" alt="Ponente del equipo exponiendo análisis de datos." loading="lazy"></figure>
+        <figure class="d3"><img src="assets/datos/laptops.webp" alt="Taller de analítica de datos con asistentes." loading="lazy"></figure>
+      </div>
+    </div>
   </section>
 
   <!-- ===================== CASO ===================== -->
