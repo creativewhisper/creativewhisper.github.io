@@ -347,6 +347,14 @@ svg .seg{transition:opacity .3s}
 .hero-actions .wa{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;color:var(--mute);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:3px;transition:color .3s var(--ease)}
 .hero-actions .wa:hover{color:var(--bone)}
 .disclaim{border-top:1px solid var(--line);padding-block:18px}
+
+/* ---------- botón flotante de WhatsApp ---------- */
+.wa-float{position:fixed;z-index:55;right:clamp(14px,2.2vw,28px);bottom:calc(clamp(14px,2.2vw,28px) + env(safe-area-inset-bottom,0px));display:inline-flex;align-items:center;gap:10px;padding:13px 18px;background:rgba(18,16,14,.84);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line-2);color:var(--bone);text-decoration:none;font-family:var(--f-caps);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;box-shadow:0 12px 34px rgba(0,0,0,.5);transition:color .4s var(--ease),border-color .4s var(--ease),background .4s var(--ease),transform .4s var(--ease)}
+.wa-float:hover,.wa-float:focus-visible{color:var(--metal);border-color:var(--metal);background:rgba(27,24,21,.92);transform:translateY(-2px)}
+.wa-float svg{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5}
+@media (max-width:560px){.wa-float{gap:8px;padding:12px 14px;font-size:10px;letter-spacing:.1em}.wa-float svg{width:16px;height:16px}}
+@media (prefers-reduced-motion:reduce){.wa-float{transition:none}.wa-float:hover{transform:none}}
+@media print{.wa-float{display:none}}
 </style>
 </head>
 <body>
@@ -901,5 +909,10 @@ svg .seg{transition:opacity .3s}
   });
 })();
 </script>
+
+<a class="wa-float" href="https://wa.me/593969577774" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.3a8.5 8.5 0 0 1-12.4 7.5L3.5 20.4l1.6-4.5A8.5 8.5 0 1 1 20.5 11.3Z" stroke-linejoin="round"/></svg>
+  <span>WhatsApp</span>
+</a>
 </body>
 </html>
