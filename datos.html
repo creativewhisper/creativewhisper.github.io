@@ -1,0 +1,908 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0908">
+<link rel="icon" href="assets/monograma-cw.png">
+<title>Análisis de datos · Creative Whisper Productions</title>
+<meta name="description" content="Analizamos los datos de tu empresa para decidir qué campaña filmar: gobernanza, arquitectura, limpieza, modelos, segmentación e insight. Creative Whisper Productions, Quito.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme: dark;
+  --ink:#0A0908; --ink-2:#12100E; --ink-3:#1B1815;
+  --bone:#ECE6DB; --mute:#9A9185; --mute-2:#6B6358;
+  --metal:#CDBFA6; --metal-deep:#857A69;
+  --line:rgba(236,230,219,.12); --line-2:rgba(236,230,219,.22);
+  --c1:#B68A2C; --c2:#3C8AC2; --c3:#BC4F2E;   /* paleta de series validada sobre fondo oscuro */
+  --f-display:"Cormorant","Cormorant Garamond",Garamond,serif;
+  --f-caps:"Cinzel","Trajan Pro",Georgia,serif;
+  --f-body:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  --gutter:clamp(16px,4vw,56px);
+  --ease:cubic-bezier(.2,.7,.1,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--f-body);font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit}
+.wrap{max-width:1240px;margin-inline:auto;padding-inline:var(--gutter)}
+.label{font-family:var(--f-caps);font-size:11px;font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--metal)}
+.mono{font-family:var(--f-mono);font-size:11px;letter-spacing:.06em;color:var(--mute);font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:var(--f-display);font-weight:300;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(40px,6vw,86px);line-height:.98}
+h2{font-size:clamp(28px,3.4vw,48px);line-height:1.02}
+h3{font-size:clamp(20px,1.9vw,26px);line-height:1.15}
+em{font-style:italic}
+p{margin:0}
+
+/* cabecera */
+.top{position:sticky;top:0;z-index:20;background:rgba(10,9,8,.86);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:60px}
+.top a{font-size:13px;color:var(--mute);text-decoration:none}
+.top a:hover{color:var(--bone)}
+.top strong{font-family:var(--f-caps);font-size:12px;letter-spacing:.22em;text-transform:uppercase;font-weight:500}
+
+.hero{padding-block:clamp(56px,8vw,104px) clamp(30px,4vw,56px)}
+.hero p.lede{margin-top:24px;max-width:66ch;color:var(--mute);font-size:clamp(16px,1.25vw,19px)}
+.note{margin-top:28px;padding:16px 18px;border:1px solid var(--line-2);display:flex;gap:12px;align-items:flex-start;max-width:70ch}
+.note .mono{color:var(--metal)}
+.note p{font-size:15px;color:var(--mute)}
+
+section.block{padding-block:clamp(52px,6vw,88px);border-top:1px solid var(--line)}
+.sec-top{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;margin-bottom:34px}
+.sec-top .idx{grid-column:1 / -1}
+.sec-top h2{grid-column:1 / span 6}
+.sec-top .what{grid-column:8 / span 5;color:var(--mute);font-size:16px}
+@media (max-width:900px){.sec-top h2,.sec-top .what{grid-column:1 / -1}}
+
+/* chip de datos de ejemplo */
+.demo{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line-2);padding:5px 9px}
+.demo::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--metal-deep)}
+
+/* ---------- P1: ficha de rodaje ---------- */
+.sheet{display:grid;grid-template-columns:1.15fr .85fr;gap:0;border:1px solid var(--line);background:var(--ink-2)}
+.sheet .media{position:relative;min-height:340px;background:#000}
+.sheet .media img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.sheet .media .tag{position:absolute;left:16px;bottom:14px;z-index:2}
+.sheet .media::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,8,.85),transparent 45%)}
+.sheet .data{padding:clamp(22px,2.4vw,34px);display:grid;align-content:start;gap:22px}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.kpis div{padding:16px 14px 18px 0}
+.kpis div + div{padding-left:16px;border-left:1px solid var(--line)}
+.kpis dt{font-family:var(--f-caps);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.kpis dd{margin:8px 0 0;font-family:var(--f-display);font-size:clamp(28px,3vw,40px);line-height:1;font-variant-numeric:tabular-nums}
+.kpis dd small{font-size:15px;color:var(--mute);margin-left:3px}
+.because{display:grid;gap:10px}
+.because .q{font-family:var(--f-display);font-size:21px;line-height:1.25}
+.because p{font-size:15px;color:var(--mute)}
+.spark{width:100%;height:46px;display:block}
+@media (max-width:860px){.sheet{grid-template-columns:1fr}.sheet .media{min-height:230px}}
+
+/* ---------- P2: tira de película medida ---------- */
+.strip{position:relative;background:#050504;border-block:1px solid var(--line);padding-block:30px}
+.strip::before,.strip::after{content:"";position:absolute;left:0;right:0;height:10px;background:repeating-linear-gradient(90deg,transparent 0 12px,var(--ink-3) 12px 26px,transparent 26px 34px)}
+.strip::before{top:10px}.strip::after{bottom:10px}
+.stages{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.stage{display:grid;gap:14px;align-content:start}
+.stage .ph{position:relative;aspect-ratio:4/3;overflow:hidden;background:#000}
+.stage .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.5) brightness(.8)}
+.stage:hover .ph img{filter:none}
+.stage .n{position:absolute;z-index:2;top:10px;left:12px;font-family:var(--f-caps);font-size:22px}
+.stage h3{font-size:20px}
+.stage p{font-size:14px;color:var(--mute)}
+.meter{margin-top:6px;display:grid;gap:6px}
+.meter .bar{height:6px;background:var(--ink-3);position:relative;overflow:hidden}
+.meter .bar i{position:absolute;inset:0 auto 0 0;background:var(--c1);border-radius:0 3px 3px 0}
+.meter .v{display:flex;justify-content:space-between;gap:8px}
+.meter .v b{font-family:var(--f-mono);font-size:12px;font-weight:400;color:var(--bone);font-variant-numeric:tabular-nums}
+@media (max-width:900px){.stages{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:560px){.stages{grid-template-columns:1fr}}
+
+/* ---------- gráficos ---------- */
+.chart-card{border:1px solid var(--line);background:var(--ink-2);padding:clamp(18px,2vw,28px)}
+.chart-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:6px}
+.chart-head h3{font-size:22px}
+.chart-sub{color:var(--mute);font-size:14px;margin-bottom:18px}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin-bottom:14px}
+.legend span{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--mute)}
+.legend i{width:10px;height:10px;border-radius:2px;display:block}
+svg{display:block;width:100%;height:auto;overflow:visible}
+.ax{fill:var(--mute);font-family:var(--f-mono);font-size:11px}
+.axline{stroke:var(--line);stroke-width:1}
+.val{fill:var(--bone);font-family:var(--f-mono);font-size:12px}
+.tip{position:absolute;z-index:5;pointer-events:none;background:rgba(10,9,8,.96);border:1px solid var(--line-2);padding:9px 11px;font-size:13px;opacity:0;transform:translate(-50%,-115%);transition:opacity .15s}
+.tip.on{opacity:1}
+.tip b{display:block;font-family:var(--f-caps);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--metal);margin-bottom:4px}
+.tip .row{display:flex;align-items:center;gap:8px;font-family:var(--f-mono);font-size:12px}
+.tip .row i{width:8px;height:8px;border-radius:2px}
+.plot{position:relative}
+details.table{margin-top:18px;border-top:1px solid var(--line);padding-top:12px}
+details.table summary{cursor:pointer;font-size:13px;color:var(--mute)}
+details.table table{width:100%;border-collapse:collapse;margin-top:12px;font-size:14px;font-variant-numeric:tabular-nums}
+details.table th,details.table td{text-align:left;padding:8px 10px 8px 0;border-bottom:1px solid var(--line)}
+details.table th{font-family:var(--f-caps);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--mute);font-weight:500}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+@media (max-width:980px){.two{grid-template-columns:1fr}}
+
+/* ---------- P4: panel ---------- */
+.panel{border:1px solid var(--line);background:var(--ink-2)}
+.panel-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 18px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+.panel-kpis{display:grid;grid-template-columns:repeat(4,1fr)}
+.panel-kpis div{padding:20px 18px;border-right:1px solid var(--line);border-bottom:1px solid var(--line)}
+.panel-kpis div:last-child{border-right:0}
+.panel-kpis dt{font-family:var(--f-caps);font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.panel-kpis dd{margin:8px 0 0;font-family:var(--f-display);font-size:clamp(26px,2.6vw,36px);line-height:1;font-variant-numeric:tabular-nums}
+.panel-kpis .d{font-family:var(--f-mono);font-size:11px;margin-top:8px;display:block;color:var(--mute)}
+.panel-body{padding:clamp(18px,2vw,26px)}
+@media (max-width:900px){.panel-kpis{grid-template-columns:1fr 1fr}.panel-kpis div:nth-child(2n){border-right:0}}
+
+/* ---------- P5: timeline ---------- */
+.tl{display:grid;gap:0;border-top:1px solid var(--line)}
+.tl .row{display:grid;grid-template-columns:120px 1fr 1fr 1fr;gap:20px;padding:20px 0;border-bottom:1px solid var(--line);align-items:start}
+.tl .tc{font-family:var(--f-mono);font-size:12px;color:var(--metal)}
+.tl h4{margin:0 0 6px;font-family:var(--f-caps);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute);font-weight:500}
+.tl p{font-size:15px}
+.tl .res{color:var(--bone)}
+@media (max-width:860px){.tl .row{grid-template-columns:1fr;gap:10px}.tl .tc{color:var(--mute)}}
+
+/* cierre */
+.ask{display:grid;grid-template-columns:repeat(2,1fr);gap:0;border-top:1px solid var(--line)}
+.ask div{padding:22px 24px 26px 0;border-bottom:1px solid var(--line)}
+.ask div:nth-child(2n){padding-left:24px;border-left:1px solid var(--line)}
+.ask h4{margin:0 0 8px;font-family:var(--f-display);font-size:21px;font-weight:400}
+.ask p{font-size:15px;color:var(--mute)}
+@media (max-width:760px){.ask{grid-template-columns:1fr}.ask div:nth-child(2n){padding-left:0;border-left:0}}
+.foot{padding-block:44px 60px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+/* ---------- ciclo ---------- */
+.cycle{display:grid;grid-template-columns:minmax(320px,.9fr) 1fr;gap:clamp(24px,3vw,54px);align-items:center}
+.reel{position:relative;width:100%;max-width:460px;margin-inline:auto}
+.reel svg{width:100%;height:auto}
+.reel .node{cursor:pointer}
+.reel .node circle{transition:all .35s var(--ease)}
+.reel .node text{fill:var(--mute);font-family:var(--f-mono);font-size:10.5px;letter-spacing:.04em;transition:fill .3s}
+.reel .node.on text{fill:var(--bone)}
+.reel .node.on circle.dot{fill:var(--c1);r:9}
+.reel .node:hover text{fill:var(--bone)}
+.stage-panel{display:grid;gap:18px;align-content:center;min-height:250px}
+.stage-panel .n{font-family:var(--f-caps);font-size:12px;letter-spacing:.2em;color:var(--metal)}
+.stage-panel h3{font-size:clamp(26px,2.6vw,38px)}
+.stage-panel p{color:var(--mute);max-width:46ch}
+.stage-panel .out{display:flex;gap:10px;flex-wrap:wrap}
+.chip{font-family:var(--f-mono);font-size:11px;letter-spacing:.04em;color:var(--bone);border:1px solid var(--line-2);padding:6px 10px}
+@media (max-width:900px){.cycle{grid-template-columns:1fr}}
+
+/* ---------- pipeline ---------- */
+.pipe{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border:1px solid var(--line);background:var(--ink-2)}
+.pipe .step{padding:22px 18px 24px;border-right:1px solid var(--line);display:grid;gap:10px;align-content:start;position:relative;transition:background .4s}
+.pipe .step:last-child{border-right:0}
+.pipe .step:hover{background:#171410}
+.pipe .k{font-family:var(--f-mono);font-size:11px;color:var(--metal)}
+.pipe h4{margin:0;font-family:var(--f-display);font-weight:400;font-size:21px;line-height:1.15}
+.pipe p{font-size:14px;color:var(--mute)}
+.pipe .tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.pipe .tools span{font-family:var(--f-mono);font-size:10px;color:var(--mute);border:1px solid var(--line);padding:4px 7px}
+.pipe .flow{position:absolute;left:0;right:0;bottom:0;height:2px;background:linear-gradient(90deg,transparent,var(--c1),transparent);opacity:.0;animation:flow 3.2s linear infinite}
+.pipe .step:nth-child(1) .flow{animation-delay:0s}.pipe .step:nth-child(2) .flow{animation-delay:.5s}
+.pipe .step:nth-child(3) .flow{animation-delay:1s}.pipe .step:nth-child(4) .flow{animation-delay:1.5s}
+.pipe .step:nth-child(5) .flow{animation-delay:2s}
+@keyframes flow{0%{opacity:0}20%{opacity:.9}60%{opacity:0}100%{opacity:0}}
+@media (max-width:1000px){.pipe{grid-template-columns:1fr 1fr}.pipe .step{border-bottom:1px solid var(--line)}.pipe .step:nth-child(2n){border-right:0}}
+@media (max-width:620px){.pipe{grid-template-columns:1fr}.pipe .step{border-right:0}}
+
+/* ---------- segmentos ---------- */
+.segs{display:grid;grid-template-columns:1.25fr .75fr;gap:22px;align-items:start}
+.seg-cards{display:grid;gap:12px}
+.seg-card{display:grid;grid-template-columns:86px 1fr;gap:14px;border:1px solid var(--line);background:var(--ink-2);cursor:default;transition:border-color .3s,background .3s}
+.seg-card:hover{border-color:var(--line-2);background:#171410}
+.seg-card .thumb{position:relative;overflow:hidden;background:#000}
+.seg-card .thumb img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.4) brightness(.85)}
+.seg-card .txt{padding:14px 16px 16px 0;display:grid;gap:6px;align-content:center}
+.seg-card .dotcol{display:inline-flex;align-items:center;gap:8px;font-family:var(--f-caps);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--bone)}
+.seg-card .dotcol i{width:9px;height:9px;border-radius:50%}
+.seg-card p{font-size:14px;color:var(--mute)}
+.seg-card .pill{font-family:var(--f-mono);font-size:11px;color:var(--metal)}
+svg .seg{transition:opacity .3s}
+.segs.dim svg .seg{opacity:.18}
+.segs.dim svg .seg.on{opacity:1}
+@media (max-width:980px){.segs{grid-template-columns:1fr}}
+
+/* ---------- diales ---------- */
+.dials{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.dial{display:grid;justify-items:center;gap:10px;border:1px solid var(--line);background:var(--ink-2);padding:20px 12px 18px}
+.dial svg{width:112px;height:112px}
+.dial-v{fill:var(--bone);font-family:var(--f-display);font-size:26px}
+@media (max-width:720px){.dials{grid-template-columns:1fr 1fr}}
+
+/* ---------- equipo ---------- */
+.team{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.team div{padding:22px 24px 26px 0;border-bottom:1px solid var(--line)}
+.team div:nth-child(2n){padding-left:24px;border-left:1px solid var(--line)}
+.team .q{font-family:var(--f-display);font-size:22px;line-height:1.2;margin-bottom:6px}
+.team p{font-size:15px;color:var(--mute)}
+@media (max-width:760px){.team{grid-template-columns:1fr}.team div:nth-child(2n){padding-left:0;border-left:0}}
+.changes{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);margin-top:20px}
+.changes div{padding:18px 20px 20px 0;border-right:1px solid var(--line)}
+.changes div:last-child{border-right:0}
+.changes div + div{padding-left:20px}
+.changes h4{margin:0 0 6px;font-family:var(--f-mono);font-size:11px;color:var(--c1);font-weight:400;letter-spacing:.06em}
+.changes p{font-size:14px;color:var(--mute)}
+@media (max-width:820px){.changes{grid-template-columns:1fr}.changes div{border-right:0;border-bottom:1px solid var(--line);padding:16px 0}.changes div + div{padding-left:0}}
+
+/* ---------- bandas fotográficas (fotos propias) ---------- */
+.band{position:relative;background:#000;border-block:1px solid var(--line);overflow:hidden}
+.band > img{width:100%;height:clamp(230px,40vw,500px);object-fit:cover;filter:grayscale(.28) contrast(1.04) brightness(.78)}
+.band::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(10,9,8,.94) 0%,rgba(10,9,8,.18) 58%,rgba(10,9,8,.5) 100%)}
+.band .cap{position:absolute;z-index:2;inset:auto 0 clamp(18px,3vw,34px) 0;max-width:1240px;margin-inline:auto;padding-inline:var(--gutter);display:grid;gap:10px}
+.band .cap h3{font-size:clamp(21px,2.5vw,34px)}
+.band .cap p{max-width:54ch;color:var(--mute);font-size:15px}
+.band .mk{position:absolute;z-index:2;top:16px;left:var(--gutter)}
+.band--thin > img{height:clamp(180px,26vw,320px);object-position:50% 20%}
+
+/* ---------- equipo con fotos (retratos verticales, fotos propias) ---------- */
+.photos{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:34px}
+.photos figure{margin:0}
+.photos .ph{position:relative;overflow:hidden;background:#000}
+.photos img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(.4) brightness(.84);transition:filter .6s var(--ease)}
+.photos figure:hover img{filter:none}
+.photos .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,8,.55),transparent 42%);pointer-events:none}
+.photos figcaption{margin-top:10px;font-size:14px;color:var(--mute)}
+.photos figcaption b{display:block;font-family:var(--f-caps);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--metal);font-weight:500;margin-bottom:5px}
+@media (max-width:820px){.photos{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- afiliación académica ---------- */
+.aff{display:grid;grid-template-columns:auto 1fr;gap:clamp(22px,3.4vw,48px);align-items:center;margin-top:34px;padding:clamp(22px,2.6vw,34px);border:1px solid var(--line);background:var(--ink-2)}
+.aff-marks{display:flex;align-items:center;gap:clamp(18px,2.4vw,30px)}
+.aff-marks img{height:clamp(32px,3.6vw,48px);width:auto;opacity:.92}
+.aff-marks img:last-of-type{height:clamp(40px,4.4vw,60px)}
+.aff-marks .sep{width:1px;align-self:stretch;min-height:46px;background:var(--line-2)}
+.aff-txt .q{font-family:var(--f-display);font-size:clamp(20px,2vw,27px);line-height:1.2;margin-bottom:10px}
+.aff-txt p{font-size:15px;color:var(--mute);max-width:62ch}
+.ig{display:inline-flex;align-items:center;gap:8px;margin-top:16px;font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;color:var(--metal);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:3px;transition:color .3s var(--ease),border-color .3s var(--ease)}
+.ig:hover{color:var(--bone);border-color:var(--metal)}
+@media (max-width:820px){.aff{grid-template-columns:1fr;gap:22px}}
+
+/* ---------- hero con material propio ---------- */
+.hero{padding-block:0}
+.hero-grid{display:grid;grid-template-columns:1fr minmax(320px,460px);gap:clamp(24px,3.4vw,52px);align-items:center;padding-block:calc(76px + clamp(26px,3.4vw,44px)) clamp(18px,2.4vw,30px)}
+.hero-txt .lede{margin-top:22px;max-width:52ch;color:var(--mute);font-size:clamp(16px,1.2vw,18px)}
+.hero-media{display:grid;grid-template-columns:1.08fr .92fr;grid-template-rows:1fr 1fr;gap:10px;height:clamp(340px,44vw,520px)}
+.hero-media figure{margin:0;position:relative;overflow:hidden;background:#000;border:1px solid var(--line)}
+.hero-media .m1{grid-row:1 / span 2}
+.hero-media img,.hero-media video{width:100%;height:100%;object-fit:cover;display:block}
+.hero-media .m2 img,.hero-media .m3 img{filter:grayscale(.35) brightness(.88);transition:filter .6s var(--ease)}
+.hero-media .m2 img{object-position:50% 42%}
+.hero-media .m3 img{object-position:78% 26%}
+.hero-media figure:hover img{filter:none}
+.rec{position:absolute;z-index:2;left:12px;bottom:11px;display:inline-flex;align-items:center;gap:7px;font-family:var(--f-mono);font-size:10px;letter-spacing:.12em;color:var(--bone);text-shadow:0 1px 6px rgba(0,0,0,.9)}
+.rec i{width:7px;height:7px;border-radius:50%;background:var(--rec,#D9412B);animation:blink 1.6s steps(1,end) infinite}
+@keyframes blink{0%,55%{opacity:1}56%,100%{opacity:.15}}
+@media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:24px;padding-top:calc(76px + 18px)}.hero-media{height:clamp(300px,78vw,430px);order:-1}}
+
+/* tira de fotos bajo el hero */
+.hero-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding-bottom:clamp(30px,4vw,54px)}
+.hero-strip figure{margin:0;position:relative;overflow:hidden;background:#000;aspect-ratio:3/4}
+.hero-strip img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;filter:grayscale(.45) brightness(.82);transition:filter .6s var(--ease),transform .9s var(--ease)}
+.hero-strip figure:hover img{filter:none;transform:scale(1.03)}
+.hero-strip figcaption{position:absolute;z-index:2;left:11px;bottom:9px;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:var(--bone);text-shadow:0 1px 6px rgba(0,0,0,.9)}
+.hero-strip figure::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,8,.7),transparent 46%)}
+@media (max-width:760px){.hero-strip{grid-template-columns:repeat(2,1fr)}}
+
+/* ---------- cabecera y pie del sitio ---------- */
+.btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--f-body);font-size:15px;font-weight:500;letter-spacing:.04em;padding:15px 24px;border:1px solid var(--line-2);color:var(--bone);text-decoration:none;transition:background .4s var(--ease),color .4s var(--ease),border-color .4s var(--ease);white-space:nowrap}
+.btn:hover{border-color:var(--metal);color:var(--metal)}
+.btn .arrow{display:inline-block;transition:transform .4s var(--ease)}
+.btn:hover .arrow{transform:translateX(4px)}
+.site-header{position:fixed;top:0;left:0;right:0;z-index:60;transition:background .5s var(--ease),border-color .5s var(--ease);border-bottom:1px solid transparent}
+.site-header.is-scrolled{background:rgba(10,9,8,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:76px}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none}
+.brand img{width:54px;height:auto}
+.brand span{font-family:var(--f-caps);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--bone)}
+.nav-links{display:flex;align-items:center;gap:clamp(18px,2.4vw,34px);font-size:15px;color:var(--mute)}
+.nav-links a{white-space:nowrap;position:relative;text-decoration:none;transition:color .3s}
+.nav-links a:hover,.nav-links a[aria-current]{color:var(--bone)}
+.nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--metal);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+.nav-links a:not(.btn):hover::after,.nav-links a[aria-current]::after{transform:scaleX(1);transform-origin:left}
+.nav-links .btn{padding:11px 18px;color:var(--bone)}
+.menu-toggle{display:none;width:44px;height:44px;position:relative;background:none;border:0;cursor:pointer}
+.menu-toggle span{position:absolute;left:10px;right:10px;height:1px;background:var(--bone);transition:transform .4s var(--ease),top .4s var(--ease)}
+.menu-toggle span:nth-child(1){top:18px}.menu-toggle span:nth-child(2){top:26px}
+.site-header.is-open .menu-toggle span:nth-child(1){top:22px;transform:rotate(45deg)}
+.site-header.is-open .menu-toggle span:nth-child(2){top:22px;transform:rotate(-45deg)}
+.nav-quick{display:none;gap:16px;align-items:center;margin-left:auto;margin-right:4px}
+.nav-quick a{font-family:var(--f-caps);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone);white-space:nowrap;text-decoration:none}
+@media (max-width:860px){
+  .nav-links{position:fixed;inset:76px 0 auto 0;flex-direction:column;align-items:flex-start;gap:0;background:rgba(10,9,8,.97);padding:8px var(--gutter) 28px;border-bottom:1px solid var(--line);transform:translateY(-8px);opacity:0;visibility:hidden;transition:all .4s var(--ease)}
+  .nav-links a:not(.btn){font-family:var(--f-display);font-size:32px;color:var(--bone);padding-block:10px;width:100%;border-bottom:1px solid var(--line)}
+  .nav-links a:not(.btn)::after{display:none}
+  .nav-links .btn{margin-top:22px}
+  .site-header.is-open{background:rgba(10,9,8,.97)}
+  .site-header.is-open .nav-links{transform:none;opacity:1;visibility:visible}
+  .menu-toggle{display:block}
+  .nav-quick{display:flex}
+  .brand span{display:none}
+}
+.site-footer{border-top:1px solid var(--line);padding-block:56px 28px}
+.foot-top{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
+.foot-brand{grid-column:1 / span 4;display:grid;gap:18px;color:var(--mute);font-size:15px}
+.foot-brand img{width:180px;height:auto}
+.foot-col{grid-column:span 2;display:grid;gap:10px;font-size:15px;align-content:start}
+.foot-col:first-of-type{grid-column:7 / span 2}
+.foot-col .label{margin-bottom:6px;color:var(--mute)}
+.foot-col a{color:var(--bone);width:fit-content;text-decoration:none;transition:color .3s}
+.foot-col a:hover{color:var(--metal)}
+.wordmark{margin-top:64px;width:100%;height:auto;display:block}
+.foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
+@media (max-width:900px){.foot-brand{grid-column:1 / -1}.foot-col,.foot-col:first-of-type{grid-column:span 4}}
+@media (max-width:620px){.foot-col,.foot-col:first-of-type{grid-column:span 6}}
+.hero-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;margin-top:28px}
+.hero-actions .wa{font-family:var(--f-mono);font-size:12px;letter-spacing:.06em;color:var(--mute);text-decoration:none;border-bottom:1px solid var(--line-2);padding-bottom:3px;transition:color .3s var(--ease)}
+.hero-actions .wa:hover{color:var(--bone)}
+.disclaim{border-top:1px solid var(--line);padding-block:18px}
+</style>
+</head>
+<body>
+<header class="site-header" id="top">
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Creative Whisper, inicio">
+      <img src="assets/monograma-cw.png" alt="" width="240" height="155">
+      <span>Creative Whisper</span>
+    </a>
+    <nav class="nav-links" id="menu" aria-label="Principal">
+      <a href="portafolio.html">Fotografía</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="datos.html" aria-current="page">Datos</a>
+      <a href="index.html#trabajo">Trabajo</a>
+      <a href="index.html#equipo">Equipo</a>
+      <a class="btn" href="index.html#contacto">Agendar reunión <span class="arrow">→</span></a>
+    </nav>
+    <div class="nav-quick">
+      <a href="portafolio.html">Fotografía</a>
+      <a href="datos.html">Datos</a>
+    </div>
+    <button class="menu-toggle" type="button" aria-controls="menu" aria-expanded="false" aria-label="Abrir menú"><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap hero-grid">
+      <div class="hero-txt">
+        <span class="label">Servicio · Análisis de datos</span>
+        <h1>Primero el dato. <em>Después la cámara.</em></h1>
+        <p class="lede">Analizamos los datos de tu empresa —ventas, CRM, punto de venta, redes— para saber a quién hablarle, con qué producto y en qué momento. Gobernanza, arquitectura, limpieza, modelos y segmentación. Recién ahí entra la cámara.</p>
+        <div class="hero-actions">
+          <a class="btn" href="index.html#contacto">Agendar reunión <span class="arrow">→</span></a>
+          <a class="wa" href="https://wa.me/593969577774" target="_blank" rel="noopener">WhatsApp 096 957 7774</a>
+        </div>
+      </div>
+      <div class="hero-media">
+        <figure class="m1">
+          <video src="assets/datos/reto-loop.mp4" poster="assets/datos/reto-poster.webp" muted loop playsinline autoplay preload="metadata" aria-label="Equipo del club de datos trabajando sobre el primer reto"></video>
+          <span class="rec"><i></i>PRIMER RETO</span>
+        </figure>
+        <figure class="m2"><img src="assets/datos/campus-dupla.webp" alt="Dos integrantes del equipo revisando datos en una laptop."></figure>
+        <figure class="m3"><img src="assets/datos/sebas.webp" alt="Integrante del equipo dando el visto bueno al resultado del análisis."></figure>
+      </div>
+    </div>
+    <div class="wrap hero-strip">
+      <figure><img src="assets/datos/campus-retrato.webp" alt="Integrante del equipo con su laptop en el campus."><figcaption>EL EQUIPO</figcaption></figure>
+      <figure><img src="assets/datos/reto-equipo.webp" alt="Mesa de trabajo con el profesor y dos integrantes analizando datos."><figcaption>MENTORÍA</figcaption></figure>
+      <figure><img src="assets/datos/codigo.webp" alt="Pantalla con código y una mano escribiendo sobre el teclado."><figcaption>EN PANTALLA</figcaption></figure>
+      <figure><img src="assets/datos/laptops.webp" alt="Asistentes trabajando con laptops durante un taller de datos."><figcaption>EN EL TALLER</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- 01 -->
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-top">
+        <span class="label idx">01 · El ciclo</span>
+        <h2>Un rollo que <em>nunca se corta.</em></h2>
+        <p class="what">El video es una etapa, no todo el servicio. Toca cada punto para ver qué hacemos ahí y qué recibes al final de esa etapa.</p>
+      </div>
+      <div class="cycle">
+        <div class="reel">
+          <svg viewBox="0 0 460 460" role="img" aria-label="Ciclo de trabajo: diagnóstico, arquitectura, análisis, insight, campaña y evaluación.">
+            <circle cx="230" cy="230" r="150" fill="none" stroke="var(--line)"/>
+            <circle cx="230" cy="230" r="124" fill="none" stroke="var(--line)" stroke-dasharray="2 8"/>
+            <circle cx="230" cy="230" r="46" fill="none" stroke="var(--line-2)"/>
+            <text x="230" y="226" text-anchor="middle" class="ax" style="font-size:10px;letter-spacing:.18em">CICLO</text>
+            <text x="230" y="244" text-anchor="middle" class="ax" style="font-size:10px;letter-spacing:.18em">COMPLETO</text>
+            <g class="node on" data-i="0" tabindex="0" role="button" aria-label="Diagnóstico">
+            <circle class="hit" cx="230.0" cy="80.0" r="22" fill="transparent"/>
+            <circle class="dot" cx="230.0" cy="80.0" r="9" fill="var(--c1)"/>
+            <text x="230.0" y="60.0" text-anchor="middle">01 Diagnóstico</text>
+            </g>
+            <g class="node" data-i="1" tabindex="0" role="button" aria-label="Arquitectura y limpieza">
+            <circle class="hit" cx="359.9" cy="155.0" r="22" fill="transparent"/>
+            <circle class="dot" cx="359.9" cy="155.0" r="6" fill="var(--metal-deep)"/>
+            <text x="359.9" y="135.0" text-anchor="middle">02 Arquitectura y limpieza</text>
+            </g>
+            <g class="node" data-i="2" tabindex="0" role="button" aria-label="Análisis y modelos">
+            <circle class="hit" cx="359.9" cy="305.0" r="22" fill="transparent"/>
+            <circle class="dot" cx="359.9" cy="305.0" r="6" fill="var(--metal-deep)"/>
+            <text x="359.9" y="335.0" text-anchor="middle">03 Análisis y modelos</text>
+            </g>
+            <g class="node" data-i="3" tabindex="0" role="button" aria-label="Insight">
+            <circle class="hit" cx="230.0" cy="380.0" r="22" fill="transparent"/>
+            <circle class="dot" cx="230.0" cy="380.0" r="6" fill="var(--metal-deep)"/>
+            <text x="230.0" y="410.0" text-anchor="middle">04 Insight</text>
+            </g>
+            <g class="node" data-i="4" tabindex="0" role="button" aria-label="Campaña y producción">
+            <circle class="hit" cx="100.1" cy="305.0" r="22" fill="transparent"/>
+            <circle class="dot" cx="100.1" cy="305.0" r="6" fill="var(--metal-deep)"/>
+            <text x="100.1" y="335.0" text-anchor="middle">05 Campaña y producción</text>
+            </g>
+            <g class="node" data-i="5" tabindex="0" role="button" aria-label="Evaluación y ajuste">
+            <circle class="hit" cx="100.1" cy="155.0" r="22" fill="transparent"/>
+            <circle class="dot" cx="100.1" cy="155.0" r="6" fill="var(--metal-deep)"/>
+            <text x="100.1" y="135.0" text-anchor="middle">06 Evaluación y ajuste</text>
+            </g>
+            </svg>
+        </div>
+        <div class="stage-panel" id="stagePanel">
+          <span class="n" id="spN">01</span>
+          <h3 id="spT">Diagnóstico</h3>
+          <p id="spD">Revisamos qué datos tiene la empresa, dónde están y en qué estado llegan.</p>
+          <div class="out" id="spO"><span class="chip">Mapa de fuentes</span><span class="chip">Informe de calidad</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 -->
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-top">
+        <span class="label idx">02 · La cadena del dato</span>
+        <h2>De la base de datos <em>al guion.</em></h2>
+        <p class="what">Antes de escribir un guion, la información pasa por cinco estaciones. Si esa cadena no existe, el insight tampoco.</p>
+      </div>
+      <div class="pipe">
+        <div class="step"><span class="k">01</span><h4>Fuentes</h4><p>Ventas, CRM, web, punto de venta y redes en un solo inventario.</p><div class="tools"><span>CRM</span><span>POS</span><span>GA4</span></div><span class="flow"></span></div>
+        <div class="step"><span class="k">02</span><h4>Gobernanza</h4><p>Quién puede ver qué, cómo se nombra cada campo y quién responde por él.</p><div class="tools"><span>Diccionario</span><span>Roles</span></div><span class="flow"></span></div>
+        <div class="step"><span class="k">03</span><h4>Limpieza</h4><p>Duplicados fuera, formatos parejos, huecos resueltos. Sin esto, nada de lo demás sirve.</p><div class="tools"><span>SQL</span><span>Python</span></div><span class="flow"></span></div>
+        <div class="step"><span class="k">04</span><h4>Modelos</h4><p>Segmentación, recomendación y predicción de recompra sobre datos ya confiables.</p><div class="tools"><span>Clustering</span><span>RFM</span><span>ML</span></div><span class="flow"></span></div>
+        <div class="step"><span class="k">05</span><h4>Insight</h4><p>Una conclusión clara que se convierte en el brief del rodaje.</p><div class="tools"><span>Tablero</span><span>Brief</span></div><span class="flow"></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 -->
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-top">
+        <span class="label idx">03 · Del segmento a la pieza</span>
+        <h2>Cada grupo de clientes <em>tiene su plano.</em></h2>
+        <p class="what">Los grupos salen del modelo, no de la intuición, y cada uno recibe su propia pieza. Pasa el mouse por una tarjeta para ver a qué clientes le habla.</p>
+      </div>
+      <div class="segs" id="segsWrap">
+        <div class="chart-card">
+          <div class="chart-head"><h3>Segmentación de clientes</h3><span class="demo">Datos de ejemplo</span></div>
+          <p class="chart-sub">Cada punto es un cliente. Los grupos salen del modelo, no de la intuición.</p>
+          <svg viewBox="0 0 880 420" role="img" aria-label="Segmentos de clientes según frecuencia de compra y ticket promedio. Datos de ejemplo.">
+          <line class="axline" x1="52" x2="730" y1="18.0" y2="18.0"/>
+          <line class="axline" x1="52" x2="730" y1="107.0" y2="107.0"/>
+          <line class="axline" x1="52" x2="730" y1="196.0" y2="196.0"/>
+          <line class="axline" x1="52" x2="730" y1="285.0" y2="285.0"/>
+          <line class="axline" x1="52" x2="730" y1="374.0" y2="374.0"/>
+          <line class="axline" x1="52" x2="52" y1="18" y2="374"/>
+          <text class="ax" x="52" y="400" >Frecuencia de compra →</text>
+          <text class="ax" transform="translate(36,374) rotate(-90)">Ticket promedio →</text>
+          <g class="seg" data-seg="recurrentes">
+          <circle cx="522.8" cy="106.6" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="524.8" cy="136.0" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="477.1" cy="132.4" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="615.5" cy="109.7" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="610.5" cy="115.9" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="566.9" cy="118.2" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="427.2" cy="94.4" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="574.5" cy="107.0" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="425.5" cy="186.9" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="479.8" cy="141.5" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="560.9" cy="126.4" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="575.5" cy="147.7" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="561.1" cy="110.8" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="495.3" cy="63.7" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="577.9" cy="82.2" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="498.1" cy="151.1" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="516.8" cy="128.6" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="583.0" cy="116.0" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="509.8" cy="158.9" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="504.9" cy="81.3" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="485.4" cy="116.1" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="569.1" cy="177.8" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="543.4" cy="78.3" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="403.6" cy="136.2" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="533.0" cy="153.9" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="573.9" cy="127.0" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="440.9" cy="95.3" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="585.5" cy="91.1" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="637.8" cy="111.9" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="548.2" cy="171.1" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="581.9" cy="146.6" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="509.5" cy="169.8" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="474.6" cy="143.7" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="627.5" cy="197.1" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <ellipse cx="540.2" cy="124.8" rx="142.4" ry="74.8" fill="none" stroke="var(--c1)" stroke-opacity=".5" stroke-dasharray="3 4"/>
+          <text class="val" x="692.5" y="42.0">Recurrentes</text>
+          </g>
+          <g class="seg" data-seg="ocasionales">
+          <circle cx="163.9" cy="207.1" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="400.0" cy="192.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="127.9" cy="324.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="311.6" cy="248.8" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="191.4" cy="175.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="372.2" cy="210.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="302.5" cy="198.8" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="412.2" cy="190.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="324.7" cy="194.0" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="154.9" cy="162.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="360.2" cy="194.7" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="121.9" cy="244.4" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="351.0" cy="294.7" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="267.5" cy="173.8" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="175.8" cy="148.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="327.4" cy="223.8" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="309.0" cy="189.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="292.3" cy="168.4" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="228.7" cy="235.1" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="367.3" cy="216.2" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="210.9" cy="176.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="401.8" cy="236.4" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="170.2" cy="223.1" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="270.4" cy="230.1" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="396.8" cy="261.2" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="385.1" cy="271.5" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="218.5" cy="190.4" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="374.4" cy="180.7" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="310.6" cy="211.3" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="294.9" cy="192.8" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="268.2" cy="205.5" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="329.1" cy="217.3" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="344.7" cy="193.2" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="446.1" cy="203.5" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="247.7" cy="233.3" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="281.5" cy="177.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="255.1" cy="200.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="432.0" cy="326.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="191.1" cy="206.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="314.9" cy="207.2" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="247.4" cy="189.4" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="305.5" cy="239.7" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <ellipse cx="282.5" cy="217.4" rx="170.9" ry="89.7" fill="none" stroke="var(--c2)" stroke-opacity=".5" stroke-dasharray="3 4"/>
+          <text class="val" x="463.4" y="119.6">Ocasionales</text>
+          </g>
+          <g class="seg" data-seg="nuevos">
+          <circle cx="349.4" cy="84.9" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="167.3" cy="99.5" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="187.4" cy="98.3" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="65.6" cy="111.9" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="262.7" cy="133.8" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="197.1" cy="65.8" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="253.4" cy="48.5" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="97.3" cy="107.6" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="180.4" cy="76.3" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="267.8" cy="182.3" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="267.6" cy="142.7" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="242.8" cy="144.1" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="211.9" cy="58.0" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="192.0" cy="90.2" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="249.8" cy="91.8" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="195.8" cy="47.2" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="265.1" cy="105.7" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="368.7" cy="133.1" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="257.0" cy="104.8" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="209.2" cy="73.7" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="214.7" cy="75.9" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="108.0" cy="144.7" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="238.7" cy="127.2" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="138.5" cy="143.4" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="278.4" cy="72.4" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="291.0" cy="126.4" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <ellipse cx="201.2" cy="96.3" rx="128.1" ry="67.3" fill="none" stroke="var(--c3)" stroke-opacity=".5" stroke-dasharray="3 4"/>
+          <text class="val" x="339.3" y="21.0">Nuevos</text>
+          </g>
+          </svg>
+        </div>
+        <div class="seg-cards">
+          <div class="seg-card" data-seg="recurrentes">
+            <div class="thumb"><img src="assets/f-testimonio.webp" alt="" style="object-position:50% 18%"></div>
+            <div class="txt">
+              <span class="dotcol"><i style="background:var(--c1)"></i>Recurrentes</span>
+              <p>Compran seguido y gastan más. No necesitan que les expliques quién eres.</p>
+              <span class="pill">Testimonio + producto nuevo</span>
+            </div>
+          </div>
+          <div class="seg-card" data-seg="ocasionales">
+            <div class="thumb"><img src="assets/f-futbol.webp" alt=""></div>
+            <div class="txt">
+              <span class="dotcol"><i style="background:var(--c2)"></i>Ocasionales</span>
+              <p>Aparecen en temporada. Hay que recordarles por qué volvieron la vez pasada.</p>
+              <span class="pill">Reel corto + oferta de temporada</span>
+            </div>
+          </div>
+          <div class="seg-card" data-seg="nuevos">
+            <div class="thumb"><img src="assets/locucion.webp" alt=""></div>
+            <div class="txt">
+              <span class="dotcol"><i style="background:var(--c3)"></i>Nuevos</span>
+              <p>Ticket alto en la primera compra. Están evaluando si quedarse.</p>
+              <span class="pill">Video de marca + detrás de cámaras</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 -->
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-top">
+        <span class="label idx">04 · Seguimiento</span>
+        <h2>La campaña <em>se corrige en el camino.</em></h2>
+        <p class="what">Medimos contra el objetivo y ajustamos mientras la campaña corre. Cada marca es un cambio que decidimos con datos, no a mitad de mes y a ciegas.</p>
+      </div>
+      <div class="chart-card">
+        <div class="chart-head"><h3>Resultado semanal de la campaña</h3><span class="demo">Datos de ejemplo</span></div>
+        <p class="chart-sub">Las líneas punteadas marcan los momentos en que el análisis cambió la producción.</p>
+        <div class="plot">
+          <svg viewBox="0 0 880 320" role="img" aria-label="Evolución semanal de la campaña con tres ajustes. Datos de ejemplo.">
+          <line class="axline" x1="52" x2="822" y1="274.0" y2="274.0"/>
+          <text class="ax" x="42" y="278.0" text-anchor="end">0</text>
+          <line class="axline" x1="52" x2="822" y1="212.0" y2="212.0"/>
+          <text class="ax" x="42" y="216.0" text-anchor="end">20</text>
+          <line class="axline" x1="52" x2="822" y1="150.0" y2="150.0"/>
+          <text class="ax" x="42" y="154.0" text-anchor="end">40</text>
+          <line class="axline" x1="52" x2="822" y1="88.0" y2="88.0"/>
+          <text class="ax" x="42" y="92.0" text-anchor="end">60</text>
+          <line class="axline" x1="52" x2="822" y1="26.0" y2="26.0"/>
+          <text class="ax" x="42" y="30.0" text-anchor="end">80</text>
+          <path d="M52.0,218.2 L111.2,208.9 L170.5,212.0 L229.7,193.4 L288.9,177.9 L348.2,181.0 L407.4,156.2 L466.6,137.6 L525.8,143.8 L585.1,115.9 L644.3,94.2 L703.5,100.4 L762.8,75.6 L822.0,53.9" fill="none" stroke="var(--c1)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+          <line x1="229.7" x2="229.7" y1="20" y2="274" stroke="var(--line-2)" stroke-dasharray="3 4"/>
+          <circle cx="229.7" cy="193.4" r="5" fill="var(--ink-2)" stroke="var(--c1)" stroke-width="2"/>
+          <text class="ax" x="237.7" y="16">v1 · lanzamiento</text>
+          <line x1="466.6" x2="466.6" y1="20" y2="274" stroke="var(--line-2)" stroke-dasharray="3 4"/>
+          <circle cx="466.6" cy="137.6" r="5" fill="var(--ink-2)" stroke="var(--c1)" stroke-width="2"/>
+          <text class="ax" x="474.6" y="16">v2 · nuevo gancho</text>
+          <line x1="703.5" x2="703.5" y1="20" y2="274" stroke="var(--line-2)" stroke-dasharray="3 4"/>
+          <circle cx="703.5" cy="100.4" r="5" fill="var(--ink-2)" stroke="var(--c1)" stroke-width="2"/>
+          <text class="ax" x="711.5" y="16">v3 · segmento nuevo</text>
+          <circle cx="822.0" cy="53.9" r="4.5" fill="var(--c1)"/>
+          <text class="val" x="832.0" y="57.9">71</text>
+          <line class="axline" x1="52" x2="822" y1="274" y2="274"/>
+          <text class="ax" x="52" y="300">Semana 1</text>
+          <text class="ax" x="822" y="300" text-anchor="end">Semana 14</text>
+          </svg>
+        </div>
+        <div class="changes">
+          <div><h4>v1 · lanzamiento</h4><p>Piezas generales para toda la base.</p></div>
+          <div><h4>v2 · nuevo gancho</h4><p>El modelo mostró caída temprana: se rehízo el arranque.</p></div>
+          <div><h4>v3 · segmento nuevo</h4><p>Apareció un grupo con ticket alto: piezas propias para ellos.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 -->
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-top">
+        <span class="label idx">05 · Diagnóstico de datos</span>
+        <h2>El primer entregable, <em>antes de filmar nada.</em></h2>
+        <p class="what">El primer entregable es el estado real de tus datos. Se contrata solo, y es la puerta de entrada al resto del servicio.</p>
+      </div>
+      <div class="dials">
+          <div class="dial">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle cx="60" cy="60" r="44" fill="none" stroke="var(--ink-3)" stroke-width="10"/>
+              <circle cx="60" cy="60" r="44" fill="none" stroke="var(--c1)" stroke-width="10" stroke-linecap="round"
+                stroke-dasharray="110.6 165.9" transform="rotate(-90 60 60)"/>
+              <text x="60" y="67" text-anchor="middle" class="dial-v">40%</text>
+            </svg>
+            <span class="mono">Gobernanza</span>
+          </div>
+          <div class="dial">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle cx="60" cy="60" r="44" fill="none" stroke="var(--ink-3)" stroke-width="10"/>
+              <circle cx="60" cy="60" r="44" fill="none" stroke="var(--c1)" stroke-width="10" stroke-linecap="round"
+                stroke-dasharray="179.7 96.8" transform="rotate(-90 60 60)"/>
+              <text x="60" y="67" text-anchor="middle" class="dial-v">65%</text>
+            </svg>
+            <span class="mono">Arquitectura</span>
+          </div>
+          <div class="dial">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle cx="60" cy="60" r="44" fill="none" stroke="var(--ink-3)" stroke-width="10"/>
+              <circle cx="60" cy="60" r="44" fill="none" stroke="var(--c1)" stroke-width="10" stroke-linecap="round"
+                stroke-dasharray="152.1 124.4" transform="rotate(-90 60 60)"/>
+              <text x="60" y="67" text-anchor="middle" class="dial-v">55%</text>
+            </svg>
+            <span class="mono">Calidad del dato</span>
+          </div>
+          <div class="dial">
+            <svg viewBox="0 0 120 120" aria-hidden="true">
+              <circle cx="60" cy="60" r="44" fill="none" stroke="var(--ink-3)" stroke-width="10"/>
+              <circle cx="60" cy="60" r="44" fill="none" stroke="var(--c1)" stroke-width="10" stroke-linecap="round"
+                stroke-dasharray="82.9 193.5" transform="rotate(-90 60 60)"/>
+              <text x="60" y="67" text-anchor="middle" class="dial-v">30%</text>
+            </svg>
+            <span class="mono">Medición</span>
+          </div>
+      </div>
+      <div style="margin-top:20px"><span class="demo">Datos de ejemplo</span></div>
+    </div>
+  </section>
+
+  <!-- equipo -->
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-top">
+        <span class="label idx">Quién lo hace</span>
+        <h2>Un equipo formado <em>para las dos mitades.</em></h2>
+        <p class="what">La analítica no es un agregado: es la formación principal del equipo. Es un equipo altamente capacitado para dar este servicio, y por eso la campaña y el rodaje salen del mismo análisis.</p>
+      </div>
+      <div class="photos">
+        <figure>
+          <div class="ph"><img src="assets/datos/escenario-1.webp" alt="Ponente del equipo exponiendo en el escenario con la presentación proyectada."></div>
+          <figcaption><b>En escena</b>Analítica y producción en las mismas manos, de principio a fin.</figcaption>
+        </figure>
+        <figure>
+          <div class="ph"><img src="assets/datos/escenario-2.webp" alt="Ponente del equipo dictando una charla de analítica de datos."></div>
+          <figcaption><b>Formación</b>Dictamos charlas y talleres de analítica para empresas y universidades.</figcaption>
+        </figure>
+        <figure>
+          <div class="ph"><img src="assets/datos/pregunta.webp" alt="Asistente haciendo una pregunta con micrófono durante la charla."></div>
+          <figcaption><b>Traducción</b>Explicar el dato a quien decide, sin jerga, es parte del trabajo.</figcaption>
+        </figure>
+        <figure>
+          <div class="ph"><img src="assets/datos/premiacion.webp" alt="Entrega de certificados al cierre del taller de analítica."></div>
+          <figcaption><b>Respaldo</b>Programas completos, con cierre y certificación de los participantes.</figcaption>
+        </figure>
+      </div>
+      <div class="team">
+        <div><p class="q">Máster en Business Analytics</p><p>Formación de posgrado en analítica de negocios, aplicada a decisiones comerciales reales.</p></div>
+        <div><p class="q">Analítica de CRM y BI</p><p>Experiencia profesional en análisis de clientes, sistemas de recomendación y reportería para dirección.</p></div>
+        <div><p class="q">Modelos y segmentación</p><p>Limpieza, modelado y machine learning aplicados a bases de clientes, no a ejercicios de clase.</p></div>
+        <div><p class="q">Producción propia</p><p>El mismo equipo dirige, filma y edita: el insight no se pierde al pasar de manos.</p></div>
+      </div>
+      <div class="aff">
+        <div class="aff-marks">
+          <img src="assets/datos/usfq.png" alt="Universidad San Francisco de Quito">
+          <span class="sep"></span>
+          <img src="assets/datos/dc-usfq.png" alt="Data Club USFQ">
+        </div>
+        <div class="aff-txt">
+          <p class="q">Formación USFQ. Fundadores del <em>Data Club.</em></p>
+          <p>Marketing, Finanzas y minor en Análisis de Datos, más la Maestría en Business Analytics — toda la formación en la Universidad San Francisco de Quito. Ahí mismo fundamos el club de análisis de datos de la universidad.</p>
+          <a class="ig" href="https://www.instagram.com/datausfq" target="_blank" rel="noopener">@datausfq <span aria-hidden="true">↗</span></a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+
+  <section class="band band--thin">
+    <img src="assets/datos/audiencia.webp" alt="Auditorio lleno durante una charla sobre análisis de datos.">
+    <div class="cap">
+      <h3>El mismo equipo que enseña el dato <em>es el que filma.</em></h3>
+    </div>
+  </section>
+
+  <!-- cierre -->
+  <section class="block">
+    <div class="wrap">
+      <div class="sec-top">
+        <span class="label idx">Para armarlo con datos reales</span>
+        <h2>Qué hace falta <em>de tu lado.</em></h2>
+        <p class="what">Nada de plataformas nuevas: con los sistemas que la empresa ya usa alcanza para empezar.</p>
+      </div>
+      <div class="ask">
+        <div><h4>Acceso de lectura</h4><p>Ventas o CRM, aunque sea un exporte mensual en Excel.</p></div>
+        <div><h4>Un objetivo del negocio</h4><p>Qué producto mover, qué cliente recuperar, qué mes levantar.</p></div>
+        <div><h4>Una campaña anterior</h4><p>Para comparar contra algo y mostrar el seguimiento.</p></div>
+        <div><h4>Permiso del cliente</h4><p>Para publicar cifras con nombre de marca, o mostrarlas en porcentaje.</p></div>
+      </div>
+      <div class="hero-actions" style="margin-top:34px">
+        <a class="btn" href="index.html#contacto">Agendar reunión <span class="arrow">→</span></a>
+        <a class="wa" href="https://wa.me/593969577774" target="_blank" rel="noopener">WhatsApp 096 957 7774</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div class="wrap disclaim">
+  <span class="mono">Las cifras de los gráficos de esta página son ejemplos ilustrativos, no resultados de un cliente.</span>
+</div>
+
+<footer class="site-footer">
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <img src="assets/logo-cw.png" alt="Creative Whisper Productions" width="900" height="606" loading="lazy" style="height:auto">
+        <p>Productora audiovisual y analítica · Quito, Ecuador</p>
+      </div>
+      <div class="foot-col">
+        <span class="label">Estudio</span>
+        <a href="index.html#trabajo">Trabajo</a><a href="servicios.html">Servicios</a><a href="index.html#equipo">Equipo</a><a href="portafolio.html">Fotografía automotriz</a>
+      </div>
+      <div class="foot-col">
+        <span class="label">Analítica</span>
+        <a href="datos.html">El ciclo</a><a href="datos.html">Diagnóstico de datos</a><a href="https://www.instagram.com/datausfq" target="_blank" rel="noopener">Data Club USFQ</a>
+      </div>
+      <div class="foot-col">
+        <span class="label">Hablemos</span>
+        <a href="index.html#contacto">Agendar reunión</a><a href="https://wa.me/593969577774" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">Instagram</a>
+      </div>
+    </div>
+    <svg class="wordmark" viewBox="0 0 1000 96" role="img" aria-label="Creative Whisper">
+      <defs><linearGradient id="gmd" x1="0" x2="1" y1="0" y2="1">
+        <stop offset="0" stop-color="#F3EBDD"/><stop offset=".35" stop-color="#CDBFA6"/><stop offset=".55" stop-color="#7E7466"/><stop offset=".78" stop-color="#E6DCCB"/><stop offset="1" stop-color="#9C907C"/>
+      </linearGradient></defs>
+      <text x="0" y="82" textLength="1000" lengthAdjust="spacingAndGlyphs" fill="url(#gmd)" style="font-family:Cinzel,'Trajan Pro',Georgia,serif;font-size:96px;font-weight:400">CREATIVE WHISPER</text>
+    </svg>
+    <div class="foot-bottom">
+      <span class="mono">© 2026 Creative Whisper Productions</span>
+      <a class="mono" href="#top" style="text-decoration:none">Volver al inicio ↑</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(() => {
+  const h = document.querySelector('.site-header'), t = h.querySelector('.menu-toggle');
+  t.addEventListener('click', () => {
+    const open = h.classList.toggle('is-open');
+    t.setAttribute('aria-expanded', open); t.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+  });
+  h.querySelectorAll('.nav-links a').forEach(a => a.addEventListener('click', () => h.classList.remove('is-open')));
+  const onScroll = () => h.classList.toggle('is-scrolled', scrollY > 24);
+  addEventListener('scroll', onScroll, {passive:true}); onScroll();
+})();
+</script>
+
+
+<script>
+(() => {
+  const stages = [{"n": "01", "t": "Diagnóstico", "d": "Revisamos qué datos tiene la empresa, dónde están y en qué estado llegan.", "o": ["Mapa de fuentes", "Informe de calidad"]}, {"n": "02", "t": "Arquitectura y limpieza", "d": "Ordenamos la información en un solo lugar, con reglas claras de quién la usa y cómo.", "o": ["Modelo de datos", "Reglas de gobernanza"]}, {"n": "03", "t": "Análisis y modelos", "d": "Buscamos patrones: qué se vende junto, quién repite, qué predice una compra.", "o": ["Segmentación", "Modelo predictivo"]}, {"n": "04", "t": "Insight", "d": "La conclusión en una frase: a quién hablarle, con qué producto y en qué momento.", "o": ["Insight accionable", "Mensaje por segmento"]}, {"n": "05", "t": "Campaña y producción", "d": "Ahí entra la cámara: cada pieza se filma para un segmento y un objetivo concretos.", "o": ["Guion", "Piezas por formato"]}, {"n": "06", "t": "Evaluación y ajuste", "d": "Medimos contra el objetivo, comparamos con la campaña anterior y corregimos la siguiente.", "o": ["Tablero", "Plan de ajuste"]}];
+  const nodes = [...document.querySelectorAll(".reel .node")];
+  const el = { n: document.getElementById("spN"), t: document.getElementById("spT"),
+               d: document.getElementById("spD"), o: document.getElementById("spO") };
+  const pick = i => {
+    nodes.forEach(nd => nd.classList.toggle("on", +nd.dataset.i === i));
+    const s = stages[i];
+    el.n.textContent = s.n; el.t.textContent = s.t; el.d.textContent = s.d;
+    el.o.innerHTML = s.o.map(x => `<span class="chip">${x}</span>`).join("");
+  };
+  nodes.forEach(nd => {
+    const i = +nd.dataset.i;
+    nd.addEventListener("mouseenter", () => pick(i));
+    nd.addEventListener("click", () => pick(i));
+    nd.addEventListener("keydown", e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pick(i); } });
+  });
+
+  const wrap = document.getElementById("segsWrap");
+  const groups = [...wrap.querySelectorAll("svg .seg")];
+  wrap.querySelectorAll(".seg-card").forEach(card => {
+    const key = card.dataset.seg;
+    card.addEventListener("mouseenter", () => {
+      wrap.classList.add("dim");
+      groups.forEach(g => g.classList.toggle("on", g.dataset.seg === key));
+    });
+    card.addEventListener("mouseleave", () => {
+      wrap.classList.remove("dim");
+      groups.forEach(g => g.classList.remove("on"));
+    });
+  });
+})();
+</script>
+</body>
+</html>
