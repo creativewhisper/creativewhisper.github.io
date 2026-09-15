@@ -245,10 +245,10 @@ svg .seg{transition:opacity .3s}
 .band--thin > img{height:clamp(180px,26vw,320px);object-position:50% 20%}
 
 /* ---------- equipo con fotos (retratos verticales, fotos propias) ---------- */
-.photos{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:34px}
+.photos{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:34px}
 .photos figure{margin:0}
 .photos .ph{position:relative;overflow:hidden;background:#000}
-.photos img{width:100%;aspect-ratio:3/4;object-fit:cover;filter:grayscale(.4) brightness(.84);transition:filter .6s var(--ease)}
+.photos img{width:100%;aspect-ratio:3/4;object-fit:cover;object-position:50% 46%;filter:grayscale(.4) brightness(.84);transition:filter .6s var(--ease)}
 .photos figure:hover img{filter:none}
 .photos .ph::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,8,.55),transparent 42%);pointer-events:none}
 .photos figcaption{margin-top:10px;font-size:14px;color:var(--mute)}
@@ -285,13 +285,14 @@ svg .seg{transition:opacity .3s}
 @media (max-width:900px){.hero-grid{grid-template-columns:1fr;gap:24px;padding-top:calc(76px + 18px)}.hero-media{height:clamp(300px,78vw,430px);order:-1}}
 
 /* tira de fotos bajo el hero */
-.hero-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding-bottom:clamp(30px,4vw,54px)}
+.hero-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;padding-bottom:clamp(30px,4vw,54px)}
 .hero-strip figure{margin:0;position:relative;overflow:hidden;background:#000;aspect-ratio:3/4}
 .hero-strip img{width:100%;height:100%;object-fit:cover;object-position:50% 38%;filter:grayscale(.45) brightness(.82);transition:filter .6s var(--ease),transform .9s var(--ease)}
 .hero-strip figure:hover img{filter:none;transform:scale(1.03)}
 .hero-strip figcaption{position:absolute;z-index:2;left:11px;bottom:9px;font-family:var(--f-mono);font-size:10px;letter-spacing:.1em;color:var(--bone);text-shadow:0 1px 6px rgba(0,0,0,.9)}
 .hero-strip figure::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,8,.7),transparent 46%)}
 @media (max-width:760px){.hero-strip{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:520px){.hero-strip{grid-template-columns:1fr 1fr}.hero-strip figure:last-child{grid-column:1 / -1;aspect-ratio:16/10}}
 
 /* ---------- cabecera y pie del sitio ---------- */
 .btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--f-body);font-size:15px;font-weight:500;letter-spacing:.04em;padding:15px 24px;border:1px solid var(--line-2);color:var(--bone);text-decoration:none;transition:background .4s var(--ease),color .4s var(--ease),border-color .4s var(--ease);white-space:nowrap}
@@ -397,7 +398,6 @@ svg .seg{transition:opacity .3s}
       <figure><img src="assets/datos/campus-retrato.webp" alt="Integrante del equipo con su laptop en el campus."><figcaption>EL EQUIPO</figcaption></figure>
       <figure><img src="assets/datos/reto-equipo.webp" alt="Mesa de trabajo con el profesor y dos integrantes analizando datos."><figcaption>MENTORÍA</figcaption></figure>
       <figure><img src="assets/datos/codigo.webp" alt="Pantalla con código y una mano escribiendo sobre el teclado."><figcaption>EN PANTALLA</figcaption></figure>
-      <figure><img src="assets/datos/laptops.webp" alt="Asistentes trabajando con laptops durante un taller de datos."><figcaption>EN EL TALLER</figcaption></figure>
     </div>
   </section>
 
@@ -761,12 +761,8 @@ svg .seg{transition:opacity .3s}
           <figcaption><b>Formación</b>Dictamos charlas y talleres de analítica para empresas y universidades.</figcaption>
         </figure>
         <figure>
-          <div class="ph"><img src="assets/datos/pregunta.webp" alt="Asistente haciendo una pregunta con micrófono durante la charla."></div>
-          <figcaption><b>Traducción</b>Explicar el dato a quien decide, sin jerga, es parte del trabajo.</figcaption>
-        </figure>
-        <figure>
-          <div class="ph"><img src="assets/datos/premiacion.webp" alt="Entrega de certificados al cierre del taller de analítica."></div>
-          <figcaption><b>Respaldo</b>Programas completos, con cierre y certificación de los participantes.</figcaption>
+          <div class="ph"><img src="assets/datos/trabajo.webp" alt="Revisión de una base de datos en la laptop durante una sesión de trabajo."></div>
+          <figcaption><b>Sobre la base real</b>Limpieza, modelos y segmentación sobre los datos del cliente, no sobre un ejercicio.</figcaption>
         </figure>
       </div>
       <div class="team">
