@@ -1,0 +1,43 @@
+COTIZACIONES CIFRADAS — Creative Whisper
+=========================================
+
+Aquí van los archivos .json que genera _cotizador.html.
+Cada archivo es una propuesta cifrada con la clave de un cliente.
+
+Cómo se usa
+-----------
+1. Abre _cotizador.html (doble clic, en Chrome o Edge).
+2. Llena cliente, título y fecha.
+3. Arrastra el .html de la propuesta (o pégalo).
+4. "Generar clave segura" y luego "Cifrar y descargar".
+5. Sube el .json descargado a esta carpeta en el repositorio.
+6. Manda al cliente el enlace https://creativewhisper.github.io/cotizacion.html
+   y su clave.
+
+Qué NO hace falta
+-----------------
+- No renombres el archivo: el nombre ya es el hash de la clave.
+- No hay ninguna lista de claves en el sitio. cotizacion.html no sabe
+  qué propuestas existen; solo prueba el nombre que sale de la clave.
+
+Detalles técnicos
+-----------------
+- Nombre del archivo: SHA-256("cw-cotizacion-id-v1:" + CLAVE) -> 24 hex.
+- Clave de cifrado: PBKDF2-SHA256, 310 000 iteraciones, sal aleatoria de 16 bytes.
+- Cifrado: AES-GCM 256 bits, IV aleatorio de 12 bytes.
+- El contenido va comprimido (gzip) antes de cifrar.
+- La clave se normaliza a solo letras y números en mayúscula, así que
+  "cw demo 2026" y "CW-DEMO-2026" son la misma clave.
+
+Importante
+----------
+- La clave NO se puede recuperar desde el archivo. Si la pierdes,
+  vuelve a generar la cotización con una clave nueva.
+- Una clave por cliente. Si se filtra, solo se abre esa propuesta.
+- Este repositorio es público: cualquiera puede ver estos .json,
+  pero sin la clave solo verá texto cifrado.
+
+Demo
+----
+2f4f6a6c52f3cef49b986052.json  ->  clave CW-DEMO-2026
+(Es un ejemplo con cifras en cero. Bórralo cuando ya no lo necesites.)
