@@ -585,6 +585,17 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 @media (max-width:560px){.wa-float{gap:8px;padding:12px 14px;font-size:10px;letter-spacing:.1em}.wa-float svg{width:16px;height:16px}}
 @media (prefers-reduced-motion:reduce){.wa-float{transition:none}.wa-float:hover{transform:none}}
 @media print{.wa-float{display:none}}
+
+/* ---------- acceso privado: Cotización (solo dentro del menú de tres rayas) ---------- */
+.menu-toggle{display:block}
+@media (min-width:861px){
+  .menu-toggle{opacity:.55;transition:opacity .35s var(--ease)}
+  .menu-toggle:hover,.site-header.is-open .menu-toggle{opacity:1}
+  .site-header.is-open{background:rgba(10,9,8,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+}
+.nav-private{display:none !important}
+.site-header.is-open .nav-private{display:block !important}
+.nav-private{color:var(--metal) !important}
 </style>
 </head>
 <body>
@@ -624,6 +635,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       <a href="#trabajo">Trabajo</a>
       <a href="#viaje">Viaje del cliente</a>
       <a href="#equipo">Equipo</a>
+      <a class="nav-private" href="cotizacion.html">Cotización</a>
       <a class="btn" href="#contacto">Agendar reunión <span class="arrow">→</span></a>
     </nav>
     <div class="nav-quick">

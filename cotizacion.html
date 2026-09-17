@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0A0908">
+<meta name="robots" content="noindex, nofollow">
+<link rel="icon" href="assets/monograma-cw.png">
+<title>Cotización · Creative Whisper Productions</title>
+<meta name="description" content="Acceso privado a cotizaciones de Creative Whisper Productions.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+:root{
+  color-scheme: dark;
+  --ink:#0A0908; --ink-2:#12100E; --ink-3:#1B1815;
+  --bone:#ECE6DB; --mute:#9A9185; --mute-2:#6B6358;
+  --metal:#CDBFA6; --metal-deep:#857A69;
+  --line:rgba(236,230,219,.12); --line-2:rgba(236,230,219,.22);
+  --rec:#D9412B; --ok:#8FA98A;
+
+  --f-display:"Cormorant","Cormorant Garamond",Garamond,"Times New Roman",serif;
+  --f-caps:"Cinzel","Trajan Pro","Cormorant",Georgia,serif;
+  --f-body:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+
+  --t-label:11px; --t-sm:14px; --t-base:17px;
+  --t-lg:clamp(28px,2.8vw,38px);
+  --t-xl:clamp(40px,5.4vw,80px);
+
+  --gutter:clamp(16px,4vw,56px);
+  --max:1440px;
+  --ease:cubic-bezier(.2,.7,.1,1);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--f-body);font-size:var(--t-base);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img,video,iframe{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--metal);color:var(--ink)}
+:focus-visible{outline:1px solid var(--metal);outline-offset:4px}
+
+.wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
+.label{font-family:var(--f-caps);font-size:var(--t-label);font-weight:500;letter-spacing:.24em;text-transform:uppercase;color:var(--metal)}
+.mono{font-family:var(--f-mono);font-size:var(--t-label);letter-spacing:.06em;color:var(--mute);font-variant-numeric:tabular-nums}
+h1,h2,h3{font-family:var(--f-display);font-weight:300;margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:var(--t-xl);line-height:1}
+h1 em{font-style:italic}
+p{margin:0}
+
+.btn{display:inline-flex;align-items:center;gap:12px;font-family:var(--f-body);font-size:var(--t-sm);font-weight:500;letter-spacing:.04em;padding:15px 24px;border:1px solid var(--line-2);color:var(--bone);transition:background .4s var(--ease),color .4s var(--ease),border-color .4s var(--ease);white-space:nowrap}
+.btn:hover{border-color:var(--metal);color:var(--metal)}
+.btn--solid{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.btn--solid:hover{background:var(--metal);border-color:var(--metal);color:var(--ink)}
+.btn[disabled]{opacity:.45;cursor:progress}
+.btn .arrow{display:inline-block;transition:transform .4s var(--ease)}
+.btn:hover .arrow{transform:translateX(4px)}
+
+/* header igual al del sitio */
+.site-header{position:fixed;top:0;left:0;right:0;z-index:60;border-bottom:1px solid transparent;transition:background .5s var(--ease),border-color .5s var(--ease)}
+.site-header.is-scrolled,.site-header.is-open{background:rgba(10,9,8,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:76px}
+.brand{display:flex;align-items:center;gap:12px}
+.brand img{width:54px;height:auto}
+.brand span{font-family:var(--f-caps);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--bone)}
+.nav-links{display:flex;align-items:center;gap:clamp(18px,2.4vw,34px);font-size:var(--t-sm);color:var(--mute)}
+.nav-links a{white-space:nowrap;position:relative;transition:color .3s}
+.nav-links a:hover,.nav-links a[aria-current]{color:var(--bone)}
+@media (max-width:1180px){.brand span{display:none}}
+.menu-toggle{display:block;width:44px;height:44px;position:relative;opacity:.6;transition:opacity .3s}
+.site-header.is-open .menu-toggle{opacity:1}
+.menu-toggle span{position:absolute;left:10px;right:10px;height:1px;background:var(--bone);transition:transform .4s var(--ease),top .4s var(--ease)}
+.menu-toggle span:nth-child(1){top:18px}.menu-toggle span:nth-child(2){top:26px}
+.site-header.is-open .menu-toggle span:nth-child(1){top:22px;transform:rotate(45deg)}
+.site-header.is-open .menu-toggle span:nth-child(2){top:22px;transform:rotate(-45deg)}
+.nav-private{display:none !important}
+.site-header.is-open .nav-private{display:block !important}
+@media (max-width:860px){
+  .nav-links{position:fixed;inset:76px 0 auto 0;flex-direction:column;align-items:flex-start;gap:0;background:rgba(10,9,8,.97);padding:8px var(--gutter) 28px;border-bottom:1px solid var(--line);transform:translateY(-8px);opacity:0;visibility:hidden;transition:all .4s var(--ease)}
+  .nav-links a{font-family:var(--f-display);font-size:32px;color:var(--bone);padding-block:10px;width:100%;border-bottom:1px solid var(--line)}
+  .site-header.is-open .nav-links{transform:none;opacity:1;visibility:visible}
+  .brand span{display:none}
+}
+
+/* ---------- puerta ---------- */
+main{padding-top:76px}
+.gate{min-height:calc(100svh - 76px);display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:clamp(32px,6vw,90px);padding-block:clamp(40px,7vw,96px)}
+.gate-copy h1{margin:14px 0 20px}
+.gate-copy .lede{color:var(--mute);max-width:46ch}
+.gate-copy .fine{margin-top:26px;color:var(--mute-2);font-size:var(--t-sm);max-width:48ch}
+.gate-copy .fine a{color:var(--metal)}
+
+.keycard{border:1px solid var(--line);background:linear-gradient(160deg,var(--ink-2),var(--ink));padding:clamp(24px,3.4vw,40px);position:relative}
+.keycard::before,.keycard::after{content:"";position:absolute;width:22px;height:22px;border:solid var(--metal-deep);opacity:.55}
+.keycard::before{top:-1px;left:-1px;border-width:1px 0 0 1px}
+.keycard::after{bottom:-1px;right:-1px;border-width:0 1px 1px 0}
+.keycard h2{font-size:var(--t-lg);margin:10px 0 6px}
+.keycard .sub{color:var(--mute);font-size:var(--t-sm)}
+.field{margin-top:26px}
+.field label{display:block;margin-bottom:10px}
+.field input{
+  width:100%;background:#000;border:1px solid var(--line-2);color:var(--bone);
+  font-family:var(--f-mono);font-size:clamp(18px,2.2vw,24px);letter-spacing:.22em;text-transform:uppercase;
+  padding:16px 18px;transition:border-color .3s
+}
+.field input:focus{outline:none;border-color:var(--metal)}
+.field input::placeholder{color:var(--mute-2);letter-spacing:.18em}
+.actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px;align-items:center}
+.msg{margin-top:18px;font-size:var(--t-sm);min-height:1.6em;display:flex;align-items:center;gap:10px}
+.msg.err{color:var(--rec)}
+.msg.ok{color:var(--ok)}
+.msg.work{color:var(--metal)}
+.spin{width:12px;height:12px;border:1px solid var(--metal);border-top-color:transparent;border-radius:50%;animation:sp .8s linear infinite;flex:none}
+@keyframes sp{to{transform:rotate(360deg)}}
+.steps{margin-top:30px;padding-top:22px;border-top:1px solid var(--line);display:grid;gap:12px}
+.steps div{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start;font-size:var(--t-sm);color:var(--mute)}
+.steps b{font-family:var(--f-mono);font-size:var(--t-label);color:var(--metal-deep);padding-top:4px}
+
+/* ---------- visor ---------- */
+.viewer{display:none;padding-block:0 40px}
+.viewer.is-on{display:block}
+.viewer-bar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;padding-block:20px 16px;border-bottom:1px solid var(--line)}
+.viewer-bar .who{margin-right:auto;min-width:0}
+.viewer-bar .who b{display:block;font-family:var(--f-display);font-size:clamp(22px,2.4vw,32px);font-weight:400;line-height:1.1}
+.viewer-bar .btn{padding:11px 18px}
+.stage{margin-top:18px;border:1px solid var(--line);background:#000;position:relative}
+.stage iframe{width:100%;height:min(78svh,860px);border:0;background:#000}
+.stage:fullscreen iframe,.stage:-webkit-full-screen iframe{height:100svh}
+.viewer .fine{margin-top:14px;color:var(--mute-2);font-size:var(--t-sm)}
+
+/* ---------- pie ---------- */
+.site-footer{border-top:1px solid var(--line);padding-block:44px 28px}
+.foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:center}
+.foot-links{display:flex;gap:20px;flex-wrap:wrap;font-size:var(--t-sm);color:var(--mute)}
+.foot-links a:hover{color:var(--bone)}
+
+@media (max-width:900px){
+  .gate{grid-template-columns:1fr;min-height:0;gap:36px}
+  .stage iframe{height:min(70svh,640px)}
+}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms !important;transition-duration:.01ms !important}}
+</style>
+</head>
+<body>
+
+<header class="site-header" id="top">
+  <div class="wrap nav">
+    <a class="brand" href="index.html" aria-label="Creative Whisper, inicio">
+      <img src="assets/monograma-cw.png" alt="" width="240" height="155">
+      <span>Creative Whisper</span>
+    </a>
+    <nav class="nav-links" id="menu" aria-label="Principal">
+      <a href="datos.html">Datos</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="portafolio.html">Fotografía</a>
+      <a href="index.html#trabajo">Trabajo</a>
+      <a class="nav-private" href="cotizacion.html" aria-current="page">Cotización</a>
+    </nav>
+    <button class="menu-toggle" type="button" aria-controls="menu" aria-expanded="false" aria-label="Abrir menú"><span></span><span></span></button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ===== Puerta ===== -->
+  <section class="wrap gate" id="gate">
+    <div class="gate-copy">
+      <span class="label">Acceso privado</span>
+      <h1>Su <em>cotización</em></h1>
+      <p class="lede">Cada propuesta de Creative Whisper vive en su propia página: alcance, formatos, tiempos y precio, hechos para un solo proyecto. Se abre con la clave que le enviamos.</p>
+      <p class="fine">¿No tiene clave todavía? Escríbanos por <a href="https://wa.me/593969577774" target="_blank" rel="noopener">WhatsApp</a> o cuéntenos su proyecto en <a href="index.html#contacto">el formulario</a> y se la enviamos con la propuesta.</p>
+    </div>
+
+    <div class="keycard">
+      <span class="label">Clave de propuesta</span>
+      <h2>Escriba su clave</h2>
+      <p class="sub">La encuentra en el mensaje o el correo con el que le enviamos la propuesta.</p>
+
+      <form id="form" autocomplete="off" novalidate>
+        <div class="field">
+          <label class="mono" for="clave">CLAVE</label>
+          <input id="clave" name="clave" type="text" inputmode="text" autocapitalize="characters"
+                 spellcheck="false" autocomplete="off" placeholder="CW-0000-0000" aria-describedby="msg">
+        </div>
+        <div class="actions">
+          <button class="btn btn--solid" type="submit" id="go">Ver cotización <span class="arrow">→</span></button>
+        </div>
+        <p class="msg" id="msg" role="status" aria-live="polite"></p>
+      </form>
+
+      <div class="steps">
+        <div><b>01</b><span>Las mayúsculas, los guiones y los espacios dan igual.</span></div>
+        <div><b>02</b><span>La propuesta se descifra en su navegador: nadie más la ve.</span></div>
+        <div><b>03</b><span>Puede volver a abrirla cuantas veces quiera con la misma clave.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== Visor ===== -->
+  <section class="wrap viewer" id="viewer" aria-live="polite">
+    <div class="viewer-bar">
+      <div class="who">
+        <span class="label" id="v-kicker">Propuesta</span>
+        <b id="v-title">Cotización</b>
+        <span class="mono" id="v-meta"></span>
+      </div>
+      <button class="btn" type="button" id="v-full">Pantalla completa</button>
+      <button class="btn" type="button" id="v-tab">Abrir en otra pestaña</button>
+      <button class="btn" type="button" id="v-close">Salir</button>
+    </div>
+    <div class="stage" id="stage"></div>
+    <p class="fine">Documento confidencial de Creative Whisper Productions. Los valores tienen la vigencia indicada en la propuesta.</p>
+  </section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="wrap foot-bottom">
+    <span class="mono">© 2026 Creative Whisper Productions · Quito, Ecuador</span>
+    <div class="foot-links">
+      <a href="index.html">Inicio</a>
+      <a href="servicios.html">Servicios</a>
+      <a href="https://wa.me/593969577774" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">Instagram</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(s){ return document.querySelector(s); };
+
+  /* ---------- menú ---------- */
+  var header = $(".site-header"), toggle = $(".menu-toggle");
+  toggle.addEventListener("click", function(){
+    var open = header.classList.toggle("is-open");
+    toggle.setAttribute("aria-expanded", String(open));
+    toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+  });
+  window.addEventListener("scroll", function(){
+    header.classList.toggle("is-scrolled", window.scrollY > 10);
+  }, {passive:true});
+
+  /* ---------- utilidades ---------- */
+  var enc = new TextEncoder(), dec = new TextDecoder();
+
+  // Una clave se normaliza igual aquí y en el generador: solo letras y números.
+  function normaliza(v){
+    return (v || "").normalize("NFKC").toUpperCase().replace(/[^A-Z0-9]/g, "");
+  }
+  function hex(buf){
+    var b = new Uint8Array(buf), s = "";
+    for (var i = 0; i < b.length; i++) s += b[i].toString(16).padStart(2, "0");
+    return s;
+  }
+  function b64ToBytes(s){
+    var bin = atob(s), out = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+  // Nombre del archivo: no revela la clave y no hay lista de claves en esta página.
+  function idDe(clave){
+    return crypto.subtle.digest("SHA-256", enc.encode("cw-cotizacion-id-v1:" + clave))
+      .then(function(h){ return hex(h).slice(0, 24); });
+  }
+  function claveA(clave, salt, iter){
+    return crypto.subtle.importKey("raw", enc.encode(clave), "PBKDF2", false, ["deriveKey"])
+      .then(function(base){
+        return crypto.subtle.deriveKey(
+          {name:"PBKDF2", salt:salt, iterations:iter, hash:"SHA-256"},
+          base, {name:"AES-GCM", length:256}, false, ["decrypt"]);
+      });
+  }
+  function inflate(bytes){
+    if (typeof DecompressionStream === "undefined") return Promise.resolve(bytes);
+    var ds = new DecompressionStream("gzip");
+    return new Response(new Blob([bytes]).stream().pipeThrough(ds)).arrayBuffer()
+      .then(function(b){ return new Uint8Array(b); });
+  }
+
+  /* ---------- estado ---------- */
+  var form = $("#form"), input = $("#clave"), msg = $("#msg"), go = $("#go");
+  var gate = $("#gate"), viewer = $("#viewer"), stage = $("#stage");
+  var urlActual = null, htmlActual = "";
+  var fallos = 0;
+
+  function di(texto, clase){
+    msg.className = "msg" + (clase ? " " + clase : "");
+    msg.innerHTML = "";
+    if (clase === "work"){
+      var i = document.createElement("span"); i.className = "spin"; msg.appendChild(i);
+    }
+    msg.appendChild(document.createTextNode(texto));
+  }
+
+  var MESES = ["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"];
+  function fechaLarga(f){
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(f);
+    if (!m) return f;
+    return Number(m[3]) + " de " + MESES[Number(m[2]) - 1] + " de " + m[1];
+  }
+
+  function mostrar(datos){
+    $("#v-title").textContent = datos.t || "Cotización";
+    $("#v-kicker").textContent = datos.c ? "Propuesta para " + datos.c : "Propuesta";
+    $("#v-meta").textContent = datos.f ? "Emitida el " + fechaLarga(datos.f) : "";
+    htmlActual = datos.h || "";
+    if (urlActual) URL.revokeObjectURL(urlActual);
+    urlActual = URL.createObjectURL(new Blob([htmlActual], {type:"text/html;charset=utf-8"}));
+    stage.innerHTML = "";
+    var f = document.createElement("iframe");
+    f.id = "marco";
+    f.title = datos.t || "Cotización";
+    f.setAttribute("allow", "fullscreen; autoplay; clipboard-write");
+    f.src = urlActual;
+    stage.appendChild(f);
+    gate.style.display = "none";
+    viewer.classList.add("is-on");
+    window.scrollTo({top:0, behavior:"instant" in window ? "instant" : "auto"});
+    document.title = (datos.t || "Cotización") + " · Creative Whisper";
+  }
+
+  function salir(){
+    viewer.classList.remove("is-on");
+    gate.style.display = "";
+    stage.innerHTML = "";
+    if (urlActual){ URL.revokeObjectURL(urlActual); urlActual = null; }
+    htmlActual = "";
+    document.title = "Cotización · Creative Whisper Productions";
+    input.value = "";
+    di("");
+    input.focus();
+  }
+
+  $("#v-close").addEventListener("click", salir);
+  $("#v-full").addEventListener("click", function(){
+    var el = stage;
+    if (document.fullscreenElement) { document.exitFullscreen(); return; }
+    (el.requestFullscreen || el.webkitRequestFullscreen || function(){}).call(el);
+  });
+  $("#v-tab").addEventListener("click", function(){
+    if (urlActual) window.open(urlActual, "_blank", "noopener");
+  });
+
+  /* ---------- abrir ---------- */
+  function abrir(valor){
+    var clave = normaliza(valor);
+    if (clave.length < 4){ di("Escriba la clave que le enviamos.", "err"); input.focus(); return; }
+    if (!window.crypto || !crypto.subtle){
+      di("Este navegador no puede abrir la propuesta. Pruebe con Chrome, Edge o Safari actualizado.", "err");
+      return;
+    }
+
+    go.disabled = true;
+    di("Buscando su propuesta…", "work");
+
+    idDe(clave)
+      .then(function(id){
+        return fetch("cotizaciones/" + id + ".json", {cache:"no-store"});
+      })
+      .then(function(res){
+        if (!res.ok) throw new Error("no-existe");
+        return res.json();
+      })
+      .then(function(paq){
+        di("Descifrando…", "work");
+        var salt = b64ToBytes(paq.s), iv = b64ToBytes(paq.n), ct = b64ToBytes(paq.d);
+        return claveA(clave, salt, paq.i || 310000).then(function(k){
+          return crypto.subtle.decrypt({name:"AES-GCM", iv:iv}, k, ct);
+        });
+      })
+      .then(function(plano){
+        return inflate(new Uint8Array(plano));
+      })
+      .then(function(bytes){
+        var datos = JSON.parse(dec.decode(bytes));
+        fallos = 0;
+        di("");
+        go.disabled = false;
+        mostrar(datos);
+      })
+      .catch(function(e){
+        go.disabled = false;
+        fallos++;
+        if (e && e.message === "no-existe"){
+          di("Esa clave no corresponde a ninguna propuesta. Revísela o escríbanos.", "err");
+        } else {
+          di("No pudimos abrir la propuesta con esa clave. Intente de nuevo.", "err");
+        }
+        if (fallos >= 4){
+          di("Demasiados intentos. Escríbanos por WhatsApp y le reenviamos la clave.", "err");
+        }
+        input.select();
+      });
+  }
+
+  form.addEventListener("submit", function(e){ e.preventDefault(); abrir(input.value); });
+
+  // Enlace directo: cotizacion.html#c=CW-0000-0000 (el fragmento no viaja al servidor)
+  (function(){
+    var h = location.hash || "";
+    var m = h.match(/^#c=(.+)$/i);
+    if (!m) return;
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (err) {}
+    input.value = decodeURIComponent(m[1]);
+    abrir(input.value);
+  })();
+
+  window.addEventListener("pagehide", function(){ if (urlActual) URL.revokeObjectURL(urlActual); });
+})();
+</script>
+</body>
+</html>
