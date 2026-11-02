@@ -681,6 +681,22 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 }
 .card[id]{scroll-margin-top:100px}
 .card:target{border-color:var(--metal);box-shadow:0 0 0 1px var(--metal)}
+
+/* ---------- resumen de servicios ---------- */
+.sum-head{max-width:720px;margin-bottom:44px}
+.sum-head h2{margin-block:16px 14px}
+.sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:40px 56px;align-items:start}
+.sum-group{display:grid}
+.sum-col{display:grid;gap:40px}
+.sum-group .label{margin-bottom:10px}
+.sum-item{display:grid;grid-template-columns:42px 1fr auto;gap:14px;align-items:center;padding:16px 0;border-top:1px solid var(--line);transition:color .3s,padding .4s var(--ease)}
+.sum-item:last-child{border-bottom:1px solid var(--line)}
+.sum-n{color:var(--metal);font-size:12px}
+.sum-t b{display:block;font-family:var(--f-display);font-weight:400;font-size:22px;line-height:1.2;color:var(--bone)}
+.sum-t span{display:block;color:var(--mute);font-size:14px;margin-top:3px}
+.sum-item .arrow{color:var(--metal);opacity:.5;transition:transform .4s var(--ease),opacity .3s}
+.sum-item:hover{padding-left:8px}.sum-item:hover .arrow{opacity:1;transform:translateX(4px)}
+@media (max-width:860px){.sum-grid{grid-template-columns:1fr;gap:34px}.sum-t b{font-size:20px}}
 </style>
 </head>
 <body>
@@ -754,6 +770,38 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
     </div>
   </section>
 
+  <section class="block" id="resumen" style="padding-bottom:0" data-scene="Resumen">
+    <div class="wrap">
+      <div class="sum-head"><span class="label">En resumen</span><h2>12 servicios, <em>un solo equipo.</em></h2><p class="lede">Toca cualquiera para ver el detalle.</p></div>
+      <div class="sum-grid">
+        <div class="sum-col">
+          <div class="sum-group"><span class="label">Estrategia</span>
+            <a class="sum-item" href="#svc-analisis-de-datos"><span class="sum-n mono">01</span><span class="sum-t"><b>Análisis de datos</b><span>Decidimos a quién hablarle y con qué producto.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+          <div class="sum-group"><span class="label">Talento y voz</span>
+            <a class="sum-item" href="#svc-actores-y-creadores"><span class="sum-n mono">09</span><span class="sum-t"><b>Actores y creadores</b><span>Caras y voces elegidas para tu público.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-doblaje-locucion-y-adr"><span class="sum-n mono">10</span><span class="sum-t"><b>Doblaje, locución y ADR</b><span>Voces limpias grabadas en estudio.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+          <div class="sum-group"><span class="label">Digital</span>
+            <a class="sum-item" href="#svc-diseno-para-instagram"><span class="sum-n mono">11</span><span class="sum-t"><b>Diseño para Instagram</b><span>Posts, carruseles y stories con tu estética.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-automatizacion-de-whatsapp"><span class="sum-n mono">12</span><span class="sum-t"><b>Automatización de WhatsApp</b><span>Respuestas según la campaña de Meta Ads.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+        <div class="sum-col">
+          <div class="sum-group"><span class="label">Producción</span>
+            <a class="sum-item" href="#svc-video-de-marca"><span class="sum-n mono">02</span><span class="sum-t"><b>Video de marca</b><span>La pieza central: quién eres, con lenguaje de cine.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-contenido-vertical"><span class="sum-n mono">03</span><span class="sum-t"><b>Contenido vertical</b><span>Reels y TikToks que retienen.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-testimonios-y-casos"><span class="sum-n mono">04</span><span class="sum-t"><b>Testimonios y casos</b><span>Tus clientes hablando por ti.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-video-corporativo-b2b"><span class="sum-n mono">05</span><span class="sum-t"><b>Video corporativo B2B</b><span>Planta, procesos y credenciales para clientes empresa.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-cortometrajes-y-branded-content"><span class="sum-n mono">06</span><span class="sum-t"><b>Cortometrajes y branded content</b><span>Historias largas que emocionan.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-cobertura-de-eventos"><span class="sum-n mono">07</span><span class="sum-t"><b>Cobertura de eventos</b><span>Aftermovie y foto para todo el año.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-fotografia-de-producto"><span class="sum-n mono">08</span><span class="sum-t"><b>Fotografía de producto</b><span>Tu producto como protagonista.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <section class="block" id="proceso" data-scene="Proceso">
     <div class="wrap">
       <div class="sec-head">
@@ -796,7 +844,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
           </div>
         </figure>
         <figure id="svc-video-de-marca" class="card">
-          <div class="ph"><img src="assets/edicion-still.webp" alt="Video de marca" loading="lazy"></div>
+          <div class="ph"><img src="assets/srv/fmt-169.webp" alt="Video de marca" loading="lazy"></div>
           <div class="body">
             <h3>Video de marca</h3>
             <p>La pieza central de tu comunicación: quién eres, cómo trabajas y por qué deberían elegirte.</p>
@@ -810,7 +858,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
           </div>
         </figure>
         <figure id="svc-contenido-vertical" class="card">
-          <div class="ph"><img src="assets/f-entrevista.webp" alt="Contenido vertical" loading="lazy"></div>
+          <div class="ph"><img src="assets/srv/vertical.webp" alt="Contenido vertical" loading="lazy"></div>
           <div class="body">
             <h3>Contenido vertical</h3>
             <p>Reels y TikToks pensados para retener en los primeros segundos, filmados con la misma calidad que un spot.</p>
@@ -838,7 +886,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
           </div>
         </figure>
         <figure id="svc-fotografia-de-producto" class="card">
-          <div class="ph"><img src="assets/eq-fx2.webp" alt="Fotografía de producto" loading="lazy"></div>
+          <div class="ph"><img src="assets/auto/jeep-avenger-45.webp" alt="Fotografía de producto" loading="lazy"></div>
           <div class="body">
             <h3>Fotografía de producto</h3>
             <p>Fotos de catálogo, ficha de producto y redes. Nuestra experiencia más fuerte: más de 700 fotos automotrices.</p>
@@ -894,7 +942,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
           </div>
         </figure>
         <figure id="svc-cortometrajes-y-branded-content" class="card">
-          <div class="ph"><img src="assets/f-lectura.webp" alt="Cortometrajes y branded content" loading="lazy"></div>
+          <div class="ph"><img src="assets/f-futbol.webp" alt="Cortometrajes y branded content" loading="lazy"></div>
           <div class="body">
             <h3>Cortometrajes y branded content</h3>
             <p>Historias largas para instituciones y marcas que quieren emocionar, no solo informar.</p>
@@ -908,7 +956,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
           </div>
         </figure>
         <figure id="svc-video-corporativo-b2b" class="card">
-          <div class="ph"><img src="assets/eq-dron.webp" alt="Video corporativo B2B" loading="lazy"></div>
+          <div class="ph"><img src="assets/auto/dongfeng-camion-c1217-27.webp" alt="Video corporativo B2B" loading="lazy"></div>
           <div class="body">
             <h3>Video corporativo B2B</h3>
             <p>Para empresas que le venden a otras empresas: mostramos tu planta, tus procesos y tus credenciales para que un cliente nuevo confíe antes de la primera visita.</p>
@@ -922,7 +970,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
           </div>
         </figure>
         <figure id="svc-diseno-para-instagram" class="card">
-          <div class="ph"><img src="assets/srv/fmt-45.webp" alt="Diseño para Instagram" loading="lazy"></div>
+          <div class="ph"><img src="assets/srv/instagram.webp" alt="Diseño para Instagram" loading="lazy"></div>
           <div class="body">
             <h3>Diseño para Instagram</h3>
             <p>Posts, carruseles y stories con la estética de tu marca, pensados para el feed y conectados con tus campañas de video.</p>
@@ -936,7 +984,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
           </div>
         </figure>
         <figure id="svc-automatizacion-de-whatsapp" class="card">
-          <div class="ph"><img src="assets/datos/laptops.webp" alt="Automatización de WhatsApp" loading="lazy"></div>
+          <div class="ph"><img src="assets/srv/whatsapp.webp" alt="Automatización de WhatsApp" loading="lazy"></div>
           <div class="body">
             <h3>Automatización de WhatsApp</h3>
             <p>Conectamos tus campañas de Meta Ads con WhatsApp Business para que cada persona que escribe reciba la respuesta correcta según el anuncio que vio.</p>
