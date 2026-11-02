@@ -443,7 +443,7 @@ svg .seg{transition:opacity .3s}
       <div class="hero-txt">
         <span class="label">Servicio</span>
         <h1>Análisis de datos</h1>
-        <p class="lede">Analizamos los datos de tu empresa —ventas, CRM, punto de venta, redes— para saber a quién hablarle, con qué producto y en qué momento. Gobernanza, arquitectura, limpieza, dashboards en Power BI, modelos y segmentación. Recién ahí entra la cámara.</p>
+        <p class="lede">Analizamos los datos de tu empresa —ventas, CRM, punto de venta, redes— para saber a quién hablarle, con qué producto y en qué momento. Gobernanza, arquitectura, limpieza, dashboards en Power BI, modelos y segmentación. Sobre ese análisis se planifica la producción.</p>
         <div class="hero-actions">
           <a class="btn" href="index.html#contacto">Agendar reunión <span class="arrow">→</span></a>
           <a class="wa" href="https://wa.me/593969577774" target="_blank" rel="noopener">WhatsApp 096 957 7774</a>
@@ -547,12 +547,12 @@ svg .seg{transition:opacity .3s}
       <div class="sec-top">
         <span class="label idx">03</span>
         <h2>Del segmento a la pieza</h2>
-        <p class="what">Los grupos salen del modelo, no de la intuición, y cada uno recibe su propia pieza. Pasa el mouse por una tarjeta para ver a qué clientes le habla.</p>
+        <p class="what">Los segmentos se definen con modelos estadísticos y cada uno recibe una pieza propia. Pasa el mouse por una tarjeta para ver a qué clientes le habla.</p>
       </div>
       <div class="segs" id="segsWrap">
         <div class="chart-card">
           <div class="chart-head"><h3>Segmentación de clientes</h3><span class="demo">Datos de ejemplo</span></div>
-          <p class="chart-sub">Cada punto es un cliente. Los grupos salen del modelo, no de la intuición.</p>
+          <p class="chart-sub">Cada punto es un cliente. Los segmentos se definen con modelos estadísticos.</p>
           <svg viewBox="0 0 880 420" role="img" aria-label="Segmentos de clientes según frecuencia de compra y ticket promedio. Datos de ejemplo.">
           <line class="axline" x1="52" x2="730" y1="18.0" y2="18.0"/>
           <line class="axline" x1="52" x2="730" y1="107.0" y2="107.0"/>
@@ -714,7 +714,7 @@ svg .seg{transition:opacity .3s}
       <div class="sec-top">
         <span class="label idx">04</span>
         <h2>Seguimiento</h2>
-        <p class="what">Medimos contra el objetivo y ajustamos mientras la campaña corre. Cada marca es un cambio que decidimos con datos, no a mitad de mes y a ciegas.</p>
+        <p class="what">Medimos contra el objetivo y ajustamos mientras la campaña corre. Cada marca indica un ajuste decidido a partir de los datos.</p>
       </div>
       <div class="chart-card">
         <div class="chart-head"><h3>Resultado semanal de la campaña</h3><span class="demo">Datos de ejemplo</span></div>
@@ -863,7 +863,7 @@ svg .seg{transition:opacity .3s}
     <div class="wrap">
       <div class="sec-top">
         <h2>Qué necesitamos de tu lado</h2>
-        <p class="what">Nada de plataformas nuevas: con los sistemas que la empresa ya usa alcanza para empezar.</p>
+        <p class="what">No se requieren plataformas nuevas: trabajamos con los sistemas que la empresa ya utiliza.</p>
       </div>
       <div class="ask">
         <div><h4>Acceso de lectura</h4><p>Ventas o CRM, aunque sea un exporte mensual en Excel.</p></div>
@@ -931,7 +931,7 @@ svg .seg{transition:opacity .3s}
 
 <script>
 (() => {
-  const stages = [{"n": "01", "t": "Diagnóstico", "d": "Revisamos qué datos tiene la empresa, dónde están y en qué estado llegan.", "o": ["Mapa de fuentes", "Informe de calidad"]}, {"n": "02", "t": "Arquitectura y limpieza", "d": "Ordenamos la información en un solo lugar, con reglas claras de quién la usa y cómo.", "o": ["Modelo de datos", "Reglas de gobernanza"]}, {"n": "03", "t": "Análisis y modelos", "d": "Buscamos patrones: qué se vende junto, quién repite, qué predice una compra.", "o": ["Segmentación", "Modelo predictivo"]}, {"n": "04", "t": "Insight", "d": "La conclusión en una frase: a quién hablarle, con qué producto y en qué momento.", "o": ["Insight accionable", "Mensaje por segmento"]}, {"n": "05", "t": "Campaña y producción", "d": "Ahí entra la cámara: cada pieza se filma para un segmento y un objetivo concretos.", "o": ["Guion", "Piezas por formato"]}, {"n": "06", "t": "Evaluación y ajuste", "d": "Medimos contra el objetivo, comparamos con la campaña anterior y corregimos la siguiente.", "o": ["Tablero", "Plan de ajuste"]}];
+  const stages = [{"n": "01", "t": "Diagnóstico", "d": "Revisamos qué datos tiene la empresa, dónde están y en qué estado llegan.", "o": ["Mapa de fuentes", "Informe de calidad"]}, {"n": "02", "t": "Arquitectura y limpieza", "d": "Ordenamos la información en un solo lugar, con reglas claras de quién la usa y cómo.", "o": ["Modelo de datos", "Reglas de gobernanza"]}, {"n": "03", "t": "Análisis y modelos", "d": "Buscamos patrones: qué se vende junto, quién repite, qué predice una compra.", "o": ["Segmentación", "Modelo predictivo"]}, {"n": "04", "t": "Insight", "d": "La conclusión en una frase: a quién hablarle, con qué producto y en qué momento.", "o": ["Insight accionable", "Mensaje por segmento"]}, {"n": "05", "t": "Campaña y producción", "d": "Cada pieza se produce para un segmento y un objetivo concretos.", "o": ["Guion", "Piezas por formato"]}, {"n": "06", "t": "Evaluación y ajuste", "d": "Medimos contra el objetivo, comparamos con la campaña anterior y corregimos la siguiente.", "o": ["Tablero", "Plan de ajuste"]}];
   const nodes = [...document.querySelectorAll(".reel .node")];
   const el = { n: document.getElementById("spN"), t: document.getElementById("spT"),
                d: document.getElementById("spD"), o: document.getElementById("spO") };
