@@ -596,6 +596,33 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 .nav-private{display:none !important}
 .site-header.is-open .nav-private{display:block !important}
 .nav-private{color:var(--metal) !important}
+
+/* ---------- submenú de servicios ---------- */
+.nav-sub{position:relative}
+.nav-sub summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:color .3s}
+.nav-sub summary::-webkit-details-marker{display:none}
+.nav-sub summary:hover,.nav-sub[open] summary{color:var(--bone)}
+.nav-sub summary .chev{display:inline-block;width:6px;height:6px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .35s var(--ease)}
+.nav-sub[open] summary .chev{transform:translateY(1px) rotate(-135deg)}
+.nav-sub-list{display:grid;gap:2px}
+.nav-links .nav-sub-list a{white-space:nowrap;color:var(--mute);font-size:var(--t-sm)}
+.nav-links .nav-sub-list a:hover{color:var(--bone)}
+.nav-links .nav-sub-list a::after{display:none}
+.nav-links .nav-sub-list .all{color:var(--metal)}
+@media (min-width:861px){
+  .nav-sub-list{position:absolute;top:calc(100% + 18px);left:-22px;min-width:270px;padding:14px 22px;background:rgba(10,9,8,.97);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .nav-links .nav-sub-list a{padding-block:7px}
+}
+@media (max-width:860px){
+  .nav-sub{width:100%;border-bottom:1px solid var(--line)}
+  .nav-sub summary{font-family:var(--f-display);font-size:32px;color:var(--bone);padding-block:10px;justify-content:space-between}
+  .nav-sub summary .chev{width:10px;height:10px}
+  .nav-sub-list{padding:0 0 14px 4px}
+  .nav-links .nav-sub-list a:not(.btn){font-family:inherit;font-size:17px;padding-block:8px;border-bottom:0;color:var(--mute)}
+  .nav-links .nav-sub-list a.all{color:var(--metal)}
+}
+.card[id]{scroll-margin-top:100px}
+.card:target{border-color:var(--metal);box-shadow:0 0 0 1px var(--metal)}
 </style>
 </head>
 <body>
@@ -630,7 +657,21 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
     </a>
     <nav class="nav-links" id="menu" aria-label="Principal">
       <a href="datos.html">Datos</a>
-      <a href="servicios.html">Servicios</a>
+      <details class="nav-sub">
+        <summary>Servicios <span class="chev" aria-hidden="true"></span></summary>
+        <div class="nav-sub-list">
+          <a class="all" href="servicios.html">Ver todos los servicios</a>
+          <a href="servicios.html#svc-analisis-de-datos">Análisis de datos</a>
+          <a href="servicios.html#svc-video-de-marca">Video de marca</a>
+          <a href="servicios.html#svc-contenido-vertical">Contenido vertical</a>
+          <a href="servicios.html#svc-testimonios-y-casos">Testimonios y casos</a>
+          <a href="servicios.html#svc-fotografia-de-producto">Fotografía de producto</a>
+          <a href="servicios.html#svc-cobertura-de-eventos">Cobertura de eventos</a>
+          <a href="servicios.html#svc-doblaje-locucion-y-adr">Doblaje, locución y ADR</a>
+          <a href="servicios.html#svc-actores-y-creadores">Actores y creadores</a>
+          <a href="servicios.html#svc-cortometrajes-y-branded-content">Cortometrajes y branded content</a>
+        </div>
+      </details>
       <a href="portafolio.html">Fotografía</a>
       <a href="#trabajo">Trabajo</a>
       <a href="#viaje">Viaje del cliente</a>
@@ -1313,5 +1354,14 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
   <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.3a8.5 8.5 0 0 1-12.4 7.5L3.5 20.4l1.6-4.5A8.5 8.5 0 1 1 20.5 11.3Z" stroke-linejoin="round"/></svg>
   <span>WhatsApp</span>
 </a>
+<script>
+(function(){
+  var d=document.querySelector('.nav-sub'); if(!d) return;
+  document.addEventListener('click',function(e){ if(d.open && !d.contains(e.target)) d.open=false; });
+  d.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ d.open=false; }); });
+  var t=document.querySelector('.menu-toggle');
+  if(t) t.addEventListener('click',function(){ d.open=false; });
+})();
+</script>
 </body>
 </html>
