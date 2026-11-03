@@ -53,6 +53,8 @@ nav .num{background:var(--torote);color:#fff;border-radius:999px;font-size:12px;
 .tit{font-size:17px;font-weight:600;line-height:1.3;margin:4px 0}
 .sub{color:var(--suave);font-size:14px}
 .paso{margin-top:6px;font-size:15px}
+.propuesta{margin-top:10px;background:var(--tarjeta-2);border-radius:12px;padding:10px 12px;font-size:15px;white-space:pre-wrap}
+.propuesta span{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--suave);margin-bottom:2px}
 .card textarea{width:100%;margin-top:12px;min-height:46px;border-radius:12px;border:1px solid var(--linea);background:var(--tarjeta-2);padding:11px 12px;font-size:16px;resize:none}
 .card textarea::placeholder{color:#7d756b}
 .acciones{display:flex;gap:8px;margin-top:10px}
@@ -128,7 +130,7 @@ const SUPABASE_KEY = "sb_publishable_ap5wyI1Q4-_IO8fXJ3xBJA_RzGp89dV"; // clave 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true, storageKey: "cw-oficina-movil" } });
 
 const AGENTES = [["ceo", "CEO"], ["marketing", "Marketing"], ["comercial", "Comercial"], ["analista", "Analista"], ["finanzas", "Finanzas"], ["produccion", "Producción"], ["vinculo", "Ejecutivo"], ["guardia", "Guardia"], ["innovacion", "I+D"]];
-const NOMBRES = Object.fromEntries(AGENTES);
+const NOMBRES = { ...Object.fromEntries(AGENTES), community: "Community manager" };
 const BITACORAS = { ceo: "1R0ygB6zftVJoVuU_nyHAG099vJOdqDJd-LmoXB1sJJo", marketing: "18KuHDoea5ImPXvHidv8tj18T4jcTM1i-Zu1o8wWknQs", analista: "1V0RP6TrCgd4jwSdB6G8vLO-KFslGkUBiZuIjuZU74eI",
   comercial: "1fTtM3WwLs3zol-1zii_RtP1Lyxoj068sEnJx1j8lWLM", finanzas: "1NW6CDOdTLrVGIQC7aCSH0qs6L6_qpXcqRLRlYuGs3RI", produccion: "1EwBYvQ_GnUOiQ6R-liEdUOb8TL2sM-P9ql8bBsjqgIg",
   vinculo: "19uO_d1xUV1xgJ3DGakcteqb_0r65LJ0Di5CMj5rP9sk", innovacion: "1hoCFleDoXoySVWvkDw3YKAKo8sf_ODYvAV2VQIvWNek", guardia: "1vkMXaGwwrE0AwhGt5lgRvx9cZMxiW7lURudTdxo9lng" };
@@ -149,7 +151,7 @@ function marcaDe(t) {
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-const sinMarcas = (x) => String(x ?? "").replace(/\n*\[auto:[^\]]+\]/g, "");
+const sinMarcas = (x) => String(x ?? "").replace(/\n*\[(auto|ig):[^\]]+\]/g, "");
 const hora = (iso) => { try { return new Date(iso).toLocaleString("es-EC", { timeZone: "America/Guayaquil", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }); } catch (e) { return ""; } };
 const formato = (t) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/^#{1,3}\s*(.+)$/gm, "<b>$1</b>");
 function toast(t) { const d = document.createElement("div"); d.className = "toast"; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 3000); }
@@ -183,14 +185,15 @@ async function cargarPara() {
 function pintarPara() {
   const tarjetas = pend.map((t) => {
     const k = t.tarjeta?.tipo === "decision" ? t.tarjeta : null, m = marcaDe(t);
-    const pide = /^(Te necesito:|Para avanzar #)/.test(t.asunto) || k?.recomendacion === "hacer";
+    const esIG = !!k?.ig, pide = !esIG && (/^(Te necesito:|Para avanzar #)/.test(t.asunto) || k?.recomendacion === "hacer");
     const sub = [k?.por_que, k?.costo].filter(Boolean).join(" · ");
     return `<div class="card" data-id="${t.id}" style="--color:${m.color}">
       <div class="marca">${esc(m.nombre)}${k?.urgencia === "hoy" ? `<span class="hoy">Hoy</span>` : ""}</div>
       <div class="tit">${esc(k?.resumen || t.asunto)}</div>
       ${sub ? `<div class="sub">${esc(sub)}</div>` : ""}${k?.paso ? `<div class="paso">👉 ${esc(k.paso)}</div>` : ""}
-      <textarea class="com" rows="1" placeholder="${pide ? "Escribe aquí lo que te piden" : "Comentario (opcional)"}"></textarea>
-      <div class="acciones">${pide ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo hice" data-lleno="Enviar">Ya lo hice</button><button class="btn" data-dec="rechazado">Luego</button>`
+      ${esIG ? `<div class="propuesta"><span>Respuesta lista:</span> ${esc(k.propuesta)}</div>` : ""}
+      <textarea class="com" rows="1" placeholder="${esIG ? "Escribe otra respuesta o deja vacío para enviar la de arriba" : pide ? "Escribe aquí lo que te piden" : "Comentario (opcional)"}"></textarea>
+      <div class="acciones">${esIG ? `<button class="btn pri" data-dec="aprobado" data-vacio="Enviar" data-lleno="Enviar la mía">Enviar</button><button class="btn" data-dec="rechazado">No responder</button>` : pide ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo hice" data-lleno="Enviar">Ya lo hice</button><button class="btn" data-dec="rechazado">Luego</button>`
         : `<button class="btn pri" data-dec="aprobado" data-vacio="Aprobar" data-lleno="Aprobar">Aprobar</button><button class="btn" data-dec="rechazado">No</button>`}</div>
       <details><summary>Más detalle · ${esc(NOMBRES[t.de_agente] ?? t.de_agente)} · #${t.id}</summary><div class="largo">${esc(t.asunto)}\n\n${esc(sinMarcas(t.historial || t.contenido))}</div></details>
     </div>`;
