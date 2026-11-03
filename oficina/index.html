@@ -75,7 +75,7 @@ h2{font-family:var(--f-caps);font-weight:500;font-size:13px;letter-spacing:.18em
 details{margin-top:8px}
 summary{color:var(--metal);font-size:13px;cursor:pointer}
 .largo{white-space:pre-wrap;font-size:13px;color:var(--mute);margin-top:6px;max-height:280px;overflow:auto}
-.card textarea{width:100%;margin-top:8px;border-radius:10px;border:1px solid var(--line);background:var(--ink-3);padding:8px 10px;font-size:15px;resize:vertical}
+.card textarea{width:100%;margin-top:10px;min-height:44px;border-radius:10px;border:1px solid var(--line);background:var(--ink-3);padding:8px 10px;font-size:15px;resize:vertical}
 .acciones{display:flex;gap:8px;margin-top:10px}
 .btn{flex:1;padding:10px;border-radius:10px;border:1px solid var(--line);font-weight:600;font-size:14px}
 .btn.pri{background:var(--metal);color:var(--ink);border-color:var(--metal)}
@@ -194,14 +194,15 @@ function pintarDecisiones() {
   const n = (u) => pend.filter((t) => t.tarjeta?.urgencia === u).length;
   const cab = [n("hoy") && `${n("hoy")} para hoy`, n("esta_semana") && `${n("esta_semana")} esta semana`, n("puede_esperar") && `${n("puede_esperar")} pueden esperar`].filter(Boolean).join(" · ");
   $("#cuerpo").innerHTML = `<div class="sub">${pend.length ? esc(cab || `${pend.length} pendientes`) : "Nada pendiente. Todo bajo control."}</div>` + pend.map((t) => {
-    const k = t.tarjeta?.tipo === "decision" ? t.tarjeta : null, necesito = /^Te necesito:/.test(t.asunto);
+    const k = t.tarjeta?.tipo === "decision" ? t.tarjeta : null, necesito = /^(Te necesito:|Para avanzar #)/.test(t.asunto);
+    const pideDato = necesito || k?.recomendacion === "hacer";
     return `<div class="card" data-id="${t.id}"><div class="tit">${esc(k?.resumen || t.asunto)}</div>
       ${k ? `<div class="chips"><span class="chip ${esc(k.recomendacion)}">${esc(REC_TXT[k.recomendacion] ?? k.recomendacion)}</span>${k.costo ? `<span class="chip">${esc(k.costo)}</span>` : ""}<span class="chip ${k.urgencia === "hoy" ? "hoy" : ""}">${esc(URG_TXT[k.urgencia] ?? "")}</span></div>` : ""}
       ${k?.por_que ? `<div class="por">${esc(k.por_que)}</div>` : ""}${k?.paso ? `<div class="paso">👉 ${esc(k.paso)}</div>` : ""}
-      <details><summary>Ver detalle · ${esc(NOMBRES[t.de_agente] ?? t.de_agente)} · #${t.id}</summary><div class="largo">${esc(t.asunto)}\n\n${esc(sinMarcas(t.historial || t.contenido))}</div>
-        <textarea rows="2" class="com" placeholder="Ajuste o comentario para el equipo (opcional)"></textarea></details>
-      <div class="acciones">${necesito ? `<button class="btn pri" data-dec="aprobado">Ya lo hice</button><button class="btn" data-dec="rechazado">Ahora no</button>`
-        : `<button class="btn pri" data-dec="aprobado">Aprobar</button><button class="btn" data-dec="rechazado">Rechazar</button>`}</div></div>`;
+      <details><summary>Ver detalle · ${esc(NOMBRES[t.de_agente] ?? t.de_agente)} · #${t.id}</summary><div class="largo">${esc(t.asunto)}\n\n${esc(sinMarcas(t.historial || t.contenido))}</div></details>
+      <textarea rows="${pideDato ? 3 : 1}" class="com" data-pide="${pideDato ? 1 : 0}" placeholder="${pideDato ? "Escribe aquí lo que te piden y toca Enviar" : "Comentario para el equipo (opcional)"}"></textarea>
+      <div class="acciones">${pideDato ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo hice" data-lleno="Enviar">Ya lo hice</button><button class="btn" data-dec="rechazado">Ahora no</button>`
+        : `<button class="btn pri" data-dec="aprobado" data-vacio="Aprobar" data-lleno="Aprobar con comentario">Aprobar</button><button class="btn" data-dec="rechazado">Rechazar</button>`}</div></div>`;
   }).join("");
 }
 async function decidir(boton) {
@@ -215,9 +216,9 @@ async function decidir(boton) {
   if (nuevo === "aprobado") {
     try {
       const x = await llamarOficina({ accion: "ejecutar_aprobado", id, comentario: com });
-      toast(x.trabajan?.length ? `Listo. ${x.trabajan.map((a) => NOMBRES[a] ?? a).join(", ")} ya está trabajando` : "Listo");
+      toast(x.trabajan?.length ? `${com ? "Enviado" : "Listo"}. ${x.trabajan.map((a) => NOMBRES[a] ?? a).join(", ")} ya está trabajando con eso` : (com ? "Enviado" : "Listo"));
     } catch (e) { toast("Guardado, pero no pude avisar al equipo: " + e.message); }
-  } else toast(/^Te necesito:/.test(t?.asunto ?? "") ? "Pospuesto 7 días" : "Rechazado");
+  } else toast(/^(Te necesito:|Para avanzar #)/.test(t?.asunto ?? "") ? "Pospuesto 7 días" : "Rechazado");
   pend = pend.filter((x) => x.id !== id);
   pintarDecisiones(); contador();
 }
@@ -282,6 +283,11 @@ $("#btnEnviar").addEventListener("click", () => enviar());
 $("#txt").addEventListener("input", ajustarTxt);
 $("#atajos").addEventListener("click", (e) => { const b = e.target.closest("button[data-atajo]"); if (b) enviar(b.dataset.atajo); });
 $("#cuerpo").addEventListener("click", (e) => { const b = e.target.closest("button[data-dec]"); if (b) decidir(b); });
+$("#cuerpo").addEventListener("input", (e) => {
+  const c = e.target.closest("textarea.com"); if (!c) return;
+  const b = c.closest(".card")?.querySelector("button[data-vacio]"); if (b) b.textContent = c.value.trim() ? b.dataset.lleno : b.dataset.vacio;
+  c.style.height = "auto"; c.style.height = Math.min(220, c.scrollHeight) + "px";
+});
 document.addEventListener("visibilitychange", () => { if (!document.hidden && !$("#vApp").classList.contains("oculto")) { cargarContadores(); if (tab === "chat" && !enviando) pintarChat(false); } });
 entrar();
 </script>
