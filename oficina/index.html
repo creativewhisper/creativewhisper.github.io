@@ -186,7 +186,7 @@ function ajustarTxt() { const t = $("#txt"); t.style.height = "auto"; t.style.he
 
 // ---------- Lo que necesita a Matías ----------
 async function cargarDecisiones() {
-  const { data, error } = await sb.from("tablero_agentes").select("id,de_agente,asunto,contenido,estado,tipo,tarjeta,creado_en").eq("para_agente", "matias").eq("estado", "requiere_aprobacion").order("creado_en", { ascending: true }).limit(60);
+  const { data, error } = await sb.from("tablero_agentes").select("id,de_agente,asunto,contenido,historial,estado,tipo,tarjeta,creado_en").eq("para_agente", "matias").eq("estado", "requiere_aprobacion").order("creado_en", { ascending: true }).limit(60);
   if (error) throw error;
   pend = (data ?? []).sort((a, b) => (URG_ORDEN[a.tarjeta?.urgencia] ?? 3) - (URG_ORDEN[b.tarjeta?.urgencia] ?? 3));
 }
@@ -198,7 +198,7 @@ function pintarDecisiones() {
     return `<div class="card" data-id="${t.id}"><div class="tit">${esc(k?.resumen || t.asunto)}</div>
       ${k ? `<div class="chips"><span class="chip ${esc(k.recomendacion)}">${esc(REC_TXT[k.recomendacion] ?? k.recomendacion)}</span>${k.costo ? `<span class="chip">${esc(k.costo)}</span>` : ""}<span class="chip ${k.urgencia === "hoy" ? "hoy" : ""}">${esc(URG_TXT[k.urgencia] ?? "")}</span></div>` : ""}
       ${k?.por_que ? `<div class="por">${esc(k.por_que)}</div>` : ""}${k?.paso ? `<div class="paso">👉 ${esc(k.paso)}</div>` : ""}
-      <details><summary>Ver detalle · ${esc(NOMBRES[t.de_agente] ?? t.de_agente)} · #${t.id}</summary><div class="largo">${esc(t.asunto)}\n\n${esc(sinMarcas(t.contenido))}</div>
+      <details><summary>Ver detalle · ${esc(NOMBRES[t.de_agente] ?? t.de_agente)} · #${t.id}</summary><div class="largo">${esc(t.asunto)}\n\n${esc(sinMarcas(t.historial || t.contenido))}</div>
         <textarea rows="2" class="com" placeholder="Ajuste o comentario para el equipo (opcional)"></textarea></details>
       <div class="acciones">${necesito ? `<button class="btn pri" data-dec="aprobado">Ya lo hice</button><button class="btn" data-dec="rechazado">Ahora no</button>`
         : `<button class="btn pri" data-dec="aprobado">Aprobar</button><button class="btn" data-dec="rechazado">Rechazar</button>`}</div></div>`;
@@ -226,7 +226,7 @@ async function decidir(boton) {
 const fechaHecho = (t) => [...String(t.contenido ?? "").matchAll(/Avance de \w+ \((\d{4}-\d{2}-\d{2})\): hecho/g)].pop()?.[1] ?? "";
 async function cargarTerminado() {
   const desde = new Date(Date.now() - 21 * 86400000).toISOString();
-  const { data, error } = await sb.from("tablero_agentes").select("id,de_agente,para_agente,asunto,contenido,tarjeta,creado_en").eq("estado", "hecho").eq("tipo", "solicitud").gte("creado_en", desde).order("creado_en", { ascending: false }).limit(80);
+  const { data, error } = await sb.from("tablero_agentes").select("id,de_agente,para_agente,asunto,contenido,historial,tarjeta,creado_en").eq("estado", "hecho").eq("tipo", "solicitud").gte("creado_en", desde).order("creado_en", { ascending: false }).limit(80);
   if (error) throw error;
   const lim = new Date(Date.now() - 14 * 86400000).toISOString().slice(0, 10);
   hechos = (data ?? []).filter((t) => fechaHecho(t) >= lim).sort((a, b) => fechaHecho(b).localeCompare(fechaHecho(a)));
@@ -238,7 +238,7 @@ function pintarTerminado() {
       <div class="chips"><span class="chip">${esc(NOMBRES[quien] ?? quien)}</span><span class="chip">${esc(fechaHecho(t))}</span>${k?.revisar ? `<span class="chip tu_decides">Revísalo</span>` : ""}</div>
       ${k?.resultado ? `<div class="por">${esc(k.resultado)}</div>` : ""}
       <div class="paso">📄 ${esc(k?.donde || `Bitácora de ${NOMBRES[quien] ?? quien}, Entregable #${t.id}`)}${bit ? ` · <a href="https://docs.google.com/document/d/${bit}/edit" target="_blank" rel="noopener">Abrir</a>` : ""}</div>
-      <details><summary>Historial de la tarea #${t.id}</summary><div class="largo">${esc(sinMarcas(t.contenido))}</div></details></div>`;
+      <details><summary>Historial de la tarea #${t.id}</summary><div class="largo">${esc(sinMarcas(t.historial || t.contenido))}</div></details></div>`;
   }).join("") : `<div class="vacio">Todavía no hay trabajos terminados.</div>`);
 }
 
