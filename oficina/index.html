@@ -15,82 +15,103 @@
 <title>Oficina CW</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Hanken+Grotesk:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&display=swap">
 <style>
 :root{
   color-scheme:dark;
-  --ink:#0A0908;--ink-2:#12100E;--ink-3:#1B1815;--ink-4:#24201C;
-  --bone:#ECE6DB;--mute:#9A9185;--mute-2:#6B6358;
-  --metal:#CDBFA6;--metal-deep:#857A69;
-  --line:rgba(236,230,219,.12);
-  --rec:#D9412B;--ok:#8FB08A;--warn:#D9A84B;--blue:#8FA9D9;
-  --f-caps:"Cinzel",Georgia,serif;
-  --f-body:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif;
-  --safe-b:env(safe-area-inset-bottom,0px);--safe-t:env(safe-area-inset-top,0px);
+  /* Colores de las marcas */
+  --bataka:#F5A300; --torote:#E3120B; --uinky:#FFD7BD; --porthos:#3EA398; --cw:#0A0908; --cw-2:#CDBFA6;
+  --fondo:#0A0908; --tarjeta:#151311; --tarjeta-2:#1E1B18; --texto:#F3EEE6; --suave:#A39A8E; --linea:rgba(243,238,230,.10);
+  --f:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif;
+  --safe-b:env(safe-area-inset-bottom,0px); --safe-t:env(safe-area-inset-top,0px);
 }
 *,*::before,*::after{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--f-body);font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow:hidden}
+body{margin:0;background:var(--fondo);color:var(--texto);font-family:var(--f);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased;-webkit-text-size-adjust:100%;overflow:hidden}
 button,input,select,textarea{font:inherit;color:inherit}
 button{background:none;border:0;cursor:pointer;-webkit-tap-highlight-color:transparent}
-a{color:var(--metal)}
+a{color:var(--cw-2)}
 .oculto{display:none!important}
-.app{display:flex;flex-direction:column;height:100dvh;max-width:720px;margin:0 auto}
-header{padding:calc(10px + var(--safe-t)) 16px 10px;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:10px;background:var(--ink-2)}
-header .marca{font-family:var(--f-caps);letter-spacing:.2em;font-size:12px;color:var(--metal);text-transform:uppercase;flex:1;min-width:0}
-header select{background:var(--ink-3);border:1px solid var(--line);border-radius:10px;padding:6px 8px;font-size:14px}
-header .rec{width:34px;height:34px;border-radius:10px;background:var(--ink-3);border:1px solid var(--line);display:grid;place-items:center}
-main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:12px 16px 16px}
-nav{display:flex;border-top:1px solid var(--line);background:var(--ink-2);padding-bottom:var(--safe-b)}
-nav button{flex:1;padding:10px 4px 12px;font-size:12px;color:var(--mute);display:flex;flex-direction:column;align-items:center;gap:3px;position:relative}
-nav button svg{width:22px;height:22px}
-nav button.activo{color:var(--bone)}
-nav .num{position:absolute;top:5px;left:calc(50% + 6px);background:var(--rec);color:#fff;border-radius:999px;font-size:10px;min-width:17px;height:17px;padding:0 4px;display:grid;place-items:center;font-weight:600}
-/* Chat */
-.msgs{display:flex;flex-direction:column;gap:8px}
-.burbuja{max-width:86%;padding:9px 12px;border-radius:16px;white-space:pre-wrap;word-wrap:break-word;font-size:15px}
-.burbuja.yo{align-self:flex-end;background:#3A3226;border-bottom-right-radius:5px}
-.burbuja.ag{align-self:flex-start;background:var(--ink-3);border:1px solid var(--line);border-bottom-left-radius:5px}
-.burbuja .hora{display:block;font-size:11px;color:var(--mute-2);margin-top:4px}
-.escribiendo{color:var(--mute);font-style:italic}
-.atajos{display:flex;gap:6px;overflow-x:auto;padding:8px 16px 0;scrollbar-width:none}
-.atajos button{flex:0 0 auto;border:1px solid var(--line);border-radius:999px;padding:6px 11px;font-size:13px;color:var(--metal);background:var(--ink-2)}
-.entrada{display:flex;gap:8px;align-items:flex-end;padding:8px 16px 10px;background:var(--ink)}
-.entrada textarea{flex:1;resize:none;max-height:140px;min-height:42px;border-radius:21px;border:1px solid var(--line);background:var(--ink-3);padding:10px 14px;font-size:16px;line-height:1.3}
-.entrada button{width:42px;height:42px;border-radius:50%;background:var(--metal);color:var(--ink);display:grid;place-items:center;flex:0 0 auto}
-.entrada button:disabled{opacity:.4}
-/* Tarjetas */
-h2{font-family:var(--f-caps);font-weight:500;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--metal);margin:6px 0 4px}
-.sub{color:var(--mute);font-size:13px;margin-bottom:10px}
-.card{background:var(--ink-2);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:10px}
-.card .tit{font-weight:600;font-size:15px;line-height:1.3}
-.chips{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0 4px}
-.chip{font-size:12px;border-radius:999px;padding:2px 9px;background:var(--ink-4);color:var(--bone)}
-.chip.aprobar{background:rgba(143,176,138,.18);color:var(--ok)}
-.chip.rechazar,.chip.hoy{background:rgba(217,65,43,.18);color:#F08A78}
-.chip.tu_decides{background:rgba(217,168,75,.18);color:var(--warn)}
-.chip.hacer{background:rgba(143,169,217,.18);color:var(--blue)}
-.por{color:var(--mute);font-size:13.5px}
-.paso{margin-top:6px;font-size:14px}
-details{margin-top:8px}
-summary{color:var(--metal);font-size:13px;cursor:pointer}
-.largo{white-space:pre-wrap;font-size:13px;color:var(--mute);margin-top:6px;max-height:280px;overflow:auto}
-.card textarea{width:100%;margin-top:10px;min-height:44px;border-radius:10px;border:1px solid var(--line);background:var(--ink-3);padding:8px 10px;font-size:15px;resize:vertical}
+/* Franja de las marcas, como las barras inclinadas */
+.franja{height:calc(8px + var(--safe-t));background:linear-gradient(100deg,var(--bataka) 0 20%,var(--torote) 20% 40%,var(--uinky) 40% 60%,var(--porthos) 60% 80%,var(--cw-2) 80% 100%)}
+.app{display:flex;flex-direction:column;height:calc(100dvh - 8px - var(--safe-t));max-width:640px;margin:0 auto}
+header{padding:12px 18px;display:flex;align-items:center;gap:12px}
+header h1{margin:0;font-size:22px;font-weight:700;flex:1;letter-spacing:-.01em}
+header .rec{width:38px;height:38px;border-radius:12px;background:var(--tarjeta);display:grid;place-items:center}
+main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:4px 18px 20px}
+nav{display:flex;gap:8px;padding:8px 18px calc(10px + var(--safe-b));border-top:1px solid var(--linea)}
+nav button{flex:1;padding:12px;border-radius:14px;font-weight:600;font-size:15px;color:var(--suave);background:var(--tarjeta);display:flex;align-items:center;justify-content:center;gap:8px}
+nav button.activo{background:var(--cw-2);color:var(--cw)}
+nav .num{background:var(--torote);color:#fff;border-radius:999px;font-size:12px;min-width:20px;height:20px;padding:0 6px;display:inline-grid;place-items:center}
+/* Tarjetas: una barra del color de la marca a la izquierda */
+.vacio{color:var(--suave);padding:28px 4px;text-align:center}
+.vacio b{display:block;color:var(--texto);font-size:18px;margin-bottom:4px}
+.card{position:relative;background:var(--tarjeta);border-radius:16px;padding:14px 14px 14px 20px;margin-bottom:12px;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--color,var(--cw-2))}
+.marca{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--color,var(--cw-2));display:flex;gap:8px;align-items:center}
+.marca .hoy{background:var(--torote);color:#fff;border-radius:6px;padding:1px 7px;letter-spacing:.04em}
+.tit{font-size:17px;font-weight:600;line-height:1.3;margin:4px 0}
+.sub{color:var(--suave);font-size:14px}
+.paso{margin-top:6px;font-size:15px}
+.propuesta{margin-top:10px;background:var(--tarjeta-2);border-radius:12px;padding:10px 12px;font-size:15px;white-space:pre-wrap}
+.propuesta span{display:block;font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--suave);margin-bottom:2px}
+.card textarea{width:100%;margin-top:12px;min-height:46px;border-radius:12px;border:1px solid var(--linea);background:var(--tarjeta-2);padding:11px 12px;font-size:16px;resize:none}
+.card textarea::placeholder{color:#7d756b}
 .acciones{display:flex;gap:8px;margin-top:10px}
-.btn{flex:1;padding:10px;border-radius:10px;border:1px solid var(--line);font-weight:600;font-size:14px}
-.btn.pri{background:var(--metal);color:var(--ink);border-color:var(--metal)}
+.btn{flex:1;padding:13px;border-radius:12px;font-weight:700;font-size:15px;background:var(--tarjeta-2);color:var(--texto)}
+.btn.pri{background:var(--cw-2);color:var(--cw)}
 .btn:disabled{opacity:.5}
-.vacio{color:var(--mute);font-style:italic;padding:10px 0}
-/* Login */
-.login{max-width:360px;margin:12vh auto 0;padding:0 16px}
-.login h1{font-family:var(--f-caps);font-weight:500;letter-spacing:.2em;font-size:16px;color:var(--metal);text-transform:uppercase;margin:0 0 18px}
-.login input{width:100%;margin-bottom:10px;border-radius:10px;border:1px solid var(--line);background:var(--ink-3);padding:12px;font-size:16px}
+details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer}
+.largo{white-space:pre-wrap;font-size:13px;color:var(--suave);margin-top:6px;max-height:260px;overflow:auto}
+.seccion{font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);margin:22px 0 6px}
+.hecho{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--linea)}
+.hecho .punto{width:10px;height:10px;border-radius:50%;background:var(--color,var(--cw-2));margin-top:7px;flex:0 0 auto}
+.hecho .t{font-size:15px} .hecho .s{font-size:13px;color:var(--suave)}
+/* Chat */
+.agentes{display:flex;gap:6px;overflow-x:auto;padding:0 18px 8px;scrollbar-width:none}
+.agentes button{flex:0 0 auto;border-radius:999px;padding:6px 12px;font-size:14px;background:var(--tarjeta);color:var(--suave)}
+.agentes button.activo{background:var(--texto);color:var(--cw);font-weight:600}
+.msgs{display:flex;flex-direction:column;gap:8px}
+.burbuja{max-width:86%;padding:10px 13px;border-radius:18px;white-space:pre-wrap;word-wrap:break-word}
+.burbuja.yo{align-self:flex-end;background:var(--cw-2);color:var(--cw);border-bottom-right-radius:6px}
+.burbuja.ag{align-self:flex-start;background:var(--tarjeta);border-bottom-left-radius:6px}
+.burbuja .hora{display:block;font-size:11px;opacity:.55;margin-top:4px}
+.pensando{color:var(--suave);font-style:italic}
+.atajos{display:flex;gap:6px;overflow-x:auto;padding:4px 18px 0;scrollbar-width:none}
+.atajos button{flex:0 0 auto;border-radius:999px;padding:7px 12px;font-size:14px;border:1px solid var(--linea)}
+.entrada{display:flex;gap:8px;align-items:flex-end;padding:6px 18px 8px}
+.entrada textarea{flex:1;resize:none;max-height:140px;min-height:46px;border-radius:23px;border:0;background:var(--tarjeta);padding:12px 16px;font-size:16px;line-height:1.3}
+.entrada button{width:46px;height:46px;border-radius:50%;background:var(--cw-2);color:var(--cw);display:grid;place-items:center;flex:0 0 auto}
+.entrada button:disabled{opacity:.4}
+/* WhatsApp */
+.fila{position:relative;overflow:hidden;display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:var(--tarjeta);border-radius:14px;padding:12px 14px 12px 20px;margin-bottom:8px}
+.fila::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--color,var(--cw-2))}
+.fila .izq{min-width:0;flex:1}
+.fila .n{font-weight:600;font-size:16px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.fila .u{color:var(--suave);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fila .der{font-size:12px;color:var(--suave);flex:0 0 auto}
+.etq{display:inline-block;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700;letter-spacing:.03em}
+.etq.nec{background:var(--torote);color:#fff} .etq.tu{background:var(--cw-2);color:var(--cw)}
+.cab{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.cab .volver{width:38px;height:38px;border-radius:12px;background:var(--tarjeta);display:grid;place-items:center;flex:0 0 auto}
+.cab .info{flex:1;min-width:0} .cab .info b{display:block;font-size:17px} .cab .info span{font-size:13px;color:var(--suave)}
+.cab .btn{flex:0 0 auto;padding:9px 12px;font-size:14px}
+.alerta{background:rgba(227,18,11,.12);border:1px solid rgba(227,18,11,.35);border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.alerta div{flex:1} .alerta button{font-size:13px;font-weight:700;color:var(--cw-2);flex:0 0 auto}
+.nota{color:var(--suave);font-size:13px;text-align:center;margin:6px 0 2px}
+.burbuja.bot{align-self:flex-end;background:var(--tarjeta-2);border-bottom-right-radius:6px}
+.burbuja .quien{display:block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;opacity:.6;margin-bottom:2px}
+/* Entrar */
+.login{max-width:360px;margin:14vh auto 0;padding:0 18px}
+.login h1{font-size:26px;margin:0 0 20px}
+.login input{width:100%;margin-bottom:10px;border-radius:12px;border:0;background:var(--tarjeta);padding:14px;font-size:16px}
 .login .btn{width:100%}
-.aviso{color:#F08A78;font-size:13px;min-height:18px;margin-top:8px}
-.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + var(--safe-b));background:var(--bone);color:var(--ink);padding:9px 14px;border-radius:10px;font-size:14px;max-width:90%;z-index:9;box-shadow:0 6px 24px rgba(0,0,0,.4)}
+.aviso{color:#FF8A7A;font-size:14px;min-height:18px;margin-top:8px}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(90px + var(--safe-b));background:var(--texto);color:var(--cw);padding:10px 16px;border-radius:12px;font-size:15px;font-weight:600;max-width:90%;z-index:9;box-shadow:0 8px 28px rgba(0,0,0,.45)}
 </style>
 </head>
 <body>
+<div class="franja"></div>
 <div id="vLogin" class="login oculto">
   <h1>Oficina CW</h1>
   <input id="lEmail" type="email" placeholder="Correo" autocomplete="username">
@@ -101,22 +122,22 @@ summary{color:var(--metal);font-size:13px;cursor:pointer}
 
 <div id="vApp" class="app oculto">
   <header>
-    <div class="marca" id="titulo">Oficina CW</div>
-    <select id="selAgente" aria-label="Con quién hablas"></select>
-    <button class="rec" id="btnRecargar" aria-label="Actualizar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg></button>
+    <h1 id="titulo">Para ti</h1>
+    <button class="rec" id="btnRecargar" aria-label="Actualizar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg></button>
   </header>
+  <div class="agentes oculto" id="filaAgentes"></div>
   <main id="cuerpo"></main>
-  <div id="pieChat">
+  <div id="pieChat" class="oculto">
     <div class="atajos" id="atajos"></div>
     <div class="entrada">
-      <textarea id="txt" rows="1" placeholder="Mensaje para el CEO…"></textarea>
+      <textarea id="txt" rows="1" placeholder="Escríbele al CEO…"></textarea>
       <button id="btnEnviar" aria-label="Enviar"><svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M3 20.5 21 12 3 3.5l.01 6.6L15 12 3.01 13.9z"/></svg></button>
     </div>
   </div>
   <nav>
-    <button data-tab="chat" class="activo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/></svg>Chat</button>
-    <button data-tab="decisiones"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3 8-8"/><path d="M20 12v7a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h9"/></svg>Te necesitan<span class="num oculto" id="numDec"></span></button>
-    <button data-tab="terminado"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 15l2 2 4-4"/></svg>Terminado</button>
+    <button data-tab="para" class="activo">Para ti <span class="num oculto" id="numDec"></span></button>
+    <button data-tab="wa">WhatsApp <span class="num oculto" id="numWa"></span></button>
+    <button data-tab="chat">Chat</button>
   </nav>
 </div>
 
@@ -127,28 +148,36 @@ const SUPABASE_URL = "https://jlyrymgbykhpktabvlkl.supabase.co";
 const SUPABASE_KEY = "sb_publishable_ap5wyI1Q4-_IO8fXJ3xBJA_RzGp89dV"; // clave pública; los datos los protege RLS y el inicio de sesión
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true, storageKey: "cw-oficina-movil" } });
 
-const AGENTES = [["ceo", "CEO"], ["marketing", "Marketing"], ["comercial", "Comercial"], ["analista", "Analista"], ["finanzas", "Finanzas"], ["produccion", "Producción"], ["vinculo", "Ejecutivo de cuenta"], ["guardia", "Guardia"], ["innovacion", "I+D"]];
-const NOMBRES = Object.fromEntries(AGENTES);
+const AGENTES = [["ceo", "CEO"], ["marketing", "Marketing"], ["comercial", "Comercial"], ["analista", "Analista"], ["finanzas", "Finanzas"], ["produccion", "Producción"], ["vinculo", "Ejecutivo"], ["guardia", "Guardia"], ["innovacion", "I+D"]];
+const NOMBRES = { ...Object.fromEntries(AGENTES), community: "Community manager" };
 const BITACORAS = { ceo: "1R0ygB6zftVJoVuU_nyHAG099vJOdqDJd-LmoXB1sJJo", marketing: "18KuHDoea5ImPXvHidv8tj18T4jcTM1i-Zu1o8wWknQs", analista: "1V0RP6TrCgd4jwSdB6G8vLO-KFslGkUBiZuIjuZU74eI",
   comercial: "1fTtM3WwLs3zol-1zii_RtP1Lyxoj068sEnJx1j8lWLM", finanzas: "1NW6CDOdTLrVGIQC7aCSH0qs6L6_qpXcqRLRlYuGs3RI", produccion: "1EwBYvQ_GnUOiQ6R-liEdUOb8TL2sM-P9ql8bBsjqgIg",
   vinculo: "19uO_d1xUV1xgJ3DGakcteqb_0r65LJ0Di5CMj5rP9sk", innovacion: "1hoCFleDoXoySVWvkDw3YKAKo8sf_ODYvAV2VQIvWNek", guardia: "1vkMXaGwwrE0AwhGt5lgRvx9cZMxiW7lURudTdxo9lng" };
-const ATAJOS = { ceo: ["¿Qué necesitas de mí hoy?", "Resumen del día en 5 líneas", "¿Cómo van las ventas esta semana?", "¿Qué terminó el equipo?"],
-  marketing: ["¿Qué sale esta semana?", "Ideas para Navidad"], comercial: ["¿Cuántos pedidos hubo esta semana?"], finanzas: ["¿Cuánto vendimos este mes?"] };
-const REC_TXT = { aprobar: "Te recomiendo aprobar", rechazar: "Te recomiendo rechazar", tu_decides: "Tú decides", hacer: "Te toca hacerlo" };
-const URG_TXT = { hoy: "Hoy", esta_semana: "Esta semana", puede_esperar: "Puede esperar" };
+const ATAJOS = { ceo: ["¿Qué necesitas de mí hoy?", "Resumen del día", "¿Cómo van las ventas?"] };
 const URG_ORDEN = { hoy: 0, esta_semana: 1, puede_esperar: 2 };
+// Cada pedido toma el color de la marca de la que habla.
+const MARCAS = [
+  [/bata[kc]|takataka|taká/i, "BaTaKá", "var(--bataka)"],
+  [/torote/i, "TOROTE", "var(--torote)"],
+  [/porthos/i, "PORTHOS", "var(--porthos)"],
+  [/[uü]inky|jab[oó]n/i, "ÜINKY", "var(--uinky)"],
+];
+function marcaDe(t) {
+  const txt = `${t.asunto} ${t.tarjeta?.resumen ?? ""} ${t.tarjeta?.hecho ?? ""} ${String(t.contenido ?? "").slice(0, 400)}`;
+  for (const [rx, nombre, color] of MARCAS) if (rx.test(txt)) return { nombre, color };
+  return { nombre: "Creative Whisper", color: "var(--cw-2)" };
+}
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
-const sinMarcas = (x) => String(x ?? "").replace(/\n*\[auto:[^\]]+\]/g, "");
+const sinMarcas = (x) => String(x ?? "").replace(/\n*\[(auto|ig):[^\]]+\]/g, "");
 const hora = (iso) => { try { return new Date(iso).toLocaleString("es-EC", { timeZone: "America/Guayaquil", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }); } catch (e) { return ""; } };
-// Formato mínimo para las respuestas: negritas y viñetas, sin HTML del modelo.
 const formato = (t) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/^#{1,3}\s*(.+)$/gm, "<b>$1</b>");
-function toast(t) { const d = document.createElement("div"); d.className = "toast"; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 3200); }
+function toast(t) { const d = document.createElement("div"); d.className = "toast"; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 3000); }
 function guardar(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* sin almacenamiento */ } }
 function leer(k, d) { try { return localStorage.getItem(k) ?? d; } catch (e) { return d; } }
 
-let tab = "chat", agente = leer("cw-agente", "ceo"), pend = [], hechos = [], enviando = false;
+let tab = "para", agente = leer("cw-agente", "ceo"), pend = [], hechos = [], enviando = false, waChat = null, waAvisos = 0;
 
 async function llamarOficina(cuerpo) {
   const { data } = await sb.auth.getSession();
@@ -159,51 +188,42 @@ async function llamarOficina(cuerpo) {
   return j;
 }
 
-// ---------- Chat ----------
-async function pintarChat(abajo = true) {
-  const { data, error } = await sb.from("conversaciones_agentes").select("rol,contenido,creado_en").eq("agente", agente).order("creado_en", { ascending: false }).limit(40);
-  if (error) { $("#cuerpo").innerHTML = `<div class="vacio">No pude leer el chat: ${esc(error.message)}</div>`; return; }
-  const msgs = (data ?? []).reverse();
-  $("#cuerpo").innerHTML = `<div class="msgs">` + (msgs.length ? msgs.map((m) => `<div class="burbuja ${m.rol === "matias" ? "yo" : "ag"}">${m.rol === "matias" ? esc(m.contenido) : formato(m.contenido)}<span class="hora">${esc(hora(m.creado_en))}</span></div>`).join("")
-    : `<div class="vacio">Escríbele a ${esc(NOMBRES[agente])}. Responde con los datos en vivo de la oficina.</div>`) + (enviando ? `<div class="burbuja ag escribiendo">${esc(NOMBRES[agente])} está pensando…</div>` : "") + `</div>`;
-  $("#atajos").innerHTML = (ATAJOS[agente] ?? []).map((a) => `<button data-atajo="${esc(a)}">${esc(a)}</button>`).join("");
-  $("#txt").placeholder = `Mensaje para ${agente === "ceo" ? "el CEO" : NOMBRES[agente]}…`;
-  if (abajo) requestAnimationFrame(() => { $("#cuerpo").scrollTop = $("#cuerpo").scrollHeight; });
+// ---------- Para ti: lo que te necesita y lo terminado ----------
+const fechaHecho = (t) => [...String(t.historial || t.contenido || "").matchAll(/Avance de \w+ \((\d{4}-\d{2}-\d{2})\): hecho/g)].pop()?.[1] ?? "";
+async function cargarPara() {
+  const desde = new Date(Date.now() - 21 * 86400000).toISOString();
+  const [a, b] = await Promise.all([
+    sb.from("tablero_agentes").select("id,de_agente,asunto,contenido,historial,estado,tipo,tarjeta,creado_en").eq("para_agente", "matias").eq("estado", "requiere_aprobacion").order("creado_en", { ascending: true }).limit(60),
+    sb.from("tablero_agentes").select("id,de_agente,para_agente,asunto,contenido,historial,tarjeta,creado_en").eq("estado", "hecho").eq("tipo", "solicitud").gte("creado_en", desde).order("creado_en", { ascending: false }).limit(60),
+  ]);
+  if (a.error) throw a.error;
+  pend = (a.data ?? []).sort((x, y) => (URG_ORDEN[x.tarjeta?.urgencia] ?? 3) - (URG_ORDEN[y.tarjeta?.urgencia] ?? 3));
+  const lim = new Date(Date.now() - 7 * 86400000).toISOString().slice(0, 10);
+  hechos = (b.data ?? []).filter((t) => fechaHecho(t) >= lim).sort((x, y) => fechaHecho(y).localeCompare(fechaHecho(x)));
 }
-async function enviar(texto) {
-  texto = (texto ?? $("#txt").value).trim();
-  if (!texto || enviando) return;
-  enviando = true; $("#btnEnviar").disabled = true; $("#txt").value = ""; ajustarTxt();
-  const caja = $("#cuerpo .msgs");
-  if (caja) { caja.querySelector(".vacio")?.remove(); caja.insertAdjacentHTML("beforeend", `<div class="burbuja yo">${esc(texto)}</div><div class="burbuja ag escribiendo">${esc(NOMBRES[agente])} está pensando… (puede tardar hasta un minuto)</div>`); $("#cuerpo").scrollTop = $("#cuerpo").scrollHeight; }
-  try { await llamarOficina({ accion: "chat", agente, mensaje: texto }); }
-  catch (e) { toast("No llegó la respuesta: " + e.message); }
-  enviando = false; $("#btnEnviar").disabled = false;
-  if (tab === "chat") await pintarChat();
-  cargarContadores();
-}
-function ajustarTxt() { const t = $("#txt"); t.style.height = "auto"; t.style.height = Math.min(140, t.scrollHeight) + "px"; }
-
-// ---------- Lo que necesita a Matías ----------
-async function cargarDecisiones() {
-  const { data, error } = await sb.from("tablero_agentes").select("id,de_agente,asunto,contenido,historial,estado,tipo,tarjeta,creado_en").eq("para_agente", "matias").eq("estado", "requiere_aprobacion").order("creado_en", { ascending: true }).limit(60);
-  if (error) throw error;
-  pend = (data ?? []).sort((a, b) => (URG_ORDEN[a.tarjeta?.urgencia] ?? 3) - (URG_ORDEN[b.tarjeta?.urgencia] ?? 3));
-}
-function pintarDecisiones() {
-  const n = (u) => pend.filter((t) => t.tarjeta?.urgencia === u).length;
-  const cab = [n("hoy") && `${n("hoy")} para hoy`, n("esta_semana") && `${n("esta_semana")} esta semana`, n("puede_esperar") && `${n("puede_esperar")} pueden esperar`].filter(Boolean).join(" · ");
-  $("#cuerpo").innerHTML = `<div class="sub">${pend.length ? esc(cab || `${pend.length} pendientes`) : "Nada pendiente. Todo bajo control."}</div>` + pend.map((t) => {
-    const k = t.tarjeta?.tipo === "decision" ? t.tarjeta : null, necesito = /^(Te necesito:|Para avanzar #)/.test(t.asunto);
-    const pideDato = necesito || k?.recomendacion === "hacer";
-    return `<div class="card" data-id="${t.id}"><div class="tit">${esc(k?.resumen || t.asunto)}</div>
-      ${k ? `<div class="chips"><span class="chip ${esc(k.recomendacion)}">${esc(REC_TXT[k.recomendacion] ?? k.recomendacion)}</span>${k.costo ? `<span class="chip">${esc(k.costo)}</span>` : ""}<span class="chip ${k.urgencia === "hoy" ? "hoy" : ""}">${esc(URG_TXT[k.urgencia] ?? "")}</span></div>` : ""}
-      ${k?.por_que ? `<div class="por">${esc(k.por_que)}</div>` : ""}${k?.paso ? `<div class="paso">👉 ${esc(k.paso)}</div>` : ""}
-      <details><summary>Ver detalle · ${esc(NOMBRES[t.de_agente] ?? t.de_agente)} · #${t.id}</summary><div class="largo">${esc(t.asunto)}\n\n${esc(sinMarcas(t.historial || t.contenido))}</div></details>
-      <textarea rows="${pideDato ? 3 : 1}" class="com" data-pide="${pideDato ? 1 : 0}" placeholder="${pideDato ? "Escribe aquí lo que te piden y toca Enviar" : "Comentario para el equipo (opcional)"}"></textarea>
-      <div class="acciones">${pideDato ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo hice" data-lleno="Enviar">Ya lo hice</button><button class="btn" data-dec="rechazado">Ahora no</button>`
-        : `<button class="btn pri" data-dec="aprobado" data-vacio="Aprobar" data-lleno="Aprobar con comentario">Aprobar</button><button class="btn" data-dec="rechazado">Rechazar</button>`}</div></div>`;
+function pintarPara() {
+  const tarjetas = pend.map((t) => {
+    const k = t.tarjeta?.tipo === "decision" ? t.tarjeta : null, m = marcaDe(t);
+    const esIG = !!k?.ig, pide = !esIG && (/^(Te necesito:|Para avanzar #)/.test(t.asunto) || k?.recomendacion === "hacer");
+    const sub = [k?.por_que, k?.costo].filter(Boolean).join(" · ");
+    return `<div class="card" data-id="${t.id}" style="--color:${m.color}">
+      <div class="marca">${esc(m.nombre)}${k?.urgencia === "hoy" ? `<span class="hoy">Hoy</span>` : ""}</div>
+      <div class="tit">${esc(k?.resumen || t.asunto)}</div>
+      ${sub ? `<div class="sub">${esc(sub)}</div>` : ""}${k?.paso ? `<div class="paso">👉 ${esc(k.paso)}</div>` : ""}
+      ${esIG ? `<div class="propuesta"><span>Respuesta lista:</span> ${esc(k.propuesta)}</div>` : ""}
+      <textarea class="com" rows="1" placeholder="${esIG ? "Escribe otra respuesta o deja vacío para enviar la de arriba" : pide ? "Escribe aquí lo que te piden" : "Comentario (opcional)"}"></textarea>
+      <div class="acciones">${esIG ? `<button class="btn pri" data-dec="aprobado" data-vacio="Enviar" data-lleno="Enviar la mía">Enviar</button><button class="btn" data-dec="rechazado">No responder</button>` : pide ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo hice" data-lleno="Enviar">Ya lo hice</button><button class="btn" data-dec="rechazado">Luego</button>`
+        : `<button class="btn pri" data-dec="aprobado" data-vacio="Aprobar" data-lleno="Aprobar">Aprobar</button><button class="btn" data-dec="rechazado">No</button>`}</div>
+      <details><summary>Más detalle · ${esc(NOMBRES[t.de_agente] ?? t.de_agente)} · #${t.id}</summary><div class="largo">${esc(t.asunto)}\n\n${esc(sinMarcas(t.historial || t.contenido))}</div></details>
+    </div>`;
   }).join("");
+  const terminado = hechos.slice(0, 8).map((t) => {
+    const k = t.tarjeta?.tipo === "resultado" ? t.tarjeta : null, m = marcaDe(t), quien = /^(ceo|matias)$/.test(t.para_agente) ? t.de_agente : t.para_agente, bit = BITACORAS[quien];
+    return `<div class="hecho" style="--color:${m.color}"><span class="punto"></span><div><div class="t">${esc(k?.hecho || t.asunto)}</div>
+      <div class="s">${esc(NOMBRES[quien] ?? quien)}${k?.revisar ? " · conviene revisarlo" : ""}${bit ? ` · <a href="https://docs.google.com/document/d/${bit}/edit" target="_blank" rel="noopener">Ver entregable</a>` : ""}</div></div></div>`;
+  }).join("");
+  $("#cuerpo").innerHTML = (tarjetas || `<div class="vacio"><b>Nada pendiente</b>El equipo no necesita nada de ti ahora.</div>`)
+    + (terminado ? `<div class="seccion">Terminado esta semana</div>${terminado}` : "");
 }
 async function decidir(boton) {
   const card = boton.closest(".card"), id = Number(card.dataset.id), nuevo = boton.dataset.dec;
@@ -216,46 +236,138 @@ async function decidir(boton) {
   if (nuevo === "aprobado") {
     try {
       const x = await llamarOficina({ accion: "ejecutar_aprobado", id, comentario: com });
-      toast(x.trabajan?.length ? `${com ? "Enviado" : "Listo"}. ${x.trabajan.map((a) => NOMBRES[a] ?? a).join(", ")} ya está trabajando con eso` : (com ? "Enviado" : "Listo"));
+      toast(x.trabajan?.length ? `${com ? "Enviado" : "Listo"} · ${x.trabajan.map((a) => NOMBRES[a] ?? a).join(", ")} sigue con eso` : (com ? "Enviado" : "Listo"));
     } catch (e) { toast("Guardado, pero no pude avisar al equipo: " + e.message); }
-  } else toast(/^(Te necesito:|Para avanzar #)/.test(t?.asunto ?? "") ? "Pospuesto 7 días" : "Rechazado");
-  pend = pend.filter((x) => x.id !== id);
-  pintarDecisiones(); contador();
+  } else toast(/^(Te necesito:|Para avanzar #)/.test(t?.asunto ?? "") ? "Te lo recuerdo en 7 días" : "Rechazado");
+  card.style.transition = "opacity .25s"; card.style.opacity = "0";
+  setTimeout(() => { pend = pend.filter((x) => x.id !== id); pintarPara(); contador(); }, 250);
 }
 
-// ---------- Terminado ----------
-const fechaHecho = (t) => [...String(t.contenido ?? "").matchAll(/Avance de \w+ \((\d{4}-\d{2}-\d{2})\): hecho/g)].pop()?.[1] ?? "";
-async function cargarTerminado() {
-  const desde = new Date(Date.now() - 21 * 86400000).toISOString();
-  const { data, error } = await sb.from("tablero_agentes").select("id,de_agente,para_agente,asunto,contenido,historial,tarjeta,creado_en").eq("estado", "hecho").eq("tipo", "solicitud").gte("creado_en", desde).order("creado_en", { ascending: false }).limit(80);
-  if (error) throw error;
-  const lim = new Date(Date.now() - 14 * 86400000).toISOString().slice(0, 10);
-  hechos = (data ?? []).filter((t) => fechaHecho(t) >= lim).sort((a, b) => fechaHecho(b).localeCompare(fechaHecho(a)));
+// ---------- WhatsApp: conversaciones del bot y respuesta a mano ----------
+const MARCA_WA = { bataka: ["BaTaKá", "var(--bataka)"], torote: ["TOROTE", "var(--torote)"], jabones: ["ÜINKY / PORTHOS", "var(--porthos)"],
+  creative_whisper: ["Creative Whisper", "var(--cw-2)"], general: ["Sin marca todavía", "var(--suave)"] };
+const marcaWa = (k) => MARCA_WA[k] ?? ["Sin marca todavía", "var(--suave)"];
+const telVisible = (t) => String(t ?? "").replace(/^\+593(\d{2})(\d{3})(\d{4})$/, "0$1 $2 $3");
+const enPausa = (c) => c?.estado === "pausado" && c.pausado_hasta && new Date(c.pausado_hasta) > new Date();
+const horaCorta = (iso) => { try { const d = new Date(iso), hoy = new Date().toDateString() === d.toDateString(); return d.toLocaleString("es-EC", hoy ? { timeZone: "America/Guayaquil", hour: "2-digit", minute: "2-digit" } : { timeZone: "America/Guayaquil", day: "numeric", month: "short" }); } catch (e) { return ""; } };
+
+async function llamarBot(cuerpo) {
+  const { data } = await sb.auth.getSession();
+  const r = await fetch(SUPABASE_URL + "/functions/v1/whatsapp-bot", { method: "POST",
+    headers: { "content-type": "application/json", apikey: SUPABASE_KEY, authorization: "Bearer " + (data?.session?.access_token ?? "") }, body: JSON.stringify(cuerpo) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || ("HTTP " + r.status));
+  return j;
 }
-function pintarTerminado() {
-  $("#cuerpo").innerHTML = `<div class="sub">Últimas 2 semanas. El entregable completo está en la Bitácora de cada agente.</div>` + (hechos.length ? hechos.map((t) => {
-    const k = t.tarjeta?.tipo === "resultado" ? t.tarjeta : null, quien = /^(ceo|matias)$/.test(t.para_agente) ? t.de_agente : t.para_agente, bit = BITACORAS[quien];
-    return `<div class="card"><div class="tit">${esc(k?.hecho || t.asunto)}</div>
-      <div class="chips"><span class="chip">${esc(NOMBRES[quien] ?? quien)}</span><span class="chip">${esc(fechaHecho(t))}</span>${k?.revisar ? `<span class="chip tu_decides">Revísalo</span>` : ""}</div>
-      ${k?.resultado ? `<div class="por">${esc(k.resultado)}</div>` : ""}
-      <div class="paso">📄 ${esc(k?.donde || `Bitácora de ${NOMBRES[quien] ?? quien}, Entregable #${t.id}`)}${bit ? ` · <a href="https://docs.google.com/document/d/${bit}/edit" target="_blank" rel="noopener">Abrir</a>` : ""}</div>
-      <details><summary>Historial de la tarea #${t.id}</summary><div class="largo">${esc(sinMarcas(t.historial || t.contenido))}</div></details></div>`;
-  }).join("") : `<div class="vacio">Todavía no hay trabajos terminados.</div>`);
+
+async function pintarWa(abajo = true) {
+  if (waChat) return pintarConversacion(abajo);
+  const [c, a, m] = await Promise.all([
+    sb.from("chats").select("telefono,marca,estado,pausado_hasta,ultima_actividad").order("ultima_actividad", { ascending: false }).limit(40),
+    sb.from("avisos").select("telefono").eq("resuelto", false),
+    sb.from("mensajes").select("telefono,direccion,texto,creado_en").order("creado_en", { ascending: false }).limit(400),
+  ]);
+  if (c.error) throw c.error;
+  const ultimo = {};
+  for (const x of m.data ?? []) if (!ultimo[x.telefono]) ultimo[x.telefono] = x;
+  const necesita = new Set((a.data ?? []).map((x) => x.telefono));
+  waAvisos = necesita.size; contador();
+  const filas = (c.data ?? []).filter((x) => ultimo[x.telefono]).sort((x, y) => (necesita.has(y.telefono) - necesita.has(x.telefono)) || String(y.ultima_actividad).localeCompare(String(x.ultima_actividad)));
+  $("#cuerpo").innerHTML = filas.length ? filas.map((x) => {
+    const [nombre, color] = marcaWa(x.marca), u = ultimo[x.telefono];
+    const quien = u.direccion === "entrante" ? "" : u.direccion === "manual" ? "Tú: " : "Bot: ";
+    return `<button class="fila" data-tel="${esc(x.telefono)}" style="--color:${color}"><div class="izq">
+      <div class="n">${esc(telVisible(x.telefono))}${necesita.has(x.telefono) ? `<span class="etq nec">Te necesita</span>` : ""}${enPausa(x) ? `<span class="etq tu">Lo llevas tú</span>` : ""}</div>
+      <div class="u">${esc(nombre)} · ${esc(quien + (u.texto ?? ""))}</div></div><div class="der">${esc(horaCorta(u.creado_en))}</div></button>`;
+  }).join("") : `<div class="vacio"><b>Todavía no hay chats</b>Aquí verás las conversaciones del WhatsApp de las marcas.</div>`;
 }
+
+async function pintarConversacion(abajo = true) {
+  const [c, m, a] = await Promise.all([
+    sb.from("chats").select("telefono,marca,estado,pausado_hasta").eq("telefono", waChat).order("ultima_actividad", { ascending: false }).limit(1).maybeSingle(),
+    sb.from("mensajes").select("direccion,texto,tipo,creado_en").eq("telefono", waChat).order("creado_en", { ascending: false }).limit(60),
+    sb.from("avisos").select("id,motivo,creado_en").eq("telefono", waChat).eq("resuelto", false).order("creado_en", { ascending: false }),
+  ]);
+  if (m.error) throw m.error;
+  const chat = c.data, [nombre, color] = marcaWa(chat?.marca), msgs = (m.data ?? []).reverse();
+  const ultEntrante = [...msgs].reverse().find((x) => x.direccion === "entrante");
+  const vencido = ultEntrante && Date.now() - new Date(ultEntrante.creado_en).getTime() > 24 * 3600000;
+  const pausa = enPausa(chat);
+  $("#cuerpo").innerHTML = `<div class="cab" style="--color:${color}">
+      <button class="volver" data-volver aria-label="Volver"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="info"><b>${esc(telVisible(waChat))}</b><span style="color:${color}">${esc(nombre)}</span><span> · ${pausa ? `lo llevas tú hasta las ${esc(horaCorta(chat.pausado_hasta))}` : "responde el bot"}</span></div>
+      ${pausa ? `<button class="btn" data-reanudar>Devolver al bot</button>` : ""}
+    </div>
+    ${(a.data ?? []).map((x) => `<div class="alerta"><div><b>El bot te pasó este chat:</b> ${esc(x.motivo)}</div><button data-resuelto="${x.id}">Resuelto</button></div>`).join("")}
+    <div class="msgs">${msgs.map((x) => {
+      const cls = x.direccion === "entrante" ? "ag" : x.direccion === "manual" ? "yo" : "bot";
+      const quien = x.direccion === "entrante" ? "" : `<span class="quien">${x.direccion === "manual" ? "Tú" : "Bot"}</span>`;
+      return `<div class="burbuja ${cls}">${quien}${esc(x.texto || (x.tipo === "audio" ? "(nota de voz)" : "(sin texto)"))}<span class="hora">${esc(hora(x.creado_en))}</span></div>`;
+    }).join("") || `<div class="vacio">Sin mensajes.</div>`}</div>
+    ${vencido ? `<div class="nota">Pasaron más de 24 horas desde su último mensaje: WhatsApp no deja escribirle hasta que vuelva a escribir.</div>` : ""}`;
+  $("#txt").placeholder = "Escribe al cliente…";
+  if (abajo) requestAnimationFrame(() => { $("#cuerpo").scrollTop = $("#cuerpo").scrollHeight; });
+}
+
+async function enviarWa(texto) {
+  texto = (texto ?? $("#txt").value).trim();
+  if (!texto || enviando || !waChat) return;
+  enviando = true; $("#btnEnviar").disabled = true;
+  try {
+    await llamarBot({ accion: "enviar_manual", telefono: waChat, texto });
+    $("#txt").value = ""; ajustarTxt();
+    await sb.from("avisos").update({ resuelto: true }).eq("telefono", waChat).eq("resuelto", false);
+    toast("Enviado · el bot se calla 12 horas en este chat");
+  } catch (e) { toast("No se envió: " + e.message); }
+  enviando = false; $("#btnEnviar").disabled = false;
+  if (tab === "wa") await pintarWa();
+}
+
+// ---------- Chat ----------
+async function pintarChat(abajo = true) {
+  $("#filaAgentes").innerHTML = AGENTES.map(([k, n]) => `<button data-ag="${k}" class="${k === agente ? "activo" : ""}">${esc(n)}</button>`).join("");
+  const { data, error } = await sb.from("conversaciones_agentes").select("rol,contenido,creado_en").eq("agente", agente).order("creado_en", { ascending: false }).limit(40);
+  if (error) { $("#cuerpo").innerHTML = `<div class="vacio">No pude leer el chat: ${esc(error.message)}</div>`; return; }
+  const msgs = (data ?? []).reverse();
+  $("#cuerpo").innerHTML = `<div class="msgs">` + (msgs.length ? msgs.map((m) => `<div class="burbuja ${m.rol === "matias" ? "yo" : "ag"}">${m.rol === "matias" ? esc(m.contenido) : formato(m.contenido)}<span class="hora">${esc(hora(m.creado_en))}</span></div>`).join("")
+    : `<div class="vacio"><b>${esc(NOMBRES[agente])}</b>Pregúntale lo que quieras: responde con los datos en vivo de la oficina.</div>`) + (enviando ? `<div class="burbuja ag pensando">Pensando…</div>` : "") + `</div>`;
+  $("#atajos").innerHTML = (ATAJOS[agente] ?? []).map((a) => `<button data-atajo="${esc(a)}">${esc(a)}</button>`).join("");
+  $("#txt").placeholder = agente === "ceo" ? "Escríbele al CEO…" : `Escríbele a ${NOMBRES[agente]}…`;
+  if (abajo) requestAnimationFrame(() => { $("#cuerpo").scrollTop = $("#cuerpo").scrollHeight; });
+}
+async function enviar(texto) {
+  if (tab === "wa") return enviarWa(texto);
+  texto = (texto ?? $("#txt").value).trim();
+  if (!texto || enviando) return;
+  enviando = true; $("#btnEnviar").disabled = true; $("#txt").value = ""; ajustarTxt();
+  const caja = $("#cuerpo .msgs");
+  if (caja) { caja.querySelector(".vacio")?.remove(); caja.insertAdjacentHTML("beforeend", `<div class="burbuja yo">${esc(texto)}</div><div class="burbuja ag pensando">Pensando… (hasta un minuto)</div>`); $("#cuerpo").scrollTop = $("#cuerpo").scrollHeight; }
+  try { await llamarOficina({ accion: "chat", agente, mensaje: texto }); }
+  catch (e) { toast("No llegó la respuesta: " + e.message); }
+  enviando = false; $("#btnEnviar").disabled = false;
+  if (tab === "chat") await pintarChat();
+  cargarContadores();
+}
+function ajustarTxt() { const t = $("#txt"); t.style.height = "auto"; t.style.height = Math.min(140, t.scrollHeight) + "px"; }
 
 // ---------- Navegación ----------
-function contador() { const n = pend.length; $("#numDec").textContent = n; $("#numDec").classList.toggle("oculto", !n); }
-async function cargarContadores() { try { await cargarDecisiones(); contador(); } catch (e) { /* sin red */ } }
+function contador() {
+  const n = pend.length; $("#numDec").textContent = n; $("#numDec").classList.toggle("oculto", !n);
+  $("#numWa").textContent = waAvisos; $("#numWa").classList.toggle("oculto", !waAvisos);
+}
+async function cargarAvisosWa() { const { data } = await sb.from("avisos").select("telefono").eq("resuelto", false); waAvisos = new Set((data ?? []).map((x) => x.telefono)).size; }
+async function cargarContadores() { try { await Promise.all([cargarPara(), cargarAvisosWa()]); contador(); } catch (e) { /* sin red */ } }
 async function irA(t) {
   tab = t;
   document.querySelectorAll("nav button").forEach((b) => b.classList.toggle("activo", b.dataset.tab === t));
-  $("#pieChat").classList.toggle("oculto", t !== "chat");
-  $("#selAgente").classList.toggle("oculto", t !== "chat");
-  $("#titulo").textContent = t === "chat" ? "Oficina CW" : t === "decisiones" ? "Te necesitan" : "Terminado";
+  $("#pieChat").classList.toggle("oculto", !(t === "chat" || (t === "wa" && waChat)));
+  $("#atajos").classList.toggle("oculto", t !== "chat");
+  $("#filaAgentes").classList.toggle("oculto", t !== "chat");
+  $("#titulo").textContent = t === "chat" ? "Chat" : t === "wa" ? "WhatsApp" : "Para ti";
   try {
     if (t === "chat") await pintarChat();
-    else if (t === "decisiones") { $("#cuerpo").innerHTML = `<div class="vacio">Cargando…</div>`; await cargarDecisiones(); contador(); pintarDecisiones(); }
-    else { $("#cuerpo").innerHTML = `<div class="vacio">Cargando…</div>`; await cargarTerminado(); pintarTerminado(); }
+    else if (t === "wa") { if (!waChat) $("#cuerpo").innerHTML = `<div class="vacio">Cargando…</div>`; await pintarWa(); }
+    else { $("#cuerpo").innerHTML = `<div class="vacio">Cargando…</div>`; await cargarPara(); contador(); pintarPara(); }
   } catch (e) { $("#cuerpo").innerHTML = `<div class="vacio">No pude cargar: ${esc(e.message)}</div>`; }
 }
 
@@ -265,8 +377,8 @@ async function entrar() {
   const { data: admin } = await sb.rpc("es_admin");
   if (admin !== true) { $("#lAviso").textContent = "Esta cuenta no tiene acceso a la oficina."; await sb.auth.signOut(); $("#vLogin").classList.remove("oculto"); return; }
   $("#vLogin").classList.add("oculto"); $("#vApp").classList.remove("oculto");
-  $("#selAgente").innerHTML = AGENTES.map(([k, n]) => `<option value="${k}" ${k === agente ? "selected" : ""}>${esc(n)}</option>`).join("");
-  await irA("chat"); cargarContadores();
+  await irA("para");
+  cargarAvisosWa().then(contador, () => {});
 }
 
 $("#lEntrar").addEventListener("click", async () => {
@@ -277,18 +389,28 @@ $("#lEntrar").addEventListener("click", async () => {
 });
 $("#lClave").addEventListener("keydown", (e) => { if (e.key === "Enter") $("#lEntrar").click(); });
 document.querySelector("nav").addEventListener("click", (e) => { const b = e.target.closest("button[data-tab]"); if (b) irA(b.dataset.tab); });
-$("#selAgente").addEventListener("change", (e) => { agente = e.target.value; guardar("cw-agente", agente); pintarChat(); });
-$("#btnRecargar").addEventListener("click", () => { irA(tab); cargarContadores(); });
+$("#filaAgentes").addEventListener("click", (e) => { const b = e.target.closest("button[data-ag]"); if (!b) return; agente = b.dataset.ag; guardar("cw-agente", agente); pintarChat(); });
+$("#btnRecargar").addEventListener("click", () => irA(tab));
 $("#btnEnviar").addEventListener("click", () => enviar());
 $("#txt").addEventListener("input", ajustarTxt);
 $("#atajos").addEventListener("click", (e) => { const b = e.target.closest("button[data-atajo]"); if (b) enviar(b.dataset.atajo); });
-$("#cuerpo").addEventListener("click", (e) => { const b = e.target.closest("button[data-dec]"); if (b) decidir(b); });
+$("#cuerpo").addEventListener("click", async (e) => {
+  const b = e.target.closest("button[data-dec]"); if (b) return decidir(b);
+  const f = e.target.closest("button[data-tel]"); if (f) { waChat = f.dataset.tel; return irA("wa"); }
+  if (e.target.closest("button[data-volver]")) { waChat = null; return irA("wa"); }
+  if (e.target.closest("button[data-reanudar]")) {
+    try { await llamarBot({ accion: "reanudar_bot", telefono: waChat }); toast("El bot vuelve a responder este chat"); } catch (x) { toast("No pude: " + x.message); }
+    return pintarWa(false);
+  }
+  const r = e.target.closest("button[data-resuelto]");
+  if (r) { await sb.from("avisos").update({ resuelto: true }).eq("id", Number(r.dataset.resuelto)); await pintarWa(false); }
+});
 $("#cuerpo").addEventListener("input", (e) => {
   const c = e.target.closest("textarea.com"); if (!c) return;
   const b = c.closest(".card")?.querySelector("button[data-vacio]"); if (b) b.textContent = c.value.trim() ? b.dataset.lleno : b.dataset.vacio;
   c.style.height = "auto"; c.style.height = Math.min(220, c.scrollHeight) + "px";
 });
-document.addEventListener("visibilitychange", () => { if (!document.hidden && !$("#vApp").classList.contains("oculto")) { cargarContadores(); if (tab === "chat" && !enviando) pintarChat(false); } });
+document.addEventListener("visibilitychange", () => { if (!document.hidden && !$("#vApp").classList.contains("oculto")) { if (tab === "para") irA("para"); else if (tab === "wa") { if (!enviando) pintarWa(false); } else if (!enviando) pintarChat(false); cargarContadores(); } });
 entrar();
 </script>
 </body>
