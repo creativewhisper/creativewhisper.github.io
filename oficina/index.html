@@ -83,6 +83,24 @@ details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer
 .entrada textarea{flex:1;resize:none;max-height:140px;min-height:46px;border-radius:23px;border:0;background:var(--tarjeta);padding:12px 16px;font-size:16px;line-height:1.3}
 .entrada button{width:46px;height:46px;border-radius:50%;background:var(--cw-2);color:var(--cw);display:grid;place-items:center;flex:0 0 auto}
 .entrada button:disabled{opacity:.4}
+/* WhatsApp */
+.fila{position:relative;overflow:hidden;display:flex;gap:10px;align-items:center;width:100%;text-align:left;background:var(--tarjeta);border-radius:14px;padding:12px 14px 12px 20px;margin-bottom:8px}
+.fila::before{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--color,var(--cw-2))}
+.fila .izq{min-width:0;flex:1}
+.fila .n{font-weight:600;font-size:16px;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.fila .u{color:var(--suave);font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fila .der{font-size:12px;color:var(--suave);flex:0 0 auto}
+.etq{display:inline-block;border-radius:6px;padding:1px 7px;font-size:11px;font-weight:700;letter-spacing:.03em}
+.etq.nec{background:var(--torote);color:#fff} .etq.tu{background:var(--cw-2);color:var(--cw)}
+.cab{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.cab .volver{width:38px;height:38px;border-radius:12px;background:var(--tarjeta);display:grid;place-items:center;flex:0 0 auto}
+.cab .info{flex:1;min-width:0} .cab .info b{display:block;font-size:17px} .cab .info span{font-size:13px;color:var(--suave)}
+.cab .btn{flex:0 0 auto;padding:9px 12px;font-size:14px}
+.alerta{background:rgba(227,18,11,.12);border:1px solid rgba(227,18,11,.35);border-radius:12px;padding:10px 12px;margin-bottom:10px;font-size:14px;display:flex;gap:10px;align-items:flex-start}
+.alerta div{flex:1} .alerta button{font-size:13px;font-weight:700;color:var(--cw-2);flex:0 0 auto}
+.nota{color:var(--suave);font-size:13px;text-align:center;margin:6px 0 2px}
+.burbuja.bot{align-self:flex-end;background:var(--tarjeta-2);border-bottom-right-radius:6px}
+.burbuja .quien{display:block;font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;opacity:.6;margin-bottom:2px}
 /* Entrar */
 .login{max-width:360px;margin:14vh auto 0;padding:0 18px}
 .login h1{font-size:26px;margin:0 0 20px}
@@ -118,6 +136,7 @@ details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer
   </div>
   <nav>
     <button data-tab="para" class="activo">Para ti <span class="num oculto" id="numDec"></span></button>
+    <button data-tab="wa">WhatsApp <span class="num oculto" id="numWa"></span></button>
     <button data-tab="chat">Chat</button>
   </nav>
 </div>
@@ -158,7 +177,7 @@ function toast(t) { const d = document.createElement("div"); d.className = "toas
 function guardar(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* sin almacenamiento */ } }
 function leer(k, d) { try { return localStorage.getItem(k) ?? d; } catch (e) { return d; } }
 
-let tab = "para", agente = leer("cw-agente", "ceo"), pend = [], hechos = [], enviando = false;
+let tab = "para", agente = leer("cw-agente", "ceo"), pend = [], hechos = [], enviando = false, waChat = null, waAvisos = 0;
 
 async function llamarOficina(cuerpo) {
   const { data } = await sb.auth.getSession();
@@ -224,6 +243,86 @@ async function decidir(boton) {
   setTimeout(() => { pend = pend.filter((x) => x.id !== id); pintarPara(); contador(); }, 250);
 }
 
+// ---------- WhatsApp: conversaciones del bot y respuesta a mano ----------
+const MARCA_WA = { bataka: ["BaTaKá", "var(--bataka)"], torote: ["TOROTE", "var(--torote)"], jabones: ["ÜINKY / PORTHOS", "var(--porthos)"],
+  creative_whisper: ["Creative Whisper", "var(--cw-2)"], general: ["Sin marca todavía", "var(--suave)"] };
+const marcaWa = (k) => MARCA_WA[k] ?? ["Sin marca todavía", "var(--suave)"];
+const telVisible = (t) => String(t ?? "").replace(/^\+593(\d{2})(\d{3})(\d{4})$/, "0$1 $2 $3");
+const enPausa = (c) => c?.estado === "pausado" && c.pausado_hasta && new Date(c.pausado_hasta) > new Date();
+const horaCorta = (iso) => { try { const d = new Date(iso), hoy = new Date().toDateString() === d.toDateString(); return d.toLocaleString("es-EC", hoy ? { timeZone: "America/Guayaquil", hour: "2-digit", minute: "2-digit" } : { timeZone: "America/Guayaquil", day: "numeric", month: "short" }); } catch (e) { return ""; } };
+
+async function llamarBot(cuerpo) {
+  const { data } = await sb.auth.getSession();
+  const r = await fetch(SUPABASE_URL + "/functions/v1/whatsapp-bot", { method: "POST",
+    headers: { "content-type": "application/json", apikey: SUPABASE_KEY, authorization: "Bearer " + (data?.session?.access_token ?? "") }, body: JSON.stringify(cuerpo) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || ("HTTP " + r.status));
+  return j;
+}
+
+async function pintarWa(abajo = true) {
+  if (waChat) return pintarConversacion(abajo);
+  const [c, a, m] = await Promise.all([
+    sb.from("chats").select("telefono,marca,estado,pausado_hasta,ultima_actividad").order("ultima_actividad", { ascending: false }).limit(40),
+    sb.from("avisos").select("telefono").eq("resuelto", false),
+    sb.from("mensajes").select("telefono,direccion,texto,creado_en").order("creado_en", { ascending: false }).limit(400),
+  ]);
+  if (c.error) throw c.error;
+  const ultimo = {};
+  for (const x of m.data ?? []) if (!ultimo[x.telefono]) ultimo[x.telefono] = x;
+  const necesita = new Set((a.data ?? []).map((x) => x.telefono));
+  waAvisos = necesita.size; contador();
+  const filas = (c.data ?? []).filter((x) => ultimo[x.telefono]).sort((x, y) => (necesita.has(y.telefono) - necesita.has(x.telefono)) || String(y.ultima_actividad).localeCompare(String(x.ultima_actividad)));
+  $("#cuerpo").innerHTML = filas.length ? filas.map((x) => {
+    const [nombre, color] = marcaWa(x.marca), u = ultimo[x.telefono];
+    const quien = u.direccion === "entrante" ? "" : u.direccion === "manual" ? "Tú: " : "Bot: ";
+    return `<button class="fila" data-tel="${esc(x.telefono)}" style="--color:${color}"><div class="izq">
+      <div class="n">${esc(telVisible(x.telefono))}${necesita.has(x.telefono) ? `<span class="etq nec">Te necesita</span>` : ""}${enPausa(x) ? `<span class="etq tu">Lo llevas tú</span>` : ""}</div>
+      <div class="u">${esc(nombre)} · ${esc(quien + (u.texto ?? ""))}</div></div><div class="der">${esc(horaCorta(u.creado_en))}</div></button>`;
+  }).join("") : `<div class="vacio"><b>Todavía no hay chats</b>Aquí verás las conversaciones del WhatsApp de las marcas.</div>`;
+}
+
+async function pintarConversacion(abajo = true) {
+  const [c, m, a] = await Promise.all([
+    sb.from("chats").select("telefono,marca,estado,pausado_hasta").eq("telefono", waChat).order("ultima_actividad", { ascending: false }).limit(1).maybeSingle(),
+    sb.from("mensajes").select("direccion,texto,tipo,creado_en").eq("telefono", waChat).order("creado_en", { ascending: false }).limit(60),
+    sb.from("avisos").select("id,motivo,creado_en").eq("telefono", waChat).eq("resuelto", false).order("creado_en", { ascending: false }),
+  ]);
+  if (m.error) throw m.error;
+  const chat = c.data, [nombre, color] = marcaWa(chat?.marca), msgs = (m.data ?? []).reverse();
+  const ultEntrante = [...msgs].reverse().find((x) => x.direccion === "entrante");
+  const vencido = ultEntrante && Date.now() - new Date(ultEntrante.creado_en).getTime() > 24 * 3600000;
+  const pausa = enPausa(chat);
+  $("#cuerpo").innerHTML = `<div class="cab" style="--color:${color}">
+      <button class="volver" data-volver aria-label="Volver"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 5l-7 7 7 7"/></svg></button>
+      <div class="info"><b>${esc(telVisible(waChat))}</b><span style="color:${color}">${esc(nombre)}</span><span> · ${pausa ? `lo llevas tú hasta las ${esc(horaCorta(chat.pausado_hasta))}` : "responde el bot"}</span></div>
+      ${pausa ? `<button class="btn" data-reanudar>Devolver al bot</button>` : ""}
+    </div>
+    ${(a.data ?? []).map((x) => `<div class="alerta"><div><b>El bot te pasó este chat:</b> ${esc(x.motivo)}</div><button data-resuelto="${x.id}">Resuelto</button></div>`).join("")}
+    <div class="msgs">${msgs.map((x) => {
+      const cls = x.direccion === "entrante" ? "ag" : x.direccion === "manual" ? "yo" : "bot";
+      const quien = x.direccion === "entrante" ? "" : `<span class="quien">${x.direccion === "manual" ? "Tú" : "Bot"}</span>`;
+      return `<div class="burbuja ${cls}">${quien}${esc(x.texto || (x.tipo === "audio" ? "(nota de voz)" : "(sin texto)"))}<span class="hora">${esc(hora(x.creado_en))}</span></div>`;
+    }).join("") || `<div class="vacio">Sin mensajes.</div>`}</div>
+    ${vencido ? `<div class="nota">Pasaron más de 24 horas desde su último mensaje: WhatsApp no deja escribirle hasta que vuelva a escribir.</div>` : ""}`;
+  $("#txt").placeholder = "Escribe al cliente…";
+  if (abajo) requestAnimationFrame(() => { $("#cuerpo").scrollTop = $("#cuerpo").scrollHeight; });
+}
+
+async function enviarWa(texto) {
+  texto = (texto ?? $("#txt").value).trim();
+  if (!texto || enviando || !waChat) return;
+  enviando = true; $("#btnEnviar").disabled = true;
+  try {
+    await llamarBot({ accion: "enviar_manual", telefono: waChat, texto });
+    $("#txt").value = ""; ajustarTxt();
+    await sb.from("avisos").update({ resuelto: true }).eq("telefono", waChat).eq("resuelto", false);
+    toast("Enviado · el bot se calla 12 horas en este chat");
+  } catch (e) { toast("No se envió: " + e.message); }
+  enviando = false; $("#btnEnviar").disabled = false;
+  if (tab === "wa") await pintarWa();
+}
+
 // ---------- Chat ----------
 async function pintarChat(abajo = true) {
   $("#filaAgentes").innerHTML = AGENTES.map(([k, n]) => `<button data-ag="${k}" class="${k === agente ? "activo" : ""}">${esc(n)}</button>`).join("");
@@ -237,6 +336,7 @@ async function pintarChat(abajo = true) {
   if (abajo) requestAnimationFrame(() => { $("#cuerpo").scrollTop = $("#cuerpo").scrollHeight; });
 }
 async function enviar(texto) {
+  if (tab === "wa") return enviarWa(texto);
   texto = (texto ?? $("#txt").value).trim();
   if (!texto || enviando) return;
   enviando = true; $("#btnEnviar").disabled = true; $("#txt").value = ""; ajustarTxt();
@@ -251,16 +351,22 @@ async function enviar(texto) {
 function ajustarTxt() { const t = $("#txt"); t.style.height = "auto"; t.style.height = Math.min(140, t.scrollHeight) + "px"; }
 
 // ---------- Navegación ----------
-function contador() { const n = pend.length; $("#numDec").textContent = n; $("#numDec").classList.toggle("oculto", !n); }
-async function cargarContadores() { try { await cargarPara(); contador(); } catch (e) { /* sin red */ } }
+function contador() {
+  const n = pend.length; $("#numDec").textContent = n; $("#numDec").classList.toggle("oculto", !n);
+  $("#numWa").textContent = waAvisos; $("#numWa").classList.toggle("oculto", !waAvisos);
+}
+async function cargarAvisosWa() { const { data } = await sb.from("avisos").select("telefono").eq("resuelto", false); waAvisos = new Set((data ?? []).map((x) => x.telefono)).size; }
+async function cargarContadores() { try { await Promise.all([cargarPara(), cargarAvisosWa()]); contador(); } catch (e) { /* sin red */ } }
 async function irA(t) {
   tab = t;
   document.querySelectorAll("nav button").forEach((b) => b.classList.toggle("activo", b.dataset.tab === t));
-  $("#pieChat").classList.toggle("oculto", t !== "chat");
+  $("#pieChat").classList.toggle("oculto", !(t === "chat" || (t === "wa" && waChat)));
+  $("#atajos").classList.toggle("oculto", t !== "chat");
   $("#filaAgentes").classList.toggle("oculto", t !== "chat");
-  $("#titulo").textContent = t === "chat" ? "Chat" : "Para ti";
+  $("#titulo").textContent = t === "chat" ? "Chat" : t === "wa" ? "WhatsApp" : "Para ti";
   try {
     if (t === "chat") await pintarChat();
+    else if (t === "wa") { if (!waChat) $("#cuerpo").innerHTML = `<div class="vacio">Cargando…</div>`; await pintarWa(); }
     else { $("#cuerpo").innerHTML = `<div class="vacio">Cargando…</div>`; await cargarPara(); contador(); pintarPara(); }
   } catch (e) { $("#cuerpo").innerHTML = `<div class="vacio">No pude cargar: ${esc(e.message)}</div>`; }
 }
@@ -272,6 +378,7 @@ async function entrar() {
   if (admin !== true) { $("#lAviso").textContent = "Esta cuenta no tiene acceso a la oficina."; await sb.auth.signOut(); $("#vLogin").classList.remove("oculto"); return; }
   $("#vLogin").classList.add("oculto"); $("#vApp").classList.remove("oculto");
   await irA("para");
+  cargarAvisosWa().then(contador, () => {});
 }
 
 $("#lEntrar").addEventListener("click", async () => {
@@ -287,13 +394,23 @@ $("#btnRecargar").addEventListener("click", () => irA(tab));
 $("#btnEnviar").addEventListener("click", () => enviar());
 $("#txt").addEventListener("input", ajustarTxt);
 $("#atajos").addEventListener("click", (e) => { const b = e.target.closest("button[data-atajo]"); if (b) enviar(b.dataset.atajo); });
-$("#cuerpo").addEventListener("click", (e) => { const b = e.target.closest("button[data-dec]"); if (b) decidir(b); });
+$("#cuerpo").addEventListener("click", async (e) => {
+  const b = e.target.closest("button[data-dec]"); if (b) return decidir(b);
+  const f = e.target.closest("button[data-tel]"); if (f) { waChat = f.dataset.tel; return irA("wa"); }
+  if (e.target.closest("button[data-volver]")) { waChat = null; return irA("wa"); }
+  if (e.target.closest("button[data-reanudar]")) {
+    try { await llamarBot({ accion: "reanudar_bot", telefono: waChat }); toast("El bot vuelve a responder este chat"); } catch (x) { toast("No pude: " + x.message); }
+    return pintarWa(false);
+  }
+  const r = e.target.closest("button[data-resuelto]");
+  if (r) { await sb.from("avisos").update({ resuelto: true }).eq("id", Number(r.dataset.resuelto)); await pintarWa(false); }
+});
 $("#cuerpo").addEventListener("input", (e) => {
   const c = e.target.closest("textarea.com"); if (!c) return;
   const b = c.closest(".card")?.querySelector("button[data-vacio]"); if (b) b.textContent = c.value.trim() ? b.dataset.lleno : b.dataset.vacio;
   c.style.height = "auto"; c.style.height = Math.min(220, c.scrollHeight) + "px";
 });
-document.addEventListener("visibilitychange", () => { if (!document.hidden && !$("#vApp").classList.contains("oculto")) { if (tab === "para") irA("para"); else if (!enviando) pintarChat(false); cargarContadores(); } });
+document.addEventListener("visibilitychange", () => { if (!document.hidden && !$("#vApp").classList.contains("oculto")) { if (tab === "para") irA("para"); else if (tab === "wa") { if (!enviando) pintarWa(false); } else if (!enviando) pintarChat(false); cargarContadores(); } });
 entrar();
 </script>
 </body>
