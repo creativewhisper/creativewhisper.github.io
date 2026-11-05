@@ -2,16 +2,16 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0A0908">
 <link rel="icon" href="assets/monograma-cw.png">
-<title>Creative Whisper Productions</title>
-<meta name="description" content="Creative Whisper — la siguiente generación de agencia en Quito. Recopilación de datos, dashboards en Power BI, machine learning y producción de primera para redes y comerciales.">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "ProfessionalService", "name": "Creative Whisper Productions", "url": "https://creativewhisper.github.io/", "description": "Creative Whisper — la siguiente generación de agencia en Quito. Recopilación de datos, dashboards en Power BI, machine learning y producción de primera para redes y comerciales.", "image": "https://creativewhisper.github.io/assets/monograma-cw.png", "address": {"@type": "PostalAddress", "addressLocality": "Quito", "addressCountry": "EC"}, "areaServed": "Ecuador"}</script>
+<title>Creative Whisper — Agencia de marketing en Quito</title>
+<meta name="description" content="Creative Whisper es una agencia de marketing en Quito: análisis de datos, producción audiovisual, marketing digital y atención automatizada por WhatsApp en un solo equipo.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Creative Whisper","url":"https://creativewhisper.github.io/","description":"Agencia de marketing en Quito: análisis de datos, producción audiovisual, marketing digital y atención automatizada por WhatsApp.","image":"https://creativewhisper.github.io/assets/monograma-cw.png","telephone":"+593969577774","address":{"@type":"PostalAddress","addressLocality":"Quito","addressCountry":"EC"},"areaServed":"Ecuador"}</script>
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Creative Whisper Productions">
-<meta property="og:title" content="Creative Whisper Productions">
-<meta property="og:description" content="Creative Whisper — la siguiente generación de agencia en Quito. Recopilación de datos, dashboards en Power BI, machine learning y producción de primera para redes y comerciales.">
+<meta property="og:site_name" content="Creative Whisper">
+<meta property="og:title" content="Creative Whisper — Agencia de marketing en Quito">
+<meta property="og:description" content="Datos, producción audiovisual, marketing digital y atención automatizada en un solo equipo.">
 <meta property="og:locale" content="es_EC">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="https://creativewhisper.github.io/">
@@ -19,1376 +19,879 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <link rel="canonical" href="https://creativewhisper.github.io/">
+<link rel="preload" as="image" href="assets/scroll/f001.webp">
+<script>document.documentElement.classList.add('js')</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500&family=Cormorant:ital,wght@0,400;0,500;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
 /* =========================================================
-   CREATIVE WHISPER — tokens
-   Un solo mundo visual (negro de sala de cine). Sin tema claro a propósito.
+   CREATIVE WHISPER — inicio
+   Un solo mundo visual: negro de sala de cine + champagne del monograma.
+   Todo lo que se mueve depende del scroll: avanza al bajar, retrocede al subir.
    ========================================================= */
 :root{
   color-scheme: dark;
-  --ink:#0A0908;        /* fondo: negro cálido, igual al del logo */
-  --ink-2:#12100E;      /* superficie levantada */
-  --ink-3:#1B1815;      /* perforaciones, bordes densos */
-  --bone:#ECE6DB;       /* texto principal */
-  --mute:#9A9185;       /* texto secundario */
-  --mute-2:#6B6358;     /* texto en reposo (manifiesto) */
-  --metal:#CDBFA6;      /* champagne plata del monograma */
-  --metal-deep:#857A69;
-  --line:rgba(236,230,219,.12);
-  --line-2:rgba(236,230,219,.22);
-  --rec:#D9412B;        /* solo el punto de REC */
-
-  --f-display:"Cormorant", "Cormorant Garamond", Garamond, "Times New Roman", serif;
-  --f-caps:"Cinzel", "Trajan Pro", "Cormorant", Georgia, serif;
-  --f-body:"Hanken Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
-  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-
-  --t-label:11px;
-  --t-sm:14px;
-  --t-base:17px;
-  --t-md:clamp(22px, 1.8vw, 26px);
-  --t-lg:clamp(28px, 2.8vw, 38px);
-  --t-xl:clamp(40px, 5.4vw, 80px);
-  --t-hero:clamp(44px, 7.2vw, 122px);
-
+  --ink:#0A0908; --ink-2:#12100E; --ink-3:#1B1815;
+  --bone:#ECE6DB; --mute:#A39A8D; --mute-2:#6B6358;
+  --metal:#CDBFA6; --metal-deep:#857A69;
+  --line:rgba(236,230,219,.12); --line-2:rgba(236,230,219,.22);
+  --rec:#D9412B; --wa:#25D366;
+  --f-display:"Cormorant", Georgia, serif;
+  --f-sans:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, monospace;
   --gutter:clamp(16px, 4vw, 56px);
-  --max:1440px;
+  --max:1360px;
+  --header:68px;
   --ease:cubic-bezier(.2,.7,.1,1);
-  --ease-cine:cubic-bezier(.76,0,.24,1);
 }
-
 *,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  margin:0;background:var(--ink);color:var(--bone);
-  font-family:var(--f-body);font-size:var(--t-base);line-height:1.6;
-  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
-  overflow-x:hidden;
-}
-img,video{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-::selection{background:var(--metal);color:var(--ink)}
-:focus-visible{outline:1px solid var(--metal);outline-offset:4px}
-
-.wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
-.label{
-  font-family:var(--f-caps);font-size:var(--t-label);font-weight:500;
-  letter-spacing:.24em;text-transform:uppercase;color:var(--metal);
-}
-.mono{font-family:var(--f-mono);font-size:var(--t-label);letter-spacing:.06em;color:var(--mute);font-variant-numeric:tabular-nums}
-h1,h2,h3{font-family:var(--f-display);font-weight:300;margin:0;text-wrap:balance;letter-spacing:-.01em}
-h2{font-size:var(--t-xl);line-height:1}
-h2 em,h1 em{font-style:italic;font-weight:300}
-p{margin:0}
-.metal-text{
-  background:linear-gradient(100deg,#F3EBDD 0%,#CDBFA6 35%,#8E8472 55%,#E6DCCB 75%,#A99C86 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
-}
-
-/* grano de película */
-.grain{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.07;mix-blend-mode:overlay;animation:grain 1s steps(6) infinite}
-@keyframes grain{
-  0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}
-  60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}
-}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--f-sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img,video,canvas{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit}
+h1,h2,h3,p{margin:0}
+em{font-style:italic}
+.skip{position:absolute;left:-999px;top:8px;background:var(--bone);color:var(--ink);padding:8px 12px;z-index:100}
+.skip:focus{left:8px}
+:focus-visible{outline:2px solid var(--metal);outline-offset:3px}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding:0 var(--gutter)}
+.label{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--metal)}
+.h2{font-family:var(--f-display);font-weight:500;font-size:clamp(36px,4.6vw,68px);line-height:1.02;letter-spacing:-.01em}
+.h2 em{color:var(--metal)}
+.lead{color:var(--mute);font-size:clamp(16px,1.3vw,19px);max-width:56ch}
 
 /* ---------- botones ---------- */
-.btn{
-  display:inline-flex;align-items:center;gap:12px;
-  font-family:var(--f-body);font-size:var(--t-sm);font-weight:500;letter-spacing:.04em;
-  padding:15px 24px;border:1px solid var(--line-2);color:var(--bone);
-  transition:background .4s var(--ease),color .4s var(--ease),border-color .4s var(--ease);
-  white-space:nowrap;
-}
-.btn:hover{border-color:var(--metal);color:var(--metal)}
-.btn--solid{background:var(--bone);color:var(--ink);border-color:var(--bone)}
-.btn--solid:hover{background:var(--metal);border-color:var(--metal);color:var(--ink)}
-.btn .play{width:0;height:0;border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
-.btn .arrow{display:inline-block;transition:transform .4s var(--ease)}
-.btn:hover .arrow{transform:translateX(4px)}
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:48px;padding:0 22px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .25s var(--ease),color .25s var(--ease),border-color .25s var(--ease),transform .25s var(--ease)}
+.btn--solid{background:var(--bone);color:var(--ink)}
+.btn--solid:hover{background:var(--metal)}
+.btn--ghost{border-color:var(--line-2);color:var(--bone)}
+.btn--ghost:hover{border-color:var(--bone)}
+.btn svg{width:18px;height:18px;flex:none}
+.btn:active{transform:scale(.98)}
 
 /* ---------- header ---------- */
-.site-header{
-  position:fixed;top:0;left:0;right:0;z-index:60;
-  transition:background .5s var(--ease),border-color .5s var(--ease);
-  border-bottom:1px solid transparent;
+.top{position:fixed;inset:0 0 auto 0;z-index:50;height:var(--header);display:flex;align-items:center;transition:background .35s var(--ease),border-color .35s var(--ease);border-bottom:1px solid transparent}
+.top.is-solid{background:rgba(10,9,8,.82);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.top .wrap{display:flex;align-items:center;gap:28px;max-width:none}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;margin-right:auto}
+.brand img{width:40px;height:auto}
+.brand span{font-family:"Cinzel",serif;font-weight:500;letter-spacing:.2em;font-size:13px;white-space:nowrap}
+.nav{display:flex;gap:26px}
+.nav a{font-size:14px;text-decoration:none;color:var(--mute);transition:color .2s}
+.nav a:hover,.nav a[aria-current="true"]{color:var(--bone)}
+.top .btn{min-height:40px;padding:0 18px;font-size:14px}
+.progress{position:absolute;left:0;bottom:-1px;height:1px;width:100%;background:var(--metal);transform-origin:0 50%;transform:scaleX(0)}
+.menu-btn{display:none;background:none;border:1px solid var(--line-2);border-radius:999px;height:40px;padding:0 16px;font-size:14px;cursor:pointer}
+@media (max-width:900px){
+  .nav{display:none;position:absolute;top:var(--header);left:0;right:0;flex-direction:column;gap:0;background:rgba(10,9,8,.97);border-bottom:1px solid var(--line);padding:8px var(--gutter) 20px}
+  .nav.open{display:flex}
+  .nav a{font-size:20px;color:var(--bone);padding:14px 0;border-bottom:1px solid var(--line)}
+  .menu-btn{display:inline-flex;align-items:center}
+  .brand span{display:none}
+  .top .wrap{gap:10px}
 }
-.site-header.is-scrolled{background:rgba(10,9,8,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:76px}
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{width:54px;height:auto}
-.brand span{font-family:var(--f-caps);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--bone)}
-.nav-links{display:flex;align-items:center;gap:clamp(18px,2.4vw,34px);font-size:var(--t-sm);color:var(--mute)}
-.nav-links a{white-space:nowrap}
-@media (max-width:1180px){.brand span{display:none}}
-.nav-links a{position:relative;transition:color .3s}
-.nav-links a:hover{color:var(--bone)}
-.nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--metal);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
-.nav-links a:not(.btn):hover::after{transform:scaleX(1);transform-origin:left}
-.nav-links .btn{padding:11px 18px;color:var(--bone)}
-.menu-toggle{display:none;width:44px;height:44px;position:relative}
-.menu-toggle span{position:absolute;left:10px;right:10px;height:1px;background:var(--bone);transition:transform .4s var(--ease),top .4s var(--ease)}
-.menu-toggle span:nth-child(1){top:18px}.menu-toggle span:nth-child(2){top:26px}
-.site-header.is-open .menu-toggle span:nth-child(1){top:22px;transform:rotate(45deg)}
-.site-header.is-open .menu-toggle span:nth-child(2){top:22px;transform:rotate(-45deg)}
 
-/* ---------- hero ---------- */
-.hero{padding-top:92px}
-.frame{
-  position:relative;aspect-ratio:2.39/1;overflow:hidden;background:#000;
-  max-height:calc(100vh - 220px);min-height:420px;width:100%;
+/* ---------- HUD: acompaña todo el recorrido ---------- */
+.hud{position:fixed;left:var(--gutter);bottom:22px;z-index:40;display:flex;align-items:center;gap:12px;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute);pointer-events:none;mix-blend-mode:difference}
+.hud .dot{width:7px;height:7px;border-radius:50%;background:var(--rec);animation:blink 1.6s steps(1) infinite}
+.hud b{font-weight:500;color:var(--bone)}
+@keyframes blink{50%{opacity:.2}}
+@media (max-width:700px){.hud{display:none}}
+
+/* ---------- WhatsApp flotante ---------- */
+.fab{position:fixed;right:max(16px,env(safe-area-inset-right));bottom:max(16px,env(safe-area-inset-bottom));z-index:45;display:flex;align-items:center;gap:10px;height:54px;padding:0 20px 0 16px;border-radius:999px;background:var(--bone);color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;box-shadow:0 10px 30px rgba(0,0,0,.45);transform:translateY(130%);opacity:0;transition:transform .45s var(--ease),opacity .45s var(--ease)}
+.fab.is-on{transform:none;opacity:1}
+.fab svg{width:22px;height:22px;color:#128C4B}
+.fab:hover{background:var(--metal)}
+
+/* =========================================================
+   1. HERO — secuencia de cuadros controlada por el scroll
+   ========================================================= */
+.hero{position:relative;height:280vh}
+.hero .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.hero .frame{position:absolute;inset:0;overflow:hidden;will-change:transform,border-radius;transform-origin:50% 50%}
+.hero canvas,.hero .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .shade{position:absolute;inset:0;background:
+   linear-gradient(90deg,rgba(10,9,8,.86) 0%,rgba(10,9,8,.55) 42%,rgba(10,9,8,.05) 75%),
+   linear-gradient(0deg,rgba(10,9,8,.75) 0%,rgba(10,9,8,0) 40%),
+   linear-gradient(180deg,rgba(10,9,8,.55) 0%,rgba(10,9,8,0) 22%)}
+.hero .copy{position:absolute;left:0;right:0;bottom:clamp(64px,11vh,120px);will-change:transform,opacity}
+.hero h1{font-family:var(--f-sans);font-weight:500;font-size:clamp(34px,4.8vw,76px);line-height:1.02;letter-spacing:-.025em;max-width:17ch;margin:18px 0 22px}
+.hero h1 em{font-family:var(--f-display);font-weight:500;font-size:1.08em;letter-spacing:-.01em;color:var(--metal)}
+.hero .sub{color:#CFC7BA;font-size:clamp(16px,1.35vw,20px);max-width:46ch;margin-bottom:30px}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px}
+.cam{position:absolute;top:calc(var(--header) + 16px);right:var(--gutter);text-align:right;font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:rgba(236,230,219,.8);line-height:1.9}
+.cam .rec{color:var(--bone)}
+.cam .rec i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--rec);margin-right:8px;vertical-align:1px;animation:blink 1.6s steps(1) infinite}
+.scrollhint{position:absolute;right:var(--gutter);bottom:clamp(64px,11vh,120px);display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--f-mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--mute)}
+.scrollhint .bar{width:1px;height:64px;background:var(--line-2);position:relative;overflow:hidden}
+.scrollhint .bar i{position:absolute;inset:0;background:var(--bone);transform-origin:0 0;transform:scaleY(0)}
+.caption{position:absolute;left:50%;bottom:calc(6vh);transform:translate(-50%,0);font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);opacity:0;white-space:nowrap}
+@media (max-width:700px){
+  .hero .shade{background:linear-gradient(0deg,rgba(10,9,8,.95) 0%,rgba(10,9,8,.7) 45%,rgba(10,9,8,.1) 75%),linear-gradient(180deg,rgba(10,9,8,.6) 0%,rgba(10,9,8,0) 25%)}
+  .hero .copy{bottom:28px}
+  .scrollhint{display:none}
+  .cam{font-size:10px}
 }
-.frame::before,.frame::after{ /* barras de letterbox que se abren */
-  content:"";position:absolute;left:0;right:0;height:50.5%;background:var(--ink);z-index:6;
-  animation:bars 1.3s var(--ease-cine) .15s both;
+
+/* ---------- marcas ---------- */
+.brands{padding:clamp(48px,7vw,96px) 0 clamp(40px,6vw,80px);border-bottom:1px solid var(--line)}
+.brands .label{display:block;text-align:center;margin-bottom:28px;color:var(--mute)}
+.marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquee .track{display:flex;width:max-content;will-change:transform}
+.marquee .set{display:flex;align-items:center;gap:clamp(40px,6vw,88px);padding-right:clamp(40px,6vw,88px)}
+.marquee img{height:30px;width:auto;opacity:.72;filter:grayscale(1) brightness(1.6) contrast(.9)}
+.marquee img.tall{height:40px}
+
+/* =========================================================
+   2. ENFOQUE — el texto se enciende palabra por palabra
+   ========================================================= */
+.statement{position:relative;height:230vh}
+.statement .stage{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center}
+.statement .label{display:block;margin-bottom:28px}
+.statement p{font-family:var(--f-display);font-weight:500;font-size:clamp(30px,4vw,62px);line-height:1.12;letter-spacing:-.01em;max-width:24ch}
+.statement .w{opacity:.16;transition:opacity .25s linear}
+.statement .w.on{opacity:1}
+.statement .w.key{color:var(--metal);font-style:italic}
+
+/* =========================================================
+   3. SERVICIOS — cuatro áreas, en orden, con un ciclo que se llena
+   ========================================================= */
+.services{position:relative;height:520vh;border-top:1px solid var(--line)}
+.services .stage{position:sticky;top:0;height:100vh;height:100svh;display:flex;align-items:center;padding-top:var(--header)}
+.svc-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(32px,6vw,96px);align-items:center;width:100%}
+.svc-head{margin-bottom:clamp(20px,3vh,36px)}
+.svc-head .h2{margin-top:12px}
+.steps{list-style:none;margin:0;padding:0;position:relative}
+.steps::before{content:"";position:absolute;left:15px;top:8px;bottom:8px;width:1px;background:var(--line-2)}
+.steps .fill{position:absolute;left:15px;top:8px;width:1px;bottom:8px;background:var(--metal);transform-origin:0 0;transform:scaleY(0)}
+.step{position:relative;padding:0 0 0 52px;margin-bottom:clamp(10px,1.6vh,18px)}
+.step:last-child{margin-bottom:0}
+.step .n{position:absolute;left:0;top:2px;width:31px;height:31px;border-radius:50%;border:1px solid var(--line-2);background:var(--ink);display:grid;place-items:center;font-family:var(--f-mono);font-size:11px;color:var(--mute);transition:all .35s var(--ease)}
+.step h3{font-family:var(--f-sans);font-weight:500;font-size:clamp(20px,1.9vw,28px);line-height:1.2;color:var(--mute-2);transition:color .35s var(--ease)}
+.step h3 small{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;margin-left:12px;color:inherit;vertical-align:3px}
+.step .body{display:grid;grid-template-rows:1fr;transition:grid-template-rows .5s var(--ease),opacity .4s var(--ease)}
+.js .step .body{grid-template-rows:0fr;opacity:0}
+.step .body>div{overflow:hidden}
+.step .body p{color:var(--mute);margin:10px 0 14px;max-width:48ch;font-size:16px}
+.chips{display:flex;flex-wrap:wrap;gap:8px;padding-bottom:4px}
+.chips a{font-size:13.5px;text-decoration:none;padding:7px 13px;border:1px solid var(--line-2);border-radius:999px;color:var(--bone);transition:border-color .2s,background .2s}
+.chips a:hover{border-color:var(--metal);background:rgba(205,191,166,.08)}
+.step.is-active h3{color:var(--bone)}
+.step.is-active .n,.step.is-done .n{border-color:var(--metal);color:var(--ink);background:var(--metal)}
+.js .step.is-active .body{grid-template-rows:1fr;opacity:1}
+
+.svc-visual{position:relative;justify-self:end;width:100%;max-width:520px}
+.svc-visual .pics{position:relative;aspect-ratio:1/1;border-radius:18px;overflow:hidden;background:var(--ink-2);border:1px solid var(--line)}
+.svc-visual .pics img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transform:scale(1.08);transition:opacity .7s var(--ease),transform 1.2s var(--ease)}
+.svc-visual .pics img.on{opacity:1;transform:scale(1)}
+.svc-visual .pics::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,9,8,.55),rgba(10,9,8,0) 45%)}
+.ring{position:absolute;left:-28px;bottom:-28px;width:150px;height:150px;border-radius:50%;background:var(--ink);border:1px solid var(--line);display:grid;place-items:center;z-index:2}
+.ring svg{position:absolute;inset:10px;width:calc(100% - 20px);height:calc(100% - 20px);transform:rotate(-90deg);overflow:visible}
+.ring .trk{fill:none;stroke:var(--line-2);stroke-width:1.5}
+.ring .arc{fill:none;stroke:var(--metal);stroke-width:2.5;stroke-linecap:round}
+.ring .node{fill:var(--ink);stroke:var(--line-2);stroke-width:1.5;transition:fill .3s,stroke .3s}
+.ring .node.on{fill:var(--metal);stroke:var(--metal)}
+.ring .mid{text-align:center;position:relative}
+.ring .mid b{display:block;font-family:var(--f-display);font-weight:500;font-size:40px;line-height:1}
+.ring .mid span{font-family:var(--f-mono);font-size:9.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.loopnote{margin:44px 0 0 140px;font-size:14px;color:var(--mute);max-width:36ch;transition:color .4s}
+.loopnote.on{color:var(--bone)}
+.loopnote::before{content:"↺ ";color:var(--metal)}
+
+@media (max-width:900px){
+  .services{height:560vh}
+  .services .stage{align-items:flex-start;padding-top:calc(var(--header) + 12px)}
+  .svc-grid{grid-template-columns:1fr;gap:18px}
+  .svc-visual{order:-1;justify-self:stretch;max-width:none;display:flex;align-items:center;gap:16px}
+  .svc-visual .pics{flex:1;aspect-ratio:auto;height:clamp(110px,20svh,190px);border-radius:12px}
+  .ring{position:relative;left:auto;bottom:auto;width:104px;height:104px;flex:none}
+  .ring .mid b{font-size:28px}
+  .ring .mid span{font-size:8px}
+  .loopnote{display:none}
+  .svc-head{margin-bottom:14px}
+  .svc-head .h2{font-size:clamp(28px,8vw,40px)}
+  .step h3{font-size:19px}
+  .step h3 small{display:none}
+  .step .body p{font-size:14.5px;margin:6px 0 10px}
+  .chips a{font-size:12.5px;padding:6px 11px}
 }
-.frame::before{top:0;transform-origin:top}
-.frame::after{bottom:0;transform-origin:bottom}
-@keyframes bars{from{transform:scaleY(1)}to{transform:scaleY(0)}}
-.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s var(--ease)}
-.slide.is-on{opacity:1}
-.slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.04)}
-.slide.is-on img{animation:push 9s linear both}
-@keyframes push{from{transform:scale(1.04)}to{transform:scale(1.13)}}
-.frame-shade{position:absolute;inset:0;z-index:2;background:
-  linear-gradient(to top,rgba(10,9,8,.94) 0%,rgba(10,9,8,.55) 38%,rgba(10,9,8,.08) 68%,rgba(10,9,8,.45) 100%),
-  linear-gradient(to right,rgba(10,9,8,.55) 0%,rgba(10,9,8,0) 55%)}
-.vf{position:absolute;inset:18px;z-index:3;pointer-events:none}
-.vf i{position:absolute;width:26px;height:26px;border-color:rgba(236,230,219,.55);border-style:solid;border-width:0}
-.vf i:nth-child(1){top:0;left:0;border-top-width:1px;border-left-width:1px}
-.vf i:nth-child(2){top:0;right:0;border-top-width:1px;border-right-width:1px}
-.vf i:nth-child(3){bottom:0;left:0;border-bottom-width:1px;border-left-width:1px}
-.vf i:nth-child(4){bottom:0;right:0;border-bottom-width:1px;border-right-width:1px}
-.vf-bar{position:absolute;top:6px;left:40px;right:40px;display:flex;justify-content:space-between;gap:16px;color:rgba(236,230,219,.8)}
-.vf-bar .mono{color:inherit}
-.ar-tall{display:none}
-.rec{display:inline-flex;align-items:center;gap:8px}
-.rec::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--rec);animation:blink 1.6s steps(2) infinite}
-@keyframes blink{50%{opacity:.15}}
-.vf-cross{position:absolute;left:50%;top:50%;width:22px;height:22px;transform:translate(-50%,-50%);opacity:.35}
-.vf-cross::before,.vf-cross::after{content:"";position:absolute;background:var(--bone)}
-.vf-cross::before{left:50%;top:0;bottom:0;width:1px}
-.vf-cross::after{top:50%;left:0;right:0;height:1px}
-.vf-tc{position:absolute;right:40px;bottom:6px;color:rgba(236,230,219,.8)}
-.hero-title{
-  position:absolute;z-index:4;left:clamp(28px,4.4vw,72px);right:clamp(28px,4.4vw,72px);bottom:clamp(40px,4.6vw,78px);
-  font-size:var(--t-hero);line-height:.94;letter-spacing:-.02em;
+@media (max-width:900px) and (max-height:720px){
+  .svc-visual .pics{height:96px}
+  .ring{width:88px;height:88px}
+  .svc-head .label{display:none}
+  .step .body p{display:none}
 }
-.hero-title .ln{display:block;overflow:hidden;padding-bottom:.08em}
-.hero-title .ln > span{display:block;animation:rise 1.2s var(--ease) both}
-.hero-title .ln:nth-child(1) > span{animation-delay:.75s}
-.hero-title .ln:nth-child(2) > span{animation-delay:.9s}
-@keyframes rise{from{transform:translateY(105%)}to{transform:translateY(0)}}
-.hero-title em{padding-right:.06em}
-.scene{position:absolute;z-index:4;left:clamp(28px,4.4vw,72px);top:52px;display:flex;align-items:center;gap:10px;color:rgba(236,230,219,.75)}
-.scene .mono{color:inherit;transition:opacity .6s}
 
-.hero-foot{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;padding-block:36px 8px}
-.hero-foot .lede{grid-column:1 / span 6;font-size:clamp(17px,1.35vw,20px);color:var(--mute);max-width:56ch}
-.hero-foot .lede strong{color:var(--bone);font-weight:500}
-.hero-actions{grid-column:8 / span 5;display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+/* ---------- llamada intermedia ---------- */
+.band{padding:clamp(56px,8vw,112px) 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:var(--ink-2)}
+.band .wrap{display:flex;align-items:center;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.band p{font-family:var(--f-display);font-size:clamp(26px,3vw,44px);line-height:1.12;max-width:26ch}
+.band p span{display:block;font-family:var(--f-sans);font-size:16px;color:var(--mute);margin-top:12px;line-height:1.5}
 
-/* ---------- hero en video + marcas ---------- */
-.frame--video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.nav-quick{display:none;gap:16px;align-items:center;margin-left:auto;margin-right:4px}
-.nav-quick a{font-family:var(--f-caps);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone);white-space:nowrap}
-@media (max-width:440px){.nav-quick{gap:11px}.nav-quick a{font-size:10px;letter-spacing:.08em}}
-.clients{margin-top:44px;padding-top:26px;border-top:1px solid var(--line)}
-.clients-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:22px}
-.clients-head a{font-size:13px;color:var(--mute);border-bottom:1px solid var(--line-2);transition:color .3s,border-color .3s}
-.clients-head a:hover{color:var(--metal);border-color:var(--metal)}
-.clients-row{display:grid;grid-template-columns:repeat(10,1fr);gap:clamp(14px,2vw,30px);align-items:center}
-.clients-row img{width:100%;height:clamp(24px,2.6vw,36px);object-fit:contain;opacity:.55;filter:saturate(0);transition:opacity .4s var(--ease),transform .5s var(--ease)}
-.clients-row a:hover img,.clients-row img:hover{opacity:1;transform:translateY(-2px)}
+/* =========================================================
+   4. TRABAJO — galería horizontal movida por el scroll vertical
+   ========================================================= */
+.work{position:relative}
+.work .stage{position:sticky;top:0;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding-top:var(--header)}
+.work-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:clamp(20px,3.5vh,40px)}
+.work-head .h2{margin-top:12px}
+.work-head .count{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:var(--mute);white-space:nowrap}
+.rail{display:flex;gap:clamp(14px,1.6vw,24px);padding:0 var(--gutter);will-change:transform;width:max-content}
+.card{position:relative;flex:none;height:min(62svh,600px);border-radius:14px;overflow:hidden;background:var(--ink-2);border:1px solid var(--line);text-decoration:none;display:block}
+.card.v{aspect-ratio:9/16}
+.card.p{aspect-ratio:4/5}
+.card.l{aspect-ratio:4/3}
+.card img,.card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .8s var(--ease)}
+.card:hover img,.card:hover video{transform:scale(1.04)}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,9,8,.85) 0%,rgba(10,9,8,0) 50%)}
+.card .meta{position:absolute;left:18px;right:18px;bottom:16px;z-index:2}
+.card .meta .label{color:var(--metal);font-size:10px}
+.card .meta h3{font-weight:500;font-size:clamp(17px,1.4vw,21px);line-height:1.25;margin-top:6px}
+.card .meta p{font-size:13.5px;color:var(--mute);margin-top:6px}
+.card.end{display:flex;flex-direction:column;justify-content:space-between;padding:28px;aspect-ratio:4/5;background:var(--bone);color:var(--ink)}
+.card.end::after{display:none}
+.card.end .h2{font-size:clamp(30px,2.8vw,44px)}
+.card.end .links{display:flex;flex-direction:column;gap:10px}
+.card.end .links a{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid rgba(10,9,8,.18);text-decoration:none;font-weight:600}
+.card.end .links button{all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1px solid rgba(10,9,8,.18);font-weight:600}
+.rail-bar{margin:clamp(18px,3vh,32px) var(--gutter) 0;height:1px;background:var(--line-2);position:relative;max-width:calc(var(--max) - 2*var(--gutter))}
+.rail-bar i{position:absolute;inset:0;background:var(--metal);transform-origin:0 50%;transform:scaleX(0)}
+@media (max-width:700px){.card{height:min(54svh,480px)}.work-head .count{display:none}}
 
-/* ---------- marquee ---------- */
-.marquee{margin-top:64px;border-block:1px solid var(--line);overflow:hidden;padding-block:22px}
-.marquee-track{display:flex;width:max-content;animation:slide 48s linear infinite}
-.marquee:hover .marquee-track{animation-play-state:paused}
-.marquee-group{display:flex;align-items:center;gap:40px;padding-right:40px}
-.marquee-group span{font-family:var(--f-display);font-style:italic;font-weight:300;font-size:clamp(28px,3vw,44px);color:var(--bone);white-space:nowrap}
-.marquee-group b{width:10px;height:14px;border:1px solid var(--metal-deep);border-radius:2px;flex:none}
-@keyframes slide{to{transform:translateX(-50%)}}
-
-/* ---------- secciones ---------- */
-section{position:relative}
-.block{padding-block:clamp(88px,11vw,168px)}
-.sec-head{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;margin-bottom:clamp(40px,5vw,72px)}
-.sec-head .label{grid-column:1 / -1}
-.sec-head h2{grid-column:1 / span 7}
-.sec-head .aside{grid-column:9 / span 4;color:var(--mute);font-size:var(--t-base);max-width:44ch}
-.sec-head .aside .btn{margin-top:20px}
-
-/* reveal (solo para lo que empieza fuera de pantalla) */
-.will-reveal{opacity:0;transform:translateY(28px)}
-.is-revealed{opacity:1;transform:none;transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
-
-/* ---------- reel ---------- */
-.reels{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;align-items:start}
-.reel{margin:0}
-.reel:nth-child(even){margin-top:56px}
-.reel-media{position:relative;aspect-ratio:9/16;background:#000;overflow:hidden;cursor:pointer}
-.reel-media img,.reel-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease),opacity .6s}
-.reel-media video{opacity:0}
-.reel-media.is-playing video{opacity:1}
-.reel:hover .reel-media img,.reel:hover .reel-media video{transform:scale(1.035)}
-.reel-media::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,8,.6),transparent 40%);pointer-events:none}
-.reel-tag{position:absolute;z-index:2;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;color:rgba(236,230,219,.85)}
-.reel-tag .mono{color:inherit}
-.reel figcaption{padding-top:16px;display:grid;gap:4px}
-.reel h3{font-size:var(--t-md);line-height:1.15;font-weight:400}
-.reel .label{font-size:10px;color:var(--mute)}
-.reel-cta{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap}
-
-/* ---------- manifiesto ---------- */
-.manifest{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:center}
-.manifest-text{grid-column:1 / span 7}
-.manifest-text p{font-family:var(--f-display);font-weight:300;font-size:clamp(30px,3.5vw,54px);line-height:1.12;letter-spacing:-.01em}
-.manifest-text .w{color:var(--mute-2);transition:color .5s var(--ease)}
-.manifest-text .w.on{color:var(--bone)}
-.manifest-text .w.em{font-style:italic}
-.manifest-text .w.em.on{color:var(--metal)}
-.manifest-sign{margin-top:36px;display:flex;align-items:center;gap:16px;color:var(--mute)}
-.manifest-sign::before{content:"";width:48px;height:1px;background:var(--metal-deep)}
-.ident{grid-column:9 / span 4}
-.ident-frame{position:relative;aspect-ratio:16/9;background:#000;overflow:hidden}
-.ident-frame video,.ident-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.ident-frame .vf{inset:10px}
-.ident-frame .vf i{width:16px;height:16px}
-.ident figcaption{display:flex;justify-content:space-between;gap:12px;padding-top:14px}
-
-/* ---------- viaje del cliente (tira de película) ---------- */
-.journey{background:#050504;border-block:1px solid var(--line)}
-.strip{position:relative;padding-block:30px}
-.strip::before,.strip::after{
-  content:"";position:absolute;left:0;right:0;height:10px;
-  background:repeating-linear-gradient(90deg,transparent 0 12px,var(--ink-3) 12px 26px,transparent 26px 34px);
-}
-.strip::before{top:10px}.strip::after{bottom:10px}
-.frames{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.jf{display:grid;gap:18px;align-content:start}
-.jf-img{position:relative;aspect-ratio:4/5;overflow:hidden;background:#000}
-.jf-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05);transition:transform 1.4s var(--ease),filter .8s}
-.jf:hover .jf-img img{transform:scale(1.05);filter:saturate(1) contrast(1.05)}
-.jf-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,5,4,.55),transparent 35%)}
-.jf-num{position:absolute;z-index:2;top:14px;left:16px;font-family:var(--f-caps);font-size:30px;line-height:1;color:var(--bone)}
-.jf-stage{position:absolute;z-index:2;top:20px;right:16px}
-.jf-body{padding-inline:4px}
-.jf-body h3{font-size:var(--t-lg);line-height:1.05;margin-bottom:12px}
-.jf-body p{color:var(--mute);font-size:15px;max-width:34ch}
-.jf-body .mono{display:block;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
-.journey-arrow{display:flex;align-items:center;gap:14px;margin-top:40px;color:var(--mute)}
-.journey-arrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--metal-deep),transparent)}
-
-/* ---------- servicios ---------- */
-.services{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
-.services-head{grid-column:1 / span 4;align-self:start;position:sticky;top:120px}
-.services-head h2{margin-block:18px 22px}
-.services-head p{color:var(--mute);max-width:36ch}
-.svc-list{grid-column:6 / span 7;list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
-.svc-group{padding-block:52px 16px}
-.svc-group:first-child{padding-top:0}
-.svc{display:grid;grid-template-columns:1fr auto;gap:8px 24px;padding-block:30px;border-top:1px solid var(--line);position:relative}
-.svc h3{font-size:clamp(28px,2.8vw,40px);line-height:1.05;transition:transform .6s var(--ease),color .4s}
-.svc p{grid-column:1;color:var(--mute);max-width:52ch;font-size:16px}
-.svc .mono{grid-column:2;grid-row:1 / span 2;align-self:start;text-align:right;padding-top:10px;line-height:1.9}
-.svc:hover h3{transform:translateX(10px);color:var(--metal)}
-.svc-thumb{display:none}
-.cursor-img{
-  position:fixed;left:0;top:0;z-index:40;width:240px;aspect-ratio:4/5;pointer-events:none;overflow:hidden;
-  opacity:0;transform:translate(-50%,-50%) scale(.85);transition:opacity .35s var(--ease),transform .5s var(--ease);
-}
-.cursor-img.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.cursor-img img{width:100%;height:100%;object-fit:cover}
-
-/* ---------- caso ---------- */
-.case{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
-.case-media{grid-column:1 / span 7;position:relative}
-.case-media .main{aspect-ratio:3/2;overflow:hidden;background:#000}
-.case-media .main img{width:100%;height:100%;object-fit:cover}
-.case-media .inset{position:absolute;right:-6%;bottom:-12%;width:38%;aspect-ratio:4/5;overflow:hidden;border:8px solid var(--ink)}
-.case-media .inset img{width:100%;height:100%;object-fit:cover}
-.case-body{grid-column:9 / span 4}
-.case-body h2{font-style:italic;margin-block:16px 22px}
-.case-body > p{color:var(--mute)}
-.facts{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:34px 0 0;border-top:1px solid var(--line)}
-.facts div{padding:18px 0;border-bottom:1px solid var(--line)}
-.facts div:nth-child(odd){padding-right:16px;border-right:1px solid var(--line)}
-.facts div:nth-child(even){padding-left:20px}
-.facts dt{font-family:var(--f-caps);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-.facts dd{margin:4px 0 0;font-family:var(--f-display);font-size:40px;line-height:1;font-weight:300;font-variant-numeric:lining-nums}
-.facts dd small{font-size:18px;color:var(--mute);margin-left:4px}
-.credits{margin-top:30px;display:grid;gap:14px}
-.credits div{display:grid;gap:2px}
-.credits .role{font-family:var(--f-caps);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--metal-deep)}
-.credits .who{font-family:var(--f-caps);font-size:15px;letter-spacing:.14em;text-transform:uppercase}
-
-/* ---------- detrás de cámaras ---------- */
-.bts-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:clamp(90px,9vw,130px);gap:14px}
-.bts-grid figure{margin:0;overflow:hidden;background:#000;position:relative}
-.bts-grid img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
-.bts-grid figure:hover img{transform:scale(1.04)}
-.b1{grid-column:1 / span 5;grid-row:span 4}
-.b2{grid-column:6 / span 4;grid-row:span 3}
-.b3{grid-column:10 / span 3;grid-row:span 4}
-.b4{grid-column:6 / span 4;grid-row:span 3}
-.b5{grid-column:1 / span 3;grid-row:span 2}
-.b6{grid-column:4 / span 2;grid-row:span 2}
-.b7{grid-column:10 / span 3;grid-row:span 2}
-.b6,.b7{align-self:stretch}
-.bts-grid figcaption{position:absolute;left:10px;bottom:8px;color:rgba(236,230,219,.8)}
-
-/* ---------- equipo ---------- */
-.kit{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(210px,21vw,300px);gap:14px}
-.kit-item{position:relative;margin:0;overflow:hidden;background:var(--ink-2);isolation:isolate}
-.kit-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  filter:grayscale(.4) contrast(1.06) brightness(.82);transition:filter .8s var(--ease),transform 1.4s var(--ease)}
-.kit-item:hover img{filter:none;transform:scale(1.04)}
-.kit-item::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(to top,rgba(10,9,8,.92) 0%,rgba(10,9,8,.35) 38%,rgba(10,9,8,0) 62%)}
-.kit-item figcaption{position:absolute;z-index:2;left:18px;right:18px;bottom:16px;display:grid;gap:3px}
-.kit-item .label{font-size:10px}
-.kit-item strong{font-family:var(--f-display);font-weight:400;font-size:var(--t-md);line-height:1.1;color:var(--bone)}
-.kit-item .mono{margin-top:2px}
-.kit-feature{grid-column:span 2;grid-row:span 2}
-.kit-feature strong{font-size:var(--t-lg)}
-.kit-wide{grid-column:span 2}
-.kit-product{background:radial-gradient(70% 60% at 50% 42%,#2a2621 0%,var(--ink-2) 70%)}
-.kit-product img{object-fit:contain;inset:8% 10% 30%;width:80%;height:62%;filter:grayscale(.2) brightness(.95)}
-.kit-formats{display:flex;flex-direction:column;justify-content:space-between;padding:20px 18px 16px;border:1px solid var(--line)}
-.kit-formats::after{display:none}
-.kit-formats figcaption{position:static}
-.frames-ar{display:grid;grid-template-columns:auto auto;gap:18px 20px;align-content:center;justify-content:start;flex:1;padding-block:10px}
-.frames-ar span{display:grid;gap:6px;justify-items:start}
-.frames-ar i{display:block;height:clamp(40px,4vw,58px);border:1px solid var(--metal-deep)}
-.frames-ar span:hover i{border-color:var(--metal)}
+/* ---------- cifras ---------- */
+.facts{padding:clamp(72px,10vw,140px) 0}
+.facts .grid{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid var(--line)}
+.fact{padding:28px 24px 0 0}
+.fact+.fact{padding-left:24px;border-left:1px solid var(--line)}
+.fact b{display:block;font-family:var(--f-display);font-weight:500;font-size:clamp(52px,6.4vw,104px);line-height:1;letter-spacing:-.02em}
+.fact b sup{font-size:.45em;color:var(--metal);vertical-align:.9em;margin-left:4px}
+.fact>span{display:block;color:var(--mute);margin-top:12px;max-width:26ch;font-size:15.5px}
+@media (max-width:700px){.facts .grid{grid-template-columns:1fr}.fact+.fact{padding-left:0;border-left:0;border-top:1px solid var(--line);margin-top:28px}}
 
 /* ---------- preguntas ---------- */
-.faq{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
-.faq-head{grid-column:1 / span 4}
-.faq-head h2{margin-top:18px}
-.faq-list{grid-column:6 / span 7;border-bottom:1px solid var(--line)}
+.faq{padding:0 0 clamp(72px,10vw,140px)}
+.faq .wrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(32px,6vw,96px)}
 .faq details{border-top:1px solid var(--line)}
-.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding-block:26px;font-family:var(--f-display);font-size:var(--t-md);line-height:1.2}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:24px;padding:22px 0;font-size:clamp(17px,1.4vw,20px);font-weight:500}
 .faq summary::-webkit-details-marker{display:none}
-.faq summary i{position:relative;width:14px;height:14px;flex:none}
-.faq summary i::before,.faq summary i::after{content:"";position:absolute;background:var(--metal);left:0;right:0;top:50%;height:1px;transition:transform .4s var(--ease)}
-.faq summary i::after{transform:rotate(90deg)}
-.faq details[open] summary i::after{transform:rotate(0)}
-.faq details p{color:var(--mute);padding-bottom:28px;max-width:60ch}
+.faq summary::after{content:"+";font-family:var(--f-mono);color:var(--metal);font-size:20px;line-height:1;transition:transform .3s var(--ease)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--mute);padding:0 0 24px;max-width:60ch}
+@media (max-width:900px){.faq .wrap{grid-template-columns:1fr}}
 
-/* ---------- contacto ---------- */
-.contact{background:radial-gradient(55% 60% at 18% 35%,rgba(205,191,166,.075),transparent 75%)}
-.contact-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
-.contact-copy{grid-column:1 / span 6}
-.contact-copy h2{font-size:clamp(44px,6vw,96px);margin-block:18px 28px}
-.contact-copy p{color:var(--mute);max-width:44ch}
-.contact-lines{margin-top:40px;display:grid;gap:10px}
-.contact-lines a{font-family:var(--f-display);font-size:var(--t-lg);width:fit-content;max-width:100%;overflow-wrap:anywhere;border-bottom:1px solid var(--line-2);line-height:1.2;transition:border-color .3s,color .3s}
-.contact-lines a:hover{color:var(--metal);border-color:var(--metal)}
-.brief{grid-column:8 / span 5;position:relative;min-width:0;display:grid;gap:26px;padding:clamp(24px,3vw,40px);background:var(--ink-2);border:1px solid var(--line)}
-.brief .row{display:grid;gap:8px}
-.brief label,.brief legend{font-family:var(--f-caps);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-.brief input,.brief textarea{
-  width:100%;background:transparent;border:0;border-bottom:1px solid var(--line-2);color:var(--bone);
-  font-family:var(--f-body);font-size:17px;padding:8px 0 10px;border-radius:0;outline:none;transition:border-color .3s;
-}
-.brief textarea{resize:vertical;min-height:84px}
-.brief input:focus,.brief textarea:focus{border-color:var(--metal)}
-.brief input::placeholder,.brief textarea::placeholder{color:var(--mute-2)}
-.brief fieldset{border:0;margin:0;padding:0;display:grid;gap:12px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips{position:relative}
-.chips input{position:absolute;left:0;top:0;width:1px;height:1px;margin:0;opacity:0;pointer-events:none}
-.chips label{font-family:var(--f-body);font-size:13px;letter-spacing:.02em;text-transform:none;color:var(--bone);padding:8px 14px;border:1px solid var(--line-2);cursor:pointer;transition:all .3s}
-.chips input:checked + label{background:var(--bone);color:var(--ink);border-color:var(--bone)}
-.chips input:focus-visible + label{outline:1px solid var(--metal);outline-offset:3px}
-.brief .btn{justify-content:center}
-.brief .note{font-size:13px;color:var(--mute-2)}
+/* =========================================================
+   5. CONTACTO — el título crece con el scroll
+   ========================================================= */
+.contact{position:relative;padding:clamp(72px,10vw,140px) 0 clamp(56px,7vw,96px);border-top:1px solid var(--line);overflow:hidden}
+.contact .big{font-family:var(--f-display);font-weight:500;font-size:clamp(56px,11.5vw,196px);line-height:.92;letter-spacing:-.03em;will-change:transform,opacity;transform-origin:0 100%}
+.contact .big em{color:var(--metal)}
+.contact .grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,6vw,96px);margin-top:clamp(40px,6vw,80px)}
+.direct p{color:var(--mute);max-width:40ch;margin-bottom:28px}
+.direct .lines a{display:flex;justify-content:space-between;align-items:center;padding:20px 0;border-top:1px solid var(--line);text-decoration:none;font-size:clamp(18px,1.6vw,22px);transition:color .2s}
+.direct .lines a:last-child{border-bottom:1px solid var(--line)}
+.direct .lines a:hover{color:var(--metal)}
+.direct .lines small{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:var(--mute);text-transform:uppercase}
+form.brief{background:var(--ink-2);border:1px solid var(--line);border-radius:18px;padding:clamp(22px,3vw,36px)}
+.brief .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.brief .f label{display:block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:0 0 8px}
+.brief input,.brief textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line-2);color:var(--bone);font:inherit;font-size:16px;padding:8px 0 10px;border-radius:0}
+.brief input:focus,.brief textarea:focus{outline:none;border-color:var(--metal)}
+.brief textarea{resize:vertical;min-height:72px}
+.brief .f{margin-bottom:22px}
+.brief fieldset{border:0;padding:0;margin:0 0 22px}
+.brief legend{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin-bottom:10px;padding:0}
+.picks{display:flex;flex-wrap:wrap;gap:8px}
+.picks input{position:absolute;opacity:0;pointer-events:none}
+.picks span{display:inline-block;padding:8px 14px;border:1px solid var(--line-2);border-radius:999px;font-size:14px;cursor:pointer;transition:all .2s}
+.picks input:checked+span{background:var(--bone);color:var(--ink);border-color:var(--bone)}
+.picks input:focus-visible+span{outline:2px solid var(--metal);outline-offset:2px}
+.brief .btn{width:100%;justify-content:center}
+.brief .note{font-size:13px;color:var(--mute);text-align:center;margin-top:12px}
+@media (max-width:900px){.contact .grid{grid-template-columns:1fr}.brief .row{grid-template-columns:1fr;gap:0}}
 
 /* ---------- footer ---------- */
-.site-footer{border-top:1px solid var(--line);padding-block:56px 28px}
-.foot-top{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
-.foot-brand{grid-column:1 / span 4;display:grid;gap:18px;color:var(--mute);font-size:15px}
-.foot-brand img{width:180px;height:auto}
-.foot-col{grid-column:span 2;display:grid;gap:10px;font-size:15px;align-content:start}
-.foot-col:first-of-type{grid-column:7 / span 2}
-.foot-col .label{margin-bottom:6px;color:var(--mute)}
-.foot-col a{color:var(--bone);width:fit-content;transition:color .3s}
-.foot-col a:hover{color:var(--metal)}
-.wordmark{margin-top:64px;width:100%;height:auto;display:block}
-.foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
+footer{border-top:1px solid var(--line);padding:32px 0 96px;color:var(--mute);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px 32px}
+footer nav{display:flex;flex-wrap:wrap;gap:8px 22px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--bone)}
 
-/* HUD timecode */
-.hud{position:fixed;left:18px;bottom:16px;z-index:50;display:flex;gap:14px;align-items:center;pointer-events:none;color:var(--mute);opacity:.9}
-.hud .mono{color:inherit}
-.hud .sep{width:1px;height:10px;background:var(--line-2)}
+/* ---------- reel ---------- */
+dialog.reel{border:0;padding:0;background:transparent;max-width:min(92vw,420px);width:100%}
+dialog.reel::backdrop{background:rgba(10,9,8,.92)}
+dialog.reel video{width:100%;border-radius:14px}
+dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:var(--bone);cursor:pointer}
 
-/* lightbox */
-dialog.lightbox{padding:0;border:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100vh;margin:0}
-dialog.lightbox::backdrop{background:rgba(5,5,4,.94)}
-.lb-inner{width:100%;height:100%;display:grid;place-items:center;padding:56px 16px 24px}
-.lb-inner video{max-height:calc(100vh - 100px);width:auto;max-width:100%;aspect-ratio:9/16;background:#000}
-.lb-close{position:fixed;top:14px;right:16px;display:flex;align-items:center;gap:10px;padding:10px 12px;color:var(--bone)}
-.lb-close .label{color:var(--bone)}
-
-/* ---------- responsive ---------- */
-@media (max-width:1100px){
-  .reels{grid-template-columns:repeat(3,1fr)}
-  .reel:nth-child(even){margin-top:0}
-  .reel:nth-child(n+4){display:none}
-  .manifest-text{grid-column:1 / -1}
-  .ident{grid-column:1 / span 8}
-  .services-head{grid-column:1 / -1;position:static}
-  .svc-list{grid-column:1 / -1}
-  .case-media{grid-column:1 / -1}
-  .case-media .inset{right:4%}
-  .case-body{grid-column:1 / -1;margin-top:60px;max-width:640px}
-  .faq-head,.faq-list{grid-column:1 / -1}
-  .contact-copy,.brief{grid-column:1 / -1}
-  .brief{max-width:640px}
-  .foot-brand{grid-column:1 / -1}
-  .foot-col,.foot-col:first-of-type{grid-column:span 4}
-}
-@media (max-width:860px){
-  .nav-links{
-    position:fixed;inset:76px 0 auto 0;flex-direction:column;align-items:flex-start;gap:0;
-    background:rgba(10,9,8,.97);padding:8px var(--gutter) 28px;border-bottom:1px solid var(--line);
-    transform:translateY(-8px);opacity:0;visibility:hidden;transition:all .4s var(--ease);
-  }
-  .nav-links a:not(.btn){font-family:var(--f-display);font-size:32px;color:var(--bone);padding-block:10px;width:100%;border-bottom:1px solid var(--line)}
-  .nav-links a:not(.btn)::after{display:none}
-  .nav-links .btn{margin-top:22px}
-  .site-header.is-open{background:rgba(10,9,8,.97)}
-  .site-header.is-open .nav-links{transform:none;opacity:1;visibility:visible}
-  .menu-toggle{display:block}
-  .nav-quick{display:flex}
-  .clients-row{grid-template-columns:repeat(5,1fr);gap:18px 14px}
-  .clients-row img{height:26px}
-  .brand span{display:none}
-  .frame{aspect-ratio:4/5;max-height:none;min-height:0}
-  .vf-bar .hide-sm,.ar-wide{display:none}
-  .ar-tall{display:inline}
-  .hero-foot{grid-template-columns:1fr;gap:26px}
-  .hero-foot .lede,.hero-actions{grid-column:1 / -1;justify-content:flex-start}
-  .sec-head h2,.sec-head .aside{grid-column:1 / -1}
-  .reels,.frames{
-    display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:64%;
-    overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gutter);gap:12px;padding-bottom:6px;
-    margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter);scrollbar-width:none;
-  }
-  .reels::-webkit-scrollbar,.frames::-webkit-scrollbar{display:none}
-  .frames{grid-auto-columns:80%}
-  .reel,.jf{scroll-snap-align:start}
-  .reel:nth-child(n+4){display:block}
-  .ident{grid-column:1 / -1}
-  .svc{grid-template-columns:1fr 88px}
-  .svc .mono{grid-column:1;grid-row:auto;text-align:left;padding-top:4px}
-  .svc-thumb{display:block;grid-column:2;grid-row:1 / span 3;aspect-ratio:4/5;overflow:hidden;align-self:start}
-  .svc-thumb img{width:100%;height:100%;object-fit:cover}
-  .bts-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:auto}
-  .bts-grid figure{grid-column:auto !important;grid-row:auto !important;aspect-ratio:4/5}
-  .bts-grid .b1{grid-column:1 / -1 !important;aspect-ratio:3/2}
-  .bts-grid .b6,.bts-grid .b7{display:none}
-  .hud{display:none}
-  .kit{grid-template-columns:1fr 1fr;grid-auto-rows:clamp(190px,56vw,240px);gap:10px}
-  .kit-feature{grid-column:1 / -1;grid-row:span 2}
-  .kit-formats{padding:14px 12px 12px}
-  .kit-formats .mono:not(em){display:none}
-  .frames-ar{gap:8px 14px;padding-block:4px}
-  .frames-ar i{height:26px}
-  .kit-wide{grid-column:1 / -1}
-  .kit-item figcaption{left:12px;right:12px;bottom:12px}
-  .kit-item strong{font-size:19px}
-  .foot-col,.foot-col:first-of-type{grid-column:span 6}
-  .case-media .inset{width:44%;bottom:-16%}
-}
-/* ---------- intro ---------- */
-html.intro-playing{overflow:hidden}
-html.intro-playing .frame::before,html.intro-playing .frame::after,
-html.intro-playing .hero-title .ln > span{animation-play-state:paused}
-.intro{position:fixed;inset:0;z-index:200;display:grid;place-items:center;overflow:hidden;cursor:pointer;
-  animation:introEnd 0s linear 3.3s forwards}
-.intro-half{position:absolute;left:0;right:0;height:50.2%;background:var(--ink)}
-.intro-half.top{top:0;animation:splitTop 1s var(--ease-cine) 2.25s forwards}
-.intro-half.bottom{bottom:0;animation:splitBottom 1s var(--ease-cine) 2.25s forwards}
-.intro-half.top::after,.intro-half.bottom::before{content:"";position:absolute;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(205,191,166,.55),transparent);opacity:0;animation:seam .9s ease 2.05s forwards}
-.intro-half.top::after{bottom:0}.intro-half.bottom::before{top:0}
-.intro-core{position:relative;z-index:2;display:grid;justify-items:center;gap:clamp(14px,2vw,22px);
-  max-width:100vw;padding-inline:16px;animation:coreOut .45s ease 2.05s forwards}
-.intro-mark{position:relative;width:clamp(120px,15vw,200px);animation:markIn 1.1s var(--ease) .2s both}
-.intro-mark img{width:100%;height:auto}
-.intro-mark .shine{position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(105deg,transparent 38%,rgba(255,247,228,.95) 50%,transparent 62%) no-repeat;
-  background-size:260% 100%;background-position:120% 0;
-  -webkit-mask:url("assets/intro-mark.png") center / contain no-repeat;mask:url("assets/intro-mark.png") center / contain no-repeat;
-  animation:shine 1.3s ease-in-out .95s both}
-.intro-word{font-family:var(--f-caps);font-weight:400;font-size:clamp(15px,2vw,26px);color:var(--bone);white-space:nowrap;
-  letter-spacing:.34em;margin-right:-.34em;animation:wordIn 1.2s var(--ease) .75s both}
-.intro-sub{display:flex;align-items:center;gap:14px;animation:fadeUp .8s var(--ease) 1.25s both}
-.intro-sub span{font-family:var(--f-caps);font-size:clamp(9px,.8vw,11px);letter-spacing:.5em;margin-right:-.5em;color:var(--metal)}
-.intro-sub i{display:block;width:clamp(28px,5vw,64px);height:1px;background:var(--metal-deep);transform:scaleX(0);animation:lineIn .8s var(--ease) 1.35s forwards}
-.intro-sub i:first-child{transform-origin:right}.intro-sub i:last-child{transform-origin:left}
-.intro-meta{position:absolute;z-index:2;left:var(--gutter);right:var(--gutter);bottom:clamp(18px,3vw,32px);
-  display:flex;justify-content:space-between;align-items:center;color:var(--mute);animation:coreOut .45s ease 2.05s forwards}
-.intro-meta .mono{color:inherit}
-.intro-skip{font-family:var(--f-caps);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);padding:8px 0;transition:color .3s}
-.intro-skip:hover{color:var(--bone)}
-.intro.is-leaving{animation:introEnd 0s linear .8s forwards}
-.intro.is-leaving .intro-core,.intro.is-leaving .intro-meta{animation:coreOut .25s ease forwards}
-.intro.is-leaving .intro-half.top{animation:splitTop .8s var(--ease-cine) .1s forwards}
-.intro.is-leaving .intro-half.bottom{animation:splitBottom .8s var(--ease-cine) .1s forwards}
-@keyframes markIn{from{opacity:0;filter:blur(14px);transform:translateY(12px) scale(1.08)}to{opacity:1;filter:blur(0);transform:none}}
-@keyframes shine{from{background-position:120% 0}to{background-position:-20% 0}}
-@keyframes wordIn{from{opacity:0;letter-spacing:.95em;margin-right:-.95em;filter:blur(6px)}to{opacity:1;letter-spacing:.34em;margin-right:-.34em;filter:blur(0)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes lineIn{to{transform:scaleX(1)}}
-@keyframes seam{0%{opacity:0}40%{opacity:1}100%{opacity:0}}
-@keyframes coreOut{to{opacity:0;transform:scale(.985)}}
-@keyframes splitTop{to{transform:translateY(-101%)}}
-@keyframes splitBottom{to{transform:translateY(101%)}}
-@keyframes introEnd{to{visibility:hidden;pointer-events:none}}
-
+/* ---------- movimiento reducido: todo estático y legible ---------- */
 @media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
-  .will-reveal{opacity:1;transform:none}
-  .grain{display:none}
-  .frame::before,.frame::after{display:none}
-  .hero-title .ln > span{transform:none}
-  .intro{display:none}
+  .hero,.statement,.services{height:auto}
+  .hero .stage,.statement .stage,.services .stage,.work .stage{position:relative;height:auto;min-height:100svh}
+  .statement .w{opacity:1}
+  .step .body{grid-template-rows:1fr;opacity:1}
+  .step h3{color:var(--bone)}
+  .work{height:auto!important}
+  .rail{transform:none!important;overflow-x:auto;width:auto;padding-bottom:12px}
+  .services .stage{padding:120px 0}
+  .marquee .track{transform:none!important}
+  .hud .dot,.cam .rec i{animation:none}
 }
-
-/* ---------- diferencial: datos ---------- */
-.dif{display:grid;grid-template-columns:1fr minmax(300px,460px);gap:clamp(26px,4vw,60px);align-items:center}
-.dif-txt h2{margin:14px 0 18px}
-.dif-txt p{color:var(--mute);max-width:56ch}
-.dif-list{list-style:none;margin:22px 0 28px;padding:0;display:grid;gap:9px}
-.dif-list li{position:relative;padding-left:20px;color:var(--bone);font-size:15px}
-.dif-list li::before{content:"";position:absolute;left:0;top:11px;width:10px;height:1px;background:var(--metal)}
-.dif-media{display:grid;grid-template-columns:1.08fr .92fr;grid-template-rows:1fr 1fr;gap:10px;height:clamp(330px,42vw,500px)}
-.dif-media figure{margin:0;position:relative;overflow:hidden;background:#000;border:1px solid var(--line)}
-.dif-media .d1{grid-row:1 / span 2}
-.dif-media img,.dif-media video{width:100%;height:100%;object-fit:cover;display:block}
-.dif-media .d2 img,.dif-media .d3 img{filter:grayscale(.4) brightness(.84);transition:filter .6s var(--ease)}
-.dif-media figure:hover img{filter:none}
-.tag-rec{position:absolute;z-index:2;left:12px;bottom:11px;color:var(--bone);text-shadow:0 1px 6px rgba(0,0,0,.9)}
-@media (max-width:900px){.dif{grid-template-columns:1fr}.dif-media{height:clamp(300px,74vw,420px)}}
-
-/* ---------- botón flotante de WhatsApp ---------- */
-.wa-float{position:fixed;z-index:55;right:clamp(14px,2.2vw,28px);bottom:calc(clamp(14px,2.2vw,28px) + env(safe-area-inset-bottom,0px));display:inline-flex;align-items:center;gap:10px;padding:13px 18px;background:rgba(18,16,14,.84);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line-2);color:var(--bone);text-decoration:none;font-family:var(--f-caps);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;box-shadow:0 12px 34px rgba(0,0,0,.5);transition:color .4s var(--ease),border-color .4s var(--ease),background .4s var(--ease),transform .4s var(--ease)}
-.wa-float:hover,.wa-float:focus-visible{color:var(--metal);border-color:var(--metal);background:rgba(27,24,21,.92);transform:translateY(-2px)}
-.wa-float svg{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5}
-@media (max-width:560px){.wa-float{gap:8px;padding:12px 14px;font-size:10px;letter-spacing:.1em}.wa-float svg{width:16px;height:16px}}
-@media (prefers-reduced-motion:reduce){.wa-float{transition:none}.wa-float:hover{transform:none}}
-@media print{.wa-float{display:none}}
-
-/* ---------- acceso privado: Cotización (solo dentro del menú de tres rayas) ---------- */
-.menu-toggle{display:block}
-@media (min-width:861px){
-  .menu-toggle{opacity:.55;transition:opacity .35s var(--ease)}
-  .menu-toggle:hover,.site-header.is-open .menu-toggle{opacity:1}
-  .site-header.is-open{background:rgba(10,9,8,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
-}
-.nav-private{display:none !important}
-.site-header.is-open .nav-private{display:block !important}
-.nav-private{color:var(--metal) !important}
-
-/* ---------- submenú de servicios ---------- */
-.nav-sub{position:relative}
-.nav-sub summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:color .3s}
-.nav-sub summary::-webkit-details-marker{display:none}
-.nav-sub summary:hover,.nav-sub[open] summary{color:var(--bone)}
-.nav-sub summary .chev{display:inline-block;width:6px;height:6px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .35s var(--ease)}
-.nav-sub[open] summary .chev{transform:translateY(1px) rotate(-135deg)}
-.nav-sub-list{display:grid;gap:2px}
-.nav-links .nav-sub-list a{white-space:nowrap;color:var(--mute);font-size:var(--t-sm)}
-.nav-links .nav-sub-list a:hover{color:var(--bone)}
-.nav-links .nav-sub-list a::after{display:none}
-.nav-links .nav-sub-list .all{color:var(--metal)}
-@media (min-width:861px){
-  .nav-sub-list{position:absolute;top:calc(100% + 18px);left:-22px;min-width:540px;padding:14px 22px;display:block;columns:2;column-gap:36px;background:rgba(10,9,8,.97);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-  .nav-links .nav-sub-list a{padding-block:7px;display:block;break-inside:avoid}
-  .nav-links .nav-sub-list a.all{column-span:all;margin-bottom:6px}
-}
-@media (max-width:860px){
-  .nav-sub{width:100%;border-bottom:1px solid var(--line)}
-  .nav-sub summary{font-family:var(--f-display);font-size:32px;color:var(--bone);padding-block:10px;justify-content:space-between}
-  .nav-sub summary .chev{width:10px;height:10px}
-  .nav-sub-list{padding:0 0 14px 4px}
-  .nav-links .nav-sub-list a:not(.btn){font-family:inherit;font-size:17px;padding-block:8px;border-bottom:0;color:var(--mute)}
-  .nav-links .nav-sub-list a.all{color:var(--metal)}
-}
-.card[id]{scroll-margin-top:100px}
-.card:target{border-color:var(--metal);box-shadow:0 0 0 1px var(--metal)}
 </style>
 </head>
 <body>
-<div class="intro" id="intro">
-  <div class="intro-half top"></div>
-  <div class="intro-half bottom"></div>
-  <div class="intro-core" aria-hidden="true">
-    <div class="intro-mark"><img src="assets/intro-mark.png" alt="Creative Whisper" width="520" height="336"><span class="shine"></span></div>
-    <div class="intro-word">CREATIVE WHISPER</div>
-    <div class="intro-sub"><i></i><span>PRODUCTIONS</span><i></i></div>
-  </div>
-  <div class="intro-meta">
-    <span class="mono rec" aria-hidden="true"><span id="introTc">00:00:00:00</span></span>
-    <button class="intro-skip" type="button" id="introSkip">Saltar intro</button>
-  </div>
-</div>
-<script>
-(function () {
-  var el = document.getElementById("intro");
-  if (!el) return;
-  if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) { el.remove(); return; }
-  document.documentElement.classList.add("intro-playing");
-})();
-</script>
-<a class="skip" href="#trabajo" style="position:absolute;left:-9999px">Saltar al contenido</a>
+<a class="skip" href="#contenido">Saltar al contenido</a>
 
-<header class="site-header" id="top">
-  <div class="wrap nav">
-    <a class="brand" href="#top" aria-label="Creative Whisper, inicio">
-      <img src="assets/monograma-cw.png" alt="Creative Whisper" width="240" height="155">
-      <span>Creative Whisper</span>
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="Creative Whisper, inicio">
+      <img src="assets/monograma-cw.png" alt="" width="40" height="26">
+      <span>CREATIVE WHISPER</span>
     </a>
-    <nav class="nav-links" id="menu" aria-label="Principal">
-      <a href="datos.html">Datos</a>
-      <details class="nav-sub">
-        <summary>Servicios <span class="chev" aria-hidden="true"></span></summary>
-        <div class="nav-sub-list">
-          <a class="all" href="servicios.html">Ver todos los servicios</a>
-          <a href="servicios.html#svc-analisis-de-datos">Análisis de datos</a>
-          <a href="servicios.html#svc-analisis-de-conversaciones">Análisis de conversaciones</a>
-          <a href="servicios.html#svc-automatizacion-de-whatsapp">Automatización de WhatsApp</a>
-          <a href="servicios.html#svc-community-manager-con-ia">Community manager con IA</a>
-          <a href="servicios.html#svc-campanas-en-meta-ads">Campañas en Meta Ads</a>
-          <a href="servicios.html#svc-diseno-para-instagram">Diseño para Instagram</a>
-          <a href="servicios.html#svc-sitios-web-con-pedido-por-whatsapp">Sitios web con pedido</a>
-          <a href="servicios.html#svc-video-de-marca">Video de marca</a>
-          <a href="servicios.html#svc-contenido-vertical">Contenido vertical</a>
-          <a href="servicios.html#svc-testimonios-y-casos">Testimonios y casos</a>
-          <a href="servicios.html#svc-video-corporativo-b2b">Video corporativo B2B</a>
-          <a href="servicios.html#svc-cortometrajes-y-branded-content">Cortometrajes y branded content</a>
-          <a href="servicios.html#svc-cobertura-de-eventos">Cobertura de eventos</a>
-          <a href="servicios.html#svc-fotografia-de-producto">Fotografía de producto</a>
-          <a href="servicios.html#svc-actores-y-creadores">Actores y creadores</a>
-          <a href="servicios.html#svc-doblaje-locucion-y-adr">Doblaje, locución y ADR</a>
-        </div>
-      </details>
-      <a href="portafolio.html">Fotografía</a>
+    <nav class="nav" id="menu" aria-label="Principal">
+      <a href="#servicios">Servicios</a>
       <a href="#trabajo">Trabajo</a>
-      <a href="#viaje">Viaje del cliente</a>
-      <a href="#equipo">Equipo</a>
-      <a class="nav-private" href="cotizacion.html">Cotización</a>
-      <a class="nav-private" href="admin.html">ADMIN</a>
-      <a class="btn" href="#contacto">Agendar reunión <span class="arrow">→</span></a>
-    </nav>
-    <div class="nav-quick">
       <a href="datos.html">Datos</a>
-      <a href="servicios.html">Servicios</a>
       <a href="portafolio.html">Fotografía</a>
-    </div>
-    <button class="menu-toggle" type="button" aria-controls="menu" aria-expanded="false" aria-label="Abrir menú"><span></span><span></span></button>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <button class="menu-btn js-menu" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
+    <a class="btn btn--solid js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">Agendar reunión</a>
   </div>
+  <i class="progress" aria-hidden="true"></i>
 </header>
 
-<main>
-  <!-- ===================== HERO ===================== -->
-  <section class="hero" data-scene="Apertura">
-    <div class="wrap">
-      <div class="frame frame--video">
-        <video class="hero-video" id="heroVideo" src="assets/reel-auto-loop.mp4" poster="assets/reel-auto-poster.webp" muted loop playsinline autoplay preload="metadata" aria-label="Cobertura del festival off-road"></video>
-        <div class="frame-shade"></div>
-        <div class="vf" aria-hidden="true">
-          <i></i><i></i><i></i><i></i>
-          <div class="vf-bar"><span class="mono rec">REC</span><span class="mono hide-sm">4K · 23.98 fps · Cobertura off-road</span><span class="mono"><span class="ar-wide">2.39 : 1</span><span class="ar-tall">4 : 5</span></span></div>
-          <div class="vf-cross"></div>
-          <span class="vf-tc mono" id="tc">00:01:24:00</span>
-        </div>
-        <div class="scene" aria-hidden="true"><span class="label" style="color:inherit;font-size:10px">En pantalla</span><span class="mono" id="sceneLabel">Festival off-road · Cobertura</span></div>
-        <h1 class="hero-title">
-          <span class="ln"><span>Las marcas que se recuerdan</span></span>
-          <span class="ln"><span>no gritan. <em class="metal-text">Susurran.</em></span></span>
-        </h1>
-      </div>
+<div class="hud" aria-hidden="true"><i class="dot"></i><b class="js-tc">00:00:00:00</b><span class="js-scene">Inicio</span></div>
 
-      <div class="hero-foot">
-        <p class="lede"><strong>Creative Whisper</strong> es la siguiente generación de agencia. Manejamos todo el camino: recopilación de datos, dashboards en Power BI, machine learning y producción de primera para redes y comerciales. Hacemos el trabajo de equipos enteros, porque innovamos y crecemos constantemente.</p>
-        <div class="hero-actions">
-          <a class="btn btn--solid" href="#contacto">Agendar reunión <span class="arrow">→</span></a>
-          <button class="btn" type="button" data-reel data-src="assets/reel-auto-full.mp4" data-aspect="16/9" data-poster="assets/reel-auto-poster.webp"><span class="play"></span> Ver el video completo · 0:47</button>
-        </div>
-      </div>
+<main id="contenido">
 
-      <div class="clients">
-        <div class="clients-head">
-          <span class="label">Marcas con las que hemos trabajado</span>
-          <a href="portafolio.html">Ver la fotografía automotriz →</a>
-        </div>
-        <div class="clients-row">
-          <img src="assets/marcas/byd.png" alt="BYD" loading="lazy">
-          <img src="assets/marcas/citroen.png" alt="Citroën" loading="lazy">
-          <img src="assets/marcas/dongfeng.png" alt="Dongfeng" loading="lazy">
-          <img src="assets/marcas/ds.png" alt="DS Automobiles" loading="lazy">
-          <img src="assets/marcas/fiat.png" alt="Fiat" loading="lazy">
-          <img src="assets/marcas/jeep.png" alt="Jeep" loading="lazy">
-          <img src="assets/marcas/ram.png" alt="Ram" loading="lazy">
-          <img src="assets/marcas/royal-enfield.png" alt="Royal Enfield" loading="lazy">
-          <img src="assets/marcas/subaru.png" alt="Subaru" loading="lazy">
-          <img src="assets/marcas/usfq.png" alt="USFQ" loading="lazy">
-        </div>
+<!-- 1 · HERO -->
+<section class="hero" id="inicio" data-scene="Inicio">
+  <div class="stage">
+    <div class="frame">
+      <img class="poster" src="assets/scroll/f001.webp" alt="" aria-hidden="true">
+      <canvas aria-hidden="true"></canvas>
+      <div class="shade"></div>
+    </div>
+    <div class="cam" aria-hidden="true">
+      <div class="rec"><i></i>REC <span class="js-hero-tc">00:00:20:15</span></div>
+      <div>4K · 23.98 FPS · 16:9</div>
+    </div>
+    <div class="copy wrap">
+      <span class="label">Agencia de marketing · Quito, Ecuador</span>
+      <h1>Datos, producción audiovisual y marketing digital, <em>en un solo equipo.</em></h1>
+      <p class="sub">Entendemos a tus clientes, creamos el contenido que necesitan ver y te ayudamos a venderles por WhatsApp e Instagram.</p>
+      <div class="ctas">
+        <a class="btn btn--solid js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+          Agendar reunión
+        </a>
+        <a class="btn btn--ghost" href="#servicios">Ver servicios</a>
       </div>
     </div>
+    <div class="scrollhint" aria-hidden="true"><div class="bar"><i class="js-hint"></i></div>Desliza</div>
+    <div class="caption" aria-hidden="true">Cobertura de evento · Festival off-road</div>
+  </div>
+</section>
 
-    <div class="marquee" aria-hidden="true">
-      <div class="marquee-track">
-        <div class="marquee-group"><span>Análisis de datos</span><b></b><span>Storytelling</span><b></b><span>Video de marca</span><b></b><span>Reels &amp; TikTok</span><b></b><span>Testimonios</span><b></b><span>Tomas aéreas</span><b></b><span>Doblaje &amp; ADR</span><b></b><span>Cortometrajes</span><b></b><span>Creadores de contenido</span><b></b></div>
-        <div class="marquee-group"><span>Análisis de datos</span><b></b><span>Storytelling</span><b></b><span>Video de marca</span><b></b><span>Reels &amp; TikTok</span><b></b><span>Testimonios</span><b></b><span>Tomas aéreas</span><b></b><span>Doblaje &amp; ADR</span><b></b><span>Cortometrajes</span><b></b><span>Creadores de contenido</span><b></b></div>
-      </div>
+<!-- marcas -->
+<section class="brands" aria-label="Marcas con las que hemos trabajado">
+  <span class="label">Marcas con las que hemos trabajado</span>
+  <div class="marquee"><div class="track js-marquee">
+    <div class="set">
+      <img src="assets/marcas/usfq.png" alt="USFQ" class="tall"><img src="assets/marcas/jeep.png" alt="Jeep"><img src="assets/marcas/byd.png" alt="BYD"><img src="assets/marcas/subaru.png" alt="Subaru"><img src="assets/marcas/ram.png" alt="RAM" class="tall"><img src="assets/marcas/citroen.png" alt="Citroën" class="tall"><img src="assets/marcas/ds.png" alt="DS" class="tall"><img src="assets/marcas/fiat.png" alt="Fiat" class="tall"><img src="assets/marcas/dongfeng.png" alt="Dongfeng" class="tall"><img src="assets/marcas/royal-enfield.png" alt="Royal Enfield">
     </div>
-  </section>
-
-  <!-- ===================== DIFERENCIAL: DATOS ===================== -->
-  <section class="block" id="diferencial" data-scene="Datos">
-    <div class="wrap dif">
-      <div class="dif-txt">
-        <h2>Nuestro diferencial</h2>
-        <p>Cada proyecto parte de la información de tu empresa: ventas, CRM, punto de venta y redes. Con ese análisis definimos a qué clientes dirigirnos, con qué producto y en qué momento, y sobre esa base planificamos la producción.</p>
-        <ul class="dif-list">
-          <li>Gobernanza y arquitectura de datos</li>
-          <li>Limpieza, modelos y machine learning</li>
-          <li>Dashboards en Power BI</li>
-          <li>Segmentación de clientes e insight accionable</li>
-          <li>Evaluación de las campañas que ya hicimos juntos</li>
-        </ul>
-        <a class="btn" href="datos.html">Ver cómo trabajamos el dato <span class="arrow">→</span></a>
-      </div>
-      <div class="dif-media">
-        <figure class="d1">
-          <video src="assets/datos/reto-loop.mp4" poster="assets/datos/reto-poster.webp" muted loop playsinline autoplay preload="metadata" aria-label="Equipo de analítica trabajando sobre una base de datos"></video>
-          <span class="mono rec tag-rec">ANALÍTICA</span>
-        </figure>
-        <figure class="d2"><img src="assets/datos/escenario-1.webp" alt="Ponente del equipo exponiendo análisis de datos." loading="lazy"></figure>
-        <figure class="d3"><img src="assets/datos/laptops.webp" alt="Taller de analítica de datos con asistentes." loading="lazy"></figure>
-      </div>
+    <div class="set" aria-hidden="true">
+      <img src="assets/marcas/usfq.png" alt="" class="tall"><img src="assets/marcas/jeep.png" alt=""><img src="assets/marcas/byd.png" alt=""><img src="assets/marcas/subaru.png" alt=""><img src="assets/marcas/ram.png" alt="" class="tall"><img src="assets/marcas/citroen.png" alt="" class="tall"><img src="assets/marcas/ds.png" alt="" class="tall"><img src="assets/marcas/fiat.png" alt="" class="tall"><img src="assets/marcas/dongfeng.png" alt="" class="tall"><img src="assets/marcas/royal-enfield.png" alt="">
     </div>
-  </section>
+  </div></div>
+</section>
 
-  <!-- ===================== TRABAJO ===================== -->
-  <section class="block" id="trabajo" data-scene="Trabajo">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Trabajo reciente</h2>
-        <div class="aside">
-          <p>Piezas verticales de nuestro último reel: eventos, ficción, sesiones de audio, testimonios y entrevistas. Todo filmado y editado por el mismo equipo.</p>
+<!-- 2 · ENFOQUE -->
+<section class="statement" id="enfoque" data-scene="Enfoque">
+  <div class="stage"><div class="wrap">
+    <span class="label">Cómo trabajamos</span>
+    <p class="js-words">Cada proyecto empieza por los *datos* de tu empresa. Con ellos decidimos a quién hablarle y qué contar. Después lo *producimos*, lo *publicamos* y *atendemos* a cada cliente que responde.</p>
+  </div></div>
+</section>
+
+<!-- 3 · SERVICIOS -->
+<section class="services" id="servicios" data-scene="Servicios">
+  <div class="stage"><div class="wrap">
+    <div class="svc-grid">
+      <div>
+        <div class="svc-head">
+          <span class="label">Servicios</span>
+          <h2 class="h2">Cuatro áreas, <em>un mismo equipo.</em></h2>
         </div>
-      </div>
-
-      <div class="reels">
-        <figure class="reel">
-          <div class="reel-media" data-reel>
-            <img src="assets/clip-evento.webp" alt="Foto grupal de estudiantes con letras rojas de CADE" loading="lazy">
-            <video muted loop playsinline preload="none" src="assets/clip-evento.mp4"></video>
-            <div class="reel-tag"><span class="mono">9:16</span><span class="mono">00:02</span></div>
-          </div>
-          <figcaption><span class="label">CADE · USFQ</span><h3>Cobertura de evento</h3></figcaption>
-        </figure>
-        <figure class="reel">
-          <div class="reel-media" data-reel>
-            <img src="assets/clip-ficcion.webp" alt="Estudiante jugando fútbol detrás de una malla" loading="lazy">
-            <video muted loop playsinline preload="none" src="assets/clip-ficcion.mp4"></video>
-            <div class="reel-tag"><span class="mono">9:16</span><span class="mono">00:07</span></div>
-          </div>
-          <figcaption><span class="label">Narrativa</span><h3>Cápsula de ficción</h3></figcaption>
-        </figure>
-        <figure class="reel">
-          <div class="reel-media" data-reel>
-            <img src="assets/clip-adr.webp" alt="Dos actores grabando voces con micrófonos y audífonos" loading="lazy">
-            <video muted loop playsinline preload="none" src="assets/clip-adr.mp4"></video>
-            <div class="reel-tag"><span class="mono">9:16</span><span class="mono">00:05</span></div>
-          </div>
-          <figcaption><span class="label">Audio</span><h3>Doblaje y ADR</h3></figcaption>
-        </figure>
-        <figure class="reel">
-          <div class="reel-media" data-reel>
-            <img src="assets/clip-testimonio.webp" alt="Directora de marketing de la USFQ hablando a un micrófono" loading="lazy">
-            <video muted loop playsinline preload="none" src="assets/clip-testimonio.mp4"></video>
-            <div class="reel-tag"><span class="mono">9:16</span><span class="mono">00:05</span></div>
-          </div>
-          <figcaption><span class="label">USFQ</span><h3>Testimonios</h3></figcaption>
-        </figure>
-        <figure class="reel">
-          <div class="reel-media" data-reel>
-            <img src="assets/clip-entrevista.webp" alt="Invitado sentado en un sillón al aire libre durante una entrevista" loading="lazy">
-            <video muted loop playsinline preload="none" src="assets/clip-entrevista.mp4"></video>
-            <div class="reel-tag"><span class="mono">9:16</span><span class="mono">00:07</span></div>
-          </div>
-          <figcaption><span class="label">Contenido</span><h3>Entrevista de marca</h3></figcaption>
-        </figure>
-      </div>
-
-      <div class="reel-cta">
-        <span class="mono">REEL_CW · 1080×1920 · 00:00:51:00</span>
-        <button class="btn" type="button" data-reel><span class="play"></span> Ver el reel completo con sonido</button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== MANIFIESTO ===================== -->
-  <section class="block" style="padding-top:0" data-scene="Manifiesto">
-    <div class="wrap manifest">
-      <div class="manifest-text">
-        <span class="label">Por qué “Whisper”</span>
-        <p id="manifesto" style="margin-top:26px">No hacemos videos para llenar un feed. Diseñamos el momento exacto en que alguien decide *confiar* en tu marca, y lo contamos con la *paciencia* del cine.</p>
-        <div class="manifest-sign"><span class="label" style="color:var(--mute)">Creative Whisper Productions</span></div>
-      </div>
-      <figure class="ident" style="margin:0">
-        <div class="ident-frame">
-          <img src="assets/ident-cw.webp" alt="Logotipo de Creative Whisper Productions con una tira de película plateada">
-          <video muted loop playsinline preload="none" src="assets/ident-cw.mp4" data-autoplay></video>
-          <div class="vf" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
-        </div>
-        <figcaption><span class="mono">IDENT_CW · 16:9</span><span class="mono">00:00:10:00</span></figcaption>
-      </figure>
-    </div>
-  </section>
-
-  <!-- ===================== VIAJE DEL CLIENTE ===================== -->
-  <section class="block journey" id="viaje" data-scene="Viaje del cliente">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>El viaje de tu cliente</h2>
-        <div class="aside"><p>Cada etapa necesita un video distinto. Antes de grabar definimos en qué momento está tu cliente y qué tiene que sentir para dar el siguiente paso.</p></div>
-      </div>
-    </div>
-    <div class="strip">
-      <div class="wrap">
-        <ol class="frames" style="list-style:none;margin:0;padding:0">
-          <li class="jf">
-            <div class="jf-img"><img src="assets/f-futbol.webp" alt="Estudiante jugando fútbol, cuadro de una cápsula vertical" loading="lazy"><span class="jf-num">01</span><span class="jf-stage label">Descubrimiento</span></div>
-            <div class="jf-body"><h3>Te ven por primera vez</h3><p>Reels y piezas cortas que detienen el scroll y dejan una imagen en la cabeza.</p><span class="mono">9:16 · Reels · TikTok · Anuncios</span></div>
+        <ol class="steps">
+          <i class="fill" aria-hidden="true"></i>
+          <li class="step" data-i="0">
+            <span class="n">01</span>
+            <h3>Datos <small>Entender</small></h3>
+            <div class="body"><div>
+              <p>Analizamos ventas, CRM, redes y conversaciones para decidir a quién hablarle, con qué producto y en qué momento.</p>
+              <div class="chips">
+                <a href="servicios.html#svc-analisis-de-datos">Análisis de datos y dashboards</a>
+                <a href="servicios.html#svc-analisis-de-conversaciones">Análisis de conversaciones</a>
+              </div>
+            </div></div>
           </li>
-          <li class="jf">
-            <div class="jf-img"><img src="assets/locucion.webp" alt="Locutor leyendo un guion frente al micrófono" loading="lazy"><span class="jf-num">02</span><span class="jf-stage label">Consideración</span></div>
-            <div class="jf-body"><h3>Quieren conocerte</h3><p>Video de marca y detrás de cámaras: quién eres, cómo trabajas y por qué importa.</p><span class="mono">16:9 · 4:5 · Video de marca</span></div>
+          <li class="step" data-i="1">
+            <span class="n">02</span>
+            <h3>Producción <small>Crear</small></h3>
+            <div class="body"><div>
+              <p>Video, fotografía y voz con equipo de cine, del guion a la entrega en todos los formatos.</p>
+              <div class="chips">
+                <a href="servicios.html#svc-video-de-marca">Video de marca</a>
+                <a href="servicios.html#svc-contenido-vertical">Reels y TikTok</a>
+                <a href="servicios.html#svc-testimonios-y-casos">Testimonios</a>
+                <a href="servicios.html#svc-video-corporativo-b2b">Video corporativo B2B</a>
+                <a href="servicios.html#svc-cortometrajes-y-branded-content">Cortometrajes</a>
+                <a href="servicios.html#svc-cobertura-de-eventos">Eventos</a>
+                <a href="servicios.html#svc-fotografia-de-producto">Fotografía de producto</a>
+                <a href="servicios.html#svc-actores-y-creadores">Actores y creadores</a>
+                <a href="servicios.html#svc-doblaje-locucion-y-adr">Locución y doblaje</a>
+              </div>
+            </div></div>
           </li>
-          <li class="jf">
-            <div class="jf-img"><img src="assets/f-testimonio.webp" alt="Testimonio grabado con micrófono de mano" loading="lazy" style="object-position:50% 18%"><span class="jf-num">03</span><span class="jf-stage label">Decisión</span></div>
-            <div class="jf-body"><h3>Necesitan una razón</h3><p>Testimonios y casos reales que resuelven la última duda antes de comprar.</p><span class="mono">9:16 · 16:9 · Testimonios</span></div>
+          <li class="step" data-i="2">
+            <span class="n">03</span>
+            <h3>Marketing digital <small>Publicar</small></h3>
+            <div class="body"><div>
+              <p>Llevamos ese contenido a tus clientes con campañas, redes y una web lista para vender desde el celular.</p>
+              <div class="chips">
+                <a href="servicios.html#svc-campanas-en-meta-ads">Campañas en Meta Ads</a>
+                <a href="servicios.html#svc-diseno-para-instagram">Diseño para Instagram</a>
+                <a href="servicios.html#svc-sitios-web-con-pedido-por-whatsapp">Sitios web con pedido por WhatsApp</a>
+              </div>
+            </div></div>
           </li>
-          <li class="jf">
-            <div class="jf-img"><img src="assets/cade-evento.webp" alt="Foto grupal en un evento universitario" loading="lazy" style="object-position:40% 50%"><span class="jf-num">04</span><span class="jf-stage label">Recomendación</span></div>
-            <div class="jf-body"><h3>Te recomiendan</h3><p>Eventos y comunidad convertidos en historias que tus clientes quieren compartir.</p><span class="mono">Aftermovie · Cobertura · Foto</span></div>
+          <li class="step" data-i="3">
+            <span class="n">04</span>
+            <h3>Automatización <small>Atender</small></h3>
+            <div class="body"><div>
+              <p>Un asistente con inteligencia artificial responde por WhatsApp e Instagram las 24 horas, con la voz de tu marca.</p>
+              <div class="chips">
+                <a href="servicios.html#svc-automatizacion-de-whatsapp">Automatización de WhatsApp</a>
+                <a href="servicios.html#svc-community-manager-con-ia">Community manager con IA</a>
+              </div>
+            </div></div>
           </li>
         </ol>
       </div>
-    </div>
-    <div class="wrap"><div class="journey-arrow"><span class="label" style="color:var(--mute)">Del primer vistazo a la recomendación</span></div></div>
-  </section>
 
-  <!-- ===================== SERVICIOS ===================== -->
-  <section class="block" id="servicios" data-scene="Servicios">
-    <div class="wrap services">
-      <div class="services-head">
-        <h2>Servicios</h2>
-        <p>El análisis de datos decide qué hay que contar; nosotros lo producimos y medimos cómo funcionó. Un solo equipo responsable de las dos mitades.</p>
-        <a class="btn" href="servicios.html" style="margin-top:26px">Ver todos los servicios <span class="arrow">→</span></a>
+      <div class="svc-visual" aria-hidden="true">
+        <div class="pics">
+          <img src="assets/datos/codigo.webp" alt="" class="on" style="object-position:50% 40%">
+          <img src="assets/bts-monitor.webp" alt="" style="object-position:60% 50%">
+          <img src="assets/srv/instagram.webp" alt="">
+          <img src="assets/srv/whatsapp.webp" alt="">
+        </div>
+        <div class="ring">
+          <svg viewBox="0 0 120 120">
+            <circle class="trk" cx="60" cy="60" r="56"/>
+            <circle class="arc js-arc" cx="60" cy="60" r="56" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>
+            <circle class="node" cx="116" cy="60" r="5"/>
+            <circle class="node" cx="60" cy="116" r="5"/>
+            <circle class="node" cx="4" cy="60" r="5"/>
+            <circle class="node" cx="60" cy="4" r="5"/>
+          </svg>
+          <div class="mid"><b class="js-ring-n">01</b><span class="js-ring-t">Datos</span></div>
+        </div>
+        <p class="loopnote js-loop">Cada conversación con tus clientes vuelve al análisis, y el ciclo empieza de nuevo con más información.</p>
       </div>
-      <ul class="svc-list">
-        <li class="svc-group"><span class="label">Estrategia</span></li>
-        <li class="svc" data-img="assets/datos/codigo.webp">
-          <h3>Análisis de datos</h3>
-          <p>Analizamos los datos de tu empresa para decidir a quién hablarle y con qué producto: gobernanza, limpieza, dashboards en Power BI, modelos y segmentación. La campaña sale de ahí.</p>
-          <span class="mono">Power BI<br>Segmentación</span>
-          <div class="svc-thumb"><img src="assets/datos/codigo.webp" alt="Código de análisis de datos en pantalla" loading="lazy"></div>
-        </li>
-        <li class="svc" data-img="assets/srv/conversaciones.webp">
-          <h3>Análisis de conversaciones</h3>
-          <p>Las conversaciones de tu marca convertidas en información clara para decidir.</p>
-          <span class="mono">Datos<br>Reportes</span>
-          <div class="svc-thumb"><img src="assets/srv/conversaciones.webp" alt="Reporte de conversaciones con indicadores y sentimiento" loading="lazy"></div>
-        </li>
-        <li class="svc" data-img="assets/bts-guion.webp">
-          <h3>Storytelling y guion</h3>
-          <p>Encontramos la historia antes de encender la cámara: el mensaje, la estructura y el guion de cada pieza.</p>
-          <span class="mono">Concepto<br>Guion</span>
-          <div class="svc-thumb"><img src="assets/bts-guion.webp" alt="Guion de una producción en el set" loading="lazy"></div>
-        </li>
-        <li class="svc-group"><span class="label">Digital</span></li>
-        <li class="svc" data-img="assets/srv/whatsapp.webp">
-          <h3>Atención automatizada con IA</h3>
-          <p>Un asistente atiende tu WhatsApp y tu Instagram las 24 horas con la voz de tu marca.</p>
-          <span class="mono">WhatsApp<br>Instagram</span>
-          <div class="svc-thumb"><img src="assets/srv/whatsapp.webp" alt="Conversación de WhatsApp atendida por un asistente" loading="lazy"></div>
-        </li>
-        <li class="svc" data-img="assets/srv/meta-ads.webp">
-          <h3>Campañas y redes</h3>
-          <p>Campañas en Meta Ads y diseño para Instagram, conectados con tu producción de video.</p>
-          <span class="mono">Meta Ads<br>Instagram</span>
-          <div class="svc-thumb"><img src="assets/srv/meta-ads.webp" alt="Anuncio de Instagram con botón para escribir por WhatsApp" loading="lazy"></div>
-        </li>
-        <li class="svc" data-img="assets/srv/web-pedidos.webp">
-          <h3>Sitios web con pedido por WhatsApp</h3>
-          <p>Páginas para tu marca o tu catálogo, listas para vender desde el celular.</p>
-          <span class="mono">Web<br>Catálogo</span>
-          <div class="svc-thumb"><img src="assets/srv/web-pedidos.webp" alt="Catálogo web con pedido por WhatsApp" loading="lazy"></div>
-        </li>
-        <li class="svc-group"><span class="label">Producción</span></li>
-        <li class="svc" data-img="assets/edicion-still.webp">
-          <h3>Video de marca</h3>
-          <p>La pieza central de tu comunicación: quién eres, contado con lenguaje de cine y tomas aéreas cuando la historia lo pide.</p>
-          <span class="mono">16:9 · 4K<br>Dron</span>
-          <div class="svc-thumb"><img src="assets/edicion-still.webp" alt="Edición de video en la línea de tiempo" loading="lazy"></div>
-        </li>
-        <li class="svc" data-img="assets/f-entrevista.webp">
-          <h3>Contenido vertical</h3>
-          <p>Reels y TikToks pensados para retener, filmados con la misma calidad que un spot.</p>
-          <span class="mono">9:16<br>4:5</span>
-          <div class="svc-thumb"><img src="assets/f-entrevista.webp" alt="Entrevista grabada por Creative Whisper" loading="lazy"></div>
-        </li>
-        <li class="svc" data-img="assets/f-testimonio.webp">
-          <h3>Testimonios y casos</h3>
-          <p>Tus clientes hablando por ti, con luz, sonido y edición cuidados.</p>
-          <span class="mono">Entrevista<br>Lower thirds</span>
-          <div class="svc-thumb"><img src="assets/f-testimonio.webp" alt="Testimonio grabado en video" loading="lazy" style="object-position:50% 18%"></div>
-        </li>
-        <li class="svc" data-img="assets/f-lectura.webp">
-          <h3>Cortometrajes y branded content</h3>
-          <p>Historias largas para instituciones y marcas que quieren emocionar, no solo informar.</p>
-          <span class="mono">Guion<br>Dirección<br>Montaje</span>
-          <div class="svc-thumb"><img src="assets/f-lectura.webp" alt="Grabación de una lectura frente a cámara" loading="lazy"></div>
-        </li>
-        <li class="svc" data-img="assets/cade-evento.webp">
-          <h3>Cobertura de eventos</h3>
-          <p>El ambiente, la gente y los momentos que después se vuelven contenido para todo el año.</p>
-          <span class="mono">Aftermovie<br>Foto</span>
-          <div class="svc-thumb"><img src="assets/cade-evento.webp" alt="Cobertura en video de un evento" loading="lazy"></div>
-        </li>
-        <li class="svc-group"><span class="label">Talento y voz</span></li>
-        <li class="svc" data-img="assets/bts-notas.webp">
-          <h3>Actores y creadores de contenido</h3>
-          <p>Actores y creadores que le ponen cara y voz a tu marca, elegidos según tu público y el tono de la pieza.</p>
-          <span class="mono">Casting<br>UGC</span>
-          <div class="svc-thumb"><img src="assets/bts-notas.webp" alt="Notas de producción durante un rodaje" loading="lazy" style="object-position:50% 35%"></div>
-        </li>
-        <li class="svc" data-img="assets/adr-dos.webp">
-          <h3>Doblaje, locución y ADR</h3>
-          <p>Voces limpias y sincronizadas, grabadas en estudio de locución para ficción, spots y cápsulas.</p>
-          <span class="mono">Voz<br>Mezcla</span>
-          <div class="svc-thumb"><img src="assets/adr-dos.webp" alt="Grabación con dos personas en el set" loading="lazy"></div>
-        </li>
-      </ul>
     </div>
-    <div class="cursor-img" aria-hidden="true"><img alt="Edición de video en la línea de tiempo" src="assets/edicion-still.webp"></div>
-  </section>
+  </div></div>
+</section>
 
+<!-- llamada intermedia -->
+<section class="band" aria-label="Agendar reunión">
+  <div class="wrap">
+    <p>¿No sabes por dónde empezar?<span>En una reunión de media hora revisamos tu marca y te proponemos el primer paso.</span></p>
+    <a class="btn btn--solid js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero saber por dónde empezar con mi marca.">Agendar reunión por WhatsApp</a>
+  </div>
+</section>
 
-  <!-- ===================== CASO ===================== -->
-  <section class="block" id="caso" style="padding-top:0" data-scene="Caso">
-    <div class="wrap case">
-      <div class="case-media">
-        <div class="main"><img src="assets/cade-evento.webp" alt="Estudiantes de CADE USFQ reunidos alrededor de las letras rojas del colegio" loading="lazy"></div>
-        <div class="inset"><img src="assets/bts-pantalla.webp" alt="Escena del cortometraje en el monitor durante la postproducción" loading="lazy" style="object-position:38% 50%"></div>
+<!-- 4 · TRABAJO -->
+<section class="work" id="trabajo" data-scene="Trabajo">
+  <div class="stage">
+    <div class="wrap work-head">
+      <div>
+        <span class="label">Trabajo reciente</span>
+        <h2 class="h2">Filmado y editado <em>por nuestro equipo.</em></h2>
       </div>
-      <div class="case-body">
-        <span class="label">Cortometraje institucional · CADE USFQ</span>
-        <h2>Un día dragón</h2>
-        <p>Un cortometraje para el Colegio de Administración y Economía de la USFQ, escrito para la Generación Z y contado con humor: un protagonista, una vida planificada en una hoja de cálculo y un campus entero como escenario.</p>
-        <dl class="facts">
-          <div><dt>Duración</dt><dd>15–20<small>min</small></dd></div>
-          <div><dt>Locaciones</dt><dd>13</dd></div>
-          <div><dt>Días de rodaje</dt><dd>4</dd></div>
-          <div><dt>Público</dt><dd>Gen Z</dd></div>
-        </dl>
-        <div class="credits">
-          <div><span class="role">Dirección · Guion · Fotografía · Montaje</span><span class="who">Matías Toro</span></div>
-          <div><span class="role">Subdirección</span><span class="who">Emilio Toro</span></div>
-          <div><span class="role">Coordinación con cliente</span><span class="who">María Paz Cisneros</span></div>
-          <div><span class="role">Protagonista</span><span class="who">Mathi Granizo</span></div>
+      <span class="count"><span class="js-count">01</span> / 09</span>
+    </div>
+    <div class="rail js-rail">
+      <figure class="card v" style="margin:0">
+        <video muted loop playsinline preload="none" poster="assets/clip-evento.webp" data-src="assets/clip-evento.mp4"></video>
+        <figcaption class="meta"><span class="label">CADE · USFQ</span><h3>Cobertura de evento</h3></figcaption>
+      </figure>
+      <a class="card p" href="portafolio.html">
+        <img src="assets/auto/royal-enfield-linea-58.webp" alt="Fotografía de producto de una motocicleta Royal Enfield" loading="lazy">
+        <span class="meta"><span class="label">Fotografía de producto</span><h3>Más de 700 fotografías automotrices</h3><p>Ver portafolio →</p></span>
+      </a>
+      <figure class="card v" style="margin:0">
+        <video muted loop playsinline preload="none" poster="assets/clip-ficcion.webp" data-src="assets/clip-ficcion.mp4"></video>
+        <figcaption class="meta"><span class="label">Narrativa</span><h3>Cápsula de ficción</h3></figcaption>
+      </figure>
+      <figure class="card v" style="margin:0">
+        <img src="assets/f-lectura.webp" alt="Escena del cortometraje Un día dragón" loading="lazy">
+        <figcaption class="meta"><span class="label">Cortometraje institucional · CADE USFQ</span><h3>Un día dragón</h3><p>15–20 min · 13 locaciones · 4 días de rodaje</p></figcaption>
+      </figure>
+      <figure class="card v" style="margin:0">
+        <video muted loop playsinline preload="none" poster="assets/clip-testimonio.webp" data-src="assets/clip-testimonio.mp4"></video>
+        <figcaption class="meta"><span class="label">USFQ</span><h3>Testimonios</h3></figcaption>
+      </figure>
+      <a class="card p" href="datos.html">
+        <img src="assets/datos/escenario-2.webp" alt="Charla del Data Club USFQ" loading="lazy" style="object-position:50% 30%">
+        <span class="meta"><span class="label">Análisis de datos</span><h3>Data Club USFQ</h3><p>Ver cómo trabajamos el dato →</p></span>
+      </a>
+      <figure class="card v" style="margin:0">
+        <video muted loop playsinline preload="none" poster="assets/clip-adr.webp" data-src="assets/clip-adr.mp4"></video>
+        <figcaption class="meta"><span class="label">Audio</span><h3>Doblaje y ADR</h3></figcaption>
+      </figure>
+      <figure class="card v" style="margin:0">
+        <video muted loop playsinline preload="none" poster="assets/clip-entrevista.webp" data-src="assets/clip-entrevista.mp4"></video>
+        <figcaption class="meta"><span class="label">Contenido</span><h3>Entrevista de marca</h3></figcaption>
+      </figure>
+      <div class="card end">
+        <h2 class="h2">¿Quieres algo así para tu marca?</h2>
+        <div class="links">
+          <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, vi su trabajo y quiero cotizar un proyecto.">Cotizar un proyecto <span>→</span></a>
+          <button type="button" class="js-reel">Ver el reel completo <span>▶</span></button>
+          <a href="portafolio.html">Fotografía automotriz <span>→</span></a>
         </div>
       </div>
     </div>
-  </section>
+    <div class="rail-bar" aria-hidden="true"><i class="js-railbar"></i></div>
+  </div>
+</section>
 
-  <!-- ===================== DETRÁS DE CÁMARAS ===================== -->
-  <section class="block" style="padding-top:clamp(40px,6vw,96px)" data-scene="Detrás de cámaras">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Detrás de cámaras</h2>
-        <div class="aside"><p>Revisión de guion, ensayos, grabación de voz y postproducción. Cada etapa se trabaja con el mismo nivel de detalle.</p></div>
-      </div>
-      <div class="bts-grid">
-        <figure class="b1"><img src="assets/bts-monitor.webp" alt="Editor revisando una escena en pantalla grande" loading="lazy"><figcaption class="mono">Sala de edición</figcaption></figure>
-        <figure class="b2"><img src="assets/bts-notas.webp" alt="Actor tomando notas sobre el guion junto al micrófono" loading="lazy" style="object-position:50% 35%"><figcaption class="mono">Ensayo</figcaption></figure>
-        <figure class="b3"><img src="assets/locucion.webp" alt="Locutor de pie leyendo en la cabina" loading="lazy"><figcaption class="mono">Cabina</figcaption></figure>
-        <figure class="b4"><img src="assets/bts-edicion.webp" alt="Sincronización de audio con la escena en el monitor" loading="lazy"><figcaption class="mono">Sincronía</figcaption></figure>
-        <figure class="b5"><img src="assets/bts-guion.webp" alt="Actor sosteniendo el guion frente al micrófono" loading="lazy" style="object-position:50% 30%"><figcaption class="mono">Toma 3</figcaption></figure>
-        <figure class="b6"><img src="assets/bts-hoja.webp" alt="Guion impreso en manos del actor" loading="lazy"></figure>
-        <figure class="b7"><img src="assets/bts-perfil.webp" alt="Operador de audio con audífonos frente a la consola" loading="lazy" style="object-position:50% 30%"></figure>
-      </div>
+<!-- cifras -->
+<section class="facts" aria-label="Cifras" data-scene="Cifras">
+  <div class="wrap grid">
+    <div class="fact"><b><span class="js-num" data-to="700">0</span><sup>+</sup></b><span>fotografías de producto automotriz entregadas</span></div>
+    <div class="fact"><b><span class="js-num" data-to="4">0</span></b><span>formatos de cada rodaje: 9:16, 4:5, 16:9 y 2.39:1</span></div>
+    <div class="fact"><b><span class="js-num" data-to="24">0</span><sup>/7</sup></b><span>atención automatizada por WhatsApp e Instagram</span></div>
+  </div>
+</section>
+
+<!-- preguntas -->
+<section class="faq" aria-labelledby="faq-t" data-scene="Preguntas">
+  <div class="wrap">
+    <div><span class="label">Preguntas frecuentes</span><h2 class="h2" id="faq-t" style="margin-top:12px">Antes de <em>escribirnos.</em></h2></div>
+    <div>
+      <details><summary>¿Con qué tipo de marcas trabajan?</summary><p>Con marcas, emprendimientos e instituciones que quieren vender más y comunicar mejor: desde productos de consumo hasta concesionarios, universidades y empresas B2B.</p></details>
+      <details><summary>¿Puedo contratar un solo servicio?</summary><p>Sí. Cada servicio se contrata por separado o combinado en un plan mensual. En la primera reunión te recomendamos por dónde empezar.</p></details>
+      <details><summary>¿Cómo cobran?</summary><p>Por proyecto, según el alcance. Después de la reunión te enviamos una propuesta con alcance, cronograma y precio.</p></details>
+      <details><summary>¿Cómo empezamos?</summary><p>Escríbenos por WhatsApp con lo que tienes en mente. Agendamos una reunión corta y te enviamos la propuesta.</p></details>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ===================== EQUIPO ===================== -->
-  <section class="block" id="equipo" style="padding-top:0" data-scene="Equipo">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Equipo</h2>
-        <div class="aside"><p>Cámara de la línea Cinema, audio inalámbrico, estabilizador, dron y un estudio propio para voz y postproducción. Todo lo que ves en pantalla sale de aquí.</p></div>
-      </div>
-      <div class="kit">
-        <figure class="kit-item kit-feature">
-          <img src="assets/eq-fx2.webp" alt="Cámara Sony FX2 de la línea Cinema en manos de un camarógrafo" loading="lazy" style="object-position:30% 50%">
-          <figcaption><span class="label">Cámara</span><strong>Sony FX2 · Cinema Line</strong><span class="mono">4K · Video y foto</span></figcaption>
-        </figure>
-        <figure class="kit-item">
-          <img src="assets/eq-rs4mini.webp" alt="Estabilizador DJI RS 4 Mini con cámara montada" loading="lazy" style="object-position:50% 40%">
-          <figcaption><span class="label">Estabilizador</span><strong>DJI RS 4 Mini</strong><span class="mono">Movimientos fluidos</span></figcaption>
-        </figure>
-        <figure class="kit-item kit-product">
-          <img src="assets/eq-djimic.webp" alt="Micrófonos inalámbricos DJI Mic en su estuche de carga" loading="lazy">
-          <figcaption><span class="label">Audio</span><strong>DJI Mic</strong><span class="mono">Inalámbrico</span></figcaption>
-        </figure>
-        <figure class="kit-item">
-          <img src="assets/eq-dron.webp" alt="Dron DJI Mini volando en un bosque" loading="lazy" style="object-position:50% 45%">
-          <figcaption><span class="label">Tomas aéreas</span><strong>Dron DJI Mini</strong><span class="mono">4K desde el aire</span></figcaption>
-        </figure>
-        <figure class="kit-item">
-          <img src="assets/eq-voz.webp" alt="Dos actores grabando voces con audífonos en el estudio de locución" loading="lazy" style="object-position:50% 30%">
-          <figcaption><span class="label">Voz</span><strong>Estudio de locución</strong><span class="mono">Doblaje · Locución · ADR</span></figcaption>
-        </figure>
-        <figure class="kit-item kit-wide">
-          <img src="assets/eq-estudio.webp" alt="Estudio profesional con paneles acústicos naranjas y monitor de edición" loading="lazy" style="object-position:50% 40%">
-          <figcaption><span class="label">Set</span><strong>Estudio profesional</strong><span class="mono">Grabación · Revisión en pantalla</span></figcaption>
-        </figure>
-        <figure class="kit-item">
-          <img src="assets/eq-edicion.webp" alt="Editor revisando audio y video en la sala de postproducción" loading="lazy" style="object-position:50% 25%">
-          <figcaption><span class="label">Color y edición</span><strong>DaVinci Resolve Studio</strong><span class="mono">Montaje · Color · Mezcla</span></figcaption>
-        </figure>
-        <figure class="kit-item kit-formats">
-          <div class="frames-ar" aria-hidden="true">
-            <span><i style="aspect-ratio:9/16"></i><em class="mono">9:16</em></span>
-            <span><i style="aspect-ratio:4/5"></i><em class="mono">4:5</em></span>
-            <span><i style="aspect-ratio:16/9"></i><em class="mono">16:9</em></span>
-            <span><i style="aspect-ratio:2.39/1"></i><em class="mono">2.39:1</em></span>
-          </div>
-          <figcaption><span class="label">Entrega</span><strong>Todos los formatos</strong><span class="mono">Redes · Web · Pantalla grande</span></figcaption>
-        </figure>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== PREGUNTAS ===================== -->
-  <section class="block" style="padding-top:0" data-scene="Preguntas">
-    <div class="wrap faq">
-      <div class="faq-head">
-        <h2>Preguntas frecuentes</h2>
-      </div>
-      <div class="faq-list">
-        <details open>
-          <summary>¿Con qué tipo de marcas trabajan? <i></i></summary>
-          <p>Con marcas, emprendimientos e instituciones que quieren contar mejor su historia y ya sienten que un video “bonito” no basta: necesitan que ese video mueva a su cliente a la siguiente etapa.</p>
-        </details>
-        <details>
-          <summary>¿Solo filman o también ayudan con la idea? <i></i></summary>
-          <p>Empezamos por la idea. Definimos la etapa del viaje del cliente, el mensaje y el formato; escribimos el guion, filmamos, editamos y después medimos cómo funcionó cada pieza.</p>
-        </details>
-        <details>
-          <summary>¿Puedo sacar contenido para redes del mismo rodaje? <i></i></summary>
-          <p>Sí. Planificamos cada rodaje para entregar versiones en 16:9 para web y YouTube, y en 9:16 y 4:5 para Reels, TikTok y anuncios.</p>
-        </details>
-        <details>
-          <summary>¿Consiguen actores o creadores de contenido? <i></i></summary>
-          <p>Sí. Proponemos actores, locutores y creadores de contenido según el público de tu marca y el tono de la pieza, y los dirigimos en el rodaje.</p>
-        </details>
-        <details>
-          <summary>¿Cómo empezamos? <i></i></summary>
-          <p>Escríbenos con lo que tienes en mente. Agendamos una reunión corta para entender tu marca y te enviamos una propuesta con alcance y cronograma.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <!-- ===================== CONTACTO ===================== -->
-  <section class="block contact" id="contacto" data-scene="Contacto">
-    <div class="wrap contact-grid">
-      <div class="contact-copy">
-        <h2>Contacto</h2>
-        <p>Escríbenos por WhatsApp o Instagram. Agendamos una reunión y te ayudamos a definir por dónde empezar.</p>
-        <div class="contact-lines">
-          <a href="https://wa.me/593969577774" target="_blank" rel="noopener">WhatsApp · 096 957 7774</a>
-          <a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">@creative.whisper.productions</a>
+<!-- 5 · CONTACTO -->
+<section class="contact" id="contacto" data-scene="Contacto">
+  <div class="wrap">
+    <h2 class="big js-big">Hablemos de<br><em>tu marca.</em></h2>
+    <div class="grid">
+      <div class="direct">
+        <p>Respondemos por WhatsApp el mismo día. Cuéntanos qué necesitas y agendamos una reunión.</p>
+        <div class="lines">
+          <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">WhatsApp · 096 957 7774 <small>Escribir →</small></a>
+          <a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">@creative.whisper.productions <small>Instagram →</small></a>
+          <a href="cotizacion.html">Cotización en línea <small>Abrir →</small></a>
         </div>
       </div>
-
-      <form class="brief" id="brief" novalidate>
-        <div class="row"><label for="f-nombre">Tu nombre</label><input id="f-nombre" name="nombre" type="text" placeholder="Nombre y apellido" autocomplete="name"></div>
-        <div class="row"><label for="f-marca">Marca o empresa</label><input id="f-marca" name="marca" type="text" placeholder="¿Cómo se llama tu marca?" autocomplete="organization"></div>
+      <form class="brief js-brief" novalidate>
+        <div class="row">
+          <div class="f"><label for="b-nombre">Tu nombre</label><input id="b-nombre" name="nombre" autocomplete="name" required></div>
+          <div class="f"><label for="b-marca">Marca o empresa</label><input id="b-marca" name="marca" autocomplete="organization"></div>
+        </div>
         <fieldset>
-          <legend>¿En qué etapa necesitas ayuda?</legend>
-          <div class="chips">
-            <input type="radio" name="etapa" id="e1" value="Descubrimiento" checked><label for="e1">Que me descubran</label>
-            <input type="radio" name="etapa" id="e2" value="Consideración"><label for="e2">Que me conozcan</label>
-            <input type="radio" name="etapa" id="e3" value="Decisión"><label for="e3">Que me elijan</label>
-            <input type="radio" name="etapa" id="e4" value="Recomendación"><label for="e4">Que me recomienden</label>
-            <input type="radio" name="etapa" id="e5" value="Aún no lo sé"><label for="e5">Aún no lo sé</label>
+          <legend>¿Qué necesitas?</legend>
+          <div class="picks">
+            <label><input type="checkbox" name="area" value="Datos"><span>Datos</span></label>
+            <label><input type="checkbox" name="area" value="Producción"><span>Producción</span></label>
+            <label><input type="checkbox" name="area" value="Marketing digital"><span>Marketing digital</span></label>
+            <label><input type="checkbox" name="area" value="Automatización"><span>Automatización</span></label>
+            <label><input type="checkbox" name="area" value="Aún no lo sé"><span>Aún no lo sé</span></label>
           </div>
         </fieldset>
-        <div class="row"><label for="f-msg">Tu idea</label><textarea id="f-msg" name="mensaje" placeholder="Qué quieres contar, para quién y para cuándo"></textarea></div>
-        <a class="btn btn--solid" id="wa" href="#" target="_blank" rel="noopener">Enviar por WhatsApp <span class="arrow">→</span></a>
+        <div class="f"><label for="b-idea">Cuéntanos brevemente</label><textarea id="b-idea" name="idea" rows="3"></textarea></div>
+        <button class="btn btn--solid" type="submit">Enviar por WhatsApp →</button>
         <p class="note">Se abre WhatsApp con tu mensaje listo para enviar.</p>
       </form>
     </div>
-  </section>
+  </div>
+</section>
+
 </main>
 
-<footer class="site-footer">
+<footer>
   <div class="wrap">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <img src="assets/logo-cw.png" alt="Creative Whisper Productions" width="900" height="606" loading="lazy">
-        <p>Productora audiovisual · Quito, Ecuador</p>
-      </div>
-      <div class="foot-col">
-        <span class="label">Estudio</span>
-        <a href="#trabajo">Trabajo</a><a href="#viaje">Viaje del cliente</a><a href="servicios.html">Servicios</a><a href="#equipo">Equipo</a><a href="#caso">Caso</a><a href="portafolio.html">Fotografía automotriz</a>
-      </div>
-      <div class="foot-col">
-        <span class="label">Hablemos</span>
-        <a href="#contacto">Agendar reunión</a><a href="https://wa.me/593969577774" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">Instagram</a>
-      </div>
-      <div class="foot-col">
-        <span class="label">Ver</span>
-        <button type="button" data-reel style="text-align:left;padding:0;width:fit-content">Reel 2026</button>
-      </div>
-    </div>
-    <svg class="wordmark" viewBox="0 0 1000 96" role="img" aria-label="Creative Whisper">
-      <defs><linearGradient id="gm" x1="0" x2="1" y1="0" y2="1">
-        <stop offset="0" stop-color="#F3EBDD"/><stop offset=".35" stop-color="#CDBFA6"/><stop offset=".55" stop-color="#7E7466"/><stop offset=".78" stop-color="#E6DCCB"/><stop offset="1" stop-color="#9C907C"/>
-      </linearGradient></defs>
-      <text x="0" y="82" textLength="1000" lengthAdjust="spacingAndGlyphs" fill="url(#gm)" style="font-family:Cinzel,'Trajan Pro',Georgia,serif;font-size:96px;font-weight:400">CREATIVE WHISPER</text>
-    </svg>
-    <div class="foot-bottom">
-      <span class="mono">© 2026 Creative Whisper Productions</span>
-      <a class="mono" href="#top">Volver al inicio ↑</a>
-    </div>
+    <span>© 2026 Creative Whisper · Quito, Ecuador</span>
+    <nav aria-label="Secundaria">
+      <a href="servicios.html">Servicios</a><a href="datos.html">Datos</a><a href="portafolio.html">Fotografía</a><a href="cotizacion.html">Cotización</a><a href="privacidad.html">Privacidad</a><a href="admin.html">Admin</a>
+    </nav>
   </div>
 </footer>
 
-<div class="hud" aria-hidden="true"><span class="mono" id="hudTc">TC 00:00:00:00</span><span class="sep"></span><span class="mono" id="hudScene">Apertura</span></div>
+<a class="fab js-fab js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión." aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+  Escríbenos
+</a>
 
-<dialog class="lightbox" id="lightbox" aria-label="Reel de Creative Whisper">
-  <button class="lb-close" type="button" id="lbClose"><span class="label">Cerrar</span> ✕</button>
-  <div class="lb-inner"><video id="lbVideo" controls playsinline preload="none" poster="assets/clip-evento.webp" src="assets/reel-cw.mp4"></video></div>
+<dialog class="reel js-reel-dlg" aria-label="Reel de Creative Whisper">
+  <button type="button" class="js-reel-close">CERRAR ✕</button>
+  <video controls playsinline preload="none" poster="assets/clip-evento.webp" src="assets/reel-cw.mp4"></video>
 </dialog>
-
-<canvas id="grainSrc" width="160" height="160" hidden></canvas>
-<div class="grain" id="grain" aria-hidden="true"></div>
 
 <script>
 (() => {
-  /* WhatsApp de Creative Whisper (096 957 7774) en formato internacional */
-  const WHATSAPP = "593969577774";
-
-  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const WA = '593969577774';
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
+  const range = (p, a, b) => clamp((p - a) / (b - a));
+  const ease = t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const pad = n => String(n).padStart(2, '0');
 
-  /* grano */
-  try {
-    const c = $("#grainSrc"), x = c.getContext("2d"), d = x.createImageData(160, 160);
-    for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i+1] = d.data[i+2] = v; d.data[i+3] = 255; }
-    x.putImageData(d, 0, 0);
-    $("#grain").style.backgroundImage = `url(${c.toDataURL()})`;
-  } catch (e) {}
-
-  /* header */
-  const header = $(".site-header"), toggle = $(".menu-toggle");
-  const onScroll = () => header.classList.toggle("is-scrolled", scrollY > 30);
-  addEventListener("scroll", onScroll, { passive: true }); onScroll();
-  toggle.addEventListener("click", () => {
-    const open = header.classList.toggle("is-open");
-    toggle.setAttribute("aria-expanded", open);
-    toggle.setAttribute("aria-label", open ? "Cerrar menú" : "Abrir menú");
+  /* ---------- WhatsApp con mensaje listo ---------- */
+  $$('.js-wa').forEach(a => {
+    const m = a.dataset.msg;
+    if (m) a.href = `https://wa.me/${WA}?text=${encodeURIComponent(m)}`;
+    a.target = '_blank'; a.rel = 'noopener';
   });
-  $$("#menu a").forEach(a => a.addEventListener("click", () => { header.classList.remove("is-open"); toggle.setAttribute("aria-expanded", false); }));
+  $('.js-brief').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.target;
+    const nombre = f.nombre.value.trim(), marca = f.marca.value.trim(), idea = f.idea.value.trim();
+    const areas = $$('input[name=area]:checked', f).map(i => i.value);
+    if (!nombre) { f.nombre.focus(); f.nombre.style.borderColor = '#D9412B'; return; }
+    let t = `Hola Creative Whisper, soy ${nombre}`;
+    if (marca) t += ` de ${marca}`;
+    t += '.';
+    if (areas.length) t += ` Me interesa: ${areas.join(', ')}.`;
+    if (idea) t += ` ${idea}`;
+    window.open(`https://wa.me/${WA}?text=${encodeURIComponent(t)}`, '_blank', 'noopener');
+  });
 
-  /* hero: diapositivas + timecode */
-  const slides = $$(".slide"), sceneLabel = $("#sceneLabel");
-  let si = 0;
-  if (!reduce && slides.length > 1) setInterval(() => {
-    slides[si].classList.remove("is-on");
-    si = (si + 1) % slides.length;
-    slides[si].classList.add("is-on");
-    sceneLabel.style.opacity = 0;
-    setTimeout(() => { sceneLabel.textContent = slides[si].dataset.label; sceneLabel.style.opacity = 1; }, 500);
-  }, 6500);
-  const pad = n => String(n).padStart(2, "0");
-  const toTC = f => `${pad(Math.floor(f / 86400))}:${pad(Math.floor(f / 1440) % 60)}:${pad(Math.floor(f / 24) % 60)}:${pad(f % 24)}`;
-  const tc = $("#tc"), t0 = performance.now(), base = (60 + 24) * 24; // 00:01:24:00
-  const tick = now => { tc.textContent = toTC(base + Math.floor((now - t0) / 1000 * 24)); requestAnimationFrame(tick); };
-  if (!reduce) requestAnimationFrame(tick);
+  /* ---------- menú móvil ---------- */
+  const menuBtn = $('.js-menu'), menu = $('#menu');
+  menuBtn.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', open); menuBtn.textContent = open ? 'Cerrar' : 'Menú';
+    $('.top').classList.add('is-solid');
+  });
+  $$('a', menu).forEach(a => a.addEventListener('click', () => { menu.classList.remove('open'); menuBtn.setAttribute('aria-expanded', false); menuBtn.textContent = 'Menú'; }));
 
-  /* intro */
-  const intro = $("#intro");
-  if (intro) {
-    let done = false, raf;
-    const t0i = performance.now();
-    const introTc = $("#introTc");
-    const tickIntro = now => { introTc.textContent = toTC(Math.floor((now - t0i) / 1000 * 24)); raf = requestAnimationFrame(tickIntro); };
-    const finish = () => {
-      if (done) return; done = true;
-      cancelAnimationFrame(raf);
-      document.documentElement.classList.remove("intro-playing");
-      ["pointerdown", "keydown", "wheel", "touchstart"].forEach(ev => removeEventListener(ev, leave));
-      setTimeout(() => intro.remove(), 1200);
-    };
-    const leave = () => {
-      if (done || intro.classList.contains("is-leaving") || performance.now() - t0i > 2150) return;
-      intro.classList.add("is-leaving");
-      setTimeout(finish, 450);
-    };
-    requestAnimationFrame(tickIntro);
-    setTimeout(finish, 2600);
-    ["pointerdown", "keydown", "wheel", "touchstart"].forEach(ev => addEventListener(ev, leave, { passive: true }));
+  /* ---------- reel ---------- */
+  const dlg = $('.js-reel-dlg');
+  $('.js-reel').addEventListener('click', () => { dlg.showModal(); $('video', dlg).play().catch(() => {}); });
+  const closeReel = () => { $('video', dlg).pause(); dlg.close(); };
+  $('.js-reel-close').addEventListener('click', closeReel);
+  dlg.addEventListener('click', e => { if (e.target === dlg) closeReel(); });
+
+  /* ---------- texto palabra por palabra ---------- */
+  const wordsEl = $('.js-words');
+  wordsEl.innerHTML = wordsEl.textContent.trim().split(/\s+/).map(w => {
+    const key = /^\*.*\*[.,]?$/.test(w);
+    const clean = w.replace(/\*/g, '');
+    return `<span class="w${key ? ' key' : ''}">${clean}</span>`;
+  }).join(' ');
+  const words = $$('.w', wordsEl);
+
+  /* ---------- videos de la galería: solo corren si se ven ---------- */
+  const vids = $$('.rail video');
+  const io = new IntersectionObserver(es => es.forEach(en => {
+    const v = en.target;
+    if (en.isIntersecting) { if (!v.src) v.src = v.dataset.src; v.play().catch(() => {}); }
+    else v.pause();
+  }), { threshold: .35 });
+  vids.forEach(v => io.observe(v));
+
+  /* ---------- movimiento reducido: estado final, sin scroll-scrub ---------- */
+  if (reduce) {
+    words.forEach(w => w.classList.add('on'));
+    $$('.step').forEach(s => s.classList.add('is-active'));
+    $$('.js-num').forEach(n => n.textContent = n.dataset.to);
+    $('.js-fab').classList.add('is-on');
+    $('.top').classList.add('is-solid');
+    $('.hero .poster').src = 'assets/scroll/f040.webp';
+    return;
   }
 
-  /* video del hero: se pausa cuando no está en pantalla */
-  const heroVideo = $("#heroVideo");
-  if (heroVideo && "IntersectionObserver" in window) {
-    if (reduce) heroVideo.removeAttribute("autoplay");
-    new IntersectionObserver(es => es.forEach(e => {
-      if (reduce) return;
-      if (e.isIntersecting) heroVideo.play().catch(() => {}); else heroVideo.pause();
-    }), { threshold: .15 }).observe(heroVideo);
+  /* ---------- secuencia del hero ---------- */
+  const N = 59, frames = new Array(N);
+  const canvas = $('.hero canvas'), ctx = canvas.getContext('2d');
+  const poster = $('.hero .poster');
+  let loaded = 0, drawn = -1, curF = 0, tgtF = 0;
+  const src = i => `assets/scroll/f${String(i + 1).padStart(3, '0')}.webp`;
+  function loadFrame(i) {
+    if (frames[i]) return;
+    const im = new Image(); im.decoding = 'async'; im.src = src(i);
+    im.onload = () => { loaded++; if (i === 0) { poster.style.visibility = 'hidden'; draw(0, true); } };
+    frames[i] = im;
+  }
+  loadFrame(0);
+  const loadAll = () => { for (let i = 1; i < N; i++) loadFrame(i); };
+  if (document.readyState === 'complete') setTimeout(loadAll, 50); else addEventListener('load', () => setTimeout(loadAll, 50));
+
+  function sizeCanvas() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = Math.round(canvas.clientWidth * dpr);
+    canvas.height = Math.round(canvas.clientHeight * dpr);
+    drawn = -1; draw(Math.round(curF), true);
+  }
+  function draw(i, force) {
+    i = clamp(i, 0, N - 1);
+    if (i === drawn && !force) return;
+    let k = i; // si el cuadro aún no carga, usar el más cercano disponible
+    while (k > 0 && !(frames[k] && frames[k].complete && frames[k].naturalWidth)) k--;
+    const im = frames[k];
+    if (!im || !im.complete || !im.naturalWidth) return;
+    const cw = canvas.width, ch = canvas.height, iw = im.naturalWidth, ih = im.naturalHeight;
+    const s = Math.max(cw / iw, ch / ih), w = iw * s, h = ih * s;
+    // en pantallas verticales se centra el camión
+    ctx.drawImage(im, (cw - w) / 2, (ch - h) / 2, w, h);
+    drawn = i;
   }
 
-  /* HUD: timecode de scroll + escena */
-  const hudTc = $("#hudTc"), hudScene = $("#hudScene");
-  const RUNTIME = 3 * 60 * 24; // la página "dura" 3 minutos
-  addEventListener("scroll", () => {
-    const p = scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight);
-    hudTc.textContent = "TC " + toTC(Math.round(p * RUNTIME));
-  }, { passive: true });
-  const sceneObs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) hudScene.textContent = e.target.dataset.scene; }), { rootMargin: "-45% 0px -50% 0px" });
-  $$("[data-scene]").forEach(s => sceneObs.observe(s));
+  /* ---------- referencias ---------- */
+  const top = $('.top'), bar = $('.progress'), fab = $('.js-fab');
+  const hero = $('.hero'), frame = $('.hero .frame'), copy = $('.hero .copy'), cam = $('.cam'), hint = $('.js-hint'), heroTc = $('.js-hero-tc'), caption = $('.caption');
+  const stmt = $('.statement');
+  const svc = $('.services'), steps = $$('.step'), fill = $('.steps .fill'), pics = $$('.svc-visual .pics img'), arc = $('.js-arc'), nodes = $$('.ring .node'), ringN = $('.js-ring-n'), ringT = $('.js-ring-t'), loop = $('.js-loop');
+  const titles = ['Datos', 'Producción', 'Digital', 'Atención'];
+  const work = $('.work'), rail = $('.js-rail'), railBar = $('.js-railbar'), count = $('.js-count'), cards = $$('.rail > *');
+  const nums = $$('.js-num'), facts = $('.facts');
+  const big = $('.js-big'), contact = $('.contact');
+  const marquee = $('.js-marquee');
+  const tc = $('.js-tc'), scene = $('.js-scene'), scenes = $$('[data-scene]');
 
-  /* reveal: solo lo que está fuera de pantalla al cargar */
-  if (!reduce && "IntersectionObserver" in window) {
-    const targets = $$(".sec-head, .reel, .jf, .svc, .case-media, .case-body, .bts-grid figure, .kit-item, .faq-list, .brief, .ident");
-    const io = new IntersectionObserver(es => es.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add("is-revealed"); e.target.classList.remove("will-reveal"); io.unobserve(e.target); }
-    }), { rootMargin: "0px 0px -8% 0px" });
-    targets.forEach((el, i) => {
-      if (el.getBoundingClientRect().top > innerHeight) {
-        el.classList.add("will-reveal");
-        el.style.transitionDelay = (el.matches(".reel, .jf, .bts-grid figure, .kit-item") ? (Array.from(el.parentNode.children).indexOf(el) % 5) * 90 : 0) + "ms";
-        io.observe(el);
-      }
-    });
+  // Las medidas se leen solo al cargar o cambiar el tamaño de la ventana;
+  // en cada cuadro solo se escribe (sin forzar recálculos de layout).
+  let railDist = 0, vh = innerHeight, mqHalf = 0, stepTops = [], cardEdges = [];
+  const box = new Map();
+  const absTop = el => el.getBoundingClientRect().top + scrollY;
+  function layout() {
+    vh = innerHeight;
+    sizeCanvas();
+    railDist = Math.max(0, rail.scrollWidth - innerWidth);
+    work.style.height = (railDist + vh * 1.15) + 'px';
+    [hero, stmt, svc, work, facts, contact, ...scenes].forEach(el => box.set(el, { top: absTop(el), h: el.offsetHeight }));
+    mqHalf = marquee.scrollWidth / 2;
+    stepTops = steps.map(s => s.offsetTop);
+    cardEdges = cards.map(c => c.offsetLeft);
   }
 
-  /* videos: se reproducen al entrar en pantalla */
-  const vids = $$(".reel-media video, .ident-frame video");
-  if (!reduce && "IntersectionObserver" in window) {
-    const vio = new IntersectionObserver(es => es.forEach(e => {
-      const v = e.target, box = v.parentElement;
-      if (e.isIntersecting) {
-        if (v.preload === "none") v.preload = "auto";
-        v.play().then(() => box.classList.add("is-playing")).catch(() => {});
-      } else { v.pause(); }
-    }), { threshold: .45 });
-    vids.forEach(v => {
-      v.addEventListener("playing", () => v.parentElement.classList.add("is-playing"));
-      vio.observe(v);
-    });
-  }
-  $$(".ident-frame").forEach(f => f.classList.add("reel-media-ident"));
-  const identVid = $(".ident-frame video");
-  identVid.style.opacity = 0; identVid.style.transition = "opacity .8s";
-  identVid.addEventListener("playing", () => identVid.style.opacity = 1);
+  // progreso de una sección fija: 0 cuando su tope llega arriba, 1 cuando termina
+  const pinP = el => { const b = box.get(el); return clamp((scrollY - b.top) / Math.max(1, b.h - vh)); };
+  // progreso de entrada en pantalla: 0 cuando asoma abajo, 1 cuando su tope llega a "at"
+  const enterP = (el, at = .25) => { const b = box.get(el); return clamp((scrollY + vh - b.top) / (vh * (1 - at))); };
 
-  /* manifiesto: palabras que se encienden con el scroll */
-  const man = $("#manifesto");
-  man.innerHTML = man.textContent.split(" ").map(w => {
-    const em = /^\*.*\*[.,]?$/.test(w);
-    return `<span class="w${em ? " em" : ""}">${w.replace(/\*/g, "")}</span>`;
-  }).join(" ");
-  const words = $$(".w", man);
-  const lightWords = () => {
-    const r = man.getBoundingClientRect();
-    const p = Math.min(1, Math.max(0, (innerHeight * .85 - r.top) / (r.height + innerHeight * .35)));
-    const n = reduce ? words.length : Math.round(p * words.length);
-    words.forEach((w, i) => w.classList.toggle("on", i < n));
-  };
-  addEventListener("scroll", lightWords, { passive: true }); lightWords();
+  let mqX = 0, lastY = scrollY, vel = 0, activeStep = -1;
 
-  /* servicios: imagen que sigue al cursor */
-  const ci = $(".cursor-img"), ciImg = $("img", ci);
-  if (matchMedia("(hover: hover) and (pointer: fine)").matches && !reduce) {
-    let tx = 0, ty = 0, cx = 0, cy = 0, raf;
-    const follow = () => { cx += (tx - cx) * .16; cy += (ty - cy) * .16; ci.style.left = cx + "px"; ci.style.top = cy + "px"; raf = requestAnimationFrame(follow); };
-    $$(".svc").forEach(row => {
-      row.addEventListener("mouseenter", e => { ciImg.src = row.dataset.img; cx = tx = e.clientX + 150; cy = ty = e.clientY; ci.classList.add("on"); cancelAnimationFrame(raf); follow(); });
-      row.addEventListener("mousemove", e => { tx = e.clientX + 150; ty = e.clientY; });
-      row.addEventListener("mouseleave", () => { ci.classList.remove("on"); cancelAnimationFrame(raf); });
-    });
-  }
+  function tick() {
+    // única lectura de layout del cuadro, antes de cualquier escritura
+    stepTops = steps.map(s => s.offsetTop);
+    const y = scrollY, H = document.documentElement.scrollHeight - innerHeight;
+    vel = vel * .85 + (y - lastY) * .15; lastY = y;
 
-  /* lightbox del reel */
-  const lb = $("#lightbox"), lbv = $("#lbVideo");
-  const openReel = e => {
-    const b = e && e.currentTarget && e.currentTarget.dataset ? e.currentTarget.dataset : {};
-    const src = b.src || "assets/reel-cw.mp4";
-    if (lbv.getAttribute("src") !== src) {
-      lbv.setAttribute("src", src);
-      lbv.setAttribute("poster", b.poster || "assets/clip-evento.webp");
-      lbv.style.aspectRatio = b.aspect || "9 / 16";
+    // barra superior + header
+    bar.style.transform = `scaleX(${clamp(y / H)})`;
+    top.classList.toggle('is-solid', y > innerHeight * .6 || menu.classList.contains('open'));
+
+    // HUD: timecode de toda la página
+    const secs = (y / H) * 120, f = Math.floor((secs % 1) * 24);
+    tc.textContent = `00:${pad(Math.floor(secs / 60))}:${pad(Math.floor(secs % 60))}:${pad(f)}`;
+    let cur = scenes[0];
+    for (const s of scenes) if (box.get(s).top < y + vh * .5) cur = s;
+    if (scene.textContent !== cur.dataset.scene) scene.textContent = cur.dataset.scene;
+
+    // HERO
+    const hp = pinP(hero);
+    tgtF = ease(range(hp, 0, .72)) * (N - 1);
+    curF += (tgtF - curF) * .22;
+    if (Math.abs(tgtF - curF) < .01) curF = tgtF;
+    draw(Math.round(curF));
+    const fr = Math.round(curF * 2);
+    heroTc.textContent = `00:00:${pad(20 + Math.floor((15 + fr) / 24))}:${pad((15 + fr) % 24)}`;
+    const out = range(hp, .5, .78);
+    copy.style.opacity = 1 - out;
+    copy.style.transform = `translateY(${-out * 60}px)`;
+    cam.style.opacity = 1 - range(hp, .7, .9);
+    hint.style.transform = `scaleY(${range(hp, 0, .72)})`;
+    hint.parentNode.parentNode.style.opacity = 1 - range(hp, .7, .8);
+    const shrink = ease(range(hp, .74, 1));
+    const sc = 1 - shrink * (innerWidth < 700 ? .1 : .2);
+    frame.style.transform = `scale(${sc})`;
+    frame.style.borderRadius = `${shrink * 22 / sc}px`;
+    caption.style.opacity = range(hp, .82, 1);
+    fab.classList.toggle('is-on', hp > .55 && enterP(contact, .5) < .9);
+
+    // marcas: avanza con el tiempo y acelera con la velocidad del scroll
+    mqX -= .45 + Math.abs(vel) * .35 * Math.sign(vel || 1);
+    const half = mqHalf;
+    if (half) {
+      if (mqX <= -half) mqX += half;
+      if (mqX > 0) mqX -= half;
+      marquee.style.transform = `translate3d(${mqX}px,0,0)`;
     }
-    if (typeof lb.showModal === "function") lb.showModal(); else lb.setAttribute("open", "");
-    lbv.preload = "auto"; lbv.muted = false; lbv.play().catch(() => {});
-  };
-  const closeReel = () => { lbv.pause(); lb.close ? lb.close() : lb.removeAttribute("open"); };
-  $$("[data-reel]").forEach(b => b.addEventListener("click", openReel));
-  $("#lbClose").addEventListener("click", closeReel);
-  lb.addEventListener("click", e => { if (e.target === lb || e.target.classList.contains("lb-inner")) closeReel(); });
-  lb.addEventListener("close", () => lbv.pause());
 
-  /* brief → WhatsApp */
-  const form = $("#brief"), wa = $("#wa");
-  const buildWa = () => {
-    const f = new FormData(form);
-    const txt = [
-      "Hola, Creative Whisper.",
-      f.get("nombre") ? `Soy ${f.get("nombre")}` + (f.get("marca") ? ` de ${f.get("marca")}.` : ".") : "",
-      `Etapa: ${f.get("etapa")}`,
-      f.get("mensaje") ? `Idea: ${f.get("mensaje")}` : "",
-      "Me gustaría agendar una reunión."
-    ].filter(Boolean).join("\n");
-    wa.href = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(txt)}`;
-  };
-  form.addEventListener("input", buildWa); form.addEventListener("change", buildWa); buildWa();
-  form.addEventListener("submit", e => e.preventDefault());
-})();
-</script>
+    // ENFOQUE
+    const sp = range(pinP(stmt), .05, .85);
+    const lit = Math.floor(sp * (words.length + 1));
+    words.forEach((w, i) => w.classList.toggle('on', i < lit));
 
-<a class="wa-float" href="https://wa.me/593969577774" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.3a8.5 8.5 0 0 1-12.4 7.5L3.5 20.4l1.6-4.5A8.5 8.5 0 1 1 20.5 11.3Z" stroke-linejoin="round"/></svg>
-  <span>WhatsApp</span>
-</a>
-<script>
-(function(){
-  var d=document.querySelector('.nav-sub'); if(!d) return;
-  document.addEventListener('click',function(e){ if(d.open && !d.contains(e.target)) d.open=false; });
-  d.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ d.open=false; }); });
-  var t=document.querySelector('.menu-toggle');
-  if(t) t.addEventListener('click',function(){ d.open=false; });
+    // SERVICIOS
+    const vp = pinP(svc);
+    const sv = range(vp, 0, .9);
+    const idx = Math.min(3, Math.floor(sv * 4));
+    if (idx !== activeStep) {
+      activeStep = idx;
+      steps.forEach((s, i) => { s.classList.toggle('is-active', i === idx); s.classList.toggle('is-done', i < idx); });
+      pics.forEach((p, i) => p.classList.toggle('on', i === idx));
+      ringN.textContent = pad(idx + 1); ringT.textContent = titles[idx];
+    }
+    // la línea vertical sigue al número activo
+    const a = stepTops[idx], b = stepTops[3] || 1;
+    const within = sv * 4 - idx;
+    const next = idx < 3 ? stepTops[idx + 1] : b;
+    fill.style.transform = `scaleY(${clamp((a + (next - a) * Math.min(within, 1)) / b)})`;
+    arc.style.strokeDashoffset = 1 - range(vp, 0, .97);
+    nodes.forEach((n, i) => n.classList.toggle('on', sv * 4 >= i + .001 || vp > .96));
+    loop.classList.toggle('on', vp > .9);
+
+    // TRABAJO: scroll vertical -> desplazamiento horizontal
+    const wp = pinP(work);
+    rail.style.transform = `translate3d(${-wp * railDist}px,0,0)`;
+    railBar.style.transform = `scaleX(${wp})`;
+    let ci = 0; const mid = wp * railDist + innerWidth * (.15 + .8 * wp);
+    cardEdges.forEach((x, i) => { if (x < mid) ci = i; });
+    count.textContent = pad(Math.min(ci + 1, 9));
+
+    // CIFRAS: cuentan al entrar y descuentan al salir hacia arriba
+    const fp = ease(enterP(facts, .45));
+    nums.forEach(n => n.textContent = Math.round(+n.dataset.to * fp));
+
+    // CONTACTO: el título crece y se asienta
+    const cp = ease(enterP(contact, .35));
+    big.style.transform = `translateY(${(1 - cp) * 80}px) scale(${.82 + cp * .18})`;
+    big.style.opacity = .15 + cp * .85;
+
+    requestAnimationFrame(tick);
+  }
+
+  addEventListener('resize', () => { clearTimeout(layout.t); layout.t = setTimeout(layout, 120); });
+  layout();
+  requestAnimationFrame(tick);
+  addEventListener('load', layout);
 })();
 </script>
 </body>
