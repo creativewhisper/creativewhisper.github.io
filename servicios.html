@@ -2,1215 +2,675 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0A0908">
-<link rel="icon" href="assets/monograma-cw.png">
 <title>Servicios — Creative Whisper</title>
-<meta name="description" content="Servicios de Creative Whisper: análisis de datos, automatización con inteligencia artificial, marketing digital, sitios web y producción audiovisual.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="icon" href="assets/monograma-cw.png">
+<meta name="description" content="Servicios de Creative Whisper en Quito: análisis de datos, producción audiovisual, marketing digital, páginas web interactivas y asistentes con inteligencia artificial para WhatsApp, Instagram y tu sitio web.">
 <meta property="og:type" content="website">
-<meta property="og:site_name" content="Creative Whisper Productions">
+<meta property="og:site_name" content="Creative Whisper">
 <meta property="og:title" content="Servicios — Creative Whisper">
-<meta property="og:description" content="Datos e IA, automatización de WhatsApp e Instagram, Meta Ads, sitios web y producción audiovisual en un solo equipo.">
+<meta property="og:description" content="Datos, producción, marketing digital y automatización con inteligencia artificial en un solo equipo.">
+<meta property="og:locale" content="es_EC">
 <meta property="og:url" content="https://creativewhisper.github.io/servicios.html">
 <meta property="og:image" content="https://creativewhisper.github.io/assets/og-cw.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://creativewhisper.github.io/servicios.html">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
 <style>
-/* =========================================================
-   CREATIVE WHISPER — tokens
-   Un solo mundo visual (negro de sala de cine). Sin tema claro a propósito.
-   ========================================================= */
-:root{
-  color-scheme: dark;
-  --ink:#0A0908;        /* fondo: negro cálido, igual al del logo */
-  --ink-2:#12100E;      /* superficie levantada */
-  --ink-3:#1B1815;      /* perforaciones, bordes densos */
-  --bone:#ECE6DB;       /* texto principal */
-  --mute:#9A9185;       /* texto secundario */
-  --mute-2:#6B6358;     /* texto en reposo (manifiesto) */
-  --metal:#CDBFA6;      /* champagne plata del monograma */
-  --metal-deep:#857A69;
-  --line:rgba(236,230,219,.12);
-  --line-2:rgba(236,230,219,.22);
-  --rec:#D9412B;        /* solo el punto de REC */
+:root{--ac:var(--orange);--ae:var(--orange);--at:var(--ink)}
 
-  --f-display:"Cormorant", "Cormorant Garamond", Garamond, "Times New Roman", serif;
-  --f-caps:"Cinzel", "Trajan Pro", "Cormorant", Georgia, serif;
-  --f-body:"Hanken Grotesk", "Helvetica Neue", Arial, system-ui, sans-serif;
-  --f-mono:"IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
-
-  --t-label:11px;
-  --t-sm:14px;
-  --t-base:17px;
-  --t-md:clamp(22px, 1.8vw, 26px);
-  --t-lg:clamp(28px, 2.8vw, 38px);
-  --t-xl:clamp(40px, 5.4vw, 80px);
-  --t-hero:clamp(44px, 7.2vw, 122px);
-
-  --gutter:clamp(16px, 4vw, 56px);
-  --max:1440px;
-  --ease:cubic-bezier(.2,.7,.1,1);
-  --ease-cine:cubic-bezier(.76,0,.24,1);
+/* ---------- cuatro áreas: las franjas suben y se vuelven el índice ---------- */
+.areas{position:relative}
+.areas-stage{position:relative;height:100vh;height:100svh;overflow:hidden}
+.areas-intro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding-top:var(--header)}
+.areas-intro .label{color:var(--beige);margin-bottom:22px}
+.areas-intro h2{font-size:clamp(64px,11vw,200px)}
+.areas-intro h2 em{font-style:normal;color:var(--beige)}
+.areas-intro p{color:var(--mute);margin-top:24px;font-size:clamp(16px,1.3vw,20px)}
+.ap{position:absolute;top:-4%;bottom:-4%;left:calc(var(--k) * 25% - 3%);width:calc(25% + 3.2%);transform:skewX(-11deg);background:var(--c);box-shadow:-14px 0 0 var(--e);color:var(--fg);z-index:calc(var(--k) + 2)}
+.ap-in{position:absolute;inset:0;transform:skewX(11deg);display:flex;flex-direction:column;justify-content:flex-end;padding:calc(var(--header) + 4vh) 18% 9vh 22%}
+.ap .label{opacity:.85}
+.ap h3{font-size:clamp(34px,3.3vw,58px);margin:12px 0 6px;line-height:.92}
+.ap h3 a{text-decoration:none}
+.ap-n{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.75;margin-bottom:18px}
+.ap ul{list-style:none;display:flex;flex-direction:column}
+.ap li a{display:flex;gap:10px;padding:7px 0;border-top:1.5px solid color-mix(in srgb,var(--fg) 26%,transparent);text-decoration:none;font-size:clamp(13px,1vw,15px);font-weight:500;line-height:1.25;transition:padding .25s}
+.ap li a span{font-family:var(--f-mono);font-size:10.5px;opacity:.7;padding-top:2px}
+.ap li a:hover{padding-left:8px}
+@media (max-width:900px){
+  .areas-stage{height:auto;overflow:visible}
+  .areas-intro{position:relative;padding:120px var(--gutter) 40px}
+  .ap{position:relative;top:auto;bottom:auto;left:auto;width:auto;transform:none;box-shadow:none;clip-path:polygon(0 0,100% 4%,100% 100%,0 96%);margin-top:-1px}
+  .ap-in{position:relative;transform:none;padding:64px var(--gutter) 64px}
+  .ap h3{font-size:clamp(40px,11vw,64px)}
+  .ap li a{font-size:15px;padding:10px 0}
 }
 
-*,*::before,*::after{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  margin:0;background:var(--ink);color:var(--bone);
-  font-family:var(--f-body);font-size:var(--t-base);line-height:1.6;
-  -webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
-  overflow-x:hidden;
-}
-img,video{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-::selection{background:var(--metal);color:var(--ink)}
-:focus-visible{outline:1px solid var(--metal);outline-offset:4px}
-
-.wrap{max-width:var(--max);margin-inline:auto;padding-inline:var(--gutter)}
-.label{
-  font-family:var(--f-caps);font-size:var(--t-label);font-weight:500;
-  letter-spacing:.24em;text-transform:uppercase;color:var(--metal);
-}
-.mono{font-family:var(--f-mono);font-size:var(--t-label);letter-spacing:.06em;color:var(--mute);font-variant-numeric:tabular-nums}
-h1,h2,h3{font-family:var(--f-display);font-weight:300;margin:0;text-wrap:balance;letter-spacing:-.01em}
-h2{font-size:var(--t-xl);line-height:1}
-h2 em,h1 em{font-style:italic;font-weight:300}
-p{margin:0}
-.metal-text{
-  background:linear-gradient(100deg,#F3EBDD 0%,#CDBFA6 35%,#8E8472 55%,#E6DCCB 75%,#A99C86 100%);
-  -webkit-background-clip:text;background-clip:text;color:transparent;
+/* ---------- cómo trabajamos: los pasos pasan de lado ---------- */
+.proc{position:relative;border-top:1px solid var(--line)}
+.proc-stage{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:calc(var(--header) + 4vh) 0 6vh;overflow:hidden}
+.proc-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:clamp(28px,5vh,56px)}
+.proc-head .label{color:var(--beige)}
+.proc-head h2{font-size:clamp(48px,6.4vw,112px);margin-top:12px}
+.proc-head p{color:var(--mute);max-width:40ch}
+.proc-track{position:relative}
+.proc-line{position:absolute;left:0;right:0;top:9px;height:2px;background:var(--line-2)}
+.proc-line i{position:absolute;inset:0;background:linear-gradient(90deg,var(--beige),var(--orange) 25%,var(--red) 50%,var(--peach) 75%,var(--teal));transform-origin:0 50%;transform:scaleX(0)}
+.proc-rail{display:flex;gap:clamp(20px,3vw,48px);padding:0 max(var(--gutter), env(safe-area-inset-left, 0px));width:max-content;will-change:transform}
+.step{position:relative;width:clamp(270px,26vw,380px);padding-top:40px}
+.step-dot{position:absolute;top:0;left:0;width:20px;height:20px;background:var(--c);transform:skewX(-11deg)}
+.step-n{display:block;font-size:clamp(60px,6vw,100px);color:var(--c);line-height:.85}
+.step h3{font-size:clamp(22px,1.8vw,28px);font-weight:600;margin:14px 0 8px;letter-spacing:-.01em}
+.step p{color:var(--mute);font-size:15.5px;max-width:34ch}
+.step-ph{margin-top:20px;aspect-ratio:16/10;overflow:hidden;clip-path:polygon(8% 0%,100% 0%,92% 100%,0% 100%);background:var(--ink-2)}
+.step-ph img{width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){
+  .proc-head{flex-direction:column;align-items:flex-start}
+  .proc-line{display:none}
+  .proc-rail{flex-direction:column;width:auto;gap:48px}
+  .step{width:auto}
 }
 
-/* grano de película */
-.grain{position:fixed;inset:-50%;z-index:90;pointer-events:none;opacity:.07;mix-blend-mode:overlay;animation:grain 1s steps(6) infinite}
-@keyframes grain{
-  0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}
-  60%{transform:translate(-2%,-1%)}80%{transform:translate(3%,3%)}100%{transform:translate(0,0)}
-}
+/* ---------- detalle por área ---------- */
+.area{position:relative;padding-bottom:clamp(60px,8vw,120px)}
+.area-band{position:relative;background:var(--c);color:var(--fg);padding:clamp(110px,14vw,190px) 0 clamp(56px,7vw,96px);overflow:hidden;clip-path:polygon(0 0,100% 0,100% calc(100% - 5vw),0 100%)}
+.area-band::before{content:"";position:absolute;top:0;bottom:0;left:-4vw;width:14px;background:var(--e);transform:skewX(-11deg)}
+.area-num{position:absolute;right:-1vw;bottom:-5vw;font-size:min(42vw,62vh);line-height:.8;color:transparent;-webkit-text-stroke:2px var(--fg);opacity:.18;pointer-events:none}
+.area-head{position:relative}
+.area-head .label{opacity:.85}
+.area-head h2{font-size:clamp(64px,12vw,220px);margin:14px 0 18px}
+.area-head p{font-size:clamp(17px,1.5vw,23px);font-weight:500;max-width:40ch;line-height:1.4}
+.svc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(48px,6vw,96px) clamp(28px,4vw,64px);margin-top:clamp(56px,7vw,110px)}
+.svc{scroll-margin-top:calc(var(--header) + 24px)}
+.svc-ph{aspect-ratio:16/10;overflow:hidden;background:var(--ink-2);border-radius:4px}
+.svc-ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.1,1)}
+.svc:hover .svc-ph img{transform:scale(1.04)}
+.svc-tx{padding-top:24px}
+.svc-tx .label{color:var(--mute)}
+.svc-tx .label b{font-weight:500;color:var(--c)}
+.svc h3{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:clamp(32px,3vw,50px);line-height:.95;margin:10px 0 14px;letter-spacing:.005em}
+.svc-tx > p{color:#D7CFC2;max-width:52ch}
+.svc ul{list-style:none;margin:18px 0 22px;display:grid;gap:8px}
+.svc li{position:relative;padding-left:26px;font-size:15.5px;color:var(--bone)}
+.svc li::before{content:"";position:absolute;left:0;top:.62em;width:14px;height:6px;background:var(--c);transform:skewX(-11deg)}
+.svc-acts{display:flex;flex-wrap:wrap;gap:12px 26px}
+.lnk--alt{--lc:var(--beige)}
+.area .lnk{--lc:var(--c)}
+.area .lnk--alt{--lc:var(--beige)}
+@media (max-width:900px){.svc-grid{grid-template-columns:1fr}.area-band{clip-path:polygon(0 0,100% 0,100% calc(100% - 28px),0 100%)}}
 
-/* ---------- botones ---------- */
-.btn{
-  display:inline-flex;align-items:center;gap:12px;
-  font-family:var(--f-body);font-size:var(--t-sm);font-weight:500;letter-spacing:.04em;
-  padding:15px 24px;border:1px solid var(--line-2);color:var(--bone);
-  transition:background .4s var(--ease),color .4s var(--ease),border-color .4s var(--ease);
-  white-space:nowrap;
-}
-.btn:hover{border-color:var(--metal);color:var(--metal)}
-.btn--solid{background:var(--bone);color:var(--ink);border-color:var(--bone)}
-.btn--solid:hover{background:var(--metal);border-color:var(--metal);color:var(--ink)}
-.btn .play{width:0;height:0;border-left:8px solid currentColor;border-top:5px solid transparent;border-bottom:5px solid transparent}
-.btn .arrow{display:inline-block;transition:transform .4s var(--ease)}
-.btn:hover .arrow{transform:translateX(4px)}
+/* formatos: un solo cuadro que cambia de recorte */
+.fmt{position:relative;margin-top:clamp(70px,9vw,140px)}
+.fmt-stage{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:calc(var(--header) + 3vh) 0 4vh;border-top:1px solid var(--line)}
+.fmt-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,80px);align-items:center}
+.fmt-copy .label{color:var(--red)}
+.fmt-copy h3{font-size:clamp(46px,5.4vw,96px);margin:12px 0 16px}
+.fmt-copy > p{color:var(--mute);max-width:40ch}
+.fmt-list{list-style:none;margin-top:26px;display:grid;gap:2px;counter-reset:f}
+.fmt-list li{display:flex;gap:16px;align-items:baseline;padding:12px 0;border-top:1px solid var(--line);color:var(--mute);transition:color .3s}
+.fmt-list li b{font-family:var(--f-display);font-weight:800;font-size:26px;min-width:84px;color:var(--line-2);transition:color .3s}
+.fmt-list li.on{color:var(--bone)}
+.fmt-list li.on b{color:var(--red)}
+.fmt-frame{position:relative;width:100%;aspect-ratio:16/9}
+.fmt-crop{position:absolute;inset:0;clip-path:inset(0% 34.2% 0% 34.2%);background:var(--ink-2)}
+.fmt-crop img{width:100%;height:100%;object-fit:cover}
+.fmt-frame::before{content:"";position:absolute;inset:0;border:1px dashed var(--line-2)}
+.fmt-tag{position:absolute;left:50%;bottom:-38px;transform:translateX(-50%);font-family:var(--f-mono);font-size:12px;letter-spacing:.16em;color:var(--red)}
+.deliv{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,80px);margin-top:clamp(40px,6vw,90px)}
+.deliv-h .label{color:var(--mute)}
+.deliv-h h3{font-size:clamp(40px,4.2vw,72px);margin-top:10px}
+.deliv dl{display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.deliv dl > div{padding:16px 0;border-top:1px solid var(--line)}
+.deliv dt{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
+.deliv dd{margin:0;font-size:15.5px}
+@media (max-width:900px){.fmt-grid,.deliv{grid-template-columns:1fr}.fmt-stage{min-height:0;padding:60px 0 90px}.deliv dl{grid-template-columns:1fr}}
 
-/* ---------- header ---------- */
-.site-header{
-  position:fixed;top:0;left:0;right:0;z-index:60;
-  transition:background .5s var(--ease),border-color .5s var(--ease);
-  border-bottom:1px solid transparent;
-}
-.site-header.is-scrolled{background:rgba(10,9,8,.78);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
-.nav{display:flex;align-items:center;justify-content:space-between;gap:24px;height:76px}
-.brand{display:flex;align-items:center;gap:12px}
-.brand img{width:54px;height:auto}
-.brand span{font-family:var(--f-caps);font-size:13px;letter-spacing:.26em;text-transform:uppercase;color:var(--bone)}
-.nav-links{display:flex;align-items:center;gap:clamp(18px,2.4vw,34px);font-size:var(--t-sm);color:var(--mute)}
-.nav-links a{white-space:nowrap}
-@media (max-width:1180px){.brand span{display:none}}
-.nav-links a{position:relative;transition:color .3s}
-.nav-links a:hover{color:var(--bone)}
-.nav-links a:not(.btn)::after{content:"";position:absolute;left:0;right:0;bottom:-6px;height:1px;background:var(--metal);transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
-.nav-links a:not(.btn):hover::after{transform:scaleX(1);transform-origin:left}
-.nav-links .btn{padding:11px 18px;color:var(--bone)}
-.menu-toggle{display:none;width:44px;height:44px;position:relative}
-.menu-toggle span{position:absolute;left:10px;right:10px;height:1px;background:var(--bone);transition:transform .4s var(--ease),top .4s var(--ease)}
-.menu-toggle span:nth-child(1){top:18px}.menu-toggle span:nth-child(2){top:26px}
-.site-header.is-open .menu-toggle span:nth-child(1){top:22px;transform:rotate(45deg)}
-.site-header.is-open .menu-toggle span:nth-child(2){top:22px;transform:rotate(-45deg)}
+/* con quién trabajamos */
+.rows{border-bottom:1px solid var(--line)}
+.row{position:relative;display:grid;grid-template-columns:90px minmax(0,1fr) minmax(0,1.1fr) auto;gap:20px 32px;align-items:center;padding:30px 0;border-top:1px solid var(--line);isolation:isolate}
+.row::before{content:"";position:absolute;inset:0 -2vw;background:var(--c);z-index:-1;transform:scaleY(0);transform-origin:50% 100%;transition:transform .45s cubic-bezier(.2,.7,.1,1);opacity:.1}
+.row:hover::before{transform:scaleY(1)}
+.row-n{font-size:46px;color:var(--c);line-height:1}
+.row h3{font-size:clamp(20px,1.8vw,28px);font-weight:600;letter-spacing:-.01em}
+.row p{color:var(--mute)}
+.row-brands{display:flex;flex-wrap:wrap;gap:8px}
+.row-brands a{background:var(--hc);color:var(--ink);text-decoration:none;font-family:var(--f-display);font-weight:900;font-size:19px;padding:6px 16px 6px 18px;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.row-brands a:hover{filter:brightness(1.08)}
+@media (max-width:900px){.row{grid-template-columns:56px 1fr}.row p,.row .lnk,.row-brands{grid-column:2}.row-n{font-size:34px}}
 
-/* ---------- hero ---------- */
-.hero{padding-top:92px}
-.frame{
-  position:relative;aspect-ratio:2.39/1;overflow:hidden;background:#000;
-  max-height:calc(100vh - 220px);min-height:420px;width:100%;
-}
-.frame::before,.frame::after{ /* barras de letterbox que se abren */
-  content:"";position:absolute;left:0;right:0;height:50.5%;background:var(--ink);z-index:6;
-  animation:bars 1.3s var(--ease-cine) .15s both;
-}
-.frame::before{top:0;transform-origin:top}
-.frame::after{bottom:0;transform-origin:bottom}
-@keyframes bars{from{transform:scaleY(1)}to{transform:scaleY(0)}}
-.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.8s var(--ease)}
-.slide.is-on{opacity:1}
-.slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.04)}
-.slide.is-on img{animation:push 9s linear both}
-@keyframes push{from{transform:scale(1.04)}to{transform:scale(1.13)}}
-.frame-shade{position:absolute;inset:0;z-index:2;background:
-  linear-gradient(to top,rgba(10,9,8,.94) 0%,rgba(10,9,8,.55) 38%,rgba(10,9,8,.08) 68%,rgba(10,9,8,.45) 100%),
-  linear-gradient(to right,rgba(10,9,8,.55) 0%,rgba(10,9,8,0) 55%)}
-.vf{position:absolute;inset:18px;z-index:3;pointer-events:none}
-.vf i{position:absolute;width:26px;height:26px;border-color:rgba(236,230,219,.55);border-style:solid;border-width:0}
-.vf i:nth-child(1){top:0;left:0;border-top-width:1px;border-left-width:1px}
-.vf i:nth-child(2){top:0;right:0;border-top-width:1px;border-right-width:1px}
-.vf i:nth-child(3){bottom:0;left:0;border-bottom-width:1px;border-left-width:1px}
-.vf i:nth-child(4){bottom:0;right:0;border-bottom-width:1px;border-right-width:1px}
-.vf-bar{position:absolute;top:6px;left:40px;right:40px;display:flex;justify-content:space-between;gap:16px;color:rgba(236,230,219,.8)}
-.vf-bar .mono{color:inherit}
-.ar-tall{display:none}
-.rec{display:inline-flex;align-items:center;gap:8px}
-.rec::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--rec);animation:blink 1.6s steps(2) infinite}
-@keyframes blink{50%{opacity:.15}}
-.vf-cross{position:absolute;left:50%;top:50%;width:22px;height:22px;transform:translate(-50%,-50%);opacity:.35}
-.vf-cross::before,.vf-cross::after{content:"";position:absolute;background:var(--bone)}
-.vf-cross::before{left:50%;top:0;bottom:0;width:1px}
-.vf-cross::after{top:50%;left:0;right:0;height:1px}
-.vf-tc{position:absolute;right:40px;bottom:6px;color:rgba(236,230,219,.8)}
-.hero-title{
-  position:absolute;z-index:4;left:clamp(28px,4.4vw,72px);right:clamp(28px,4.4vw,72px);bottom:clamp(40px,4.6vw,78px);
-  font-size:var(--t-hero);line-height:.94;letter-spacing:-.02em;
-}
-.hero-title .ln{display:block;overflow:hidden;padding-bottom:.08em}
-.hero-title .ln > span{display:block;animation:rise 1.2s var(--ease) both}
-.hero-title .ln:nth-child(1) > span{animation-delay:.75s}
-.hero-title .ln:nth-child(2) > span{animation-delay:.9s}
-@keyframes rise{from{transform:translateY(105%)}to{transform:translateY(0)}}
-.hero-title em{padding-right:.06em}
-.scene{position:absolute;z-index:4;left:clamp(28px,4.4vw,72px);top:52px;display:flex;align-items:center;gap:10px;color:rgba(236,230,219,.75)}
-.scene .mono{color:inherit;transition:opacity .6s}
+/* modo estático */
+.static .areas-stage{height:auto;overflow:visible}
+.static .areas-intro{position:relative;padding:140px var(--gutter) 60px}
+.static .ap{position:relative;inset:auto;left:auto;width:auto;transform:none;box-shadow:none;top:auto;bottom:auto}
+.static .ap-in{position:relative;transform:none;padding:60px var(--gutter)}
+.static .proc-rail{flex-wrap:wrap;width:auto}
+.static .fmt-crop{clip-path:none}
 
-.hero-foot{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;padding-block:36px 8px}
-.hero-foot .lede{grid-column:1 / span 6;font-size:clamp(17px,1.35vw,20px);color:var(--mute);max-width:56ch}
-.hero-foot .lede strong{color:var(--bone);font-weight:500}
-.hero-actions{grid-column:8 / span 5;display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
-
-/* ---------- hero en video + marcas ---------- */
-.frame--video video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.nav-quick{display:none;gap:16px;align-items:center;margin-left:auto;margin-right:4px}
-.nav-quick a{font-family:var(--f-caps);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone);white-space:nowrap}
-@media (max-width:440px){.nav-quick{gap:11px}.nav-quick a{font-size:10px;letter-spacing:.08em}}
-.clients{margin-top:44px;padding-top:26px;border-top:1px solid var(--line)}
-.clients-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;margin-bottom:22px}
-.clients-head a{font-size:13px;color:var(--mute);border-bottom:1px solid var(--line-2);transition:color .3s,border-color .3s}
-.clients-head a:hover{color:var(--metal);border-color:var(--metal)}
-.clients-row{display:grid;grid-template-columns:repeat(10,1fr);gap:clamp(14px,2vw,30px);align-items:center}
-.clients-row img{width:100%;height:clamp(24px,2.6vw,36px);object-fit:contain;opacity:.55;filter:saturate(0);transition:opacity .4s var(--ease),transform .5s var(--ease)}
-.clients-row a:hover img,.clients-row img:hover{opacity:1;transform:translateY(-2px)}
-
-/* ---------- marquee ---------- */
-.marquee{margin-top:64px;border-block:1px solid var(--line);overflow:hidden;padding-block:22px}
-.marquee-track{display:flex;width:max-content;animation:slide 48s linear infinite}
-.marquee:hover .marquee-track{animation-play-state:paused}
-.marquee-group{display:flex;align-items:center;gap:40px;padding-right:40px}
-.marquee-group span{font-family:var(--f-display);font-style:italic;font-weight:300;font-size:clamp(28px,3vw,44px);color:var(--bone);white-space:nowrap}
-.marquee-group b{width:10px;height:14px;border:1px solid var(--metal-deep);border-radius:2px;flex:none}
-@keyframes slide{to{transform:translateX(-50%)}}
-
-/* ---------- secciones ---------- */
-section{position:relative}
-.block{padding-block:clamp(88px,11vw,168px)}
-.sec-head{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:end;margin-bottom:clamp(40px,5vw,72px)}
-.sec-head .label{grid-column:1 / -1}
-.sec-head h2{grid-column:1 / span 7}
-.sec-head .aside{grid-column:9 / span 4;color:var(--mute);font-size:var(--t-base);max-width:44ch}
-.sec-head .aside .btn{margin-top:20px}
-
-/* reveal (solo para lo que empieza fuera de pantalla) */
-.will-reveal{opacity:0;transform:translateY(28px)}
-.is-revealed{opacity:1;transform:none;transition:opacity 1.1s var(--ease),transform 1.1s var(--ease)}
-
-/* ---------- reel ---------- */
-.reels{display:grid;grid-template-columns:repeat(5,1fr);gap:16px;align-items:start}
-.reel{margin:0}
-.reel:nth-child(even){margin-top:56px}
-.reel-media{position:relative;aspect-ratio:9/16;background:#000;overflow:hidden;cursor:pointer}
-.reel-media img,.reel-media video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease),opacity .6s}
-.reel-media video{opacity:0}
-.reel-media.is-playing video{opacity:1}
-.reel:hover .reel-media img,.reel:hover .reel-media video{transform:scale(1.035)}
-.reel-media::after{content:"";position:absolute;inset:0;background:linear-gradient(to top,rgba(10,9,8,.6),transparent 40%);pointer-events:none}
-.reel-tag{position:absolute;z-index:2;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;color:rgba(236,230,219,.85)}
-.reel-tag .mono{color:inherit}
-.reel figcaption{padding-top:16px;display:grid;gap:4px}
-.reel h3{font-size:var(--t-md);line-height:1.15;font-weight:400}
-.reel .label{font-size:10px;color:var(--mute)}
-.reel-cta{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:48px;padding-top:24px;border-top:1px solid var(--line);flex-wrap:wrap}
-
-/* ---------- manifiesto ---------- */
-.manifest{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:center}
-.manifest-text{grid-column:1 / span 7}
-.manifest-text p{font-family:var(--f-display);font-weight:300;font-size:clamp(30px,3.5vw,54px);line-height:1.12;letter-spacing:-.01em}
-.manifest-text .w{color:var(--mute-2);transition:color .5s var(--ease)}
-.manifest-text .w.on{color:var(--bone)}
-.manifest-text .w.em{font-style:italic}
-.manifest-text .w.em.on{color:var(--metal)}
-.manifest-sign{margin-top:36px;display:flex;align-items:center;gap:16px;color:var(--mute)}
-.manifest-sign::before{content:"";width:48px;height:1px;background:var(--metal-deep)}
-.ident{grid-column:9 / span 4}
-.ident-frame{position:relative;aspect-ratio:16/9;background:#000;overflow:hidden}
-.ident-frame video,.ident-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.ident-frame .vf{inset:10px}
-.ident-frame .vf i{width:16px;height:16px}
-.ident figcaption{display:flex;justify-content:space-between;gap:12px;padding-top:14px}
-
-/* ---------- viaje del cliente (tira de película) ---------- */
-.journey{background:#050504;border-block:1px solid var(--line)}
-.strip{position:relative;padding-block:30px}
-.strip::before,.strip::after{
-  content:"";position:absolute;left:0;right:0;height:10px;
-  background:repeating-linear-gradient(90deg,transparent 0 12px,var(--ink-3) 12px 26px,transparent 26px 34px);
-}
-.strip::before{top:10px}.strip::after{bottom:10px}
-.frames{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
-.jf{display:grid;gap:18px;align-content:start}
-.jf-img{position:relative;aspect-ratio:4/5;overflow:hidden;background:#000}
-.jf-img img{width:100%;height:100%;object-fit:cover;filter:saturate(.85) contrast(1.05);transition:transform 1.4s var(--ease),filter .8s}
-.jf:hover .jf-img img{transform:scale(1.05);filter:saturate(1) contrast(1.05)}
-.jf-img::after{content:"";position:absolute;inset:0;background:linear-gradient(to bottom,rgba(5,5,4,.55),transparent 35%)}
-.jf-num{position:absolute;z-index:2;top:14px;left:16px;font-family:var(--f-caps);font-size:30px;line-height:1;color:var(--bone)}
-.jf-stage{position:absolute;z-index:2;top:20px;right:16px}
-.jf-body{padding-inline:4px}
-.jf-body h3{font-size:var(--t-lg);line-height:1.05;margin-bottom:12px}
-.jf-body p{color:var(--mute);font-size:15px;max-width:34ch}
-.jf-body .mono{display:block;margin-top:14px;padding-top:12px;border-top:1px solid var(--line)}
-.journey-arrow{display:flex;align-items:center;gap:14px;margin-top:40px;color:var(--mute)}
-.journey-arrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--metal-deep),transparent)}
-
-/* ---------- servicios ---------- */
-.services{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
-.services-head{grid-column:1 / span 4;align-self:start;position:sticky;top:120px}
-.services-head h2{margin-block:18px 22px}
-.services-head p{color:var(--mute);max-width:36ch}
-.svc-list{grid-column:6 / span 7;list-style:none;margin:0;padding:0;border-bottom:1px solid var(--line)}
-.svc-group{padding-block:52px 16px}
-.svc-group:first-child{padding-top:0}
-.svc{display:grid;grid-template-columns:1fr auto;gap:8px 24px;padding-block:30px;border-top:1px solid var(--line);position:relative}
-.svc h3{font-size:clamp(28px,2.8vw,40px);line-height:1.05;transition:transform .6s var(--ease),color .4s}
-.svc p{grid-column:1;color:var(--mute);max-width:52ch;font-size:16px}
-.svc .mono{grid-column:2;grid-row:1 / span 2;align-self:start;text-align:right;padding-top:10px;line-height:1.9}
-.svc:hover h3{transform:translateX(10px);color:var(--metal)}
-.svc-thumb{display:none}
-.cursor-img{
-  position:fixed;left:0;top:0;z-index:40;width:240px;aspect-ratio:4/5;pointer-events:none;overflow:hidden;
-  opacity:0;transform:translate(-50%,-50%) scale(.85);transition:opacity .35s var(--ease),transform .5s var(--ease);
-}
-.cursor-img.on{opacity:1;transform:translate(-50%,-50%) scale(1)}
-.cursor-img img{width:100%;height:100%;object-fit:cover}
-
-/* ---------- caso ---------- */
-.case{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
-.case-media{grid-column:1 / span 7;position:relative}
-.case-media .main{aspect-ratio:3/2;overflow:hidden;background:#000}
-.case-media .main img{width:100%;height:100%;object-fit:cover}
-.case-media .inset{position:absolute;right:-6%;bottom:-12%;width:38%;aspect-ratio:4/5;overflow:hidden;border:8px solid var(--ink)}
-.case-media .inset img{width:100%;height:100%;object-fit:cover}
-.case-body{grid-column:9 / span 4}
-.case-body h2{font-style:italic;margin-block:16px 22px}
-.case-body > p{color:var(--mute)}
-.facts{display:grid;grid-template-columns:1fr 1fr;gap:0;margin:34px 0 0;border-top:1px solid var(--line)}
-.facts div{padding:18px 0;border-bottom:1px solid var(--line)}
-.facts div:nth-child(odd){padding-right:16px;border-right:1px solid var(--line)}
-.facts div:nth-child(even){padding-left:20px}
-.facts dt{font-family:var(--f-caps);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-.facts dd{margin:4px 0 0;font-family:var(--f-display);font-size:40px;line-height:1;font-weight:300;font-variant-numeric:lining-nums}
-.facts dd small{font-size:18px;color:var(--mute);margin-left:4px}
-.credits{margin-top:30px;display:grid;gap:14px}
-.credits div{display:grid;gap:2px}
-.credits .role{font-family:var(--f-caps);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--metal-deep)}
-.credits .who{font-family:var(--f-caps);font-size:15px;letter-spacing:.14em;text-transform:uppercase}
-
-/* ---------- detrás de cámaras ---------- */
-.bts-grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:clamp(90px,9vw,130px);gap:14px}
-.bts-grid figure{margin:0;overflow:hidden;background:#000;position:relative}
-.bts-grid img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease)}
-.bts-grid figure:hover img{transform:scale(1.04)}
-.b1{grid-column:1 / span 5;grid-row:span 4}
-.b2{grid-column:6 / span 4;grid-row:span 3}
-.b3{grid-column:10 / span 3;grid-row:span 4}
-.b4{grid-column:6 / span 4;grid-row:span 3}
-.b5{grid-column:1 / span 3;grid-row:span 2}
-.b6{grid-column:4 / span 2;grid-row:span 2}
-.b7{grid-column:10 / span 3;grid-row:span 2}
-.b6,.b7{align-self:stretch}
-.bts-grid figcaption{position:absolute;left:10px;bottom:8px;color:rgba(236,230,219,.8)}
-
-/* ---------- equipo ---------- */
-.kit{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:clamp(210px,21vw,300px);gap:14px}
-.kit-item{position:relative;margin:0;overflow:hidden;background:var(--ink-2);isolation:isolate}
-.kit-item img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  filter:grayscale(.4) contrast(1.06) brightness(.82);transition:filter .8s var(--ease),transform 1.4s var(--ease)}
-.kit-item:hover img{filter:none;transform:scale(1.04)}
-.kit-item::after{content:"";position:absolute;inset:0;z-index:1;pointer-events:none;
-  background:linear-gradient(to top,rgba(10,9,8,.92) 0%,rgba(10,9,8,.35) 38%,rgba(10,9,8,0) 62%)}
-.kit-item figcaption{position:absolute;z-index:2;left:18px;right:18px;bottom:16px;display:grid;gap:3px}
-.kit-item .label{font-size:10px}
-.kit-item strong{font-family:var(--f-display);font-weight:400;font-size:var(--t-md);line-height:1.1;color:var(--bone)}
-.kit-item .mono{margin-top:2px}
-.kit-feature{grid-column:span 2;grid-row:span 2}
-.kit-feature strong{font-size:var(--t-lg)}
-.kit-wide{grid-column:span 2}
-.kit-product{background:radial-gradient(70% 60% at 50% 42%,#2a2621 0%,var(--ink-2) 70%)}
-.kit-product img{object-fit:contain;inset:8% 10% 30%;width:80%;height:62%;filter:grayscale(.2) brightness(.95)}
-.kit-formats{display:flex;flex-direction:column;justify-content:space-between;padding:20px 18px 16px;border:1px solid var(--line)}
-.kit-formats::after{display:none}
-.kit-formats figcaption{position:static}
-.frames-ar{display:grid;grid-template-columns:auto auto;gap:18px 20px;align-content:center;justify-content:start;flex:1;padding-block:10px}
-.frames-ar span{display:grid;gap:6px;justify-items:start}
-.frames-ar i{display:block;height:clamp(40px,4vw,58px);border:1px solid var(--metal-deep)}
-.frames-ar span:hover i{border-color:var(--metal)}
-
-/* ---------- preguntas ---------- */
-.faq{display:grid;grid-template-columns:repeat(12,1fr);gap:24px}
-.faq-head{grid-column:1 / span 4}
-.faq-head h2{margin-top:18px}
-.faq-list{grid-column:6 / span 7;border-bottom:1px solid var(--line)}
-.faq details{border-top:1px solid var(--line)}
-.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:24px;padding-block:26px;font-family:var(--f-display);font-size:var(--t-md);line-height:1.2}
-.faq summary::-webkit-details-marker{display:none}
-.faq summary i{position:relative;width:14px;height:14px;flex:none}
-.faq summary i::before,.faq summary i::after{content:"";position:absolute;background:var(--metal);left:0;right:0;top:50%;height:1px;transition:transform .4s var(--ease)}
-.faq summary i::after{transform:rotate(90deg)}
-.faq details[open] summary i::after{transform:rotate(0)}
-.faq details p{color:var(--mute);padding-bottom:28px;max-width:60ch}
-
-/* ---------- contacto ---------- */
-.contact{background:radial-gradient(55% 60% at 18% 35%,rgba(205,191,166,.075),transparent 75%)}
-.contact-grid{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
-.contact-copy{grid-column:1 / span 6}
-.contact-copy h2{font-size:clamp(44px,6vw,96px);margin-block:18px 28px}
-.contact-copy p{color:var(--mute);max-width:44ch}
-.contact-lines{margin-top:40px;display:grid;gap:10px}
-.contact-lines a{font-family:var(--f-display);font-size:var(--t-lg);width:fit-content;max-width:100%;overflow-wrap:anywhere;border-bottom:1px solid var(--line-2);line-height:1.2;transition:border-color .3s,color .3s}
-.contact-lines a:hover{color:var(--metal);border-color:var(--metal)}
-.brief{grid-column:8 / span 5;position:relative;min-width:0;display:grid;gap:26px;padding:clamp(24px,3vw,40px);background:var(--ink-2);border:1px solid var(--line)}
-.brief .row{display:grid;gap:8px}
-.brief label,.brief legend{font-family:var(--f-caps);font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--mute)}
-.brief input,.brief textarea{
-  width:100%;background:transparent;border:0;border-bottom:1px solid var(--line-2);color:var(--bone);
-  font-family:var(--f-body);font-size:17px;padding:8px 0 10px;border-radius:0;outline:none;transition:border-color .3s;
-}
-.brief textarea{resize:vertical;min-height:84px}
-.brief input:focus,.brief textarea:focus{border-color:var(--metal)}
-.brief input::placeholder,.brief textarea::placeholder{color:var(--mute-2)}
-.brief fieldset{border:0;margin:0;padding:0;display:grid;gap:12px}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chips{position:relative}
-.chips input{position:absolute;left:0;top:0;width:1px;height:1px;margin:0;opacity:0;pointer-events:none}
-.chips label{font-family:var(--f-body);font-size:13px;letter-spacing:.02em;text-transform:none;color:var(--bone);padding:8px 14px;border:1px solid var(--line-2);cursor:pointer;transition:all .3s}
-.chips input:checked + label{background:var(--bone);color:var(--ink);border-color:var(--bone)}
-.chips input:focus-visible + label{outline:1px solid var(--metal);outline-offset:3px}
-.brief .btn{justify-content:center}
-.brief .note{font-size:13px;color:var(--mute-2)}
-
-/* ---------- footer ---------- */
-.site-footer{border-top:1px solid var(--line);padding-block:56px 28px}
-.foot-top{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
-.foot-brand{grid-column:1 / span 4;display:grid;gap:18px;color:var(--mute);font-size:15px}
-.foot-brand img{width:180px;height:auto}
-.foot-col{grid-column:span 2;display:grid;gap:10px;font-size:15px;align-content:start}
-.foot-col:first-of-type{grid-column:7 / span 2}
-.foot-col .label{margin-bottom:6px;color:var(--mute)}
-.foot-col a{color:var(--bone);width:fit-content;transition:color .3s}
-.foot-col a:hover{color:var(--metal)}
-.wordmark{margin-top:64px;width:100%;height:auto;display:block}
-.foot-bottom{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:20px}
-
-/* HUD timecode */
-.hud{position:fixed;left:18px;bottom:16px;z-index:50;display:flex;gap:14px;align-items:center;pointer-events:none;color:var(--mute);opacity:.9}
-.hud .mono{color:inherit}
-.hud .sep{width:1px;height:10px;background:var(--line-2)}
-
-/* lightbox */
-dialog.lightbox{padding:0;border:0;background:transparent;max-width:none;max-height:none;width:100vw;height:100vh;margin:0}
-dialog.lightbox::backdrop{background:rgba(5,5,4,.94)}
-.lb-inner{width:100%;height:100%;display:grid;place-items:center;padding:56px 16px 24px}
-.lb-inner video{max-height:calc(100vh - 100px);width:auto;max-width:100%;aspect-ratio:9/16;background:#000}
-.lb-close{position:fixed;top:14px;right:16px;display:flex;align-items:center;gap:10px;padding:10px 12px;color:var(--bone)}
-.lb-close .label{color:var(--bone)}
-
-/* ---------- responsive ---------- */
-@media (max-width:1100px){
-  .reels{grid-template-columns:repeat(3,1fr)}
-  .reel:nth-child(even){margin-top:0}
-  .reel:nth-child(n+4){display:none}
-  .manifest-text{grid-column:1 / -1}
-  .ident{grid-column:1 / span 8}
-  .services-head{grid-column:1 / -1;position:static}
-  .svc-list{grid-column:1 / -1}
-  .case-media{grid-column:1 / -1}
-  .case-media .inset{right:4%}
-  .case-body{grid-column:1 / -1;margin-top:60px;max-width:640px}
-  .faq-head,.faq-list{grid-column:1 / -1}
-  .contact-copy,.brief{grid-column:1 / -1}
-  .brief{max-width:640px}
-  .foot-brand{grid-column:1 / -1}
-  .foot-col,.foot-col:first-of-type{grid-column:span 4}
-}
-@media (max-width:860px){
-  .nav-links{
-    position:fixed;inset:76px 0 auto 0;flex-direction:column;align-items:flex-start;gap:0;
-    background:rgba(10,9,8,.97);padding:8px var(--gutter) 28px;border-bottom:1px solid var(--line);
-    transform:translateY(-8px);opacity:0;visibility:hidden;transition:all .4s var(--ease);
-  }
-  .nav-links a:not(.btn){font-family:var(--f-display);font-size:32px;color:var(--bone);padding-block:10px;width:100%;border-bottom:1px solid var(--line)}
-  .nav-links a:not(.btn)::after{display:none}
-  .nav-links .btn{margin-top:22px}
-  .site-header.is-open{background:rgba(10,9,8,.97)}
-  .site-header.is-open .nav-links{transform:none;opacity:1;visibility:visible}
-  .menu-toggle{display:block}
-  .nav-quick{display:flex}
-  .clients-row{grid-template-columns:repeat(5,1fr);gap:18px 14px}
-  .clients-row img{height:26px}
-  .brand span{display:none}
-  .frame{aspect-ratio:4/5;max-height:none;min-height:0}
-  .vf-bar .hide-sm,.ar-wide{display:none}
-  .ar-tall{display:inline}
-  .hero-foot{grid-template-columns:1fr;gap:26px}
-  .hero-foot .lede,.hero-actions{grid-column:1 / -1;justify-content:flex-start}
-  .sec-head h2,.sec-head .aside{grid-column:1 / -1}
-  .reels,.frames{
-    display:grid;grid-auto-flow:column;grid-template-columns:none;grid-auto-columns:64%;
-    overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:var(--gutter);gap:12px;padding-bottom:6px;
-    margin-inline:calc(var(--gutter) * -1);padding-inline:var(--gutter);scrollbar-width:none;
-  }
-  .reels::-webkit-scrollbar,.frames::-webkit-scrollbar{display:none}
-  .frames{grid-auto-columns:80%}
-  .reel,.jf{scroll-snap-align:start}
-  .reel:nth-child(n+4){display:block}
-  .ident{grid-column:1 / -1}
-  .svc{grid-template-columns:1fr 88px}
-  .svc .mono{grid-column:1;grid-row:auto;text-align:left;padding-top:4px}
-  .svc-thumb{display:block;grid-column:2;grid-row:1 / span 3;aspect-ratio:4/5;overflow:hidden;align-self:start}
-  .svc-thumb img{width:100%;height:100%;object-fit:cover}
-  .bts-grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:auto}
-  .bts-grid figure{grid-column:auto !important;grid-row:auto !important;aspect-ratio:4/5}
-  .bts-grid .b1{grid-column:1 / -1 !important;aspect-ratio:3/2}
-  .bts-grid .b6,.bts-grid .b7{display:none}
-  .hud{display:none}
-  .kit{grid-template-columns:1fr 1fr;grid-auto-rows:clamp(190px,56vw,240px);gap:10px}
-  .kit-feature{grid-column:1 / -1;grid-row:span 2}
-  .kit-formats{padding:14px 12px 12px}
-  .kit-formats .mono:not(em){display:none}
-  .frames-ar{gap:8px 14px;padding-block:4px}
-  .frames-ar i{height:26px}
-  .kit-wide{grid-column:1 / -1}
-  .kit-item figcaption{left:12px;right:12px;bottom:12px}
-  .kit-item strong{font-size:19px}
-  .foot-col,.foot-col:first-of-type{grid-column:span 6}
-  .case-media .inset{width:44%;bottom:-16%}
-}
-/* ---------- intro ---------- */
-html.intro-playing{overflow:hidden}
-html.intro-playing .frame::before,html.intro-playing .frame::after,
-html.intro-playing .hero-title .ln > span{animation-play-state:paused}
-.intro{position:fixed;inset:0;z-index:200;display:grid;place-items:center;overflow:hidden;cursor:pointer;
-  animation:introEnd 0s linear 3.3s forwards}
-.intro-half{position:absolute;left:0;right:0;height:50.2%;background:var(--ink)}
-.intro-half.top{top:0;animation:splitTop 1s var(--ease-cine) 2.25s forwards}
-.intro-half.bottom{bottom:0;animation:splitBottom 1s var(--ease-cine) 2.25s forwards}
-.intro-half.top::after,.intro-half.bottom::before{content:"";position:absolute;left:0;right:0;height:1px;
-  background:linear-gradient(90deg,transparent,rgba(205,191,166,.55),transparent);opacity:0;animation:seam .9s ease 2.05s forwards}
-.intro-half.top::after{bottom:0}.intro-half.bottom::before{top:0}
-.intro-core{position:relative;z-index:2;display:grid;justify-items:center;gap:clamp(14px,2vw,22px);
-  max-width:100vw;padding-inline:16px;animation:coreOut .45s ease 2.05s forwards}
-.intro-mark{position:relative;width:clamp(120px,15vw,200px);animation:markIn 1.1s var(--ease) .2s both}
-.intro-mark img{width:100%;height:auto}
-.intro-mark .shine{position:absolute;inset:0;pointer-events:none;
-  background:linear-gradient(105deg,transparent 38%,rgba(255,247,228,.95) 50%,transparent 62%) no-repeat;
-  background-size:260% 100%;background-position:120% 0;
-  -webkit-mask:url("assets/intro-mark.png") center / contain no-repeat;mask:url("assets/intro-mark.png") center / contain no-repeat;
-  animation:shine 1.3s ease-in-out .95s both}
-.intro-word{font-family:var(--f-caps);font-weight:400;font-size:clamp(15px,2vw,26px);color:var(--bone);white-space:nowrap;
-  letter-spacing:.34em;margin-right:-.34em;animation:wordIn 1.2s var(--ease) .75s both}
-.intro-sub{display:flex;align-items:center;gap:14px;animation:fadeUp .8s var(--ease) 1.25s both}
-.intro-sub span{font-family:var(--f-caps);font-size:clamp(9px,.8vw,11px);letter-spacing:.5em;margin-right:-.5em;color:var(--metal)}
-.intro-sub i{display:block;width:clamp(28px,5vw,64px);height:1px;background:var(--metal-deep);transform:scaleX(0);animation:lineIn .8s var(--ease) 1.35s forwards}
-.intro-sub i:first-child{transform-origin:right}.intro-sub i:last-child{transform-origin:left}
-.intro-meta{position:absolute;z-index:2;left:var(--gutter);right:var(--gutter);bottom:clamp(18px,3vw,32px);
-  display:flex;justify-content:space-between;align-items:center;color:var(--mute);animation:coreOut .45s ease 2.05s forwards}
-.intro-meta .mono{color:inherit}
-.intro-skip{font-family:var(--f-caps);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--mute);padding:8px 0;transition:color .3s}
-.intro-skip:hover{color:var(--bone)}
-.intro.is-leaving{animation:introEnd 0s linear .8s forwards}
-.intro.is-leaving .intro-core,.intro.is-leaving .intro-meta{animation:coreOut .25s ease forwards}
-.intro.is-leaving .intro-half.top{animation:splitTop .8s var(--ease-cine) .1s forwards}
-.intro.is-leaving .intro-half.bottom{animation:splitBottom .8s var(--ease-cine) .1s forwards}
-@keyframes markIn{from{opacity:0;filter:blur(14px);transform:translateY(12px) scale(1.08)}to{opacity:1;filter:blur(0);transform:none}}
-@keyframes shine{from{background-position:120% 0}to{background-position:-20% 0}}
-@keyframes wordIn{from{opacity:0;letter-spacing:.95em;margin-right:-.95em;filter:blur(6px)}to{opacity:1;letter-spacing:.34em;margin-right:-.34em;filter:blur(0)}}
-@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
-@keyframes lineIn{to{transform:scaleX(1)}}
-@keyframes seam{0%{opacity:0}40%{opacity:1}100%{opacity:0}}
-@keyframes coreOut{to{opacity:0;transform:scale(.985)}}
-@keyframes splitTop{to{transform:translateY(-101%)}}
-@keyframes splitBottom{to{transform:translateY(101%)}}
-@keyframes introEnd{to{visibility:hidden;pointer-events:none}}
-
-@media (prefers-reduced-motion:reduce){
-  *,*::before,*::after{animation:none !important;transition:none !important;scroll-behavior:auto !important}
-  .will-reveal{opacity:1;transform:none}
-  .grain{display:none}
-  .frame::before,.frame::after{display:none}
-  .hero-title .ln > span{transform:none}
-  .intro{display:none}
-}
-
-/* ---------- página de servicios ---------- */
-.page-hero{padding-top:118px}
-.page-hero h1{font-size:clamp(42px,6.6vw,104px);line-height:.96;letter-spacing:-.02em;margin-block:16px 0}
-.page-hero .lede{margin-top:26px;max-width:62ch;color:var(--mute);font-size:clamp(16px,1.3vw,19px)}
-.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:0;border-top:1px solid var(--line)}
-.steps div{padding:26px 22px 30px 0;border-right:1px solid var(--line)}
-.steps div:last-child{border-right:0}
-.steps div + div{padding-left:22px}
-.steps .n{font-family:var(--f-caps);font-size:12px;letter-spacing:.2em;color:var(--metal)}
-.steps h3{font-size:var(--t-md);line-height:1.15;margin:10px 0 10px}
-.steps p{font-size:15px;color:var(--mute)}
-.steps .mono{display:block;margin-top:14px}
-.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
-.card{margin:0;display:grid;grid-template-rows:auto 1fr;background:var(--ink-2);border:1px solid var(--line)}
-.card .ph{position:relative;aspect-ratio:4/3;overflow:hidden;background:#000}
-.card .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:grayscale(.35) brightness(.85);transition:filter .8s var(--ease),transform 1.4s var(--ease)}
-.card:hover .ph img{filter:none;transform:scale(1.04)}
-.card .body{padding:22px 22px 26px;display:grid;align-content:start;gap:12px}
-.card h3{font-size:var(--t-md);line-height:1.15}
-.card p{color:var(--mute);font-size:15px}
-.card ul{list-style:none;margin:4px 0 0;padding:0;display:grid;gap:7px}
-.card li{position:relative;padding-left:18px;font-size:14px;color:var(--bone)}
-.card li::before{content:"";position:absolute;left:0;top:9px;width:7px;height:1px;background:var(--metal)}
-.card .mono{margin-top:8px;padding-top:12px;border-top:1px solid var(--line)}
-.deliver{display:grid;grid-template-columns:repeat(12,1fr);gap:24px;align-items:start}
-.deliver .d-left{grid-column:1 / span 5}
-.deliver .d-right{grid-column:7 / span 6}
-.ratios{display:flex;flex-wrap:wrap;gap:26px;align-items:flex-end;margin-top:26px}
-.ratios span{display:grid;gap:8px;justify-items:start}
-.ratios i{display:block;height:clamp(52px,6vw,78px);border:1px solid var(--metal-deep)}
-.checks{list-style:none;margin:0;padding:0;display:grid;gap:0;border-top:1px solid var(--line)}
-.checks li{padding:18px 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:16px;align-items:baseline}
-.checks .k{font-family:var(--f-caps);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--metal);min-width:132px}
-.checks .v{color:var(--bone);font-size:16px}
-@media (max-width:1100px){
-  .cards{grid-template-columns:repeat(2,1fr)}
-  .steps{grid-template-columns:repeat(2,1fr)}
-  .steps div{border-right:0;border-bottom:1px solid var(--line);padding:22px 0 24px}
-  .steps div + div{padding-left:0}
-  .deliver .d-left,.deliver .d-right{grid-column:1 / -1}
-}
-@media (max-width:760px){
-  .cards{grid-template-columns:1fr}
-  .steps{grid-template-columns:1fr}
-  .checks li{grid-template-columns:1fr;gap:4px}
-  .checks .k{min-width:0}
-}
-
-/* ---------- material audiovisual de servicios ---------- */
-.srv-hero{display:grid;grid-template-columns:1fr minmax(300px,460px);gap:clamp(24px,3.4vw,52px);align-items:center}
-.srv-hero-txt .lede{grid-column:auto;margin-top:24px}
-.srv-media{display:grid;grid-template-columns:1.08fr .92fr;grid-template-rows:1fr 1fr;gap:10px;height:clamp(330px,42vw,500px)}
-.srv-media figure{margin:0;position:relative;overflow:hidden;background:#000;border:1px solid var(--line)}
-.srv-media .s1{grid-row:1 / span 2}
-.srv-media img,.srv-media video{width:100%;height:100%;object-fit:cover;display:block}
-.srv-media .s3 img{filter:grayscale(.35) brightness(.88);transition:filter .6s var(--ease)}
-.srv-media figure:hover img{filter:none}
-.tag-rec{position:absolute;z-index:2;left:12px;bottom:11px;color:var(--bone);text-shadow:0 1px 6px rgba(0,0,0,.9)}
-@media (max-width:900px){.srv-hero{grid-template-columns:1fr}.srv-media{height:clamp(300px,74vw,420px);order:-1}}
-.steps .sh{margin:0 0 16px;position:relative;aspect-ratio:4/3;overflow:hidden;background:#000}
-.steps .sh img{width:100%;height:100%;object-fit:cover;filter:grayscale(.5) brightness(.76);transition:filter .6s var(--ease),transform .9s var(--ease)}
-.steps > div:hover .sh img{filter:none;transform:scale(1.04)}
-@media (max-width:860px){.steps .sh{aspect-ratio:16/9}}
-.ratios{display:flex;flex-wrap:wrap;gap:clamp(12px,1.6vw,20px);align-items:flex-end;margin-top:20px}
-.ratios figure{margin:0;display:grid;gap:8px;justify-items:start}
-.ratios img{display:block;height:clamp(104px,12.6vw,186px);width:auto;border:1px solid var(--line-2)}
-.ratios figcaption{color:var(--mute)}
-.srv-band{position:relative;margin-block:clamp(40px,5vw,72px) 0;background:#000;border-block:1px solid var(--line);overflow:hidden}
-.srv-band video{width:100%;height:clamp(230px,38vw,460px);object-fit:cover;display:block;filter:brightness(.8)}
-.srv-band::after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(to top,rgba(10,9,8,.94) 0%,rgba(10,9,8,.2) 58%,rgba(10,9,8,.5) 100%)}
-.srv-band .cap{position:absolute;z-index:2;inset:auto 0 clamp(18px,3vw,34px) 0;max-width:1240px;margin-inline:auto;padding-inline:var(--gutter);display:grid;gap:10px}
-.srv-band .cap h3{font-family:var(--f-display);font-weight:300;font-size:clamp(21px,2.5vw,34px);line-height:1.05;margin:0}
-.srv-band .cap p{max-width:52ch;color:var(--mute);font-size:15px;margin:0}
-.srv-band .mk{position:absolute;z-index:2;top:16px;left:var(--gutter);color:var(--bone);text-shadow:0 1px 6px rgba(0,0,0,.9)}
-.cards-group{grid-column:1 / -1;margin:30px 0 -4px}
-.cards-group:first-child{margin-top:0}
-.card--first{border-color:var(--line-2)}
-.card--first .body{background:linear-gradient(180deg,rgba(205,191,166,.05),transparent 60%)}
-.card--first .btn{width:fit-content}
-
-/* ---------- botón flotante de WhatsApp ---------- */
-.wa-float{position:fixed;z-index:55;right:clamp(14px,2.2vw,28px);bottom:calc(clamp(14px,2.2vw,28px) + env(safe-area-inset-bottom,0px));display:inline-flex;align-items:center;gap:10px;padding:13px 18px;background:rgba(18,16,14,.84);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--line-2);color:var(--bone);text-decoration:none;font-family:var(--f-caps);font-size:11px;font-weight:500;letter-spacing:.18em;text-transform:uppercase;box-shadow:0 12px 34px rgba(0,0,0,.5);transition:color .4s var(--ease),border-color .4s var(--ease),background .4s var(--ease),transform .4s var(--ease)}
-.wa-float:hover,.wa-float:focus-visible{color:var(--metal);border-color:var(--metal);background:rgba(27,24,21,.92);transform:translateY(-2px)}
-.wa-float svg{width:17px;height:17px;flex:none;fill:none;stroke:currentColor;stroke-width:1.5}
-@media (max-width:560px){.wa-float{gap:8px;padding:12px 14px;font-size:10px;letter-spacing:.1em}.wa-float svg{width:16px;height:16px}}
-@media (prefers-reduced-motion:reduce){.wa-float{transition:none}.wa-float:hover{transform:none}}
-@media print{.wa-float{display:none}}
-
-/* ---------- acceso privado: Cotización (solo dentro del menú de tres rayas) ---------- */
-.menu-toggle{display:block}
-@media (min-width:861px){
-  .menu-toggle{opacity:.55;transition:opacity .35s var(--ease)}
-  .menu-toggle:hover,.site-header.is-open .menu-toggle{opacity:1}
-  .site-header.is-open{background:rgba(10,9,8,.9);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
-}
-.nav-private{display:none !important}
-.site-header.is-open .nav-private{display:block !important}
-.nav-private{color:var(--metal) !important}
-
-/* ---------- submenú de servicios ---------- */
-.nav-sub{position:relative}
-.nav-sub summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:8px;white-space:nowrap;transition:color .3s}
-.nav-sub summary::-webkit-details-marker{display:none}
-.nav-sub summary:hover,.nav-sub[open] summary{color:var(--bone)}
-.nav-sub summary .chev{display:inline-block;width:6px;height:6px;border-right:1px solid currentColor;border-bottom:1px solid currentColor;transform:translateY(-2px) rotate(45deg);transition:transform .35s var(--ease)}
-.nav-sub[open] summary .chev{transform:translateY(1px) rotate(-135deg)}
-.nav-sub-list{display:grid;gap:2px}
-.nav-links .nav-sub-list a{white-space:nowrap;color:var(--mute);font-size:var(--t-sm)}
-.nav-links .nav-sub-list a:hover{color:var(--bone)}
-.nav-links .nav-sub-list a::after{display:none}
-.nav-links .nav-sub-list .all{color:var(--metal)}
-@media (min-width:861px){
-  .nav-sub-list{position:absolute;top:calc(100% + 18px);left:-22px;min-width:540px;padding:14px 22px;display:block;columns:2;column-gap:36px;background:rgba(10,9,8,.97);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-  .nav-links .nav-sub-list a{padding-block:7px;display:block;break-inside:avoid}
-  .nav-links .nav-sub-list a.all{column-span:all;margin-bottom:6px}
-}
-@media (max-width:860px){
-  .nav-sub{width:100%;border-bottom:1px solid var(--line)}
-  .nav-sub summary{font-family:var(--f-display);font-size:32px;color:var(--bone);padding-block:10px;justify-content:space-between}
-  .nav-sub summary .chev{width:10px;height:10px}
-  .nav-sub-list{padding:0 0 14px 4px}
-  .nav-links .nav-sub-list a:not(.btn){font-family:inherit;font-size:17px;padding-block:8px;border-bottom:0;color:var(--mute)}
-  .nav-links .nav-sub-list a.all{color:var(--metal)}
-}
-.card[id]{scroll-margin-top:100px}
-.card:target{border-color:var(--metal);box-shadow:0 0 0 1px var(--metal)}
-
-/* ---------- resumen de servicios ---------- */
-.sum-head{max-width:720px;margin-bottom:44px}
-.sum-head h2{margin-block:16px 14px}
-.sum-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:40px 56px;align-items:start}
-.sum-group{display:grid}
-.sum-col{display:grid;gap:40px}
-.sum-group .label{margin-bottom:10px}
-.sum-item{display:grid;grid-template-columns:42px 1fr auto;gap:14px;align-items:center;padding:16px 0;border-top:1px solid var(--line);transition:color .3s,padding .4s var(--ease)}
-.sum-item:last-child{border-bottom:1px solid var(--line)}
-.sum-n{color:var(--metal);font-size:12px}
-.sum-t b{display:block;font-family:var(--f-display);font-weight:400;font-size:22px;line-height:1.2;color:var(--bone)}
-.sum-t span{display:block;color:var(--mute);font-size:14px;margin-top:3px}
-.sum-item .arrow{color:var(--metal);opacity:.5;transition:transform .4s var(--ease),opacity .3s}
-.sum-item:hover{padding-left:8px}.sum-item:hover .arrow{opacity:1;transform:translateX(4px)}
-@media (max-width:860px){.sum-grid{grid-template-columns:1fr;gap:34px}.sum-t b{font-size:20px}}
 </style>
 </head>
 <body>
-<a class="skip" href="#servicios" style="position:absolute;left:-9999px">Saltar al contenido</a>
-
-<header class="site-header" id="top">
-  <div class="wrap nav">
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<div class="intro" aria-hidden="true"><i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--ink);--e:var(--beige)"></i></div>
+<header class="top" id="top">
+  <div class="wrap">
     <a class="brand" href="index.html" aria-label="Creative Whisper, inicio">
-      <img src="assets/monograma-cw.png" alt="" width="240" height="155">
-      <span>Creative Whisper</span>
+      <img src="assets/monograma-cw.png" alt="" width="40" height="26">
+      <span>CREATIVE WHISPER</span>
     </a>
-    <nav class="nav-links" id="menu" aria-label="Principal">
-      <a href="datos.html">Datos</a>
-      <details class="nav-sub">
-        <summary aria-current="page">Servicios <span class="chev" aria-hidden="true"></span></summary>
-        <div class="nav-sub-list">
-          <a class="all" href="servicios.html">Ver todos los servicios</a>
-          <a href="servicios.html#svc-analisis-de-datos">Análisis de datos</a>
-          <a href="servicios.html#svc-analisis-de-conversaciones">Análisis de conversaciones</a>
-          <a href="servicios.html#svc-video-de-marca">Video de marca</a>
-          <a href="servicios.html#svc-contenido-vertical">Contenido vertical</a>
-          <a href="servicios.html#svc-testimonios-y-casos">Testimonios y casos</a>
-          <a href="servicios.html#svc-video-corporativo-b2b">Video corporativo B2B</a>
-          <a href="servicios.html#svc-cortometrajes-y-branded-content">Cortometrajes y branded content</a>
-          <a href="servicios.html#svc-cobertura-de-eventos">Cobertura de eventos</a>
-          <a href="servicios.html#svc-fotografia-de-producto">Fotografía de producto</a>
-          <a href="servicios.html#svc-actores-y-creadores">Actores y creadores</a>
-          <a href="servicios.html#svc-doblaje-locucion-y-adr">Doblaje, locución y ADR</a>
-          <a href="servicios.html#svc-campanas-en-meta-ads">Campañas en Meta Ads</a>
-          <a href="servicios.html#svc-diseno-para-instagram">Diseño para Instagram</a>
-          <a href="servicios.html#svc-sitios-web-con-pedido-por-whatsapp">Sitios web con pedido</a>
-          <a href="servicios.html#svc-automatizacion-de-whatsapp">Automatización de WhatsApp</a>
-          <a href="servicios.html#svc-community-manager-con-ia">Community manager con IA</a>
-        </div>
-      </details>
-      <a href="portafolio.html">Fotografía</a>
-      <a href="index.html">Inicio</a>
+    <nav class="nav" id="menu" aria-label="Principal">
+      <a href="servicios.html" aria-current="page">Servicios</a>
       <a href="index.html#trabajo">Trabajo</a>
-
-      <a class="nav-private" href="cotizacion.html">Cotización</a>
-      <a class="nav-private" href="admin.html">ADMIN</a>
-      <a class="btn" href="index.html#contacto">Agendar reunión <span class="arrow">→</span></a>
-    </nav>
-    <div class="nav-quick">
       <a href="datos.html">Datos</a>
-      <a href="servicios.html">Servicios</a>
       <a href="portafolio.html">Fotografía</a>
-    </div>
-    <button class="menu-toggle" type="button" aria-controls="menu" aria-expanded="false" aria-label="Abrir menú"><span></span><span></span></button>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <button class="menu-btn js-menu" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
+    <a class="btn btn--solid js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">Agendar reunión</a>
   </div>
+  <i class="progress" aria-hidden="true"></i>
 </header>
+<div class="sx-chip" role="status" aria-live="polite"><span data-sx-state>Reproduciendo · toca para pausar</span><a class="sx-skip" href="#">Contacto ↓</a><span class="sx-chip-bar"><i></i></span></div>
+<div class="cursor" aria-hidden="true" hidden><span></span></div>
 
-<main>
-  <section class="page-hero block" style="padding-bottom:0" data-scene="Servicios">
-    <div class="wrap srv-hero">
-      <div class="srv-hero-txt">
-        <span class="label">Servicios</span>
-        <h1>Todo lo que tu marca <em>necesita.</em></h1>
-        <p class="lede">Datos, inteligencia artificial, video, fotografía, voz y digital en un solo equipo. Analizamos tu información para saber qué campaña hace falta, la producimos de principio a fin y la llevamos a redes y a WhatsApp, donde tus clientes deciden. Cada pieza responde a una etapa de su viaje: que te descubran, que te conozcan, que te elijan y que te recomienden.</p>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:34px">
-          <a class="btn btn--solid" href="https://wa.me/593969577774" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arrow">→</span></a>
-          <a class="btn" href="index.html#enfoque">Ver cómo trabajamos</a>
+<main id="contenido">
+
+<section class="ph" aria-labelledby="ph-t">
+  <div class="ph-strips" aria-hidden="true">
+    <i style="--k:0;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:1;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:2;--c:var(--red);--e:var(--red-e)"></i><i style="--k:3;--c:var(--orange);--e:var(--orange)"></i>
+  </div>
+  <div class="ph-media"><img src="assets/hero-escena.webp" alt="Edición de una pieza en la sala de postproducción" style="object-position:38% 50%"></div>
+  <div class="wrap ph-in">
+    <span class="label"><i></i>Creative Whisper · Servicios</span>
+    <h1 id="ph-t">Dieciocho servicios en cuatro áreas: <span class="nw"><span class="tp" style="--c:var(--orange)">datos</span>,</span> <span class="nw"><span class="tp" style="--c:var(--red);--t:var(--bone)">producción</span>,</span> <span class="nw"><span class="tp" style="--c:var(--peach)">marketing digital</span></span> y <span class="nw"><span class="tp" style="--c:var(--teal)">automatización</span>.</span></h1>
+    <p class="lede">Analizamos tu información para saber qué campaña hace falta, la producimos de principio a fin y la llevamos a redes, a tu sitio web y a WhatsApp, donde tus clientes deciden.</p>
+    <div class="ctas">
+      <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión."><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>Agendar reunión</a>
+      <a class="btn btn--ghost" href="#areas">Ver las cuatro áreas</a>
+    </div>
+  </div>
+  <p class="ph-word js-letters" aria-hidden="true">Servicios</p>
+</section>
+
+<section class="areas" id="areas" aria-labelledby="areas-t">
+  <div class="areas-stage">
+    <div class="areas-intro wrap">
+      <span class="label">Servicios</span>
+      <h2 class="display" id="areas-t">Cuatro áreas.<br><em>Un mismo equipo.</em></h2>
+      <p>Todo se puede contratar por separado o combinado en un plan mensual.</p>
+    </div>
+    <div class="ap" style="--k:0;--c:var(--orange);--e:var(--orange);--fg:var(--ink)">
+      <div class="ap-in">
+        <span class="label">01 / 04 · Entender</span>
+        <h3 class="display"><a href="#area-datos">Datos</a></h3>
+        <p class="ap-n">2 servicios</p>
+        <ul><li><a href="#svc-analisis-de-datos"><span>01</span>Análisis de datos</a></li><li><a href="#svc-analisis-de-conversaciones"><span>02</span>Análisis de conversaciones</a></li></ul>
+      </div>
+    </div>
+    <div class="ap" style="--k:1;--c:var(--red);--e:var(--red-e);--fg:var(--bone)">
+      <div class="ap-in">
+        <span class="label">02 / 04 · Crear</span>
+        <h3 class="display"><a href="#area-produccion">Producción</a></h3>
+        <p class="ap-n">9 servicios</p>
+        <ul><li><a href="#svc-video-de-marca"><span>03</span>Video de marca</a></li><li><a href="#svc-contenido-vertical"><span>04</span>Contenido vertical</a></li><li><a href="#svc-testimonios-y-casos"><span>05</span>Testimonios y casos</a></li><li><a href="#svc-video-corporativo-b2b"><span>06</span>Video corporativo B2B</a></li><li><a href="#svc-cortometrajes-y-branded-content"><span>07</span>Cortometrajes y branded content</a></li><li><a href="#svc-cobertura-de-eventos"><span>08</span>Cobertura de eventos</a></li><li><a href="#svc-fotografia-de-producto"><span>09</span>Fotografía de producto</a></li><li><a href="#svc-actores-y-creadores"><span>10</span>Actores y creadores</a></li><li><a href="#svc-doblaje-locucion-y-adr"><span>11</span>Doblaje, locución y ADR</a></li></ul>
+      </div>
+    </div>
+    <div class="ap" style="--k:2;--c:var(--peach);--e:var(--peach-e);--fg:var(--ink)">
+      <div class="ap-in">
+        <span class="label">03 / 04 · Publicar</span>
+        <h3 class="display"><a href="#area-digital">Marketing digital</a></h3>
+        <p class="ap-n">4 servicios</p>
+        <ul><li><a href="#svc-campanas-en-meta-ads"><span>12</span>Campañas en Meta Ads</a></li><li><a href="#svc-diseno-para-instagram"><span>13</span>Diseño para Instagram</a></li><li><a href="#svc-sitios-web-con-pedido-por-whatsapp"><span>14</span>Sitios web con pedido por WhatsApp</a></li><li><a href="#svc-paginas-web-interactivas"><span>15</span>Diseño de páginas web interactivas</a></li></ul>
+      </div>
+    </div>
+    <div class="ap" style="--k:3;--c:var(--teal);--e:var(--teal-e);--fg:var(--ink)">
+      <div class="ap-in">
+        <span class="label">04 / 04 · Atender</span>
+        <h3 class="display"><a href="#area-automatizacion">Automatización</a></h3>
+        <p class="ap-n">3 servicios</p>
+        <ul><li><a href="#svc-automatizacion-de-whatsapp"><span>16</span>Automatización de WhatsApp</a></li><li><a href="#svc-asistente-web-en-vivo"><span>17</span>Asistente en vivo para tu sitio web</a></li><li><a href="#svc-community-manager-con-ia"><span>18</span>Community manager con IA</a></li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proc" id="proceso" aria-labelledby="proc-t">
+  <div class="proc-stage">
+    <div class="wrap proc-head">
+      <div><span class="label">Cómo trabajamos</span><h2 class="display" id="proc-t">Del dato a la<br>conversación.</h2></div>
+      <p>El mismo camino para un reel de quince segundos o para una campaña completa: primero entender, después producir, publicar y atender.</p>
+    </div>
+    <div class="proc-track">
+      <div class="proc-line" aria-hidden="true"><i></i></div>
+      <div class="proc-rail">
+      <article class="step" style="--c:var(--beige)">
+        <span class="step-dot" aria-hidden="true"></span>
+        <span class="step-n display">01</span>
+        <h3>Reunión</h3>
+        <p>Media hora para entender tu marca, a quién le hablas y qué necesitas lograr.</p>
+        <figure class="step-ph"><img src="assets/bts-hoja.webp" alt="" loading="lazy"></figure>
+      </article>
+      <article class="step" style="--c:var(--orange)">
+        <span class="step-dot" aria-hidden="true"></span>
+        <span class="step-n display">02</span>
+        <h3>Análisis</h3>
+        <p>Revisamos tus datos y tus conversaciones para decidir a quién hablarle, con qué producto y en qué momento.</p>
+        <figure class="step-ph"><img src="assets/datos/trabajo.webp" alt="" loading="lazy"></figure>
+      </article>
+      <article class="step" style="--c:var(--red)">
+        <span class="step-dot" aria-hidden="true"></span>
+        <span class="step-n display">03</span>
+        <h3>Producción</h3>
+        <p>Guion, rodaje, fotografía, voz y edición, con las versiones para cada formato.</p>
+        <figure class="step-ph"><img src="assets/eq-fx2.webp" alt="" loading="lazy"></figure>
+      </article>
+      <article class="step" style="--c:var(--peach)">
+        <span class="step-dot" aria-hidden="true"></span>
+        <span class="step-n display">04</span>
+        <h3>Publicación</h3>
+        <p>Campañas, diseño para redes y páginas web listas para recibir pedidos.</p>
+        <figure class="step-ph"><img src="assets/srv/instagram.webp" alt="" loading="lazy"></figure>
+      </article>
+      <article class="step" style="--c:var(--teal)">
+        <span class="step-dot" aria-hidden="true"></span>
+        <span class="step-n display">05</span>
+        <h3>Atención y medición</h3>
+        <p>Un asistente atiende a cada cliente que responde y medimos cómo rindió cada pieza para ajustar la siguiente.</p>
+        <figure class="step-ph"><img src="assets/srv/whatsapp.webp" alt="" loading="lazy"></figure>
+      </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="area" id="area-datos" style="--c:var(--orange);--e:var(--orange);--fg:var(--ink)" aria-labelledby="area-datos-t">
+  <div class="area-band" data-rv="skew">
+    <span class="area-num display" aria-hidden="true">01</span>
+    <div class="wrap area-head">
+      <span class="label">01 / 04 · Entender · 2 servicios</span>
+      <h2 class="display js-rise" id="area-datos-t">Datos</h2>
+      <p>Analizamos ventas, CRM, redes y conversaciones para decidir a quién hablarle, con qué producto y en qué momento. De ahí sale todo lo demás.</p>
+    </div>
+  </div>
+  <div class="wrap svc-grid">
+      <article class="svc" id="svc-analisis-de-datos">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/datos/codigo.webp" alt="Pantalla con código durante un análisis de datos" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>01</b> · Datos</span>
+          <h3>Análisis de datos</h3>
+          <p>Analizamos los datos de tu empresa —ventas, CRM, punto de venta, redes— para decidir a quién hablarle, con qué producto y en qué momento. Sobre ese análisis se diseña la campaña.</p>
+          <ul><li>Gobernanza y arquitectura de datos</li><li>Limpieza, modelos y machine learning</li><li>Segmentación de clientes e insight accionable</li><li>Dashboards en Power BI para seguir tus ventas y campañas</li><li>Evaluación y ajuste de las campañas anteriores</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Análisis de datos.">Consultar por WhatsApp →</a><a class="lnk lnk--alt" href="datos.html">Ver el servicio completo →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-analisis-de-conversaciones">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/conversaciones.webp" alt="Reporte de conversaciones con indicadores, sentimiento y una queja prioritaria" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>02</b> · Datos</span>
+          <h3>Análisis de conversaciones</h3>
+          <p>Convertimos las conversaciones de tu marca con sus clientes en información clara para decidir qué vender, qué mejorar y qué comunicar.</p>
+          <ul><li>Tablero con los indicadores de tus chats</li><li>Preguntas frecuentes y quejas, ordenadas por tema</li><li>Alertas para atender primero las quejas más graves</li><li>Ideas de publicaciones a partir de lo que preguntan</li><li>Reportes semanales o mensuales fáciles de leer</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Análisis de conversaciones.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+  </div>
+</section>
+<section class="area" id="area-produccion" style="--c:var(--red);--e:var(--red-e);--fg:var(--bone)" aria-labelledby="area-produccion-t">
+  <div class="area-band" data-rv="skew">
+    <span class="area-num display" aria-hidden="true">02</span>
+    <div class="wrap area-head">
+      <span class="label">02 / 04 · Crear · 9 servicios</span>
+      <h2 class="display js-rise" id="area-produccion-t">Producción</h2>
+      <p>Video, fotografía y voz con equipo propio, del guion a la entrega en todos los formatos.</p>
+    </div>
+  </div>
+  <div class="wrap svc-grid">
+      <article class="svc" id="svc-video-de-marca">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/fmt-169.webp" alt="Fotograma de un video de marca" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>03</b> · Producción</span>
+          <h3>Video de marca</h3>
+          <p>La pieza central de tu comunicación: quién eres, cómo trabajas y por qué deberían elegirte.</p>
+          <ul><li>Concepto y guion</li><li>Rodaje con cámara de línea Cinema</li><li>Tomas aéreas cuando suman</li><li>Versión larga y cortes para redes</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Video de marca.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-contenido-vertical">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/vertical.webp" alt="Piezas verticales para redes" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>04</b> · Producción</span>
+          <h3>Contenido vertical</h3>
+          <p>Reels y TikToks pensados para retener en los primeros segundos, filmados con la misma calidad que un spot.</p>
+          <ul><li>Paquete de piezas por sesión</li><li>Ganchos pensados para cada pieza</li><li>Subtítulos integrados</li><li>Formatos 9:16 y 4:5</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Contenido vertical.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-testimonios-y-casos">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/f-testimonio.webp" alt="Grabación de un testimonio" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>05</b> · Producción</span>
+          <h3>Testimonios y casos</h3>
+          <p>Tus clientes hablando por ti: la prueba que resuelve la última duda antes de comprar.</p>
+          <ul><li>Guía de preguntas</li><li>Luz y audio cuidados</li><li>Placas con nombre y cargo</li><li>Versión larga y cortes</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Testimonios y casos.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-video-corporativo-b2b">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/auto/dongfeng-camion-c1217-27.webp" alt="Camión de carga fotografiado para un cliente empresa" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>06</b> · Producción</span>
+          <h3>Video corporativo B2B</h3>
+          <p>Para empresas que le venden a otras empresas: mostramos tu planta, tus procesos y tus credenciales para que un cliente nuevo confíe antes de la primera visita.</p>
+          <ul><li>Recorrido de planta y ubicación</li><li>Tomas aéreas de las instalaciones</li><li>Cápsulas del fundador o gerente</li><li>Normas, licencias y certificaciones</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Video corporativo B2B.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-cortometrajes-y-branded-content">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/f-futbol.webp" alt="Escena de un cortometraje" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>07</b> · Producción</span>
+          <h3>Cortometrajes y branded content</h3>
+          <p>Historias largas para instituciones y marcas que quieren emocionar, no solo informar.</p>
+          <ul><li>Guion creativo y técnico</li><li>Dirección y fotografía</li><li>Montaje y postproducción</li><li>Créditos y entrega final</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Cortometrajes y branded content.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-cobertura-de-eventos">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/cade-evento.webp" alt="Cobertura de un evento universitario" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>08</b> · Producción</span>
+          <h3>Cobertura de eventos</h3>
+          <p>El ambiente, la gente y los momentos que después se vuelven contenido para todo el año.</p>
+          <ul><li>Cobertura del día completo</li><li>Aftermovie</li><li>Piezas verticales para el mismo día</li><li>Fotografía del evento</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Cobertura de eventos.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-fotografia-de-producto">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/auto/jeep-avenger-45.webp" alt="Fotografía de producto de un Jeep Avenger" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>09</b> · Producción</span>
+          <h3>Fotografía de producto</h3>
+          <p>Fotos de catálogo, ficha de producto y redes. Nuestra experiencia más fuerte: más de 700 fotografías automotrices para nueve marcas.</p>
+          <ul><li>Exteriores, interiores y detalle</li><li>Retoque y color</li><li>Composiciones para publicaciones</li><li>Entrega en web y alta resolución</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Fotografía de producto.">Consultar por WhatsApp →</a><a class="lnk lnk--alt" href="portafolio.html">Ver fotografía automotriz →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-actores-y-creadores">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/bts-notas.webp" alt="Preparación de actores antes de una grabación" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>10</b> · Producción</span>
+          <h3>Actores y creadores</h3>
+          <p>Ponemos cara y voz a tu marca con perfiles elegidos según tu público y el tono de la pieza.</p>
+          <ul><li>Propuesta de perfiles</li><li>Dirección en set</li><li>Contenido tipo UGC</li><li>Coordinación de agenda</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Actores y creadores.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-doblaje-locucion-y-adr">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/adr-dos.webp" alt="Sesión de doblaje en estudio" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>11</b> · Producción</span>
+          <h3>Doblaje, locución y ADR</h3>
+          <p>Voces limpias y sincronizadas para ficción, spots y cápsulas institucionales.</p>
+          <ul><li>Casting de voces</li><li>Grabación en estudio de locución</li><li>Sincronía y edición</li><li>Mezcla final</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Doblaje, locución y ADR.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+  </div>
+    <div class="fmt" id="formatos">
+      <div class="fmt-stage">
+        <div class="wrap fmt-grid">
+          <div class="fmt-copy">
+            <span class="label">Producción · Formatos</span>
+            <h3 class="display">La misma toma,<br>cuatro formatos.</h3>
+            <p>De un mismo rodaje salen las versiones para web, ficha de producto y redes, sin volver a grabar.</p>
+            <ol class="fmt-list">
+              <li class="on"><b>9:16</b>Reels, TikTok y stories</li>
+              <li><b>4:5</b>Feed de Instagram y Facebook</li>
+              <li><b>16:9</b>Web, YouTube y presentaciones</li>
+              <li><b>2.39:1</b>Formato cine para piezas de marca</li>
+            </ol>
+          </div>
+          <div class="fmt-frame" aria-hidden="true">
+            <div class="fmt-crop"><img src="assets/srv/fmt-169.webp" alt=""></div>
+            <span class="fmt-tag">9:16</span>
+          </div>
         </div>
       </div>
-      <div class="srv-media">
-        <figure class="s1">
-          <video src="assets/clip-ficcion.mp4" poster="assets/clip-ficcion.webp" muted loop playsinline autoplay preload="metadata" aria-label="Fragmento de una pieza de ficción"></video>
-          <span class="mono rec tag-rec">FICCIÓN</span>
-        </figure>
-        <figure class="s2">
-          <video src="assets/clip-entrevista.mp4" poster="assets/clip-entrevista.webp" muted loop playsinline autoplay preload="metadata" aria-label="Fragmento de una entrevista de marca"></video>
-          <span class="mono rec tag-rec">ENTREVISTA</span>
-        </figure>
-        <figure class="s3"><img src="assets/clip-evento.webp" alt="Cobertura de un evento de marca." loading="lazy"></figure>
-      </div>
     </div>
-  </section>
-
-  <section class="block" id="resumen" style="padding-bottom:0" data-scene="Resumen">
-    <div class="wrap">
-      <div class="sum-head"><h2>Nuestros servicios</h2><p class="lede">Toca cualquiera para ver el detalle.</p></div>
-      <div class="sum-grid">
-        <div class="sum-col">
-          <div class="sum-group"><span class="label">01 · Datos</span>
-            <a class="sum-item" href="#svc-analisis-de-datos"><span class="sum-n mono">01</span><span class="sum-t"><b>Análisis de datos</b><span>Dashboards en Power BI, modelos y segmentación de clientes.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-analisis-de-conversaciones"><span class="sum-n mono">02</span><span class="sum-t"><b>Análisis de conversaciones</b><span>Información clara a partir de tus conversaciones.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-          </div>
-          <div class="sum-group"><span class="label">02 · Producción</span>
-            <a class="sum-item" href="#svc-video-de-marca"><span class="sum-n mono">03</span><span class="sum-t"><b>Video de marca</b><span>La pieza central: quién eres, con lenguaje de cine.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-contenido-vertical"><span class="sum-n mono">04</span><span class="sum-t"><b>Contenido vertical</b><span>Reels y TikToks que retienen.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-testimonios-y-casos"><span class="sum-n mono">05</span><span class="sum-t"><b>Testimonios y casos</b><span>Tus clientes hablando por ti.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-video-corporativo-b2b"><span class="sum-n mono">06</span><span class="sum-t"><b>Video corporativo B2B</b><span>Planta, procesos y credenciales para clientes empresa.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-cortometrajes-y-branded-content"><span class="sum-n mono">07</span><span class="sum-t"><b>Cortometrajes y branded content</b><span>Historias largas que emocionan.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-cobertura-de-eventos"><span class="sum-n mono">08</span><span class="sum-t"><b>Cobertura de eventos</b><span>Aftermovie y foto para todo el año.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-fotografia-de-producto"><span class="sum-n mono">09</span><span class="sum-t"><b>Fotografía de producto</b><span>Tu producto como protagonista.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-actores-y-creadores"><span class="sum-n mono">10</span><span class="sum-t"><b>Actores y creadores</b><span>Caras y voces elegidas para tu público.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-doblaje-locucion-y-adr"><span class="sum-n mono">11</span><span class="sum-t"><b>Doblaje, locución y ADR</b><span>Voces limpias grabadas en estudio.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-          </div>
+    <div class="wrap deliv">
+      <div class="deliv-h"><span class="label">Qué recibes</span><h3 class="display">Formatos de entrega</h3></div>
+      <dl data-rv="kids">
+        <div><dt>Video</dt><dd>Archivo final en 4K y versión liviana para redes</dd></div>
+        <div><dt>Cortes</dt><dd>Versión larga y piezas cortas del mismo material</dd></div>
+        <div><dt>Foto</dt><dd>Selección editada en alta resolución y en tamaño web</dd></div>
+        <div><dt>Audio</dt><dd>Mezcla final; locución y doblaje cuando el proyecto lo incluye</dd></div>
+        <div><dt>Equipo</dt><dd>Sony FX2, DJI Mic, RS 4 Mini, dron DJI Mini y estudio de locución</dd></div>
+        <div><dt>Medición</dt><dd>Reporte de cómo rindió cada pieza, si trabajamos el plan completo</dd></div>
+      </dl>
+    </div>
+</section>
+<section class="area" id="area-digital" style="--c:var(--peach);--e:var(--peach-e);--fg:var(--ink)" aria-labelledby="area-digital-t">
+  <div class="area-band" data-rv="skew">
+    <span class="area-num display" aria-hidden="true">03</span>
+    <div class="wrap area-head">
+      <span class="label">03 / 04 · Publicar · 4 servicios</span>
+      <h2 class="display js-rise" id="area-digital-t">Marketing digital</h2>
+      <p>Llevamos ese contenido a tus clientes con campañas, diseño para redes y páginas web listas para vender.</p>
+    </div>
+  </div>
+  <div class="wrap svc-grid">
+      <article class="svc" id="svc-campanas-en-meta-ads">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/meta-ads.webp" alt="Anuncio de Instagram con botón para escribir por WhatsApp y resumen de la campaña" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>12</b> · Marketing digital</span>
+          <h3>Campañas en Meta Ads</h3>
+          <p>Campañas en Facebook e Instagram que convierten la atención en conversaciones con tu marca.</p>
+          <ul><li>Estrategia y piezas de la campaña</li><li>Anuncios que abren una conversación por WhatsApp</li><li>Público elegido según la etapa del cliente</li><li>Medición y mejora continua</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Campañas en Meta Ads.">Consultar por WhatsApp →</a></div>
         </div>
-        <div class="sum-col">
-          <div class="sum-group"><span class="label">03 · Marketing digital</span>
-            <a class="sum-item" href="#svc-campanas-en-meta-ads"><span class="sum-n mono">12</span><span class="sum-t"><b>Campañas en Meta Ads</b><span>Campañas que generan conversaciones.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-diseno-para-instagram"><span class="sum-n mono">13</span><span class="sum-t"><b>Diseño para Instagram</b><span>Posts, carruseles y stories con publicación programada.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-sitios-web-con-pedido-por-whatsapp"><span class="sum-n mono">14</span><span class="sum-t"><b>Sitios web con pedido por WhatsApp</b><span>Tu catálogo listo para vender desde el celular.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-          </div>
-          <div class="sum-group"><span class="label">04 · Automatización</span>
-            <a class="sum-item" href="#svc-automatizacion-de-whatsapp"><span class="sum-n mono">15</span><span class="sum-t"><b>Automatización de WhatsApp</b><span>Atención 24/7 con la voz de tu marca.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-community-manager-con-ia"><span class="sum-n mono">16</span><span class="sum-t"><b>Community manager con IA</b><span>Instagram atendido al momento.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-          </div>
+      </article>
+      <article class="svc" id="svc-diseno-para-instagram">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/instagram.webp" alt="Diseño de publicaciones para Instagram" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>13</b> · Marketing digital</span>
+          <h3>Diseño para Instagram</h3>
+          <p>Posts, carruseles y stories con la estética de tu marca, conectados con tus campañas de video y publicados con un calendario fijo.</p>
+          <ul><li>Sistema visual de la marca</li><li>Posts y carruseles</li><li>Stories y portadas</li><li>Captions y calendario</li><li>Publicación programada cada semana</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Diseño para Instagram.">Consultar por WhatsApp →</a></div>
         </div>
-      </div>
+      </article>
+      <article class="svc" id="svc-sitios-web-con-pedido-por-whatsapp">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/web-pedidos.webp" alt="Catálogo web donde el cliente arma su pedido y lo envía por WhatsApp" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>14</b> · Marketing digital</span>
+          <h3>Sitios web con pedido por WhatsApp</h3>
+          <p>Páginas rápidas y elegantes para tu marca o tu catálogo, pensadas para que el cliente compre desde el celular.</p>
+          <ul><li>Diseño a la medida de la marca</li><li>Catálogo con carrito de pedido</li><li>Pedido directo por WhatsApp</li><li>Visibilidad en buscadores</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Sitios web con pedido por WhatsApp.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-paginas-web-interactivas">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/web-interactiva.webp" alt="Página web interactiva con escenas animadas en computador y celular" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>15</b> · Marketing digital</span>
+          <h3>Diseño de páginas web interactivas</h3>
+          <p>Sitios que acompañan el scroll con animaciones y escenas pensadas para tu marca, para que quien entra se quede, entienda lo que haces y te escriba.</p>
+          <ul><li>Concepto visual a partir de tu marca</li><li>Escenas que avanzan y retroceden con el scroll</li><li>Diseño para celular y computador</li><li>Invitación directa a WhatsApp o a agendar</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Diseño de páginas web interactivas.">Consultar por WhatsApp →</a><a class="lnk lnk--alt" href="https://torotegymwear.github.io/" target="_blank" rel="noopener">Ver un ejemplo: TOROTE →</a></div>
+        </div>
+      </article>
+  </div>
+</section>
+<section class="area" id="area-automatizacion" style="--c:var(--teal);--e:var(--teal-e);--fg:var(--ink)" aria-labelledby="area-automatizacion-t">
+  <div class="area-band" data-rv="skew">
+    <span class="area-num display" aria-hidden="true">04</span>
+    <div class="wrap area-head">
+      <span class="label">04 / 04 · Atender · 3 servicios</span>
+      <h2 class="display js-rise" id="area-automatizacion-t">Automatización</h2>
+      <p>Asistentes con inteligencia artificial responden por WhatsApp, Instagram y tu sitio web, con la voz de tu marca.</p>
     </div>
-  </section>
-
-  <section class="block" id="proceso" data-scene="Proceso">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Cómo trabajamos</h2>
-        <div class="aside"><p>El mismo camino para un reel de quince segundos o para un cortometraje: primero la idea, después la producción.</p></div>
-      </div>
-      <div class="steps">
-        <div><figure class="sh"><img src="assets/bts-hoja.webp" alt="Notas y documento de briefing sobre la mesa." loading="lazy"></figure><span class="n">01</span><h3>Briefing</h3><p>Media hora para entender tu marca, a quién le hablas y en qué etapa está tu cliente. De ahí sale el objetivo del video.</p><span class="mono">Reunión · Propuesta</span></div>
-        <div><figure class="sh"><img src="assets/bts-guion.webp" alt="Guion y plan de rodaje sobre la mesa." loading="lazy"></figure><span class="n">02</span><h3>Concepto y guion</h3><p>Escribimos la idea y el guion, elegimos locaciones y definimos el plan de rodaje con anticipación.</p><span class="mono">Guion · Plan de rodaje</span></div>
-        <div><figure class="sh"><img src="assets/eq-fx2.webp" alt="Cámara en mano durante el rodaje." loading="lazy"></figure><span class="n">03</span><h3>Rodaje</h3><p>Filmamos con cámara de línea Cinema, audio inalámbrico, estabilizador y dron cuando la historia lo pide.</p><span class="mono">Sony FX2 · Dron · Audio</span></div>
-        <div><figure class="sh"><img src="assets/bts-monitor.webp" alt="Montaje y color en la sala de edición." loading="lazy"></figure><span class="n">04</span><h3>Postproducción</h3><p>Montaje, color, mezcla de audio y las versiones para cada formato: horizontal para web y vertical para redes.</p><span class="mono">Montaje · Color · Mezcla</span></div>
-        <div><figure class="sh"><img src="assets/bts-pantalla.webp" alt="Revisión de la pieza final en pantalla." loading="lazy"></figure><span class="n">05</span><h3>Entrega y medición</h3><p>Entregamos los archivos listos para publicar y revisamos cómo rindió cada pieza para ajustar la siguiente.</p><span class="mono">Entrega · Reporte</span></div>
-      </div>
+  </div>
+  <div class="wrap svc-grid">
+      <article class="svc" id="svc-automatizacion-de-whatsapp">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/whatsapp.webp" alt="Asistente de WhatsApp respondiendo a un cliente" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>16</b> · Automatización</span>
+          <h3>Automatización de WhatsApp</h3>
+          <p>Un asistente con inteligencia artificial atiende tu WhatsApp las 24 horas con la información y el tono de tu marca.</p>
+          <ul><li>Respuestas inmediatas a tus clientes</li><li>Pedidos atendidos de principio a fin</li><li>Integración con tus campañas de Meta Ads</li><li>Tu equipo interviene cuando hace falta</li><li>Plan mensual con mantenimiento incluido</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Automatización de WhatsApp.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-asistente-web-en-vivo">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/asistente-web.webp" alt="Sitio web con un asistente conversando en vivo con un visitante" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>17</b> · Automatización</span>
+          <h3>Asistente en vivo para tu sitio web</h3>
+          <p>Un asistente con inteligencia artificial conversa en vivo con quien visita tu sitio: responde preguntas, recomienda productos y lleva la conversación a un pedido o a una reunión.</p>
+          <ul><li>Respuestas al instante, a cualquier hora</li><li>La información y el tono de tu marca</li><li>Pasa al cliente a WhatsApp o a agendar una cita</li><li>Tu equipo recibe los casos que necesitan una persona</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Asistente en vivo para tu sitio web.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-community-manager-con-ia">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/instagram-cm.webp" alt="Mensajes directos y comentarios de Instagram respondidos por la marca" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>18</b> · Automatización</span>
+          <h3>Community manager con IA</h3>
+          <p>Tu cuenta de Instagram responde al momento y con la voz de tu marca, mientras tu equipo se enfoca en lo que necesita criterio humano.</p>
+          <ul><li>Mensajes directos y comentarios atendidos</li><li>Respuestas con la voz de tu marca</li><li>Casos importantes escalados al equipo</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero información sobre el servicio de Community manager con IA.">Consultar por WhatsApp →</a></div>
+        </div>
+      </article>
+  </div>
+</section>
+<section class="sec line sectores" aria-labelledby="sect-t">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="label"><i></i>Con quién trabajamos</span><h2 class="display js-rise" id="sect-t">Marcas que<br>quieren vender más.</h2></div>
+      <p>Cada servicio lo operamos a diario en nuestras propias marcas antes de ofrecerlo.</p>
     </div>
-  </section>
-
-  <section class="block" id="servicios" style="padding-top:0" data-scene="Servicios">
-    <div class="wrap">
-      <div class="sec-head">
-        <h2>Servicios en detalle</h2>
-        <div class="aside"><p>El análisis de datos va primero porque de ahí sale todo lo demás. Los servicios digitales y de automatización los operamos a diario en nuestras propias marcas antes de ofrecerlos. Todo se puede contratar por separado o combinado en un plan mensual, y cotizamos por proyecto según el alcance.</p></div>
-      </div>
-      <div class="cards">
-        <p class="label cards-group">01 · Datos e inteligencia artificial</p>
-        <figure id="svc-analisis-de-datos" class="card card--first">
-          <div class="ph"><img src="assets/datos/codigo.webp" alt="Análisis de datos" loading="lazy"></div>
-          <div class="body">
-            <span class="mono" style="color:var(--metal)">NUESTRO DIFERENCIAL</span>
-            <h3>Análisis de datos</h3>
-            <p>Analizamos los datos de tu empresa —ventas, CRM, punto de venta, redes— para decidir a quién hablarle, con qué producto y en qué momento. Sobre ese análisis se diseña la campaña.</p>
-            <ul>
-              <li>Gobernanza y arquitectura de datos</li>
-              <li>Limpieza, modelos y machine learning</li>
-              <li>Segmentación de clientes e insight accionable</li>
-              <li>Dashboards en Power BI para seguir tus ventas y campañas</li>
-              <li>Evaluación y ajuste de las campañas anteriores</li>
-            </ul>
-            <span class="mono">Máster en Business Analytics</span>
-            <a class="btn" href="datos.html" style="margin-top:18px">Ver el servicio completo <span class="arrow">→</span></a>
-          </div>
-        </figure>
-        <figure id="svc-analisis-de-conversaciones" class="card">
-          <div class="ph"><img src="assets/srv/conversaciones.webp" alt="Reporte de conversaciones con indicadores, sentimiento y una queja prioritaria" loading="lazy"></div>
-          <div class="body">
-            <h3>Análisis de conversaciones</h3>
-            <p>Convertimos las conversaciones de tu marca con sus clientes en información clara para decidir qué vender, qué mejorar y qué comunicar.</p>
-            <ul>
-              <li>Indicadores clave de tus canales de atención</li>
-              <li>Alertas cuando algo necesita atención inmediata</li>
-              <li>Reportes periódicos fáciles de leer</li>
-            </ul>
-            <span class="mono">Datos · Reportes</span>
-          </div>
-        </figure>
-        <p class="label cards-group">02 · Producción, talento y voz</p>
-        <figure id="svc-video-de-marca" class="card">
-          <div class="ph"><img src="assets/srv/fmt-169.webp" alt="Video de marca" loading="lazy"></div>
-          <div class="body">
-            <h3>Video de marca</h3>
-            <p>La pieza central de tu comunicación: quién eres, cómo trabajas y por qué deberían elegirte.</p>
-            <ul>
-              <li>Concepto y guion</li>
-              <li>Rodaje con cámara de línea Cinema</li>
-              <li>Tomas aéreas cuando suman</li>
-              <li>Versión larga y cortes para redes</li>
-            </ul>
-            <span class="mono">16:9 · 4K · Dron</span>
-          </div>
-        </figure>
-        <figure id="svc-contenido-vertical" class="card">
-          <div class="ph"><img src="assets/srv/vertical.webp" alt="Contenido vertical" loading="lazy"></div>
-          <div class="body">
-            <h3>Contenido vertical</h3>
-            <p>Reels y TikToks pensados para retener en los primeros segundos, filmados con la misma calidad que un spot.</p>
-            <ul>
-              <li>Paquete de piezas por sesión</li>
-              <li>Ganchos pensados para cada pieza</li>
-              <li>Subtítulos quemados</li>
-              <li>Formatos 9:16 y 4:5</li>
-            </ul>
-            <span class="mono">9:16 · 4:5</span>
-          </div>
-        </figure>
-        <figure id="svc-testimonios-y-casos" class="card">
-          <div class="ph"><img src="assets/f-testimonio.webp" alt="Testimonios y casos" loading="lazy"></div>
-          <div class="body">
-            <h3>Testimonios y casos</h3>
-            <p>Tus clientes hablando por ti: la prueba que resuelve la última duda antes de comprar.</p>
-            <ul>
-              <li>Guía de preguntas</li>
-              <li>Luz y audio cuidados</li>
-              <li>Placas con nombre y cargo</li>
-              <li>Versión larga y cortes</li>
-            </ul>
-            <span class="mono">Entrevista · Lower thirds</span>
-          </div>
-        </figure>
-        <figure id="svc-video-corporativo-b2b" class="card">
-          <div class="ph"><img src="assets/auto/dongfeng-camion-c1217-27.webp" alt="Video corporativo B2B" loading="lazy"></div>
-          <div class="body">
-            <h3>Video corporativo B2B</h3>
-            <p>Para empresas que le venden a otras empresas: mostramos tu planta, tus procesos y tus credenciales para que un cliente nuevo confíe antes de la primera visita.</p>
-            <ul>
-              <li>Recorrido de planta y ubicación</li>
-              <li>Tomas aéreas de las instalaciones</li>
-              <li>Cápsulas del fundador o gerente</li>
-              <li>Normas, licencias y certificaciones</li>
-            </ul>
-            <span class="mono">Industria · Manufactura · B2B</span>
-          </div>
-        </figure>
-        <figure id="svc-cortometrajes-y-branded-content" class="card">
-          <div class="ph"><img src="assets/f-futbol.webp" alt="Cortometrajes y branded content" loading="lazy"></div>
-          <div class="body">
-            <h3>Cortometrajes y branded content</h3>
-            <p>Historias largas para instituciones y marcas que quieren emocionar, no solo informar.</p>
-            <ul>
-              <li>Guion creativo y técnico</li>
-              <li>Dirección y fotografía</li>
-              <li>Montaje y postproducción</li>
-              <li>Créditos y entrega final</li>
-            </ul>
-            <span class="mono">Guion · Dirección · Montaje</span>
-          </div>
-        </figure>
-        <figure id="svc-cobertura-de-eventos" class="card">
-          <div class="ph"><img src="assets/cade-evento.webp" alt="Cobertura de eventos" loading="lazy"></div>
-          <div class="body">
-            <h3>Cobertura de eventos</h3>
-            <p>El ambiente, la gente y los momentos que después se vuelven contenido para todo el año.</p>
-            <ul>
-              <li>Cobertura del día completo</li>
-              <li>Aftermovie</li>
-              <li>Piezas verticales para el mismo día</li>
-              <li>Fotografía del evento</li>
-            </ul>
-            <span class="mono">Aftermovie · Foto</span>
-          </div>
-        </figure>
-        <figure id="svc-fotografia-de-producto" class="card">
-          <div class="ph"><img src="assets/auto/jeep-avenger-45.webp" alt="Fotografía de producto" loading="lazy"></div>
-          <div class="body">
-            <h3>Fotografía de producto</h3>
-            <p>Fotos de catálogo, ficha de producto y redes. Nuestra experiencia más fuerte: más de 700 fotos automotrices.</p>
-            <ul>
-              <li>Exteriores, interiores y detalle</li>
-              <li>Retoque y color</li>
-              <li>Composiciones para publicaciones</li>
-              <li>Entrega en web y alta resolución</li>
-            </ul>
-            <span class="mono">Foto · Composición</span>
-          </div>
-        </figure>
-        <figure id="svc-actores-y-creadores" class="card">
-          <div class="ph"><img src="assets/bts-notas.webp" alt="Actores y creadores" loading="lazy"></div>
-          <div class="body">
-            <h3>Actores y creadores</h3>
-            <p>Ponemos cara y voz a tu marca con perfiles elegidos según tu público y el tono de la pieza.</p>
-            <ul>
-              <li>Propuesta de perfiles</li>
-              <li>Dirección en set</li>
-              <li>Contenido tipo UGC</li>
-              <li>Coordinación de agenda</li>
-            </ul>
-            <span class="mono">Casting · UGC</span>
-          </div>
-        </figure>
-        <figure id="svc-doblaje-locucion-y-adr" class="card">
-          <div class="ph"><img src="assets/adr-dos.webp" alt="Doblaje, locución y ADR" loading="lazy"></div>
-          <div class="body">
-            <h3>Doblaje, locución y ADR</h3>
-            <p>Voces limpias y sincronizadas para ficción, spots y cápsulas institucionales.</p>
-            <ul>
-              <li>Casting de voces</li>
-              <li>Grabación en estudio de locución</li>
-              <li>Sincronía y edición</li>
-              <li>Mezcla final</li>
-            </ul>
-            <span class="mono">Voz · Mezcla</span>
-          </div>
-        </figure>
-        <p class="label cards-group">03 · Marketing digital</p>
-        <figure id="svc-campanas-en-meta-ads" class="card">
-          <div class="ph"><img src="assets/srv/meta-ads.webp" alt="Anuncio de Instagram con botón para escribir por WhatsApp y resumen de la campaña" loading="lazy"></div>
-          <div class="body">
-            <h3>Campañas en Meta Ads</h3>
-            <p>Campañas en Facebook e Instagram que convierten la atención en conversaciones con tu marca.</p>
-            <ul>
-              <li>Estrategia y piezas de la campaña</li>
-              <li>Medición y mejora continua</li>
-            </ul>
-            <span class="mono">Facebook · Instagram</span>
-          </div>
-        </figure>
-        <figure id="svc-diseno-para-instagram" class="card">
-          <div class="ph"><img src="assets/srv/instagram.webp" alt="Diseño para Instagram" loading="lazy"></div>
-          <div class="body">
-            <h3>Diseño para Instagram</h3>
-            <p>Posts, carruseles y stories con la estética de tu marca, pensados para el feed y conectados con tus campañas de video y publicados con un calendario fijo.</p>
-            <ul>
-              <li>Sistema visual de la marca</li>
-              <li>Posts y carruseles</li>
-              <li>Stories y portadas</li>
-              <li>Captions y calendario</li>
-              <li>Publicación programada cada semana</li>
-            </ul>
-            <span class="mono">Feed 4:5 · Stories 9:16</span>
-          </div>
-        </figure>
-        <figure id="svc-sitios-web-con-pedido-por-whatsapp" class="card">
-          <div class="ph"><img src="assets/srv/web-pedidos.webp" alt="Catálogo web donde el cliente arma su pedido y lo envía por WhatsApp" loading="lazy"></div>
-          <div class="body">
-            <h3>Sitios web con pedido por WhatsApp</h3>
-            <p>Páginas rápidas y elegantes para tu marca o tu catálogo, pensadas para que el cliente compre desde el celular.</p>
-            <ul>
-              <li>Diseño a la medida de la marca</li>
-              <li>Pedido directo por WhatsApp</li>
-              <li>Visibilidad en buscadores</li>
-            </ul>
-            <span class="mono">Web · Catálogo</span>
-          </div>
-        </figure>
-        <p class="label cards-group">04 · Automatización y atención</p>
-        <figure id="svc-automatizacion-de-whatsapp" class="card">
-          <div class="ph"><img src="assets/srv/whatsapp.webp" alt="Automatización de WhatsApp" loading="lazy"></div>
-          <div class="body">
-            <h3>Automatización de WhatsApp</h3>
-            <p>Un asistente con inteligencia artificial atiende tu WhatsApp las 24 horas con la información y el tono de tu marca.</p>
-            <ul>
-              <li>Respuestas inmediatas a tus clientes</li>
-              <li>Pedidos atendidos de principio a fin</li>
-              <li>Integración con tus campañas de Meta Ads</li>
-              <li>Tu equipo interviene cuando hace falta</li>
-            </ul>
-            <span class="mono">WhatsApp Business · IA</span>
-          </div>
-        </figure>
-        <figure id="svc-community-manager-con-ia" class="card">
-          <div class="ph"><img src="assets/srv/instagram-cm.webp" alt="Mensajes directos y comentarios de Instagram respondidos por la marca" loading="lazy"></div>
-          <div class="body">
-            <h3>Community manager con IA</h3>
-            <p>Tu cuenta de Instagram responde al momento y con la voz de tu marca, mientras tu equipo se enfoca en lo que necesita criterio humano.</p>
-            <ul>
-              <li>Mensajes directos y comentarios atendidos</li>
-              <li>Casos importantes escalados al equipo</li>
-            </ul>
-            <span class="mono">Instagram</span>
-          </div>
-        </figure>
-      </div>
+    <div class="rows">
+      <div class="row" style="--c:var(--orange)" data-rv="up"><span class="row-n display">01</span><h3>Concesionarios y marcas de autos</h3><p>Más de 700 fotografías de producto para nueve marcas, video para redes y un asistente que responde a cada interesado.</p><a class="lnk" style="--lc:var(--orange)" href="portafolio.html">Fotografía automotriz →</a></div>
+      <div class="row" style="--c:var(--red)" data-rv="up"><span class="row-n display">02</span><h3>Productos de consumo</h3><p>Lo aplicamos todos los días en nuestras marcas.</p><span class="row-brands"><a href="https://batakataka.github.io/" target="_blank" rel="noopener" style="--hc:var(--orange)">BaTaKá</a><a href="https://torotegymwear.github.io/" target="_blank" rel="noopener" style="--hc:var(--red);color:var(--bone)">TOROTE</a><a href="https://uinkyporthos.github.io/uinky/" target="_blank" rel="noopener" style="--hc:var(--peach)">ÜINKY</a><a href="https://uinkyporthos.github.io/porthos/" target="_blank" rel="noopener" style="--hc:var(--teal)">PORTHOS</a></span></div>
+      <div class="row" style="--c:var(--peach)" data-rv="up"><span class="row-n display">03</span><h3>Universidades e instituciones</h3><p>Cortometrajes, cobertura de eventos, testimonios y talleres de analítica de datos.</p><a class="lnk" style="--lc:var(--peach)" href="index.html#trabajo">Ver trabajo reciente →</a></div>
+      <div class="row" style="--c:var(--teal)" data-rv="up"><span class="row-n display">04</span><h3>Empresas B2B</h3><p>Video corporativo de planta y procesos, y análisis de las conversaciones con tus clientes.</p><a class="lnk" style="--lc:var(--teal)" href="#svc-video-corporativo-b2b">Video corporativo B2B →</a></div>
     </div>
-  </section>
+  </div>
+</section>
 
-
-  <section class="srv-band">
-    <video src="assets/reel-auto-loop.mp4" poster="assets/reel-auto-poster.webp" muted loop playsinline autoplay preload="metadata" aria-label="Cobertura de un festival off-road"></video>
-    <span class="mono mk">COBERTURA · FESTIVAL OFF-ROAD</span>
-    <div class="cap">
-      <p>Cámara de línea Cinema, audio inalámbrico, estabilizador y dron. El mismo equipo, del brief a la entrega.</p>
+<section class="sec faq" aria-labelledby="faq-t">
+  <div class="wrap">
+    <div><span class="label">Preguntas frecuentes</span><h2 class="display js-rise" id="faq-t">Antes de<br>escribirnos.</h2></div>
+    <div data-rv="kids">
+      <details><summary>¿Cómo cobran?</summary><p>Por proyecto o por plan mensual. Cotizamos cada proyecto según su alcance y su complejidad. Después de la reunión te enviamos una propuesta con alcance, cronograma y precio.</p></details>
+      <details><summary>¿Puedo contratar un solo servicio?</summary><p>Sí. Cada servicio se contrata por separado o combinado en un plan mensual. Casi siempre rinde más combinar áreas: por ejemplo, foto y video del mismo rodaje, o una campaña con su asistente de WhatsApp.</p></details>
+      <details><summary>¿Cuánto se demora?</summary><p>Depende del proyecto. Un paquete de piezas para redes es cuestión de días; un video de marca, una página web o un cortometraje toman semanas.</p></details>
+      <details><summary>¿Trabajan fuera de Quito?</summary><p>Sí. Salimos a otras ciudades y a exteriores; el viaje y la logística se suman a la propuesta. Los servicios de datos, marketing digital y automatización se trabajan a distancia.</p></details>
+      <details><summary>¿El asistente reemplaza a mi equipo?</summary><p>No. Se encarga de lo repetitivo, en WhatsApp, Instagram o tu sitio web, y le pasa a tu equipo los casos que necesitan una persona. Se contrata como plan mensual, con mantenimiento incluido.</p></details>
+      <details><summary>¿Cómo empezamos?</summary><p>Escríbenos por WhatsApp con lo que tienes en mente. Agendamos una reunión de media hora y te enviamos la propuesta.</p></details>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="block" style="padding-top:0" data-scene="Entrega">
-    <div class="wrap deliver">
-      <div class="d-left">
-        <h2 style="margin-block:0 22px">Formatos de entrega</h2>
-        <p style="color:var(--mute);max-width:44ch">De la misma sesión salen las versiones para web, para la ficha de producto y para redes. Sin volver a grabar.</p>
-
-      </div>
-      <div class="d-right">
-        <ul class="checks">
-          <li><span class="k">Video</span><span class="v">Archivo final en 4K y versión liviana para redes</span></li>
-          <li><span class="k">Cortes</span><span class="v">Versión larga y piezas cortas del mismo material</span></li>
-          <li><span class="k">Foto</span><span class="v">Selección editada en alta resolución y en tamaño web</span></li>
-          <li><span class="k">Audio</span><span class="v">Mezcla final; locución y doblaje cuando el proyecto lo incluye</span></li>
-          <li><span class="k">Equipo</span><span class="v">Sony FX2, DJI Mic, RS 4 Mini, dron DJI Mini y estudio de locución</span></li>
-          <li><span class="k">Medición</span><span class="v">Reporte de cómo rindió cada pieza, si trabajamos el plan completo</span></li>
-        </ul>
-      </div>
+<!-- cierre -->
+<section class="end" id="contacto" aria-label="Contacto">
+  <div class="end-stage">
+    <div class="end-strips" aria-hidden="true"><i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--ink);--e:var(--beige)"></i></div>
+    <p class="end-word display js-letters">Hablemos</p>
+    <p class="end-sub">de tu marca. Escríbenos y te proponemos por dónde empezar.</p>
+    <div class="end-ctas">
+      <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero una propuesta para mi marca."><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>Escribir por WhatsApp</a>
+      <a class="btn btn--ghost" href="index.html#contacto">Llenar el formulario</a>
     </div>
-
-    <div class="wrap">
-      <p class="mono" style="margin-top:clamp(26px,3vw,44px)">La misma toma, cuatro formatos</p>
-      <div class="ratios">
-        <figure><img src="assets/srv/fmt-916.webp" alt="La misma toma recortada en vertical 9:16." loading="lazy"><figcaption class="mono">9:16 · Reels y TikTok</figcaption></figure>
-        <figure><img src="assets/srv/fmt-45.webp" alt="La misma toma recortada en 4:5." loading="lazy"><figcaption class="mono">4:5 · Feed</figcaption></figure>
-        <figure><img src="assets/srv/fmt-169.webp" alt="La misma toma en 16:9." loading="lazy"><figcaption class="mono">16:9 · Web y YouTube</figcaption></figure>
-        <figure><img src="assets/srv/fmt-239.webp" alt="La misma toma en formato cine 2.39:1." loading="lazy"><figcaption class="mono">2.39:1 · Cine</figcaption></figure>
-      </div>
+    <div class="end-lines">
+      <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero una propuesta para mi marca.">WhatsApp · 096 957 7774</a>
+      <a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">@creative.whisper.productions</a>
+      <a href="cotizacion.html">Cotización en línea</a>
     </div>
+  </div>
+</section>
 
-  </section>
-
-  <section class="block" style="padding-top:0" data-scene="Preguntas">
-    <div class="wrap faq">
-      <div class="faq-head">
-        <h2>Preguntas frecuentes</h2>
-      </div>
-      <div class="faq-list">
-        <details open>
-          <summary>¿Cómo cobran? <i></i></summary>
-          <p>Por proyecto. El precio depende del alcance: días de rodaje, locaciones, si hay actores o locución y cuántas piezas finales necesitas. Después de la reunión te enviamos una propuesta con todo detallado.</p>
-        </details>
-        <details>
-          <summary>¿Cuánto se demora? <i></i></summary>
-          <p>Depende del proyecto. Un paquete de piezas para redes es cuestión de días; un video de marca o un cortometraje toma semanas porque incluye guion, rodaje y postproducción.</p>
-        </details>
-        <details>
-          <summary>¿Trabajan fuera de Quito? <i></i></summary>
-          <p>Sí. Salimos a otras ciudades y a exteriores; el viaje y la logística se suman a la propuesta.</p>
-        </details>
-        <details>
-          <summary>¿El asistente de WhatsApp reemplaza a mi equipo? <i></i></summary>
-          <p>No. Se encarga de lo repetitivo para que tu equipo dedique su tiempo a lo que necesita una persona.</p>
-        </details>
-        <details>
-          <summary>¿Puedo contratar solo fotografía o solo edición? <i></i></summary>
-          <p>Sí. Puedes contratar un servicio suelto, aunque casi siempre rinde más combinar foto y video del mismo rodaje.</p>
-        </details>
-      </div>
-    </div>
-  </section>
-
-  <section class="block contact" style="padding-top:clamp(60px,7vw,110px)" data-scene="Contacto">
-    <div class="wrap" style="display:grid;gap:30px;justify-items:start">
-      <h2 style="max-width:18ch">Pide tu propuesta</h2>
-      <p style="color:var(--mute);max-width:52ch">Una reunión corta basta para entender tu marca y proponerte por dónde empezar.</p>
-      <div style="display:flex;gap:12px;flex-wrap:wrap">
-        <a class="btn btn--solid" href="https://wa.me/593969577774" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arrow">→</span></a>
-        <a class="btn" href="index.html#contacto">Llenar el formulario</a>
-      </div>
-    </div>
-  </section>
 </main>
 
-<footer class="site-footer">
+<footer>
   <div class="wrap">
-    <div class="foot-top">
-      <div class="foot-brand">
-        <img src="assets/logo-cw.png" alt="Creative Whisper Productions" width="900" height="606" loading="lazy">
-        <p>Productora audiovisual · Quito, Ecuador</p>
-      </div>
-      <div class="foot-col">
-        <span class="label">Estudio</span>
-        <a href="index.html">Inicio</a><a href="index.html#trabajo">Trabajo</a><a href="index.html#enfoque">Cómo trabajamos</a>
-      </div>
-      <div class="foot-col">
-        <span class="label">Hablemos</span>
-        <a href="index.html#contacto">Agendar reunión</a><a href="https://wa.me/593969577774" target="_blank" rel="noopener">WhatsApp</a><a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">Instagram</a>
-      </div>
-      <div class="foot-col">
-        <span class="label">Ver</span>
-        <a href="portafolio.html">Fotografía automotriz</a>
-      </div>
-    </div>
-    <div class="foot-bottom">
-      <span class="mono">© 2026 Creative Whisper Productions</span>
-      <a class="mono" href="#top">Volver arriba ↑</a>
-    </div>
+    <span>© 2026 Creative Whisper · Quito, Ecuador</span>
+    <nav aria-label="Secundaria">
+      <a href="index.html">Inicio</a><a href="servicios.html">Servicios</a><a href="datos.html">Datos</a><a href="portafolio.html">Fotografía</a><a href="cotizacion.html">Cotización</a><a href="privacidad.html">Privacidad</a><a href="admin.html">Admin</a>
+    </nav>
   </div>
 </footer>
 
-<canvas id="grainSrc" width="160" height="160" hidden></canvas>
-<div class="grain" id="grain" aria-hidden="true"></div>
-
-<script>
-(() => {
-  const $ = (s, r = document) => r.querySelector(s);
-  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
-  try {
-    const c = $("#grainSrc"), x = c.getContext("2d"), d = x.createImageData(160, 160);
-    for (let i = 0; i < d.data.length; i += 4) { const v = Math.random() * 255; d.data[i] = d.data[i+1] = d.data[i+2] = v; d.data[i+3] = 255; }
-    x.putImageData(d, 0, 0); $("#grain").style.backgroundImage = `url(${c.toDataURL()})`;
-  } catch (e) {}
-  const header = $(".site-header"), toggle = $(".menu-toggle");
-  const onScroll = () => header.classList.toggle("is-scrolled", scrollY > 30);
-  addEventListener("scroll", onScroll, { passive: true }); onScroll();
-  toggle.addEventListener("click", () => {
-    const open = header.classList.toggle("is-open");
-    toggle.setAttribute("aria-expanded", open);
-  });
-  $$("#menu a").forEach(a => a.addEventListener("click", () => header.classList.remove("is-open")));
-})();
-</script>
-
-<a class="wa-float" href="https://wa.me/593969577774" target="_blank" rel="noopener" aria-label="Escribir por WhatsApp">
-  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20.5 11.3a8.5 8.5 0 0 1-12.4 7.5L3.5 20.4l1.6-4.5A8.5 8.5 0 1 1 20.5 11.3Z" stroke-linejoin="round"/></svg>
-  <span>WhatsApp</span>
+<a class="fab js-fab js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión." aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+  Escríbenos
 </a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/site.js"></script>
 <script>
-(function(){
-  var d=document.querySelector('.nav-sub'); if(!d) return;
-  document.addEventListener('click',function(e){ if(d.open && !d.contains(e.target)) d.open=false; });
-  d.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ d.open=false; }); });
-  var t=document.querySelector('.menu-toggle');
-  if(t) t.addEventListener('click',function(){ d.open=false; });
-})();
+
+cwSite({
+  end: '#contacto',
+  init(k) {
+    const { $, $$, vh, vw, gsap } = k;
+    if (k.static) return;
+    const wide = matchMedia('(min-width:901px)');
+
+    /* cuatro áreas: el título se va y las franjas suben una por una */
+    if (wide.matches) {
+      const ps = $$('.ap');
+      gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.areas', start: 'top top', end: () => '+=' + vh() * 1.7, pin: true, scrub: .9, invalidateOnRefresh: true } })
+        .fromTo('.areas-intro', { scale: 1, opacity: 1 }, { scale: .86, opacity: 0, duration: .6 }, .45)
+        .fromTo(ps, { yPercent: i => (i % 2 ? -106 : 106) }, { yPercent: 0, duration: 1, ease: 'power3.out', stagger: .14 }, .1)
+        .fromTo($$('.ap-in > *'), { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: .35, stagger: .03, ease: 'power2.out' }, .9)
+        .to({}, { duration: .5 });
+    } else {
+      $$('.ap').forEach(p => gsap.fromTo(p, { clipPath: 'polygon(0 0,0 0,0 100%,0 96%)' }, { clipPath: 'polygon(0 0,100% 4%,100% 100%,0 96%)', ease: 'none', scrollTrigger: { trigger: p, start: 'top 90%', end: 'top 45%', scrub: .6 } }));
+    }
+
+    /* cómo trabajamos: el riel avanza de lado y la línea se pinta */
+    const rail = $('.proc-rail'), line = $('.proc-line i'), steps = $$('.step');
+    if (wide.matches) {
+      const dist = () => Math.max(0, rail.scrollWidth - vw() + 40);
+      gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.proc', start: 'top top', end: () => '+=' + (dist() + vh() * .6), pin: true, scrub: .8, invalidateOnRefresh: true } })
+        .fromTo(rail, { x: 0 }, { x: () => -dist(), duration: 1 }, 0)
+        .fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0)
+        .fromTo(steps.map(s => $('.step-ph', s)), { clipPath: 'polygon(8% 100%,100% 100%,92% 100%,0% 100%)' }, { clipPath: 'polygon(8% 0%,100% 0%,92% 100%,0% 100%)', duration: .25, stagger: .17 }, 0)
+        .fromTo(steps.map(s => $('.step-n', s)), { yPercent: 60, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .15, stagger: .17 }, 0);
+    } else {
+      steps.forEach(s => gsap.fromTo(s, { y: 50, opacity: 0 }, { y: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: s, start: 'top 92%', end: 'top 60%', scrub: .6 } }));
+    }
+
+    /* número gigante de cada área: se desliza mientras pasa la franja */
+    $$('.area').forEach(a => gsap.fromTo($('.area-num', a), { yPercent: 30 }, { yPercent: -20, ease: 'none', scrollTrigger: { trigger: $('.area-band', a), start: 'top bottom', end: 'bottom top', scrub: .6 } }));
+
+    /* formatos: la misma toma cambia de recorte */
+    const crop = $('.fmt-crop'), tag = $('.fmt-tag'), lis = $$('.fmt-list li');
+    const C = ['inset(0% 34.2% 0% 34.2%)', 'inset(0% 27.5% 0% 27.5%)', 'inset(0% 0% 0% 0%)', 'inset(12.8% 0% 12.8% 0%)'];
+    const T = ['9:16', '4:5', '16:9', '2.39:1'];
+    const mark = i => { lis.forEach((l, j) => l.classList.toggle('on', j === i)); tag.textContent = T[i]; };
+    if (wide.matches) {
+      const f = gsap.timeline({ defaults: { ease: 'power2.inOut' }, scrollTrigger: { trigger: '.fmt', start: 'top top', end: () => '+=' + vh() * 2.2, pin: true, scrub: .7,
+        onUpdate: s => mark(s.progress < .204 ? 0 : s.progress < .5 ? 1 : s.progress < .796 ? 2 : 3) } });
+      f.to({}, { duration: .3 });
+      for (let i = 1; i < 4; i++) f.fromTo(crop, { clipPath: C[i - 1] }, { clipPath: C[i], duration: .5, immediateRender: false }).to({}, { duration: .3 });
+      f.fromTo('.fmt-crop img', { scale: 1.08 }, { scale: 1, duration: f.duration(), ease: 'none' }, 0);
+    } else {
+      let i = 0; crop.style.clipPath = C[0];
+      setInterval(() => { i = (i + 1) % 4; gsap.to(crop, { clipPath: C[i], duration: .8, ease: 'power2.inOut' }); mark(i); }, 2200);
+    }
+  }
+});
+
 </script>
 </body>
 </html>
