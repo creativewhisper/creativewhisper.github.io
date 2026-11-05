@@ -110,6 +110,21 @@ h1,h2,h3,p,dl,dd{margin:0}
 .cursor.big{width:84px;height:84px;margin:-42px 0 0 -42px}
 .cursor.big span{opacity:1}
 
+/* ---------- recorrido automático: la página baja sola hasta el contacto ---------- */
+.sx-chip{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);z-index:56;display:flex;align-items:center;gap:14px;padding:8px 8px 8px 16px;border-radius:999px;background:rgba(10,9,8,.86);border:1px solid var(--line-2);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone);white-space:nowrap;transition:opacity .5s,transform .5s;overflow:hidden}
+.sx-chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);flex:none;animation:blink 1.2s steps(1) infinite}
+.sx-chip[data-state=paused]::before{animation:none;background:var(--mute)}
+.sx-chip .sx-skip{color:var(--ink);background:var(--bone);text-decoration:none;padding:9px 13px;border-radius:999px;letter-spacing:.1em}
+.sx-chip .sx-skip:hover{background:var(--orange)}
+.sx-chip-bar{position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--line)}
+.sx-chip-bar i{position:absolute;inset:0;background:linear-gradient(90deg,var(--orange),var(--red),var(--peach),var(--teal),var(--beige));transform-origin:0 50%;transform:scaleX(0)}
+.sx-chip.is-done{opacity:0;transform:translate(-50%,20px)}
+@media (max-width:700px){
+  .sx-chip{left:max(16px, env(safe-area-inset-left, 0px));transform:none;bottom:max(16px, env(safe-area-inset-bottom, 0px));height:56px;box-sizing:border-box;font-size:10px;gap:10px;padding:0 8px 0 14px}
+  .sx-chip.is-done{transform:translateY(20px)}
+}
+.static .sx-chip{display:none}
+
 /* ---------- intro: las cinco franjas abren la página ---------- */
 .intro{position:fixed;inset:0;z-index:100;pointer-events:none;display:none;overflow:hidden}
 .js .intro{display:block}
@@ -199,7 +214,11 @@ h1,h2,h3,p,dl,dd{margin:0}
 .p-media img{position:absolute;top:-4%;left:-12%;width:124%;height:108%;max-width:none;object-fit:cover}
 .p-cta{justify-self:end}
 ul.houses{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0}
-.houses li{list-style:none;display:flex;flex-direction:column;padding:10px 22px 10px 24px;background:var(--hc);color:var(--ink);clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
+.houses li{list-style:none}
+.houses a{display:flex;flex-direction:column;padding:10px 22px 10px 24px;background:var(--hc);color:var(--ink);text-decoration:none;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:transform .25s,filter .25s}
+.houses a:hover{transform:translateY(-4px);filter:brightness(1.08)}
+.houses a:focus-visible{outline:2px solid var(--bone);outline-offset:3px}
+.houses a span::after{content:" →"}
 .houses b{font-family:var(--f-display);font-weight:900;font-size:clamp(22px,2vw,32px);line-height:1;letter-spacing:.01em}
 .houses span{font-size:12px;font-weight:500}
 @media (max-width:900px){
@@ -396,6 +415,7 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 </header>
 
 <div class="hud" aria-hidden="true"><i></i><b class="js-tc">00:00:00:00</b><span class="js-scene">Inicio</span></div>
+<div class="sx-chip" role="status" aria-live="polite"><span data-sx-state>Reproduciendo · toca para pausar</span><a class="sx-skip" href="#">Contacto ↓</a><span class="sx-chip-bar"><i></i></span></div>
 <div class="cursor" aria-hidden="true" hidden><span></span></div>
 
 <main id="contenido">
@@ -564,10 +584,10 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
             <h3 class="p-title display long">Nuestras<br>marcas</h3>
             <p class="p-text" style="color:#D7CFC2">Cada servicio lo operamos a diario en nuestras propias marcas antes de ofrecerlo.</p>
             <ul class="houses">
-              <li style="--hc:var(--orange)"><b>BaTaKá</b><span>Bebida energética</span></li>
-              <li style="--hc:var(--red);color:var(--bone)"><b>TOROTE</b><span>Ropa deportiva</span></li>
-              <li style="--hc:var(--peach)"><b>ÜINKY</b><span>Jabonería artesanal</span></li>
-              <li style="--hc:var(--teal)"><b>PORTHOS</b><span>Jabones para hombre</span></li>
+              <li><a href="https://batakataka.github.io/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--orange)"><b>BaTaKá</b><span>Bebida energética</span></a></li>
+              <li><a href="https://torotegymwear.github.io/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--red);color:var(--bone)"><b>TOROTE</b><span>Ropa deportiva</span></a></li>
+              <li><a href="https://uinkyporthos.github.io/uinky/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--peach)"><b>ÜINKY</b><span>Jabonería artesanal</span></a></li>
+              <li><a href="https://uinkyporthos.github.io/porthos/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--teal)"><b>PORTHOS</b><span>Jabones para hombre</span></a></li>
             </ul>
           </div>
           <div class="p-cta">
@@ -1124,6 +1144,62 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
   sizeCanvas(); measureCards(); update3d();
   if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
   addEventListener('load', () => ScrollTrigger.refresh());
+
+  /* ---------- recorrido automático ----------
+     La página baja sola desde que abre, como una película. Cualquier toque, clic, rueda o tecla
+     la pausa y sigue después de 1 segundo sin interacción. Termina en el contacto. */
+  (function autoplay({ end, chip, speed, delay, offset }) {
+    if (!end || !chip || /[?&]noauto/.test(location.search)) { if (chip) chip.remove(); return; }
+    const label = chip.querySelector('[data-sx-state]'), barI = chip.querySelector('.sx-chip-bar i');
+    const corto = matchMedia('(max-width:700px)');
+    let acc = scrollY, last = 0, paused = true, done = false, timer = null;
+    const endY = () => end.getBoundingClientRect().top + scrollY - offset();
+    const ui = () => {
+      chip.dataset.state = paused ? 'paused' : 'playing';
+      label.textContent = paused ? (corto.matches ? 'Pausa' : 'En pausa · sigue en 1 s') : (corto.matches ? 'Bajando' : 'Reproduciendo · toca para pausar');
+    };
+    const evs = ['wheel', 'touchstart', 'touchmove', 'pointerdown', 'keydown'];
+    const ir = y => { if (lenis) lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo({ top: y, behavior: 'instant' }); };
+    function stop() {
+      if (done) return; done = true; clearTimeout(timer);
+      evs.forEach(e => removeEventListener(e, interrupt));
+      chip.classList.add('is-done'); setTimeout(() => chip.remove(), 700);
+    }
+    function tick(t) {
+      if (done) return;
+      const target = endY();
+      if (!paused) {
+        const dt = last ? Math.min(100, t - last) : 16;
+        acc += vh() * speed * dt / 1000;
+        if (acc >= target) { ir(target); stop(); return; }
+        ir(Math.round(acc));
+      }
+      last = t;
+      barI.style.transform = `scaleX(${Math.min(1, Math.max(0, scrollY / Math.max(1, target)))})`;
+      requestAnimationFrame(tick);
+    }
+    function interrupt() {
+      if (done) return;
+      paused = true; last = 0; ui();
+      clearTimeout(timer); timer = setTimeout(resume, 1000);
+    }
+    function resume() {
+      if (done) return;
+      if (scrollY >= endY() - 4) { stop(); return; }
+      acc = scrollY; paused = false; last = 0; ui();
+    }
+    evs.forEach(e => addEventListener(e, interrupt, { passive: true }));
+    document.addEventListener('visibilitychange', () => { if (document.hidden) interrupt(); });
+    addEventListener('scroll', () => { if (!done && paused && scrollY >= endY() - 4) stop(); }, { passive: true });
+    chip.querySelector('.sx-skip').addEventListener('click', e => {
+      e.preventDefault(); stop();
+      if (lenis) lenis.scrollTo(endY(), { duration: 1.6 }); else window.scrollTo({ top: endY(), behavior: 'smooth' });
+    });
+    if (corto.matches) label.textContent = 'Bajando';
+    chip.dataset.state = 'playing';
+    timer = setTimeout(resume, delay);
+    requestAnimationFrame(tick);
+  })({ end: $('#contacto'), chip: $('.sx-chip'), speed: .6, delay: 2300, offset: () => top.offsetHeight });
 })();
 </script>
 </body>
