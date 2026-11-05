@@ -6,14 +6,14 @@
 <meta name="theme-color" content="#0A0908">
 <link rel="icon" href="assets/monograma-cw.png">
 <title>Servicios — Creative Whisper</title>
-<meta name="description" content="Servicios de Creative Whisper Productions: video de marca, contenido vertical, testimonios, fotografía de producto, eventos, doblaje y análisis de datos.">
+<meta name="description" content="Servicios de Creative Whisper: análisis de datos y de conversaciones, automatización de WhatsApp con IA, community manager, campañas en Meta Ads, sitios web, video de marca, fotografía y doblaje.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=Cormorant:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Creative Whisper Productions">
 <meta property="og:title" content="Servicios — Creative Whisper">
-<meta property="og:description" content="Video de marca, contenido vertical, testimonios, fotografía, eventos, doblaje y análisis de datos.">
+<meta property="og:description" content="Datos e IA, automatización de WhatsApp e Instagram, Meta Ads, sitios web y producción audiovisual en un solo equipo.">
 <meta property="og:url" content="https://creativewhisper.github.io/servicios.html">
 <meta property="og:image" content="https://creativewhisper.github.io/assets/og-cw.jpg">
 <meta name="twitter:card" content="summary_large_image">
@@ -632,6 +632,8 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 .srv-band .cap h3{font-family:var(--f-display);font-weight:300;font-size:clamp(21px,2.5vw,34px);line-height:1.05;margin:0}
 .srv-band .cap p{max-width:52ch;color:var(--mute);font-size:15px;margin:0}
 .srv-band .mk{position:absolute;z-index:2;top:16px;left:var(--gutter);color:var(--bone);text-shadow:0 1px 6px rgba(0,0,0,.9)}
+.cards-group{grid-column:1 / -1;margin:30px 0 -4px}
+.cards-group:first-child{margin-top:0}
 .card--first{border-color:var(--line-2)}
 .card--first .body{background:linear-gradient(180deg,rgba(205,191,166,.05),transparent 60%)}
 .card--first .btn{width:fit-content}
@@ -668,8 +670,9 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 .nav-links .nav-sub-list a::after{display:none}
 .nav-links .nav-sub-list .all{color:var(--metal)}
 @media (min-width:861px){
-  .nav-sub-list{position:absolute;top:calc(100% + 18px);left:-22px;min-width:270px;padding:14px 22px;background:rgba(10,9,8,.97);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-  .nav-links .nav-sub-list a{padding-block:7px}
+  .nav-sub-list{position:absolute;top:calc(100% + 18px);left:-22px;min-width:540px;padding:14px 22px;display:block;columns:2;column-gap:36px;background:rgba(10,9,8,.97);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .nav-links .nav-sub-list a{padding-block:7px;display:block;break-inside:avoid}
+  .nav-links .nav-sub-list a.all{column-span:all;margin-bottom:6px}
 }
 @media (max-width:860px){
   .nav-sub{width:100%;border-bottom:1px solid var(--line)}
@@ -715,17 +718,21 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
         <div class="nav-sub-list">
           <a class="all" href="servicios.html">Ver todos los servicios</a>
           <a href="servicios.html#svc-analisis-de-datos">Análisis de datos</a>
+          <a href="servicios.html#svc-analisis-de-conversaciones">Análisis de conversaciones</a>
+          <a href="servicios.html#svc-automatizacion-de-whatsapp">Automatización de WhatsApp</a>
+          <a href="servicios.html#svc-community-manager-con-ia">Community manager con IA</a>
+          <a href="servicios.html#svc-campanas-en-meta-ads">Campañas en Meta Ads</a>
+          <a href="servicios.html#svc-diseno-para-instagram">Diseño para Instagram</a>
+          <a href="servicios.html#svc-sitios-web-con-pedido-por-whatsapp">Sitios web con pedido</a>
           <a href="servicios.html#svc-video-de-marca">Video de marca</a>
           <a href="servicios.html#svc-contenido-vertical">Contenido vertical</a>
           <a href="servicios.html#svc-testimonios-y-casos">Testimonios y casos</a>
-          <a href="servicios.html#svc-fotografia-de-producto">Fotografía de producto</a>
-          <a href="servicios.html#svc-cobertura-de-eventos">Cobertura de eventos</a>
-          <a href="servicios.html#svc-doblaje-locucion-y-adr">Doblaje, locución y ADR</a>
-          <a href="servicios.html#svc-actores-y-creadores">Actores y creadores</a>
-          <a href="servicios.html#svc-cortometrajes-y-branded-content">Cortometrajes y branded content</a>
           <a href="servicios.html#svc-video-corporativo-b2b">Video corporativo B2B</a>
-          <a href="servicios.html#svc-diseno-para-instagram">Diseño para Instagram</a>
-          <a href="servicios.html#svc-automatizacion-de-whatsapp">Automatización de WhatsApp</a>
+          <a href="servicios.html#svc-cortometrajes-y-branded-content">Cortometrajes y branded content</a>
+          <a href="servicios.html#svc-cobertura-de-eventos">Cobertura de eventos</a>
+          <a href="servicios.html#svc-fotografia-de-producto">Fotografía de producto</a>
+          <a href="servicios.html#svc-actores-y-creadores">Actores y creadores</a>
+          <a href="servicios.html#svc-doblaje-locucion-y-adr">Doblaje, locución y ADR</a>
         </div>
       </details>
       <a href="portafolio.html">Fotografía</a>
@@ -751,7 +758,7 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       <div class="srv-hero-txt">
         <span class="label">Servicios</span>
         <h1>Todo lo que tu marca <em>necesita.</em></h1>
-        <p class="lede">Datos, video, fotografía, voz y digital en un solo equipo. Analizamos tu información para saber qué campaña hace falta, la producimos de principio a fin y la llevamos a redes y a WhatsApp, donde tus clientes deciden. Cada pieza responde a una etapa de su viaje: que te descubran, que te conozcan, que te elijan y que te recomienden.</p>
+        <p class="lede">Datos, inteligencia artificial, video, fotografía, voz y digital en un solo equipo. Analizamos tu información para saber qué campaña hace falta, la producimos de principio a fin y la llevamos a redes y a WhatsApp, donde tus clientes deciden. Cada pieza responde a una etapa de su viaje: que te descubran, que te conozcan, que te elijan y que te recomienden.</p>
         <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:34px">
           <a class="btn btn--solid" href="https://wa.me/593969577774" target="_blank" rel="noopener">Escribir por WhatsApp <span class="arrow">→</span></a>
           <a class="btn" href="index.html#viaje">Ver el viaje del cliente</a>
@@ -776,27 +783,33 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
       <div class="sum-head"><h2>Nuestros servicios</h2><p class="lede">Toca cualquiera para ver el detalle.</p></div>
       <div class="sum-grid">
         <div class="sum-col">
-          <div class="sum-group"><span class="label">Estrategia</span>
+          <div class="sum-group"><span class="label">Datos e inteligencia artificial</span>
             <a class="sum-item" href="#svc-analisis-de-datos"><span class="sum-n mono">01</span><span class="sum-t"><b>Análisis de datos</b><span>Dashboards en Power BI, modelos y segmentación de clientes.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-analisis-de-conversaciones"><span class="sum-n mono">02</span><span class="sum-t"><b>Análisis de conversaciones</b><span>KPIs, sentimiento y quejas a partir de tus chats.</span></span><span class="arrow" aria-hidden="true">→</span></a>
           </div>
-          <div class="sum-group"><span class="label">Talento y voz</span>
-            <a class="sum-item" href="#svc-actores-y-creadores"><span class="sum-n mono">09</span><span class="sum-t"><b>Actores y creadores</b><span>Caras y voces elegidas para tu público.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-doblaje-locucion-y-adr"><span class="sum-n mono">10</span><span class="sum-t"><b>Doblaje, locución y ADR</b><span>Voces limpias grabadas en estudio.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+          <div class="sum-group"><span class="label">Automatización y atención</span>
+            <a class="sum-item" href="#svc-automatizacion-de-whatsapp"><span class="sum-n mono">03</span><span class="sum-t"><b>Automatización de WhatsApp</b><span>Asistente con IA que responde, toma pedidos y cotiza envíos.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-community-manager-con-ia"><span class="sum-n mono">04</span><span class="sum-t"><b>Community manager con IA</b><span>Mensajes y comentarios de Instagram respondidos al momento.</span></span><span class="arrow" aria-hidden="true">→</span></a>
           </div>
-          <div class="sum-group"><span class="label">Digital</span>
-            <a class="sum-item" href="#svc-diseno-para-instagram"><span class="sum-n mono">11</span><span class="sum-t"><b>Diseño para Instagram</b><span>Posts, carruseles y stories con tu estética.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-automatizacion-de-whatsapp"><span class="sum-n mono">12</span><span class="sum-t"><b>Automatización de WhatsApp</b><span>Respuestas según la campaña de Meta Ads.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+          <div class="sum-group"><span class="label">Marketing digital</span>
+            <a class="sum-item" href="#svc-campanas-en-meta-ads"><span class="sum-n mono">05</span><span class="sum-t"><b>Campañas en Meta Ads</b><span>Anuncios que llevan a una conversación de WhatsApp.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-diseno-para-instagram"><span class="sum-n mono">06</span><span class="sum-t"><b>Diseño para Instagram</b><span>Posts, carruseles y stories con publicación programada.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-sitios-web-con-pedido-por-whatsapp"><span class="sum-n mono">07</span><span class="sum-t"><b>Sitios web con pedido por WhatsApp</b><span>Catálogo, total calculado y pedido en un paso.</span></span><span class="arrow" aria-hidden="true">→</span></a>
           </div>
         </div>
         <div class="sum-col">
           <div class="sum-group"><span class="label">Producción</span>
-            <a class="sum-item" href="#svc-video-de-marca"><span class="sum-n mono">02</span><span class="sum-t"><b>Video de marca</b><span>La pieza central: quién eres, con lenguaje de cine.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-contenido-vertical"><span class="sum-n mono">03</span><span class="sum-t"><b>Contenido vertical</b><span>Reels y TikToks que retienen.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-testimonios-y-casos"><span class="sum-n mono">04</span><span class="sum-t"><b>Testimonios y casos</b><span>Tus clientes hablando por ti.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-video-corporativo-b2b"><span class="sum-n mono">05</span><span class="sum-t"><b>Video corporativo B2B</b><span>Planta, procesos y credenciales para clientes empresa.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-cortometrajes-y-branded-content"><span class="sum-n mono">06</span><span class="sum-t"><b>Cortometrajes y branded content</b><span>Historias largas que emocionan.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-cobertura-de-eventos"><span class="sum-n mono">07</span><span class="sum-t"><b>Cobertura de eventos</b><span>Aftermovie y foto para todo el año.</span></span><span class="arrow" aria-hidden="true">→</span></a>
-            <a class="sum-item" href="#svc-fotografia-de-producto"><span class="sum-n mono">08</span><span class="sum-t"><b>Fotografía de producto</b><span>Tu producto como protagonista.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-video-de-marca"><span class="sum-n mono">08</span><span class="sum-t"><b>Video de marca</b><span>La pieza central: quién eres, con lenguaje de cine.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-contenido-vertical"><span class="sum-n mono">09</span><span class="sum-t"><b>Contenido vertical</b><span>Reels y TikToks que retienen.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-testimonios-y-casos"><span class="sum-n mono">10</span><span class="sum-t"><b>Testimonios y casos</b><span>Tus clientes hablando por ti.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-video-corporativo-b2b"><span class="sum-n mono">11</span><span class="sum-t"><b>Video corporativo B2B</b><span>Planta, procesos y credenciales para clientes empresa.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-cortometrajes-y-branded-content"><span class="sum-n mono">12</span><span class="sum-t"><b>Cortometrajes y branded content</b><span>Historias largas que emocionan.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-cobertura-de-eventos"><span class="sum-n mono">13</span><span class="sum-t"><b>Cobertura de eventos</b><span>Aftermovie y foto para todo el año.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-fotografia-de-producto"><span class="sum-n mono">14</span><span class="sum-t"><b>Fotografía de producto</b><span>Tu producto como protagonista.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+          <div class="sum-group"><span class="label">Talento y voz</span>
+            <a class="sum-item" href="#svc-actores-y-creadores"><span class="sum-n mono">15</span><span class="sum-t"><b>Actores y creadores</b><span>Caras y voces elegidas para tu público.</span></span><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="sum-item" href="#svc-doblaje-locucion-y-adr"><span class="sum-n mono">16</span><span class="sum-t"><b>Doblaje, locución y ADR</b><span>Voces limpias grabadas en estudio.</span></span><span class="arrow" aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
@@ -823,9 +836,10 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
     <div class="wrap">
       <div class="sec-head">
         <h2>Servicios en detalle</h2>
-        <div class="aside"><p>El análisis de datos va primero porque de ahí sale todo lo demás. Se pueden contratar por separado o combinados en un plan de contenido. Cotizamos por proyecto, según alcance y días de rodaje.</p></div>
+        <div class="aside"><p>El análisis de datos va primero porque de ahí sale todo lo demás. Los servicios digitales y de automatización los operamos a diario en nuestras propias marcas antes de ofrecerlos. Todo se puede contratar por separado o combinado en un plan mensual, y cotizamos por proyecto según el alcance.</p></div>
       </div>
       <div class="cards">
+        <p class="label cards-group">Datos e inteligencia artificial</p>
         <figure id="svc-analisis-de-datos" class="card card--first">
           <div class="ph"><img src="assets/datos/codigo.webp" alt="Análisis de datos" loading="lazy"></div>
           <div class="body">
@@ -843,6 +857,98 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
             <a class="btn" href="datos.html" style="margin-top:18px">Ver el servicio completo <span class="arrow">→</span></a>
           </div>
         </figure>
+        <figure id="svc-analisis-de-conversaciones" class="card">
+          <div class="ph"><img src="assets/srv/conversaciones.webp" alt="Reporte de conversaciones con indicadores, sentimiento y una queja prioritaria" loading="lazy"></div>
+          <div class="body">
+            <h3>Análisis de conversaciones</h3>
+            <p>Convertimos los chats de tu marca con sus clientes en información para decidir: qué preguntan, qué quieren comprar, de qué se quejan y qué conviene publicar después.</p>
+            <ul>
+              <li>Indicadores de mensajes, intención de compra, pedidos y quejas</li>
+              <li>Puntaje de sentimiento y alerta inmediata ante las quejas graves</li>
+              <li>Preguntas frecuentes y temas de queja agrupados</li>
+              <li>Reporte semanal o mensual que se lee desde el celular</li>
+              <li>Ideas de publicaciones a partir de lo que pregunta tu público</li>
+            </ul>
+            <span class="mono">WhatsApp · Instagram · KPIs</span>
+          </div>
+        </figure>
+        <p class="label cards-group">Automatización y atención</p>
+        <figure id="svc-automatizacion-de-whatsapp" class="card">
+          <div class="ph"><img src="assets/srv/whatsapp.webp" alt="Automatización de WhatsApp" loading="lazy"></div>
+          <div class="body">
+            <h3>Automatización de WhatsApp</h3>
+            <p>Un asistente con inteligencia artificial atiende tu WhatsApp las 24 horas con la información y el tono de tu marca, y sabe de qué anuncio de Meta viene cada persona.</p>
+            <ul>
+              <li>Preguntas frecuentes, precios y recomendación de productos</li>
+              <li>Toma de pedidos y cálculo del costo de envío</li>
+              <li>Comprensión de notas de voz</li>
+              <li>Respuestas según la campaña de Meta Ads activa</li>
+              <li>Tu equipo toma cualquier chat cuando lo necesita</li>
+              <li>Seguimiento mensual opcional</li>
+            </ul>
+            <span class="mono">WhatsApp Business · Meta Ads · IA</span>
+          </div>
+        </figure>
+        <figure id="svc-community-manager-con-ia" class="card">
+          <div class="ph"><img src="assets/srv/instagram-cm.webp" alt="Mensajes directos y comentarios de Instagram respondidos por la marca" loading="lazy"></div>
+          <div class="body">
+            <h3>Community manager con IA</h3>
+            <p>Respondemos al momento los mensajes directos y comentarios de tu cuenta de Instagram, con la voz de tu marca. Lo que requiere criterio humano llega a tu equipo con una respuesta sugerida.</p>
+            <ul>
+              <li>Respuesta a mensajes directos y comentarios rutinarios</li>
+              <li>Reglas por marca: qué se responde en público y qué por privado</li>
+              <li>Quejas, colaboraciones y casos sensibles derivados al equipo</li>
+              <li>Respuesta sugerida lista para aprobar</li>
+            </ul>
+            <span class="mono">Instagram · DMs · Comentarios</span>
+          </div>
+        </figure>
+        <p class="label cards-group">Marketing digital</p>
+        <figure id="svc-campanas-en-meta-ads" class="card">
+          <div class="ph"><img src="assets/srv/meta-ads.webp" alt="Anuncio de Instagram con botón para escribir por WhatsApp y resumen de la campaña" loading="lazy"></div>
+          <div class="body">
+            <h3>Campañas en Meta Ads</h3>
+            <p>Planificamos, armamos y medimos campañas en Facebook e Instagram que llevan a las personas directo a una conversación de WhatsApp con tu marca.</p>
+            <ul>
+              <li>Objetivo, público y presupuesto de la campaña</li>
+              <li>Anuncios con piezas producidas por nuestro equipo</li>
+              <li>Mensaje de inicio por anuncio para saber de dónde viene cada cliente</li>
+              <li>Lectura de resultados y ajuste de la siguiente campaña</li>
+            </ul>
+            <span class="mono">Facebook · Instagram · WhatsApp</span>
+          </div>
+        </figure>
+        <figure id="svc-diseno-para-instagram" class="card">
+          <div class="ph"><img src="assets/srv/instagram.webp" alt="Diseño para Instagram" loading="lazy"></div>
+          <div class="body">
+            <h3>Diseño para Instagram</h3>
+            <p>Posts, carruseles y stories con la estética de tu marca, pensados para el feed y conectados con tus campañas de video y publicados con un calendario fijo.</p>
+            <ul>
+              <li>Sistema visual de la marca</li>
+              <li>Posts y carruseles</li>
+              <li>Stories y portadas</li>
+              <li>Captions y calendario</li>
+              <li>Publicación programada cada semana</li>
+            </ul>
+            <span class="mono">Feed 4:5 · Stories 9:16</span>
+          </div>
+        </figure>
+        <figure id="svc-sitios-web-con-pedido-por-whatsapp" class="card">
+          <div class="ph"><img src="assets/srv/web-pedidos.webp" alt="Catálogo web donde el cliente arma su pedido y lo envía por WhatsApp" loading="lazy"></div>
+          <div class="body">
+            <h3>Sitios web con pedido por WhatsApp</h3>
+            <p>Páginas rápidas y elegantes para tu marca o tu catálogo. El cliente arma su pedido, ve el total y lo envía a tu WhatsApp en un solo paso.</p>
+            <ul>
+              <li>Diseño a la medida de la marca, pensado para el celular</li>
+              <li>Catálogo con pedido y total calculado</li>
+              <li>Promociones y condiciones de envío a la vista</li>
+              <li>Conexión con el asistente de WhatsApp</li>
+              <li>Posicionamiento básico en buscadores</li>
+            </ul>
+            <span class="mono">Web · Catálogo · WhatsApp</span>
+          </div>
+        </figure>
+        <p class="label cards-group">Producción</p>
         <figure id="svc-video-de-marca" class="card">
           <div class="ph"><img src="assets/srv/fmt-169.webp" alt="Video de marca" loading="lazy"></div>
           <div class="body">
@@ -885,60 +991,18 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
             <span class="mono">Entrevista · Lower thirds</span>
           </div>
         </figure>
-        <figure id="svc-fotografia-de-producto" class="card">
-          <div class="ph"><img src="assets/auto/jeep-avenger-45.webp" alt="Fotografía de producto" loading="lazy"></div>
+        <figure id="svc-video-corporativo-b2b" class="card">
+          <div class="ph"><img src="assets/auto/dongfeng-camion-c1217-27.webp" alt="Video corporativo B2B" loading="lazy"></div>
           <div class="body">
-            <h3>Fotografía de producto</h3>
-            <p>Fotos de catálogo, ficha de producto y redes. Nuestra experiencia más fuerte: más de 700 fotos automotrices.</p>
+            <h3>Video corporativo B2B</h3>
+            <p>Para empresas que le venden a otras empresas: mostramos tu planta, tus procesos y tus credenciales para que un cliente nuevo confíe antes de la primera visita.</p>
             <ul>
-              <li>Exteriores, interiores y detalle</li>
-              <li>Retoque y color</li>
-              <li>Composiciones para publicaciones</li>
-              <li>Entrega en web y alta resolución</li>
+              <li>Recorrido de planta y ubicación</li>
+              <li>Tomas aéreas de las instalaciones</li>
+              <li>Cápsulas del fundador o gerente</li>
+              <li>Normas, licencias y certificaciones</li>
             </ul>
-            <span class="mono">Foto · Composición</span>
-          </div>
-        </figure>
-        <figure id="svc-cobertura-de-eventos" class="card">
-          <div class="ph"><img src="assets/cade-evento.webp" alt="Cobertura de eventos" loading="lazy"></div>
-          <div class="body">
-            <h3>Cobertura de eventos</h3>
-            <p>El ambiente, la gente y los momentos que después se vuelven contenido para todo el año.</p>
-            <ul>
-              <li>Cobertura del día completo</li>
-              <li>Aftermovie</li>
-              <li>Piezas verticales para el mismo día</li>
-              <li>Fotografía del evento</li>
-            </ul>
-            <span class="mono">Aftermovie · Foto</span>
-          </div>
-        </figure>
-        <figure id="svc-doblaje-locucion-y-adr" class="card">
-          <div class="ph"><img src="assets/adr-dos.webp" alt="Doblaje, locución y ADR" loading="lazy"></div>
-          <div class="body">
-            <h3>Doblaje, locución y ADR</h3>
-            <p>Voces limpias y sincronizadas para ficción, spots y cápsulas institucionales.</p>
-            <ul>
-              <li>Casting de voces</li>
-              <li>Grabación en estudio de locución</li>
-              <li>Sincronía y edición</li>
-              <li>Mezcla final</li>
-            </ul>
-            <span class="mono">Voz · Mezcla</span>
-          </div>
-        </figure>
-        <figure id="svc-actores-y-creadores" class="card">
-          <div class="ph"><img src="assets/bts-notas.webp" alt="Actores y creadores" loading="lazy"></div>
-          <div class="body">
-            <h3>Actores y creadores</h3>
-            <p>Ponemos cara y voz a tu marca con perfiles elegidos según tu público y el tono de la pieza.</p>
-            <ul>
-              <li>Propuesta de perfiles</li>
-              <li>Dirección en set</li>
-              <li>Contenido tipo UGC</li>
-              <li>Coordinación de agenda</li>
-            </ul>
-            <span class="mono">Casting · UGC</span>
+            <span class="mono">Industria · Manufactura · B2B</span>
           </div>
         </figure>
         <figure id="svc-cortometrajes-y-branded-content" class="card">
@@ -955,49 +1019,64 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
             <span class="mono">Guion · Dirección · Montaje</span>
           </div>
         </figure>
-        <figure id="svc-video-corporativo-b2b" class="card">
-          <div class="ph"><img src="assets/auto/dongfeng-camion-c1217-27.webp" alt="Video corporativo B2B" loading="lazy"></div>
+        <figure id="svc-cobertura-de-eventos" class="card">
+          <div class="ph"><img src="assets/cade-evento.webp" alt="Cobertura de eventos" loading="lazy"></div>
           <div class="body">
-            <h3>Video corporativo B2B</h3>
-            <p>Para empresas que le venden a otras empresas: mostramos tu planta, tus procesos y tus credenciales para que un cliente nuevo confíe antes de la primera visita.</p>
+            <h3>Cobertura de eventos</h3>
+            <p>El ambiente, la gente y los momentos que después se vuelven contenido para todo el año.</p>
             <ul>
-              <li>Recorrido de planta y ubicación</li>
-              <li>Tomas aéreas de las instalaciones</li>
-              <li>Cápsulas del fundador o gerente</li>
-              <li>Normas, licencias y certificaciones</li>
+              <li>Cobertura del día completo</li>
+              <li>Aftermovie</li>
+              <li>Piezas verticales para el mismo día</li>
+              <li>Fotografía del evento</li>
             </ul>
-            <span class="mono">Industria · Manufactura · B2B</span>
+            <span class="mono">Aftermovie · Foto</span>
           </div>
         </figure>
-        <figure id="svc-diseno-para-instagram" class="card">
-          <div class="ph"><img src="assets/srv/instagram.webp" alt="Diseño para Instagram" loading="lazy"></div>
+        <figure id="svc-fotografia-de-producto" class="card">
+          <div class="ph"><img src="assets/auto/jeep-avenger-45.webp" alt="Fotografía de producto" loading="lazy"></div>
           <div class="body">
-            <h3>Diseño para Instagram</h3>
-            <p>Posts, carruseles y stories con la estética de tu marca, pensados para el feed y conectados con tus campañas de video.</p>
+            <h3>Fotografía de producto</h3>
+            <p>Fotos de catálogo, ficha de producto y redes. Nuestra experiencia más fuerte: más de 700 fotos automotrices.</p>
             <ul>
-              <li>Sistema visual de la marca</li>
-              <li>Posts y carruseles</li>
-              <li>Stories y portadas</li>
-              <li>Captions y calendario</li>
+              <li>Exteriores, interiores y detalle</li>
+              <li>Retoque y color</li>
+              <li>Composiciones para publicaciones</li>
+              <li>Entrega en web y alta resolución</li>
             </ul>
-            <span class="mono">Feed 4:5 · Stories 9:16</span>
+            <span class="mono">Foto · Composición</span>
           </div>
         </figure>
-        <figure id="svc-automatizacion-de-whatsapp" class="card">
-          <div class="ph"><img src="assets/srv/whatsapp.webp" alt="Automatización de WhatsApp" loading="lazy"></div>
+        <p class="label cards-group">Talento y voz</p>
+        <figure id="svc-actores-y-creadores" class="card">
+          <div class="ph"><img src="assets/bts-notas.webp" alt="Actores y creadores" loading="lazy"></div>
           <div class="body">
-            <h3>Automatización de WhatsApp</h3>
-            <p>Conectamos tus campañas de Meta Ads con WhatsApp Business para que cada persona que escribe reciba la respuesta correcta según el anuncio que vio.</p>
+            <h3>Actores y creadores</h3>
+            <p>Ponemos cara y voz a tu marca con perfiles elegidos según tu público y el tono de la pieza.</p>
             <ul>
-              <li>Flujos de respuesta por campaña</li>
-              <li>Mensajes de bienvenida y preguntas frecuentes</li>
-              <li>Etiquetado y derivación a ventas</li>
-              <li>Seguimiento mensual opcional</li>
+              <li>Propuesta de perfiles</li>
+              <li>Dirección en set</li>
+              <li>Contenido tipo UGC</li>
+              <li>Coordinación de agenda</li>
             </ul>
-            <span class="mono">WhatsApp Business · Meta Ads</span>
+            <span class="mono">Casting · UGC</span>
           </div>
         </figure>
-              </div>
+        <figure id="svc-doblaje-locucion-y-adr" class="card">
+          <div class="ph"><img src="assets/adr-dos.webp" alt="Doblaje, locución y ADR" loading="lazy"></div>
+          <div class="body">
+            <h3>Doblaje, locución y ADR</h3>
+            <p>Voces limpias y sincronizadas para ficción, spots y cápsulas institucionales.</p>
+            <ul>
+              <li>Casting de voces</li>
+              <li>Grabación en estudio de locución</li>
+              <li>Sincronía y edición</li>
+              <li>Mezcla final</li>
+            </ul>
+            <span class="mono">Voz · Mezcla</span>
+          </div>
+        </figure>
+      </div>
     </div>
   </section>
 
@@ -1058,6 +1137,14 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
         <details>
           <summary>¿Trabajan fuera de Quito? <i></i></summary>
           <p>Sí. Salimos a otras ciudades y a exteriores; el viaje y la logística se suman a la propuesta.</p>
+        </details>
+        <details>
+          <summary>¿El asistente de WhatsApp reemplaza a mi equipo? <i></i></summary>
+          <p>No. Responde lo repetitivo —precios, disponibilidad, envíos, pedidos— y avisa a tu equipo cuando un cliente necesita a una persona. Si alguien de tu equipo escribe en un chat, el asistente se pausa en esa conversación.</p>
+        </details>
+        <details>
+          <summary>¿Qué necesito para automatizar WhatsApp e Instagram? <i></i></summary>
+          <p>Un número de WhatsApp para tu marca y acceso a tu cuenta de Meta Business. Nosotros hacemos la conexión, cargamos la información de tus productos y probamos todo antes de activarlo.</p>
         </details>
         <details>
           <summary>¿Puedo contratar solo fotografía o solo edición? <i></i></summary>
