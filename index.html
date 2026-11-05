@@ -199,7 +199,11 @@ h1,h2,h3,p,dl,dd{margin:0}
 .p-media img{position:absolute;top:-4%;left:-12%;width:124%;height:108%;max-width:none;object-fit:cover}
 .p-cta{justify-self:end}
 ul.houses{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0}
-.houses li{list-style:none;display:flex;flex-direction:column;padding:10px 22px 10px 24px;background:var(--hc);color:var(--ink);clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
+.houses li{list-style:none}
+.houses a{display:flex;flex-direction:column;padding:10px 22px 10px 24px;background:var(--hc);color:var(--ink);text-decoration:none;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:transform .25s,filter .25s}
+.houses a:hover{transform:translateY(-4px);filter:brightness(1.08)}
+.houses a:focus-visible{outline:2px solid var(--bone);outline-offset:3px}
+.houses a span::after{content:" →"}
 .houses b{font-family:var(--f-display);font-weight:900;font-size:clamp(22px,2vw,32px);line-height:1;letter-spacing:.01em}
 .houses span{font-size:12px;font-weight:500}
 @media (max-width:900px){
@@ -564,10 +568,10 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
             <h3 class="p-title display long">Nuestras<br>marcas</h3>
             <p class="p-text" style="color:#D7CFC2">Cada servicio lo operamos a diario en nuestras propias marcas antes de ofrecerlo.</p>
             <ul class="houses">
-              <li style="--hc:var(--orange)"><b>BaTaKá</b><span>Bebida energética</span></li>
-              <li style="--hc:var(--red);color:var(--bone)"><b>TOROTE</b><span>Ropa deportiva</span></li>
-              <li style="--hc:var(--peach)"><b>ÜINKY</b><span>Jabonería artesanal</span></li>
-              <li style="--hc:var(--teal)"><b>PORTHOS</b><span>Jabones para hombre</span></li>
+              <li><a href="https://batakataka.github.io/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--orange)"><b>BaTaKá</b><span>Bebida energética</span></a></li>
+              <li><a href="https://torotegymwear.github.io/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--red);color:var(--bone)"><b>TOROTE</b><span>Ropa deportiva</span></a></li>
+              <li><a href="https://uinkyporthos.github.io/uinky/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--peach)"><b>ÜINKY</b><span>Jabonería artesanal</span></a></li>
+              <li><a href="https://uinkyporthos.github.io/porthos/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--teal)"><b>PORTHOS</b><span>Jabones para hombre</span></a></li>
             </ul>
           </div>
           <div class="p-cta">
