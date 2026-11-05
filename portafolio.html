@@ -640,8 +640,9 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 .nav-links .nav-sub-list a::after{display:none}
 .nav-links .nav-sub-list .all{color:var(--metal)}
 @media (min-width:861px){
-  .nav-sub-list{position:absolute;top:calc(100% + 18px);left:-22px;min-width:270px;padding:14px 22px;background:rgba(10,9,8,.97);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-  .nav-links .nav-sub-list a{padding-block:7px}
+  .nav-sub-list{position:absolute;top:calc(100% + 18px);left:-22px;min-width:540px;padding:14px 22px;display:block;columns:2;column-gap:36px;background:rgba(10,9,8,.97);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .nav-links .nav-sub-list a{padding-block:7px;display:block;break-inside:avoid}
+  .nav-links .nav-sub-list a.all{column-span:all;margin-bottom:6px}
 }
 @media (max-width:860px){
   .nav-sub{width:100%;border-bottom:1px solid var(--line)}
@@ -671,17 +672,21 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
         <div class="nav-sub-list">
           <a class="all" href="servicios.html">Ver todos los servicios</a>
           <a href="servicios.html#svc-analisis-de-datos">Análisis de datos</a>
+          <a href="servicios.html#svc-analisis-de-conversaciones">Análisis de conversaciones</a>
+          <a href="servicios.html#svc-automatizacion-de-whatsapp">Automatización de WhatsApp</a>
+          <a href="servicios.html#svc-community-manager-con-ia">Community manager con IA</a>
+          <a href="servicios.html#svc-campanas-en-meta-ads">Campañas en Meta Ads</a>
+          <a href="servicios.html#svc-diseno-para-instagram">Diseño para Instagram</a>
+          <a href="servicios.html#svc-sitios-web-con-pedido-por-whatsapp">Sitios web con pedido</a>
           <a href="servicios.html#svc-video-de-marca">Video de marca</a>
           <a href="servicios.html#svc-contenido-vertical">Contenido vertical</a>
           <a href="servicios.html#svc-testimonios-y-casos">Testimonios y casos</a>
-          <a href="servicios.html#svc-fotografia-de-producto">Fotografía de producto</a>
-          <a href="servicios.html#svc-cobertura-de-eventos">Cobertura de eventos</a>
-          <a href="servicios.html#svc-doblaje-locucion-y-adr">Doblaje, locución y ADR</a>
-          <a href="servicios.html#svc-actores-y-creadores">Actores y creadores</a>
-          <a href="servicios.html#svc-cortometrajes-y-branded-content">Cortometrajes y branded content</a>
           <a href="servicios.html#svc-video-corporativo-b2b">Video corporativo B2B</a>
-          <a href="servicios.html#svc-diseno-para-instagram">Diseño para Instagram</a>
-          <a href="servicios.html#svc-automatizacion-de-whatsapp">Automatización de WhatsApp</a>
+          <a href="servicios.html#svc-cortometrajes-y-branded-content">Cortometrajes y branded content</a>
+          <a href="servicios.html#svc-cobertura-de-eventos">Cobertura de eventos</a>
+          <a href="servicios.html#svc-fotografia-de-producto">Fotografía de producto</a>
+          <a href="servicios.html#svc-actores-y-creadores">Actores y creadores</a>
+          <a href="servicios.html#svc-doblaje-locucion-y-adr">Doblaje, locución y ADR</a>
         </div>
       </details>
       <a href="portafolio.html" aria-current="page">Fotografía</a>

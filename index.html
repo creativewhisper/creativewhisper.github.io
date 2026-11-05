@@ -611,8 +611,9 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
 .nav-links .nav-sub-list a::after{display:none}
 .nav-links .nav-sub-list .all{color:var(--metal)}
 @media (min-width:861px){
-  .nav-sub-list{position:absolute;top:calc(100% + 18px);left:-22px;min-width:270px;padding:14px 22px;background:rgba(10,9,8,.97);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
-  .nav-links .nav-sub-list a{padding-block:7px}
+  .nav-sub-list{position:absolute;top:calc(100% + 18px);left:-22px;min-width:540px;padding:14px 22px;display:block;columns:2;column-gap:36px;background:rgba(10,9,8,.97);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)}
+  .nav-links .nav-sub-list a{padding-block:7px;display:block;break-inside:avoid}
+  .nav-links .nav-sub-list a.all{column-span:all;margin-bottom:6px}
 }
 @media (max-width:860px){
   .nav-sub{width:100%;border-bottom:1px solid var(--line)}
@@ -663,17 +664,21 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
         <div class="nav-sub-list">
           <a class="all" href="servicios.html">Ver todos los servicios</a>
           <a href="servicios.html#svc-analisis-de-datos">Análisis de datos</a>
+          <a href="servicios.html#svc-analisis-de-conversaciones">Análisis de conversaciones</a>
+          <a href="servicios.html#svc-automatizacion-de-whatsapp">Automatización de WhatsApp</a>
+          <a href="servicios.html#svc-community-manager-con-ia">Community manager con IA</a>
+          <a href="servicios.html#svc-campanas-en-meta-ads">Campañas en Meta Ads</a>
+          <a href="servicios.html#svc-diseno-para-instagram">Diseño para Instagram</a>
+          <a href="servicios.html#svc-sitios-web-con-pedido-por-whatsapp">Sitios web con pedido</a>
           <a href="servicios.html#svc-video-de-marca">Video de marca</a>
           <a href="servicios.html#svc-contenido-vertical">Contenido vertical</a>
           <a href="servicios.html#svc-testimonios-y-casos">Testimonios y casos</a>
-          <a href="servicios.html#svc-fotografia-de-producto">Fotografía de producto</a>
-          <a href="servicios.html#svc-cobertura-de-eventos">Cobertura de eventos</a>
-          <a href="servicios.html#svc-doblaje-locucion-y-adr">Doblaje, locución y ADR</a>
-          <a href="servicios.html#svc-actores-y-creadores">Actores y creadores</a>
-          <a href="servicios.html#svc-cortometrajes-y-branded-content">Cortometrajes y branded content</a>
           <a href="servicios.html#svc-video-corporativo-b2b">Video corporativo B2B</a>
-          <a href="servicios.html#svc-diseno-para-instagram">Diseño para Instagram</a>
-          <a href="servicios.html#svc-automatizacion-de-whatsapp">Automatización de WhatsApp</a>
+          <a href="servicios.html#svc-cortometrajes-y-branded-content">Cortometrajes y branded content</a>
+          <a href="servicios.html#svc-cobertura-de-eventos">Cobertura de eventos</a>
+          <a href="servicios.html#svc-fotografia-de-producto">Fotografía de producto</a>
+          <a href="servicios.html#svc-actores-y-creadores">Actores y creadores</a>
+          <a href="servicios.html#svc-doblaje-locucion-y-adr">Doblaje, locución y ADR</a>
         </div>
       </details>
       <a href="portafolio.html">Fotografía</a>
@@ -903,11 +908,36 @@ html.intro-playing .hero-title .ln > span{animation-play-state:paused}
           <span class="mono">Power BI<br>Segmentación</span>
           <div class="svc-thumb"><img src="assets/datos/codigo.webp" alt="Código de análisis de datos en pantalla" loading="lazy"></div>
         </li>
+        <li class="svc" data-img="assets/srv/conversaciones.webp">
+          <h3>Análisis de conversaciones</h3>
+          <p>Las conversaciones de tu marca convertidas en información clara para decidir.</p>
+          <span class="mono">Datos<br>Reportes</span>
+          <div class="svc-thumb"><img src="assets/srv/conversaciones.webp" alt="Reporte de conversaciones con indicadores y sentimiento" loading="lazy"></div>
+        </li>
         <li class="svc" data-img="assets/bts-guion.webp">
           <h3>Storytelling y guion</h3>
           <p>Encontramos la historia antes de encender la cámara: el mensaje, la estructura y el guion de cada pieza.</p>
           <span class="mono">Concepto<br>Guion</span>
           <div class="svc-thumb"><img src="assets/bts-guion.webp" alt="Guion de una producción en el set" loading="lazy"></div>
+        </li>
+        <li class="svc-group"><span class="label">Digital</span></li>
+        <li class="svc" data-img="assets/srv/whatsapp.webp">
+          <h3>Atención automatizada con IA</h3>
+          <p>Un asistente atiende tu WhatsApp y tu Instagram las 24 horas con la voz de tu marca.</p>
+          <span class="mono">WhatsApp<br>Instagram</span>
+          <div class="svc-thumb"><img src="assets/srv/whatsapp.webp" alt="Conversación de WhatsApp atendida por un asistente" loading="lazy"></div>
+        </li>
+        <li class="svc" data-img="assets/srv/meta-ads.webp">
+          <h3>Campañas y redes</h3>
+          <p>Campañas en Meta Ads y diseño para Instagram, conectados con tu producción de video.</p>
+          <span class="mono">Meta Ads<br>Instagram</span>
+          <div class="svc-thumb"><img src="assets/srv/meta-ads.webp" alt="Anuncio de Instagram con botón para escribir por WhatsApp" loading="lazy"></div>
+        </li>
+        <li class="svc" data-img="assets/srv/web-pedidos.webp">
+          <h3>Sitios web con pedido por WhatsApp</h3>
+          <p>Páginas para tu marca o tu catálogo, listas para vender desde el celular.</p>
+          <span class="mono">Web<br>Catálogo</span>
+          <div class="svc-thumb"><img src="assets/srv/web-pedidos.webp" alt="Catálogo web con pedido por WhatsApp" loading="lazy"></div>
         </li>
         <li class="svc-group"><span class="label">Producción</span></li>
         <li class="svc" data-img="assets/edicion-still.webp">
