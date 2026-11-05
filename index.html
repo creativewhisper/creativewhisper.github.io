@@ -657,7 +657,7 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 </section>
 
 <!-- 5 · CASO -->
-<section class="case" aria-labelledby="case-t" data-scene="Caso">
+<section class="case" id="caso" aria-labelledby="case-t" data-scene="Caso">
   <div class="case-stage">
     <div class="case-media"><img src="assets/cade-evento.webp" alt="Estudiantes del Colegio de Administración y Economía de la USFQ" loading="lazy"></div>
     <div class="case-shade"></div>
@@ -677,7 +677,7 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 </section>
 
 <!-- 6 · CIFRAS -->
-<section class="facts" aria-label="Cifras" data-scene="Cifras">
+<section class="facts" id="cifras" aria-label="Cifras" data-scene="Cifras">
   <div class="wrap grid">
     <div class="fact" style="--fc:var(--orange)"><div class="num"><span class="odo" data-to="700">700</span><sup>+</sup></div><p>fotografías de producto automotriz entregadas</p></div>
     <div class="fact" style="--fc:var(--peach)"><div class="num"><span class="odo" data-to="4">4</span></div><p>formatos de cada rodaje: 9:16, 4:5, 16:9 y 2.39:1</p></div>
@@ -686,7 +686,7 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 </section>
 
 <!-- preguntas -->
-<section class="faq" aria-labelledby="faq-t" data-scene="Preguntas">
+<section class="faq" id="preguntas" aria-labelledby="faq-t" data-scene="Preguntas">
   <div class="wrap">
     <div><span class="label">Preguntas frecuentes</span><h2 class="display" id="faq-t">Antes de<br>escribirnos.</h2></div>
     <div>
@@ -872,6 +872,7 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
   let lenis = null;
   if (window.Lenis && finePointer) {
     lenis = new Lenis({ lerp: .09, smoothWheel: true });
+    window.cwLenis = lenis;
     lenis.on('scroll', ScrollTrigger.update);
     gsap.ticker.add(t => lenis.raf(t * 1000));
     gsap.ticker.lagSmoothing(0);
@@ -1167,6 +1168,7 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
       evs.forEach(e => removeEventListener(e, interrupt));
       chip.classList.add('is-done'); setTimeout(() => chip.remove(), 700);
     }
+    window.sxTour = { stop };   // el asistente lo detiene al abrirse
     function tick(t) {
       if (done) return;
       const target = endY();
@@ -1204,5 +1206,29 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
   })({ end: $('#contacto'), chip: $('.sx-chip'), speed: .6, delay: 2300, offset: () => top.offsetHeight });
 })();
 </script>
+<!-- Asistente de chat y voz (archivo común en asistente/asistente.js). La información sale de la base de Creative Whisper. -->
+<script>
+window.CW_ASISTENTE = {
+  sitio: "cw",
+  tema: { fondo: "#0A0908", panel: "#14120F", panel2: "#1E1B17", texto: "#ECE6DB", suave: "#A39A8D",
+          acento: "#3EA398", acentoTexto: "#5CC2B6", sobreAcento: "#0A0908", linea: "rgba(236,230,219,.14)",
+          fuente: '"Hanken Grotesk",system-ui,-apple-system,"Segoe UI",sans-serif', titulo: '"Big Shoulders Display","Arial Narrow",Impact,sans-serif' },
+  textos: {
+    titulo: "Asistente de Creative Whisper",
+    saludo: "Hola. Soy el asistente de Creative Whisper: te cuento qué hacemos y cómo podemos ayudar a tu marca.",
+    sugerencias: ["¿Qué servicios ofrecen?", "¿Cómo trabajan?", "¿Pueden hacer un asistente así para mi web?", "¿Cómo agendo una reunión?"],
+    nota: "Asistente automático de Creative Whisper. Para agendar, usa el botón de WhatsApp."
+  },
+  cabecera: "header.top",
+  evitar: [".fab", ".sx-chip", ".hud"],
+  // punto de cada tramo animado donde ya se ve el contenido (Servicios muestra un área en cada tramo)
+  avance: { inicio: 0, enfoque: 0.85, servicios: 0.12, "servicios-datos": 0.35, "servicios-produccion": 0.5,
+            "servicios-marketing": 0.62, "servicios-automatizacion": 0.75, marcas: 0.97, trabajo: 0.1, caso: 0.8 },
+  resolver: function (id) {
+    return /^(servicios-|marcas$)/.test(id) ? document.getElementById("servicios") : null;
+  }
+};
+</script>
+<script src="asistente/asistente.js" defer></script>
 </body>
 </html>
