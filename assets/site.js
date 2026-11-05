@@ -83,6 +83,7 @@ window.cwSite = function ({ end = '#contacto', autoplay = true, speed = .6, init
     gsap.ticker.lagSmoothing(0);
   }
   k.lenis = lenis;
+  window.cwLenis = lenis;   // el asistente desplaza la página con el mismo Lenis
   const goTo = t => { if (lenis) lenis.scrollTo(t, { duration: 1.6, offset: -top.offsetHeight }); else window.scrollTo({ top: t.getBoundingClientRect().top + scrollY - top.offsetHeight + 1, behavior: 'smooth' }); };
   $$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
     const id = a.getAttribute('href'); if (id.length < 2) return;
@@ -228,6 +229,7 @@ window.cwSite = function ({ end = '#contacto', autoplay = true, speed = .6, init
       evs.forEach(e => removeEventListener(e, interrupt));
       chip.classList.add('is-done'); setTimeout(() => chip.remove(), 700);
     }
+    window.sxTour = { stop };   // el asistente lo detiene al abrirse
     function tick(t) {
       if (done) return;
       const target = endY();
