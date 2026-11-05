@@ -315,7 +315,12 @@ main{padding-top:76px}
     return Number(m[3]) + " de " + MESES[Number(m[2]) - 1] + " de " + m[1];
   }
 
+  // La propuesta se abre como una página web normal: reemplaza a esta página, sin el visor con marco.
+  // (Para volver al visor anterior, poner COMO_PAGINA = false.)
+  var COMO_PAGINA = true;
+
   function mostrar(datos){
+    if (COMO_PAGINA) { document.open(); document.write(datos.h || ""); document.close(); return; }
     $("#v-title").textContent = datos.t || "Cotización";
     $("#v-kicker").textContent = datos.c ? "Propuesta para " + datos.c : "Propuesta";
     $("#v-meta").textContent = datos.f ? "Emitida el " + fechaLarga(datos.f) : "";
