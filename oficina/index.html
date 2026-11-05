@@ -109,6 +109,7 @@ details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer
 .aviso{color:#FF8A7A;font-size:14px;min-height:18px;margin-top:8px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(90px + var(--safe-b));background:var(--texto);color:var(--cw);padding:10px 16px;border-radius:12px;font-size:15px;font-weight:600;max-width:90%;z-index:9;box-shadow:0 8px 28px rgba(0,0,0,.45)}
 .comprobante{display:block;margin:10px 0 4px}.comprobante img{width:100%;max-height:320px;object-fit:contain;border-radius:8px;background:#0003}
+.btn.enlace{display:inline-block;margin:10px 0 2px;text-decoration:none}
 </style>
 </head>
 <body>
@@ -205,17 +206,19 @@ async function cargarPara() {
 function pintarPara() {
   const tarjetas = pend.map((t) => {
     const k = t.tarjeta?.tipo === "decision" ? t.tarjeta : null, m = marcaDe(t);
-    const esIG = !!k?.ig, esPago = !!k?.pago, esEnvio = !!k?.envio, pide = !esIG && !esPago && !esEnvio && (/^(Te necesito:|Para avanzar #)/.test(t.asunto) || k?.recomendacion === "hacer");
+    const esIG = !!k?.ig, esPago = !!k?.pago, esEnvio = !!k?.envio, esRotulo = !!k?.rotulo, pide = !esIG && !esPago && !esEnvio && !esRotulo && (/^(Te necesito:|Para avanzar #)/.test(t.asunto) || k?.recomendacion === "hacer");
     const sub = [k?.por_que, k?.costo].filter(Boolean).join(" · ");
     return `<div class="card" data-id="${t.id}" style="--color:${m.color}">
       <div class="marca">${esc(m.nombre)}${k?.urgencia === "hoy" ? `<span class="hoy">Hoy</span>` : ""}</div>
       <div class="tit">${esc(k?.resumen || t.asunto)}</div>
       ${sub ? `<div class="sub">${esc(sub)}</div>` : ""}${k?.paso ? `<div class="paso">👉 ${esc(k.paso)}</div>` : ""}
       ${esIG ? `<div class="propuesta"><span>Respuesta lista:</span> ${esc(k.propuesta)}</div>` : ""}
+      ${k?.enlace ? `<a class="btn enlace" href="${esc(k.enlace)}" target="_blank" rel="noopener">📄 ${esRotulo ? "Abrir rótulo para imprimir" : "Abrir documento"}</a>` : ""}
       ${esPago && k.imagen ? `<a class="comprobante" href="${esc(k.imagen)}" target="_blank" rel="noopener"><img src="${esc(k.imagen)}" alt="Comprobante de pago" loading="lazy" onerror="this.parentNode.textContent='Abrir el comprobante (PDF)'"></a>` : ""}
       <textarea class="com" rows="1" ${esEnvio ? 'inputmode="numeric" ' : ""}placeholder="${esIG ? "Escribe otra respuesta o deja vacío para enviar la de arriba" : esEnvio ? "Número de guía de Servientrega" : esPago ? "Si no llegó, explica por qué (se lo enviamos al cliente)" : pide ? "Escribe aquí lo que te piden" : "Comentario (opcional)"}"></textarea>
       <div class="acciones">${esPago ? `<button class="btn pri" data-dec="aprobado" data-vacio="Pago correcto" data-lleno="Pago correcto">Pago correcto</button><button class="btn" data-dec="rechazado">No llegó</button>`
         : esEnvio ? `<button class="btn pri" data-dec="aprobado" data-vacio="Enviar guía al cliente" data-lleno="Enviar guía al cliente">Enviar guía al cliente</button>`
+        : esRotulo ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo entregué" data-lleno="Ya lo entregué">Ya lo entregué</button>`
         : esIG ? `<button class="btn pri" data-dec="aprobado" data-vacio="Enviar" data-lleno="Enviar la mía">Enviar</button><button class="btn" data-dec="rechazado">No responder</button>` : pide ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo hice" data-lleno="Enviar">Ya lo hice</button><button class="btn" data-dec="rechazado">Luego</button>`
         : `<button class="btn pri" data-dec="aprobado" data-vacio="Aprobar" data-lleno="Aprobar">Aprobar</button><button class="btn" data-dec="rechazado">No</button>`}</div>
       <details><summary>Más detalle · ${esc(NOMBRES[t.de_agente] ?? t.de_agente)} · #${t.id}</summary><div class="largo">${esc(t.asunto)}\n\n${esc(sinMarcas(t.historial || t.contenido))}</div></details>
