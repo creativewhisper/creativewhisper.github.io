@@ -3,5 +3,6 @@ Allow: /
 Disallow: /admin.html
 Disallow: /oficina/
 Disallow: /cotizacion.html
+Disallow: /reporte/
 
 Sitemap: https://creativewhisper.github.io/sitemap.xml
