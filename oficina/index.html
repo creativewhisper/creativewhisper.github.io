@@ -108,6 +108,7 @@ details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer
 .login .btn{width:100%}
 .aviso{color:#FF8A7A;font-size:14px;min-height:18px;margin-top:8px}
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(90px + var(--safe-b));background:var(--texto);color:var(--cw);padding:10px 16px;border-radius:12px;font-size:15px;font-weight:600;max-width:90%;z-index:9;box-shadow:0 8px 28px rgba(0,0,0,.45)}
+.comprobante{display:block;margin:10px 0 4px}.comprobante img{width:100%;max-height:320px;object-fit:contain;border-radius:8px;background:#0003}
 </style>
 </head>
 <body>
@@ -204,15 +205,18 @@ async function cargarPara() {
 function pintarPara() {
   const tarjetas = pend.map((t) => {
     const k = t.tarjeta?.tipo === "decision" ? t.tarjeta : null, m = marcaDe(t);
-    const esIG = !!k?.ig, pide = !esIG && (/^(Te necesito:|Para avanzar #)/.test(t.asunto) || k?.recomendacion === "hacer");
+    const esIG = !!k?.ig, esPago = !!k?.pago, esEnvio = !!k?.envio, pide = !esIG && !esPago && !esEnvio && (/^(Te necesito:|Para avanzar #)/.test(t.asunto) || k?.recomendacion === "hacer");
     const sub = [k?.por_que, k?.costo].filter(Boolean).join(" · ");
     return `<div class="card" data-id="${t.id}" style="--color:${m.color}">
       <div class="marca">${esc(m.nombre)}${k?.urgencia === "hoy" ? `<span class="hoy">Hoy</span>` : ""}</div>
       <div class="tit">${esc(k?.resumen || t.asunto)}</div>
       ${sub ? `<div class="sub">${esc(sub)}</div>` : ""}${k?.paso ? `<div class="paso">👉 ${esc(k.paso)}</div>` : ""}
       ${esIG ? `<div class="propuesta"><span>Respuesta lista:</span> ${esc(k.propuesta)}</div>` : ""}
-      <textarea class="com" rows="1" placeholder="${esIG ? "Escribe otra respuesta o deja vacío para enviar la de arriba" : pide ? "Escribe aquí lo que te piden" : "Comentario (opcional)"}"></textarea>
-      <div class="acciones">${esIG ? `<button class="btn pri" data-dec="aprobado" data-vacio="Enviar" data-lleno="Enviar la mía">Enviar</button><button class="btn" data-dec="rechazado">No responder</button>` : pide ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo hice" data-lleno="Enviar">Ya lo hice</button><button class="btn" data-dec="rechazado">Luego</button>`
+      ${esPago && k.imagen ? `<a class="comprobante" href="${esc(k.imagen)}" target="_blank" rel="noopener"><img src="${esc(k.imagen)}" alt="Comprobante de pago" loading="lazy" onerror="this.parentNode.textContent='Abrir el comprobante (PDF)'"></a>` : ""}
+      <textarea class="com" rows="1" ${esEnvio ? 'inputmode="numeric" ' : ""}placeholder="${esIG ? "Escribe otra respuesta o deja vacío para enviar la de arriba" : esEnvio ? "Número de guía de Servientrega" : esPago ? "Si no llegó, explica por qué (se lo enviamos al cliente)" : pide ? "Escribe aquí lo que te piden" : "Comentario (opcional)"}"></textarea>
+      <div class="acciones">${esPago ? `<button class="btn pri" data-dec="aprobado" data-vacio="Pago correcto" data-lleno="Pago correcto">Pago correcto</button><button class="btn" data-dec="rechazado">No llegó</button>`
+        : esEnvio ? `<button class="btn pri" data-dec="aprobado" data-vacio="Enviar guía al cliente" data-lleno="Enviar guía al cliente">Enviar guía al cliente</button>`
+        : esIG ? `<button class="btn pri" data-dec="aprobado" data-vacio="Enviar" data-lleno="Enviar la mía">Enviar</button><button class="btn" data-dec="rechazado">No responder</button>` : pide ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo hice" data-lleno="Enviar">Ya lo hice</button><button class="btn" data-dec="rechazado">Luego</button>`
         : `<button class="btn pri" data-dec="aprobado" data-vacio="Aprobar" data-lleno="Aprobar">Aprobar</button><button class="btn" data-dec="rechazado">No</button>`}</div>
       <details><summary>Más detalle · ${esc(NOMBRES[t.de_agente] ?? t.de_agente)} · #${t.id}</summary><div class="largo">${esc(t.asunto)}\n\n${esc(sinMarcas(t.historial || t.contenido))}</div></details>
     </div>`;
@@ -228,6 +232,7 @@ function pintarPara() {
 async function decidir(boton) {
   const card = boton.closest(".card"), id = Number(card.dataset.id), nuevo = boton.dataset.dec;
   const t = pend.find((x) => x.id === id), com = (card.querySelector(".com")?.value ?? "").trim();
+  if (t?.tarjeta?.envio && nuevo === "aprobado" && com.replace(/\D/g, "").length < 6) { toast("Escribe el número de guía primero"); card.querySelector(".com")?.focus(); return; }
   card.querySelectorAll("button").forEach((b) => (b.disabled = true));
   const cambios = { estado: nuevo };
   if (com && nuevo !== "aprobado") cambios.contenido = (t?.contenido ?? "") + `\n\n— Comentario de Matías al rechazar (${new Date().toISOString().slice(0, 10)}): ${com}`;
@@ -236,9 +241,10 @@ async function decidir(boton) {
   if (nuevo === "aprobado") {
     try {
       const x = await llamarOficina({ accion: "ejecutar_aprobado", id, comentario: com });
+      if (x.error) toast("No se pudo: " + x.error); else if (t?.tarjeta?.envio) toast("Guía enviada al cliente"); else if (t?.tarjeta?.pago) toast("Pago confirmado · el cliente ya fue avisado"); else
       toast(x.trabajan?.length ? `${com ? "Enviado" : "Listo"} · ${x.trabajan.map((a) => NOMBRES[a] ?? a).join(", ")} sigue con eso` : (com ? "Enviado" : "Listo"));
     } catch (e) { toast("Guardado, pero no pude avisar al equipo: " + e.message); }
-  } else toast(/^(Te necesito:|Para avanzar #)/.test(t?.asunto ?? "") ? "Te lo recuerdo en 7 días" : "Rechazado");
+  } else toast(t?.tarjeta?.pago ? "Le avisamos al cliente que revise el pago" : /^(Te necesito:|Para avanzar #)/.test(t?.asunto ?? "") ? "Te lo recuerdo en 7 días" : "Rechazado");
   card.style.transition = "opacity .25s"; card.style.opacity = "0";
   setTimeout(() => { pend = pend.filter((x) => x.id !== id); pintarPara(); contador(); }, 250);
 }
