@@ -4,224 +4,510 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
-<meta name="theme-color" content="#0A0908">
-<title>Escucha digital · Panel en vivo</title>
-<link rel="icon" href="../assets/monograma-cw.png">
+<meta name="theme-color" content="#032B21">
+<title>Escucha digital · Panel de gerencia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
+/* Colores por defecto (bosque); la marca del cliente los reemplaza al cargar. */
 :root{
-  color-scheme:dark;
-  --naranja:#F5A300; --rojo:#E3120B; --durazno:#FFD7BD; --verde:#3EA398; --negro:#0A0908; --beige:#CDBFA6;
-  --fondo:#0A0908; --t1:#141210; --t2:#1D1A17; --t3:#26221E; --texto:#F3EEE6; --suave:#A39A8E; --tenue:#6F675E; --linea:rgba(243,238,230,.09);
-  --pos:#3EA398; --neu:#CDBFA6; --neg:#E3120B;
-  --f:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif;
+  --g950:#021F18;--g900:#032B21;--g800:#043E2F;--g700:#0A5340;--g600:#14684F;
+  --lima:#61AD30;--lima2:#7CC24B;--lima3:#A9D98A;--menta:#DCEFD0;--crema:#EFF1E3;--papel:#F7F8F0;
+  --tinta:#0E2A22;--suave:#56675F;--linea:#D9DECB;--rojo:#D6452F;--ambar:#E9A23B;--blanco:#fff;
+  --pos:var(--lima);--neu:#C5CDB9;--neg:var(--rojo);
+  --r-lg:22px;--r-md:16px;--r-sm:12px;
+  --sombra:0 1px 2px rgba(3,43,33,.06),0 8px 24px -12px rgba(3,43,33,.18);
+  --fuente:'Manrope',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
 }
-*,*::before,*::after{box-sizing:border-box}
-html,body{margin:0;background:var(--fondo);color:var(--texto);font-family:var(--f);-webkit-font-smoothing:antialiased}
-body{min-height:100vh}
-button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
-a{color:inherit}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{font-family:var(--fuente);color:var(--tinta);background:var(--papel);line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100vh}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer;background:none;border:0;padding:0}
 .oculto{display:none!important}
-.franja{height:6px;background:linear-gradient(100deg,var(--naranja) 0 25%,var(--rojo) 25% 50%,var(--durazno) 50% 75%,var(--verde) 75% 100%)}
-.envoltura{max-width:1480px;margin:0 auto;padding:22px 28px 40px}
-/* Cabecera */
-.cab{display:flex;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:20px}
-.cab .nom{flex:1;min-width:260px}
-.cab .kicker{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--suave)}
-.vivo{display:inline-flex;align-items:center;gap:7px;color:var(--verde)}
-.vivo i{width:8px;height:8px;border-radius:50%;background:var(--verde);box-shadow:0 0 0 0 rgba(62,163,152,.6);animation:pulso 1.8s infinite}
-@keyframes pulso{70%{box-shadow:0 0 0 9px rgba(62,163,152,0)}100%{box-shadow:0 0 0 0 rgba(62,163,152,0)}}
-.cab h1{margin:6px 0 0;font-size:clamp(28px,3.4vw,44px);font-weight:800;letter-spacing:-.02em;line-height:1.05}
-.cab h1 span{color:var(--suave);font-weight:600}
-.controles{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-.seg{display:inline-flex;background:var(--t1);border:1px solid var(--linea);border-radius:12px;padding:3px}
-.seg button{padding:8px 13px;border-radius:9px;font-size:14px;font-weight:600;color:var(--suave)}
-.seg button.on{background:var(--beige);color:var(--negro)}
-.boton{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:12px;background:var(--t1);border:1px solid var(--linea);font-size:14px;font-weight:700}
-.boton.pri{background:var(--naranja);color:var(--negro);border-color:transparent}
-.boton:hover{filter:brightness(1.12)}
-.interruptor{display:inline-flex;align-items:center;gap:9px;font-size:13px;color:var(--suave);font-weight:600;cursor:pointer;user-select:none}
-.interruptor input{display:none}
-.interruptor .pista{width:36px;height:20px;border-radius:999px;background:var(--t3);position:relative;transition:background .2s}
-.interruptor .pista::after{content:"";position:absolute;top:2px;left:2px;width:16px;height:16px;border-radius:50%;background:var(--texto);transition:transform .2s}
-.interruptor input:checked + .pista{background:var(--verde)}
-.interruptor input:checked + .pista::after{transform:translateX(16px)}
-/* KPIs */
-.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px;margin-bottom:14px}
-.kpi{background:var(--t1);border:1px solid var(--linea);border-radius:18px;padding:16px 16px 14px;position:relative;overflow:hidden}
-.kpi .et{font-size:12.5px;color:var(--suave);font-weight:600}
-.kpi .v{font-size:clamp(26px,2.6vw,38px);font-weight:800;letter-spacing:-.02em;margin-top:6px;line-height:1;font-variant-numeric:tabular-nums}
-.kpi .v small{font-size:.5em;color:var(--suave);font-weight:700;margin-left:2px}
-.kpi .d{font-size:12.5px;margin-top:8px;color:var(--suave);font-weight:600}
-.kpi .d.sube{color:var(--verde)} .kpi .d.baja{color:#FF6A5E}
-.kpi.alerta{border-color:rgba(227,18,11,.55);background:linear-gradient(180deg,rgba(227,18,11,.14),var(--t1))}
-.kpi .barra{position:absolute;left:0;bottom:0;height:3px;background:var(--naranja)}
-.medidor{height:8px;border-radius:99px;background:var(--t3);margin-top:10px;overflow:hidden}
-.medidor i{display:block;height:100%;border-radius:99px;background:linear-gradient(90deg,var(--rojo),var(--naranja),var(--verde));background-size:300% 100%}
-/* Rejilla */
-.rejilla{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(0,1fr);gap:14px}
-.col{display:flex;flex-direction:column;gap:14px;min-width:0}
-.caja{background:var(--t1);border:1px solid var(--linea);border-radius:20px;padding:18px 18px 16px;min-width:0}
-.caja h2{margin:0 0 12px;font-size:15px;font-weight:700;display:flex;align-items:center;gap:10px}
-.caja h2 .n{margin-left:auto;font-size:12px;color:var(--suave);font-weight:600}
-.dos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
-/* Serie */
-.serie svg{width:100%;height:190px;display:block}
-.leyenda{display:flex;gap:16px;flex-wrap:wrap;font-size:12.5px;color:var(--suave);margin-top:6px}
-.leyenda i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
-/* Distribución */
-.dist{display:flex;height:14px;border-radius:99px;overflow:hidden;background:var(--t3)}
-.dist i{display:block;height:100%;transition:width .6s}
-.dist-l{display:flex;justify-content:space-between;margin-top:10px;font-size:13px;color:var(--suave);gap:8px;flex-wrap:wrap}
-.dist-l b{color:var(--texto);font-size:18px;display:block}
-/* Barras */
-.fila-b{display:grid;grid-template-columns:minmax(0,150px) minmax(0,1fr) 44px;gap:10px;align-items:center;font-size:13.5px;margin:7px 0}
-.fila-b span:first-child{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--texto)}
-.fila-b .b{height:10px;border-radius:99px;background:var(--t3);overflow:hidden;display:flex}
-.fila-b .b i{display:block;height:100%}
-.fila-b .num{text-align:right;color:var(--suave);font-variant-numeric:tabular-nums}
-/* Casos */
-.casos{display:flex;flex-direction:column;gap:8px;max-height:520px;overflow:auto;padding-right:4px}
-.caso{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:start;background:var(--t2);border-radius:14px;padding:12px 12px 12px 14px;border-left:4px solid var(--tenue);transition:background .4s}
-.caso.alta{border-left-color:var(--rojo)} .caso.media{border-left-color:var(--naranja)} .caso.baja{border-left-color:var(--beige)}
-.caso.resuelto{opacity:.55}
-.caso.nuevo{background:rgba(245,163,0,.16);animation:entra .6s}
-@keyframes entra{from{transform:translateY(-6px);opacity:0}to{transform:none;opacity:1}}
-.caso .ico{width:34px;height:34px;border-radius:10px;background:var(--t3);display:grid;place-items:center;font-size:16px}
-.caso .r{font-weight:700;font-size:14.5px;line-height:1.3}
-.caso .m{font-size:12.5px;color:var(--suave);margin-top:3px;display:flex;gap:8px;flex-wrap:wrap}
-.chip{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;border-radius:6px;padding:2px 7px}
-.chip.alta{background:var(--rojo);color:#fff} .chip.media{background:var(--naranja);color:var(--negro)} .chip.baja{background:var(--beige);color:var(--negro)}
-.chip.abierto{background:rgba(227,18,11,.18);color:#FF8A7A} .chip.en_proceso{background:rgba(245,163,0,.18);color:var(--naranja)} .chip.resuelto{background:rgba(62,163,152,.18);color:var(--verde)}
-.chip.ejemplo{background:var(--t3);color:var(--tenue)}
-.caso .acc{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
-.caso .acc button{font-size:12px;font-weight:700;padding:6px 10px;border-radius:8px;background:var(--t3);white-space:nowrap}
-.caso .acc button.ok{background:var(--verde);color:var(--negro)}
-/* Feed */
-.feed{display:flex;flex-direction:column;gap:8px;max-height:760px;overflow:auto;padding-right:4px}
-.msg{background:var(--t2);border-radius:14px;padding:11px 12px;display:grid;grid-template-columns:30px 1fr;gap:10px}
-.msg.nuevo{animation:entra .6s;background:rgba(62,163,152,.13)}
-.msg .c{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;font-size:12px;font-weight:800;color:var(--negro)}
-.msg .t{font-size:14px;line-height:1.35;word-wrap:break-word}
-.msg .m{font-size:12px;color:var(--suave);margin-top:5px;display:flex;gap:7px;flex-wrap:wrap;align-items:center}
-.sent{width:8px;height:8px;border-radius:50%;display:inline-block}
-.cat{font-size:11px;font-weight:700;border:1px solid var(--linea);border-radius:6px;padding:1px 6px;color:var(--texto)}
-.cat.queja{border-color:rgba(227,18,11,.5);color:#FF8A7A} .cat.felicitacion{border-color:rgba(62,163,152,.5);color:var(--verde)} .cat.interes{border-color:rgba(245,163,0,.5);color:var(--naranja)} .cat.sugerencia{border-color:rgba(255,215,189,.5);color:var(--durazno)}
-/* Preguntas y destacados */
-.lista{margin:0;padding:0;list-style:none}
-.lista li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--linea);font-size:14px}
-.lista li b{margin-left:auto;color:var(--suave);font-weight:600}
-.cita{background:var(--t2);border-radius:12px;padding:10px 12px;font-size:13.5px;margin-bottom:8px;border-left:3px solid var(--verde)}
-.cita.neg{border-left-color:var(--rojo)}
-.cita small{display:block;color:var(--suave);margin-top:4px;font-size:11.5px}
+.num{font-variant-numeric:tabular-nums}
+
+/* ---------- Encabezado ---------- */
+.top{background:var(--g900);color:#fff;position:relative;overflow:hidden}
+.top::after{content:"";position:absolute;right:-60px;top:-80px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(124,194,75,.18),transparent 65%);pointer-events:none}
+.top-in{max-width:1440px;margin:0 auto;padding:16px 22px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap;position:relative;z-index:1}
+.logo{width:150px;aspect-ratio:3.4;background:var(--lima);-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat;flex:none}
+.logo:not(.lista):not(.sin){visibility:hidden}
+.logo.sin{background:none;-webkit-mask:none;mask:none;font-weight:800;font-size:22px;color:var(--lima2);aspect-ratio:auto;width:auto}
+.sep{width:1px;height:38px;background:rgba(255,255,255,.18)}
+.tit{flex:1;min-width:200px}
+.tit h1{margin:0;font-size:20px;font-weight:800;letter-spacing:-.01em}
+.tit .sub{display:flex;align-items:center;gap:10px;flex-wrap:wrap;font-size:12.5px;color:rgba(255,255,255,.72);margin-top:3px}
+.vivo{display:inline-flex;align-items:center;gap:6px;font-weight:800;color:var(--lima2);text-transform:uppercase;letter-spacing:.06em;font-size:11px}
+.vivo i{width:8px;height:8px;border-radius:50%;background:var(--lima2);box-shadow:0 0 0 0 rgba(124,194,75,.6);animation:late 1.8s infinite}
+@keyframes late{0%{box-shadow:0 0 0 0 rgba(124,194,75,.55)}70%{box-shadow:0 0 0 9px rgba(124,194,75,0)}100%{box-shadow:0 0 0 0 rgba(124,194,75,0)}}
+.bosco{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:999px;padding:5px 14px 5px 5px}
+.bosco img{width:38px;height:38px;border-radius:50%;object-fit:cover;background:var(--g800);display:block}
+.bosco b{display:block;font-size:13.5px;line-height:1.15}
+.bosco span{font-size:11.5px;color:var(--lima3)}
+.acciones{display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;font-weight:800;font-size:13px;border-radius:999px;padding:10px 16px;white-space:nowrap;transition:transform .12s,background .2s,border-color .2s}
+.btn:active{transform:scale(.97)}
+.btn-lima{background:var(--lima);color:var(--g950)}
+.btn-lima:hover{background:var(--lima2)}
+.btn-borde{border:1.5px solid rgba(255,255,255,.35);color:#fff}
+.btn-borde:hover{border-color:var(--lima2)}
+.btn-claro{background:var(--blanco);border:1.5px solid var(--linea);color:var(--g800)}
+.btn-claro:hover{border-color:var(--lima)}
+.btn-verde{background:var(--g800);color:#fff}
+.btn-verde:hover{background:var(--g700)}
+.btn-rojo{background:var(--rojo);color:#fff}
+.btn:disabled{opacity:.5;cursor:default}
+
+/* ---------- Filtros ---------- */
+.filtros{position:sticky;top:0;z-index:20;background:rgba(247,248,240,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--linea)}
+.filtros-in{max-width:1440px;margin:0 auto;padding:10px 22px;display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none}
+.filtros-in::-webkit-scrollbar{display:none}
+.seg{display:inline-flex;background:var(--crema);border-radius:999px;padding:3px;flex:none}
+.seg button{padding:7px 13px;border-radius:999px;font-weight:700;font-size:13px;color:var(--suave)}
+.seg button.on{background:var(--g800);color:#fff}
+.fb{flex:none;display:inline-flex;align-items:center;gap:6px;padding:8px 13px;border-radius:999px;border:1.5px solid var(--linea);background:var(--blanco);font-weight:700;font-size:13px;color:var(--g800)}
+.fb:hover{border-color:var(--lima)}
+.fb.act{border-color:var(--g800);background:var(--g800);color:#fff}
+.fb .n{background:var(--lima);color:var(--g950);border-radius:999px;font-size:11px;padding:1px 7px}
+.fb svg{width:12px;height:12px;fill:currentColor;opacity:.7}
+.buscar{flex:1 0 180px;display:flex;align-items:center;gap:7px;padding:0 13px;border-radius:999px;border:1.5px solid var(--linea);background:var(--blanco);min-width:170px;max-width:320px}
+.buscar input{border:0;outline:0;background:none;padding:8px 0;font-size:13.5px;width:100%}
+.buscar svg{width:15px;height:15px;fill:var(--suave);flex:none}
+.sw{flex:none;display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:700;color:var(--suave);cursor:pointer;padding:0 4px;white-space:nowrap}
+.sw input{display:none}
+.sw .p{width:34px;height:20px;border-radius:999px;background:var(--linea);position:relative;transition:.2s}
+.sw .p::after{content:"";position:absolute;left:3px;top:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:.2s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.sw input:checked+.p{background:var(--lima)}
+.sw input:checked+.p::after{left:17px}
+.activos{max-width:1440px;margin:0 auto;padding:0 22px 10px;display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.activos:empty{display:none}
+.chipf{display:inline-flex;align-items:center;gap:6px;background:var(--menta);color:var(--g800);border-radius:999px;padding:5px 7px 5px 11px;font-size:12.5px;font-weight:700}
+.chipf small{font-weight:600;color:var(--suave)}
+.chipf button{width:18px;height:18px;border-radius:50%;background:rgba(4,62,47,.12);font-size:11px;line-height:18px;text-align:center}
+.limpiar{font-size:12.5px;font-weight:800;color:var(--rojo);padding:5px 8px}
+.pop{position:fixed;z-index:60;background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-md);box-shadow:0 18px 50px -12px rgba(3,43,33,.35);padding:8px;min-width:230px;max-width:min(320px,92vw);max-height:min(420px,70vh);overflow:auto}
+.pop h4{margin:4px 8px 6px;font-size:11.5px;text-transform:uppercase;letter-spacing:.06em;color:var(--suave)}
+.pop label{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;cursor:pointer;font-size:14px;font-weight:600}
+.pop label:hover{background:var(--crema)}
+.pop input{accent-color:var(--g800);width:16px;height:16px}
+.pop .cnt{margin-left:auto;color:var(--suave);font-size:12.5px}
+.pop .pie{display:flex;justify-content:space-between;border-top:1px solid var(--linea);margin-top:6px;padding:8px 6px 2px}
+.pop .pie button{font-weight:800;font-size:12.5px;color:var(--g700)}
+.punto{width:10px;height:10px;border-radius:50%;flex:none}
+
+/* ---------- Pestañas ---------- */
+.envoltura{max-width:1440px;margin:0 auto;padding:16px 22px 40px}
+.tabs{display:flex;gap:4px;margin:2px 0 16px;border-bottom:1px solid var(--linea);overflow-x:auto;scrollbar-width:none}
+.tabs button{padding:11px 16px;font-weight:800;font-size:14.5px;color:var(--suave);border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;display:inline-flex;gap:8px;align-items:center}
+.tabs button.on{color:var(--g800);border-color:var(--lima)}
+.tabs .b{background:var(--rojo);color:#fff;border-radius:999px;font-size:11.5px;padding:1px 8px}
+.tabs .b.cero{background:var(--crema);color:var(--suave)}
+.aviso-demo{display:flex;align-items:center;gap:10px;background:var(--crema);border:1px dashed var(--lima3);border-radius:var(--r-sm);padding:9px 14px;font-size:13px;color:var(--suave);margin-bottom:14px}
+.aviso-demo b{color:var(--g800)}
+
+/* ---------- Tarjetas ---------- */
+.rejilla{display:grid;gap:14px}
+.k6{grid-template-columns:repeat(6,minmax(0,1fr))}
+.c3{grid-template-columns:2fr 1fr}
+.c33{grid-template-columns:repeat(3,minmax(0,1fr))}
+.caja{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-lg);padding:18px 18px 16px;box-shadow:var(--sombra);min-width:0}
+.caja h2{margin:0 0 12px;font-size:15px;font-weight:800;color:var(--g800);display:flex;align-items:center;gap:8px;letter-spacing:-.005em}
+.caja h2 .d{margin-left:auto;font-size:12px;font-weight:600;color:var(--suave)}
+.caja h2 .ic{width:28px;height:28px;border-radius:9px;background:var(--menta);display:grid;place-items:center;font-size:14px}
+.vacio{color:var(--suave);font-size:13.5px;padding:10px 2px}
+.kpi{position:relative;cursor:default}
+.kpi.click{cursor:pointer}
+.kpi.click:hover{border-color:var(--lima)}
+.kpi .et{font-size:12.5px;font-weight:700;color:var(--suave);display:flex;align-items:center;gap:7px}
+.kpi .v{font-size:32px;font-weight:800;letter-spacing:-.03em;color:var(--g800);margin:6px 0 2px;line-height:1.05}
+.kpi .v small{font-size:15px;font-weight:700;color:var(--suave);margin-left:2px}
+.kpi .dl{font-size:12.5px;font-weight:700;color:var(--suave)}
+.kpi .dl.sube{color:var(--g600)}
+.kpi .dl.baja{color:var(--rojo)}
+.kpi.alerta{border-color:rgba(214,69,47,.45);background:linear-gradient(180deg,#fff,#FDF1EE)}
+.kpi.alerta .v{color:var(--rojo)}
+.medidor{height:7px;border-radius:999px;background:linear-gradient(90deg,var(--rojo),var(--ambar) 45%,var(--lima) 75%);position:relative;margin:8px 0 6px}
+.medidor i{position:absolute;top:-4px;width:4px;height:15px;border-radius:3px;background:var(--g900);transform:translateX(-2px)}
+.estrellas{color:var(--ambar);letter-spacing:1px;font-size:13px}
+
+/* Gráficos */
+.graf svg{display:block;width:100%;height:auto}
+.graf .barra{cursor:pointer;transition:opacity .15s}
+.graf .barra:hover{opacity:.8}
+.graf .sel{outline:none}
+.ley{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--suave);margin-top:8px}
+.ley span{display:inline-flex;align-items:center;gap:6px}
+.ley i{width:11px;height:11px;border-radius:3px;display:inline-block}
+.fila-b{display:grid;grid-template-columns:minmax(0,140px) minmax(0,1fr) 46px;gap:10px;align-items:center;padding:6px 6px;border-radius:10px;cursor:pointer;font-size:13.5px}
+.fila-b:hover{background:var(--crema)}
+.fila-b.on{background:var(--menta)}
+.fila-b.apagada{opacity:.4}
+.fila-b .nm{display:flex;align-items:center;gap:8px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fila-b .bb{height:10px;border-radius:999px;background:var(--crema);overflow:hidden;display:flex}
+.fila-b .bb i{display:block;height:100%}
+.fila-b .num{text-align:right;font-weight:800;color:var(--g800)}
+.dona{display:flex;align-items:center;gap:16px}
+.dona svg{width:132px;height:132px;flex:none}
+.dona .lst{flex:1;display:grid;gap:4px}
+.dona .lst button{display:flex;align-items:center;gap:8px;padding:6px 8px;border-radius:10px;font-size:13.5px;font-weight:700;text-align:left}
+.dona .lst button:hover{background:var(--crema)}
+.dona .lst button.on{background:var(--menta)}
+.dona .lst b{margin-left:auto}
+.calor{display:grid;grid-template-columns:34px repeat(13,minmax(0,1fr));gap:3px;font-size:10.5px;color:var(--suave)}
+.calor .c{aspect-ratio:1.25;border-radius:5px;cursor:pointer;transition:transform .1s}
+.calor .c:hover{transform:scale(1.12)}
+.calor .c.on{outline:2.5px solid var(--g900);outline-offset:1px}
+.calor .h{text-align:center}
+.calor .dl{display:flex;align-items:center;font-weight:700}
+.modo{display:inline-flex;background:var(--crema);border-radius:999px;padding:2px;margin-left:auto}
+.modo button{font-size:11.5px;font-weight:800;padding:4px 10px;border-radius:999px;color:var(--suave)}
+.modo button.on{background:var(--blanco);color:var(--g800);box-shadow:0 1px 2px rgba(0,0,0,.08)}
+.pregs{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.pregs li{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 10px;border-radius:10px;cursor:pointer;font-size:13.5px;font-weight:600;position:relative;overflow:hidden}
+.pregs li::before{content:"";position:absolute;inset:0;width:var(--w);background:var(--crema);z-index:0;border-radius:10px}
+.pregs li>*{position:relative}
+.pregs li:hover::before{background:var(--menta)}
+.pregs li.on{outline:2px solid var(--lima)}
+.pregs b{color:var(--g800)}
+.cita{border-left:3px solid var(--lima);background:var(--crema);border-radius:0 12px 12px 0;padding:9px 12px;margin-bottom:8px;font-size:13.5px}
+.cita.neg{border-color:var(--rojo);background:#FBEDEA}
+.cita small{display:block;color:var(--suave);font-size:11.5px;margin-top:3px;font-weight:600}
+
+/* Mensajes */
+.msg{display:grid;grid-template-columns:34px minmax(0,1fr);gap:10px;padding:10px 6px;border-bottom:1px solid var(--crema);border-radius:10px}
+.msg:last-child{border-bottom:0}
+.msg.click{cursor:pointer}
+.msg.click:hover{background:var(--crema)}
+.msg.nuevo{animation:brilla 2.4s ease-out}
+@keyframes brilla{0%{background:var(--menta)}100%{background:transparent}}
+.msg .cn{width:34px;height:34px;border-radius:11px;display:grid;place-items:center;color:#fff;font-weight:800;font-size:12px}
+.msg .t{font-size:14px;font-weight:600;overflow-wrap:anywhere}
+.msg .m{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin-top:4px;font-size:12px;color:var(--suave)}
+.tag{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:800;background:var(--crema);color:var(--g800)}
+.tag.queja{background:#FBE3DE;color:#A2321F}
+.tag.felicitacion{background:var(--menta);color:var(--g700)}
+.tag.sugerencia{background:#FFF0D6;color:#8C5A0B}
+.tag.interes{background:#E3F0FA;color:#245A86}
+.tag.ejemplo{background:transparent;border:1px dashed var(--lima3);color:var(--suave);font-weight:700}
+.tag.alta{background:var(--rojo);color:#fff}
+.tag.media{background:var(--ambar);color:#3B2600}
+.tag.baja{background:var(--lima3);color:var(--g900)}
+.tag.abierto{background:#FBE3DE;color:#A2321F}
+.tag.en_proceso{background:#FFF0D6;color:#8C5A0B}
+.tag.resuelto{background:var(--menta);color:var(--g700)}
+.sd{width:8px;height:8px;border-radius:50%;display:inline-block}
+.mas{display:block;margin:12px auto 0}
+
+/* Tablero de casos */
+.resumen-casos{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;margin-bottom:14px}
+.resumen-casos .caja{padding:14px 16px}
+.resumen-casos .v{font-size:26px;font-weight:800;color:var(--g800);letter-spacing:-.02em}
+.resumen-casos .et{font-size:12.5px;font-weight:700;color:var(--suave)}
+.kanban{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;align-items:start}
+.col{background:var(--crema);border-radius:var(--r-lg);padding:12px;min-width:0}
+.col h3{margin:2px 4px 10px;font-size:14px;font-weight:800;display:flex;align-items:center;gap:8px;color:var(--g800)}
+.col h3 .n{margin-left:auto;background:var(--blanco);border-radius:999px;padding:1px 9px;font-size:12px}
+.col h3 .pt{width:10px;height:10px;border-radius:50%}
+.tarjeta{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-md);padding:12px 12px 10px 14px;margin-bottom:9px;cursor:pointer;position:relative;overflow:hidden;transition:transform .12s,box-shadow .2s}
+.tarjeta:hover{box-shadow:var(--sombra);transform:translateY(-1px)}
+.tarjeta::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--lima3)}
+.tarjeta.alta::before{background:var(--rojo)}
+.tarjeta.media::before{background:var(--ambar)}
+.tarjeta.nuevo{animation:pulso 1.2s ease-out 3}
+@keyframes pulso{0%{box-shadow:0 0 0 0 rgba(214,69,47,.55)}100%{box-shadow:0 0 0 12px rgba(214,69,47,0)}}
+.tarjeta .r{font-weight:700;font-size:14px;line-height:1.35}
+.tarjeta .ar{display:flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--suave);margin-bottom:5px}
+.tarjeta .ar .cod{margin-left:auto;font-weight:700}
+.tarjeta .m{display:flex;flex-wrap:wrap;gap:5px 10px;font-size:12px;color:var(--suave);margin-top:7px}
+.tarjeta .acc{display:flex;gap:6px;margin-top:9px}
+.tarjeta .acc .btn{padding:7px 12px;font-size:12px}
+.colsel{display:none}
+
+/* Panel lateral del caso */
+.velo{position:fixed;inset:0;background:rgba(2,31,24,.45);z-index:70;display:flex;justify-content:flex-end;opacity:0;pointer-events:none;transition:opacity .2s}
+.velo.on{opacity:1;pointer-events:auto}
+.lateral{width:min(520px,100%);height:100%;background:var(--papel);overflow:auto;transform:translateX(30px);transition:transform .22s;display:flex;flex-direction:column}
+.velo.on .lateral{transform:none}
+.lat-cab{background:var(--g900);color:#fff;padding:18px 20px 16px;position:sticky;top:0;z-index:2}
+.lat-cab .x{position:absolute;right:14px;top:14px;width:34px;height:34px;border-radius:50%;background:rgba(255,255,255,.12);font-size:16px}
+.lat-cab .cod{font-size:12.5px;font-weight:800;color:var(--lima2);letter-spacing:.04em}
+.lat-cab h3{margin:6px 40px 10px 0;font-size:19px;line-height:1.3}
+.lat-cuerpo{padding:16px 20px 30px;display:grid;gap:14px}
+.datos{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.datos div{background:var(--blanco);border:1px solid var(--linea);border-radius:12px;padding:9px 12px}
+.datos small{display:block;font-size:11px;font-weight:800;color:var(--suave);text-transform:uppercase;letter-spacing:.05em}
+.datos b{font-size:14px}
+.linea-t{display:grid;gap:0;background:var(--blanco);border:1px solid var(--linea);border-radius:14px;padding:12px 14px}
+.paso{display:grid;grid-template-columns:20px 1fr auto;gap:10px;align-items:center;padding:6px 0;font-size:13.5px;font-weight:700;color:var(--suave)}
+.paso i{width:14px;height:14px;border-radius:50%;border:2.5px solid var(--linea);background:var(--blanco)}
+.paso.ok{color:var(--g800)}
+.paso.ok i{background:var(--lima);border-color:var(--lima)}
+.paso small{font-weight:600;font-size:12px}
+.conv{background:#EFEAE2;border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:6px;max-height:420px;overflow:auto}
+.conv .bu{max-width:85%;padding:7px 10px;border-radius:10px;font-size:13.5px;box-shadow:0 1px .5px rgba(11,20,26,.13);overflow-wrap:anywhere;white-space:pre-wrap}
+.conv .bu.v{align-self:flex-start;background:#fff}
+.conv .bu.a{align-self:flex-end;background:#D9FDD3}
+.conv .bu .quien{display:block;font-size:11px;font-weight:800;color:var(--g700);margin-bottom:2px}
+.conv .bu small{display:block;font-size:10.5px;color:#667781;text-align:right;margin-top:2px}
+.conv .q{align-self:center;font-size:11.5px;color:#54656F;background:#fff;border-radius:8px;padding:3px 10px}
+.nota{width:100%;border:1.5px solid var(--linea);border-radius:12px;padding:10px 12px;min-height:64px;resize:vertical;background:var(--blanco);font-size:14px}
+.nota:focus{outline:none;border-color:var(--lima)}
+.lat-acc{display:flex;gap:8px;flex-wrap:wrap}
+
 /* Reporte */
-.reporte{white-space:pre-wrap;font-size:15px;line-height:1.55;color:var(--texto)}
-.reporte .tit{font-weight:800;color:var(--naranja)}
-.pie{margin-top:26px;display:flex;gap:16px;flex-wrap:wrap;justify-content:space-between;color:var(--tenue);font-size:12.5px}
-/* Toast de alerta */
-.toast{position:fixed;right:24px;top:24px;z-index:30;width:min(420px,calc(100vw - 32px));background:#1E0B09;border:1px solid rgba(227,18,11,.7);border-radius:16px;padding:14px 16px;box-shadow:0 18px 48px rgba(0,0,0,.6);animation:entra .4s}
-.toast b{display:block;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:#FF8A7A}
-.toast p{margin:6px 0 0;font-size:15.5px;font-weight:600}
-.toast small{color:var(--suave)}
-/* Modal QR */
-.velo{position:fixed;inset:0;background:rgba(0,0,0,.72);display:grid;place-items:center;z-index:40;padding:16px}
-.modal{background:var(--t1);border:1px solid var(--linea);border-radius:22px;padding:22px;max-width:380px;width:100%;text-align:center}
-.modal h3{margin:0 0 6px;font-size:20px}
-.modal p{color:var(--suave);font-size:14px;margin:0 0 14px}
-.modal .qr{background:#fff;border-radius:16px;padding:14px;display:inline-block}
-.modal .qr img,.modal .qr canvas{display:block;width:240px;height:240px;image-rendering:pixelated}
-.modal a.boton{margin-top:14px;justify-content:center}
-/* Estados */
-.pantalla{min-height:70vh;display:grid;place-items:center;text-align:center;padding:30px}
-.pantalla h2{font-size:clamp(26px,3vw,38px);margin:10px 0}
-.pantalla p{color:var(--suave);max-width:520px;margin:0 auto;font-size:16px;line-height:1.5}
-.candado{width:64px;height:64px;border-radius:18px;background:var(--t2);display:grid;place-items:center;margin:0 auto;font-size:28px}
-.nota-demo{font-size:12px;color:var(--tenue);margin-top:4px}
-@media (max-width:1180px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}.rejilla{grid-template-columns:1fr}.feed{max-height:520px}}
-@media (max-width:640px){.envoltura{padding:16px 16px 30px}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.dos{grid-template-columns:1fr}.fila-b{grid-template-columns:minmax(0,110px) minmax(0,1fr) 40px}.caso{grid-template-columns:1fr}.caso .ico{display:none}.caso .acc{flex-direction:row;align-items:center}}
+.reporte{white-space:pre-wrap;font-size:14.5px;line-height:1.6}
+.reporte .tt{display:block;font-weight:800;color:var(--g800);margin-top:10px}
+
+/* Avisos, QR y pantallas */
+#toasts{position:fixed;right:18px;top:18px;z-index:90;display:grid;gap:10px;width:min(380px,calc(100vw - 36px))}
+.toast{background:var(--g900);color:#fff;border-radius:16px;padding:14px 16px;box-shadow:0 20px 50px -14px rgba(0,0,0,.5);border-left:5px solid var(--ambar);animation:entra .3s ease-out;cursor:pointer}
+.toast.alta{border-color:var(--rojo)}
+.toast b{display:block;font-size:14px}
+.toast p{margin:4px 0 2px;font-size:13.5px;color:rgba(255,255,255,.88)}
+.toast small{color:var(--lima3);font-size:12px;font-weight:700}
+@keyframes entra{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:none}}
+.modal-velo{position:fixed;inset:0;background:rgba(2,31,24,.55);z-index:80;display:grid;place-items:center;padding:16px}
+.modal{background:var(--blanco);border-radius:24px;padding:22px;width:min(420px,100%);text-align:center;box-shadow:0 30px 80px -20px rgba(0,0,0,.5)}
+.modal h3{margin:0 0 6px;font-size:19px;color:var(--g800)}
+.modal p{margin:0 0 14px;color:var(--suave);font-size:14px}
+.modal .seg{margin-bottom:14px}
+.modal .qr{background:#fff;border:1px solid var(--linea);border-radius:18px;padding:14px;display:inline-block;position:relative}
+.modal .qr img{display:block;width:230px;height:230px;image-rendering:pixelated}
+.modal .qr .cara{position:absolute;left:50%;top:50%;width:52px;height:52px;margin:-26px 0 0 -26px;border-radius:50%;border:4px solid #fff;object-fit:cover;background:#fff;image-rendering:auto}
+.modal .pie{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.pantalla{min-height:100vh;display:grid;place-items:center;text-align:center;padding:24px;background:var(--g900);color:#fff}
+.pantalla .logo{margin:0 auto 22px;width:190px}
+.pantalla h2{margin:0 0 8px;font-size:24px}
+.pantalla p{max-width:460px;margin:0 auto;color:rgba(255,255,255,.75)}
+.pantalla .ico{width:66px;height:66px;border-radius:20px;background:rgba(255,255,255,.1);display:grid;place-items:center;margin:0 auto 16px;font-size:28px}
+#tip{position:fixed;z-index:95;pointer-events:none;background:var(--g950);color:#fff;font-size:12.5px;font-weight:600;padding:7px 10px;border-radius:10px;max-width:260px;opacity:0;transition:opacity .12s;box-shadow:0 8px 20px rgba(0,0,0,.25)}
+#tip.on{opacity:1}
+.pie-pag{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;color:var(--suave);font-size:12px;margin-top:22px}
+
+@media (max-width:1240px){.k6{grid-template-columns:repeat(3,minmax(0,1fr))}.c33{grid-template-columns:1fr 1fr}.resumen-casos{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:980px){.c3{grid-template-columns:1fr}.c33{grid-template-columns:1fr}}
+@media (max-width:760px){
+  .top-in{padding:14px 16px;gap:12px}.logo{width:118px}.sep{display:none}.tit h1{font-size:17px}
+  .bosco{order:3}.acciones{order:4;width:100%}.acciones .btn{flex:1}
+  .filtros-in{padding:9px 16px}.activos{padding:0 16px 9px}.envoltura{padding:12px 16px 30px}
+  .k6{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi .v{font-size:26px}.caja{padding:15px 14px;border-radius:18px}
+  .resumen-casos{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kanban{grid-template-columns:1fr}.colsel{display:flex;margin-bottom:10px}.col{display:none}.col.ver{display:block}
+  .fila-b{grid-template-columns:minmax(0,110px) minmax(0,1fr) 40px}
+  .dona svg{width:110px;height:110px}
+  .lateral{width:100%}
+  #toasts{right:12px;left:12px;width:auto;top:12px}
+}
 </style>
 </head>
 <body>
-<div class="franja"></div>
-<div class="envoltura">
-  <div id="vCargando" class="pantalla"><div><div class="candado">◔</div><h2>Abriendo el panel…</h2></div></div>
-  <div id="vError" class="pantalla oculto"><div><div class="candado">🔒</div><h2>Enlace no válido</h2><p>Este panel se abre con el enlace privado que le compartió Creative Whisper.</p></div></div>
-  <div id="vSuspendida" class="pantalla oculto"><div><div class="candado">⏸</div><h2 id="susTit">Servicio en pausa</h2><p id="susTxt">La escucha digital de esta cuenta está suspendida. El asistente no atiende y el panel no se actualiza mientras la membresía esté en pausa. Para reactivarla, escríbanos al WhatsApp 096 923 5680.</p></div></div>
+<div id="vCargando" class="pantalla"><div><div class="ico">◔</div><h2>Abriendo el panel…</h2></div></div>
+<div id="vError" class="pantalla oculto"><div><div class="ico">🔒</div><h2>Enlace no válido</h2><p>Este panel se abre con el enlace privado que le compartió Creative Whisper.</p></div></div>
+<div id="vSuspendida" class="pantalla oculto"><div><div class="logo" id="logoSus"></div><div class="ico">⏸</div><h2 id="susTit">Servicio en pausa</h2><p>La escucha digital de esta cuenta está suspendida. El asistente no atiende y el panel no se actualiza mientras la membresía esté en pausa. Para reactivarla, escríbanos al WhatsApp 096 923 5680.</p></div></div>
 
-  <div id="vPanel" class="oculto">
-    <div class="cab">
-      <div class="nom">
-        <div class="kicker"><span class="vivo"><i></i>En vivo</span><span id="actualizado">—</span></div>
-        <h1 id="nombre">—</h1>
-        <div class="nota-demo" id="notaDemo"></div>
-      </div>
-      <div class="controles">
-        <div class="seg" id="periodo"><button data-d="1">Hoy</button><button data-d="7" class="on">7 días</button><button data-d="28">28 días</button></div>
-        <label class="interruptor oculto" id="swDemo"><input type="checkbox" id="chkDemo" checked><span class="pista"></span>Histórico de ejemplo</label>
-        <button class="boton" id="btnAlertas">📱 Panel en mi celular</button>
-        <button class="boton pri" id="btnProbar">💬 Hablar con <span id="nomAsis">el asistente</span></button>
-      </div>
+<div id="vPanel" class="oculto">
+  <header class="top"><div class="top-in">
+    <div class="logo" id="logo" role="img" aria-label="Logo"></div>
+    <div class="sep"></div>
+    <div class="tit">
+      <h1>Escucha digital · Panel de gerencia</h1>
+      <div class="sub"><span class="vivo"><i></i>En vivo</span><span id="actualizado">—</span><span id="nombreCuenta"></span></div>
     </div>
-
-    <div class="kpis" id="kpis"></div>
-
-    <div class="rejilla">
-      <div class="col">
-        <div class="caja serie"><h2>Conversaciones y sentimiento por día <span class="n" id="serieN"></span></h2><div id="serie"></div>
-          <div class="leyenda"><span><i style="background:var(--t3);outline:1px solid var(--tenue)"></i>Conversaciones</span><span><i style="background:var(--naranja)"></i>Índice de sentimiento (0–100)</span><span><i style="background:var(--rojo)"></i>Mensajes negativos</span></div></div>
-        <div class="caja"><h2>Casos y quejas <span class="n" id="casosN"></span></h2><div class="casos" id="casos"></div></div>
-        <div class="dos">
-          <div class="caja"><h2>Sentimiento</h2><div class="dist" id="dist"></div><div class="dist-l" id="distL"></div>
-            <h2 style="margin-top:20px">Por canal</h2><div id="canales"></div></div>
-          <div class="caja"><h2>Temas más mencionados</h2><div id="temas"></div></div>
-        </div>
-      </div>
-      <div class="col">
-        <div class="caja"><h2>Lo que dicen ahora <span class="n" id="feedN"></span></h2><div class="feed" id="feed"></div></div>
-        <div class="caja"><h2>Lo que más preguntan</h2><ul class="lista" id="preguntas"></ul></div>
-        <div class="caja"><h2>Comentarios destacados</h2><div id="destacados"></div></div>
-      </div>
+    <div class="bosco" id="boscoChip"><img id="boscoFoto" alt=""><div><b id="boscoNom">Asistente</b><span id="boscoEst">atiende las 24 horas</span></div></div>
+    <div class="acciones">
+      <button class="btn btn-lima" id="btnHablar">💬 Hablar con <span id="nomAsis">el asistente</span></button>
+      <button class="btn btn-borde" id="btnCel">📱 Panel en mi celular</button>
     </div>
+  </div></header>
 
-    <div class="caja" style="margin-top:14px">
-      <h2>Lectura de la semana <span class="n"><button class="boton" id="btnReporte" style="padding:7px 12px">Generar con IA</button></span></h2>
-      <div class="reporte" id="reporte"><span style="color:var(--suave)">Un resumen escrito de los últimos 7 días: lo principal, lo que más preguntan, lo que hay que atender y una recomendación.</span></div>
+  <div class="filtros">
+    <div class="filtros-in" id="barra">
+      <div class="seg" id="periodo"><button data-d="1">Hoy</button><button data-d="7" class="on">7 días</button><button data-d="28">28 días</button></div>
+      <button class="fb" data-dim="canal">Canal</button>
+      <button class="fb" data-dim="tipo">Tipo</button>
+      <button class="fb" data-dim="sent">Sentimiento</button>
+      <button class="fb" data-dim="tema">Tema</button>
+      <button class="fb" data-dim="area">Área</button>
+      <button class="fb" data-dim="prio">Prioridad</button>
+      <button class="fb" data-dim="estado">Estado del caso</button>
+      <label class="buscar"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><input id="q" type="search" placeholder="Buscar palabras, códigos, zonas…" autocomplete="off"></label>
+      <label class="sw oculto" id="swDemo"><input type="checkbox" id="chkDemo" checked><span class="p"></span>Histórico de ejemplo</label>
     </div>
-
-    <div class="pie"><span>Escucha digital · Creative Whisper</span><span>WhatsApp · web · voz · Instagram · Facebook · TikTok</span></div>
+    <div class="activos" id="activos"></div>
   </div>
+
+  <main class="envoltura">
+    <div class="aviso-demo oculto" id="avisoDemo">🧪 <span>Incluye un <b>histórico de ejemplo</b> (marcado «ejemplo») para mostrar cómo se ve el panel con semanas de uso. Todo lo que llega hoy es <b>en vivo</b>.</span></div>
+    <nav class="tabs" id="tabs">
+      <button data-tab="resumen" class="on">Resumen</button>
+      <button data-tab="casos">Quejas y casos <span class="b" id="bCasos">0</span></button>
+      <button data-tab="conv">Conversaciones <span class="b cero" id="bConv">0</span></button>
+    </nav>
+
+    <section id="tResumen">
+      <div class="rejilla k6" id="kpis"></div>
+      <div class="rejilla c3" style="margin-top:14px">
+        <div class="caja graf"><h2><span class="ic">📈</span>Conversaciones y sentimiento <span class="d" id="serieD"></span></h2><div id="serie"></div>
+          <div class="ley"><span><i style="background:var(--pos)"></i>Positivo</span><span><i style="background:var(--neu)"></i>Neutral</span><span><i style="background:var(--neg)"></i>Negativo</span><span><i style="background:var(--g900);height:3px;border-radius:2px"></i>Índice de sentimiento</span><span>· Toque una barra para filtrar ese día</span></div></div>
+        <div class="caja"><h2><span class="ic">💬</span>Sentimiento</h2><div class="dona" id="dona"></div>
+          <h2 style="margin-top:18px"><span class="ic">📲</span>Por canal</h2><div id="canales"></div></div>
+      </div>
+      <div class="rejilla c33" style="margin-top:14px">
+        <div class="caja"><h2><span class="ic">🏷️</span>Temas más mencionados</h2><div id="temas"></div></div>
+        <div class="caja"><h2><span class="ic">🛠️</span>Quejas por área</h2><div id="areas"></div><div class="ley"><span><i style="background:var(--rojo)"></i>Abiertas</span><span><i style="background:var(--ambar)"></i>En proceso</span><span><i style="background:var(--lima3)"></i>Resueltas</span></div></div>
+        <div class="caja"><h2><span class="ic">🕒</span>¿Cuándo escriben? <span class="modo" id="modoCalor"><button data-m="todo" class="on">Todo</button><button data-m="queja">Quejas</button></span></h2><div class="calor" id="calor"></div></div>
+      </div>
+      <div class="rejilla c33" style="margin-top:14px">
+        <div class="caja"><h2><span class="ic">❓</span>Lo que más preguntan</h2><ul class="pregs" id="preguntas"></ul></div>
+        <div class="caja"><h2><span class="ic">⭐</span>Comentarios destacados</h2><div id="destacados"></div></div>
+        <div class="caja"><h2><span class="ic">🟢</span>Lo que dicen ahora <span class="d" id="ahoraD"></span></h2><div id="ahora"></div></div>
+      </div>
+      <div class="caja" style="margin-top:14px"><h2><span class="ic">🧠</span>Lectura de la semana <span class="d"><button class="btn btn-claro" id="btnReporte" style="padding:7px 13px">Generar con IA</button></span></h2>
+        <div class="reporte" id="reporte"><span style="color:var(--suave)">Un resumen escrito de los últimos 7 días: lo principal, lo que más preguntan, lo que hay que atender y una recomendación.</span></div></div>
+    </section>
+
+    <section id="tCasos" class="oculto">
+      <div class="resumen-casos" id="resCasos"></div>
+      <div class="seg colsel" id="colsel"><button data-c="abierto" class="on">Abiertos</button><button data-c="en_proceso">En proceso</button><button data-c="resuelto">Resueltos</button></div>
+      <div class="kanban" id="kanban"></div>
+    </section>
+
+    <section id="tConv" class="oculto">
+      <div class="caja"><h2><span class="ic">💬</span>Mensajes de los visitantes <span class="d" id="convD"></span></h2><div id="convLista"></div><button class="btn btn-claro mas oculto" id="btnMas">Ver más</button></div>
+    </section>
+
+    <div class="pie-pag"><span>Escucha digital · Creative Whisper</span><span>WhatsApp · web · voz · Instagram · Facebook · TikTok</span></div>
+  </main>
 </div>
 
+<div class="velo" id="velo"><aside class="lateral" id="lateral" aria-label="Detalle del caso"></aside></div>
 <div id="toasts"></div>
-<div class="velo oculto" id="velo"><div class="modal"><h3 id="mTit"></h3><p id="mTxt"></p><div class="qr" id="mQr"></div><br><a class="boton pri" id="mLink" target="_blank" rel="noopener">Abrir</a><br><button class="boton" id="mCerrar" style="margin-top:10px">Cerrar</button></div></div>
+<div id="tip"></div>
+<div class="pop oculto" id="pop"></div>
+<div class="modal-velo oculto" id="modal"><div class="modal">
+  <h3 id="mTit"></h3><p id="mTxt"></p>
+  <div class="seg oculto" id="mTabs"></div>
+  <div><div class="qr"><div id="mQr"></div><img class="cara oculto" id="mCara" alt=""></div></div>
+  <div class="pie"><a class="btn btn-verde" id="mLink" target="_blank" rel="noopener">Abrir</a><button class="btn btn-claro" id="mCerrar">Cerrar</button></div>
+</div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script>
 "use strict";
 const API = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/panel-cliente";
-const $ = (s) => document.querySelector(s);
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const fmt = (n) => Number(n ?? 0).toLocaleString("es-EC");
+const norm = (s) => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
 const TOKEN = ((location.hash.match(/t=([a-f0-9]+)/i) || [])[1]) || (() => { try { return sessionStorage.getItem("cw-panel-token"); } catch (e) { return null; } })();
 try { if (TOKEN) sessionStorage.setItem("cw-panel-token", TOKEN); } catch (e) {}
-let dias = 7, conDemo = true, ultimoCaso = null, ultimoMsg = null, datos = null, ocupado = false, primera = true;
-const CANAL = { whatsapp: ["WhatsApp", "#3EA398", "WA"], web: ["Web", "#F5A300", "W"], voz: ["Voz web", "#FFD7BD", "🎙"], instagram: ["Instagram", "#E3120B", "IG"], facebook: ["Facebook", "#CDBFA6", "FB"], tiktok: ["TikTok", "#F3EEE6", "TT"], encuesta: ["Encuesta", "#A39A8E", "★"] };
-const AREA = { operaciones: ["Operaciones", "🚗"], mantenimiento: ["Mantenimiento", "🧰"], seguridad: ["Seguridad", "🛡️"], administracion: ["Administración", "🏢"] };
-const CAT = { consulta: "Consulta", interes: "Interés", sugerencia: "Sugerencia", queja: "Queja", felicitacion: "Felicitación", otro: "Otro" };
-const ESTADO = { abierto: "Abierto", en_proceso: "En proceso", resuelto: "Resuelto" };
 
-function hace(iso) {
-  const s = Math.max(0, (Date.now() - new Date(iso).getTime()) / 1000);
+const CANAL = { whatsapp: { n: "WhatsApp", c: "#1FA855", i: "WA" }, web: { n: "Web", c: "#0A5340", i: "W" }, voz: { n: "Voz", c: "#E9A23B", i: "🎙" },
+  instagram: { n: "Instagram", c: "#C2477A", i: "IG" }, facebook: { n: "Facebook", c: "#3B6FB6", i: "f" }, tiktok: { n: "TikTok", c: "#27272A", i: "♪" }, encuesta: { n: "Encuesta", c: "#8A7F6A", i: "★" } };
+const TIPO = { queja: "Queja", consulta: "Consulta", interes: "Interés", sugerencia: "Sugerencia", felicitacion: "Felicitación", otro: "Otro" };
+const SENT = { positivo: "Positivo", neutral: "Neutral", negativo: "Negativo" };
+const SENT_C = { positivo: "var(--pos)", neutral: "var(--neu)", negativo: "var(--neg)" };
+const AREA = { operaciones: { n: "Operaciones", i: "🚗" }, mantenimiento: { n: "Mantenimiento", i: "🧰" }, seguridad: { n: "Seguridad", i: "🛡️" }, administracion: { n: "Administración", i: "🏢" } };
+const PRIO = { alta: "Alta", media: "Media", baja: "Baja" };
+const ESTADO = { abierto: "Abierto", en_proceso: "En proceso", resuelto: "Resuelto" };
+const DIAS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
+const HORAS = Array.from({ length: 13 }, (_, i) => 9 + i);
+const DIM = { canal: "Canal", tipo: "Tipo", sent: "Sentimiento", tema: "Tema", area: "Área", prio: "Prioridad", estado: "Estado" };
+const ETIQ = { canal: (v) => CANAL[v]?.n ?? v, tipo: (v) => TIPO[v] ?? v, sent: (v) => SENT[v] ?? v, tema: (v) => cap(v), area: (v) => AREA[v]?.n ?? v, prio: (v) => PRIO[v] ?? v, estado: (v) => ESTADO[v] ?? v };
+const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
+// Formato de WhatsApp en la conversación: *negrita*, _cursiva_ y enlaces acortados.
+const formatoWA = (t) => esc(t).replace(/(^|[\s(¡¿])\*([^*\n]+?)\*(?=[\s.,!?:;)]|$)/g, "$1<b>$2</b>").replace(/(^|[\s(¡¿])_([^_\n]+?)_(?=[\s.,!?:;)]|$)/g, "$1<i>$2</i>")
+  .replace(/https?:\/\/[^\s<]+/g, (u) => `<a href="${u}" target="_blank" rel="noopener">${u.replace(/^https?:\/\//, "").split(/[?#]/)[0]}…</a>`);
+
+// Ecuador no cambia de hora: UTC-5 todo el año.
+const Q = 5 * 3600e3;
+const diaDe = (ts) => new Date(ts - Q).toISOString().slice(0, 10);
+const horaDe = (ts) => new Date(ts - Q).getUTCHours();
+const dowDe = (ts) => (new Date(ts - Q).getUTCDay() + 6) % 7;
+const inicioDia = (ts) => { const d = new Date(ts - Q); d.setUTCHours(0, 0, 0, 0); return d.getTime() + Q; };
+const fechaCorta = (dia) => new Date(dia + "T12:00:00Z").toLocaleDateString("es-EC", { weekday: "short", day: "numeric", month: "short", timeZone: "UTC" });
+const horaTxt = (ts) => new Date(ts).toLocaleTimeString("es-EC", { timeZone: "America/Guayaquil", hour: "numeric", minute: "2-digit" });
+function hace(ts) {
+  const s = Math.max(0, (Date.now() - ts) / 1000);
   if (s < 60) return "hace un momento";
   if (s < 3600) return `hace ${Math.round(s / 60)} min`;
   if (s < 86400) return `hace ${Math.round(s / 3600)} h`;
-  return new Date(iso).toLocaleDateString("es-EC", { timeZone: "America/Guayaquil", day: "numeric", month: "short" });
+  return new Date(ts).toLocaleDateString("es-EC", { timeZone: "America/Guayaquil", day: "numeric", month: "short" }) + " · " + horaTxt(ts);
 }
-function horaQ(iso) { return new Date(iso).toLocaleTimeString("es-EC", { timeZone: "America/Guayaquil", hour: "2-digit", minute: "2-digit" }); }
-const colorSent = (s) => s === "positivo" ? "var(--pos)" : s === "negativo" ? "var(--neg)" : "var(--neu)";
+const durTxt = (min) => min < 60 ? `${Math.max(1, Math.round(min))} min` : min < 1440 ? `${(min / 60).toFixed(min < 600 ? 1 : 0).replace(".", ",")} h` : `${Math.round(min / 1440)} d`;
+function temaCaso(t) {
+  const x = norm(t);
+  if (/parque|cajero|fila|urbapark/.test(x)) return "parqueadero";
+  if (/bano|limpie|papel|jabon|sucio/.test(x)) return "baños y limpieza";
+  if (/segur|robo|perdid|guardia/.test(x)) return "seguridad";
+  if (/cobro|precio|pago|cobrar/.test(x)) return "precios y cobros";
+  if (/atencion|personal|tienda/.test(x)) return "atención y personal";
+  if (/wifi|internet/.test(x)) return "wifi";
+  if (/acces|ascensor|silla|escalera/.test(x)) return "accesibilidad";
+  if (/horario/.test(x)) return "horarios";
+  return t || "otro";
+}
 
+// ---------- Estado ----------
+const S = { dias: 7, demo: true, msgs: new Map(), casos: new Map(), ops: new Map(), sorteo: new Map(), cuenta: null, cargado: false, ultimaSync: 0 };
+const F = { canal: new Set(), tipo: new Set(), sent: new Set(), tema: new Set(), area: new Set(), prio: new Set(), estado: new Set(), pregunta: null, dia: null, dow: null, hora: null, q: "" };
+let tab = "resumen", modoCalor = "todo", verConv = 60, colMovil = "abierto", casoAbierto = null, ocupado = false;
+
+function rangos() {
+  const now = Date.now();
+  if (S.dias === 1) { const h = inicioDia(now); return { a: h, b: now + 6e4, pa: h - 864e5, pb: h }; }
+  const span = S.dias * 864e5;
+  return { a: now - span, b: now + 6e4, pa: now - 2 * span, pb: now - span };
+}
+function prepM(m) { m._ts = Date.parse(m.t); m._dia = diaDe(m._ts); m._h = horaDe(m._ts); m._dow = dowDe(m._ts); m._x = norm(m.x); m.k = m.k || null; return m; }
+function prepC(c) { c._ts = Date.parse(c.creado); c._dia = diaDe(c._ts); c._h = horaDe(c._ts); c._dow = dowDe(c._ts); c._tema = temaCaso(c.tema); c._x = norm([c.codigo, c.resumen, c.zona, c.nota, c.detalle, c.tema].join(" ")); return c; }
+function prepT(o) { o._ts = Date.parse(o.t); return o; }
+
+// ---------- Filtros ----------
+function zCasos() { // sesiones con casos que pasan los filtros de casos (para cruzar mensajes con área, prioridad y estado)
+  if (!F.area.size && !F.prio.size && !F.estado.size) return null;
+  const z = new Set();
+  for (const c of S.casos.values()) if ((!F.area.size || F.area.has(c.area)) && (!F.prio.size || F.prio.has(c.prioridad)) && (!F.estado.size || F.estado.has(c.estado))) z.add(c.z);
+  return z;
+}
+function pasaM(m, a, b, ex, zs) {
+  if (m._ts < a || m._ts >= b) return false;
+  if (ex !== "canal" && F.canal.size && !F.canal.has(m.c)) return false;
+  if (ex !== "tipo" && F.tipo.size && !F.tipo.has(m.k || "otro")) return false;
+  if (ex !== "sent" && F.sent.size && !F.sent.has(m.s || "neutral")) return false;
+  if (ex !== "tema" && F.tema.size && !F.tema.has(m.m || "saludo u otro")) return false;
+  if (ex !== "pregunta" && F.pregunta && m.q !== F.pregunta) return false;
+  if (ex !== "dia" && F.dia && m._dia !== F.dia) return false;
+  if (ex !== "hora" && F.hora != null && (m._h !== F.hora || m._dow !== F.dow)) return false;
+  if (F.q && !m._x.includes(F.q)) return false;
+  if (zs && ex !== "area" && !zs.has(m.z)) return false;
+  return true;
+}
+function pasaC(c, a, b, ex, soloPeriodo) {
+  const enP = c._ts >= a && c._ts < b;
+  if (soloPeriodo ? !enP : (!enP && c.estado === "resuelto" && !(c.resuelto_en && Date.parse(c.resuelto_en) >= a))) return false;
+  if (ex !== "canal" && F.canal.size && !F.canal.has(c.canal)) return false;
+  if (ex !== "area" && F.area.size && !F.area.has(c.area)) return false;
+  if (ex !== "prio" && F.prio.size && !F.prio.has(c.prioridad)) return false;
+  if (ex !== "estado" && F.estado.size && !F.estado.has(c.estado)) return false;
+  if (ex !== "tema" && F.tema.size && !F.tema.has(c._tema)) return false;
+  if (F.tipo.size && !F.tipo.has("queja")) return false;
+  if (F.sent.size && !F.sent.has("negativo")) return false;
+  if (ex !== "dia" && F.dia && c._dia !== F.dia) return false;
+  if (ex !== "hora" && F.hora != null && (c._h !== F.hora || c._dow !== F.dow)) return false;
+  if (F.q && !c._x.includes(F.q)) return false;
+  return true;
+}
+const msgsF = (ex, r = rangos(), prev = false) => { const zs = ex === "area" ? null : zCasos(); const [a, b] = prev ? [r.pa, r.pb] : [r.a, r.b]; return [...S.msgs.values()].filter((m) => pasaM(m, a, b, ex, zs)); };
+const casosF = (ex, r = rangos(), soloPeriodo = false, prev = false) => { const [a, b] = prev ? [r.pa, r.pb] : [r.a, r.b]; return [...S.casos.values()].filter((c) => pasaC(c, a, b, ex, soloPeriodo)); };
+function alternar(dim, v) { const s = F[dim]; s.has(v) ? s.delete(v) : s.add(v); pintar(); }
+function hayFiltros() { return Object.keys(DIM).some((k) => F[k].size) || F.pregunta || F.dia || F.hora != null || F.q; }
+function limpiarFiltros() { for (const k of Object.keys(DIM)) F[k].clear(); F.pregunta = F.dia = F.dow = F.hora = null; F.q = ""; $("#q").value = ""; pintar(); }
+
+// ---------- Datos ----------
 async function llamar(cuerpo) {
   const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token: TOKEN, ...cuerpo }) });
   const j = await r.json().catch(() => ({}));
@@ -230,110 +516,376 @@ async function llamar(cuerpo) {
   return j;
 }
 function ver(id) { for (const v of ["vCargando", "vError", "vSuspendida", "vPanel"]) $("#" + v).classList.toggle("oculto", v !== id); }
-
-// ---------- Pintar ----------
-function kpis(d) {
-  const k = d.kpis || {};
-  const dif = (a, b) => (a == null || b == null) ? null : a - b;
-  const pct = (a, b) => (!b) ? null : Math.round((a - b) / b * 100);
-  const di = dif(k.indice, k.indice_prev), dc = pct(k.conversaciones, k.conversaciones_prev);
-  const etiq = dias === 1 ? "ayer" : "el periodo anterior";
-  const tiles = [
-    { et: "Índice de sentimiento", v: k.indice ?? "—", s: "/100", d: di == null ? "" : `${di >= 0 ? "▲" : "▼"} ${Math.abs(di)} pts vs. ${etiq}`, cl: di == null ? "" : di >= 0 ? "sube" : "baja", medidor: k.indice },
-    { et: "Conversaciones", v: fmt(k.conversaciones), d: dc == null ? `${fmt(k.mensajes)} mensajes` : `${dc >= 0 ? "▲" : "▼"} ${Math.abs(dc)} % vs. ${etiq}`, cl: dc == null ? "" : dc >= 0 ? "sube" : "baja" },
-    { et: "Casos abiertos", v: k.casos_abiertos ?? 0, d: k.casos_alta_abiertos ? `${k.casos_alta_abiertos} de prioridad alta` : "ninguno de prioridad alta", cl: k.casos_alta_abiertos ? "baja" : "sube", alerta: !!k.casos_alta_abiertos },
-    { et: "Quejas graves", v: k.quejas_graves ?? 0, d: k.min_resolucion != null ? `resueltas en ${k.min_resolucion} min en promedio` : `${fmt(k.quejas)} quejas en total` },
-    { et: "Respuesta del asistente", v: k.respuesta_seg != null ? String(k.respuesta_seg).replace(".", ",") : "≈4", s: " s", d: "las 24 horas · WhatsApp y web" },
-    { et: "Opinión de la visita", v: k.opinion != null ? String(k.opinion).replace(".", ",") : "—", s: "/5", d: `${fmt(k.opiniones)} opiniones · ${fmt(k.sorteo)} registros al sorteo` },
-  ];
-  $("#kpis").innerHTML = tiles.map((t) => `<div class="kpi${t.alerta ? " alerta" : ""}"><div class="et">${esc(t.et)}</div><div class="v">${esc(t.v)}${t.s ? `<small>${esc(t.s)}</small>` : ""}</div>
-    ${t.medidor != null ? `<div class="medidor"><i style="width:${Math.max(3, t.medidor)}%;background-position:${100 - t.medidor}% 0"></i></div>` : ""}<div class="d ${t.cl || ""}">${esc(t.d)}</div></div>`).join("");
+function aplicarMarca(cu) {
+  const m = cu?.marca;
+  if (!m) { for (const id of ["#logo", "#logoSus"]) { $(id).classList.add("sin"); $(id).textContent = cu?.nombre || ""; } return; }
+  const root = document.documentElement.style, c = m.colores || {};
+  const mapa = { g950: "--g950", g900: "--g900", g800: "--g800", g700: "--g700", g600: "--g600", lima: "--lima", lima2: "--lima2", lima3: "--lima3", menta: "--menta", crema: "--crema", papel: "--papel", tinta: "--tinta", suave: "--suave", linea: "--linea", rojo: "--rojo", ambar: "--ambar" };
+  for (const [k, v] of Object.entries(mapa)) if (c[k]) root.setProperty(v, c[k]);
+  for (const id of ["#logo", "#logoSus"]) {
+    if (m.logo_mascara) { root.setProperty("--logo", `url("${m.logo_mascara}")`); $(id).style.aspectRatio = m.logo_ratio || 3.4; $(id).classList.add("lista"); }
+    else { $(id).classList.add("sin"); $(id).textContent = cu?.nombre || ""; }
+  }
+  if (m.asistente_foto) { $("#boscoFoto").src = m.asistente_foto; $("#mCara").src = m.asistente_foto; }
 }
 
-function serie(d) {
-  const s = d.serie || [];
-  $("#serieN").textContent = dias === 1 ? "hoy" : `últimos ${dias} días`;
-  if (!s.length) { $("#serie").innerHTML = ""; return; }
-  const W = 900, H = 190, pl = 34, pr = 34, pt = 12, pb = 26;
-  const max = Math.max(5, ...s.map((x) => x.n));
-  const bw = (W - pl - pr) / s.length;
-  const y = (v) => pt + (H - pt - pb) * (1 - v / max);
-  const yi = (v) => pt + (H - pt - pb) * (1 - v / 100);
-  let barras = "", negs = "", pts = [], etq = "";
-  s.forEach((x, i) => {
-    const xc = pl + bw * i + bw / 2, w = Math.max(4, bw * 0.62);
-    barras += `<rect x="${xc - w / 2}" y="${y(x.n)}" width="${w}" height="${H - pb - y(x.n)}" rx="${Math.min(6, w / 3)}" fill="#26221E"/>`;
-    if (x.neg) negs += `<rect x="${xc - w / 2}" y="${y(x.neg)}" width="${w}" height="${H - pb - y(x.neg)}" rx="${Math.min(6, w / 3)}" fill="#E3120B" opacity=".85"/>`;
-    if (x.indice != null) pts.push([xc, yi(x.indice), x.indice]);
-    const cada = s.length > 14 ? 4 : s.length > 8 ? 2 : 1;
-    if (i % cada === 0 || i === s.length - 1) { const f = new Date(x.dia + "T12:00:00"); etq += `<text x="${xc}" y="${H - 7}" text-anchor="middle" font-size="11" fill="#6F675E">${f.toLocaleDateString("es-EC", { day: "numeric", month: "short" })}</text>`; }
+let pidiendoCompleto = false;
+async function cargarTodo() {
+  if (!TOKEN || pidiendoCompleto) return;
+  pidiendoCompleto = true;
+  try {
+    const r = rangos();
+    const d = await llamar({ accion: "datos", desde: new Date(r.pa).toISOString(), demo: S.demo });
+    if (d.suspendida) { aplicarMarca(d.cuenta); $("#susTit").textContent = `${d.cuenta?.nombre ?? "La cuenta"}: servicio en pausa`; ver("vSuspendida"); pidiendoCompleto = false; return; }
+    const antes = new Set(S.casos.keys()), primera = !S.cargado;
+    S.msgs = new Map(d.mensajes.map((m) => [m.i, prepM(m)]));
+    S.casos = new Map(d.casos.map((c) => [c.id, prepC(c)]));
+    S.ops = new Map(d.opiniones.map((o) => [o.i, prepT(o)]));
+    S.sorteo = new Map((d.sorteo || []).map((o) => [o.i, prepT(o)]));
+    if (d.cuenta) { S.cuenta = d.cuenta; if (primera) aplicarMarca(d.cuenta); }
+    S.ultimaSync = Date.parse(d.generado) || Date.now();
+    if (!primera) avisarNuevos(antes, new Set());
+    S.cargado = true;
+    ver("vPanel"); pintar();
+  } catch (e) {
+    if (e.enlace) ver("vError"); else $("#actualizado").textContent = "sin conexión · reintentando";
+  }
+  pidiendoCompleto = false;
+}
+async function refrescar() {
+  // Con la cuenta en pausa se vuelve a preguntar seguido: al reactivarla, el panel vuelve solo.
+  if (!S.cargado) { if (!$("#vSuspendida").classList.contains("oculto") && !document.hidden) cargarTodo(); return; }
+  if (ocupado || document.hidden) return;
+  ocupado = true;
+  try {
+    const r = rangos();
+    const d = await llamar({ accion: "datos", desde: new Date(r.pa).toISOString(), demo: S.demo, cambios_desde: new Date(S.ultimaSync - 90e3).toISOString() });
+    if (d.suspendida) { ver("vSuspendida"); ocupado = false; return; }
+    if (!$("#vSuspendida").classList.contains("oculto")) ver("vPanel");
+    const antesC = new Set(S.casos.keys()), antesM = new Set(S.msgs.keys());
+    for (const m of d.mensajes || []) S.msgs.set(m.i, prepM(m));
+    for (const c of d.casos || []) S.casos.set(c.id, prepC(c));
+    for (const o of d.opiniones || []) S.ops.set(o.i, prepT(o));
+    for (const o of d.sorteo || []) S.sorteo.set(o.i, prepT(o));
+    S.ultimaSync = Date.parse(d.generado) || Date.now();
+    const nuevosM = new Set([...S.msgs.keys()].filter((k) => !antesM.has(k)));
+    avisarNuevos(antesC, nuevosM);
+    pintar(nuevosM);
+    if (casoAbierto && S.casos.has(casoAbierto)) pintarLateral(S.casos.get(casoAbierto), false);
+  } catch (e) {
+    if (e.enlace) ver("vError"); else $("#actualizado").textContent = "sin conexión · reintentando";
+  }
+  ocupado = false;
+}
+let nuevosCasos = new Set();
+function avisarNuevos(antes) {
+  for (const c of S.casos.values()) if (!antes.has(c.id) && !c.demo) { nuevosCasos.add(c.id); toast(c); sonar(); setTimeout(() => nuevosCasos.delete(c.id), 15000); }
+}
+
+// ---------- Pintar ----------
+function pintar(nuevosM = new Set()) {
+  const cu = S.cuenta || {};
+  document.title = `${cu.nombre || "Escucha digital"} · Panel de gerencia`;
+  $("#nombreCuenta").textContent = cu.nombre ? "· " + cu.nombre : "";
+  $("#nomAsis").textContent = cu.asistente || "el asistente";
+  $("#boscoNom").textContent = cu.asistente ? `${cu.asistente} · asistente` : "Asistente";
+  $("#actualizado").textContent = "actualizado " + horaTxt(Date.now());
+  $("#swDemo").classList.toggle("oculto", !cu.modo_demo);
+  $("#avisoDemo").classList.toggle("oculto", !(cu.modo_demo && S.demo));
+  pintarFiltros();
+  const r = rangos();
+  const abiertos = [...S.casos.values()].filter((c) => c.estado !== "resuelto" && pasaC(c, r.a, r.b, null));
+  $("#bCasos").textContent = abiertos.length; $("#bCasos").classList.toggle("cero", !abiertos.length);
+  $("#bConv").textContent = fmt(msgsF(null, r).length);
+  if (tab === "resumen") { kpis(r); serie(r); dona(r); canales(r); temas(r); areas(r); calor(r); preguntas(r); destacados(r); ahora(r, nuevosM); }
+  if (tab === "casos") tablero(r);
+  if (tab === "conv") conversaciones(r, nuevosM);
+}
+
+function pintarFiltros() {
+  $$(".fb[data-dim]").forEach((b) => {
+    const n = F[b.dataset.dim].size;
+    b.classList.toggle("act", !!n);
+    b.innerHTML = `${DIM[b.dataset.dim]}${n ? ` <span class="n">${n}</span>` : ""} <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5z"/></svg>`;
+  });
+  const ch = [];
+  for (const k of Object.keys(DIM)) for (const v of F[k]) ch.push(`<span class="chipf"><small>${DIM[k]}:</small> ${esc(ETIQ[k](v))}<button data-quitar="${k}" data-v="${esc(v)}" aria-label="Quitar">✕</button></span>`);
+  if (F.dia) ch.push(`<span class="chipf"><small>Día:</small> ${esc(fechaCorta(F.dia))}<button data-quitar="dia">✕</button></span>`);
+  if (F.hora != null) ch.push(`<span class="chipf"><small>Franja:</small> ${DIAS[F.dow]} ${F.hora}:00–${F.hora + 1}:00<button data-quitar="hora">✕</button></span>`);
+  if (F.pregunta) ch.push(`<span class="chipf"><small>Pregunta:</small> ${esc(F.pregunta)}<button data-quitar="pregunta">✕</button></span>`);
+  if (F.q) ch.push(`<span class="chipf"><small>Búsqueda:</small> “${esc($("#q").value)}”<button data-quitar="q">✕</button></span>`);
+  $("#activos").innerHTML = ch.length ? ch.join("") + `<button class="limpiar" id="limpiar">Limpiar filtros</button>` : "";
+}
+
+function delta(act, prev, unidad, invertir) {
+  if (act == null || prev == null || !isFinite(act) || !isFinite(prev) || (unidad === "%" && !prev)) return { t: "", c: "" };
+  const etq = S.dias === 1 ? "ayer" : "periodo anterior";
+  const dv = unidad === "%" ? Math.round((act - prev) / prev * 100) : Math.round(act - prev);
+  if (!dv) return { t: `igual que ${etq === "ayer" ? "ayer" : "el " + etq}`, c: "" };
+  const bueno = invertir ? dv < 0 : dv > 0;
+  const u = unidad === "%" ? " %" : unidad === " pts" && Math.abs(dv) === 1 ? " pt" : unidad;
+  return { t: `${dv > 0 ? "▲" : "▼"} ${Math.abs(dv)}${u} vs. ${etq}`, c: bueno ? "sube" : "baja" };
+}
+function indiceDe(ms) { const v = ms.filter((m) => m.p != null); return v.length ? Math.round(v.reduce((s, m) => s + m.p, 0) / v.length) : null; }
+function kpis(r) {
+  const m = msgsF(null, r), mp = msgsF(null, r, true);
+  const ind = indiceDe(m), indP = indiceDe(mp);
+  const conv = new Set(m.map((x) => x.z)).size, convP = new Set(mp.map((x) => x.z)).size;
+  const cp = casosF(null, r, true), cpP = casosF(null, r, true, true);
+  const abiertos = casosF(null, r).filter((c) => c.estado !== "resuelto"), altas = abiertos.filter((c) => c.prioridad === "alta").length;
+  const res = casosF(null, r).filter((c) => c.resuelto_en && Date.parse(c.resuelto_en) >= r.a).map((c) => (Date.parse(c.resuelto_en) - c._ts) / 6e4).sort((a, b) => a - b);
+  const mediana = res.length ? res[Math.floor(res.length / 2)] : null;
+  const canalOk = (o) => !F.canal.size || F.canal.has(o.c);
+  const ops = [...S.ops.values()].filter((o) => o._ts >= r.a && o._ts < r.b && canalOk(o)), opsP = [...S.ops.values()].filter((o) => o._ts >= r.pa && o._ts < r.pb && canalOk(o));
+  const prom = (a) => a.length ? a.reduce((s, o) => s + o.v, 0) / a.length : null;
+  const op = prom(ops), opP = prom(opsP);
+  const so = [...S.sorteo.values()].filter((o) => o._ts >= r.a && o._ts < r.b && canalOk(o)).length, soP = [...S.sorteo.values()].filter((o) => o._ts >= r.pa && o._ts < r.pb && canalOk(o)).length;
+  const t = [
+    { et: "💚 Índice de sentimiento", v: ind ?? "—", s: "/100", d: delta(ind, indP, " pts"), med: ind },
+    { et: "💬 Conversaciones", v: fmt(conv), d: delta(conv, convP, "%"), sub: `${fmt(m.length)} mensajes`, ir: "conv" },
+    { et: "📣 Quejas recibidas", v: fmt(cp.length), d: delta(cp.length, cpP.length, "%", true), ir: "casos" },
+    { et: "🔴 Casos abiertos", v: fmt(abiertos.length), d: { t: altas ? `${altas} de prioridad alta` : "ninguno de prioridad alta", c: altas ? "baja" : "sube" }, alerta: altas > 0, ir: "abiertos" },
+    { et: "⏱️ Tiempo de resolución", v: mediana != null ? durTxt(mediana) : "—", d: { t: res.length ? `mediana de ${res.length} casos resueltos` : "sin casos resueltos en el periodo", c: "" } },
+    { et: "⭐ Opinión de la visita", v: op != null ? op.toFixed(1).replace(".", ",") : "—", s: "/5", d: delta(op != null ? op * 10 : null, opP != null ? opP * 10 : null, ""), sub: `${fmt(ops.length)} opiniones · ${fmt(so)} al sorteo`, est: op },
+  ];
+  // La opinión se compara en décimas (×10): se muestra como ▲ 2 = 0,2 puntos.
+  if (t[5].d.t) t[5].d.t = t[5].d.t.replace(/(\d+)/, (n) => (Number(n) / 10).toFixed(1).replace(".", ","));
+  $("#kpis").innerHTML = t.map((x) => `<div class="caja kpi${x.alerta ? " alerta" : ""}${x.ir ? " click" : ""}" ${x.ir ? `data-ir="${x.ir}"` : ""}>
+    <div class="et">${x.et}</div><div class="v num">${esc(x.v)}${x.s ? `<small>${x.s}</small>` : ""}</div>
+    ${x.med != null ? `<div class="medidor"><i style="left:${Math.max(1, Math.min(99, x.med))}%"></i></div>` : ""}
+    ${x.est != null ? `<div class="estrellas">${"★".repeat(Math.round(x.est))}${"☆".repeat(5 - Math.round(x.est))}</div>` : ""}
+    <div class="dl ${x.d.c}">${esc(x.d.t || x.sub || "")}</div>${x.d.t && x.sub ? `<div class="dl">${esc(x.sub)}</div>` : ""}</div>`).join("");
+}
+
+function serie(r) {
+  const m = msgsF("dia", r);
+  const porHora = S.dias === 1;
+  let claves;
+  if (porHora) claves = HORAS.map((h) => String(h));
+  else { claves = []; for (let t = inicioDia(r.a); t < r.b; t += 864e5) claves.push(diaDe(t + 3600e3)); claves = [...new Set(claves)]; }
+  const g = Object.fromEntries(claves.map((k) => [k, { pos: 0, neu: 0, neg: 0, p: [], n: 0 }]));
+  for (const x of m) { const k = porHora ? String(x._h) : x._dia; const b = g[k]; if (!b) continue; b.n++; b[x.s === "positivo" ? "pos" : x.s === "negativo" ? "neg" : "neu"]++; if (x.p != null) b.p.push(x.p); }
+  $("#serieD").textContent = porHora ? "hoy, por hora" : `últimos ${S.dias} días`;
+  const movil = window.innerWidth < 760, W = movil ? 430 : 900, H = movil ? 250 : 230, pl = 30, pr = 30, pt = 14, pb = 28;
+  const max = Math.max(4, ...claves.map((k) => g[k].n));
+  const bw = (W - pl - pr) / claves.length, y = (v) => pt + (H - pt - pb) * (1 - v / max), yi = (v) => pt + (H - pt - pb) * (1 - v / 100);
+  let barras = "", etq = "", pts = [];
+  const cada = movil ? (claves.length > 14 ? 7 : claves.length > 8 ? 3 : 2) : (claves.length > 16 ? 4 : claves.length > 9 ? 2 : 1);
+  claves.forEach((k, i) => {
+    const b = g[k], xc = pl + bw * i + bw / 2, w = Math.max(5, bw * 0.64);
+    const sel = porHora ? (F.hora === Number(k) && F.dow === dowDe(Date.now())) : F.dia === k;
+    const apag = (porHora ? F.hora != null : !!F.dia) && !sel;
+    let yb = H - pb;
+    for (const [c, col] of [["neg", "var(--neg)"], ["neu", "var(--neu)"], ["pos", "var(--pos)"]]) {
+      if (!b[c]) continue; const h = (H - pt - pb) * b[c] / max;
+      barras += `<rect x="${xc - w / 2}" y="${yb - h}" width="${w}" height="${h}" fill="${col}" opacity="${apag ? .3 : 1}"/>`; yb -= h;
+    }
+    const ind = b.p.length ? Math.round(b.p.reduce((s, v) => s + v, 0) / b.p.length) : null;
+    if (ind != null) pts.push([xc, yi(ind), ind]);
+    const nom = porHora ? `${k}:00–${Number(k) + 1}:00` : fechaCorta(k);
+    barras += `<rect class="barra" x="${pl + bw * i}" y="${pt}" width="${bw}" height="${H - pt - pb}" fill="transparent" data-k="${k}" data-tip="${esc(`${nom} · ${b.n} mensajes${ind != null ? ` · índice ${ind}` : ""}${b.neg ? ` · ${b.neg} negativos` : ""}`)}"/>`;
+    if (i % cada === 0 || i === claves.length - 1) etq += `<text x="${xc}" y="${H - 8}" text-anchor="middle" font-size="11.5" font-weight="${sel ? 800 : 600}" fill="${sel ? "#043E2F" : "#56675F"}">${porHora ? k + "h" : new Date(k + "T12:00:00Z").toLocaleDateString("es-EC", { day: "numeric", month: "short", timeZone: "UTC" })}</text>`;
   });
   const linea = pts.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
   const ult = pts[pts.length - 1];
-  $("#serie").innerHTML = `<svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" role="img" aria-label="Conversaciones y sentimiento por día">
-    ${[0, 50, 100].map((v) => `<line x1="${pl}" x2="${W - pr}" y1="${yi(v)}" y2="${yi(v)}" stroke="rgba(243,238,230,.06)"/><text x="${W - pr + 6}" y="${yi(v) + 4}" font-size="10.5" fill="#6F675E">${v}</text>`).join("")}
-    <text x="${pl - 6}" y="${y(max) + 4}" font-size="10.5" fill="#6F675E" text-anchor="end">${max}</text>
-    ${barras}${negs}
-    <path d="${linea}" fill="none" stroke="#F5A300" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
-    ${pts.map((p) => `<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#F5A300"/>`).join("")}
-    ${ult ? `<text x="${ult[0]}" y="${ult[1] - 9}" text-anchor="middle" font-size="12" font-weight="800" fill="#F5A300">${ult[2]}</text>` : ""}
+  $("#serie").innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Conversaciones y sentimiento">
+    ${[0, 50, 100].map((v) => `<line x1="${pl}" x2="${W - pr}" y1="${yi(v)}" y2="${yi(v)}" stroke="#E7EBDD"/><text x="${W - pr + 6}" y="${yi(v) + 4}" font-size="10.5" fill="#8A9A90">${v}</text>`).join("")}
+    <text x="${pl - 6}" y="${y(max) + 4}" font-size="10.5" fill="#8A9A90" text-anchor="end">${max}</text>
+    ${barras.replace(/<rect class="barra"[^>]*\/>/g, "")}
+    <path d="${linea}" fill="none" stroke="#032B21" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round"/>
+    ${pts.map((p) => `<circle cx="${p[0]}" cy="${p[1]}" r="3.4" fill="#fff" stroke="#032B21" stroke-width="2"/>`).join("")}
+    ${ult ? `<text x="${ult[0]}" y="${ult[1] - 10}" text-anchor="middle" font-size="12.5" font-weight="800" fill="#032B21">${ult[2]}</text>` : ""}
+    ${(barras.match(/<rect class="barra"[^>]*\/>/g) || []).join("")}
     ${etq}</svg>`;
 }
 
-function distribucion(d) {
-  const k = d.kpis || {}, tot = (k.positivos || 0) + (k.neutrales || 0) + (k.negativos || 0) || 1;
-  const p = Math.round(k.positivos / tot * 100), n = Math.round(k.negativos / tot * 100), u = 100 - p - n;
-  $("#dist").innerHTML = `<i style="width:${p}%;background:var(--pos)"></i><i style="width:${u}%;background:var(--neu)"></i><i style="width:${n}%;background:var(--neg)"></i>`;
-  $("#distL").innerHTML = `<span><b>${p} %</b>positivo</span><span><b>${u} %</b>neutral</span><span><b>${n} %</b>negativo</span>`;
-  const c = d.canales || {}, tc = Object.values(c).reduce((a, b) => a + b, 0) || 1;
-  $("#canales").innerHTML = Object.entries(c).sort((a, b) => b[1] - a[1]).map(([k2, v]) => {
-    const [nom, col] = CANAL[k2] || [k2, "#888"];
-    return `<div class="fila-b"><span>${esc(nom)}</span><div class="b"><i style="width:${v / tc * 100}%;background:${col}"></i></div><span class="num">${fmt(v)}</span></div>`;
-  }).join("") || `<div style="color:var(--suave)">Sin datos</div>`;
+function dona(r) {
+  const m = msgsF("sent", r);
+  const c = { positivo: 0, neutral: 0, negativo: 0 };
+  for (const x of m) c[x.s || "neutral"]++;
+  const tot = m.length || 1, ind = indiceDe(msgsF(null, r));
+  let ang = -90, arcos = "";
+  const R = 52, C = 2 * Math.PI * R;
+  let off = 0;
+  for (const k of ["positivo", "neutral", "negativo"]) {
+    const frac = c[k] / tot, len = frac * C;
+    const apag = F.sent.size && !F.sent.has(k);
+    if (len > 0) arcos += `<circle r="${R}" cx="66" cy="66" fill="none" stroke="${SENT_C[k]}" stroke-width="18" stroke-dasharray="${len} ${C - len}" stroke-dashoffset="${-off}" transform="rotate(-90 66 66)" opacity="${apag ? .25 : 1}" class="barra" data-sent="${k}" data-tip="${SENT[k]}: ${fmt(c[k])} (${Math.round(frac * 100)} %)"/>`;
+    off += len;
+  }
+  $("#dona").innerHTML = `<svg viewBox="0 0 132 132">${m.length ? arcos : `<circle r="${R}" cx="66" cy="66" fill="none" stroke="#E7EBDD" stroke-width="18"/>`}
+    <text x="66" y="66" text-anchor="middle" font-size="27" font-weight="800" fill="#043E2F">${ind ?? "—"}</text><text x="66" y="84" text-anchor="middle" font-size="10.5" font-weight="700" fill="#56675F">índice</text></svg>
+    <div class="lst">${["positivo", "neutral", "negativo"].map((k) => `<button class="${F.sent.has(k) ? "on" : ""}" data-sent="${k}"><span class="punto" style="background:${SENT_C[k]}"></span>${SENT[k]}<b class="num">${Math.round(c[k] / tot * 100)} %</b></button>`).join("")}</div>`;
 }
 
-function temas(d) {
-  const t = d.temas || [], max = Math.max(1, ...t.map((x) => x.n));
-  $("#temas").innerHTML = t.map((x) => {
-    const w = x.n / max * 100, neg = x.neg / x.n * w, pos = x.pos / x.n * w, neu = w - neg - pos;
-    return `<div class="fila-b"><span title="${esc(x.tema)}">${esc(x.tema[0].toUpperCase() + x.tema.slice(1))}</span><div class="b"><i style="width:${pos}%;background:var(--pos)"></i><i style="width:${neu}%;background:#5d564e"></i><i style="width:${neg}%;background:var(--neg)"></i></div><span class="num">${fmt(x.n)}</span></div>`;
-  }).join("") || `<div style="color:var(--suave)">Sin datos</div>`;
-  $("#preguntas").innerHTML = (d.preguntas || []).map((p) => `<li><span>${esc(p.p)}</span><b>${fmt(p.n)}</b></li>`).join("") || `<li>Todavía no hay preguntas repetidas</li>`;
-  const ds = d.destacados || {};
-  $("#destacados").innerHTML = [...(ds.positivos || []).slice(0, 2).map((x) => [x, ""]), ...(ds.negativos || []).slice(0, 2).map((x) => [x, "neg"])]
-    .map(([x, c]) => `<div class="cita ${c}">“${esc(x.t)}”<small>${esc((CANAL[x.canal] || [x.canal])[0])} · ${esc(hace(x.creado))}</small></div>`).join("") || `<div style="color:var(--suave)">Sin comentarios destacados</div>`;
+function filas(lista, dim, total, extra) {
+  if (!lista.length) return `<div class="vacio">Sin datos con estos filtros</div>`;
+  const max = Math.max(1, ...lista.map((x) => x.n));
+  return lista.map((x) => {
+    const on = F[dim].has(x.k), apag = F[dim].size && !on;
+    return `<div class="fila-b${on ? " on" : ""}${apag ? " apagada" : ""}" data-dim="${dim}" data-v="${esc(x.k)}" data-tip="${esc(x.tip || "")}">
+      <span class="nm">${x.ico || ""}${esc(x.nom)}</span><div class="bb">${extra ? extra(x, max) : `<i style="width:${x.n / max * 100}%;background:${x.col || "var(--g700)"}"></i>`}</div><span class="num">${fmt(x.n)}</span></div>`;
+  }).join("");
+}
+function canales(r) {
+  const m = msgsF("canal", r), c = {};
+  for (const x of m) c[x.c] = (c[x.c] || 0) + 1;
+  const tot = m.length || 1;
+  $("#canales").innerHTML = filas(Object.entries(c).sort((a, b) => b[1] - a[1]).map(([k, n]) => ({ k, n, nom: CANAL[k]?.n ?? k, col: CANAL[k]?.c, ico: `<span class="punto" style="background:${CANAL[k]?.c || "#888"}"></span>`, tip: `${CANAL[k]?.n ?? k}: ${Math.round(n / tot * 100)} % de los mensajes` })), "canal", tot);
+}
+function temas(r) {
+  const m = msgsF("tema", r), t = {};
+  for (const x of m) { const k = x.m || "saludo u otro"; if (k === "saludo u otro") continue; t[k] ??= { n: 0, pos: 0, neg: 0 }; t[k].n++; if (x.s === "positivo") t[k].pos++; if (x.s === "negativo") t[k].neg++; }
+  const lista = Object.entries(t).sort((a, b) => b[1].n - a[1].n).slice(0, 9).map(([k, v]) => ({ k, nom: cap(k), ...v, tip: `${cap(k)}: ${v.pos} positivos · ${v.neg} negativos` }));
+  $("#temas").innerHTML = filas(lista, "tema", 0, (x, max) => { const w = x.n / max * 100; return `<i style="width:${x.pos / x.n * w}%;background:var(--pos)"></i><i style="width:${(x.n - x.pos - x.neg) / x.n * w}%;background:var(--neu)"></i><i style="width:${x.neg / x.n * w}%;background:var(--neg)"></i>`; });
+}
+function areas(r) {
+  const cs = casosF("area", r), a = {};
+  for (const k of Object.keys(AREA)) a[k] = { abierto: 0, en_proceso: 0, resuelto: 0, n: 0 };
+  for (const c of cs) { const x = a[c.area] ??= { abierto: 0, en_proceso: 0, resuelto: 0, n: 0 }; x[c.estado]++; x.n++; }
+  const lista = Object.entries(a).sort((x, y) => y[1].n - x[1].n).map(([k, v]) => ({ k, nom: AREA[k]?.n ?? k, ico: `<span>${AREA[k]?.i || "•"}</span>`, ...v, tip: `${AREA[k]?.n ?? k}: ${v.abierto} abiertas · ${v.en_proceso} en proceso · ${v.resuelto} resueltas` }));
+  $("#areas").innerHTML = cs.length ? filas(lista, "area", 0, (x, max) => `<i style="width:${x.abierto / max * 100}%;background:var(--rojo)"></i><i style="width:${x.en_proceso / max * 100}%;background:var(--ambar)"></i><i style="width:${x.resuelto / max * 100}%;background:var(--lima3)"></i>`) : `<div class="vacio">Sin quejas con estos filtros 🎉</div>`;
+}
+function calor(r) {
+  const m = msgsF("hora", r).filter((x) => modoCalor === "todo" || x.k === "queja");
+  const g = Array.from({ length: 7 }, () => Array(13).fill(0));
+  for (const x of m) if (x._h >= 9 && x._h <= 21) g[x._dow][x._h - 9]++;
+  const max = Math.max(1, ...g.flat());
+  const base = modoCalor === "queja" ? [214, 69, 47] : [10, 83, 64];
+  let h = `<span></span>${HORAS.map((x, i) => `<span class="h">${i % 2 ? "" : x}</span>`).join("")}`;
+  for (let d = 0; d < 7; d++) {
+    h += `<span class="dl">${DIAS[d]}</span>`;
+    for (let i = 0; i < 13; i++) {
+      const v = g[d][i], a = v ? 0.12 + 0.88 * v / max : 0.04, on = F.hora === HORAS[i] && F.dow === d;
+      h += `<span class="c${on ? " on" : ""}" style="background:rgba(${base.join(",")},${a.toFixed(2)})" data-dow="${d}" data-h="${HORAS[i]}" data-tip="${DIAS[d]} ${HORAS[i]}:00–${HORAS[i] + 1}:00 · ${v} ${modoCalor === "queja" ? "quejas" : "mensajes"}"></span>`;
+    }
+  }
+  $("#calor").innerHTML = h;
+}
+function preguntas(r) {
+  const m = msgsF("pregunta", r), p = {};
+  for (const x of m) if (x.q) p[x.q] = (p[x.q] || 0) + 1;
+  const lista = Object.entries(p).sort((a, b) => b[1] - a[1]).slice(0, 8), max = Math.max(1, ...lista.map((x) => x[1]));
+  $("#preguntas").innerHTML = lista.map(([q, n]) => `<li class="${F.pregunta === q ? "on" : ""}" style="--w:${n / max * 100}%" data-preg="${esc(q)}"><span>${esc(q)}</span><b class="num">${fmt(n)}</b></li>`).join("") || `<li style="cursor:default">Todavía no hay preguntas repetidas</li>`;
+}
+function destacados(r) {
+  const m = msgsF(null, r).filter((x) => x.p != null && x.x && x.x.length > 18);
+  const unico = (a) => { const s = new Set(); return a.filter((x) => !s.has(x.x) && s.add(x.x)); };
+  const pos = unico([...m].sort((a, b) => b.p - a.p || b._ts - a._ts)).filter((x) => x.p >= 70).slice(0, 2);
+  const neg = unico([...m].sort((a, b) => a.p - b.p || b._ts - a._ts)).filter((x) => x.p <= 35).slice(0, 2);
+  $("#destacados").innerHTML = [...pos.map((x) => [x, ""]), ...neg.map((x) => [x, "neg"])]
+    .map(([x, c]) => `<div class="cita ${c}">“${esc(x.x)}”<small>${esc(CANAL[x.c]?.n ?? x.c)} · ${esc(hace(x._ts))}${x.d ? " · ejemplo" : ""}</small></div>`).join("") || `<div class="vacio">Sin comentarios destacados</div>`;
+}
+function filaMsg(x, nuevo) {
+  const ca = CANAL[x.c] || { n: x.c, c: "#888", i: "•" };
+  const caso = [...S.casos.values()].find((c) => c.z === x.z && Math.abs(c._ts - x._ts) < 6 * 3600e3);
+  const origen = caso && (x.k === "queja" || (x._ts <= caso._ts + 6e4 && x._ts >= caso._ts - 3e5));
+  return `<div class="msg${caso ? " click" : ""}${nuevo ? " nuevo" : ""}" ${caso ? `data-caso="${caso.id}"` : ""}><div class="cn" style="background:${ca.c}">${ca.i}</div><div>
+    <div class="t">${esc(x.x)}</div>
+    <div class="m"><span class="sd" style="background:${SENT_C[x.s] || "var(--neu)"}"></span>${x.k ? `<span class="tag ${x.k}">${esc(TIPO[x.k] || x.k)}</span>` : `<span class="tag">analizando…</span>`}${x.m && x.m !== "saludo u otro" ? `<span>${esc(cap(x.m))}</span>` : ""}<span>${esc(ca.n)} · ${esc(x.w || "")}</span><span>${esc(hace(x._ts))}</span>${origen ? `<span class="tag ${caso.prioridad}">${esc(caso.codigo)}</span>` : ""}${x.d ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div></div></div>`;
+}
+function ahora(r, nuevos) {
+  const m = msgsF(null, r).sort((a, b) => b._ts - a._ts);
+  $("#ahoraD").textContent = `${fmt(m.filter((x) => x._ts >= inicioDia(Date.now())).length)} hoy`;
+  $("#ahora").innerHTML = m.slice(0, 6).map((x) => filaMsg(x, nuevos.has(x.i))).join("") || `<div class="vacio">Todavía no hay mensajes con estos filtros</div>`;
+}
+function conversaciones(r, nuevos) {
+  const m = msgsF(null, r).sort((a, b) => b._ts - a._ts);
+  $("#convD").textContent = `${fmt(m.length)} mensajes · ${fmt(new Set(m.map((x) => x.z)).size)} conversaciones`;
+  $("#convLista").innerHTML = m.slice(0, verConv).map((x) => filaMsg(x, nuevos.has(x.i))).join("") || `<div class="vacio">No hay mensajes con estos filtros</div>`;
+  $("#btnMas").classList.toggle("oculto", m.length <= verConv);
 }
 
-function casos(d, nuevos) {
-  const cs = d.casos || [];
-  const abiertos = cs.filter((c) => c.estado !== "resuelto").length;
-  $("#casosN").textContent = `${abiertos} abiertos · ${cs.length - abiertos} resueltos`;
-  $("#casos").innerHTML = cs.map((c) => {
-    const [an, ai] = AREA[c.area] || [c.area, "•"];
-    const cuando = c.estado === "resuelto" && c.resuelto_en ? `resuelto en ${Math.max(1, Math.round((new Date(c.resuelto_en) - new Date(c.creado)) / 60000))} min` : hace(c.creado);
-    const acc = c.estado === "abierto" ? `<button data-caso="${c.id}" data-est="en_proceso">Atender</button><button class="ok" data-caso="${c.id}" data-est="resuelto">Resuelto</button>`
-      : c.estado === "en_proceso" ? `<button class="ok" data-caso="${c.id}" data-est="resuelto">Resuelto</button>` : "";
-    return `<div class="caso ${c.prioridad} ${c.estado}${nuevos.has(c.id) ? " nuevo" : ""}">
-      <div class="ico" title="${esc(an)}">${ai}</div>
-      <div><div class="r">${esc(c.resumen)}</div>
-        <div class="m"><span class="chip ${c.prioridad}">${esc(c.prioridad)}</span><span class="chip ${c.estado}">${esc(ESTADO[c.estado])}</span>${c.demo ? `<span class="chip ejemplo">ejemplo</span>` : ""}
-        <span>${esc(an)}</span><span>${esc(c.codigo)}</span><span>${esc((CANAL[c.canal] || [c.canal])[0])}</span>${c.zona ? `<span>📍 ${esc(c.zona)}</span>` : ""}${c.hora ? `<span>🕐 ${esc(c.hora)}</span>` : ""}<span>${esc(cuando)}</span>${c.avisados ? `<span>📲 avisado</span>` : ""}${c.nota ? `<span>· ${esc(c.nota)}</span>` : ""}</div></div>
-      <div class="acc">${acc}</div></div>`;
-  }).join("") || `<div style="color:var(--suave)">Sin casos en este periodo</div>`;
+function tarjeta(c) {
+  const ar = AREA[c.area] || { n: c.area, i: "•" };
+  const t = c.estado === "resuelto" && c.resuelto_en ? `resuelto en ${durTxt((Date.parse(c.resuelto_en) - c._ts) / 6e4)}` : hace(c._ts);
+  const acc = c.estado === "abierto" ? `<button class="btn btn-claro" data-accion="en_proceso" data-id="${c.id}">Atender</button><button class="btn btn-verde" data-accion="resuelto" data-id="${c.id}">Resuelto</button>`
+    : c.estado === "en_proceso" ? `<button class="btn btn-verde" data-accion="resuelto" data-id="${c.id}">Marcar resuelto</button>` : "";
+  return `<div class="tarjeta ${c.prioridad}${nuevosCasos.has(c.id) ? " nuevo" : ""}" data-caso="${c.id}">
+    <div class="ar">${ar.i} ${esc(ar.n)} · <span class="tag ${c.prioridad}">${esc(PRIO[c.prioridad])}</span><span class="cod">${esc(c.codigo)}</span></div>
+    <div class="r">${esc(c.resumen || "(sin resumen)")}</div>
+    <div class="m">${c.zona ? `<span>📍 ${esc(c.zona)}</span>` : ""}<span>${esc(CANAL[c.canal]?.n ?? c.canal)}</span><span>${esc(t)}</span>${c.avisados ? `<span>📲 avisado</span>` : ""}${c.demo ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div>
+    ${acc ? `<div class="acc">${acc}</div>` : ""}</div>`;
+}
+function tablero(r) {
+  const cs = casosF(null, r);
+  const per = casosF(null, r, true);
+  const res = cs.filter((c) => c.resuelto_en && Date.parse(c.resuelto_en) >= r.a).map((c) => (Date.parse(c.resuelto_en) - c._ts) / 6e4).sort((a, b) => a - b);
+  const n = (e) => cs.filter((c) => c.estado === e).length;
+  const altas = cs.filter((c) => c.estado !== "resuelto" && c.prioridad === "alta").length;
+  $("#resCasos").innerHTML = [
+    ["Recibidas en el periodo", fmt(per.length)], ["Abiertas", fmt(n("abierto"))], ["En proceso", fmt(n("en_proceso"))],
+    ["Prioridad alta sin cerrar", fmt(altas)], ["Tiempo de resolución", res.length ? durTxt(res[Math.floor(res.length / 2)]) : "—"],
+  ].map(([e, v]) => `<div class="caja"><div class="et">${e}</div><div class="v num">${v}</div></div>`).join("");
+  const orden = { alta: 0, media: 1, baja: 2 };
+  const cols = [["abierto", "Abiertos", "var(--rojo)"], ["en_proceso", "En proceso", "var(--ambar)"], ["resuelto", "Resueltos", "var(--lima)"]];
+  $("#kanban").innerHTML = cols.map(([e, nom, col]) => {
+    let l = cs.filter((c) => c.estado === e);
+    l = e === "resuelto" ? l.sort((a, b) => Date.parse(b.resuelto_en || 0) - Date.parse(a.resuelto_en || 0)) : l.sort((a, b) => orden[a.prioridad] - orden[b.prioridad] || b._ts - a._ts);
+    const lim = e === "resuelto" ? 12 : 60;
+    return `<div class="col${colMovil === e ? " ver" : ""}"><h3><span class="pt" style="background:${col}"></span>${nom}<span class="n">${l.length}</span></h3>
+      ${l.slice(0, lim).map(tarjeta).join("") || `<div class="vacio" style="padding:8px 6px">${e === "abierto" ? "Nada pendiente 🎉" : "Sin casos"}</div>`}
+      ${l.length > lim ? `<div class="vacio" style="text-align:center">y ${l.length - lim} más · use los filtros para encontrarlos</div>` : ""}</div>`;
+  }).join("");
 }
 
-function feed(d, nuevos) {
-  const f = d.feed || [];
-  $("#feedN").textContent = `${fmt(d.kpis?.mensajes_hoy)} mensajes hoy`;
-  $("#feed").innerHTML = f.map((m) => {
-    const [nom, col, ab] = CANAL[m.canal] || [m.canal, "#888", "•"];
-    return `<div class="msg${nuevos.has(m.id) ? " nuevo" : ""}"><div class="c" style="background:${col}">${ab}</div><div>
-      <div class="t">${esc(m.texto)}</div>
-      <div class="m"><span class="sent" style="background:${colorSent(m.sentimiento)}"></span>${m.categoria ? `<span class="cat ${m.categoria}">${esc(CAT[m.categoria])}</span>` : `<span class="cat">analizando…</span>`}${m.tema && m.tema !== "saludo u otro" ? `<span>${esc(m.tema)}</span>` : ""}<span>${esc(nom)} · ${esc(m.quien)}</span><span>${esc(horaQ(m.creado))}</span>${m.demo ? `<span class="chip ejemplo">ejemplo</span>` : ""}</div></div></div>`;
-  }).join("") || `<div style="color:var(--suave)">Todavía no hay mensajes en este periodo</div>`;
+// ---------- Detalle de un caso ----------
+async function abrirCaso(id) {
+  const c = S.casos.get(Number(id)); if (!c) return;
+  casoAbierto = c.id;
+  pintarLateral(c, true);
+  $("#velo").classList.add("on");
+  try {
+    const r = await llamar({ accion: "conversacion", id: c.id });
+    if (casoAbierto !== c.id) return;
+    const ms = r.mensajes || [];
+    $("#conv").innerHTML = ms.length ? ms.map((m) => {
+      const t = Date.parse(m.t);
+      const yo = m.dir === "entrante";
+      return `<div class="bu ${yo ? "v" : "a"}"><span class="quien">${yo ? "Visitante" : esc(S.cuenta?.asistente || "Asistente")}</span>${formatoWA(m.x)}<small>${m.c === "voz" ? "🎙 llamada · " : ""}${horaTxt(t)}</small></div>`;
+    }).join("") : `<div class="q">No hay más mensajes de esta conversación</div>`;
+    $("#conv").scrollTop = $("#conv").scrollHeight;
+  } catch (e) { $("#conv").innerHTML = `<div class="q">No se pudo cargar la conversación</div>`; }
+}
+function pintarLateral(c, completo) {
+  const ar = AREA[c.area] || { n: c.area, i: "•" };
+  const paso = (ok, t, ts) => `<div class="paso${ok ? " ok" : ""}"><i></i><span>${t}</span><small>${ts ? hace(ts) : "—"}</small></div>`;
+  const nota = $("#notaCaso")?.value ?? "";
+  const conv = $("#conv")?.innerHTML;
+  const acc = c.estado === "abierto" ? `<button class="btn btn-claro" data-accion="en_proceso" data-id="${c.id}">Atender</button><button class="btn btn-verde" data-accion="resuelto" data-id="${c.id}">Marcar resuelto</button>`
+    : c.estado === "en_proceso" ? `<button class="btn btn-verde" data-accion="resuelto" data-id="${c.id}">Marcar resuelto</button>` : `<button class="btn btn-claro" data-accion="abierto" data-id="${c.id}">Reabrir</button>`;
+  $("#lateral").innerHTML = `<div class="lat-cab"><button class="x" id="cerrarLat" aria-label="Cerrar">✕</button>
+    <div class="cod">${esc(c.codigo)}${c.demo ? " · EJEMPLO" : ""}</div><h3>${esc(c.resumen || "(sin resumen)")}</h3>
+    <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag ${c.prioridad}">Prioridad ${esc(PRIO[c.prioridad]).toLowerCase()}</span><span class="tag ${c.estado}">${esc(ESTADO[c.estado])}</span></div></div>
+    <div class="lat-cuerpo">
+      <div class="datos"><div><small>Área</small><b>${ar.i} ${esc(ar.n)}</b></div><div><small>Canal</small><b>${esc(CANAL[c.canal]?.n ?? c.canal)}</b></div>
+        <div><small>Zona</small><b>${esc(c.zona || "No la indicó")}</b></div><div><small>Hora del hecho</small><b>${esc(c.hora || "No la indicó")}</b></div>
+        <div><small>Tema</small><b>${esc(cap(c._tema))}</b></div><div><small>Contacto</small><b>${c.contacto ? "Dejó un contacto" : "Sin contacto"}</b></div></div>
+      <div class="linea-t">${paso(true, "Recibido", c._ts)}${paso(!!c.en_proceso_en || c.estado !== "abierto", "En atención", c.en_proceso_en ? Date.parse(c.en_proceso_en) : null)}${paso(c.estado === "resuelto", "Resuelto", c.resuelto_en ? Date.parse(c.resuelto_en) : null)}</div>
+      ${c.detalle ? `<div class="datos" style="grid-template-columns:1fr"><div><small>Más detalle</small><b style="font-weight:600">${esc(c.detalle)}</b></div></div>` : ""}
+      <div><h2 style="margin:0 0 8px;font-size:14px;color:var(--g800)">Conversación</h2><div class="conv" id="conv">${completo || !conv ? `<div class="q">Cargando…</div>` : conv}</div></div>
+      <div><h2 style="margin:0 0 8px;font-size:14px;color:var(--g800)">Nota interna</h2><textarea class="nota" id="notaCaso" placeholder="Qué se hizo, quién lo atendió…">${esc(completo ? (c.nota || "") : nota)}</textarea></div>
+      <div class="lat-acc">${acc}</div>
+    </div>`;
+}
+function cerrarLateral() { $("#velo").classList.remove("on"); casoAbierto = null; }
+async function cambiarEstado(id, estado, boton) {
+  const c = S.casos.get(Number(id)); if (!c) return;
+  if (boton) boton.disabled = true;
+  const nota = casoAbierto === c.id ? ($("#notaCaso")?.value || "").trim() : "";
+  try {
+    await llamar({ accion: "caso", id: c.id, estado, ...(nota ? { nota } : {}) });
+    const ahora = new Date().toISOString();
+    c.estado = estado; if (nota) c.nota = nota;
+    if (estado === "en_proceso") c.en_proceso_en = ahora;
+    if (estado === "resuelto") { c.resuelto_en = ahora; if (!c.en_proceso_en) c.en_proceso_en = ahora; }
+    if (estado === "abierto") c.resuelto_en = null;
+    prepC(c); pintar();
+    if (casoAbierto === c.id) pintarLateral(c, false);
+  } catch (e) { alert("No se pudo actualizar: " + e.message); if (boton) boton.disabled = false; }
 }
 
-// El sonido necesita un toque previo en el celular: el primer toque en la página lo deja listo.
+// ---------- Avisos ----------
 let ac = null;
 document.addEventListener("pointerdown", () => { try { if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)(); ac.resume(); } catch (e) {} });
 function sonar() {
@@ -344,82 +896,149 @@ function sonar() {
   } catch (e) {}
 }
 function toast(c) {
-  const [an] = AREA[c.area] || [c.area];
-  const d = document.createElement("div"); d.className = "toast";
-  d.innerHTML = `<b>${c.prioridad === "alta" ? "🔴 Queja de prioridad alta" : "🟠 Nuevo caso"} · ${esc(an)}</b><p>${esc(c.resumen)}</p><small>${esc(c.codigo)} · ${esc((CANAL[c.canal] || [c.canal])[0])}${c.zona ? " · " + esc(c.zona) : ""}</small>`;
-  $("#toasts").appendChild(d); setTimeout(() => d.remove(), 9000);
+  const ar = AREA[c.area] || { n: c.area, i: "•" };
+  const d = document.createElement("div"); d.className = "toast" + (c.prioridad === "alta" ? " alta" : "");
+  d.innerHTML = `<b>${c.prioridad === "alta" ? "🔴 Queja de prioridad alta" : "🟠 Nueva queja"} · ${ar.i} ${esc(ar.n)}</b><p>${esc(c.resumen || "")}</p><small>${esc(c.codigo)} · ${esc(CANAL[c.canal]?.n ?? c.canal)}${c.zona ? " · " + esc(c.zona) : ""} · tocar para ver</small>`;
+  d.onclick = () => { d.remove(); abrirCaso(c.id); };
+  $("#toasts").appendChild(d); setTimeout(() => d.remove(), 12000);
 }
 
-function pintar(d) {
-  datos = d;
-  const cu = d.cuenta || {};
-  $("#nombre").innerHTML = `${esc(cu.nombre)} <span>· Escucha digital</span>`;
-  document.title = `${cu.nombre} · Escucha digital`;
-  $("#nomAsis").textContent = cu.asistente || "el asistente";
-  $("#swDemo").classList.toggle("oculto", !cu.modo_demo);
-  $("#notaDemo").textContent = cu.modo_demo && conDemo ? "Incluye un histórico de ejemplo marcado como «ejemplo»; lo de hoy en adelante es en vivo." : "";
-  $("#actualizado").textContent = "actualizado " + horaQ(d.generado);
-  const casosNuevos = new Set(), msgsNuevos = new Set();
-  if (!primera) {
-    for (const c of d.casos || []) if (ultimoCaso != null && c.id > ultimoCaso && !c.demo) casosNuevos.add(c.id);
-    for (const m of d.feed || []) if (ultimoMsg != null && m.id > ultimoMsg) msgsNuevos.add(m.id);
+// ---------- QR ----------
+function modal(tit, opciones) {
+  let i = 0;
+  const poner = () => {
+    const o = opciones[i];
+    $("#mTit").textContent = tit; $("#mTxt").textContent = o.txt; $("#mLink").href = o.url; $("#mLink").textContent = o.boton || "Abrir";
+    try { const q = qrcode(0, o.cara ? "H" : "M"); q.addData(o.url); q.make(); $("#mQr").innerHTML = q.createImgTag(6, 0); } catch (e) { $("#mQr").textContent = o.url; }
+    $("#mCara").classList.toggle("oculto", !o.cara || !$("#mCara").src);
+    $$("#mTabs button").forEach((b, k) => b.classList.toggle("on", k === i));
+  };
+  $("#mTabs").classList.toggle("oculto", opciones.length < 2);
+  $("#mTabs").innerHTML = opciones.map((o) => `<button>${esc(o.t)}</button>`).join("");
+  $$("#mTabs button").forEach((b, k) => (b.onclick = () => { i = k; poner(); }));
+  poner();
+  $("#modal").classList.remove("oculto");
+}
+
+// ---------- Eventos ----------
+$("#periodo").addEventListener("click", (e) => { const b = e.target.closest("button[data-d]"); if (!b) return; S.dias = Number(b.dataset.d); $$("#periodo button").forEach((x) => x.classList.toggle("on", x === b)); F.dia = null; F.hora = F.dow = null; cargarTodo(); });
+$("#chkDemo").addEventListener("change", (e) => { S.demo = e.target.checked; cargarTodo(); });
+$("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button[data-tab]"); if (b) irA(b.dataset.tab); });
+function irA(t) {
+  tab = t; $$("#tabs button").forEach((x) => x.classList.toggle("on", x.dataset.tab === t));
+  $("#tResumen").classList.toggle("oculto", t !== "resumen"); $("#tCasos").classList.toggle("oculto", t !== "casos"); $("#tConv").classList.toggle("oculto", t !== "conv");
+  pintar();
+}
+let tq = null;
+$("#q").addEventListener("input", (e) => { clearTimeout(tq); tq = setTimeout(() => { F.q = norm(e.target.value.trim()); pintar(); }, 220); });
+$("#btnMas").addEventListener("click", () => { verConv += 80; pintar(); });
+$("#colsel").addEventListener("click", (e) => { const b = e.target.closest("button[data-c]"); if (!b) return; colMovil = b.dataset.c; $$("#colsel button").forEach((x) => x.classList.toggle("on", x === b)); pintar(); });
+$("#modoCalor").addEventListener("click", (e) => { const b = e.target.closest("button[data-m]"); if (!b) return; modoCalor = b.dataset.m; $$("#modoCalor button").forEach((x) => x.classList.toggle("on", x === b)); pintar(); });
+
+document.addEventListener("click", (e) => {
+  const t = e.target;
+  const q = t.closest("[data-quitar]");
+  if (q) { const k = q.dataset.quitar; if (k === "dia") F.dia = null; else if (k === "hora") F.hora = F.dow = null; else if (k === "pregunta") F.pregunta = null; else if (k === "q") { F.q = ""; $("#q").value = ""; } else F[k].delete(q.dataset.v); pintar(); return; }
+  if (t.closest("#limpiar")) { limpiarFiltros(); return; }
+  const acc = t.closest("[data-accion]");
+  if (acc) { e.stopPropagation(); cambiarEstado(acc.dataset.id, acc.dataset.accion, acc); return; }
+  if (t.closest("#cerrarLat") || t.id === "velo") { cerrarLateral(); return; }
+  const fb = t.closest(".fb[data-dim]");
+  if (fb) { abrirPop(fb); return; }
+  if (!t.closest("#pop")) cerrarPop();
+  const fila = t.closest(".fila-b[data-dim]");
+  if (fila) { alternar(fila.dataset.dim, fila.dataset.v); return; }
+  const se = t.closest("[data-sent]");
+  if (se) { alternar("sent", se.dataset.sent); return; }
+  const bar = t.closest(".barra[data-k]");
+  if (bar) {
+    const k = bar.dataset.k;
+    if (S.dias === 1) { const d = dowDe(Date.now()), h = Number(k); if (F.hora === h && F.dow === d) F.hora = F.dow = null; else { F.hora = h; F.dow = d; } }
+    else F.dia = F.dia === k ? null : k;
+    pintar(); return;
   }
-  kpis(d); serie(d); distribucion(d); temas(d); casos(d, casosNuevos); feed(d, msgsNuevos);
-  for (const id of casosNuevos) { const c = d.casos.find((x) => x.id === id); if (c) { toast(c); sonar(); } }
-  ultimoCaso = Math.max(ultimoCaso ?? 0, d.ultimo_caso ?? 0); ultimoMsg = Math.max(ultimoMsg ?? 0, d.ultimo_id ?? 0);
-  primera = false;
-}
-
-async function cargar() {
-  if (ocupado || !TOKEN) return;
-  ocupado = true;
-  try {
-    const d = await llamar({ accion: "panel", dias, demo: conDemo });
-    if (d.suspendida) {
-      $("#susTit").textContent = `${d.cuenta?.nombre ?? "La cuenta"}: servicio en pausa`;
-      ver("vSuspendida");
-    } else { pintar(d); ver("vPanel"); }
-  } catch (e) {
-    if (e.enlace) ver("vError");
-    else $("#actualizado").textContent = "sin conexión · reintentando";
-  }
-  ocupado = false;
-}
-
-// ---------- Acciones ----------
-$("#periodo").addEventListener("click", (e) => { const b = e.target.closest("button[data-d]"); if (!b) return; dias = Number(b.dataset.d); document.querySelectorAll("#periodo button").forEach((x) => x.classList.toggle("on", x === b)); cargar(); });
-$("#chkDemo").addEventListener("change", (e) => { conDemo = e.target.checked; primera = true; cargar(); });
-$("#casos").addEventListener("click", async (e) => {
-  const b = e.target.closest("button[data-caso]"); if (!b) return;
-  b.disabled = true;
-  try { await llamar({ accion: "caso", id: Number(b.dataset.caso), estado: b.dataset.est }); } catch (x) { alert("No se pudo actualizar: " + x.message); }
-  await cargar();
+  const cel = t.closest(".calor .c");
+  if (cel) { const d = Number(cel.dataset.dow), h = Number(cel.dataset.h); if (F.hora === h && F.dow === d) F.hora = F.dow = null; else { F.hora = h; F.dow = d; } pintar(); return; }
+  const pr = t.closest("[data-preg]");
+  if (pr) { F.pregunta = F.pregunta === pr.dataset.preg ? null : pr.dataset.preg; pintar(); return; }
+  const ir = t.closest(".kpi[data-ir]");
+  if (ir) { const v = ir.dataset.ir; if (v === "abiertos") { F.estado = new Set(["abierto", "en_proceso"]); irA("casos"); } else irA(v); return; }
+  const caso = t.closest("[data-caso]");
+  if (caso) { abrirCaso(caso.dataset.caso); return; }
 });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") { cerrarLateral(); cerrarPop(); $("#modal").classList.add("oculto"); } });
+
+// Menú de cada filtro, con cuántos mensajes o casos hay en cada opción.
+function opcionesDe(dim) {
+  const r = rangos(), cuenta = {};
+  if (["area", "prio", "estado"].includes(dim)) {
+    for (const c of casosF(dim, r)) { const v = dim === "area" ? c.area : dim === "prio" ? c.prioridad : c.estado; cuenta[v] = (cuenta[v] || 0) + 1; }
+    const base = dim === "area" ? Object.keys(AREA) : dim === "prio" ? Object.keys(PRIO) : Object.keys(ESTADO);
+    return { lista: base.map((k) => [k, cuenta[k] || 0]), unidad: "casos" };
+  }
+  for (const m of msgsF(dim, r)) { const v = dim === "canal" ? m.c : dim === "tipo" ? (m.k || "otro") : dim === "sent" ? (m.s || "neutral") : (m.m || "saludo u otro"); cuenta[v] = (cuenta[v] || 0) + 1; }
+  let base = dim === "canal" ? Object.keys(CANAL).filter((k) => cuenta[k] || F.canal.has(k)) : dim === "tipo" ? Object.keys(TIPO) : dim === "sent" ? Object.keys(SENT) : Object.keys(cuenta).sort((a, b) => cuenta[b] - cuenta[a]);
+  return { lista: base.map((k) => [k, cuenta[k] || 0]), unidad: "mensajes" };
+}
+function abrirPop(boton) {
+  const dim = boton.dataset.dim, pop = $("#pop");
+  if (!pop.classList.contains("oculto") && pop.dataset.dim === dim) { cerrarPop(); return; }
+  const { lista, unidad } = opcionesDe(dim);
+  const ico = (k) => dim === "canal" ? `<span class="punto" style="background:${CANAL[k]?.c}"></span>` : dim === "sent" ? `<span class="punto" style="background:${SENT_C[k]}"></span>` : dim === "area" ? `<span>${AREA[k]?.i}</span>` : "";
+  pop.dataset.dim = dim;
+  pop.innerHTML = `<h4>${DIM[dim]} · ${unidad}</h4>${lista.map(([k, n]) => `<label><input type="checkbox" value="${esc(k)}" ${F[dim].has(k) ? "checked" : ""}>${ico(k)}${esc(ETIQ[dim](k))}<span class="cnt num">${fmt(n)}</span></label>`).join("")}
+    <div class="pie"><button data-todo="0">Quitar selección</button><button data-cerrar>Listo</button></div>`;
+  pop.classList.remove("oculto");
+  const rc = boton.getBoundingClientRect();
+  const w = pop.offsetWidth;
+  pop.style.left = Math.max(8, Math.min(window.innerWidth - w - 8, rc.left)) + "px";
+  pop.style.top = (rc.bottom + 8) + "px";
+  pop.onchange = (e) => { const v = e.target.value; e.target.checked ? F[dim].add(v) : F[dim].delete(v); pintar(); };
+  pop.onclick = (e) => { if (e.target.closest("[data-todo]")) { F[dim].clear(); $$("input", pop).forEach((x) => (x.checked = false)); pintar(); } if (e.target.closest("[data-cerrar]")) cerrarPop(); };
+}
+function cerrarPop() { $("#pop").classList.add("oculto"); $("#pop").dataset.dim = ""; }
+window.addEventListener("resize", () => { cerrarPop(); clearTimeout(window._rz); window._rz = setTimeout(() => S.cargado && pintar(), 250); });
+window.addEventListener("scroll", cerrarPop, { passive: true });
+$(".filtros-in").addEventListener("scroll", cerrarPop);
+
+// Información al pasar el dedo o el ratón.
+const tip = $("#tip");
+document.addEventListener("pointermove", (e) => {
+  const el = e.target.closest?.("[data-tip]");
+  if (!el || !el.dataset.tip) { tip.classList.remove("on"); return; }
+  tip.textContent = el.dataset.tip; tip.classList.add("on");
+  const x = Math.min(window.innerWidth - tip.offsetWidth - 10, e.clientX + 14), y = Math.max(10, e.clientY - tip.offsetHeight - 12);
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+});
+document.addEventListener("pointerdown", (e) => { if (!e.target.closest?.("[data-tip]")) tip.classList.remove("on"); });
+
 $("#btnReporte").addEventListener("click", async () => {
   const b = $("#btnReporte"); b.disabled = true; b.textContent = "Escribiendo…";
   $("#reporte").innerHTML = `<span style="color:var(--suave)">La IA está leyendo la semana…</span>`;
   try {
-    const r = await llamar({ accion: "reporte", regenerar: true, demo: conDemo });
-    $("#reporte").innerHTML = esc(r.texto).replace(/^(.+:)\s*$/gm, '<span class="tit">$1</span>');
+    const r = await llamar({ accion: "reporte", regenerar: true, demo: S.demo });
+    $("#reporte").innerHTML = esc(r.texto).replace(/^(.+:)\s*$/gm, '<span class="tt">$1</span>');
   } catch (e) { $("#reporte").textContent = "No se pudo generar ahora: " + e.message; }
   b.disabled = false; b.textContent = "Generar de nuevo";
 });
-function modal(tit, txt, url, boton) {
-  $("#mTit").textContent = tit; $("#mTxt").textContent = txt; $("#mLink").href = url; $("#mLink").textContent = boton || "Abrir";
-  try { const q = qrcode(0, "M"); q.addData(url); q.make(); $("#mQr").innerHTML = q.createImgTag(6, 0); } catch (e) { $("#mQr").textContent = url; }
-  $("#velo").classList.remove("oculto");
-}
-$("#btnAlertas").addEventListener("click", () => modal("Este panel en su celular", "Escanee el código para abrir el panel en su celular. Cada queja nueva aparece al instante, con el área, la prioridad y un aviso.", location.href, "Abrir el panel"));
-$("#btnProbar").addEventListener("click", () => {
-  const nom = datos?.cuenta?.asistente || "el asistente";
-  const u = datos?.web || datos?.cuenta?.wa_visitante;
-  if (u) modal(`Hable con ${nom}`, `Escanee el código como lo haría un visitante: se abre la web nueva y ${nom} le atiende por escrito o por voz. Pregunte por una tienda o deje una queja, y mírela aparecer aquí.`, u, "Abrir la web");
+$("#btnCel").addEventListener("click", () => modal("Este panel en su celular", [{ txt: "Escanee el código para abrir el panel en su celular. Cada queja nueva llega al instante, con aviso y vibración.", url: location.href, boton: "Abrir el panel" }]));
+$("#btnHablar").addEventListener("click", () => {
+  const cu = S.cuenta || {}, nom = cu.asistente || "el asistente", ops = [];
+  if (cu.wa_demo) ops.push({ t: "WhatsApp", txt: `Escanee como lo haría un visitante: se abre el chat de WhatsApp con ${nom}. Escríbale, mándele una foto o llámelo. Deje una queja y mírela llegar aquí.`, url: cu.wa_demo, boton: "Abrir el chat", cara: true });
+  if (cu.web) ops.push({ t: "Web nueva", txt: `Se abre la web nueva con ${nom} listo para conversar, por escrito o por voz.`, url: cu.web, boton: "Abrir la web", cara: true });
+  if (ops.length) modal(`Hable con ${nom}`, ops);
 });
-$("#mCerrar").addEventListener("click", () => $("#velo").classList.add("oculto"));
-$("#velo").addEventListener("click", (e) => { if (e.target.id === "velo") $("#velo").classList.add("oculto"); });
+$("#mCerrar").addEventListener("click", () => $("#modal").classList.add("oculto"));
+$("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") $("#modal").classList.add("oculto"); });
 
 if (!TOKEN) ver("vError");
-else { cargar(); setInterval(() => { if (!document.hidden) cargar(); }, 5000); document.addEventListener("visibilitychange", () => { if (!document.hidden) cargar(); }); }
+else {
+  cargarTodo();
+  setInterval(refrescar, 5000);
+  setInterval(cargarTodo, 180000);
+  setInterval(() => { if (S.cargado && tab !== "conv") pintar(); }, 60000);
+  document.addEventListener("visibilitychange", () => { if (!document.hidden) refrescar(); });
+}
 </script>
 </body>
 </html>
