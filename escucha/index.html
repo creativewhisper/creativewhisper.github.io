@@ -160,7 +160,7 @@ a{color:inherit}
       <div class="controles">
         <div class="seg" id="periodo"><button data-d="1">Hoy</button><button data-d="7" class="on">7 días</button><button data-d="28">28 días</button></div>
         <label class="interruptor oculto" id="swDemo"><input type="checkbox" id="chkDemo" checked><span class="pista"></span>Histórico de ejemplo</label>
-        <button class="boton" id="btnAlertas">📲 Recibir alertas</button>
+        <button class="boton" id="btnAlertas">📱 Panel en mi celular</button>
         <button class="boton pri" id="btnProbar">💬 Hablar con <span id="nomAsis">el asistente</span></button>
       </div>
     </div>
@@ -195,7 +195,7 @@ a{color:inherit}
 </div>
 
 <div id="toasts"></div>
-<div class="velo oculto" id="velo"><div class="modal"><h3 id="mTit"></h3><p id="mTxt"></p><div class="qr" id="mQr"></div><br><a class="boton pri" id="mLink" target="_blank" rel="noopener">Abrir en WhatsApp</a><br><button class="boton" id="mCerrar" style="margin-top:10px">Cerrar</button></div></div>
+<div class="velo oculto" id="velo"><div class="modal"><h3 id="mTit"></h3><p id="mTxt"></p><div class="qr" id="mQr"></div><br><a class="boton pri" id="mLink" target="_blank" rel="noopener">Abrir</a><br><button class="boton" id="mCerrar" style="margin-top:10px">Cerrar</button></div></div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
 <script>
@@ -333,9 +333,13 @@ function feed(d, nuevos) {
   }).join("") || `<div style="color:var(--suave)">Todavía no hay mensajes en este periodo</div>`;
 }
 
+// El sonido necesita un toque previo en el celular: el primer toque en la página lo deja listo.
+let ac = null;
+document.addEventListener("pointerdown", () => { try { if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)(); ac.resume(); } catch (e) {} });
 function sonar() {
+  try { navigator.vibrate && navigator.vibrate([180, 90, 180]); } catch (e) {}
   try {
-    const ac = new (window.AudioContext || window.webkitAudioContext)();
+    if (!ac) ac = new (window.AudioContext || window.webkitAudioContext)();
     [0, 0.18].forEach((t, i) => { const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = i ? 880 : 660; g.gain.setValueAtTime(0.0001, ac.currentTime + t); g.gain.exponentialRampToValueAtTime(0.18, ac.currentTime + t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, ac.currentTime + t + 0.25); o.connect(g).connect(ac.destination); o.start(ac.currentTime + t); o.stop(ac.currentTime + t + 0.3); });
   } catch (e) {}
 }
@@ -400,13 +404,17 @@ $("#btnReporte").addEventListener("click", async () => {
   } catch (e) { $("#reporte").textContent = "No se pudo generar ahora: " + e.message; }
   b.disabled = false; b.textContent = "Generar de nuevo";
 });
-function modal(tit, txt, url) {
-  $("#mTit").textContent = tit; $("#mTxt").textContent = txt; $("#mLink").href = url;
+function modal(tit, txt, url, boton) {
+  $("#mTit").textContent = tit; $("#mTxt").textContent = txt; $("#mLink").href = url; $("#mLink").textContent = boton || "Abrir";
   try { const q = qrcode(0, "M"); q.addData(url); q.make(); $("#mQr").innerHTML = q.createImgTag(6, 0); } catch (e) { $("#mQr").textContent = url; }
   $("#velo").classList.remove("oculto");
 }
-$("#btnAlertas").addEventListener("click", () => { const u = datos?.cuenta?.wa_alertas; if (u) modal("Recibir alertas en su WhatsApp", "Escanee el código y envíe el mensaje que aparece. Desde ese momento, cada queja llega a su celular en segundos, con el área, la prioridad y la zona.", u); });
-$("#btnProbar").addEventListener("click", () => { const u = datos?.cuenta?.wa_visitante; if (u) modal(`Hable con ${datos.cuenta.asistente || "el asistente"} por WhatsApp`, "Escanee el código como lo haría un visitante: pregunte por una tienda, el parqueadero o el sorteo, o deje una queja y mírela aparecer aquí.", u); });
+$("#btnAlertas").addEventListener("click", () => modal("Este panel en su celular", "Escanee el código para abrir el panel en su celular. Cada queja nueva aparece al instante, con el área, la prioridad y un aviso.", location.href, "Abrir el panel"));
+$("#btnProbar").addEventListener("click", () => {
+  const nom = datos?.cuenta?.asistente || "el asistente";
+  const u = datos?.web || datos?.cuenta?.wa_visitante;
+  if (u) modal(`Hable con ${nom}`, `Escanee el código como lo haría un visitante: se abre la web nueva y ${nom} le atiende por escrito o por voz. Pregunte por una tienda o deje una queja, y mírela aparecer aquí.`, u, "Abrir la web");
+});
 $("#mCerrar").addEventListener("click", () => $("#velo").classList.add("oculto"));
 $("#velo").addEventListener("click", (e) => { if (e.target.id === "velo") $("#velo").classList.add("oculto"); });
 
