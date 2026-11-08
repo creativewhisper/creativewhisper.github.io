@@ -1,0 +1,691 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0908">
+<meta name="robots" content="noindex, nofollow">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Finanzas">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icono-180.png">
+<link rel="apple-touch-icon" href="icono-180.png">
+<title>Finanzas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap">
+<style>
+:root {
+  --font-anthropic-sans: "Hanken Grotesk", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-anthropic-serif: "Fraunces", Georgia, "Times New Roman", serif;
+  --color-fg: #EDE7DC; --color-fg-muted: #9C958A; --color-bg: #0A0908; --color-panel: #161513;
+  --color-border-line: #2A2825; --color-ok: #4FC2B4; --color-warn: #F5A300; --color-bad: #FF6A5E;
+  --cds-font-size-caption: 0.8125rem; --cds-font-size-body: 0.9375rem; --cds-font-size-heading: 1.0625rem; --cds-font-size-title: 1.75rem;
+  --cds-font-weight-medium: 600;
+  --cds-gap-xs: 4px; --cds-gap-sm: 8px; --cds-gap-md: 12px; --cds-gap-lg: 20px; --cds-gap-xl: 32px;
+  --cds-pad-xs: 4px; --cds-pad-sm: 8px; --cds-pad-md: 12px; --cds-pad-lg: 16px; --cds-pad-xl: 24px;
+  --cds-radius: 8px;
+  --cds-chart-muted: #4A4640; --cds-chart-grid: #26241F; --cds-chart-axis: #5E5A53;
+  --cds-dur-slow: 300ms;
+  --safe-t: env(safe-area-inset-top, 0px); --safe-b: env(safe-area-inset-bottom, 0px);
+}
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; background: var(--color-bg); color: var(--color-fg); font-family: var(--font-anthropic-sans); -webkit-text-size-adjust: 100%; }
+.franja { height: 3px; background: linear-gradient(90deg, #F5A300 0 20%, #E3120B 20% 40%, #FFD7BD 40% 60%, #3EA398 60% 80%, #CDBFA6 80%); position: sticky; top: 0; z-index: 3; }
+.oculto { display: none !important; }
+.vista[hidden] { display: none !important; }
+.es-card h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0 0 var(--cds-gap-xs); }
+.login { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; gap: 12px; padding: 32px 24px; max-width: 26rem; margin: 0 auto; }
+.login h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 2.2rem; margin: 0 0 4px; }
+.login p { color: var(--color-fg-muted); margin: 0 0 12px; line-height: 1.45; }
+.login input { font: inherit; font-size: 16px; color: var(--color-fg); background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 12px; padding: 14px; }
+.btn { font: inherit; font-size: 16px; font-weight: 600; border: 0; border-radius: 12px; padding: 14px; cursor: pointer; background: #CDBFA6; color: #0A0908; }
+.aviso { color: var(--color-bad); font-size: 14px; min-height: 1.2em; }
+header.top { position: sticky; top: 3px; z-index: 2; display: flex; align-items: center; justify-content: space-between; padding: calc(10px + var(--safe-t)) 16px 10px; background: color-mix(in srgb, var(--color-bg) 88%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+header.top h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 1.5rem; margin: 0; }
+header.top small { display: block; color: var(--color-fg-muted); font-size: 12px; margin-top: 2px; }
+.rec { background: var(--color-panel); color: var(--color-fg); border: 1px solid var(--color-border-line); border-radius: 999px; width: 40px; height: 40px; display: grid; place-items: center; cursor: pointer; }
+.rec.girando svg { animation: girar 0.9s linear infinite; }
+@keyframes girar { to { transform: rotate(360deg); } }
+main { padding: 8px 16px calc(96px + var(--safe-b)); }
+nav.abajo { position: fixed; left: 0; right: 0; bottom: 0; display: flex; background: color-mix(in srgb, var(--color-panel) 92%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-top: 1px solid var(--color-border-line); padding-bottom: var(--safe-b); z-index: 2; }
+nav.abajo button { flex: 1; font: inherit; font-size: 13px; font-weight: 600; background: none; border: 0; color: var(--color-fg-muted); padding: 12px 0 14px; cursor: pointer; }
+nav.abajo button.activo { color: var(--color-fg); }
+nav.abajo button.activo::before { content: ""; display: block; width: 28px; height: 3px; border-radius: 3px; background: #CDBFA6; margin: -12px auto 9px; }
+.fp { color: var(--color-fg); }
+.fp .pos { color: var(--color-ok); }
+.fp .bad { color: var(--color-bad); }
+.fp .warn { color: var(--color-warn); }
+.fp .muted { color: var(--color-fg-muted); }
+.fp .es-card b { font-weight: 600; font-variant-numeric: tabular-nums; color: var(--color-fg); }
+.fp-es { max-width: 30rem; margin-inline: auto; display: grid; gap: var(--cds-gap-md); }
+.es-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: calc(var(--cds-radius) * 2); padding: var(--cds-pad-lg); min-width: 0; }
+.es-label { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; }
+.es-big { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: calc(var(--cds-font-size-title) * 1.7); line-height: 1.05; display: block; font-variant-numeric: tabular-nums; margin: var(--cds-gap-xs) 0; min-height: 1.1em; }
+.es-mid { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); line-height: 1.1; display: block; font-variant-numeric: tabular-nums; margin: var(--cds-gap-xs) 0; min-height: 1.15em; }
+.es-sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0; line-height: 1.45; }
+.es-line { border: 0; border-top: 1px solid var(--color-border-line); margin: var(--cds-gap-md) 0; }
+.es-status { font-size: var(--cds-font-size-body); line-height: 1.45; margin: var(--cds-gap-xs) 0 0; }
+.es-list { list-style: none; margin: var(--cds-gap-sm) 0 0; padding: 0; }
+.es-list li { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--cds-gap-md); padding: var(--cds-pad-sm) 0; border-bottom: 1px solid var(--color-border-line); }
+.es-list li:last-child { border-bottom: 0; }
+.es-l { min-width: 0; flex: 1; }
+.es-name { font-size: var(--cds-font-size-body); }
+.es-meta { display: block; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-top: 2px; }
+.es-r { text-align: right; white-space: nowrap; }
+.es-amt { display: block; font-variant-numeric: tabular-nums; font-size: var(--cds-font-size-body); }
+.es-chip { display: inline-block; margin-top: 2px; font-size: var(--cds-font-size-caption); padding: 0 var(--cds-pad-sm); border-radius: 999px; border: 1px solid currentColor; }
+.es-bar { height: 6px; border-radius: 3px; background: var(--cds-chart-grid); margin-top: 6px; overflow: hidden; }
+.es-bar i { display: block; height: 100%; border-radius: 3px; }
+.es-foot { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: var(--cds-gap-sm) 0 0; line-height: 1.45; }
+.es-alert { font-size: var(--cds-font-size-body); line-height: 1.45; }
+.es-go { all: unset; cursor: pointer; justify-self: center; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); text-decoration: underline; padding: var(--cds-pad-sm); }
+
+.mv-buscar { width: 100%; font: inherit; font-size: 16px; color: var(--color-fg); background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 12px; padding: 12px 14px; margin-bottom: 8px; }
+.mv-dia { font-size: 12px; font-weight: 600; letter-spacing: .4px; text-transform: uppercase; color: var(--color-fg-muted); margin: 18px 0 2px; }
+.mv-nada { color: var(--color-fg-muted); text-align: center; padding: 32px 0; }
+.pie { text-align: center; font-size: 12px; color: var(--color-fg-muted); margin: 20px 0 0; line-height: 1.6; }
+.pie a, .pie button { color: inherit; font: inherit; background: none; border: 0; text-decoration: underline; cursor: pointer; padding: 0; }
+</style>
+</head>
+<body>
+<div class="franja"></div>
+
+<div id="vLogin" class="login oculto">
+  <h1>Finanzas</h1>
+  <p>Tu saldo, lo que viene y en qué se te va. Entra con tu cuenta de la Oficina CW.</p>
+  <input id="lEmail" type="email" placeholder="Correo" autocomplete="username">
+  <input id="lClave" type="password" placeholder="Contraseña" autocomplete="current-password">
+  <button id="lEntrar" class="btn">Entrar</button>
+  <div id="lAviso" class="aviso"></div>
+</div>
+
+<div id="vApp" class="oculto">
+  <header class="top">
+    <div><h1 id="titulo">Lo esencial</h1><small id="actualizado"></small></div>
+    <button class="rec" id="btnRecargar" aria-label="Actualizar"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 12a9 9 0 1 1-2.6-6.4M21 4v5h-5"/></svg></button>
+  </header>
+  <main class="fp" id="dash-root">
+    <section id="esencial" class="vista fp-es" aria-label="Lo esencial">
+  <div class="es-card" id="es-saldo">
+    <p class="es-label">Saldo estimado al <span data-draw="es_ref" data-source="esencial" data-field="ref" data-row="0">—</span></p>
+    <span class="es-big" data-draw="es_saldo" data-source="esencial" data-field="saldo" data-row="0">—</span>
+    <p class="es-sub">Tu último saldo real, más y menos los avisos del banco que llegaron después.</p>
+    <hr class="es-line">
+    <p class="es-label">Libre para gastar</p>
+    <span class="es-mid" data-draw="es_libre" data-source="esencial" data-field="libre" data-row="0">—</span>
+    <p class="es-status">
+      <span data-variant="falta">Te faltan <b data-draw="es_falta" data-source="esencial" data-field="falta" data-row="0">—</b> para cubrir lo que se cobra en los próximos 30 días. Deposita antes del <b data-draw="es_falta_fecha" data-source="esencial" data-field="falta_antes" data-row="0">—</b>.</span>
+      <span data-variant="ok">Es lo que te queda después de cubrir lo que se cobra en los próximos 30 días.</span>
+      <i data-draw="es_variante" data-source="esencial"></i>
+    </p>
+  </div>
+
+  <div class="es-card" id="es-pagos">
+    <h2>Próximos pagos</h2>
+    <p class="es-sub">Lo que se cobra en los próximos 30 días y si tu saldo alcanza, en orden.</p>
+    <ul class="es-list" data-draw="es_pagos" data-source="proximos_pagos"></ul>
+    <p class="es-foot">¿Pagas arriendo, cuotas o una tarjeta de crédito? Dímelo en el chat y aparece aquí.</p>
+  </div>
+
+  <div class="es-card" id="es-suscripciones">
+    <h2>Suscripciones</h2>
+    <p class="es-sub">Lo que pagas cada mes aunque no hagas nada.</p>
+    <span class="es-mid" data-draw="es_sub_total" data-source="suscripciones_total" data-field="mensual" data-row="0">—</span>
+    <p class="es-sub">al mes, <span data-draw="es_sub_anual" data-source="suscripciones_total" data-field="anual" data-row="0">—</span> al año</p>
+    <ul class="es-list" data-draw="es_subs" data-source="suscripciones"></ul>
+  </div>
+
+  <div class="es-card" id="es-gasto">
+    <h2>En qué se te fue</h2>
+    <p class="es-sub">Del <span data-draw="es_g_desde" data-source="gasto_30d_total" data-field="desde" data-row="0">—</span> al <span data-draw="es_g_hasta" data-source="gasto_30d_total" data-field="hasta" data-row="0">—</span> salieron</p>
+    <span class="es-mid" data-draw="es_g_total" data-source="gasto_30d_total" data-field="total" data-row="0">—</span>
+    <ul class="es-list" data-draw="es_cats" data-source="gasto_30d"></ul>
+  </div>
+
+  <div class="es-card" id="es-alertas">
+    <h2>Alertas</h2>
+    <ul class="es-list" data-draw="es_alertas" data-source="alertas"></ul>
+  </div>
+</section>
+
+    <section id="movs" class="vista fp-es" aria-label="Movimientos" hidden>
+      <input class="mv-buscar" type="search" placeholder="Buscar comercio, concepto o marca" aria-label="Buscar movimientos">
+      <div data-draw="mv_lista" data-source="movimientos"></div>
+    </section>
+
+    <p class="pie">Se actualiza solo cada lunes con los avisos del banco de tu Gmail.<br><a href="https://claude.ai/artifact/DyRKzyZDFba16WQbxri5iy">Tablero completo en Claude</a> · <button id="btnSalir">Cerrar sesión</button></p>
+  </main>
+  <nav class="abajo">
+    <button data-vista="esencial" class="activo">Lo esencial</button>
+    <button data-vista="movs">Movimientos</button>
+  </nav>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+<script>
+"use strict";
+(function () {
+  var RAW = {}, loaders = {}, calcs = {}, cache = {}, draws = {};
+  function result(d) { return {status: 'ok', data: d, columns: Array.isArray(d) && d[0] ? Object.keys(d[0]) : [], meta: [], refreshing: false, message: ''}; }
+  var dash = {
+    colors: ['#CDBFA6', '#F5A300', '#3EA398', '#FFD7BD', '#E3120B', '#8FA7C9', '#B58B2A', '#6b7280'],
+    data: function (id) {
+      if (cache[id]) return cache[id];
+      var d;
+      try {
+        if (calcs[id]) {
+          var ins = calcs[id].inputs.map(function (i) { return dash.data(i); });
+          if (ins.some(function (x) { return x.status !== 'ok'; })) return {status: 'loading', data: [], columns: [], meta: []};
+          d = calcs[id].fn.apply(null, ins.map(function (x) { return x.data; }));
+        } else if (id in RAW) {
+          d = RAW[id];
+          if (loaders[id]) d = loaders[id].fn({answer: d});
+        } else return {status: 'loading', data: [], columns: [], meta: []};
+      } catch (e) { console.error('dato', id, e); return {status: 'error', data: [], columns: [], meta: [], message: String(e)}; }
+      return (cache[id] = result(d));
+    },
+    calc: function (id, o) { calcs[id] = o; },
+    loader: function (id, o) { loaders[id] = o; },
+    onData: function () {},
+    draw: function (name, fn) { if (fn) draws[name] = fn; else dibujar(name); },
+    setLink: function () {}, params: function () { return {}; }, setParams: function () {}, resetParams: function () {}, refresh: function () {},
+  };
+  function dibujar(name) {
+    document.querySelectorAll('[data-draw="' + name + '"]').forEach(function (el) {
+      var p = el.parentElement;
+      if (p && p.closest('[hidden]')) return;
+      try { draws[name](el); } catch (e) { console.error('dibujo', name, e); }
+    });
+  }
+  window.dash = dash;
+  window.finRedibujar = function () { Object.keys(draws).forEach(dibujar); };
+  window.finDatos = function (raw) { RAW = raw || {}; cache = {}; window.finRedibujar(); };
+})();
+
+(() => {
+  const money = new Intl.NumberFormat('es-EC', {style: 'currency', currency: 'USD', minimumFractionDigits: 2, maximumFractionDigits: 2});
+  const fecha = new Intl.DateTimeFormat('es-EC', {day: 'numeric', month: 'short', timeZone: 'UTC'});
+  const fechaLarga = new Intl.DateTimeFormat('es-EC', {day: 'numeric', month: 'long', timeZone: 'UTC'});
+  const asDate = (s) => new Date(String(s).slice(0, 10) + 'T00:00:00Z');
+  window.fp = {
+    money,
+    m: (v) => (v == null || v === '' ? '' : Number(v) < 0 ? '−' + money.format(-Number(v)) : money.format(Number(v))),
+    fd: (s) => (s ? fecha.format(asDate(s)).replace('.', '') : ''),
+    fdl: (s) => (s ? fechaLarga.format(asDate(s)) : '—'),
+    asDate,
+    rows: (id) => {
+      const d = dash.data(id);
+      if (d.status !== 'ok') return null;
+      return Array.isArray(d.data) ? d.data : (d.data && (d.data.rows || d.data.reglas)) || [];
+    },
+  };
+})();
+</script>
+
+<script>
+dash.loader('reglas', {
+  description: 'Las reglas del archivo, una por fila.',
+  fn: ({answer}) => answer.reglas,
+});
+
+dash.calc('kpis', {
+  inputs: ['movimientos', 'saldo'],
+  title: 'Totales del periodo',
+  description: 'Ingresos, egresos, rechazos y saldo estimado a partir de los avisos.',
+  fn: (movimientos, saldo) => {
+    const ancla = saldo[0] || {saldo: 0, fecha: '', hora: '00:00'};
+    const r2 = (x) => Math.round(x * 100) / 100;
+    const despues = (m) => m.fecha > ancla.fecha || (m.fecha === ancla.fecha && (m.hora || '00:00') > ancla.hora);
+    const fechas = movimientos.map((m) => m.fecha).filter(Boolean).sort();
+    return [{
+      desde: fechas[0] || null,
+      hasta: fechas[fechas.length - 1] || null,
+      ingresos: r2(d3.sum(movimientos, (m) => Math.max(0, Number(m.neto)))),
+      egresos: r2(-d3.sum(movimientos, (m) => Math.min(0, Number(m.neto)))),
+      rechazos_n: movimientos.filter((m) => m.direccion === 'sin_movimiento').length,
+      por_confirmar_n: movimientos.filter((m) => m.marca === 'Por confirmar' && m.direccion !== 'sin_movimiento').length,
+      saldo_estimado: r2(Number(ancla.saldo) + d3.sum(movimientos.filter(despues), (m) => Number(m.neto))),
+    }];
+  },
+});
+
+dash.calc('proximos_pagos', {
+  inputs: ['recibos', 'movimientos', 'compromisos', 'kpis', 'saldo'],
+  title: 'Próximos pagos',
+  description: 'Cobros de los próximos 30 días: renovaciones de los recibos, cargos mensuales que se repiten y pagos fijos que me diste, con el saldo que queda tras cada uno.',
+  fn: (recibos, movimientos, compromisos, kpis, saldo) => {
+    const D = (s) => new Date(String(s).slice(0, 10) + 'T00:00:00Z');
+    const iso = (d) => d.toISOString().slice(0, 10);
+    const addM = (d, n) => {
+      const y = d.getUTCFullYear(), mo = d.getUTCMonth() + n;
+      return new Date(Date.UTC(y, mo, Math.min(d.getUTCDate(), new Date(Date.UTC(y, mo + 1, 0)).getUTCDate())));
+    };
+    const k = kpis[0] || {};
+    const ref = [k.hasta, (saldo[0] || {}).fecha].filter(Boolean).sort().pop();
+    if (!ref) return [];
+    const fin = iso(d3.utcDay.offset(D(ref), 30));
+    const siguiente = (f) => { let d = D(f), n = 0; while (iso(d) <= ref) d = addM(D(f), ++n); return iso(d); };
+    const mias = new Set(movimientos.map((m) => m.tarjeta_ult4).filter(Boolean));
+    const out = [];
+    recibos.filter((r) => r.renueva_fecha && r.renueva_monto != null).forEach((r) => out.push({
+      servicio: r.servicio, fecha: siguiente(r.renueva_fecha), monto: Number(r.renueva_monto), tarjeta: r.metodo_pago_ult4 || null, mensual: true, fuente: 'según el recibo',
+    }));
+    const ya = new Set(out.map((r) => r.servicio));
+    d3.groups(movimientos.filter((m) => m.direccion === 'egreso' && m.monto != null && /tarjeta/.test(m.tipo || '')), (m) => m.comercio).forEach(([comercio, v]) => {
+      if (ya.has(comercio)) return;
+      const meses = new Set(v.map((m) => m.mes));
+      if (meses.size < 2 || meses.size !== v.length) return;
+      const med = d3.median(v, (m) => Number(m.monto));
+      const dias = v.map((m) => D(m.fecha).getUTCDate());
+      if (v.some((m) => Math.abs(Number(m.monto) - med) > med * 0.1) || d3.max(dias) - d3.min(dias) > 4) return;
+      const ult = v.map((m) => m.fecha).sort().pop();
+      out.push({servicio: comercio, fecha: siguiente(ult), monto: med, tarjeta: v[v.length - 1].tarjeta_ult4 || null, mensual: true, fuente: 'se repite cada mes'});
+    });
+    compromisos.forEach((c) => {
+      if (c.monto == null) return;
+      const r0 = D(ref);
+      const ultimo = new Date(Date.UTC(r0.getUTCFullYear(), r0.getUTCMonth() + 1, 0)).getUTCDate();
+      const base = c.fecha || (c.dia ? iso(new Date(Date.UTC(r0.getUTCFullYear(), r0.getUTCMonth(), Math.min(Number(c.dia), ultimo)))) : null);
+      if (!base) return;
+      const unica = c.frecuencia === 'unica';
+      out.push({servicio: c.concepto, fecha: unica ? base : siguiente(base), monto: Number(c.monto), tarjeta: c.tarjeta || null, cuenta: c.cuenta || 'esta', mensual: !unica, fuente: 'me lo dijiste'});
+    });
+    let queda = Number(k.saldo_estimado || 0);
+    return out.filter((r) => r.fecha > ref && r.fecha <= fin).sort((a, b) => d3.ascending(a.fecha, b.fecha)).map((r) => {
+      const esta = r.tarjeta ? mias.has(r.tarjeta) : r.cuenta !== 'otra';
+      if (esta) queda -= r.monto;
+      return {
+        clave: r.servicio + '|' + r.fecha, servicio: r.servicio, fecha: r.fecha, monto: Math.round(r.monto * 100) / 100,
+        tarjeta: r.tarjeta, mensual: r.mensual, fuente: r.fuente, esta_cuenta: esta,
+        saldo_despues: esta ? Math.round(queda * 100) / 100 : null,
+        estado: !esta ? 'Otra tarjeta' : queda >= -0.005 ? 'Alcanza' : 'No alcanza',
+      };
+    });
+  },
+});
+
+dash.calc('esencial', {
+  inputs: ['kpis', 'proximos_pagos', 'saldo'],
+  title: 'Lo esencial',
+  description: 'Saldo estimado, lo que se cobra a esta cuenta en 30 días y lo que queda libre.',
+  fn: (kpis, proximos_pagos, saldo) => {
+    const k = kpis[0] || {};
+    const a = saldo[0] || {};
+    const ref = [k.hasta, a.fecha].filter(Boolean).sort().pop() || null;
+    const comprometido = Math.round(d3.sum(proximos_pagos.filter((p) => p.esta_cuenta), (p) => p.monto) * 100) / 100;
+    const libre = Math.round((Number(k.saldo_estimado || 0) - comprometido) * 100) / 100;
+    const primero = proximos_pagos.find((p) => p.estado === 'No alcanza');
+    return [{
+      ref, saldo: k.saldo_estimado, comprometido, libre, falta: libre < 0 ? -libre : 0,
+      falta_antes: primero ? primero.fecha : null, saldo_fecha: a.fecha || null,
+      dias_desde_saldo: a.fecha && ref ? Math.round((new Date(ref) - new Date(a.fecha)) / 864e5) : null,
+    }];
+  },
+});
+
+dash.calc('suscripciones', {
+  inputs: ['proximos_pagos'],
+  title: 'Suscripciones',
+  description: 'Los próximos pagos que se repiten cada mes.',
+  fn: (proximos_pagos) => proximos_pagos.filter((p) => p.mensual).map((p) => ({servicio: p.servicio, monto: p.monto, fecha: p.fecha, tarjeta: p.tarjeta})).sort((a, b) => d3.descending(a.monto, b.monto)),
+});
+
+dash.calc('suscripciones_total', {
+  inputs: ['suscripciones'],
+  title: 'Suscripciones al mes',
+  description: 'Suma mensual y anual de las suscripciones.',
+  fn: (suscripciones) => {
+    const mensual = Math.round(d3.sum(suscripciones, (s) => s.monto) * 100) / 100;
+    return [{mensual, anual: Math.round(mensual * 12 * 100) / 100, n: suscripciones.length}];
+  },
+});
+
+dash.calc('gasto_30d', {
+  inputs: ['movimientos', 'esencial'],
+  title: 'Gasto de 30 días por categoría',
+  description: 'Egresos de los últimos 30 días con datos, por categoría (las cuatro mayores y el resto).',
+  fn: (movimientos, esencial) => {
+    const ref = (esencial[0] || {}).ref;
+    if (!ref) return [];
+    const desde = d3.utcDay.offset(new Date(ref + 'T00:00:00Z'), -29).toISOString().slice(0, 10);
+    const v = movimientos.filter((m) => m.fecha >= desde && m.fecha <= ref && Number(m.neto) < 0);
+    const total = -d3.sum(v, (m) => Number(m.neto));
+    const cats = d3.rollups(v, (g) => -d3.sum(g, (m) => Number(m.neto)), (m) => m.categoria).sort((a, b) => b[1] - a[1]);
+    const rows = cats.slice(0, 4).map(([categoria, t]) => ({categoria, total: Math.round(t * 100) / 100, parte: total ? t / total : 0}));
+    const resto = d3.sum(cats.slice(4), (c) => c[1]);
+    if (resto > 0) rows.push({categoria: 'Otros', total: Math.round(resto * 100) / 100, parte: resto / total});
+    return rows;
+  },
+});
+
+dash.calc('gasto_30d_total', {
+  inputs: ['gasto_30d', 'esencial'],
+  title: 'Gasto de 30 días',
+  description: 'Total de egresos de los últimos 30 días con datos.',
+  fn: (gasto_30d, esencial) => {
+    const ref = (esencial[0] || {}).ref;
+    return [{total: Math.round(d3.sum(gasto_30d, (r) => r.total) * 100) / 100, hasta: ref, desde: ref ? d3.utcDay.offset(new Date(ref + 'T00:00:00Z'), -29).toISOString().slice(0, 10) : null}];
+  },
+});
+
+dash.calc('alertas', {
+  inputs: ['movimientos', 'esencial'],
+  title: 'Alertas',
+  description: 'Rebotes de las últimas dos semanas, movimientos sin marca y saldo real viejo.',
+  fn: (movimientos, esencial) => {
+    const e = esencial[0] || {};
+    if (!e.ref) return [];
+    const desde = d3.utcDay.offset(new Date(e.ref + 'T00:00:00Z'), -13).toISOString().slice(0, 10);
+    const out = [];
+    const rech = movimientos.filter((m) => m.direccion === 'sin_movimiento' && m.fecha >= desde);
+    if (rech.length) out.push({clave: 'rebotes', n: rech.length, monto: null, detalle: d3.rollups(rech, (v) => v.length, (m) => m.comercio).sort((a, b) => b[1] - a[1]).map(([c, n]) => c + ' (' + n + ')').join(', ')});
+    const pc = movimientos.filter((m) => m.marca === 'Por confirmar' && m.direccion !== 'sin_movimiento');
+    if (pc.length) out.push({clave: 'por_confirmar', n: pc.length, monto: Math.round(d3.sum(pc, (m) => Math.abs(Number(m.neto))) * 100) / 100, detalle: ''});
+    if (e.dias_desde_saldo != null && e.dias_desde_saldo > 30) out.push({clave: 'saldo_viejo', n: e.dias_desde_saldo, monto: null, detalle: ''});
+    return out;
+  },
+});
+
+dash.calc('semanal', {
+  inputs: ['movimientos'],
+  title: 'Flujo por semana',
+  description: 'Ingresos, egresos y neto por semana (lunes a domingo), con las semanas sin avisos en cero.',
+  fn: (movimientos) => {
+    const r2 = (x) => Math.round(x * 100) / 100;
+    const by = d3.group(movimientos.filter((m) => m.semana), (m) => m.semana);
+    const ws = [...by.keys()].sort();
+    if (!ws.length) return [];
+    const day = (s) => new Date(s + 'T00:00:00Z');
+    return d3.utcMonday.range(day(ws[0]), d3.utcDay.offset(day(ws[ws.length - 1]), 1)).map((d) => {
+      const semana = d.toISOString().slice(0, 10);
+      const v = by.get(semana) || [];
+      const ingresos = r2(d3.sum(v, (m) => Math.max(0, Number(m.neto))));
+      const egresos = r2(-d3.sum(v, (m) => Math.min(0, Number(m.neto))));
+      return {semana, ingresos, egresos, neto: r2(ingresos - egresos)};
+    });
+  },
+});
+
+dash.calc('por_marca', {
+  inputs: ['movimientos'],
+  title: 'Totales por marca',
+  description: 'Ingresos, egresos y neto de cada marca, sin contar rechazos.',
+  fn: (movimientos) => d3.rollups(movimientos.filter((m) => m.direccion !== 'sin_movimiento'), (v) => ({
+    ingresos: Math.round(d3.sum(v, (m) => Math.max(0, Number(m.neto))) * 100) / 100,
+    egresos: Math.round(-d3.sum(v, (m) => Math.min(0, Number(m.neto))) * 100) / 100,
+    neto: Math.round(d3.sum(v, (m) => Number(m.neto)) * 100) / 100,
+    n: v.length,
+  }), (m) => m.marca).map(([marca, x]) => ({marca, ...x})).sort((a, b) => d3.descending(a.egresos + a.ingresos, b.egresos + b.ingresos)),
+});
+
+dash.calc('rechazos_por_comercio', {
+  inputs: ['movimientos'],
+  title: 'Rechazos por comercio',
+  description: 'Intentos de pago rechazados, contados por comercio.',
+  fn: (movimientos) => d3.rollups(movimientos.filter((m) => m.direccion === 'sin_movimiento'), (v) => ({
+    intentos: v.length,
+    primero: d3.min(v, (m) => m.fecha),
+    ultimo: d3.max(v, (m) => m.fecha),
+  }), (m) => m.comercio).map(([comercio, x]) => ({comercio, ...x})).sort((a, b) => d3.descending(a.intentos, b.intentos)),
+});
+
+dash.calc('recurrentes', {
+  inputs: ['movimientos', 'kpis'],
+  title: 'Cargos que se repiten',
+  description: 'Comercios con cargos o intentos en dos o más semanas, con su cargo típico frente al saldo estimado.',
+  fn: (movimientos, kpis) => {
+    const k = kpis[0] || {};
+    const reciente = d3.utcDay.offset(new Date((k.hasta || '2000-01-01') + 'T00:00:00Z'), -21).toISOString().slice(0, 10);
+    const tarjeta = movimientos.filter((m) => /tarjeta|rechazo/.test(m.tipo || ''));
+    return d3.rollups(tarjeta, (v) => {
+      const ok = v.filter((m) => m.direccion === 'egreso' && m.monto != null);
+      const rech = v.filter((m) => m.direccion === 'sin_movimiento');
+      const tipico = ok.length ? Math.round(d3.median(ok, (m) => Number(m.monto)) * 100) / 100 : null;
+      const estado = rech.some((m) => m.fecha >= reciente) ? 'Rebotó hace poco' : tipico != null && tipico > k.saldo_estimado ? 'Podría rebotar' : 'Cubierto';
+      return {semanas: new Set(v.map((m) => m.semana)).size, cargo_tipico: tipico, rechazos: rech.length, estado};
+    }, (m) => m.comercio)
+      .filter(([, x]) => x.semanas >= 2)
+      .map(([comercio, x]) => ({comercio, ...x}))
+      .sort((a, b) => d3.descending(a.rechazos, b.rechazos) || d3.descending(a.cargo_tipico, b.cargo_tipico));
+  },
+});
+
+dash.calc('facturas_pagos', {
+  inputs: ['facturas', 'movimientos'],
+  title: 'Facturas y su pago',
+  description: 'Cada factura con el egreso de la cuenta que coincide en monto o nombre dentro de 10 días.',
+  fn: (facturas, movimientos) => facturas.filter((f) => f.tipo === 'factura').map((f) => {
+    const t = Number(f.total);
+    const words = String(f.emisor || '').toUpperCase().split(/[^A-ZÁÉÍÓÚÑ]+/).filter((w) => w.length >= 5);
+    const cerca = (m) => Math.abs(new Date(m.fecha) - new Date(f.fecha_emision)) <= 10 * 864e5;
+    const pago = movimientos.find((m) => m.direccion === 'egreso' && cerca(m) &&
+      ((t && Math.abs(Number(m.monto) - t) < 0.01) || words.some((w) => String(m.contraparte || '').toUpperCase().includes(w))));
+    return {id: f.id, fecha: f.fecha_emision, proveedor: f.proveedor, total: f.total, marca: f.marca, pago: pago ? pago.fecha : null};
+  }).sort((a, b) => d3.descending(a.fecha, b.fecha)),
+});
+
+dash.calc('por_confirmar', {
+  inputs: ['movimientos'],
+  title: 'Por confirmar',
+  description: 'Movimientos sin marca, agrupados por contraparte.',
+  fn: (movimientos) => d3.rollups(movimientos.filter((m) => m.marca === 'Por confirmar' && m.direccion !== 'sin_movimiento'), (v) => ({
+    categoria: v[0].categoria,
+    movimientos: v.length,
+    total: Math.round(d3.sum(v, (m) => Number(m.neto)) * 100) / 100,
+    ultimo: d3.max(v, (m) => m.fecha),
+  }), (m) => m.comercio).map(([comercio, x]) => ({comercio, ...x})).sort((a, b) => d3.ascending(a.total, b.total)),
+});
+</script>
+
+<script>
+(() => {
+  const one = (id) => { const r = fp.rows(id); return r && r[0] ? r[0] : null; };
+  const val = (id, field, fmt) => (el) => {
+    const r = one(id);
+    el.textContent = r && r[field] != null ? fmt(r[field]) : '—';
+  };
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const card = (v) => (v ? '••' + v : '');
+
+  dash.draw('es_ref', val('esencial', 'ref', fp.fdl));
+  dash.draw('es_saldo', val('esencial', 'saldo', fp.m));
+  dash.draw('es_libre', (n) => {
+    const r = one('esencial');
+    n.textContent = r ? fp.m(r.libre) : '—';
+    n.classList.toggle('bad', !!r && r.libre < 0);
+  });
+  dash.draw('es_falta', val('esencial', 'falta', fp.m));
+  dash.draw('es_falta_fecha', val('esencial', 'falta_antes', fp.fdl));
+  dash.draw('es_variante', (n) => {
+    const r = one('esencial');
+    const falta = !!r && r.libre < 0;
+    n.parentElement.querySelectorAll('[data-variant]').forEach((s) => { s.hidden = !r || s.dataset.variant !== (falta ? 'falta' : 'ok'); });
+  });
+
+  dash.draw('es_pagos', (ul) => {
+    const rows = fp.rows('proximos_pagos');
+    ul.replaceChildren();
+    if (!rows) return;
+    if (!rows.length) { ul.appendChild(el('li', 'es-meta', 'No hay pagos conocidos en los próximos 30 días.')); return; }
+    rows.forEach((r) => {
+      const li = el('li');
+      const l = el('div', 'es-l');
+      l.appendChild(el('span', 'es-name', r.servicio));
+      l.appendChild(el('span', 'es-meta', [fp.fd(r.fecha), card(r.tarjeta), r.fuente].filter(Boolean).join(' · ')));
+      const rt = el('div', 'es-r');
+      rt.appendChild(el('span', 'es-amt', fp.m(r.monto)));
+      rt.appendChild(el('span', 'es-chip ' + (r.estado === 'Alcanza' ? 'pos' : r.estado === 'No alcanza' ? 'bad' : 'muted'), r.estado));
+      li.append(l, rt);
+      ul.appendChild(li);
+    });
+  });
+
+  dash.draw('es_sub_total', val('suscripciones_total', 'mensual', fp.m));
+  dash.draw('es_sub_anual', val('suscripciones_total', 'anual', fp.m));
+  dash.draw('es_subs', (ul) => {
+    const rows = fp.rows('suscripciones');
+    ul.replaceChildren();
+    (rows || []).forEach((r) => {
+      const li = el('li');
+      const l = el('div', 'es-l');
+      l.appendChild(el('span', 'es-name', r.servicio));
+      l.appendChild(el('span', 'es-meta', ['próximo cobro ' + fp.fd(r.fecha), card(r.tarjeta)].filter(Boolean).join(' · ')));
+      const rt = el('div', 'es-r');
+      rt.appendChild(el('span', 'es-amt', fp.m(r.monto)));
+      li.append(l, rt);
+      ul.appendChild(li);
+    });
+  });
+
+  dash.draw('es_g_desde', val('gasto_30d_total', 'desde', fp.fdl));
+  dash.draw('es_g_hasta', val('gasto_30d_total', 'hasta', fp.fdl));
+  dash.draw('es_g_total', val('gasto_30d_total', 'total', fp.m));
+  dash.draw('es_cats', (ul) => {
+    const rows = fp.rows('gasto_30d');
+    ul.replaceChildren();
+    (rows || []).forEach((r, i) => {
+      const li = el('li');
+      const l = el('div', 'es-l');
+      const top = el('div');
+      top.style.display = 'flex';
+      top.style.justifyContent = 'space-between';
+      top.style.gap = 'var(--cds-gap-md)';
+      top.append(el('span', 'es-name', r.categoria), el('span', 'es-amt', fp.m(r.total)));
+      const bar = el('div', 'es-bar');
+      const fill = el('i');
+      fill.style.width = Math.max(2, Math.round(r.parte * 100)) + '%';
+      fill.style.background = r.categoria === 'Otros' ? 'var(--cds-chart-muted)' : dash.colors[0];
+      bar.appendChild(fill);
+      l.append(top, bar);
+      li.appendChild(l);
+      ul.appendChild(li);
+    });
+  });
+
+  dash.draw('es_alertas', (ul) => {
+    const rows = fp.rows('alertas');
+    ul.replaceChildren();
+    if (!rows) return;
+    if (!rows.length) { ul.appendChild(el('li', 'es-alert muted', 'Todo en orden por ahora.')); return; }
+    rows.forEach((r) => {
+      let t = '';
+      if (r.clave === 'rebotes') t = r.n + ' pagos rebotaron por falta de fondos en las últimas 2 semanas: ' + r.detalle + '.';
+      if (r.clave === 'por_confirmar') t = r.n + ' movimientos por ' + fp.m(r.monto) + ' no tienen marca. Dime de qué son.';
+      if (r.clave === 'saldo_viejo') t = 'Tu saldo real es de hace ' + r.n + ' días. Dímelo de nuevo para que el estimado no se desvíe.';
+      const li = el('li', 'es-alert');
+      li.appendChild(el('span', r.clave === 'rebotes' ? 'bad' : '', t));
+      ul.appendChild(li);
+    });
+  });
+})();
+</script>
+
+<script>
+(() => {
+  const el = (tag, cls, text) => { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; };
+  const semana = new Intl.DateTimeFormat('es-EC', {weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC'});
+  window.mvQ = '';
+  dash.draw('mv_lista', (box) => {
+    const rows = fp.rows('movimientos');
+    box.replaceChildren();
+    if (!rows) return;
+    const q = window.mvQ.toLowerCase();
+    const lista = rows.filter((r) => !q || [r.comercio, r.contraparte, r.concepto, r.categoria, r.marca].join(' ').toLowerCase().includes(q))
+      .sort((a, b) => d3.descending(a.fecha + (a.hora || ''), b.fecha + (b.hora || ''))).slice(0, q ? 200 : 60);
+    if (!lista.length) { box.appendChild(el('p', 'mv-nada', 'No hay movimientos con eso.')); return; }
+    d3.groups(lista, (r) => r.fecha).forEach(([dia, v]) => {
+      box.appendChild(el('p', 'mv-dia', semana.format(fp.asDate(dia))));
+      const ul = el('ul', 'es-list');
+      v.forEach((r) => {
+        const rech = r.direccion === 'sin_movimiento';
+        const li = el('li');
+        const l = el('div', 'es-l');
+        l.appendChild(el('span', 'es-name', r.comercio || r.contraparte || ''));
+        l.appendChild(el('span', 'es-meta', [rech ? 'Rechazado' : r.categoria, r.marca !== 'Por confirmar' ? r.marca : 'sin marca', r.concepto].filter(Boolean).join(' · ')));
+        const rt = el('div', 'es-r');
+        rt.appendChild(el('span', 'es-amt ' + (rech ? 'bad' : Number(r.neto) > 0 ? 'pos' : ''), rech ? (r.monto == null ? 'Rebotó' : fp.m(r.monto)) : fp.m(r.neto)));
+        li.append(l, rt);
+        ul.appendChild(li);
+      });
+      box.appendChild(ul);
+    });
+  });
+  document.querySelectorAll('.mv-buscar').forEach((i) => i.addEventListener('input', () => { window.mvQ = i.value; dash.draw('mv_lista'); }));
+})();
+</script>
+
+<script>
+"use strict";
+const SUPABASE_URL = "https://jlyrymgbykhpktabvlkl.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ap5wyI1Q4-_IO8fXJ3xBJA_RzGp89dV"; // clave pública; los datos los protege RLS (solo el admin) y el inicio de sesión
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true, storageKey: "cw-finanzas-movil" } });
+const $ = (s) => document.querySelector(s);
+const CACHE = "cw-finanzas-ultimo";
+const guardar = (k, v) => { try { localStorage.setItem(k, v); } catch (e) {} };
+const leer = (k) => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+const borrar = (k) => { try { localStorage.removeItem(k); } catch (e) {} };
+const hace = new Intl.DateTimeFormat('es-EC', { timeZone: 'America/Guayaquil', weekday: 'long', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+
+function mostrar(vista) {
+  document.querySelectorAll('.vista').forEach((v) => { v.hidden = v.id !== vista; });
+  document.querySelectorAll('nav.abajo button').forEach((b) => b.classList.toggle('activo', b.dataset.vista === vista));
+  $('#titulo').textContent = vista === 'movs' ? 'Movimientos' : 'Lo esencial';
+  window.scrollTo(0, 0);
+  window.finRedibujar();
+}
+document.querySelectorAll('nav.abajo button').forEach((b) => b.addEventListener('click', () => mostrar(b.dataset.vista)));
+
+function pintar(raw, cuando) {
+  window.finDatos(raw);
+  $('#actualizado').textContent = cuando ? 'Datos del ' + hace.format(new Date(cuando)) : '';
+}
+
+async function cargar() {
+  const btn = $('#btnRecargar');
+  btn.classList.add('girando');
+  try {
+    const { data, error } = await sb.from('fin_datos').select('clave,datos,actualizado_en');
+    if (error) throw error;
+    const raw = {};
+    let ultimo = null;
+    (data || []).forEach((f) => { raw[f.clave] = f.datos; if (f.clave === 'movimientos') ultimo = f.actualizado_en; });
+    if (!raw.movimientos) throw new Error('Todavía no hay datos.');
+    raw.compromisos = raw.compromisos || [];
+    pintar(raw, ultimo);
+    guardar(CACHE, JSON.stringify({ raw, ultimo }));
+  } catch (e) {
+    $('#actualizado').textContent = 'No se pudo actualizar: ' + (e.message || e);
+  } finally {
+    btn.classList.remove('girando');
+  }
+}
+
+async function entrar() {
+  $('#lAviso').textContent = '';
+  const { error } = await sb.auth.signInWithPassword({ email: $('#lEmail').value.trim(), password: $('#lClave').value });
+  if (error) { $('#lAviso').textContent = 'No se pudo entrar: revisa el correo y la contraseña.'; return; }
+  iniciar();
+}
+$('#lEntrar').addEventListener('click', entrar);
+$('#lClave').addEventListener('keydown', (e) => { if (e.key === 'Enter') entrar(); });
+$('#btnRecargar').addEventListener('click', cargar);
+$('#btnSalir').addEventListener('click', async () => { await sb.auth.signOut(); borrar(CACHE); location.reload(); });
+
+async function iniciar() {
+  const { data } = await sb.auth.getSession();
+  if (!data?.session) { $('#vLogin').classList.remove('oculto'); $('#vApp').classList.add('oculto'); return; }
+  $('#vLogin').classList.add('oculto');
+  $('#vApp').classList.remove('oculto');
+  const previo = leer(CACHE);
+  if (previo) { try { const p = JSON.parse(previo); pintar(p.raw, p.ultimo); } catch (e) {} }
+  cargar();
+}
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible' && !$('#vApp').classList.contains('oculto')) cargar(); });
+iniciar();
+</script>
+</body>
+</html>

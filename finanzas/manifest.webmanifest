@@ -1,0 +1,14 @@
+{
+  "name": "Finanzas",
+  "short_name": "Finanzas",
+  "description": "Saldo, próximos pagos y en qué se va la plata, desde los avisos de Banco Pichincha.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0A0908",
+  "theme_color": "#0A0908",
+  "icons": [
+    { "src": "icono-180.png", "sizes": "180x180", "type": "image/png", "purpose": "any" },
+    { "src": "icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}
