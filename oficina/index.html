@@ -410,6 +410,7 @@ async function pintarClientes() {
       <div class="enlaces">
         <a href="${esc(c.panel)}" target="_blank" rel="noopener">Panel en vivo</a>
         ${c.web ? `<a href="${esc(c.web)}" target="_blank" rel="noopener">Web con IA</a>` : ""}
+        ${c.wa_demo ? `<a href="${esc(c.wa_demo)}" target="_blank" rel="noopener">WhatsApp (demo)</a>` : ""}
         ${c.wa_visitante ? `<a href="${esc(c.wa_visitante)}" target="_blank" rel="noopener">Probar WhatsApp</a>` : ""}
         ${c.wa_alertas ? `<a href="${esc(c.wa_alertas)}" target="_blank" rel="noopener">Activar alertas</a>` : ""}
       </div>
