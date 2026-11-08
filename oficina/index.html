@@ -110,6 +110,24 @@ details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer
 .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(90px + var(--safe-b));background:var(--texto);color:var(--cw);padding:10px 16px;border-radius:12px;font-size:15px;font-weight:600;max-width:90%;z-index:9;box-shadow:0 8px 28px rgba(0,0,0,.45)}
 .comprobante{display:block;margin:10px 0 4px}.comprobante img{width:100%;max-height:320px;object-fit:contain;border-radius:8px;background:#0003}
 .btn.enlace{display:inline-block;margin:10px 0 2px;text-decoration:none}
+/* Clientes: interruptor de membresía */
+.cli .cab2{display:flex;align-items:center;gap:10px}
+.cli .cab2 b{font-size:19px;flex:1}
+.estado{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;border-radius:8px;padding:3px 9px}
+.estado.on{background:rgba(62,163,152,.18);color:var(--porthos)} .estado.off{background:rgba(227,18,11,.18);color:#FF8A7A}
+.interruptor{display:flex;align-items:center;gap:12px;width:100%;margin-top:12px;padding:14px;border-radius:14px;background:var(--tarjeta-2);text-align:left}
+.interruptor .pista{width:52px;height:30px;border-radius:999px;background:#3a342e;position:relative;flex:0 0 auto;transition:background .2s}
+.interruptor .pista::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:var(--texto);transition:transform .2s}
+.interruptor.on .pista{background:var(--porthos)} .interruptor.on .pista::after{transform:translateX(22px)}
+.interruptor .tx b{display:block;font-size:16px} .interruptor .tx span{font-size:13px;color:var(--suave)}
+.datos3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+.datos3 div{background:var(--tarjeta-2);border-radius:12px;padding:10px;text-align:center} .datos3 b{display:block;font-size:20px} .datos3 span{font-size:12px;color:var(--suave)}
+.fila2{display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap}
+.fila2 label{font-size:14px;color:var(--suave);flex:1;min-width:140px}
+.fila2 input[type=date]{border-radius:10px;border:1px solid var(--linea);background:var(--tarjeta-2);padding:9px 10px;font-size:15px;color:var(--texto)}
+.enlaces{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.enlaces a,.enlaces button{display:block;text-align:center;padding:11px 8px;border-radius:12px;background:var(--tarjeta-2);font-weight:700;font-size:14px;text-decoration:none;color:var(--texto)}
+.chk{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--suave);margin-top:10px}
 </style>
 </head>
 <body>
@@ -140,6 +158,7 @@ details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer
     <button data-tab="para" class="activo">Para ti <span class="num oculto" id="numDec"></span></button>
     <button data-tab="wa">WhatsApp <span class="num oculto" id="numWa"></span></button>
     <button data-tab="chat">Chat</button>
+    <button data-tab="cli">Clientes</button>
   </nav>
 </div>
 
@@ -359,6 +378,84 @@ async function enviar(texto) {
 }
 function ajustarTxt() { const t = $("#txt"); t.style.height = "auto"; t.style.height = Math.min(140, t.scrollHeight) + "px"; }
 
+// ---------- Clientes: membresía (activar / suspender la cuenta) ----------
+async function llamarPanel(cuerpo) {
+  const { data } = await sb.auth.getSession();
+  const r = await fetch(SUPABASE_URL + "/functions/v1/panel-cliente", { method: "POST",
+    headers: { "content-type": "application/json", apikey: SUPABASE_KEY, authorization: "Bearer " + (data?.session?.access_token ?? "") }, body: JSON.stringify(cuerpo) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || ("HTTP " + r.status));
+  return j;
+}
+let cuentasCli = [];
+const fechaCorta = (f) => { if (!f) return "sin fecha"; try { return new Date(f + "T12:00:00").toLocaleDateString("es-EC", { day: "numeric", month: "short", year: "numeric" }); } catch (e) { return f; } };
+async function pintarClientes() {
+  const { cuentas } = await llamarPanel({ accion: "cuentas" });
+  cuentasCli = cuentas || [];
+  if (!cuentasCli.length) { $("#cuerpo").innerHTML = `<div class="vacio"><b>Sin clientes todavía</b>Las cuentas de Escucha digital aparecen aquí.</div>`; return; }
+  const hoy = new Date().toISOString().slice(0, 10);
+  $("#cuerpo").innerHTML = cuentasCli.map((c) => {
+    const on = c.estado === "activa";
+    const vencida = c.pagado_hasta && c.pagado_hasta < hoy;
+    return `<div class="card cli" style="--color:${on ? "var(--porthos)" : "var(--torote)"}">
+      <div class="cab2"><b>${esc(c.nombre)}</b><span class="estado ${on ? "on" : "off"}">${on ? "Activa" : "Suspendida"}</span></div>
+      <div class="sub">${esc(c.plan || "Escucha digital")}${c.asistente ? " · asistente " + esc(c.asistente) : ""}${c.modo_demo ? " · modo demo" : ""}</div>
+      <button class="interruptor ${on ? "on" : ""}" data-sw="${c.id}" data-on="${on ? 1 : 0}"><span class="pista"></span><span class="tx">
+        <b>${on ? "Membresía activa" : "Membresía suspendida"}</b>
+        <span>${on ? "El asistente atiende por WhatsApp y la web, y el panel está en vivo. Toca para suspender." : "El asistente no responde y el panel está en pausa. Toca para reactivar."}</span></span></button>
+      <div class="sub" style="margin-top:6px">${c.estado_motivo ? esc(c.estado_motivo) + " · " : ""}${c.estado_cambiado_en ? esc(hora(c.estado_cambiado_en)) : ""}</div>
+      <div class="fila2"><label>Pagado hasta${vencida ? ' <span class="etq nec">vencida</span>' : ""}</label><input type="date" value="${esc(c.pagado_hasta || "")}" data-fecha="${c.id}"><button class="btn" style="flex:0 0 auto;padding:10px 12px" data-mes="${c.id}">+1 mes</button></div>
+      <label class="chk"><input type="checkbox" data-auto="${c.id}" ${c.suspension_automatica ? "checked" : ""}> Suspender sola si vence (3 días de gracia)</label>
+      <div class="datos3"><div><b>${c.mensajes_7d}</b><span>mensajes reales 7 d</span></div><div><b>${c.casos_abiertos}</b><span>casos abiertos</span></div><div><b>${c.contactos_alerta}</b><span>reciben alertas</span></div></div>
+      <div class="enlaces">
+        <a href="${esc(c.panel)}" target="_blank" rel="noopener">Panel en vivo</a>
+        ${c.web ? `<a href="${esc(c.web)}" target="_blank" rel="noopener">Web con IA</a>` : ""}
+        ${c.wa_visitante ? `<a href="${esc(c.wa_visitante)}" target="_blank" rel="noopener">Probar WhatsApp</a>` : ""}
+        ${c.wa_alertas ? `<a href="${esc(c.wa_alertas)}" target="_blank" rel="noopener">Activar alertas</a>` : ""}
+      </div>
+      ${c.modo_demo ? `<details><summary>Preparar la demo</summary>
+        <div class="sub" style="margin-top:6px">Histórico de ejemplo: ${c.historico_demo} mensajes. «Borrar pruebas» deja solo el ejemplo; «Nuevo histórico» lo vuelve a generar hasta hoy (borra también las pruebas).</div>
+        <div class="acciones"><button class="btn" data-limpiar="${c.id}">Borrar pruebas</button><button class="btn" data-demo="${c.id}">Nuevo histórico</button></div></details>` : ""}
+    </div>`;
+  }).join("");
+}
+async function accionCliente(el) {
+  const id = el.dataset.sw || el.dataset.mes || el.dataset.limpiar || el.dataset.demo;
+  const c = cuentasCli.find((x) => x.id === id); if (!c) return;
+  try {
+    if (el.dataset.sw) {
+      const on = el.dataset.on === "1";
+      if (!confirm(on ? `¿Suspender ${c.nombre}? El asistente deja de atender y el panel se pausa hasta que lo reactives.` : `¿Reactivar ${c.nombre}?`)) return;
+      await llamarPanel({ accion: "estado", empresa_id: id, estado: on ? "pausada" : "activa", motivo: on ? "Suspendida desde la oficina (membresía)" : "Reactivada desde la oficina (membresía al día)" });
+      toast(on ? "Cuenta suspendida" : "Cuenta activa otra vez");
+    } else if (el.dataset.mes) {
+      const base = c.pagado_hasta && c.pagado_hasta > new Date().toISOString().slice(0, 10) ? new Date(c.pagado_hasta + "T12:00:00") : new Date();
+      base.setMonth(base.getMonth() + 1);
+      await llamarPanel({ accion: "membresia", empresa_id: id, pagado_hasta: base.toISOString().slice(0, 10) });
+      toast("Membresía pagada hasta el " + fechaCorta(base.toISOString().slice(0, 10)));
+    } else if (el.dataset.limpiar) {
+      if (!confirm("¿Borrar las conversaciones y casos de prueba? El histórico de ejemplo se queda.")) return;
+      await llamarPanel({ accion: "limpiar_pruebas", empresa_id: id }); toast("Pruebas borradas");
+    } else if (el.dataset.demo) {
+      if (!confirm("¿Generar un histórico de ejemplo nuevo (28 días hasta hoy)? Se borran las pruebas.")) return;
+      el.disabled = true; const r = await llamarPanel({ accion: "preparar_demo", empresa_id: id, dias: 28 }); toast(`Listo: ${r.mensajes} mensajes de ejemplo`);
+    }
+  } catch (e) { toast("No se pudo: " + e.message); }
+  if (tab === "cli") pintarClientes();
+}
+$("#cuerpo").addEventListener("click", (e) => {
+  const el = e.target.closest("[data-sw],[data-mes],[data-limpiar],[data-demo]");
+  if (el && tab === "cli") { e.stopPropagation(); accionCliente(el); }
+});
+$("#cuerpo").addEventListener("change", async (e) => {
+  if (tab !== "cli") return;
+  const f = e.target.closest("input[data-fecha]"), a = e.target.closest("input[data-auto]");
+  try {
+    if (f) { await llamarPanel({ accion: "membresia", empresa_id: f.dataset.fecha, pagado_hasta: f.value || null }); toast("Fecha guardada"); }
+    if (a) { await llamarPanel({ accion: "membresia", empresa_id: a.dataset.auto, suspension_automatica: a.checked }); toast(a.checked ? "Se suspenderá sola si vence" : "Solo la suspendes tú"); }
+  } catch (x) { toast("No se pudo: " + x.message); }
+});
+
 // ---------- Navegación ----------
 function contador() {
   const n = pend.length; $("#numDec").textContent = n; $("#numDec").classList.toggle("oculto", !n);
@@ -372,10 +469,11 @@ async function irA(t) {
   $("#pieChat").classList.toggle("oculto", !(t === "chat" || (t === "wa" && waChat)));
   $("#atajos").classList.toggle("oculto", t !== "chat");
   $("#filaAgentes").classList.toggle("oculto", t !== "chat");
-  $("#titulo").textContent = t === "chat" ? "Chat" : t === "wa" ? "WhatsApp" : "Para ti";
+  $("#titulo").textContent = t === "chat" ? "Chat" : t === "wa" ? "WhatsApp" : t === "cli" ? "Clientes" : "Para ti";
   try {
     if (t === "chat") await pintarChat();
     else if (t === "wa") { if (!waChat) $("#cuerpo").innerHTML = `<div class="vacio">Cargando…</div>`; await pintarWa(); }
+    else if (t === "cli") { $("#cuerpo").innerHTML = `<div class="vacio">Cargando…</div>`; await pintarClientes(); }
     else { $("#cuerpo").innerHTML = `<div class="vacio">Cargando…</div>`; await cargarPara(); contador(); pintarPara(); }
   } catch (e) { $("#cuerpo").innerHTML = `<div class="vacio">No pude cargar: ${esc(e.message)}</div>`; }
 }
@@ -419,7 +517,7 @@ $("#cuerpo").addEventListener("input", (e) => {
   const b = c.closest(".card")?.querySelector("button[data-vacio]"); if (b) b.textContent = c.value.trim() ? b.dataset.lleno : b.dataset.vacio;
   c.style.height = "auto"; c.style.height = Math.min(220, c.scrollHeight) + "px";
 });
-document.addEventListener("visibilitychange", () => { if (!document.hidden && !$("#vApp").classList.contains("oculto")) { if (tab === "para") irA("para"); else if (tab === "wa") { if (!enviando) pintarWa(false); } else if (!enviando) pintarChat(false); cargarContadores(); } });
+document.addEventListener("visibilitychange", () => { if (!document.hidden && !$("#vApp").classList.contains("oculto")) { if (tab === "para") irA("para"); else if (tab === "wa") { if (!enviando) pintarWa(false); } else if (tab === "cli") pintarClientes().catch(() => {}); else if (!enviando) pintarChat(false); cargarContadores(); } });
 entrar();
 </script>
 </body>
