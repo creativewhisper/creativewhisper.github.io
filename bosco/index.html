@@ -310,6 +310,15 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
 .fila-area b{display:block;font-size:14.5px}
 .fila-area small{color:var(--suave);font-size:12px}
 .pulso{animation:late 1.2s ease-in-out 3}
+.piloto{background:linear-gradient(135deg,var(--g800),var(--g950));color:#fff;border-radius:20px;padding:14px 16px;margin-bottom:12px;box-shadow:var(--sombra)}
+.piloto h2{margin:0 0 4px;font-size:16px;display:flex;align-items:center;gap:8px}.piloto p{margin:4px 0 10px;font-size:13px;color:#CFE3C4;line-height:1.4}
+.piloto .barra{height:8px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden;margin:6px 0 4px}.piloto .barra i{display:block;height:100%;background:var(--lima2)}
+.piloto .btn{width:100%}.piloto.on{background:linear-gradient(135deg,#14684F,#0A5340);outline:2px solid var(--lima2)}
+.piloto ul{list-style:none;margin:10px 0 0;padding:0;font-size:12.5px;color:#CFE3C4}.piloto li{padding:6px 0;border-top:1px solid rgba(255,255,255,.1)}
+.pill-piloto{background:var(--lima);color:#fff;border-radius:99px;padding:5px 10px;font-weight:800;font-size:12px;white-space:nowrap}
+.motivos{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.motivos button{border:1px solid var(--linea);border-radius:99px;padding:8px 12px;font-size:13px;font-weight:700;background:#fff}
+.motivos button.on{background:var(--g700);color:#fff;border-color:var(--g700)}
+.pred{background:var(--papel);border-radius:14px;padding:10px 12px;margin:10px 0;font-size:13px;line-height:1.4}.pred b{color:var(--g700)}
 .ocupado{position:fixed;inset:0;z-index:90;background:var(--g950);color:#fff;display:flex;flex-direction:column;gap:14px;padding:calc(var(--st) + 18px) 18px calc(var(--sb) + 20px);overflow:auto}
 .oc-top{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:var(--lima3)}
 .oc-est{background:#D6452F;color:#fff;border-radius:99px;padding:5px 12px;font-weight:800;font-size:13px;animation:late 2s infinite}
@@ -392,6 +401,7 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
   <header class="cab">
     <div class="logo" id="logo"></div>
     <div class="cab-esp"></div>
+    <button class="pill-piloto oculto" id="pillPiloto" data-ir="hoy">🤖 Bosco a cargo</button>
     <button class="pill-ll" id="pillLl"><i></i><span>Llamadas</span></button>
     <img class="cab-cara" id="cabCara" alt="" src="icono-192.png">
   </header>
@@ -618,6 +628,7 @@ async function cargar() {
     if (!p.error) { detectarCasos(p); S.panel = p; }
     if (t.tareas) { detectarTareas(t.tareas); S.tareas = t.tareas; }
     if (ar && !ar.error) S.areas = ar.areas;
+    if (!S.piloto || S.tab === "hoy") cargarPiloto();
   }
   S.primera = false;
   pintar();
@@ -702,6 +713,7 @@ async function contactarBosco(t, que, btn) {
 
 function pintar() {
   pintarOcupado();
+  const pp = $("#pillPiloto"); if (pp) { pp.classList.toggle("oculto", !(soyGerencia() && S.piloto?.activo)); pp.textContent = `🤖 ${asis()} a cargo`; }
   pintarBadges();
   if (S.tab === "hoy") pintarHoy();
   if (S.tab === "casos") pintarCasos();
@@ -753,6 +765,53 @@ function barrasDia(serie) {
     return `<rect x="${bx}" y="${h - hA}" width="${an}" height="${hA}" rx="3" fill="var(--lima)"/><rect x="${bx}" y="${h - hA - hF}" width="${an}" height="${hF}" rx="3" fill="var(--ambar)"/>${x.resueltos ? `<text x="${cx}" y="${h - hA - hF - 3}" font-size="10" font-weight="800" text-anchor="middle" fill="var(--tinta)" font-family="Manrope">${x.resueltos}</text>` : ""}<text x="${cx}" y="${h + 14}" font-size="10" text-anchor="middle" fill="var(--suave)" font-family="Manrope">${dia}</text>`;
   }).join("")}</svg><div class="ley" style="margin-bottom:8px"><span><i class="pt" style="background:var(--lima)"></i>a tiempo</span><span><i class="pt" style="background:var(--ambar)"></i>fuera de tiempo</span></div>`;
 }
+// ---------- Bosco aprende de cada decisión y puede quedar a cargo (piloto automático) ----------
+const MOTIVOS = [["falso", "Es falso o una broma"], ["resuelto", "Ya se resolvió"], ["repetido", "Repetido: ya hay alguien atendiendo"], ["no_corresponde", "No nos corresponde"], ["no_prioritario", "No es prioritario ahora"], ["otro", "Otro"]];
+const DEC_TXT = { aprobar: "Aprobar y llamar al responsable", descartar: "No enviar a nadie", preguntar: "Preguntarle a usted" };
+function notaPiloto(c) {
+  const a = c.app || {}, p = a.prediccion;
+  if (a.piloto) return `<div class="pred">🤖 <b>Lo decidió ${esc(asis())}</b> (piloto automático): ${a.piloto.decision === "aprobar" ? "aprobó y llamó al responsable" : `no envió a nadie${a.descartado?.motivo ? ` · ${esc(a.descartado.motivo)}` : ""}`}.</div>`;
+  if (a.descartado) return `<div class="pred">❌ No se envió a nadie · ${esc(a.descartado.motivo || "")}${a.descartado.por ? ` · ${esc(a.descartado.por)}` : ""}</div>`;
+  if (!p || c.estado === "resuelto" || !soyGerencia()) return "";
+  return `<div class="pred">🤖 <b>${esc(asis())} habría decidido:</b> ${esc(DEC_TXT[p.decision] || p.decision)} (${Math.round((p.confianza || 0) * 100)} % seguro)${p.motivo ? ` · ${esc(p.motivo)}` : ""}${p.decision === "aprobar" && p.instruccion ? `<br><small>«${esc(p.instruccion)}»</small>` : ""}</div>`;
+}
+function elegirMotivo(c) {
+  let tipo = null;
+  $("#cajaMotivo").innerHTML = `<div class="card" style="margin-top:10px"><h2>¿Por qué no enviar a nadie?</h2><div class="sub">Con su motivo, ${esc(asis())} aprende a decidir solo.</div>
+    <div class="motivos">${MOTIVOS.map(([k, t]) => `<button data-m="${k}">${esc(t)}</button>`).join("")}</div>
+    <input class="campo" id="motivoTxt" placeholder="Detalle (opcional)" maxlength="200"><button class="btn btn-r btn-w" id="motivoOk" style="margin-top:8px" disabled>Confirmar</button></div>`;
+  for (const b of $$("[data-m]", $("#cajaMotivo"))) b.onclick = () => { tipo = b.dataset.m; for (const x of $$("[data-m]", $("#cajaMotivo"))) x.classList.toggle("on", x === b); $("#motivoOk").disabled = false; };
+  $("#motivoTxt").oninput = () => { $("#motivoOk").disabled = !tipo && !$("#motivoTxt").value.trim(); };
+  $("#cajaMotivo").scrollIntoView({ block: "center", behavior: "smooth" });
+  $("#motivoOk").onclick = async (ev) => {
+    ev.target.disabled = true;
+    const r = await A({ accion: "descartar", caso: c.id, motivo_tipo: tipo || "otro", motivo: $("#motivoTxt").value.trim() });
+    if (r.error) { ev.target.disabled = false; return toast(r.error); }
+    toast("Listo: no se envía a nadie. Motivo guardado", 3500); cerrarHoja(); cargar();
+  };
+}
+function tarjetaPiloto() {
+  const p = S.piloto; if (!p || !soyGerencia()) return "";
+  const pct = p.pct, listo = p.comparadas >= 10 && pct >= 80;
+  const estado = p.comparadas ? `Coincide con usted en <b>${p.coincide} de ${p.comparadas}</b> decisiones (${pct} %).` : "Todavía no hay decisiones para comparar: cada vez que usted aprueba o descarta un caso, aprende.";
+  const ult = (p.ultimas || []).slice(0, 4).map((x) => `<li>${x.rol === "piloto" ? "🤖" : x.rol === "equipo" ? "👷" : "👤"} ${esc({ aprobar: "Aprobó", descartar: "Descartó", resolver: "Resolvió", cancelar: "Canceló", bloquear: "Bloqueó", no_puedo: "No pudo", pasar: "Pasó" }[x.decision] || x.decision)}${x.resumen ? `: ${esc(x.resumen.slice(0, 60))}` : ""}${x.motivo ? ` · <i>${esc(x.motivo)}</i>` : ""}${x.coincide === true ? " · ✓ " + esc(asis()) + " acertó" : x.coincide === false ? " · ✗ " + esc(asis()) + " habría decidido otra cosa" : ""}</li>`).join("");
+  return `<div class="piloto${p.activo ? " on" : ""}"><h2>🤖 ${p.activo ? `${esc(asis())} está a cargo` : `Piloto automático`}</h2>
+    <p>${p.activo ? `${esc(asis())} decide los casos nuevos: aprueba y llama al responsable, o descarta con motivo. Si no está seguro, le pregunta. Usted recibe un aviso de cada decisión.${p.piloto_hoy ? ` Hoy decidió ${p.piloto_hoy}.` : ""}` : `${estado} ${listo ? "Ya está listo para hacerse cargo." : "Aprende de sus decisiones y de sus motivos."}`}</p>
+    ${!p.activo && p.comparadas ? `<div class="barra"><i style="width:${pct}%"></i></div>` : ""}
+    <button class="btn ${p.activo ? "btn-b" : "btn-l"}" id="btnPiloto">${p.activo ? "👤 Retomar el control" : `🤖 Poner a ${esc(asis())} a cargo`}</button>
+    ${ult ? `<ul>${ult}</ul>` : ""}</div>`;
+}
+async function cambiarPiloto(btn) {
+  const activo = !S.piloto?.activo;
+  if (activo && !btn.dataset.seguro) { btn.dataset.seguro = "1"; btn.textContent = `¿Seguro? ${asis()} decidirá los casos nuevos. Toque otra vez`; return; }
+  btn.disabled = true;
+  const r = await A({ accion: "piloto", activo });
+  btn.disabled = false;
+  if (r.error) return toast(r.error);
+  S.piloto = r; toast(activo ? `🤖 ${asis()} quedó a cargo` : "Usted retomó el control", 3500); pintar();
+}
+async function cargarPiloto() { if (!soyGerencia()) return; const r = await A({ accion: "piloto" }); if (!r.error) { S.piloto = r; pintar(); } }
+
 function pintarHoy() {
   const p = S.panel, el = $("#hoyCuerpo");
   if (!p) { el.innerHTML = '<div class="esq"></div><div class="esq"></div><div class="esq"></div>'; return; }
@@ -765,6 +824,7 @@ function pintarHoy() {
   const pc = (x) => Math.round(((x || 0) / tot) * 100);
   let html = `<div class="saludo"><img src="${foto()}" alt=""><p>${sal}${nom}. ${per}: <b>${k.conversaciones ?? 0} conversaciones</b>, <b>${k.quejas ?? 0} quejas</b> y <b>${ab.length} caso${ab.length === 1 ? "" : "s"} sin resolver</b>${urg.length ? `, ${urg.length} urgente${urg.length > 1 ? "s" : ""}` : ""}.${curso.length ? ` Hay ${curso.length} tarea${curso.length > 1 ? "s" : ""} en curso.` : ""}</p></div>`;
   if (!S.disp?.push) html += `<div class="aviso-ll">📞 Que ${esc(asis())} le llame cuando algo sea urgente<button data-ir="mas">Activar</button></div>`;
+  html += tarjetaPiloto();
   if (urg.length) html += `<button class="urg" data-caso="${urg[0].id}"><span style="font-size:22px">🔴</span><span>${urg.length === 1 ? "1 caso urgente sin resolver" : `${urg.length} casos urgentes sin resolver`}<br><span style="font-weight:600">${esc(urg[0].resumen)}</span></span></button>`;
   html += `<div class="kpis">
     <div class="kpi grande">${anillo(k.indice)}<div><div class="et">Índice de sentimiento</div><div class="v num">${k.indice ?? "–"}<span style="font-size:18px;color:var(--suave)">/100</span></div>${delta(k.indice, k.indice_prev)}</div></div>
@@ -789,6 +849,7 @@ function pintarHoy() {
   html += `<div class="card"><h2>🎨 Contenido de la semana</h2><p class="sub" style="margin:0 0 10px">${porRev ? `${porRev} post${porRev > 1 ? "s" : ""} esperan su aprobación.` : "No hay posts pendientes de aprobación."}</p><button class="btn btn-b btn-w" data-ir="contenido">Revisar contenido</button></div>`;
   html += `<div class="card"><h2>📝 Lectura de la semana</h2><p class="sub" style="margin:0 0 10px">${esc(asis())} resume la semana y recomienda qué hacer.</p><button class="btn btn-p btn-w" id="btnLectura">Pedir la lectura</button></div>`;
   el.innerHTML = html;
+  const bp = $("#btnPiloto"); if (bp) bp.onclick = () => cambiarPiloto(bp);
 }
 const cap = (s) => String(s || "").charAt(0).toUpperCase() + String(s || "").slice(1);
 const VERIF = { ubicacion: ["📍", "Verificado en el C.C."], foto: ["📷", "Con foto"], sin_verificar: ["❔", "Sin verificar"] };
@@ -918,7 +979,7 @@ function tarjetaCaso(c) {
   return `<button class="caso p-${c.prioridad}${mia ? " tarea-mia" : ""}" data-caso="${c.id}">
     <div class="caso-top"><span class="pri ${c.prioridad}">● ${PRIO[c.prioridad] || c.prioridad}</span><span>${AREA[c.area]?.[0] || ""} ${esc(AREA[c.area]?.[1] || c.area)}</span><span class="t">${hace(c.creado)}</span></div>
     <div class="caso-txt">${esc(c.resumen)}</div>${c.zona ? `<div class="caso-zona">📍 ${esc(c.zona)}</div>` : ""}
-    <div class="caso-pie"><span class="est ${c.estado}">${EST[c.estado] || c.estado}</span>${chipVerif(c)}${c.demo ? '<span class="ej">ejemplo</span>' : ""}${mia ? '<span class="ej" style="background:var(--menta);color:var(--g700)">Para usted</span>' : ""}${t ? miniPasos(t) : ""}</div></button>`;
+    <div class="caso-pie"><span class="est ${c.estado}">${EST[c.estado] || c.estado}</span>${chipVerif(c)}${c.app?.piloto ? '<span class="ver">🤖 Decidió ' + esc(asis()) + "</span>" : c.app?.descartado ? '<span class="ver">❌ No se envió</span>' : ""}${c.demo ? '<span class="ej">ejemplo</span>' : ""}${mia ? '<span class="ej" style="background:var(--menta);color:var(--g700)">Para usted</span>' : ""}${t ? miniPasos(t) : ""}</div></button>`;
 }
 function pintarCasos() {
   const el = $("#casosCuerpo"); if (!S.panel) { el.innerHTML = '<div class="esq"></div><div class="esq"></div>'; return; }
@@ -961,6 +1022,7 @@ function pintarHojaCaso(id, refresco = false) {
   const t = tareaDe(c.id), area = AREA[c.area] || ["📌", c.area];
   let html = `<div class="caso-top" style="margin-right:40px"><span class="pri ${c.prioridad}">● ${PRIO[c.prioridad]}</span><span>${area[0]} ${esc(area[1])}</span><span class="t">${esc(c.codigo || "")}</span></div>
     <h3>${esc(c.resumen)}</h3><div class="sub">${c.zona ? `📍 ${esc(c.zona)}<br>` : ""}${CANAL[c.canal] || ""} Llegó por ${esc(c.canal)} · ${hace(c.creado)} · ${hora(c.creado)}${c.demo ? " · histórico de ejemplo" : ""}</div>${cajaVerif(c)}`;
+  html += notaPiloto(c);
   html += progreso(c, t);
   if (t) {
     html += `<ul class="linea-t">${(t.pasos || []).map((p) => `<li class="${["rechazada", "sin_respuesta", "sin_responsable", "problema", "pasada", "sin_cierre"].includes(p.tipo) ? "alerta" : ""}"><time>${hora(p.en)}</time>${esc(p.txt)}</li>`).join("")}</ul>`;
@@ -985,7 +1047,8 @@ function pintarHojaCaso(id, refresco = false) {
       if (!t || ["cancelada"].includes(t.estado)) {
         html += `<div class="card" style="margin-top:12px"><h2>Decidir</h2><input class="campo" id="instr" placeholder="Indicación para el responsable (opcional)" maxlength="200">
           <button class="btn btn-l btn-w" data-g="aprobar">✅ Aprobar y que ${esc(asis())} llame a ${esc(area[1].toLowerCase())}</button>
-          <div class="fila-btn" style="margin-top:8px"><button class="btn btn-b" data-g="contar">📞 Que me cuente</button><button class="btn btn-b" data-g="resolver">Marcar resuelto</button></div></div>`;
+          <div class="fila-btn" style="margin-top:8px"><button class="btn btn-b" data-g="contar">📞 Que me cuente</button><button class="btn btn-b" data-g="resolver">Marcar resuelto</button></div>
+          <button class="btn btn-b btn-w" data-g="descartar" style="margin-top:8px">❌ No enviar a nadie</button><div id="cajaMotivo"></div></div>`;
       } else if (["llamando", "sin_respuesta", "rechazada"].includes(t.estado)) {
         html += `<div class="fila-btn" style="margin-top:12px"><button class="btn btn-p" data-t="rellamar">🔁 Volver a llamar</button><button class="btn btn-b" data-t="cancelada">Cancelar tarea</button></div>`;
       } else if (t.estado === "aceptada") {
@@ -1013,7 +1076,8 @@ let fotoTarea = null;
 $("#archivoTarea").addEventListener("change", async (e) => { const f = e.target.files[0]; if (!f) return; fotoTarea = await reducir(f, 1400); const n = $("#fotoTNom"); if (n) n.textContent = "📷 Foto lista para enviar"; e.target.value = ""; });
 async function accionTarea(t, estado, btn) {
   btn.disabled = true;
-  const extra = estado === "aceptada" ? { minutos: S.eta || undefined } : estado === "hecha" ? { nota: $("#notaT")?.value, foto: fotoTarea || undefined } : estado === "rechazada" ? { motivo: prompt("¿Por qué no puede? (opcional)") } : {};
+  const extra = estado === "aceptada" ? { minutos: S.eta || undefined } : estado === "hecha" ? { nota: $("#notaT")?.value, foto: fotoTarea || undefined } : estado === "rechazada" ? { motivo: prompt("¿Por qué no puede? (opcional)") } : estado === "cancelada" ? { nota: prompt("¿Por qué cancela la tarea? (así Bosco aprende)") } : {};
+  if (estado === "cancelada" && extra.nota === null) { btn.disabled = false; return; }
   if (estado === "rechazada" && extra.motivo === null) { btn.disabled = false; return; }
   const r = await A({ accion: "tarea", id: t.id, estado, ...extra });
   btn.disabled = false;
@@ -1029,6 +1093,7 @@ async function accionGerencia(c, g, btn) {
     if (r.error || !(r.fotos || []).length) { btn.disabled = false; return toast(r.error || "No pude abrir las fotos."); }
     $("#fotosCaso").innerHTML = r.fotos.map((u) => `<a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt="Foto del visitante"></a>`).join(""); return;
   }
+  if (g === "descartar") { btn.disabled = true; return elegirMotivo(c); }
   if (g === "bloquear") {
     if (!btn.dataset.seguro) { btn.dataset.seguro = "1"; btn.textContent = "¿Seguro? Toque otra vez para bloquear"; return; }
     btn.disabled = true; const r = await A({ accion: "bloquear", id: c.id });
