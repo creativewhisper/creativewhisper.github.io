@@ -310,6 +310,18 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
 .fila-area b{display:block;font-size:14.5px}
 .fila-area small{color:var(--suave);font-size:12px}
 .pulso{animation:late 1.2s ease-in-out 3}
+.ocupado{position:fixed;inset:0;z-index:90;background:var(--g950);color:#fff;display:flex;flex-direction:column;gap:14px;padding:calc(var(--st) + 18px) 18px calc(var(--sb) + 20px);overflow:auto}
+.oc-top{display:flex;align-items:center;gap:10px;font-weight:700;font-size:14px;color:var(--lima3)}
+.oc-est{background:#D6452F;color:#fff;border-radius:99px;padding:5px 12px;font-weight:800;font-size:13px;animation:late 2s infinite}
+.oc-tarea small{display:block;color:var(--lima3);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.06em;margin-bottom:4px}
+.oc-tarea h2{margin:0 0 8px;font-size:23px;line-height:1.25}.oc-tarea p{margin:4px 0;color:#CFE3C4;font-size:15px}
+.oc-reloj{background:rgba(255,255,255,.07);border-radius:16px;padding:12px 14px}.oc-reloj b{display:block;font-size:34px;font-variant-numeric:tabular-nums}.oc-reloj span{font-size:12.5px;color:#CFE3C4}
+.oc-grande{width:100%;padding:22px;font-size:22px;border-radius:20px;box-shadow:0 10px 30px rgba(97,173,48,.35)}
+.oc-form{display:flex;flex-direction:column;gap:10px}.oc-form textarea{border-radius:14px;border:0;padding:12px;font:inherit;min-height:70px;color:var(--tinta)}
+.oc-form .fila-btn{display:flex;gap:8px}
+.oc-bosco{width:100%;padding:16px;border-radius:18px;background:rgba(255,255,255,.1);color:#fff;font-weight:800;font-size:16px}
+.oc-opc{display:flex;flex-direction:column;gap:8px}.oc-opc button{padding:14px;border-radius:14px;background:rgba(255,255,255,.07);color:#fff;font-weight:700;text-align:left;font-size:15px}
+.oc-link{color:var(--lima3);text-decoration:underline;font-weight:700;font-size:13.5px;margin-top:auto;align-self:center}
 .ver{font-size:11.5px;font-weight:800;border-radius:99px;padding:3px 8px;background:var(--crema);color:var(--suave);white-space:nowrap}
 .ver.ubicacion,.ver.foto{background:var(--menta);color:var(--g700)}.ver.sin_verificar{background:#FBEBD0;color:#8A5A10}.ver.bloq{background:#F8DDD8;color:#A3301E}
 .verif-caja{background:var(--papel);border-radius:14px;padding:10px 12px;margin:10px 0;font-size:13px;line-height:1.4}
@@ -492,6 +504,8 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
     <button class="ll-b no" id="llColgar"><span><svg viewBox="0 0 24 24"><path d="M12 9c-3.5 0-6.6 1.2-8.6 3.1-.4.4-.4 1-.1 1.4l1.8 2.2c.3.4.9.5 1.3.2l2.4-1.5c.3-.2.5-.6.4-1l-.4-1.9c1-.4 2.1-.6 3.2-.6s2.2.2 3.2.6l-.4 1.9c-.1.4.1.8.4 1l2.4 1.5c.4.3 1 .2 1.3-.2l1.8-2.2c.3-.4.3-1-.1-1.4C18.6 10.2 15.5 9 12 9z"/></svg></span>Colgar</button>
   </div>
 </div>
+<div class="ocupado oculto" id="vOcupado"></div>
+<input type="file" id="archivoOc" accept="image/*" capture="environment" class="oculto">
 <div class="toast" id="toast"></div>
 <input type="file" id="archivoFotos" accept="image/*" multiple class="oculto">
 <input type="file" id="archivoTarea" accept="image/*" capture="environment" class="oculto">
@@ -631,11 +645,63 @@ function detectarCasos(p) {
 function detectarTareas(tareas) {
   if (S.primera || document.hidden) return;
   for (const t of tareas || []) {
-    if (t.estado === "llamando" && misAreas().includes(t.area) && Date.now() - new Date(t.actualizado).getTime() < 10 * 60000) entrante("tarea", t.id);
+    const paso = [...(t.pasos || [])].reverse().find((p) => p.tipo === "pasada");
+    if (t.estado === "llamando" && misAreas().includes(t.area) && Date.now() - new Date(t.actualizado).getTime() < 10 * 60000 && paso?.de !== DISP) entrante("tarea", t.id);
   }
 }
 
+// ---------- Modo ocupado: quien aceptó una tarea solo ve «Listo» y «Contactar a Bosco» ----------
+const miTareaEnCurso = () => S.tareas.find((t) => t.estado === "aceptada" && t.dispositivo === DISP);
+let fotoOc = null;
+function pintarOcupado() {
+  const t = miTareaEnCurso(), el = $("#vOcupado");
+  if (!t || S.verGerencia === t.id) { el.classList.add("oculto"); clearInterval(S.relojOc); el.dataset.t = ""; return; }
+  const acepto = [...(t.pasos || [])].reverse().find((p) => p.tipo === "aceptada");
+  const desde = new Date(acepto?.en || t.actualizado).getTime(), c = t.caso || {};
+  if (el.dataset.t !== String(t.id)) {
+    el.dataset.t = String(t.id); fotoOc = null;
+    el.innerHTML = `<div class="oc-top"><span class="oc-est">● Ocupado</span><span>${AREA[t.area]?.[0] || ""} ${esc(AREA[t.area]?.[1] || t.area)}</span></div>
+      <div class="oc-tarea"><small>Su tarea</small><h2>${esc(t.instruccion)}</h2>${c.zona && !String(t.instruccion).includes(c.zona) ? `<p>📍 ${esc(c.zona)}</p>` : ""}${t.eta_min ? `<p>Dijo que llegaba en ~${t.eta_min} min</p>` : ""}</div>
+      <div class="oc-reloj"><b id="ocT">0:00</b><span>desde que aceptó · ${esc(asis())} le llama cada 10 min para saber cómo va</span></div>
+      <div id="ocListo"><button class="btn btn-l oc-grande" id="ocBtnListo">✅ Listo</button></div>
+      <button class="oc-bosco" id="ocBosco">💬 Contactar a ${esc(asis())}</button>
+      <div class="oc-opc oculto" id="ocOpc"><button data-oc="llamar">📞 Llamar a ${esc(asis())}</button><button data-oc="pasar">↪️ Pasar la tarea a otra persona</button><button data-oc="problema">⚠️ Tengo un problema</button></div>
+      ${soyGerencia() ? '<button class="oc-link" id="ocGer">Ver la app de gerencia</button>' : ""}`;
+    $("#ocBtnListo").onclick = () => formListo(t);
+    $("#ocBosco").onclick = () => $("#ocOpc").classList.toggle("oculto");
+    for (const b of $$("[data-oc]", el)) b.onclick = () => contactarBosco(t, b.dataset.oc, b);
+    const g = $("#ocGer"); if (g) g.onclick = () => { S.verGerencia = t.id; pintarOcupado(); toast("Su tarea sigue abierta: la ve en Casos → Tareas"); };
+    if (S.abrirListo) { S.abrirListo = false; formListo(t); }
+  }
+  const tick = () => { const s = Math.max(0, Math.round((Date.now() - desde) / 1000)), x = $("#ocT"); if (x) x.textContent = s >= 3600 ? `${Math.floor(s / 3600)}:${String(Math.floor((s % 3600) / 60)).padStart(2, "0")}:${String(s % 60).padStart(2, "0")}` : `${Math.floor(s / 60)}:${String(s % 60).padStart(2, "0")}`; };
+  clearInterval(S.relojOc); tick(); S.relojOc = setInterval(tick, 1000);
+  el.classList.remove("oculto");
+}
+function formListo(t) {
+  $("#ocListo").innerHTML = `<div class="oc-form"><textarea id="ocNota" placeholder="Qué se hizo (opcional)"></textarea>
+    <div class="fila-btn"><button class="btn btn-b" id="ocFoto">📷 Foto</button><button class="btn btn-l" id="ocConfirmar" style="flex:2">✅ Confirmar: está listo</button></div><div class="sub" id="ocFotoNom" style="color:#CFE3C4"></div></div>`;
+  $("#ocFoto").onclick = () => $("#archivoOc").click();
+  $("#ocConfirmar").onclick = async (ev) => {
+    ev.target.disabled = true;
+    const r = await A({ accion: "tarea", id: t.id, estado: "hecha", nota: $("#ocNota").value, foto: fotoOc || undefined });
+    if (r.error) { ev.target.disabled = false; return toast(r.error); }
+    fotoOc = null; toast("¡Gracias! Caso resuelto ✅", 4000); cargar();
+  };
+}
+$("#archivoOc").addEventListener("change", async (e) => { const f = e.target.files[0]; if (!f) return; fotoOc = await reducir(f, 1400); const n = $("#ocFotoNom"); if (n) n.textContent = "📷 Foto lista"; e.target.value = ""; });
+async function contactarBosco(t, que, btn) {
+  if (que === "llamar") return mostrarEntrante("seguimiento", t.id, true);
+  const txt = prompt(que === "pasar" ? "¿Por qué pasa la tarea? (Bosco llama a otra persona del área)" : "¿Cuál es el problema? (le aviso a la gerencia)");
+  if (txt === null) return;
+  btn.disabled = true;
+  const r = await A({ accion: "tarea", id: t.id, estado: que, nota: txt });
+  btn.disabled = false;
+  if (r.error) return toast(r.error);
+  toast(que === "pasar" ? `Listo: ${asis()} llama a otra persona y usted queda libre` : "Avisé a la gerencia", 4500); cargar();
+}
+
 function pintar() {
+  pintarOcupado();
   pintarBadges();
   if (S.tab === "hoy") pintarHoy();
   if (S.tab === "casos") pintarCasos();
@@ -812,7 +878,7 @@ function pintarHojaTarea(id, refresco = false) {
   let h = `<div class="caso-top" style="margin-right:40px"><span class="pri ${c.prioridad || ""}">● ${PRIO[c.prioridad] || "Tarea"}</span><span>${area[0]} ${esc(area[1])}</span><span class="t">${esc(c.codigo || "")}</span></div>
     <h3>${esc(t.instruccion)}</h3><div class="sub">${c.zona ? `📍 ${esc(c.zona)}<br>` : ""}${c.resumen ? `El visitante reportó: «${esc(c.resumen)}»<br>` : ""}Aprobada ${hace((t.pasos || []).find((p) => p.tipo === "aprobado")?.en || t.creado)}</div>`;
   h += progreso({ estado: t.estado === "hecha" ? "resuelto" : "en_proceso" }, t);
-  h += `<ul class="linea-t">${(t.pasos || []).map((p) => `<li class="${["rechazada", "sin_respuesta", "sin_responsable"].includes(p.tipo) ? "alerta" : ""}"><time>${hora(p.en)}</time>${esc(p.txt)}</li>`).join("")}</ul>`;
+  h += `<ul class="linea-t">${(t.pasos || []).map((p) => `<li class="${["rechazada", "sin_respuesta", "sin_responsable", "problema", "pasada", "sin_cierre"].includes(p.tipo) ? "alerta" : ""}"><time>${hora(p.en)}</time>${esc(p.txt)}</li>`).join("")}</ul>`;
   if (t.foto) h += `<img class="foto-t" src="${esc(t.foto)}" alt="Foto de la tarea resuelta">`;
   if (["llamando", "sin_respuesta", "rechazada"].includes(t.estado)) h += `<div class="card" style="margin-top:12px"><h2>🙋 ¿La atiende?</h2><div class="sub">¿En cuánto llega?</div><div class="etas">${[5, 10, 15, 30].map((m) => `<button data-eta="${m}">${m} min</button>`).join("")}</div>
     <div class="fila-btn"><button class="btn btn-l" data-t="aceptada">✓ Voy</button><button class="btn btn-r" data-t="rechazada">No puedo</button></div></div>`;
@@ -897,7 +963,7 @@ function pintarHojaCaso(id, refresco = false) {
     <h3>${esc(c.resumen)}</h3><div class="sub">${c.zona ? `📍 ${esc(c.zona)}<br>` : ""}${CANAL[c.canal] || ""} Llegó por ${esc(c.canal)} · ${hace(c.creado)} · ${hora(c.creado)}${c.demo ? " · histórico de ejemplo" : ""}</div>${cajaVerif(c)}`;
   html += progreso(c, t);
   if (t) {
-    html += `<ul class="linea-t">${(t.pasos || []).map((p) => `<li class="${["rechazada", "sin_respuesta", "sin_responsable"].includes(p.tipo) ? "alerta" : ""}"><time>${hora(p.en)}</time>${esc(p.txt)}</li>`).join("")}</ul>`;
+    html += `<ul class="linea-t">${(t.pasos || []).map((p) => `<li class="${["rechazada", "sin_respuesta", "sin_responsable", "problema", "pasada", "sin_cierre"].includes(p.tipo) ? "alerta" : ""}"><time>${hora(p.en)}</time>${esc(p.txt)}</li>`).join("")}</ul>`;
     if (t.estado === "aceptada" && t.eta_min) {
       const ac = [...(t.pasos || [])].reverse().find((p) => p.tipo === "aceptada"), llega = new Date(new Date(ac?.en || t.actualizado).getTime() + t.eta_min * 60000);
       html += `<div class="eta">⏱️ ${esc(t.responsable || "El responsable")} ${llega > Date.now() ? `llega a las ${hora(llega)} (en ${Math.max(1, Math.round((llega - Date.now()) / 60000))} min)` : `debía llegar a las ${hora(llega)}`}</div>`;
@@ -1094,7 +1160,7 @@ async function cargarEquipo(nuevo) {
   const r = await A({ accion: "equipo", ...(nuevo ? { nuevo } : {}) });
   if (r.error) { $("#equipoLista").innerHTML = `<p class="sub">${esc(r.error)}</p>`; return; }
   S.equipo = r.equipo;
-  $("#equipoLista").innerHTML = r.equipo.map((a) => `<div class="fila-area" style="cursor:default"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${a.personas.length ? a.personas.map((x) => `${esc(x.nombre)}${x.llamadas ? " 📞" : ""}`).join(", ") : "Nadie todavía"}</small></span><button class="btn btn-b" style="padding:8px 12px;font-size:13px" data-eq="${a.area}">Invitar</button></div>`).join("");
+  $("#equipoLista").innerHTML = r.equipo.map((a) => `<div class="fila-area" style="cursor:default"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${a.personas.length ? a.personas.map((x) => `${esc(x.nombre)}${x.llamadas ? " 📞" : ""}${x.ocupado ? ` <span style="color:var(--rojo);font-weight:800" title="${esc(x.ocupado)}">· 🔴 ocupado</span>` : " · 🟢 libre"}`).join(", ") : "Nadie todavía"}</small></span><button class="btn btn-b" style="padding:8px 12px;font-size:13px" data-eq="${a.area}">Invitar</button></div>`).join("");
   for (const b of $$("[data-eq]", $("#equipoLista"))) b.onclick = () => invitar(b.dataset.eq);
 }
 let qrLib = null;
@@ -1261,18 +1327,19 @@ function sonar() {
 function callar() { clearInterval(ringT); ringT = null; if (navigator.vibrate) navigator.vibrate(0); }
 function cerrarAviso(tag) { if (!navigator.serviceWorker) return; navigator.serviceWorker.ready.then((r) => r.getNotifications({ tag })).then((ns) => ns.forEach((n) => n.close())).catch(() => {}); }
 
-function entrante(modo, id, motivo) {
-  const tag = `${modo}-${id}`;
+function entrante(modo, id, motivo, clave) {
+  const tag = clave || `${modo}-${id}`;
   if (S.sonados.has(tag)) return;
   S.sonados.add(tag); ss.set("bosco-sonados", JSON.stringify([...S.sonados].slice(-60)));
   mostrarEntrante(modo, id, false, motivo);
 }
 function motivoDe(modo, id, extra) {
+  if (modo === "seguimiento") { const t = S.tareas.find((x) => x.id === id); return `<b>¿Cómo va la tarea?</b>${esc(t?.instruccion || extra || "")}`; }
   if (modo === "tarea") { const t = S.tareas.find((x) => x.id === id); return t ? `<b>${AREA[t.area]?.[0] || ""} Tarea de ${esc(AREA[t.area]?.[1].toLowerCase() || t.area)}</b>${esc(t.instruccion)}` : `<b>Tarea</b>${esc(extra || "")}`; }
   const c = casoPorId(id); return c ? `<b>${c.prioridad === "alta" ? "Urgente" : "Caso"} · ${esc(AREA[c.area]?.[1] || c.area)}</b>${esc(c.resumen)}` : `<b>Urgente</b>${esc(extra || "")}`;
 }
 function mostrarEntrante(modo, id, directo, extra) {
-  if (S.llamada) { if (!S.cola.some((x) => x.modo === modo && x.id === id)) S.cola.push({ modo, id, extra }); return; }
+  if (S.llamada) { if (!(S.llamada.modo === modo && S.llamada.id === id) && !S.cola.some((x) => x.modo === modo && x.id === id)) S.cola.push({ modo, id, extra }); return; }
   if (vozGuia) { try { vozGuia.endSession(); } catch {} }
   cerrarHoja();
   S.llamada = { modo, id, fase: "entrante", inicio: null, log: [] };
@@ -1321,7 +1388,13 @@ async function contestar() {
     if (!S.llamada || S.llamada !== l) return;
     if (cred.error || (!cred.token && !cred.signed_url)) throw new Error(cred.error || "sin voz");
     l.info = cred;
-    const herr = l.modo === "tarea" ? {
+    const tareaA = (estado, extra, msj) => async (p) => { const r = await A({ accion: "tarea", id: l.id, estado, ...extra(p || {}) }); if (!r.error) toast(msj); cargar(); return "ok"; };
+    const herr = l.modo === "seguimiento" ? {
+      tarea_lista: tareaA("hecha", (p) => ({ nota: p.nota }), "✅ Tarea resuelta · la gerencia lo ve"),
+      sigo_en_eso: tareaA("sigo", (p) => ({ minutos: p.minutos, nota: p.nota }), `👍 ${asis()} vuelve a llamar en 10 min`),
+      pasar_tarea: tareaA("pasar", (p) => ({ nota: p.motivo }), `↪️ ${asis()} llama a otra persona`),
+      reportar_problema: tareaA("problema", (p) => ({ nota: p.nota }), "⚠️ Avisé a la gerencia"),
+    } : l.modo === "tarea" ? {
       aceptar_tarea: async (p) => { const r = await A({ accion: "tarea", id: l.id, estado: "aceptada", minutos: p?.minutos, nota: p?.nota }); if (!r.error) toast("✅ Tarea aceptada · la gerencia lo ve"); cargar(); return "ok"; },
       tarea_lista: async (p) => { const r = await A({ accion: "tarea", id: l.id, estado: "hecha", nota: p?.nota }); if (!r.error) toast("✅ Tarea resuelta"); cargar(); return "ok"; },
       rechazar_tarea: async (p) => { await A({ accion: "tarea", id: l.id, estado: "rechazada", motivo: p?.motivo }); toast("Avisé a la gerencia"); cargar(); return "ok"; },
@@ -1359,7 +1432,7 @@ window.addEventListener("pagehide", () => { try { S.llamada?.conv?.endSession();
 function manejarHash(h = location.hash) {
   const q = new URLSearchParams(String(h).replace(/^#/, ""));
   const ll = q.get("llamada"), caso = q.get("caso"), tarea = q.get("tarea"), resp = q.get("r");
-  if (ll) { const [modo, id] = ll.split("-"); if (["caso", "tarea"].includes(modo) && Number(id)) abrirLlamadaDesdeAviso(modo, Number(id)); }
+  if (ll) { const [modo, id] = ll.split("-"); if (["caso", "tarea", "seguimiento"].includes(modo) && Number(id)) abrirLlamadaDesdeAviso(modo, Number(id)); }
   else if (caso && Number(caso)) { irA("casos"); abrirCaso(Number(caso)); if (resp === "aprobar") setTimeout(() => { const b = $('[data-g="aprobar"]', $("#hoja")); if (b) { b.scrollIntoView({ block: "center" }); b.classList.add("pulso"); } }, 400); }
   else if (tarea && Number(tarea)) abrirTareaDesdeMensaje(Number(tarea), resp);
   if (ll || caso || tarea) { q.delete("llamada"); q.delete("caso"); q.delete("tarea"); q.delete("r"); const r = q.toString(); history.replaceState(null, "", location.pathname + location.search + (r ? "#" + r : "")); }
@@ -1369,13 +1442,21 @@ async function abrirTareaDesdeMensaje(id, resp) {
   if (!S.tareas.some((x) => x.id === id)) await cargar();
   const t = S.tareas.find((x) => x.id === id);
   if (!t) return toast("Esa tarea ya no está disponible.");
+  if ((resp === "listo" || resp === "sigo") && t.estado === "aceptada") {
+    if (resp === "sigo") { const r = await A({ accion: "tarea", id, estado: "sigo" }); toast(r.error || `👍 ${asis()} vuelve a llamar en 10 min`); return cargar(); }
+    S.verGerencia = null; S.abrirListo = true; const el = $("#vOcupado"); el.dataset.t = ""; return pintarOcupado();
+  }
   if (!["llamando", "sin_respuesta", "rechazada"].includes(t.estado)) { toast(t.estado === "aceptada" ? `${t.responsable || "Alguien"} ya la tomó` : "Esa tarea ya se atendió"); }
   if (esEquipo()) { irA("tareas"); abrirTarea(id); } else { irA("casos"); abrirCaso(t.caso_id); }
   if (resp === "no") setTimeout(() => $('[data-t="rechazada"]', $("#hoja"))?.click(), 450);
   else if (resp === "voy") setTimeout(() => { const e = $("[data-eta]", $("#hoja")); if (e) { e.scrollIntoView({ block: "center" }); toast("Elija en cuánto llega y toque «Voy»"); } }, 450);
 }
 async function abrirLlamadaDesdeAviso(modo, id) {
-  if (modo === "tarea") {
+  if (modo === "seguimiento") {
+    if (!S.tareas.some((x) => x.id === id)) await cargar();
+    const t = S.tareas.find((x) => x.id === id);
+    if (!t || t.estado !== "aceptada") { toast("Esa tarea ya se cerró"); return; }
+  } else if (modo === "tarea") {
     const t = S.tareas.find((x) => x.id === id);
     if (t && !["llamando", "sin_respuesta"].includes(t.estado)) { toast(t.estado === "aceptada" ? `${t.responsable || "Alguien"} ya la tomó` : "Esa tarea ya se atendió"); irA("casos"); return abrirCaso(t.caso_id); }
   } else {
@@ -1387,7 +1468,7 @@ async function abrirLlamadaDesdeAviso(modo, id) {
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.addEventListener("message", (ev) => {
     const d = ev.data || {};
-    if (d.tipo === "push") { cargar(); const c = d.carga || {}; if (c.tipo === "llamada" && !document.hidden) entrante(c.modo, c.id, c.cuerpo); else if ((c.tipo === "aviso" || c.tipo === "mensaje") && !document.hidden) toast(`${c.titulo}${c.cuerpo ? " · " + c.cuerpo : ""}`, 6000); }
+    if (d.tipo === "push") { cargar(); const c = d.carga || {}; if (c.tipo === "llamada" && !document.hidden) entrante(c.modo, c.id, c.cuerpo, c.clave); else if ((c.tipo === "aviso" || c.tipo === "mensaje") && !document.hidden) toast(`${c.titulo}${c.cuerpo ? " · " + c.cuerpo : ""}`, 6000); }
     if (d.tipo === "abrir" && d.url) { try { manejarHash(new URL(d.url).hash); } catch {} }
   });
 }
