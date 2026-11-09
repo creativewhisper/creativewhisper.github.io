@@ -468,7 +468,7 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
       </div>
       <div class="card" data-solo="gerencia">
         <h2>👥 Equipo</h2>
-        <p class="sub" style="margin:0 0 6px">Cada área tiene su propio enlace de la app: ahí solo ven las tareas que usted aprueba y el sentimiento de su área. Compártalo o que escaneen el QR.</p>
+        <p class="sub" style="margin:0 0 6px">Cada área tiene su propio enlace de la app: ahí solo ven las tareas que usted aprueba y los indicadores de su área. Compártalo o que escaneen el QR.</p>
         <div id="equipoLista"><div class="esq" style="height:60px"></div></div>
       </div>
       <div class="card" id="cardInstalar">
@@ -542,7 +542,7 @@ const esIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platfor
 const instalada = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
 
 // ---------- Enlace y celular ----------
-// Dos enlaces: gerencia (#t= o ?t=) ve todo; equipo de un área (?e=) solo sus tareas y el sentimiento de su área.
+// Dos enlaces: gerencia (#t= o ?t=) ve todo; equipo de un área (?e=) solo sus tareas y los indicadores de su área.
 const claveDe = (txt, k) => (String(txt || "").match(new RegExp(`[#&?]${k}=([a-f0-9]{16,64})`, "i")) || [])[1] || "";
 function accesoDe(txt) { const t = claveDe(txt, "t") || (String(txt || "").match(/^([a-f0-9]{32})$/i) || [])[1], e = claveDe(txt, "e"); return t ? { t } : e ? { e } : null; }
 const tokenDe = (txt) => claveDe(txt, "t");
@@ -1223,7 +1223,7 @@ $("#archivoFotos").addEventListener("change", async (e) => {
 function pintarMas() {
   const d = S.disp || {};
   if (document.activeElement?.id !== "dNombre") $("#dNombre").value = d.nombre || "";
-  $("#dRol").textContent = esEquipo() ? `Equipo de ${S.areaNombre || "su área"}: ve sus tareas y el sentimiento de su área.` : "Gerencia: recibe las llamadas urgentes, aprueba y ve todo el análisis.";
+  $("#dRol").textContent = esEquipo() ? `Equipo de ${S.areaNombre || "su área"}: ve sus tareas y los indicadores de su área.` : "Gerencia: recibe las llamadas urgentes, aprueba y ve todo el análisis.";
   if (!esEquipo() && !S.equipo) cargarEquipo();
   const sel = new Set(S.areasSel || d.areas || []);
   $("#dAreas").innerHTML = Object.entries(AREA).map(([k, [ic, n]]) => `<button class="${sel.has(k) ? "on" : ""}" data-area="${k}">${ic} ${n}</button>`).join("");
@@ -1262,7 +1262,7 @@ function cargarQr() { return qrLib || (qrLib = new Promise((ok, mal) => { const 
 async function invitar(area) {
   const a = (S.equipo || []).find((x) => x.area === area); if (!a?.enlace) return;
   const txt = `Hola 👋 Esta es la app de ${asis()} para ${a.nombre} de ${S.cuenta?.nombre || ""}. Instálela y active las llamadas: cuando la gerencia apruebe algo de su área, ${asis()} le llama.\n${a.enlace}`;
-  abrirHoja(`<h3 style="margin-right:40px">${a.icono} Invitar a ${esc(a.nombre)}</h3><p class="sub">Con este enlace ven solo sus tareas y el sentimiento de su área. Que lo escaneen o compártalo por WhatsApp.</p><div class="qr-caja" id="qrEq"><div class="esq" style="width:220px;height:220px"></div></div><div class="enlace-txt">${esc(a.enlace)}</div>
+  abrirHoja(`<h3 style="margin-right:40px">${a.icono} Invitar a ${esc(a.nombre)}</h3><p class="sub">Con este enlace ven solo sus tareas y los indicadores de su área. Que lo escaneen o compártalo por WhatsApp.</p><div class="qr-caja" id="qrEq"><div class="esq" style="width:220px;height:220px"></div></div><div class="enlace-txt">${esc(a.enlace)}</div>
     <div class="fila-btn" style="margin-top:10px"><a class="btn btn-l" style="text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(txt)}">WhatsApp</a><button class="btn btn-b" id="eqCompartir">Compartir</button></div>
     <button class="btn btn-w" id="eqNuevo" style="margin-top:10px;color:var(--rojo)">Cambiar el enlace (el anterior deja de funcionar)</button>`);
   try { const q = (await cargarQr())(0, "M"); q.addData(a.enlace); q.make(); $("#qrEq").innerHTML = q.createImgTag(6, 8); } catch { $("#qrEq").textContent = a.enlace; }
@@ -1312,11 +1312,13 @@ function contextoApp() {
   };
 }
 const SUGS = ["¿Qué debo atender hoy?", "¿Cómo va el sentimiento?", "¿Cómo funcionan las llamadas?", "¿Qué contenido hay por aprobar?"];
-const SUGS_EQ = ["¿Qué tareas tengo?", "¿Cómo va mi área?", "¿Dónde hay más quejas?", "¿Cómo funcionan las llamadas?"];
+const SUGS_EQ = ["¿Qué tareas tengo?", "¿Cómo voy con mis metas?", "¿Dónde se repiten los problemas?", "¿Cómo funcionan las llamadas?"];
+const SUGS_ADM = ["¿Qué tareas tengo?", "¿Cómo se sienten los visitantes?", "¿De qué se quejan más?", "¿Cómo voy con mis metas?"];
 function saludoGuia() {
   if (esEquipo()) {
-    burbuja("assistant", `¡Hola${S.disp?.nombre ? " " + S.disp.nombre.split(" ")[0] : ""}! Soy ${asis()}. Le ayudo con sus tareas y le cuento cómo se sienten los visitantes con ${S.areaNombre || "su área"}.`, false);
-    $("#sug").innerHTML = SUGS_EQ.map((x) => `<button>${esc(x)}</button>`).join(""); return;
+    const adm = S.areaId === "administracion";
+    burbuja("assistant", `¡Hola${S.disp?.nombre ? " " + S.disp.nombre.split(" ")[0] : ""}! Soy ${asis()}. Le ayudo con sus tareas y le cuento cómo va ${S.areaNombre || "su área"}: ${adm ? "la experiencia de los visitantes, sus tiempos y sus metas" : "sus tiempos y sus metas"}.`, false);
+    $("#sug").innerHTML = (adm ? SUGS_ADM : SUGS_EQ).map((x) => `<button>${esc(x)}</button>`).join(""); return;
   }
   burbuja("assistant", `¡Hola${S.disp?.nombre ? " " + S.disp.nombre.split(" ")[0] : ""}! Soy ${asis()}. Pregúnteme por los números, los casos o el contenido, o toque el micrófono para hablar.`, false);
   $("#sug").innerHTML = SUGS.map((s) => `<button>${esc(s)}</button>`).join("");
@@ -1641,7 +1643,7 @@ async function iniciar() {
   if (ini.enlace) return vincular(esEquipo() ? "Ese enlace ya no es válido. Pida el nuevo a la gerencia." : "Ese enlace ya no es válido.");
   if (ini.suspendida) return pausa(ini.cuenta);
   if (ini.error) { vincular(ini.error); return; }
-  S.cuenta = ini.cuenta; S.disp = ini.dispositivo; S.vapid = ini.vapid; S.areaNombre = ini.area_nombre;
+  S.cuenta = ini.cuenta; S.disp = ini.dispositivo; S.vapid = ini.vapid; S.areaNombre = ini.area_nombre; S.areaId = ini.area;
   if (esEquipo() && S.disp) S.disp.areas = [ini.area];
   if (esEquipo() && !S.disp) S.disp = null;
   document.body.dataset.rol = esEquipo() ? "equipo" : "gerencia";
