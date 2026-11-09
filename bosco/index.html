@@ -5,7 +5,21 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#032B21">
 <meta name="robots" content="noindex">
-<link rel="manifest" href="manifest.webmanifest">
+<link rel="manifest" id="manif" href="manifest.webmanifest">
+<script>
+// La app instalada abre con el mismo enlace (gerencia ?t= o equipo ?e=) con el que se instaló.
+(function () {
+  try {
+    var u = location.search + location.hash, t = (u.match(/[#&?]t=([a-f0-9]{16,64})/i) || [])[1], e = (u.match(/[#&?]e=([a-f0-9]{16,64})/i) || [])[1];
+    if (!t && !e) return;
+    var base = location.origin + location.pathname.replace(/[^/]*$/, "");
+    var m = { id: base, name: "Bosco · C.C. El Bosque", short_name: "Bosco", start_url: base + "?" + (t ? "t=" + t : "e=" + e), scope: base, display: "standalone",
+      orientation: "portrait", background_color: "#032B21", theme_color: "#032B21", lang: "es",
+      icons: [{ src: base + "icono-192.png", sizes: "192x192", type: "image/png", purpose: "any" }, { src: base + "icono-512.png", sizes: "512x512", type: "image/png", purpose: "any" }, { src: base + "icono-mask-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" }] };
+    document.getElementById("manif").href = "data:application/manifest+json," + encodeURIComponent(JSON.stringify(m));
+  } catch (x) {}
+})();
+</script>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -51,7 +65,8 @@ main{padding:14px 14px calc(96px + var(--sb))}
 
 /* Pestañas */
 .tabs{position:fixed;left:0;right:0;bottom:0;z-index:30;background:rgba(255,255,255,.96);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border-top:1px solid var(--linea);padding:6px 6px calc(6px + var(--sb))}
-.tabs-in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);align-items:end}
+.tabs-in{max-width:560px;margin:0 auto;display:grid;grid-template-columns:repeat(var(--ntabs,5),1fr);align-items:end}
+body[data-rol="equipo"] [data-solo="gerencia"],body[data-rol="gerencia"] [data-solo="equipo"]{display:none!important}
 .tab{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:var(--suave);padding:6px 0;position:relative}
 .tab svg{width:24px;height:24px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
 .tab.activa{color:var(--g700)}
@@ -278,6 +293,45 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
 @keyframes esq{to{background-position:-200% 0}}
 .lectura{white-space:pre-wrap;font-size:14.5px}
 .lectura b{display:block;margin-top:10px}
+/* Descargar la app y activar las llamadas */
+.pantalla .btn-grande{font-size:17px;padding:16px 26px;border-radius:16px;margin-top:8px;box-shadow:0 10px 30px -10px rgba(97,173,48,.7)}
+.pantalla .link{color:var(--lima3);font-weight:700;margin-top:18px;text-decoration:underline;font-size:14px}
+.inst-pasos{background:rgba(255,255,255,.08);border-radius:16px;padding:14px 16px;margin-top:16px;text-align:left;max-width:360px;width:100%}
+.inst-pasos .paso-i{color:#fff}.inst-pasos .paso-i b{background:var(--lima);color:#fff}
+.pantalla .rol{display:inline-block;background:rgba(124,194,75,.18);color:var(--lima3);border-radius:99px;padding:6px 14px;font-weight:800;font-size:13px;margin-bottom:14px}
+.act-cara{position:relative;width:132px;height:132px;margin-bottom:22px}
+.act-cara img{width:132px;height:132px;margin:0;position:relative;z-index:2}
+.act-cara .onda{border-color:var(--lima2)}
+.pantalla .chips button{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.2);color:#fff}
+.pantalla .chips button.on{background:var(--lima);border-color:var(--lima);color:#fff}
+.fila-area{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--crema);cursor:pointer;width:100%;text-align:left}
+.fila-area:last-child{border-bottom:0}
+.fila-area .ic{font-size:20px;width:28px;text-align:center}
+.fila-area b{display:block;font-size:14.5px}
+.fila-area small{color:var(--suave);font-size:12px}
+.pulso{animation:late 1.2s ease-in-out 3}
+.ver{font-size:11.5px;font-weight:800;border-radius:99px;padding:3px 8px;background:var(--crema);color:var(--suave);white-space:nowrap}
+.ver.ubicacion,.ver.foto{background:var(--menta);color:var(--g700)}.ver.sin_verificar{background:#FBEBD0;color:#8A5A10}.ver.bloq{background:#F8DDD8;color:#A3301E}
+.verif-caja{background:var(--papel);border-radius:14px;padding:10px 12px;margin:10px 0;font-size:13px;line-height:1.4}
+.verif-caja .fotos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.verif-caja .fotos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
+.kpis-area{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 10px}
+.kpi-a{background:var(--papel);border-radius:14px;padding:10px 12px 11px;position:relative;overflow:hidden}
+.kpi-a::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#C5CDB9}
+.kpi-a.bien::before{background:var(--lima)}.kpi-a.ojo::before{background:var(--ambar)}.kpi-a.mal::before{background:var(--rojo)}
+.kpi-a .t{font-size:11.5px;font-weight:700;color:var(--suave);line-height:1.25}
+.kpi-a .v{font-size:22px;font-weight:800;margin:3px 0 1px;font-variant-numeric:tabular-nums}
+.kpi-a .m{font-size:11px;font-weight:800;border-radius:99px;padding:2px 7px;display:inline-block;background:var(--crema);color:var(--suave)}
+.kpi-a.bien .m{background:var(--menta);color:var(--g700)}.kpi-a.ojo .m{background:#FBEBD0;color:#8A5A10}.kpi-a.mal .m{background:#F8DDD8;color:#A3301E}
+.kpi-a .n{font-size:11px;color:var(--suave);margin-top:5px;line-height:1.3}
+.aviso-meta{background:#F8DDD8;color:#A3301E;border-radius:12px;padding:9px 12px;font-size:13px;font-weight:700;margin-bottom:10px}
+.metas-txt{font-size:11.5px;color:var(--suave);line-height:1.45;border-top:1px solid var(--crema);padding-top:8px}
+.kpi-fila{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:12px;font-weight:700;color:var(--tinta)}
+.kpi-fila i{width:8px;height:8px;border-radius:50%;background:#C5CDB9;flex:none}
+.kpi-fila i.bien{background:var(--lima)}.kpi-fila i.ojo{background:var(--ambar)}.kpi-fila i.mal{background:var(--rojo)}
+.nota-ind{margin-left:auto;min-width:46px;text-align:center;font-weight:800;border-radius:12px;padding:6px 8px;font-size:15px;color:#fff}
+.qr-caja{background:#fff;border-radius:16px;padding:14px;display:grid;place-items:center;margin:10px 0}
+.qr-caja img{width:220px;height:220px;image-rendering:pixelated}
+.enlace-txt{font-size:12px;color:var(--suave);word-break:break-all;background:var(--crema);border-radius:10px;padding:8px 10px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
 </head>
@@ -290,6 +344,31 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
   <input class="campo" id="enlaceTxt" placeholder="Pegue el enlace de la app" autocomplete="off">
   <button class="btn btn-l" id="btnVincular">Entrar</button>
   <p class="sub" id="vincErr" style="color:#ffc9bd"></p>
+</div>
+<div class="pantalla oculto" id="vInstalar">
+  <img src="icono-192.png" alt="" id="instCara">
+  <span class="rol" id="instRol">App de Bosco</span>
+  <h1>Descargue la app de Bosco</h1>
+  <p id="instTxt">Bosco le llama al celular cuando algo necesita atención.</p>
+  <button class="btn btn-l btn-grande" id="btnDescargar">⬇️ Descargar la app</button>
+  <div class="inst-pasos oculto" id="instPasos"></div>
+  <button class="link" id="btnSeguirWeb">Seguir en el navegador</button>
+</div>
+<div class="pantalla oculto" id="vActivar">
+  <div class="act-cara ll-cara"><span class="onda"></span><span class="onda d2"></span><img src="icono-192.png" alt="" id="actCara"></div>
+  <h1 id="actTit">Active las llamadas de Bosco</h1>
+  <p id="actTxt">Así le aviso al instante: suena y vibra como una llamada.</p>
+  <button class="btn btn-l btn-grande" id="btnActivarYa">📞 Activar llamadas</button>
+  <p class="sub" id="actErr" style="color:#ffc9bd;max-width:340px"></p>
+  <button class="link" id="btnActLuego">Ahora no</button>
+</div>
+<div class="pantalla oculto" id="vNombre">
+  <img src="icono-192.png" alt="" id="nomCara">
+  <h1>¿Cómo se llama?</h1>
+  <p id="nomTxt">Bosco le saluda por su nombre cuando le llama.</p>
+  <input class="campo" id="onNombre" placeholder="Su nombre" maxlength="60" autocomplete="given-name">
+  <div id="onAreasCaja" data-solo="gerencia" style="max-width:360px"><p class="sub" style="color:#cfe3d4;margin:4px 0 0">¿También es responsable de alguna área? (Bosco le pasará sus tareas)</p><div class="chips" id="onAreas" style="justify-content:center"></div></div>
+  <button class="btn btn-l btn-grande" id="btnOnListo">Listo</button>
 </div>
 <div class="pantalla oculto" id="vPausa">
   <img src="icono-192.png" alt="">
@@ -328,6 +407,15 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
         <button type="submit" class="redondo r-env" aria-label="Enviar"><svg viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6"/></svg></button>
       </form>
     </section>
+    <!-- TAREAS (equipo) -->
+    <section class="vista" id="v-tareas">
+      <div id="tareasCuerpo"><div class="esq"></div><div class="esq"></div></div>
+    </section>
+    <!-- MI ÁREA (equipo) -->
+    <section class="vista" id="v-area">
+      <div class="periodo" id="periodoArea"><button data-d="1">Hoy</button><button data-d="7" class="on">7 días</button></div>
+      <div id="areaCuerpo"><div class="esq"></div><div class="esq"></div></div>
+    </section>
     <!-- CONTENIDO -->
     <section class="vista" id="v-contenido">
       <div id="contCuerpo"><div class="esq"></div><div class="esq"></div></div>
@@ -337,9 +425,9 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
       <div class="card">
         <h2>📱 Este celular</h2>
         <input class="campo" id="dNombre" placeholder="Su nombre (Bosco le llama así)" maxlength="60">
-        <label class="sw"><input type="checkbox" id="dGer" checked> Soy de la gerencia: recibo las llamadas urgentes y apruebo</label>
-        <div class="sub">Responsable de (Bosco le llama para encargarle las tareas de estas áreas):</div>
-        <div class="chips" id="dAreas"></div>
+        <p class="sub" id="dRol" style="margin:0 0 8px"></p>
+        <div data-solo="gerencia"><div class="sub">También es responsable de (Bosco le pasa las tareas de estas áreas):</div>
+        <div class="chips" id="dAreas"></div></div>
         <button class="btn btn-p btn-w" id="btnGuardarD">Guardar</button>
       </div>
       <div class="card">
@@ -352,6 +440,11 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
         <p class="sub" style="margin:10px 0 6px">Para ver la pantalla de llamada sin esperar una queja:</p>
         <button class="btn btn-b btn-w" id="btnSimular">Simular una llamada de Bosco aquí</button>
       </div>
+      <div class="card" data-solo="gerencia">
+        <h2>👥 Equipo</h2>
+        <p class="sub" style="margin:0 0 6px">Cada área tiene su propio enlace de la app: ahí solo ven las tareas que usted aprueba y el sentimiento de su área. Compártalo o que escaneen el QR.</p>
+        <div id="equipoLista"><div class="esq" style="height:60px"></div></div>
+      </div>
       <div class="card" id="cardInstalar">
         <h2>⬇️ Instalar la app</h2>
         <button class="btn btn-p btn-w oculto" id="btnInstalar">Instalar en este celular</button>
@@ -360,16 +453,18 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
       <div class="card">
         <h2>⚙️ Datos</h2>
         <label class="sw"><input type="checkbox" id="chkDemo" checked> Incluir el histórico de ejemplo</label>
-        <a class="btn btn-b btn-w" id="lnkPanel" target="_blank" rel="noopener" style="text-decoration:none">Abrir el panel completo</a>
+        <a class="btn btn-b btn-w" data-solo="gerencia" id="lnkPanel" target="_blank" rel="noopener" style="text-decoration:none">Abrir el panel completo</a>
       </div>
       <p class="sub" style="text-align:center">App de Bosco · hecha por Creative Whisper</p>
     </section>
   </main>
   <nav class="tabs"><div class="tabs-in">
-    <button class="tab activa" data-tab="hoy"><svg viewBox="0 0 24 24"><path d="M4 13h4v7H4zM10 8h4v12h-4zM16 4h4v16h-4z"/></svg>Hoy</button>
-    <button class="tab" data-tab="casos"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>Casos<span class="badge oculto" id="bCasos"></span></button>
+    <button class="tab activa" data-tab="hoy" data-solo="gerencia"><svg viewBox="0 0 24 24"><path d="M4 13h4v7H4zM10 8h4v12h-4zM16 4h4v16h-4z"/></svg>Hoy</button>
+    <button class="tab" data-tab="tareas" data-solo="equipo"><svg viewBox="0 0 24 24"><path d="M9 6h11M9 12h11M9 18h11"/><path d="M4 6l1 1 2-2M4 12l1 1 2-2M4 18l1 1 2-2"/></svg>Tareas<span class="badge oculto" id="bTareas"></span></button>
+    <button class="tab" data-tab="casos" data-solo="gerencia"><svg viewBox="0 0 24 24"><path d="M12 3l9 16H3z"/><path d="M12 10v4M12 17h.01"/></svg>Casos<span class="badge oculto" id="bCasos"></span></button>
+    <button class="tab" data-tab="area" data-solo="equipo"><svg viewBox="0 0 24 24"><path d="M12 21a9 9 0 1 1 9-9"/><path d="M12 12l6-6M12 3v9h9"/></svg>Mi área</button>
     <button class="tab tab-bosco" data-tab="bosco"><span class="bola"><img id="tabCara" src="icono-192.png" alt=""></span>Bosco</button>
-    <button class="tab" data-tab="contenido"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="9" cy="9" r="2"/><path d="M21 16l-5-5-9 9"/></svg>Contenido<span class="badge oculto" id="bCont"></span></button>
+    <button class="tab" data-tab="contenido" data-solo="gerencia"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><circle cx="9" cy="9" r="2"/><path d="M21 16l-5-5-9 9"/></svg>Contenido<span class="badge oculto" id="bCont"></span></button>
     <button class="tab" data-tab="mas"><svg viewBox="0 0 24 24"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>Más</button>
   </div></nav>
 </div>
@@ -419,12 +514,22 @@ const esIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) || (navigator.platfor
 const instalada = () => matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
 
 // ---------- Enlace y celular ----------
-function tokenDe(txt) { const m = String(txt || "").match(/[#&?]t=([a-f0-9]{16,64})/i) || String(txt || "").match(/^([a-f0-9]{16,64})$/i); return m ? m[1] : ""; }
-let TOKEN = (() => { const t = tokenDe(location.hash); if (t) { ls.set("bosco-token", t); return t; } return ls.get("bosco-token") || ""; })();
+// Dos enlaces: gerencia (#t= o ?t=) ve todo; equipo de un área (?e=) solo sus tareas y el sentimiento de su área.
+const claveDe = (txt, k) => (String(txt || "").match(new RegExp(`[#&?]${k}=([a-f0-9]{16,64})`, "i")) || [])[1] || "";
+function accesoDe(txt) { const t = claveDe(txt, "t") || (String(txt || "").match(/^([a-f0-9]{32})$/i) || [])[1], e = claveDe(txt, "e"); return t ? { t } : e ? { e } : null; }
+const tokenDe = (txt) => claveDe(txt, "t");
+let ACC = (() => {
+  const a = accesoDe(location.search + location.hash);
+  if (a) { ls.set("bosco-acceso", JSON.stringify(a)); return a; }
+  try { return JSON.parse(ls.get("bosco-acceso") || "null") || (ls.get("bosco-token") ? { t: ls.get("bosco-token") } : {}); } catch { return {}; }
+})();
+let TOKEN = ACC.t || "", EQUIPO = ACC.e || "";
+const esEquipo = () => !TOKEN && !!EQUIPO;
 const DISP = (() => { let d = ls.get("bosco-disp"); if (!d) { d = crypto.randomUUID ? crypto.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)); ls.set("bosco-disp", d); } return d; })();
 
 const S = {
   dias: 1, demo: ls.get("bosco-demo") !== "0", tab: "hoy", panel: null, tareas: [], posts: null, cuenta: null, disp: null, vapid: null,
+  diasArea: 7, area: null, areas: null, equipo: null,
   filtroCasos: "abiertos", filtro: null, sel: new Set(), sonados: new Set(JSON.parse(ss.get("bosco-sonados") || "[]")), cola: [], llamada: null,
   guia: [], primera: true,
 };
@@ -439,7 +544,7 @@ async function post(url, cuerpo) {
   } catch (e) { return { error: "Sin conexión. Revise su internet." }; }
 }
 const P = (b) => post(PANEL_FN, { token: TOKEN, demo: S.demo, ...b });
-const A = (b) => post(APP_FN, { token: TOKEN, dispositivo: DISP, ...b });
+const A = (b) => post(APP_FN, { ...(TOKEN ? { token: TOKEN } : { equipo: EQUIPO }), dispositivo: DISP, demo: S.demo, ...b });
 
 let toastT;
 function toast(t, ms = 3200) { const el = $("#toast"); el.textContent = t; el.classList.add("on"); clearTimeout(toastT); toastT = setTimeout(() => el.classList.remove("on"), ms); }
@@ -485,16 +590,26 @@ for (const b of $$("#segCasos button")) b.addEventListener("click", () => { S.fi
 
 // ---------- Datos ----------
 async function cargar() {
-  if (!TOKEN) return;
-  const [p, t] = await Promise.all([P({ accion: "panel", dias: S.dias }), A({ accion: "tareas" })]);
-  if (p.suspendida || t.suspendida) return pausa(p.cuenta || t.cuenta);
-  if (p.enlace) return vincular("Ese enlace ya no es válido.");
-  if (!p.error) { detectarNuevos(p, t.tareas); S.panel = p; }
-  if (t.tareas) S.tareas = t.tareas;
+  if (!TOKEN && !EQUIPO) return;
+  if (esEquipo()) {
+    const [t, a] = await Promise.all([A({ accion: "tareas" }), S.tab === "area" || !S.area ? A({ accion: "area", dias: S.diasArea }) : null]);
+    if (t.suspendida) return pausa(t.cuenta);
+    if (t.enlace) return vincular("Ese enlace ya no es válido. Pida el nuevo a la gerencia.");
+    if (t.tareas) { detectarTareas(t.tareas); S.tareas = t.tareas; }
+    if (a && !a.error) S.area = a;
+  } else {
+    const [p, t, ar] = await Promise.all([P({ accion: "panel", dias: S.dias }), A({ accion: "tareas" }), S.tab === "hoy" || !S.areas ? A({ accion: "areas", dias: S.dias }) : null]);
+    if (p.suspendida || t.suspendida) return pausa(p.cuenta || t.cuenta);
+    if (p.enlace) return vincular("Ese enlace ya no es válido.");
+    if (!p.error) { detectarCasos(p); S.panel = p; }
+    if (t.tareas) { detectarTareas(t.tareas); S.tareas = t.tareas; }
+    if (ar && !ar.error) S.areas = ar.areas;
+  }
   S.primera = false;
   pintar();
 }
 async function cargarPosts() {
+  if (esEquipo()) return;
   const r = await P({ accion: "posts" });
   if (!r.error) { S.posts = r.posts || []; S.redes = !!r.redes_conectadas; S.producciones = r.producciones || []; }
   if (S.tab === "contenido") pintarContenido(); pintarBadges();
@@ -503,15 +618,18 @@ const abiertos = () => (S.panel?.casos || []).filter((c) => c.estado !== "resuel
 const enCurso = (t) => ["llamando", "aceptada", "sin_respuesta", "rechazada"].includes(t.estado);
 const tareaDe = (casoId) => S.tareas.find((t) => t.caso_id === casoId && t.estado !== "cancelada");
 const misAreas = () => S.disp?.areas || [];
-const soyGerencia = () => S.disp ? S.disp.gerencia !== false : true;
+const soyGerencia = () => !esEquipo();
 
-function detectarNuevos(p, tareas) {
+function detectarCasos(p) {
   if (S.primera || document.hidden) return;
   const antes = new Set((S.panel?.casos || []).map((c) => c.id));
   for (const c of p.casos || []) {
-    if (antes.has(c.id) || c.demo || c.prioridad !== "alta" || c.estado === "resuelto" || !soyGerencia()) continue;
+    if (antes.has(c.id) || c.demo || c.prioridad !== "alta" || c.estado === "resuelto") continue;
     if (Date.now() - new Date(c.creado).getTime() < 15 * 60000) entrante("caso", c.id);
   }
+}
+function detectarTareas(tareas) {
+  if (S.primera || document.hidden) return;
   for (const t of tareas || []) {
     if (t.estado === "llamando" && misAreas().includes(t.area) && Date.now() - new Date(t.actualizado).getTime() < 10 * 60000) entrante("tarea", t.id);
   }
@@ -523,7 +641,10 @@ function pintar() {
   if (S.tab === "casos") pintarCasos();
   if (S.tab === "contenido" && S.posts) pintarContenido();
   if (S.tab === "mas") pintarMas();
+  if (S.tab === "tareas") pintarTareas();
+  if (S.tab === "area") pintarArea();
   if ($("#hoja").classList.contains("on") && S.hojaCaso) pintarHojaCaso(S.hojaCaso, true);
+  if ($("#hoja").classList.contains("on") && S.hojaTarea) pintarHojaTarea(S.hojaTarea, true);
 }
 function pintarBadges() {
   const n = abiertos().filter((c) => !c.demo || c.prioridad !== "baja").length;
@@ -531,16 +652,18 @@ function pintarBadges() {
   const bc = $("#bCasos"); bc.textContent = mias || n; bc.classList.toggle("oculto", !(mias || n));
   const pr = (S.posts || []).filter((x) => x.estado === "por_revisar").length;
   const bp = $("#bCont"); bp.textContent = pr; bp.classList.toggle("oculto", !pr);
+  const pt = S.tareas.filter((t) => ["llamando", "sin_respuesta", "aceptada"].includes(t.estado) && misAreas().includes(t.area)).length;
+  const bt = $("#bTareas"); bt.textContent = pt; bt.classList.toggle("oculto", !pt);
   $("#pillLl").classList.toggle("on", !!S.disp?.push);
   $("#pillLl span").textContent = S.disp?.push ? "Llamadas activas" : "Activar llamadas";
 }
 
 // ---------- Hoy ----------
-function delta(a, b, inv = false) {
+function delta(a, b, inv = false, dias = S.dias) {
   if (a == null || b == null) return "";
-  const d = Math.round((a - b) * 10) / 10; if (!d) return `<div class="d igual">= que ${S.dias === 1 ? "ayer" : "la semana anterior"}</div>`;
+  const d = Math.round((a - b) * 10) / 10; if (!d) return `<div class="d igual">= que ${dias === 1 ? "ayer" : "la semana anterior"}</div>`;
   const bueno = inv ? d < 0 : d > 0;
-  return `<div class="d ${bueno ? "sube" : "baja"}">${d > 0 ? "▲" : "▼"} ${Math.abs(d)} vs ${S.dias === 1 ? "ayer" : "semana anterior"}</div>`;
+  return `<div class="d ${bueno ? "sube" : "baja"}">${d > 0 ? "▲" : "▼"} ${Math.abs(d)} vs ${dias === 1 ? "ayer" : "semana anterior"}</div>`;
 }
 function anillo(v) {
   const c = v >= 62 ? "var(--lima)" : v <= 38 ? "var(--rojo)" : "var(--ambar)", r = 34, L = 2 * Math.PI * r;
@@ -553,6 +676,16 @@ function linea(serie) {
   const d = xy.map((p, i) => (i ? "L" : "M") + p[0].toFixed(1) + " " + p[1].toFixed(1)).join(" ");
   const dias = pts.map((p) => new Date(p.dia + "T12:00:00").toLocaleDateString("es-EC", { weekday: "narrow" }));
   return `<svg viewBox="-4 -6 308 ${h + 26}" style="width:100%;height:auto;margin-top:10px"><path d="${d} L${w} ${h + 4} L0 ${h + 4}Z" fill="rgba(97,173,48,.12)"/><path d="${d}" fill="none" stroke="var(--lima)" stroke-width="2.5" stroke-linejoin="round"/>${xy.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#fff" stroke="var(--g700)" stroke-width="2"/><text x="${p[0]}" y="${h + 18}" font-size="10" text-anchor="middle" fill="var(--suave)" font-family="Manrope">${dias[i].toUpperCase()}</text>`).join("")}</svg>`;
+}
+// Resueltos por día: verde a tiempo, ámbar fuera de tiempo.
+function barrasDia(serie) {
+  const xs = serie || []; if (xs.length < 3 || !xs.some((x) => x.resueltos)) return "";
+  const w = 300, h = 60, bw = w / xs.length, mx = Math.max(...xs.map((x) => x.resueltos), 1);
+  return `<div class="sub" style="font-weight:700;margin-bottom:2px">Resueltos por día</div><svg viewBox="0 -12 ${w} ${h + 28}" style="width:100%;height:auto;margin-bottom:6px">${xs.map((x, i) => {
+    const hA = (x.a_tiempo / mx) * h, hF = ((x.resueltos - x.a_tiempo) / mx) * h, cx = i * bw + bw / 2, bx = i * bw + bw * 0.2, an = bw * 0.6;
+    const dia = new Date(x.dia + "T12:00:00").toLocaleDateString("es-EC", { weekday: "narrow" }).toUpperCase();
+    return `<rect x="${bx}" y="${h - hA}" width="${an}" height="${hA}" rx="3" fill="var(--lima)"/><rect x="${bx}" y="${h - hA - hF}" width="${an}" height="${hF}" rx="3" fill="var(--ambar)"/>${x.resueltos ? `<text x="${cx}" y="${h - hA - hF - 3}" font-size="10" font-weight="800" text-anchor="middle" fill="var(--tinta)" font-family="Manrope">${x.resueltos}</text>` : ""}<text x="${cx}" y="${h + 14}" font-size="10" text-anchor="middle" fill="var(--suave)" font-family="Manrope">${dia}</text>`;
+  }).join("")}</svg><div class="ley" style="margin-bottom:8px"><span><i class="pt" style="background:var(--lima)"></i>a tiempo</span><span><i class="pt" style="background:var(--ambar)"></i>fuera de tiempo</span></div>`;
 }
 function pintarHoy() {
   const p = S.panel, el = $("#hoyCuerpo");
@@ -586,10 +719,27 @@ function pintarHoy() {
   if (te.length) html += `<div class="card"><h2>🏷️ De qué hablan</h2>${te.map((x) => `<div class="fila"><span style="flex:1">${esc(String(x.tema || "").charAt(0).toUpperCase() + String(x.tema || "").slice(1))}<div class="bar ${x.neg > x.pos ? "neg" : ""}" style="width:${(x.n / mxt) * 100}%"></div></span><span class="n num">${x.n}</span></div>`).join("")}</div>`;
   const fe = (p.feed || []).filter((m) => (m.texto || "").length > 8 && m.categoria !== "otro").slice(0, 6);
   if (fe.length) html += `<div class="card"><h2>🗣️ Lo que dicen ahora</h2>${fe.map((m) => `<div class="dice"><span class="ic">${CANAL[m.canal] || "💬"}</span><span class="t">${esc(m.texto)}<small><i class="pt" style="background:${m.sentimiento === "positivo" ? "var(--lima)" : m.sentimiento === "negativo" ? "var(--rojo)" : "#C5CDB9"}"></i>${esc(m.tema || "")} · ${hace(m.creado)}${m.demo ? " · ejemplo" : ""}</small></span></div>`).join("")}</div>`;
+  if (S.areas) html += `<div class="card"><h2>🏢 Cómo va cada área</h2>${S.areas.map((a) => { const k = (a.kpis || [])[0]; return `<button class="fila-area" data-area-ver="${a.area}"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${a.mensajes} mensajes · ${a.abiertos + a.en_proceso} sin resolver${a.fuera_de_tiempo ? ` · <span style="color:var(--rojo);font-weight:800">${a.fuera_de_tiempo} fuera de tiempo</span>` : ""}</small>${k ? `<span class="kpi-fila"><i class="${k.estado || ""}"></i>${esc(k.titulo)}: ${esc(k.valor)}</span>` : ""}</span><span class="nota-ind" style="background:${colorInd(a.indice)}" title="Índice de sentimiento">${a.indice ?? "–"}</span></button>`; }).join("")}<p class="sub" style="margin-top:8px">El número es el sentimiento (0–100). Debajo, el indicador principal de cada área contra su meta.</p></div>`;
   html += `<div class="card"><h2>🎨 Contenido de la semana</h2><p class="sub" style="margin:0 0 10px">${porRev ? `${porRev} post${porRev > 1 ? "s" : ""} esperan su aprobación.` : "No hay posts pendientes de aprobación."}</p><button class="btn btn-b btn-w" data-ir="contenido">Revisar contenido</button></div>`;
   html += `<div class="card"><h2>📝 Lectura de la semana</h2><p class="sub" style="margin:0 0 10px">${esc(asis())} resume la semana y recomienda qué hacer.</p><button class="btn btn-p btn-w" id="btnLectura">Pedir la lectura</button></div>`;
   el.innerHTML = html;
 }
+const cap = (s) => String(s || "").charAt(0).toUpperCase() + String(s || "").slice(1);
+const VERIF = { ubicacion: ["📍", "Verificado en el C.C."], foto: ["📷", "Con foto"], sin_verificar: ["❔", "Sin verificar"] };
+const chipVerif = (c) => c.verif?.bloqueado ? '<span class="ver bloq">🚫 Bloqueado</span>' : VERIF[c.verificacion] ? `<span class="ver ${c.verificacion}">${VERIF[c.verificacion][0]} ${VERIF[c.verificacion][1]}</span>` : "";
+function cajaVerif(c) {
+  if (!c.verificacion && !c.verif) return "";
+  const v = c.verif || {}, u = v.ubicacion, d = (m) => (m >= 1000 ? `${(m / 1000).toFixed(1)} km` : `${m} m`);
+  let h = `<div class="verif-caja">${chipVerif(c)} `;
+  if (v.bloqueado) h += "La gerencia bloqueó este número por reporte falso.";
+  else if (c.verificacion === "ubicacion") h += `El visitante compartió su ubicación: está a ${d(u?.distancia_m ?? 0)} del centro del C.C.`;
+  else if (c.verificacion === "foto") h += "El visitante mandó una foto del lugar.";
+  else h += u ? `Compartió una ubicación a ${d(u.distancia_m)}: fuera del C.C.` : "El visitante no ha compartido ubicación ni foto. Decida usted si lo atiende.";
+  if ((v.fotos || []).length) h += `<div class="fotos" id="fotosCaso"><button class="btn btn-b" data-g="fotos" style="grid-column:1/-1">📷 Ver ${v.fotos.length === 1 ? "la foto" : `las ${v.fotos.length} fotos`}</button></div>`;
+  if (soyGerencia() && c.verificacion === "sin_verificar" && !v.bloqueado && c.estado !== "resuelto") h += `<button class="btn btn-b btn-w" data-g="bloquear" style="margin-top:8px;color:var(--rojo)">🚫 Es falso: bloquear este número</button>`;
+  return h + "</div>";
+}
+const colorInd = (v) => v == null ? "#C5CDB9" : v >= 62 ? "var(--lima)" : v <= 38 ? "var(--rojo)" : "var(--ambar)";
 function ordenCasos(a, b) { const o = { alta: 0, media: 1, baja: 2 }; return (a.demo - b.demo) || (o[a.prioridad] - o[b.prioridad]) || (new Date(b.creado) - new Date(a.creado)); }
 
 // Delegación de clics en todo el documento.
@@ -599,7 +749,80 @@ document.addEventListener("click", (ev) => {
   const c = ev.target.closest("[data-caso]");
   if (c && !ev.target.closest("#ll")) { abrirCaso(Number(c.dataset.caso)); return; }
   if (ev.target.closest("#btnLectura")) lectura();
+  const av = ev.target.closest("[data-area-ver]");
+  if (av) abrirArea(av.dataset.areaVer);
+  const tv = ev.target.closest("[data-tarea]");
+  if (tv && !ev.target.closest("#ll")) abrirTarea(Number(tv.dataset.tarea));
 });
+
+// ---------- Sentimiento de un área (la gerencia lo abre por área; el equipo ve el suyo en «Mi área») ----------
+function htmlArea(d) {
+  if (!d) return '<div class="esq"></div><div class="esq"></div>';
+  if (d.error) return `<div class="vacio">${esc(d.error)}</div>`;
+  const tot = (d.positivos + d.neutrales + d.negativos) || 1, pc = (x) => Math.round(((x || 0) / tot) * 100);
+  const sinRes = (d.abiertos || 0) + (d.en_proceso || 0);
+  let h = `<div class="kpi grande" style="margin-bottom:10px">${anillo(d.indice ?? 0)}<div><div class="et">${d.icono} ${esc(cap(d.nombre))}</div><div class="v num">${d.indice ?? "–"}<span style="font-size:18px;color:var(--suave)">/100</span></div>${delta(d.indice, d.indice_prev, false, d.dias)}</div></div>
+    <div class="mini"><div><b class="num">${d.mensajes}</b><span>Mensajes</span></div><div><b class="num" style="color:var(--rojo)">${d.quejas}</b><span>Quejas</span></div><div><b class="num">${sinRes}</b><span>Sin resolver</span></div></div>
+    ${d.fuera_de_tiempo ? `<div class="aviso-meta">⏰ ${d.fuera_de_tiempo} caso${d.fuera_de_tiempo === 1 ? " pasó" : "s pasaron"} su tiempo meta sin resolverse${d.alta_abiertos ? ` · ${d.alta_abiertos} urgente${d.alta_abiertos === 1 ? "" : "s"}` : ""}</div>` : ""}
+    ${(d.kpis || []).length ? `<div class="card"><h2>📏 Cómo se mide ${esc(d.nombre)}</h2><div class="kpis-area">${d.kpis.map((k) => `<div class="kpi-a ${k.estado || ""}"><div class="t">${esc(k.titulo)}</div><div class="v">${esc(k.valor)}</div>${k.meta ? `<span class="m">${k.estado === "bien" ? "✓ " : ""}${esc(k.meta)}</span>` : ""}${k.nota ? `<div class="n">${esc(k.nota)}</div>` : ""}</div>`).join("")}</div>${barrasDia(d.serie)}${d.metas_txt ? `<div class="metas-txt"><b>Tiempos meta</b> (desde que llega el reporte): ${esc(d.metas_txt)}${d.sin_verificar || d.bloqueados ? `<br>No cuentan ${[d.sin_verificar ? `${d.sin_verificar} reporte${d.sin_verificar === 1 ? "" : "s"} sin verificar que la gerencia no aprobó` : "", d.bloqueados ? `${d.bloqueados} falso${d.bloqueados === 1 ? "" : "s"} (número bloqueado)` : ""].filter(Boolean).join(" ni ")}.` : ""}</div>` : ""}</div>` : ""}
+    <div class="card"><h2>😊 Cómo se sienten con su área</h2><div class="barra-sent"><i style="width:${pc(d.positivos)}%;background:var(--lima)"></i><i style="width:${pc(d.neutrales)}%;background:#C5CDB9"></i><i style="width:${pc(d.negativos)}%;background:var(--rojo)"></i></div>
+    <div class="ley"><span><i class="pt" style="background:var(--lima)"></i><b>${pc(d.positivos)}%</b> positivo</span><span><i class="pt" style="background:#C5CDB9"></i><b>${pc(d.neutrales)}%</b> neutral</span><span><i class="pt" style="background:var(--rojo)"></i><b>${pc(d.negativos)}%</b> negativo</span></div>${d.serie ? linea(d.serie) : ""}</div>`;
+  if ((d.lugares || []).length) { const mx = Math.max(...d.lugares.map((x) => x.n)); h += `<div class="card"><h2>📍 Dónde se quejan</h2>${d.lugares.map((x) => `<div class="fila"><span style="flex:1">${esc(x.zona)}${x.repite ? ' <span class="sub" style="color:var(--rojo);font-weight:800">· se repite</span>' : ""}<div class="bar neg" style="width:${(x.n / mx) * 100}%"></div></span><span class="n num">${x.n}</span></div>`).join("")}</div>`; }
+  if ((d.por_tema || []).length) h += `<div class="card"><h2>🏷️ Por tema</h2>${d.por_tema.map((x) => `<div class="fila"><span style="flex:1">${esc(cap(x.tema))}<br><span class="sub">${x.n} mensajes · ${x.negativos} negativos</span></span><span class="nota-ind" style="background:${colorInd(x.indice)}">${x.indice ?? "–"}</span></div>`).join("")}</div>`;
+  if ((d.casos || []).length) h += `<div class="card"><h2>⚠️ Sin resolver</h2>${d.casos.map((c) => `<div class="fila"><span style="flex:1"><b style="font-size:14px">${esc(c.resumen)}</b><br><span class="sub">${esc(PRIO[c.prioridad] || "")} · ${esc(EST[c.estado] || c.estado)}${c.zona ? " · " + esc(c.zona) : ""} · ${hace(c.creado)}${c.demo ? " · ejemplo" : ""}</span></span></div>`).join("")}</div>`;
+  if ((d.dicen || []).length) h += `<div class="card"><h2>🗣️ Lo que dicen</h2>${d.dicen.map((m) => `<div class="dice"><span class="ic">${CANAL[m.canal] || "💬"}</span><span class="t">${esc(m.texto)}<small><i class="pt" style="background:${m.sentimiento === "positivo" ? "var(--lima)" : m.sentimiento === "negativo" ? "var(--rojo)" : "#C5CDB9"}"></i>${hace(m.creado)}${m.demo ? " · ejemplo" : ""}</small></span></div>`).join("")}</div>`;
+  h += `<p class="sub" style="text-align:center">Cuenta los mensajes sobre: ${(d.temas || []).map(esc).join(", ")}. Las quejas son los casos del área.</p>`;
+  return h;
+}
+async function abrirArea(area) {
+  S.hojaCaso = null; S.hojaTarea = null;
+  abrirHoja('<div class="esq"></div><div class="esq"></div>');
+  const d = await A({ accion: "area", area, dias: S.dias });
+  abrirHoja(`<h3 style="margin-right:40px">${d.icono || ""} ${esc(cap(d.nombre || area))} · ${S.dias === 1 ? "hoy" : "7 días"}</h3>${htmlArea(d)}`);
+}
+function pintarArea() { $("#areaCuerpo").innerHTML = htmlArea(S.area); }
+for (const b of $$("#periodoArea button")) b.addEventListener("click", async () => { S.diasArea = Number(b.dataset.d); for (const x of $$("#periodoArea button")) x.classList.toggle("on", x === b); S.area = null; pintarArea(); const a = await A({ accion: "area", dias: S.diasArea }); if (!a.error) S.area = a; pintarArea(); });
+
+// ---------- Tareas del equipo ----------
+function tarjetaTarea(t) {
+  const c = t.caso || {}, pend = ["llamando", "sin_respuesta", "rechazada"].includes(t.estado);
+  return `<button class="caso p-${c.prioridad || "media"}${pend ? " tarea-mia" : ""}" data-tarea="${t.id}">
+    <div class="caso-top"><span class="pri ${c.prioridad || ""}">● ${PRIO[c.prioridad] || "Tarea"}</span><span>${AREA[t.area]?.[0] || ""} ${esc(AREA[t.area]?.[1] || t.area)}</span><span class="t">${hace(t.creado)}</span></div>
+    <div class="caso-txt">${esc(t.instruccion)}</div>${c.zona ? `<div class="caso-zona">📍 ${esc(c.zona)}</div>` : ""}
+    <div class="caso-pie">${miniPasos(t)}</div></button>`;
+}
+function pintarTareas() {
+  const el = $("#tareasCuerpo"), ts = S.tareas.filter((t) => t.estado !== "cancelada");
+  if (S.primera) return;
+  const pend = ts.filter((t) => ["llamando", "sin_respuesta", "rechazada"].includes(t.estado)), curso = ts.filter((t) => t.estado === "aceptada"), hechas = ts.filter((t) => t.estado === "hecha").slice(0, 10);
+  const nom = S.disp?.nombre ? `, ${esc(S.disp.nombre.split(" ")[0])}` : "";
+  let h = `<div class="saludo"><img src="${foto()}" alt=""><p>Hola${nom}. ${pend.length ? `Tiene <b>${pend.length} tarea${pend.length > 1 ? "s" : ""} por atender</b>.` : curso.length ? `Tiene <b>${curso.length} tarea${curso.length > 1 ? "s" : ""} en curso</b>.` : "No tiene tareas pendientes 🙌"} Cuando la gerencia aprueba algo de ${esc(S.areaNombre || "su área")}, le llamo aquí.</p></div>`;
+  if (!S.disp?.push) h += `<div class="aviso-ll">📞 Active las llamadas para que ${esc(asis())} le avise<button data-ir="mas">Activar</button></div>`;
+  if (pend.length) h += `<h2 style="font-size:15px;margin:14px 2px 8px">🔔 Por atender</h2>${pend.map(tarjetaTarea).join("")}`;
+  if (curso.length) h += `<h2 style="font-size:15px;margin:14px 2px 8px">🚶 En curso</h2>${curso.map(tarjetaTarea).join("")}`;
+  if (hechas.length) h += `<h2 style="font-size:15px;margin:14px 2px 8px">✅ Resueltas</h2>${hechas.map(tarjetaTarea).join("")}`;
+  if (!ts.length) h += `<div class="vacio">Todavía no hay tareas para su área.</div>`;
+  el.innerHTML = h;
+}
+function abrirTarea(id) { S.hojaCaso = null; S.hojaTarea = id; S.eta = null; pintarHojaTarea(id); }
+function pintarHojaTarea(id, refresco = false) {
+  const t = S.tareas.find((x) => x.id === id); if (!t) return;
+  if (refresco && document.activeElement && $("#hoja").contains(document.activeElement) && /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  const c = t.caso || {}, area = AREA[t.area] || ["📌", t.area];
+  let h = `<div class="caso-top" style="margin-right:40px"><span class="pri ${c.prioridad || ""}">● ${PRIO[c.prioridad] || "Tarea"}</span><span>${area[0]} ${esc(area[1])}</span><span class="t">${esc(c.codigo || "")}</span></div>
+    <h3>${esc(t.instruccion)}</h3><div class="sub">${c.zona ? `📍 ${esc(c.zona)}<br>` : ""}${c.resumen ? `El visitante reportó: «${esc(c.resumen)}»<br>` : ""}Aprobada ${hace((t.pasos || []).find((p) => p.tipo === "aprobado")?.en || t.creado)}</div>`;
+  h += progreso({ estado: t.estado === "hecha" ? "resuelto" : "en_proceso" }, t);
+  h += `<ul class="linea-t">${(t.pasos || []).map((p) => `<li class="${["rechazada", "sin_respuesta", "sin_responsable"].includes(p.tipo) ? "alerta" : ""}"><time>${hora(p.en)}</time>${esc(p.txt)}</li>`).join("")}</ul>`;
+  if (t.foto) h += `<img class="foto-t" src="${esc(t.foto)}" alt="Foto de la tarea resuelta">`;
+  if (["llamando", "sin_respuesta", "rechazada"].includes(t.estado)) h += `<div class="card" style="margin-top:12px"><h2>🙋 ¿La atiende?</h2><div class="sub">¿En cuánto llega?</div><div class="etas">${[5, 10, 15, 30].map((m) => `<button data-eta="${m}">${m} min</button>`).join("")}</div>
+    <div class="fila-btn"><button class="btn btn-l" data-t="aceptada">✓ Voy</button><button class="btn btn-r" data-t="rechazada">No puedo</button></div></div>`;
+  if (t.estado === "aceptada") h += `<div class="card" style="margin-top:12px"><h2>✅ ¿Ya está?</h2><textarea class="campo" id="notaT" placeholder="Qué se hizo (opcional)"></textarea>
+    <div class="fila-btn"><button class="btn btn-b" id="btnFotoT">📷 Foto</button><button class="btn btn-l" data-t="hecha">Listo, resuelto</button></div><div class="sub" id="fotoTNom"></div></div>`;
+  abrirHoja(h);
+  for (const b of $$("[data-eta]", $("#hoja"))) b.onclick = () => { S.eta = Number(b.dataset.eta); for (const x of $$("[data-eta]", $("#hoja"))) x.classList.toggle("on", x === b); };
+  for (const b of $$("[data-t]", $("#hoja"))) b.onclick = () => accionTarea(t, b.dataset.t, b);
+  const bf = $("#btnFotoT"); if (bf) bf.onclick = () => $("#archivoTarea").click();
+}
 
 async function lectura() {
   abrirHoja(`<h3>📝 Lectura de la semana</h3><p class="sub">${esc(asis())} está leyendo la semana…</p><div class="esq"></div><div class="esq"></div>`);
@@ -629,7 +852,7 @@ function tarjetaCaso(c) {
   return `<button class="caso p-${c.prioridad}${mia ? " tarea-mia" : ""}" data-caso="${c.id}">
     <div class="caso-top"><span class="pri ${c.prioridad}">● ${PRIO[c.prioridad] || c.prioridad}</span><span>${AREA[c.area]?.[0] || ""} ${esc(AREA[c.area]?.[1] || c.area)}</span><span class="t">${hace(c.creado)}</span></div>
     <div class="caso-txt">${esc(c.resumen)}</div>${c.zona ? `<div class="caso-zona">📍 ${esc(c.zona)}</div>` : ""}
-    <div class="caso-pie"><span class="est ${c.estado}">${EST[c.estado] || c.estado}</span>${c.demo ? '<span class="ej">ejemplo</span>' : ""}${mia ? '<span class="ej" style="background:var(--menta);color:var(--g700)">Para usted</span>' : ""}${t ? miniPasos(t) : ""}</div></button>`;
+    <div class="caso-pie"><span class="est ${c.estado}">${EST[c.estado] || c.estado}</span>${chipVerif(c)}${c.demo ? '<span class="ej">ejemplo</span>' : ""}${mia ? '<span class="ej" style="background:var(--menta);color:var(--g700)">Para usted</span>' : ""}${t ? miniPasos(t) : ""}</div></button>`;
 }
 function pintarCasos() {
   const el = $("#casosCuerpo"); if (!S.panel) { el.innerHTML = '<div class="esq"></div><div class="esq"></div>'; return; }
@@ -650,12 +873,13 @@ function pintarCasos() {
 }
 
 function abrirHoja(html) { $("#hojaCuerpo").innerHTML = html; $("#hoja").classList.add("on"); $("#velo").classList.add("on"); }
-function cerrarHoja() { $("#hoja").classList.remove("on"); $("#velo").classList.remove("on"); S.hojaCaso = null; }
+function cerrarHoja() { $("#hoja").classList.remove("on"); $("#velo").classList.remove("on"); S.hojaCaso = null; S.hojaTarea = null; }
 $("#hojaX").onclick = cerrarHoja; $("#velo").onclick = cerrarHoja;
 
 const casoPorId = (id) => (S.panel?.casos || []).find((c) => c.id === id);
 function abrirCaso(id) {
-  S.hojaCaso = id; S.eta = null;
+  if (esEquipo()) return;
+  S.hojaCaso = id; S.hojaTarea = null; S.eta = null;
   if (!casoPorId(id)) { abrirHoja('<div class="esq"></div>'); cargar().then(() => pintarHojaCaso(id)); return; }
   pintarHojaCaso(id);
 }
@@ -670,7 +894,7 @@ function pintarHojaCaso(id, refresco = false) {
   if (refresco && document.activeElement && $("#hoja").contains(document.activeElement) && /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
   const t = tareaDe(c.id), area = AREA[c.area] || ["📌", c.area];
   let html = `<div class="caso-top" style="margin-right:40px"><span class="pri ${c.prioridad}">● ${PRIO[c.prioridad]}</span><span>${area[0]} ${esc(area[1])}</span><span class="t">${esc(c.codigo || "")}</span></div>
-    <h3>${esc(c.resumen)}</h3><div class="sub">${c.zona ? `📍 ${esc(c.zona)}<br>` : ""}${CANAL[c.canal] || ""} Llegó por ${esc(c.canal)} · ${hace(c.creado)} · ${hora(c.creado)}${c.demo ? " · histórico de ejemplo" : ""}</div>`;
+    <h3>${esc(c.resumen)}</h3><div class="sub">${c.zona ? `📍 ${esc(c.zona)}<br>` : ""}${CANAL[c.canal] || ""} Llegó por ${esc(c.canal)} · ${hace(c.creado)} · ${hora(c.creado)}${c.demo ? " · histórico de ejemplo" : ""}</div>${cajaVerif(c)}`;
   html += progreso(c, t);
   if (t) {
     html += `<ul class="linea-t">${(t.pasos || []).map((p) => `<li class="${["rechazada", "sin_respuesta", "sin_responsable"].includes(p.tipo) ? "alerta" : ""}"><time>${hora(p.en)}</time>${esc(p.txt)}</li>`).join("")}</ul>`;
@@ -734,6 +958,17 @@ async function accionTarea(t, estado, btn) {
 }
 async function accionGerencia(c, g, btn) {
   if (g === "contar") { cerrarHoja(); return mostrarEntrante("caso", c.id, true); }
+  if (g === "fotos") {
+    btn.disabled = true; const r = await A({ accion: "fotos", caso: c.id });
+    if (r.error || !(r.fotos || []).length) { btn.disabled = false; return toast(r.error || "No pude abrir las fotos."); }
+    $("#fotosCaso").innerHTML = r.fotos.map((u) => `<a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt="Foto del visitante"></a>`).join(""); return;
+  }
+  if (g === "bloquear") {
+    if (!btn.dataset.seguro) { btn.dataset.seguro = "1"; btn.textContent = "¿Seguro? Toque otra vez para bloquear"; return; }
+    btn.disabled = true; const r = await A({ accion: "bloquear", id: c.id });
+    if (r.error) { btn.disabled = false; return toast(r.error); }
+    toast(`Número bloqueado: ${asis()} ya no le responderá.`); cerrarHoja(); return cargar();
+  }
   btn.disabled = true;
   if (g === "aprobar") {
     const r = await A({ accion: "aprobar", caso: c.id, instruccion: $("#instr")?.value || "" });
@@ -828,11 +1063,12 @@ $("#archivoFotos").addEventListener("change", async (e) => {
 function pintarMas() {
   const d = S.disp || {};
   if (document.activeElement?.id !== "dNombre") $("#dNombre").value = d.nombre || "";
-  $("#dGer").checked = d.gerencia !== false;
+  $("#dRol").textContent = esEquipo() ? `Equipo de ${S.areaNombre || "su área"}: ve sus tareas y el sentimiento de su área.` : "Gerencia: recibe las llamadas urgentes, aprueba y ve todo el análisis.";
+  if (!esEquipo() && !S.equipo) cargarEquipo();
   const sel = new Set(S.areasSel || d.areas || []);
   $("#dAreas").innerHTML = Object.entries(AREA).map(([k, [ic, n]]) => `<button class="${sel.has(k) ? "on" : ""}" data-area="${k}">${ic} ${n}</button>`).join("");
   const perm = "Notification" in window ? Notification.permission : "no";
-  $("#llEstado").innerHTML = d.push ? `✅ Activas. ${esc(asis())} le llama aquí cuando ${d.gerencia !== false ? "entra un caso urgente" : ""}${d.gerencia !== false && (d.areas || []).length ? " y " : ""}${(d.areas || []).length ? "hay una tarea de su área" : ""}.`
+  $("#llEstado").innerHTML = d.push ? `✅ Activas. ${esc(asis())} le llama aquí cuando ${!esEquipo() ? "entra un caso urgente" : ""}${!esEquipo() && (d.areas || []).length ? " y " : ""}${(d.areas || []).length ? "hay una tarea de su área" : ""}.`
     : !("serviceWorker" in navigator) || !("PushManager" in window) ? (esIOS && !instalada() ? "En iPhone, primero instale la app (abajo) y ábrala desde el ícono. Ahí podrá activar las llamadas." : "Este navegador no permite recibir llamadas de la app.")
     : perm === "denied" ? "Las notificaciones están bloqueadas para esta app. Actívelas en los ajustes del navegador y vuelva aquí." : "No activas todavía.";
   $("#btnActivar").textContent = d.push ? "Volver a activar" : "Activar llamadas";
@@ -846,12 +1082,33 @@ function pintarMas() {
 }
 $("#dAreas").addEventListener("click", (e) => { const b = e.target.closest("[data-area]"); if (!b) return; const s = new Set(S.areasSel || S.disp?.areas || []); s.has(b.dataset.area) ? s.delete(b.dataset.area) : s.add(b.dataset.area); S.areasSel = [...s]; pintarMas(); });
 async function guardarDisp(extra = {}) {
-  const r = await A({ accion: "dispositivo", id: DISP, nombre: $("#dNombre").value.trim() || S.disp?.nombre || "", gerencia: $("#dGer").checked, areas: S.areasSel || S.disp?.areas || [], ...extra });
+  const r = await A({ accion: "dispositivo", id: DISP, nombre: $("#dNombre").value.trim() || S.disp?.nombre || "", areas: S.areasSel || S.disp?.areas || [], ...extra });
   if (r.error) { toast(r.error); return false; }
   S.disp = r.dispositivo; S.areasSel = null; pintarMas(); pintarBadges(); return true;
 }
 $("#btnGuardarD").onclick = async () => { if (await guardarDisp()) toast("Guardado ✅"); };
-$("#chkDemo").onchange = (e) => { S.demo = e.target.checked; ls.set("bosco-demo", S.demo ? "1" : "0"); S.panel = null; cargar(); };
+$("#chkDemo").onchange = (e) => { S.demo = e.target.checked; ls.set("bosco-demo", S.demo ? "1" : "0"); S.panel = null; S.area = null; S.areas = null; cargar(); };
+
+// Equipo: enlaces de cada área (solo la gerencia).
+async function cargarEquipo(nuevo) {
+  const r = await A({ accion: "equipo", ...(nuevo ? { nuevo } : {}) });
+  if (r.error) { $("#equipoLista").innerHTML = `<p class="sub">${esc(r.error)}</p>`; return; }
+  S.equipo = r.equipo;
+  $("#equipoLista").innerHTML = r.equipo.map((a) => `<div class="fila-area" style="cursor:default"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${a.personas.length ? a.personas.map((x) => `${esc(x.nombre)}${x.llamadas ? " 📞" : ""}`).join(", ") : "Nadie todavía"}</small></span><button class="btn btn-b" style="padding:8px 12px;font-size:13px" data-eq="${a.area}">Invitar</button></div>`).join("");
+  for (const b of $$("[data-eq]", $("#equipoLista"))) b.onclick = () => invitar(b.dataset.eq);
+}
+let qrLib = null;
+function cargarQr() { return qrLib || (qrLib = new Promise((ok, mal) => { const sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"; sc.onload = () => ok(window.qrcode); sc.onerror = mal; document.head.appendChild(sc); })); }
+async function invitar(area) {
+  const a = (S.equipo || []).find((x) => x.area === area); if (!a?.enlace) return;
+  const txt = `Hola 👋 Esta es la app de ${asis()} para ${a.nombre} de ${S.cuenta?.nombre || ""}. Instálela y active las llamadas: cuando la gerencia apruebe algo de su área, ${asis()} le llama.\n${a.enlace}`;
+  abrirHoja(`<h3 style="margin-right:40px">${a.icono} Invitar a ${esc(a.nombre)}</h3><p class="sub">Con este enlace ven solo sus tareas y el sentimiento de su área. Que lo escaneen o compártalo por WhatsApp.</p><div class="qr-caja" id="qrEq"><div class="esq" style="width:220px;height:220px"></div></div><div class="enlace-txt">${esc(a.enlace)}</div>
+    <div class="fila-btn" style="margin-top:10px"><a class="btn btn-l" style="text-decoration:none" target="_blank" rel="noopener" href="https://wa.me/?text=${encodeURIComponent(txt)}">WhatsApp</a><button class="btn btn-b" id="eqCompartir">Compartir</button></div>
+    <button class="btn btn-w" id="eqNuevo" style="margin-top:10px;color:var(--rojo)">Cambiar el enlace (el anterior deja de funcionar)</button>`);
+  try { const q = (await cargarQr())(0, "M"); q.addData(a.enlace); q.make(); $("#qrEq").innerHTML = q.createImgTag(6, 8); } catch { $("#qrEq").textContent = a.enlace; }
+  $("#eqCompartir").onclick = async () => { try { if (navigator.share) await navigator.share({ title: `App de ${asis()}`, text: txt }); else { await navigator.clipboard.writeText(a.enlace); toast("Enlace copiado"); } } catch {} };
+  $("#eqNuevo").onclick = async () => { if (!confirm(`¿Cambiar el enlace de ${a.nombre}? Los celulares con el enlace anterior dejan de recibir tareas.`)) return; await cargarEquipo(area); invitar(area); toast("Enlace nuevo listo"); };
+}
 const b64aU8 = (s) => { const t = s.replace(/-/g, "+").replace(/_/g, "/"); return Uint8Array.from(atob(t + "=".repeat((4 - (t.length % 4)) % 4)), (c) => c.charCodeAt(0)); };
 async function activarLlamadas() {
   if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) { irA("mas"); return toast(esIOS && !instalada() ? "Primero instale la app en la pantalla de inicio." : "Este navegador no permite las llamadas de la app.", 4500); }
@@ -871,28 +1128,19 @@ async function activarLlamadas() {
 $("#btnActivar").onclick = activarLlamadas;
 $("#btnProbar").onclick = async (e) => { e.target.disabled = true; const r = await A({ accion: "probar" }); e.target.disabled = false; toast(r.error || (r.ok ? "Le llamo en unos segundos. Puede bloquear el celular para ver cómo llega." : "No pude llamar: vuelva a activar las llamadas."), 5000); };
 $("#btnSimular").onclick = () => {
+  if (esEquipo()) { const t = S.tareas.find((x) => ["llamando", "sin_respuesta", "aceptada"].includes(x.estado)); if (!t) return toast("No hay tareas para simular la llamada."); return mostrarEntrante("tarea", t.id, true); }
   const c = [...abiertos()].sort(ordenCasos)[0] || (S.panel?.casos || [])[0];
   if (!c) return toast("No hay casos para simular.");
   mostrarEntrante("caso", c.id, true);
 };
 window.addEventListener("beforeinstallprompt", (e) => { e.preventDefault(); S.instalar = e; if (S.tab === "mas") pintarMas(); });
+window.addEventListener("appinstalled", () => { S.instalar = null; S.instalada = true; if (typeof alInstalar === "function") alInstalar(); });
 $("#btnInstalar").onclick = async () => { if (!S.instalar) return; S.instalar.prompt(); await S.instalar.userChoice.catch(() => {}); S.instalar = null; pintarMas(); };
-
-function bienvenida() {
-  abrirHoja(`<div style="text-align:center"><img src="${foto()}" alt="" style="width:96px;height:96px;border-radius:50%;object-fit:cover;object-position:50% 18%;border:3px solid var(--lima)"><h3>Hola, soy ${esc(asis())} 👋</h3><p class="sub">Le aviso y le llamo cuando algo necesita atención. Cuénteme quién usa este celular.</p></div>
-    <input class="campo" id="bNombre" placeholder="Su nombre" maxlength="60">
-    <label class="sw"><input type="checkbox" id="bGer" checked> Soy de la gerencia</label>
-    <div class="sub">También soy responsable de:</div><div class="chips" id="bAreas">${Object.entries(AREA).map(([k, [ic, n]]) => `<button data-area="${k}">${ic} ${n}</button>`).join("")}</div>
-    <button class="btn btn-l btn-w" id="bListo">Listo, activar las llamadas</button><button class="btn btn-w" id="bLuego" style="margin-top:6px;color:var(--suave)">Ahora no</button>`);
-  const sel = new Set();
-  $("#bAreas").onclick = (e) => { const b = e.target.closest("[data-area]"); if (!b) return; sel.has(b.dataset.area) ? sel.delete(b.dataset.area) : sel.add(b.dataset.area); b.classList.toggle("on"); };
-  $("#bListo").onclick = async () => { $("#dNombre").value = $("#bNombre").value; $("#dGer").checked = $("#bGer").checked; S.areasSel = [...sel]; if (await guardarDisp()) { cerrarHoja(); activarLlamadas(); } };
-  $("#bLuego").onclick = async () => { $("#dNombre").value = $("#bNombre").value; $("#dGer").checked = $("#bGer").checked; S.areasSel = [...sel]; await guardarDisp(); cerrarHoja(); };
-}
 
 // ---------- Chat con Bosco (texto y voz) ----------
 function contextoApp() {
   const p = S.panel || {};
+  if (esEquipo()) return { area: S.areaNombre };
   return {
     origen: "app del celular", periodo: S.dias === 1 ? "hoy" : "últimos 7 días", incluye_historico_de_ejemplo: S.demo, kpis: p.kpis,
     temas: (p.temas || []).slice(0, 6), lo_que_preguntan: (p.preguntas || []).slice(0, 6), quejas_por_area: p.areas,
@@ -903,7 +1151,12 @@ function contextoApp() {
   };
 }
 const SUGS = ["¿Qué debo atender hoy?", "¿Cómo va el sentimiento?", "¿Cómo funcionan las llamadas?", "¿Qué contenido hay por aprobar?"];
+const SUGS_EQ = ["¿Qué tareas tengo?", "¿Cómo va mi área?", "¿Dónde hay más quejas?", "¿Cómo funcionan las llamadas?"];
 function saludoGuia() {
+  if (esEquipo()) {
+    burbuja("assistant", `¡Hola${S.disp?.nombre ? " " + S.disp.nombre.split(" ")[0] : ""}! Soy ${asis()}. Le ayudo con sus tareas y le cuento cómo se sienten los visitantes con ${S.areaNombre || "su área"}.`, false);
+    $("#sug").innerHTML = SUGS_EQ.map((x) => `<button>${esc(x)}</button>`).join(""); return;
+  }
   burbuja("assistant", `¡Hola${S.disp?.nombre ? " " + S.disp.nombre.split(" ")[0] : ""}! Soy ${asis()}. Pregúnteme por los números, los casos o el contenido, o toque el micrófono para hablar.`, false);
   $("#sug").innerHTML = SUGS.map((s) => `<button>${esc(s)}</button>`).join("");
 }
@@ -919,6 +1172,7 @@ function burbuja(rol, txt, guardar = true, voz = false) {
 }
 function accionGuia(t, v) {
   const tabs = { resumen: "hoy", casos: "casos", conv: "hoy", contenido: "contenido" };
+  if (t === "ir" && esEquipo()) return irA(v === "area" ? "area" : "tareas");
   if (t === "ir") return irA(tabs[v] || "hoy");
   if (t === "filtro") { const [d, val] = v.split("="); S.filtro = d === "tipo" ? null : { dimension: d, valor: val }; if (d === "estado" && val === "resuelto") S.filtroCasos = "resueltos"; irA("casos"); return; }
   if (t === "accion") {
@@ -933,7 +1187,7 @@ async function preguntar(txt) {
   txt = String(txt || "").trim(); if (!txt) return;
   $("#sug").innerHTML = ""; burbuja("user", txt);
   const esp = document.createElement("div"); esp.className = "m a"; esp.innerHTML = '<span class="escribe"><i></i><i></i><i></i></span>'; $("#msgs").appendChild(esp); esp.scrollIntoView({ block: "end" });
-  const r = await P({ accion: "guia", historial: S.guia.slice(-12), contexto: contextoApp() });
+  const r = esEquipo() ? await A({ accion: "guia", historial: S.guia.slice(-12) }) : await P({ accion: "guia", historial: S.guia.slice(-12), contexto: contextoApp() });
   esp.remove(); burbuja("assistant", r.texto || r.error || "…");
 }
 $("#chatForm").addEventListener("submit", (e) => { e.preventDefault(); const t = $("#chatTxt").value; $("#chatTxt").value = ""; preguntar(t); });
@@ -1104,10 +1358,21 @@ window.addEventListener("pagehide", () => { try { S.llamada?.conv?.endSession();
 // Mensajes del service worker (push con la app abierta y clics en notificaciones).
 function manejarHash(h = location.hash) {
   const q = new URLSearchParams(String(h).replace(/^#/, ""));
-  const ll = q.get("llamada"), caso = q.get("caso");
+  const ll = q.get("llamada"), caso = q.get("caso"), tarea = q.get("tarea"), resp = q.get("r");
   if (ll) { const [modo, id] = ll.split("-"); if (["caso", "tarea"].includes(modo) && Number(id)) abrirLlamadaDesdeAviso(modo, Number(id)); }
-  else if (caso && Number(caso)) { irA("casos"); abrirCaso(Number(caso)); }
-  if (ll || caso) history.replaceState(null, "", location.pathname + (TOKEN && tokenDe(location.hash) ? `#t=${TOKEN}` : ""));
+  else if (caso && Number(caso)) { irA("casos"); abrirCaso(Number(caso)); if (resp === "aprobar") setTimeout(() => { const b = $('[data-g="aprobar"]', $("#hoja")); if (b) { b.scrollIntoView({ block: "center" }); b.classList.add("pulso"); } }, 400); }
+  else if (tarea && Number(tarea)) abrirTareaDesdeMensaje(Number(tarea), resp);
+  if (ll || caso || tarea) { q.delete("llamada"); q.delete("caso"); q.delete("tarea"); q.delete("r"); const r = q.toString(); history.replaceState(null, "", location.pathname + location.search + (r ? "#" + r : "")); }
+}
+// Mensaje de Bosco tras una llamada perdida: abre la tarea; «Voy» deja elegir en cuánto llega, «No puedo» lo marca.
+async function abrirTareaDesdeMensaje(id, resp) {
+  if (!S.tareas.some((x) => x.id === id)) await cargar();
+  const t = S.tareas.find((x) => x.id === id);
+  if (!t) return toast("Esa tarea ya no está disponible.");
+  if (!["llamando", "sin_respuesta", "rechazada"].includes(t.estado)) { toast(t.estado === "aceptada" ? `${t.responsable || "Alguien"} ya la tomó` : "Esa tarea ya se atendió"); }
+  if (esEquipo()) { irA("tareas"); abrirTarea(id); } else { irA("casos"); abrirCaso(t.caso_id); }
+  if (resp === "no") setTimeout(() => $('[data-t="rechazada"]', $("#hoja"))?.click(), 450);
+  else if (resp === "voy") setTimeout(() => { const e = $("[data-eta]", $("#hoja")); if (e) { e.scrollIntoView({ block: "center" }); toast("Elija en cuánto llega y toque «Voy»"); } }, 450);
 }
 async function abrirLlamadaDesdeAviso(modo, id) {
   if (modo === "tarea") {
@@ -1122,32 +1387,105 @@ async function abrirLlamadaDesdeAviso(modo, id) {
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.addEventListener("message", (ev) => {
     const d = ev.data || {};
-    if (d.tipo === "push") { cargar(); const c = d.carga || {}; if (c.tipo === "llamada" && !document.hidden) entrante(c.modo, c.id, c.cuerpo); else if (c.tipo === "aviso" && !document.hidden) toast(`${c.titulo}${c.cuerpo ? " · " + c.cuerpo : ""}`, 5000); }
+    if (d.tipo === "push") { cargar(); const c = d.carga || {}; if (c.tipo === "llamada" && !document.hidden) entrante(c.modo, c.id, c.cuerpo); else if ((c.tipo === "aviso" || c.tipo === "mensaje") && !document.hidden) toast(`${c.titulo}${c.cuerpo ? " · " + c.cuerpo : ""}`, 6000); }
     if (d.tipo === "abrir" && d.url) { try { manejarHash(new URL(d.url).hash); } catch {} }
   });
 }
 
 // ---------- Inicio ----------
-function vincular(err) { $("#app").classList.add("oculto"); $("#vVincular").classList.remove("oculto"); $("#vincErr").textContent = err || ""; }
+function vincular(err) { for (const v of ["#app", "#vInstalar", "#vActivar", "#vNombre"]) $(v).classList.add("oculto"); $("#vVincular").classList.remove("oculto"); $("#vincErr").textContent = err || ""; }
 function pausa(cu) { $("#app").classList.add("oculto"); $("#vPausa").classList.remove("oculto"); if (cu?.nombre) $("#pausaTit").textContent = `${cu.nombre}: servicio en pausa`; }
-$("#btnVincular").onclick = () => { const t = tokenDe($("#enlaceTxt").value.trim()); if (!t) { $("#vincErr").textContent = "Ese enlace no parece el de la app."; return; } TOKEN = t; ls.set("bosco-token", t); $("#vVincular").classList.add("oculto"); iniciar(); };
+$("#btnVincular").onclick = () => {
+  const a = accesoDe($("#enlaceTxt").value.trim());
+  if (!a) { $("#vincErr").textContent = "Ese enlace no parece el de la app."; return; }
+  ACC = a; TOKEN = a.t || ""; EQUIPO = a.e || ""; ls.set("bosco-acceso", JSON.stringify(a)); $("#vVincular").classList.add("oculto"); iniciar();
+};
+const pantalla = (id) => { for (const v of ["#vInstalar", "#vActivar", "#vNombre", "#vVincular"]) $(v).classList.toggle("oculto", v !== id); };
+const rolTxt = () => esEquipo() ? `Equipo de ${S.areaNombre || "su área"}` : `Gerencia · ${S.cuenta?.nombre || ""}`;
+
+// 1) Al escanear el QR: descargar la app.
+let alInstalar = null;
+function pasoInstalar() {
+  return new Promise((listo) => {
+    if (instalada() || ss.get("bosco-web")) return listo();
+    pantalla("#vInstalar");
+    $("#instRol").textContent = rolTxt();
+    $("#instTxt").textContent = esEquipo() ? `${asis()} le llama al celular cuando la gerencia le pasa una tarea de su área.` : `Lo más importante del panel en su celular, y ${asis()} le llama cuando algo es urgente.`;
+    const pasos = (html) => { $("#instPasos").innerHTML = html; $("#instPasos").classList.remove("oculto"); };
+    const pasosAndroid = `<div class="paso-i"><b>1</b>Toque el menú ⋮ de Chrome (arriba a la derecha).</div><div class="paso-i"><b>2</b>Elija «Instalar app» o «Agregar a la pantalla principal».</div><div class="paso-i"><b>3</b>Abra ${esc(asis())} desde el ícono.</div>`;
+    const pasosIOS = `<div class="paso-i"><b>1</b>Toque Compartir <span style="font-size:17px">⎋</span> (el cuadrado con la flecha, abajo).</div><div class="paso-i"><b>2</b>Elija «Agregar a inicio».</div><div class="paso-i"><b>3</b>Abra ${esc(asis())} desde el ícono: ahí se activan las llamadas.</div>`;
+    if (esIOS) { $("#btnDescargar").classList.add("oculto"); pasos(pasosIOS); }
+    $("#btnDescargar").onclick = async () => {
+      if (S.instalar) { S.instalar.prompt(); const r = await S.instalar.userChoice.catch(() => null); S.instalar = null; if (r?.outcome === "accepted") return alInstalar(); }
+      else pasos(pasosAndroid);
+    };
+    alInstalar = () => {
+      $("#btnDescargar").classList.add("oculto");
+      pasos(`<div class="paso-i"><b>✓</b>Listo, la app quedó instalada.</div><div class="paso-i"><b>→</b>Ábrala desde el ícono de ${esc(asis())} en su pantalla de inicio.</div>`);
+      $("#btnSeguirWeb").textContent = "O siga aquí";
+    };
+    $("#btnSeguirWeb").onclick = () => { ss.set("bosco-web", "1"); listo(); };
+  });
+}
+
+// 2) Al entrar: lo primero, activar las llamadas.
+function pasoActivar() {
+  return new Promise((listo) => {
+    const soporta = "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
+    if (S.disp?.push && soporta && Notification.permission === "granted") return listo();
+    if (ss.get("bosco-act-luego")) return listo();
+    pantalla("#vActivar");
+    $("#actTxt").textContent = esEquipo() ? `Así le aviso al instante cuando la gerencia aprueba una tarea de ${S.areaNombre || "su área"}: suena y vibra como una llamada.` : `Así le aviso al instante cuando algo es urgente: suena y vibra como una llamada, y usted decide.`;
+    $("#actErr").textContent = !soporta ? (esIOS && !instalada() ? "En iPhone las llamadas funcionan con la app instalada: Compartir → «Agregar a inicio» y ábrala desde el ícono." : "Este navegador no permite las llamadas de la app.")
+      : Notification.permission === "denied" ? "Las notificaciones están bloqueadas: actívelas en los ajustes del celular (Notificaciones → Bosco o el navegador) y toque de nuevo." : "";
+    $("#btnActivarYa").classList.toggle("oculto", !soporta);
+    $("#btnActLuego").textContent = soporta ? "Ahora no" : "Seguir sin llamadas";
+    $("#btnActivarYa").onclick = async () => { $("#btnActivarYa").disabled = true; await activarLlamadas(); $("#btnActivarYa").disabled = false; if (S.disp?.push) listo(); else if ("Notification" in window && Notification.permission === "denied") $("#actErr").textContent = "Las notificaciones quedaron bloqueadas: actívelas en los ajustes del celular y toque de nuevo."; };
+    $("#btnActLuego").onclick = () => { ss.set("bosco-act-luego", "1"); listo(); };
+  });
+}
+
+// 3) La primera vez: el nombre (y, si es de la gerencia, si también es responsable de un área).
+function pasoNombre() {
+  return new Promise((listo) => {
+    if (S.disp?.nombre) return listo();
+    pantalla("#vNombre");
+    $("#nomTxt").textContent = esEquipo() ? `Equipo de ${S.areaNombre || "su área"}. ${asis()} le saluda por su nombre cuando le llama.` : `${asis()} le saluda por su nombre cuando le llama.`;
+    const sel = new Set(S.disp?.areas || []);
+    $("#onAreas").innerHTML = Object.entries(AREA).map(([k, [ic, n]]) => `<button class="${sel.has(k) ? "on" : ""}" data-area="${k}">${ic} ${n}</button>`).join("");
+    $("#onAreas").onclick = (e) => { const b = e.target.closest("[data-area]"); if (!b) return; sel.has(b.dataset.area) ? sel.delete(b.dataset.area) : sel.add(b.dataset.area); b.classList.toggle("on"); };
+    $("#btnOnListo").onclick = async () => { $("#dNombre").value = $("#onNombre").value.trim(); S.areasSel = esEquipo() ? null : [...sel]; await guardarDisp(); listo(); };
+  });
+}
+
 async function iniciar() {
-  if (!TOKEN) return vincular();
+  if (!TOKEN && !EQUIPO) return vincular();
   if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js").catch((e) => console.warn("sw", e));
   const ini = await A({ accion: "inicio" });
-  if (ini.enlace) return vincular("Ese enlace ya no es válido.");
+  if (ini.enlace) return vincular(esEquipo() ? "Ese enlace ya no es válido. Pida el nuevo a la gerencia." : "Ese enlace ya no es válido.");
   if (ini.suspendida) return pausa(ini.cuenta);
   if (ini.error) { vincular(ini.error); return; }
-  S.cuenta = ini.cuenta; S.disp = ini.dispositivo; S.vapid = ini.vapid;
+  S.cuenta = ini.cuenta; S.disp = ini.dispositivo; S.vapid = ini.vapid; S.areaNombre = ini.area_nombre;
+  if (esEquipo() && S.disp) S.disp.areas = [ini.area];
+  if (esEquipo() && !S.disp) S.disp = null;
+  document.body.dataset.rol = esEquipo() ? "equipo" : "gerencia";
+  document.documentElement.style.setProperty("--ntabs", esEquipo() ? 4 : 5);
   aplicarMarca();
+  for (const id of ["#instCara", "#actCara", "#nomCara"]) $(id).src = foto();
+  $("#btnMic").classList.toggle("oculto", esEquipo());
+  $("#chatEst").textContent = esEquipo() ? "Sus tareas y cómo va su área. Escríbame." : "Le acompaño con el panel. Escríbame o hábleme.";
+  await pasoInstalar();
+  await pasoActivar();
+  await pasoNombre();
+  pantalla(null);
   $("#app").classList.remove("oculto");
-  irA("hoy");
+  if (esEquipo() && S.disp && !S.disp.areas?.length) S.disp.areas = [ini.area];
+  irA(esEquipo() ? "tareas" : "hoy");
   await Promise.all([cargar(), cargarPosts()]);
   manejarHash();
-  if (!S.disp) bienvenida();
-  else if (S.disp.push && "Notification" in window && Notification.permission === "granted" && navigator.serviceWorker) {
+  if (S.disp?.push && "Notification" in window && Notification.permission === "granted" && navigator.serviceWorker) {
     // Si el servicio de push cambió la suscripción, se actualiza en silencio.
-    navigator.serviceWorker.ready.then(async (reg) => { const sub = await reg.pushManager.getSubscription(); if (sub) A({ accion: "dispositivo", id: DISP, nombre: S.disp.nombre, gerencia: S.disp.gerencia, areas: S.disp.areas, suscripcion: sub.toJSON() }); }).catch(() => {});
+    navigator.serviceWorker.ready.then(async (reg) => { const sub = await reg.pushManager.getSubscription(); if (sub) A({ accion: "dispositivo", id: DISP, nombre: S.disp.nombre, areas: S.disp.areas, suscripcion: sub.toJSON() }); }).catch(() => {});
   }
   setInterval(() => { if (!document.hidden) cargar(); }, 15000);
   setInterval(() => { if (!document.hidden) cargarPosts(); }, 60000);
