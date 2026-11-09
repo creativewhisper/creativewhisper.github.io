@@ -112,7 +112,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .punto{width:10px;height:10px;border-radius:50%;flex:none}
 
 /* ---------- Pestañas ---------- */
-.envoltura{max-width:1440px;margin:0 auto;padding:16px 22px 40px}
+.envoltura{max-width:1440px;margin:0 auto;padding:16px 22px 96px}
 .tabs{display:flex;gap:4px;margin:2px 0 16px;border-bottom:1px solid var(--linea);overflow-x:auto;scrollbar-width:none}
 .tabs button{padding:11px 16px;font-weight:800;font-size:14.5px;color:var(--suave);border-bottom:3px solid transparent;margin-bottom:-1px;white-space:nowrap;display:inline-flex;gap:8px;align-items:center}
 .tabs button.on{color:var(--g800);border-color:var(--lima)}
@@ -154,11 +154,11 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .ley{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--suave);margin-top:8px}
 .ley span{display:inline-flex;align-items:center;gap:6px}
 .ley i{width:11px;height:11px;border-radius:3px;display:inline-block}
-.fila-b{display:grid;grid-template-columns:minmax(0,140px) minmax(0,1fr) 46px;gap:10px;align-items:center;padding:6px 6px;border-radius:10px;cursor:pointer;font-size:13.5px}
+.fila-b{display:grid;grid-template-columns:minmax(0,165px) minmax(0,1fr) 46px;gap:10px;align-items:center;padding:6px 6px;border-radius:10px;cursor:pointer;font-size:13.5px}
 .fila-b:hover{background:var(--crema)}
 .fila-b.on{background:var(--menta)}
 .fila-b.apagada{opacity:.4}
-.fila-b .nm{display:flex;align-items:center;gap:8px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.fila-b .nm{display:flex;align-items:center;gap:8px;font-weight:700;line-height:1.25;min-width:0;overflow-wrap:break-word} /* nombres largos («Mantenimiento y limpieza») bajan de línea en vez de cortarse */
 .fila-b .bb{height:10px;border-radius:999px;background:var(--crema);overflow:hidden;display:flex}
 .fila-b .bb i{display:block;height:100%}
 .fila-b .num{text-align:right;font-weight:800;color:var(--g800)}
@@ -469,7 +469,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .cs-prods div{background:var(--papel);border:1px solid var(--linea);border-radius:10px;padding:7px 10px}.cs-prods span{display:block;font-size:12px;color:var(--suave)}
 .toast.ok{border-color:var(--lima)}
 /* Bosco, guía del panel */
-.guia-btn{position:fixed;right:18px;bottom:18px;z-index:85;display:flex;align-items:center;gap:10px;background:var(--g900);color:#fff;border-radius:999px;padding:6px 16px 6px 6px;box-shadow:0 16px 40px -12px rgba(2,31,24,.6);font-weight:800;font-size:13.5px}
+.guia-btn{position:fixed;right:18px;bottom:18px;z-index:65;display:flex;align-items:center;gap:10px;background:var(--g900);color:#fff;border-radius:999px;padding:6px 16px 6px 6px;box-shadow:0 16px 40px -12px rgba(2,31,24,.6);font-weight:800;font-size:13.5px}
 .guia-btn img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--lima);background:var(--g800)}
 .guia-btn:hover{background:var(--g800)}
 .guia{position:fixed;right:18px;bottom:18px;z-index:86;width:min(390px,calc(100vw - 24px));height:min(580px,calc(100vh - 36px));background:var(--papel);border-radius:24px;box-shadow:0 30px 80px -20px rgba(2,31,24,.55);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--linea)}
@@ -540,11 +540,11 @@ button{cursor:pointer;background:none;border:0;padding:0}
 @media (max-width:760px){
   .top-in{padding:14px 16px;gap:12px}.logo{width:118px}.sep{display:none}.tit h1{font-size:17px}
   .bosco{order:3}.acciones{order:4;width:100%}.acciones .btn{flex:1}
-  .filtros-in{padding:9px 16px}.activos{padding:0 16px 9px}.envoltura{padding:12px 16px 30px}
+  .filtros-in{padding:9px 16px}.activos{padding:0 16px 9px}.envoltura{padding:12px 16px 84px}
   .k6{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi .v{font-size:26px}.caja{padding:15px 14px;border-radius:18px}
   .resumen-casos{grid-template-columns:repeat(2,minmax(0,1fr))}
   .kanban{grid-template-columns:1fr}.colsel{display:flex;margin-bottom:10px}.col{display:none}.col.ver{display:block}
-  .fila-b{grid-template-columns:minmax(0,110px) minmax(0,1fr) 40px}
+  .fila-b{grid-template-columns:minmax(0,140px) minmax(0,1fr) 40px}
   .dona svg{width:110px;height:110px}
   .lateral{width:100%}
   #toasts{right:12px;left:12px;width:auto;top:12px}
@@ -584,7 +584,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
       <button class="fb" data-dim="area">Área</button>
       <button class="fb" data-dim="prio">Prioridad</button>
       <button class="fb" data-dim="estado">Estado del caso</button>
-      <label class="buscar"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><input id="q" type="search" placeholder="Buscar palabras, códigos, zonas…" autocomplete="off"></label>
+      <label class="buscar"><svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg><input id="q" type="search" placeholder="Buscar…" title="Buscar palabras, códigos de caso o zonas" aria-label="Buscar palabras, códigos de caso o zonas" autocomplete="off"></label>
       <label class="sw oculto" id="swDemo"><input type="checkbox" id="chkDemo" checked><span class="p"></span>Histórico de ejemplo</label>
     </div>
     <div class="activos" id="activos"></div>
@@ -701,7 +701,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
 
 <button class="guia-btn" id="guiaBtn"><img id="guiaCara" alt=""><span>¿Le ayudo con el panel?</span></button>
 <div class="guia oculto" id="guia"><div class="guia-cab"><img id="guiaCara2" alt=""><div><b>Bosco</b><small>Su guía del panel</small></div><button id="guiaX" aria-label="Cerrar">✕</button></div>
-  <div class="guia-barra"><span id="guiaVozEst">Escríbame o toque 🎙️ para hablar</span><button id="guiaVisitante" type="button">👤 Probar como visitante</button></div>
+  <div class="guia-barra"><span id="guiaVozEst">Escríbame o hábleme 🎙️</span><button id="guiaVisitante" type="button">👤 Probar como visitante</button></div>
   <div class="guia-msgs" id="guiaMsgs"></div><div class="guia-sug" id="guiaSug"></div>
   <form class="guia-in" id="guiaForm"><button type="button" class="guia-mic" id="guiaMic" aria-label="Hablar con Bosco">🎙️</button><input id="guiaTxt" placeholder="Pregúntele a Bosco…" autocomplete="off" maxlength="600"><button aria-label="Enviar">➤</button></form></div>
 <div class="velo" id="velo"><aside class="lateral" id="lateral" aria-label="Detalle del caso"></aside></div>
@@ -732,7 +732,8 @@ const CANAL = { whatsapp: { n: "WhatsApp", c: "#1FA855", i: "WA" }, web: { n: "W
 const TIPO = { queja: "Queja", consulta: "Consulta", interes: "Interés", sugerencia: "Sugerencia", felicitacion: "Felicitación", otro: "Otro" };
 const SENT = { positivo: "Positivo", neutral: "Neutral", negativo: "Negativo" };
 const SENT_C = { positivo: "var(--pos)", neutral: "var(--neu)", negativo: "var(--neg)" };
-const AREA = { operaciones: { n: "Operaciones", i: "🚗" }, mantenimiento: { n: "Mantenimiento", i: "🧰" }, seguridad: { n: "Seguridad", i: "🛡️" }, administracion: { n: "Administración", i: "🏢" } };
+// Mismos nombres e íconos que en la app de Bosco.
+const AREA = { operaciones: { n: "Operaciones", i: "⚙️" }, mantenimiento: { n: "Mantenimiento y limpieza", i: "🧹" }, seguridad: { n: "Seguridad", i: "🛡️" }, administracion: { n: "Administración", i: "🗂️" } };
 const PRIO = { alta: "Alta", media: "Media", baja: "Baja" };
 const ESTADO = { abierto: "Abierto", en_proceso: "En proceso", resuelto: "Resuelto" };
 const DIAS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
@@ -977,7 +978,7 @@ function kpis(r) {
     { et: "💚 Índice de sentimiento", v: ind ?? "—", s: "/100", d: delta(ind, indP, " pts"), med: ind },
     { et: "💬 Conversaciones", v: fmt(conv), d: delta(conv, convP, "%"), sub: `${fmt(m.length)} mensajes`, ir: "conv" },
     { et: "📣 Quejas recibidas", v: fmt(cp.length), d: delta(cp.length, cpP.length, "%", true), ir: "casos" },
-    { et: "🔴 Casos abiertos", v: fmt(abiertos.length), d: { t: altas ? `${altas} de prioridad alta` : "ninguno de prioridad alta", c: altas ? "baja" : "sube" }, alerta: altas > 0, ir: "abiertos" },
+    { et: "🔴 Casos sin resolver", v: fmt(abiertos.length), d: { t: altas ? `${altas} de prioridad alta` : "ninguno de prioridad alta", c: altas ? "baja" : "sube" }, alerta: altas > 0, ir: "abiertos" },
     { et: "⏱️ Tiempo de resolución", v: mediana != null ? durTxt(mediana) : "—", d: { t: res.length ? `mediana de ${res.length} casos resueltos` : "sin casos resueltos en el periodo", c: "" } },
     { et: "⭐ Opinión de la visita", v: op != null ? op.toFixed(1).replace(".", ",") : "—", s: "/5", d: delta(op != null ? op * 10 : null, opP != null ? opP * 10 : null, ""), sub: `${fmt(ops.length)} opiniones · ${fmt(so)} al sorteo`, est: op },
   ];
@@ -1115,7 +1116,7 @@ function filaMsg(x, nuevo) {
   const origen = caso && (x.k === "queja" || (x._ts <= caso._ts + 6e4 && x._ts >= caso._ts - 3e5));
   return `<div class="msg${caso ? " click" : ""}${nuevo ? " nuevo" : ""}" ${caso ? `data-caso="${caso.id}"` : ""}><div class="cn" style="background:${ca.c}">${ca.i}</div><div>
     <div class="t">${esc(x.x)}</div>
-    <div class="m"><span class="sd" style="background:${SENT_C[x.s] || "var(--neu)"}"></span>${x.k ? `<span class="tag ${x.k}">${esc(TIPO[x.k] || x.k)}</span>` : `<span class="tag">analizando…</span>`}${x.m && x.m !== "saludo u otro" ? `<span>${esc(cap(x.m))}</span>` : ""}<span>${esc(ca.n)} · ${esc(x.w || "")}</span><span>${esc(hace(x._ts))}</span>${origen ? `<span class="tag ${caso.prioridad}">${esc(caso.codigo)}</span>` : ""}${x.d ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div></div></div>`;
+    <div class="m"><span class="sd" style="background:${SENT_C[x.s] || "var(--neu)"}"></span>${x.k ? `<span class="tag ${x.k}">${esc(TIPO[x.k] || x.k)}</span>` : `<span class="tag">analizando…</span>`}${x.m && x.m !== "saludo u otro" ? `<span>${esc(cap(x.m))}</span>` : ""}<span>${x.w && x.w.startsWith(ca.n) ? esc(x.w) : `${esc(ca.n)}${x.w ? " · " + esc(x.w) : ""}`}</span><span>${esc(hace(x._ts))}</span>${origen ? `<span class="tag ${caso.prioridad}">${esc(caso.codigo)}</span>` : ""}${x.d ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div></div></div>`;
 }
 function ahora(r, nuevos) {
   const m = msgsF(null, r).sort((a, b) => b._ts - a._ts);
@@ -1132,7 +1133,7 @@ function conversaciones(r, nuevos) {
 function tarjeta(c) {
   const ar = AREA[c.area] || { n: c.area, i: "•" };
   const t = c.estado === "resuelto" && c.resuelto_en ? `resuelto en ${durTxt((Date.parse(c.resuelto_en) - c._ts) / 6e4)}` : hace(c._ts);
-  const acc = c.estado === "abierto" ? `<button class="btn btn-lima" data-accion="aprobar" data-id="${c.id}">✅ Aprobar</button><button class="btn btn-claro" data-accion="decidir" data-id="${c.id}">Otra decisión…</button>`
+  const acc = c.estado === "abierto" ? `<button class="btn btn-lima" data-accion="aprobar" data-id="${c.id}">✅ Aprobar</button><button class="btn btn-claro" data-accion="decidir" data-id="${c.id}">❌ No enviar a nadie</button>`
     : c.estado === "en_proceso" ? `<button class="btn btn-verde" data-accion="resuelto" data-id="${c.id}">Marcar resuelto</button>` : "";
   return `<div class="tarjeta ${c.prioridad}${nuevosCasos.has(c.id) ? " nuevo" : ""}" data-caso="${c.id}">
     <div class="ar">${ar.i} ${esc(ar.n)} · <span class="tag ${c.prioridad}">${esc(PRIO[c.prioridad])}</span><span class="cod">${esc(c.codigo)}</span></div>
@@ -1185,11 +1186,14 @@ function pintarLateral(c, completo) {
   const paso = (ok, t, ts) => `<div class="paso${ok ? " ok" : ""}"><i></i><span>${t}</span><small>${ts ? hace(ts) : "—"}</small></div>`;
   const nota = $("#notaCaso")?.value ?? "";
   const conv = $("#conv")?.innerHTML;
+  // La recarga (cada 5 s) vuelve a pintar el detalle: se conservan la indicación escrita y el selector de motivos abierto.
+  const instrAntes = completo ? null : $("#instr")?.value, cajaAntes = !completo && $("#cajaMotivo")?.children.length ? $("#cajaMotivo") : null;
+  const scrollAntes = $("#lateral").scrollTop;
   const asis = S.cuenta?.asistente || "Bosco", p = c.app?.prediccion;
   const acc = c.estado === "abierto" ? `<div class="decidir"><h2>Decidir</h2>
       ${p ? `<div class="pred">🤖 <b>${esc(asis)} habría decidido:</b> ${esc({ aprobar: "aprobar y llamar al responsable", descartar: "no enviar a nadie", preguntar: "preguntarle a usted" }[p.decision] || p.decision)} (${Math.round((p.confianza || 0) * 100)} % seguro)${p.motivo ? ` · ${esc(p.motivo)}` : ""}</div>` : ""}
       <input id="instr" maxlength="200" placeholder="Indicación para el responsable (opcional)" value="${esc(p?.decision === "aprobar" && p.instruccion ? p.instruccion : "")}">
-      <button class="btn btn-lima" data-accion="aprobar" data-id="${c.id}">✅ Aprobar: que ${esc(asis)} llame a ${esc(ar.n.toLowerCase())}</button>
+      <button class="btn btn-lima" data-accion="aprobar" data-id="${c.id}">✅ Aprobar y que ${esc(asis)} llame a ${esc(ar.n.toLowerCase())}</button>
       <div class="fila"><button class="btn btn-rojo" data-accion="decidir" data-id="${c.id}">❌ No enviar a nadie</button><button class="btn btn-claro" data-accion="resuelto" data-id="${c.id}">Marcar resuelto</button></div>
       <div id="cajaMotivo"></div></div>`
     : c.estado === "en_proceso" ? `<button class="btn btn-verde" data-accion="resuelto" data-id="${c.id}">Marcar resuelto</button>` : `<button class="btn btn-claro" data-accion="abierto" data-id="${c.id}">Reabrir</button>`;
@@ -1206,6 +1210,9 @@ function pintarLateral(c, completo) {
       <div><h2 style="margin:0 0 8px;font-size:14px;color:var(--g800)">Nota interna</h2><textarea class="nota" id="notaCaso" placeholder="Qué se hizo, quién lo atendió…">${esc(completo ? (c.nota || "") : nota)}</textarea></div>
       <div class="lat-acc">${acc}</div>
     </div>`;
+  if (instrAntes != null && $("#instr")) $("#instr").value = instrAntes;
+  if (cajaAntes && $("#cajaMotivo")) $("#cajaMotivo").replaceWith(cajaAntes);
+  if (!completo) $("#lateral").scrollTop = scrollAntes;
 }
 const VERIF = { ubicacion: "📍 Verificado en el C.C.", foto: "📷 Con foto", sin_verificar: "❔ Sin verificar" };
 const chipVerif = (c) => (c.verif?.bloqueado ? `<span class="verif">🚫 Bloqueado</span>` : VERIF[c.verificacion] ? `<span class="verif${c.verificacion === "sin_verificar" ? "" : " ok"}">${VERIF[c.verificacion]}</span>` : "");
@@ -1837,7 +1844,7 @@ function burbuja(rol, texto) {
 function abrirGuia() {
   $("#guia").classList.remove("oculto"); $("#guiaBtn").classList.add("oculto");
   if (!$("#guiaMsgs").children.length) {
-    burbuja("assistant", `¡Hola! Soy ${S.cuenta?.asistente || "Bosco"} 🐻 Además de atender a los visitantes, les acompaño aquí: les explico cómo funciona el panel y qué conviene atender. ¿Por dónde empezamos?`);
+    burbuja("assistant", `¡Hola! Soy ${S.cuenta?.asistente || "Bosco"} 🐻 Además de atender a los visitantes, le acompaño aquí: le explico cómo funciona el panel y qué conviene atender. ¿Por dónde empezamos?`);
     $("#guiaSug").innerHTML = SUG.map((s) => `<button>${esc(s)}</button>`).join("");
   }
   setTimeout(() => $("#guiaTxt").focus(), 50);
@@ -1871,7 +1878,7 @@ function accionGuia(t, v) {
 // Bosco por voz dentro del panel: conversa en voz alta y mueve el panel (pestañas, filtros, acciones).
 const SDK_VOZ = "https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.30.0/+esm";
 const VOZ = { conv: null, conectando: false };
-const estVoz = (t) => { $("#guiaVozEst").textContent = t || "Escríbame o toque 🎙️ para hablar"; };
+const estVoz = (t) => { $("#guiaVozEst").textContent = t || "Escríbame o hábleme 🎙️"; };
 function burbujaVoz(rol, t) { burbuja(rol, t); $("#guiaMsgs").lastElementChild?.classList.add("voz"); GUIA.hist.push({ role: rol, content: t }); }
 function contextoVoz() { try { VOZ.conv?.sendContextualUpdate(`Así está el panel ahora (no lo leas en voz alta, úsalo para responder): ${JSON.stringify(contextoGuia())}`); } catch {} }
 async function conectarVoz(mod, cred, op) {
