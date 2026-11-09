@@ -335,6 +335,10 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
 .ver.ubicacion,.ver.foto{background:var(--menta);color:var(--g700)}.ver.sin_verificar{background:#FBEBD0;color:#8A5A10}.ver.bloq{background:#F8DDD8;color:#A3301E}
 .verif-caja{background:var(--papel);border-radius:14px;padding:10px 12px;margin:10px 0;font-size:13px;line-height:1.4}
 .verif-caja .fotos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.verif-caja .fotos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
+.salud{display:flex;gap:12px;align-items:center;background:#fff;border-radius:18px;box-shadow:var(--sombra);padding:12px 14px;margin-bottom:12px}
+.sal-n{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;font-size:23px;font-weight:800;color:#fff;background:#C5CDB9;flex:none}
+.salud.bien .sal-n{background:var(--lima)}.salud.ojo .sal-n{background:var(--ambar)}.salud.mal .sal-n{background:var(--rojo)}
+.salud .et{font-size:12px;color:var(--suave);font-weight:700}.salud b{display:block;font-size:16px}.salud small{display:block;color:var(--suave);font-size:12.5px;line-height:1.35}
 .kpis-area{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 10px}
 .kpi-a{background:var(--papel);border-radius:14px;padding:10px 12px 11px;position:relative;overflow:hidden}
 .kpi-a::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#C5CDB9}
@@ -549,7 +553,13 @@ let ACC = (() => {
 })();
 let TOKEN = ACC.t || "", EQUIPO = ACC.e || "";
 const esEquipo = () => !TOKEN && !!EQUIPO;
-const DISP = (() => { let d = ls.get("bosco-disp"); if (!d) { d = crypto.randomUUID ? crypto.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)); ls.set("bosco-disp", d); } return d; })();
+// Cada enlace es un celular distinto: la gerencia usa «bosco-disp»; cada enlace de área, el suyo. Así abrir el enlace de
+// un área en el celular de la gerencia no le cambia el rol. En ese caso es solo una vista previa: las llamadas siguen
+// llegando a la app de gerencia (un navegador tiene una sola suscripción de notificaciones).
+if (TOKEN) ls.set("bosco-gerencia", "1");
+const VISTA_PREVIA = !TOKEN && !!EQUIPO && ls.get("bosco-gerencia") === "1";
+const CLAVE_DISP = TOKEN ? "bosco-disp" : `bosco-disp-e-${EQUIPO.slice(0, 12)}`;
+const DISP = (() => { let d = ls.get(CLAVE_DISP); if (!d) { d = crypto.randomUUID ? crypto.randomUUID() : "10000000-1000-4000-8000-100000000000".replace(/[018]/g, (c) => (c ^ (crypto.getRandomValues(new Uint8Array(1))[0] & (15 >> (c / 4)))).toString(16)); ls.set(CLAVE_DISP, d); } return d; })();
 
 const S = {
   dias: 1, demo: ls.get("bosco-demo") !== "0", tab: "hoy", panel: null, tareas: [], posts: null, cuenta: null, disp: null, vapid: null,
@@ -627,7 +637,7 @@ async function cargar() {
     if (p.enlace) return vincular("Ese enlace ya no es válido.");
     if (!p.error) { detectarCasos(p); S.panel = p; }
     if (t.tareas) { detectarTareas(t.tareas); S.tareas = t.tareas; }
-    if (ar && !ar.error) S.areas = ar.areas;
+    if (ar && !ar.error) { S.areas = ar.areas; S.general = ar.general; }
     if (!S.piloto || S.tab === "hoy") cargarPiloto();
   }
   S.primera = false;
@@ -845,7 +855,18 @@ function pintarHoy() {
   if (te.length) html += `<div class="card"><h2>🏷️ De qué hablan</h2>${te.map((x) => `<div class="fila"><span style="flex:1">${esc(String(x.tema || "").charAt(0).toUpperCase() + String(x.tema || "").slice(1))}<div class="bar ${x.neg > x.pos ? "neg" : ""}" style="width:${(x.n / mxt) * 100}%"></div></span><span class="n num">${x.n}</span></div>`).join("")}</div>`;
   const fe = (p.feed || []).filter((m) => (m.texto || "").length > 8 && m.categoria !== "otro").slice(0, 6);
   if (fe.length) html += `<div class="card"><h2>🗣️ Lo que dicen ahora</h2>${fe.map((m) => `<div class="dice"><span class="ic">${CANAL[m.canal] || "💬"}</span><span class="t">${esc(m.texto)}<small><i class="pt" style="background:${m.sentimiento === "positivo" ? "var(--lima)" : m.sentimiento === "negativo" ? "var(--rojo)" : "#C5CDB9"}"></i>${esc(m.tema || "")} · ${hace(m.creado)}${m.demo ? " · ejemplo" : ""}</small></span></div>`).join("")}</div>`;
-  if (S.areas) html += `<div class="card"><h2>🏢 Cómo va cada área</h2>${S.areas.map((a) => { const k = (a.kpis || [])[0]; return `<button class="fila-area" data-area-ver="${a.area}"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${a.mensajes} mensajes · ${a.abiertos + a.en_proceso} sin resolver${a.fuera_de_tiempo ? ` · <span style="color:var(--rojo);font-weight:800">${a.fuera_de_tiempo} fuera de tiempo</span>` : ""}</small>${k ? `<span class="kpi-fila"><i class="${k.estado || ""}"></i>${esc(k.titulo)}: ${esc(k.valor)}</span>` : ""}</span><span class="nota-ind" style="background:${colorInd(a.indice)}" title="Índice de sentimiento">${a.indice ?? "–"}</span></button>`; }).join("")}<p class="sub" style="margin-top:8px">El número es el sentimiento (0–100). Debajo, el indicador principal de cada área contra su meta.</p></div>`;
+  if (S.areas) {
+    const g = S.general || {}, col = (e) => (e === "bien" ? "var(--lima)" : e === "ojo" ? "var(--ambar)" : e === "mal" ? "var(--rojo)" : "#C5CDB9");
+    const kg = [["Resueltos a tiempo", g.pct_a_tiempo != null ? `${g.pct_a_tiempo} %` : "–", g.pct_a_tiempo == null ? "" : g.pct_a_tiempo >= 90 ? "bien" : g.pct_a_tiempo >= 75 ? "ojo" : "mal"],
+      ["Tiempo para resolver", fmtM(g.min_resolucion), ""], ["Pendientes", `${g.pendientes ?? 0}${g.fuera_de_tiempo ? ` · ${g.fuera_de_tiempo} tarde` : ""}`, g.fuera_de_tiempo ? "mal" : "bien"],
+      ["Satisfacción", g.csat != null ? `${g.csat} %` : "–", g.csat == null ? "" : g.csat >= 85 ? "bien" : g.csat >= 70 ? "ojo" : "mal"],
+      ["Quejas por 100 conversaciones", g.quejas_100 != null ? String(g.quejas_100) : "–", g.quejas_100 == null ? "" : g.quejas_100 <= 5 ? "bien" : g.quejas_100 <= 10 ? "ojo" : "mal"],
+      ["Equipo ocupado", g.equipo ? `${g.equipo.ocupados} de ${g.equipo.total}` : "–", ""]];
+    html += `<div class="card"><h2>🏥 Salud del centro comercial</h2><div class="salud ${g.estado || ""}" style="box-shadow:none;padding:0"><div class="sal-n num">${g.salud ?? "–"}</div><div><b>Salud general</b><small>Promedio de las áreas, ponderado por cuántos casos tiene cada una.</small></div></div>
+      <div class="kpis-area">${kg.map(([t, v, e]) => `<div class="kpi-a ${e}"><div class="t">${esc(t)}</div><div class="v">${esc(v)}</div></div>`).join("")}</div>
+      ${S.areas.map((a) => { const k = (a.kpis || [])[0], sa = a.salud || {}; return `<button class="fila-area" data-area-ver="${a.area}"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${sa.principal ? `A mejorar · ${esc(sa.principal)}` : `${a.pendientes} pendiente${a.pendientes === 1 ? "" : "s"}${a.fuera_de_tiempo ? ` · <span style="color:var(--rojo);font-weight:800">${a.fuera_de_tiempo} fuera de tiempo</span>` : ""}`}</small>${k ? `<span class="kpi-fila"><i class="${k.estado || ""}"></i>${esc(k.titulo)}: ${esc(k.valor)}</span>` : ""}</span><span class="nota-ind" style="background:${col(sa.estado)}" title="Salud del área">${sa.puntaje ?? "–"}</span></button>`; }).join("")}
+      <p class="sub" style="margin-top:8px">Toque un área para ver sus indicadores. El número es la salud del área (0–100).</p></div>`;
+  }
   html += `<div class="card"><h2>🎨 Contenido de la semana</h2><p class="sub" style="margin:0 0 10px">${porRev ? `${porRev} post${porRev > 1 ? "s" : ""} esperan su aprobación.` : "No hay posts pendientes de aprobación."}</p><button class="btn btn-b btn-w" data-ir="contenido">Revisar contenido</button></div>`;
   html += `<div class="card"><h2>📝 Lectura de la semana</h2><p class="sub" style="margin:0 0 10px">${esc(asis())} resume la semana y recomienda qué hacer.</p><button class="btn btn-p btn-w" id="btnLectura">Pedir la lectura</button></div>`;
   el.innerHTML = html;
@@ -883,22 +904,29 @@ document.addEventListener("click", (ev) => {
 });
 
 // ---------- Sentimiento de un área (la gerencia lo abre por área; el equipo ve el suyo en «Mi área») ----------
+const fmtM = (m) => (m == null ? "–" : m < 90 ? `${m} min` : m < 2880 ? `${Math.round(m / 6) / 10} h` : `${Math.round(m / 144) / 10} días`);
+// Cada área ve lo suyo: las áreas de campo (limpieza, seguridad, operaciones) se miden por tiempos y cumplimiento;
+// administración, además, por la experiencia del visitante (sentimiento, satisfacción, quejas). La gerencia ve la salud.
 function htmlArea(d) {
   if (!d) return '<div class="esq"></div><div class="esq"></div>';
   if (d.error) return `<div class="vacio">${esc(d.error)}</div>`;
+  const admin = d.area === "administracion", ger = soyGerencia(), sal = d.salud || {};
   const tot = (d.positivos + d.neutrales + d.negativos) || 1, pc = (x) => Math.round(((x || 0) / tot) * 100);
-  const sinRes = (d.abiertos || 0) + (d.en_proceso || 0);
-  let h = `<div class="kpi grande" style="margin-bottom:10px">${anillo(d.indice ?? 0)}<div><div class="et">${d.icono} ${esc(cap(d.nombre))}</div><div class="v num">${d.indice ?? "–"}<span style="font-size:18px;color:var(--suave)">/100</span></div>${delta(d.indice, d.indice_prev, false, d.dias)}</div></div>
-    <div class="mini"><div><b class="num">${d.mensajes}</b><span>Mensajes</span></div><div><b class="num" style="color:var(--rojo)">${d.quejas}</b><span>Quejas</span></div><div><b class="num">${sinRes}</b><span>Sin resolver</span></div></div>
-    ${d.fuera_de_tiempo ? `<div class="aviso-meta">⏰ ${d.fuera_de_tiempo} caso${d.fuera_de_tiempo === 1 ? " pasó" : "s pasaron"} su tiempo meta sin resolverse${d.alta_abiertos ? ` · ${d.alta_abiertos} urgente${d.alta_abiertos === 1 ? "" : "s"}` : ""}</div>` : ""}
-    ${(d.kpis || []).length ? `<div class="card"><h2>📏 Cómo se mide ${esc(d.nombre)}</h2><div class="kpis-area">${d.kpis.map((k) => `<div class="kpi-a ${k.estado || ""}"><div class="t">${esc(k.titulo)}</div><div class="v">${esc(k.valor)}</div>${k.meta ? `<span class="m">${k.estado === "bien" ? "✓ " : ""}${esc(k.meta)}</span>` : ""}${k.nota ? `<div class="n">${esc(k.nota)}</div>` : ""}</div>`).join("")}</div>${barrasDia(d.serie)}${d.metas_txt ? `<div class="metas-txt"><b>Tiempos meta</b> (desde que llega el reporte): ${esc(d.metas_txt)}${d.sin_verificar || d.bloqueados ? `<br>No cuentan ${[d.sin_verificar ? `${d.sin_verificar} reporte${d.sin_verificar === 1 ? "" : "s"} sin verificar que la gerencia no aprobó` : "", d.bloqueados ? `${d.bloqueados} falso${d.bloqueados === 1 ? "" : "s"} (número bloqueado)` : ""].filter(Boolean).join(" ni ")}.` : ""}</div>` : ""}</div>` : ""}
-    <div class="card"><h2>😊 Cómo se sienten con su área</h2><div class="barra-sent"><i style="width:${pc(d.positivos)}%;background:var(--lima)"></i><i style="width:${pc(d.neutrales)}%;background:#C5CDB9"></i><i style="width:${pc(d.negativos)}%;background:var(--rojo)"></i></div>
-    <div class="ley"><span><i class="pt" style="background:var(--lima)"></i><b>${pc(d.positivos)}%</b> positivo</span><span><i class="pt" style="background:#C5CDB9"></i><b>${pc(d.neutrales)}%</b> neutral</span><span><i class="pt" style="background:var(--rojo)"></i><b>${pc(d.negativos)}%</b> negativo</span></div>${d.serie ? linea(d.serie) : ""}</div>`;
-  if ((d.lugares || []).length) { const mx = Math.max(...d.lugares.map((x) => x.n)); h += `<div class="card"><h2>📍 Dónde se quejan</h2>${d.lugares.map((x) => `<div class="fila"><span style="flex:1">${esc(x.zona)}${x.repite ? ' <span class="sub" style="color:var(--rojo);font-weight:800">· se repite</span>' : ""}<div class="bar neg" style="width:${(x.n / mx) * 100}%"></div></span><span class="n num">${x.n}</span></div>`).join("")}</div>`; }
-  if ((d.por_tema || []).length) h += `<div class="card"><h2>🏷️ Por tema</h2>${d.por_tema.map((x) => `<div class="fila"><span style="flex:1">${esc(cap(x.tema))}<br><span class="sub">${x.n} mensajes · ${x.negativos} negativos</span></span><span class="nota-ind" style="background:${colorInd(x.indice)}">${x.indice ?? "–"}</span></div>`).join("")}</div>`;
+  let h = `<div class="salud ${sal.estado || ""}"><div class="sal-n num">${sal.puntaje ?? "–"}</div><div><div class="et">${d.icono} ${esc(cap(d.nombre))}</div><b>Salud del área</b><small>${sal.principal ? `A mejorar · ${esc(sal.principal)}` : sal.puntaje != null ? "Todo dentro de lo esperado" : "Todavía no hay casos suficientes para medirla"}</small></div></div>`;
+  if (d.fuera_de_tiempo) h += `<div class="aviso-meta">⏰ ${d.fuera_de_tiempo} caso${d.fuera_de_tiempo === 1 ? " pasó" : "s pasaron"} su tiempo meta sin resolverse${d.alta_abiertos ? ` · ${d.alta_abiertos} urgente${d.alta_abiertos === 1 ? "" : "s"}` : ""}</div>`;
+  if (d.yo) h += `<div class="card"><h2>🙋 Usted</h2><div class="mini" style="margin:0"><div><b class="num">${d.yo.hechas_hoy}</b><span>Resueltas hoy</span></div><div><b class="num">${fmtM(d.yo.min_trabajo)}</b><span>Su tiempo de trabajo</span></div><div><b class="num">${d.yo.hechas_30}</b><span>En 30 días</span></div></div></div>`;
+  if ((d.kpis || []).length) h += `<div class="card"><h2>📏 Cómo se mide ${esc(d.nombre)}</h2><div class="kpis-area">${d.kpis.map((k) => `<div class="kpi-a ${k.estado || ""}"><div class="t">${esc(k.titulo)}</div><div class="v">${esc(k.valor)}</div>${k.meta ? `<span class="m">${k.estado === "bien" ? "✓ " : ""}${esc(k.meta)}</span>` : ""}${k.nota ? `<div class="n">${esc(k.nota)}</div>` : ""}</div>`).join("")}</div>${barrasDia(d.serie)}${d.metas_txt ? `<div class="metas-txt"><b>Tiempos meta</b> (desde que llega el reporte): ${esc(d.metas_txt)}${d.sin_verificar || d.bloqueados || d.descartados ? `<br>No cuentan ${[d.sin_verificar ? `${d.sin_verificar} sin verificar que la gerencia no aprobó` : "", d.descartados ? `${d.descartados} que no se enviaron a nadie` : "", d.bloqueados ? `${d.bloqueados} falso${d.bloqueados === 1 ? "" : "s"}` : ""].filter(Boolean).join(", ")}.` : ""}</div>` : ""}</div>`;
+  if (admin) {
+    h += `<div class="card"><h2>😊 Cómo se sienten los visitantes</h2><div class="kpi grande" style="box-shadow:none;padding:0;margin:4px 0 10px">${anillo(d.indice ?? 0)}<div><div class="et">Cobros, atención y horarios</div><div class="v num">${d.indice ?? "–"}<span style="font-size:18px;color:var(--suave)">/100</span></div>${delta(d.indice, d.indice_prev, false, d.dias)}</div></div>
+      <div class="barra-sent"><i style="width:${pc(d.positivos)}%;background:var(--lima)"></i><i style="width:${pc(d.neutrales)}%;background:#C5CDB9"></i><i style="width:${pc(d.negativos)}%;background:var(--rojo)"></i></div>
+      <div class="ley"><span><i class="pt" style="background:var(--lima)"></i><b>${pc(d.positivos)}%</b> positivo</span><span><i class="pt" style="background:#C5CDB9"></i><b>${pc(d.neutrales)}%</b> neutral</span><span><i class="pt" style="background:var(--rojo)"></i><b>${pc(d.negativos)}%</b> negativo</span></div>${d.serie ? linea(d.serie) : ""}</div>`;
+    if ((d.por_tema || []).length) h += `<div class="card"><h2>🏷️ Por tema</h2>${d.por_tema.map((x) => `<div class="fila"><span style="flex:1">${esc(cap(x.tema))}<br><span class="sub">${x.n} mensajes · ${x.negativos} negativos</span></span><span class="nota-ind" style="background:${colorInd(x.indice)}">${x.indice ?? "–"}</span></div>`).join("")}</div>`;
+  }
+  if ((d.lugares || []).length) { const mx = Math.max(...d.lugares.map((x) => x.n)); h += `<div class="card"><h2>📍 ${admin ? "De qué se quejan más" : "Dónde se repite"}</h2>${d.lugares.map((x) => `<div class="fila"><span style="flex:1">${esc(x.zona)}${x.repite ? ' <span class="sub" style="color:var(--rojo);font-weight:800">· se repite</span>' : ""}<div class="bar neg" style="width:${(x.n / mx) * 100}%"></div></span><span class="n num">${x.n}</span></div>`).join("")}</div>`; }
   if ((d.casos || []).length) h += `<div class="card"><h2>⚠️ Sin resolver</h2>${d.casos.map((c) => `<div class="fila"><span style="flex:1"><b style="font-size:14px">${esc(c.resumen)}</b><br><span class="sub">${esc(PRIO[c.prioridad] || "")} · ${esc(EST[c.estado] || c.estado)}${c.zona ? " · " + esc(c.zona) : ""} · ${hace(c.creado)}${c.demo ? " · ejemplo" : ""}</span></span></div>`).join("")}</div>`;
-  if ((d.dicen || []).length) h += `<div class="card"><h2>🗣️ Lo que dicen</h2>${d.dicen.map((m) => `<div class="dice"><span class="ic">${CANAL[m.canal] || "💬"}</span><span class="t">${esc(m.texto)}<small><i class="pt" style="background:${m.sentimiento === "positivo" ? "var(--lima)" : m.sentimiento === "negativo" ? "var(--rojo)" : "#C5CDB9"}"></i>${hace(m.creado)}${m.demo ? " · ejemplo" : ""}</small></span></div>`).join("")}</div>`;
-  h += `<p class="sub" style="text-align:center">Cuenta los mensajes sobre: ${(d.temas || []).map(esc).join(", ")}. Las quejas son los casos del área.</p>`;
+  if (admin && (d.dicen || []).length) h += `<div class="card"><h2>🗣️ Lo que dicen</h2>${d.dicen.map((m) => `<div class="dice"><span class="ic">${CANAL[m.canal] || "💬"}</span><span class="t">${esc(m.texto)}<small><i class="pt" style="background:${m.sentimiento === "positivo" ? "var(--lima)" : m.sentimiento === "negativo" ? "var(--rojo)" : "#C5CDB9"}"></i>${hace(m.creado)}${m.demo ? " · ejemplo" : ""}</small></span></div>`).join("")}</div>`;
+  if (ger && !admin && d.mensajes) h += `<div class="card"><h2>😊 Visitantes sobre ${esc(d.nombre)}</h2><div class="fila"><span style="flex:1">${d.mensajes} mensajes · ${pc(d.negativos)} % negativos<br><span class="sub">Solo lo ve la gerencia: al equipo de campo se le mide por tiempos y cumplimiento.</span></span><span class="nota-ind" style="background:${colorInd(d.indice)}">${d.indice ?? "–"}</span></div></div>`;
+  if (ger && (sal.partes || []).length) h += `<div class="card"><h2>🏥 Cómo se calcula la salud</h2>${sal.partes.map((x) => `<div class="fila"><span style="flex:1">${esc(x.nombre)} <span class="sub">· pesa ${x.peso} %</span><div class="bar" style="width:${x.valor}%;background:${x.valor >= 80 ? "var(--lima)" : x.valor >= 70 ? "var(--ambar)" : "var(--rojo)"}"></div></span><span class="n num">${x.valor}</span></div>`).join("")}<p class="sub" style="margin:8px 0 0">Bien desde 80, atención entre 70 y 79, mal bajo 70.</p></div>`;
   return h;
 }
 async function abrirArea(area) {
@@ -924,7 +952,8 @@ function pintarTareas() {
   const pend = ts.filter((t) => ["llamando", "sin_respuesta", "rechazada"].includes(t.estado)), curso = ts.filter((t) => t.estado === "aceptada"), hechas = ts.filter((t) => t.estado === "hecha").slice(0, 10);
   const nom = S.disp?.nombre ? `, ${esc(S.disp.nombre.split(" ")[0])}` : "";
   let h = `<div class="saludo"><img src="${foto()}" alt=""><p>Hola${nom}. ${pend.length ? `Tiene <b>${pend.length} tarea${pend.length > 1 ? "s" : ""} por atender</b>.` : curso.length ? `Tiene <b>${curso.length} tarea${curso.length > 1 ? "s" : ""} en curso</b>.` : "No tiene tareas pendientes 🙌"} Cuando la gerencia aprueba algo de ${esc(S.areaNombre || "su área")}, le llamo aquí.</p></div>`;
-  if (!S.disp?.push) h += `<div class="aviso-ll">📞 Active las llamadas para que ${esc(asis())} le avise<button data-ir="mas">Activar</button></div>`;
+  if (VISTA_PREVIA) h += `<div class="aviso-ll" style="background:var(--menta);color:var(--g700)">👀 Vista previa del equipo de ${esc(S.areaNombre || "esta área")} desde el celular de la gerencia. Las llamadas siguen llegando a su app de gerencia.</div>`;
+  else if (!S.disp?.push) h += `<div class="aviso-ll">📞 Active las llamadas para que ${esc(asis())} le avise<button data-ir="mas">Activar</button></div>`;
   if (pend.length) h += `<h2 style="font-size:15px;margin:14px 2px 8px">🔔 Por atender</h2>${pend.map(tarjetaTarea).join("")}`;
   if (curso.length) h += `<h2 style="font-size:15px;margin:14px 2px 8px">🚶 En curso</h2>${curso.map(tarjetaTarea).join("")}`;
   if (hechas.length) h += `<h2 style="font-size:15px;margin:14px 2px 8px">✅ Resueltas</h2>${hechas.map(tarjetaTarea).join("")}`;
@@ -1242,6 +1271,7 @@ async function invitar(area) {
 }
 const b64aU8 = (s) => { const t = s.replace(/-/g, "+").replace(/_/g, "/"); return Uint8Array.from(atob(t + "=".repeat((4 - (t.length % 4)) % 4)), (c) => c.charCodeAt(0)); };
 async function activarLlamadas() {
+  if (VISTA_PREVIA) { toast("Es una vista previa desde el celular de la gerencia: las llamadas le siguen llegando a su app de gerencia.", 5000); return; }
   if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) { irA("mas"); return toast(esIOS && !instalada() ? "Primero instale la app en la pantalla de inicio." : "Este navegador no permite las llamadas de la app.", 4500); }
   const perm = await Notification.requestPermission();
   if (perm !== "granted") { pintarMas(); return toast("Sin permiso de notificaciones no puedo llamarle.", 4000); }
@@ -1578,7 +1608,7 @@ function pasoInstalar() {
 function pasoActivar() {
   return new Promise((listo) => {
     const soporta = "serviceWorker" in navigator && "PushManager" in window && "Notification" in window;
-    if (S.disp?.push && soporta && Notification.permission === "granted") return listo();
+    if (VISTA_PREVIA || (S.disp?.push && soporta && Notification.permission === "granted")) return listo();
     if (ss.get("bosco-act-luego")) return listo();
     pantalla("#vActivar");
     $("#actTxt").textContent = esEquipo() ? `Así le aviso al instante cuando la gerencia aprueba una tarea de ${S.areaNombre || "su área"}: suena y vibra como una llamada.` : `Así le aviso al instante cuando algo es urgente: suena y vibra como una llamada, y usted decide.`;
