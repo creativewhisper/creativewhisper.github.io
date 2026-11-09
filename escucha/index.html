@@ -335,6 +335,155 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .cont-lado{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;align-items:start;margin-top:14px}
 .cont-lado>.lado{display:grid;gap:14px;position:sticky;top:70px}
 
+/* Contenido de la semana */
+.cs-cab{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:20px;align-items:center;background:linear-gradient(135deg,var(--g900),var(--g700));color:#fff;border-radius:var(--r-lg);padding:22px 24px;position:relative;overflow:hidden}
+.cs-cab::after{content:"";position:absolute;right:-90px;bottom:-130px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(124,194,75,.25),transparent 65%);pointer-events:none}
+.cs-kick{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--lima2);margin-bottom:6px}
+.cs-cab h2{margin:0;font-size:23px;font-weight:800;letter-spacing:-.01em}
+.cs-cab p{margin:6px 0 10px;color:rgba(255,255,255,.82);font-size:13.8px;max-width:820px;line-height:1.5}
+.cs-meta{font-size:12.5px;font-weight:700;color:var(--lima3)}
+.cs-der{position:relative;z-index:1;display:grid;justify-items:center;gap:8px;text-align:center}
+.cs-der img{width:74px;height:74px;border-radius:50%;object-fit:cover;border:3px solid var(--lima);background:var(--g800)}
+.cs-der .btn{font-size:15px;padding:13px 22px}
+.cs-der small{font-size:11.5px;color:var(--lima3);max-width:200px}
+.cs-pasos{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-top:12px}
+.cs-pasos div{background:var(--blanco);border:1px solid var(--linea);border-radius:16px;padding:11px 13px;display:grid;grid-template-columns:auto 1fr;gap:2px 10px;align-items:center;position:relative}
+.cs-pasos b{position:absolute;right:12px;top:9px;font-size:11px;color:var(--suave)}
+.cs-pasos span{grid-row:span 2;font-size:22px}
+.cs-pasos strong{font-size:13.5px;color:var(--g800)}
+.cs-pasos small{font-size:12px;color:var(--suave);line-height:1.35}
+.cs-cuerpo{display:grid;grid-template-columns:390px minmax(0,1fr);gap:18px;margin-top:16px;align-items:start}
+.tel-col{position:sticky;top:70px;display:grid;justify-items:center;gap:8px}
+.tel{width:360px;height:740px;border-radius:50px;background:#0D0F0E;padding:12px;box-shadow:0 30px 60px -25px rgba(2,31,24,.55),inset 0 0 0 2px #2b2f2d;position:relative}
+.tel-notch{position:absolute;left:50%;top:20px;transform:translateX(-50%);width:110px;height:28px;border-radius:20px;background:#0D0F0E;z-index:3}
+.tel-pant{width:100%;height:100%;border-radius:39px;background:#fff;overflow:auto;scrollbar-width:none;color:#111;font-family:-apple-system,system-ui,'Segoe UI',Roboto,sans-serif;position:relative}
+.tel-pant::-webkit-scrollbar{display:none}
+.tel-pie{font-size:12px;font-weight:700;color:var(--suave)}
+.ig-bar{display:grid;grid-template-columns:40px 1fr 40px;align-items:center;padding:46px 12px 8px;position:sticky;top:0;background:#fff;z-index:2;font-size:15px}
+.ig-bar b{text-align:center}.ig-bar button{font-size:28px;line-height:1;text-align:left}.ig-bar span{text-align:right;font-size:18px}
+.ig-perfil{display:flex;gap:14px;align-items:center;padding:6px 16px 4px}
+.ig-av{width:78px;height:78px;border-radius:50%;padding:3px;background:conic-gradient(from 200deg,#F9CE34,#EE2A7B,#6228D7,#F9CE34);flex:none}
+.ig-ph .ig-av{width:34px;height:34px;padding:2px}
+.logo-mini{width:100%;height:100%;border-radius:50%;background:var(--g900);border:2px solid #fff;position:relative}
+.logo-mini::after{content:"";position:absolute;inset:22% 10%;background:var(--lima2);-webkit-mask:var(--logo) center/contain no-repeat;mask:var(--logo) center/contain no-repeat}
+.ig-perfil b{font-size:14px}.ig-perfil small{display:block;font-size:12.5px;color:#333;line-height:1.4;margin-top:2px}
+.ig-h{color:#00376B}
+.ig-pill{margin:8px 16px 4px;background:#F2F3F0;border-radius:8px;text-align:center;font-size:12.5px;font-weight:700;padding:7px;color:#333}
+.ig-dest{display:flex;gap:14px;padding:10px 16px 6px;overflow-x:auto;scrollbar-width:none}
+.ig-dest button{display:grid;justify-items:center;gap:5px;font-size:11.5px;color:#222;width:66px;flex:none}
+.ig-dest span{width:62px;height:62px;border-radius:50%;background:#eee center/cover;box-shadow:0 0 0 2px #fff,0 0 0 3.5px #c9c9c9}
+.ig-dest span.vac{background:#f3f3f3}
+.ig-tabs{display:grid;grid-template-columns:repeat(3,1fr);border-top:1px solid #eee;margin-top:6px}
+.ig-tabs span{text-align:center;padding:9px 0;font-size:16px;color:#999}.ig-tabs .on{color:#111;box-shadow:inset 0 -1.5px 0 #111}
+.ig-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.ig-cel{position:relative;aspect-ratio:3/4;overflow:hidden;background:#eee;animation:aparece .45s ease-out both;animation-delay:var(--d)}
+.ig-cel img{width:100%;height:100%;object-fit:cover;display:block}
+.ig-cel i{position:absolute;font-style:normal;font-size:12px;font-weight:800;color:#fff}
+.ig-car{right:6px;top:4px;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.ig-ok,.ig-aj{left:6px;bottom:6px;width:20px;height:20px;border-radius:50%;display:grid;place-items:center}
+.ig-ok{background:var(--lima)}.ig-aj{background:var(--ambar)}
+@keyframes aparece{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:none}}
+.ig-vacio{grid-column:1/-1;display:grid;justify-items:center;gap:10px;padding:40px 20px;color:#777;font-size:13px;text-align:center}
+.cara{width:64px;height:64px;border-radius:50%;background:var(--g800) center/cover;border:3px solid var(--lima)}
+.ig-ph{display:flex;align-items:center;gap:10px;padding:4px 12px 8px}
+.ig-ph b{font-size:13.5px;display:block}.ig-ph small{font-size:11.5px;color:#666}
+.ig-img{position:relative;aspect-ratio:4/5;background:#eee}
+.ig-img img{width:100%;height:100%;object-fit:cover;display:block}
+.ig-n{position:absolute;right:10px;top:10px;background:rgba(0,0,0,.65);color:#fff;font-size:11.5px;font-weight:700;border-radius:999px;padding:3px 8px}
+.ig-f{position:absolute;top:50%;transform:translateY(-50%);width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,.85);font-size:20px;line-height:26px;color:#111;box-shadow:0 2px 6px rgba(0,0,0,.2)}
+.ig-f.iz{left:8px}.ig-f.de{right:8px}
+.ig-ac{display:grid;grid-template-columns:auto auto auto 1fr auto;gap:14px;align-items:center;padding:9px 14px 4px;font-size:19px}
+.ig-pts{display:flex;justify-content:center;gap:4px}.ig-pts i{width:6px;height:6px;border-radius:50%;background:#d0d0d0}.ig-pts i.on{background:#0095F6}
+.ig-cap{padding:2px 14px 6px;font-size:13px;line-height:1.45}
+.ig-est{margin:6px 14px 18px;font-size:11.5px;font-weight:800;color:var(--g700);background:var(--menta);border-radius:8px;padding:6px 9px;display:inline-block}
+.ig-hist{position:absolute;inset:0;background:#000}
+.ig-hist img{width:100%;height:100%;object-fit:cover}
+.ig-hbar{position:absolute;left:10px;right:10px;top:40px;height:3px;border-radius:3px;background:rgba(255,255,255,.35);overflow:hidden}
+.ig-hbar i{display:block;height:100%;background:#fff;animation:barra 6s linear forwards}
+@keyframes barra{from{width:0}to{width:100%}}
+.ig-hcab{position:absolute;left:10px;right:10px;top:50px;display:flex;align-items:center;gap:8px;color:#fff;font-size:13px}
+.ig-hcab .ig-av{width:30px;height:30px;padding:2px}.ig-hcab small{opacity:.8}.ig-hcab button{margin-left:auto;color:#fff;font-size:18px}
+.cs-rev{min-width:0}
+.cs-barra{display:flex;align-items:center;gap:12px;flex-wrap:wrap;background:var(--blanco);border:1px solid var(--linea);border-radius:16px;padding:10px 14px;margin-bottom:10px;position:sticky;top:62px;z-index:4;box-shadow:var(--sombra)}
+.cs-todos{display:inline-flex;align-items:center;gap:8px;font-weight:800;font-size:13.5px;color:var(--g800);cursor:pointer}
+.cs-todos input,.cs-chk input{width:19px;height:19px;accent-color:var(--g800)}
+.cs-cuenta{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--suave)}
+.cs-fila{display:grid;grid-template-columns:28px 92px minmax(0,1fr);gap:12px;background:var(--blanco);border:1px solid var(--linea);border-radius:18px;padding:12px;margin-bottom:10px;transition:border-color .2s,box-shadow .2s}
+.cs-fila.entra{animation:aparece .4s ease-out}
+.cs-fila.ver{border-color:var(--lima);box-shadow:0 0 0 3px rgba(97,173,48,.18)}
+.cs-fila.ok{background:linear-gradient(180deg,#fff,#F6FBF2)}
+.cs-fila.aj{border-color:#F3D7A6}
+.cs-chk{display:grid;place-items:start center;padding-top:4px}.cs-chk.ok{color:var(--lima);font-weight:800;font-size:18px}
+.cs-min{width:92px;aspect-ratio:4/5;object-fit:cover;border-radius:12px;cursor:pointer;background:var(--crema)}
+.cs-min.h{aspect-ratio:9/16;width:72px;justify-self:center}
+.cs-t{display:flex;align-items:center;gap:8px;flex-wrap:wrap}.cs-t b{font-size:15px;color:var(--g800)}
+.tag.pend{background:var(--crema);color:var(--g800)}.tag.ok{background:var(--menta);color:var(--g700)}.tag.aj{background:#FFF0D6;color:#8C5A0B}
+.cs-m{font-size:12.5px;color:var(--suave);margin-top:2px;text-transform:capitalize}
+.cs-sen{font-size:12.5px;font-weight:700;color:var(--g700);margin-top:6px}
+.cs-pq{font-size:13px;color:#33473F;margin-top:3px}
+.cs-nota{font-size:12.5px;background:#FFF5E3;border:1px solid #F3D7A6;color:#6B4708;border-radius:10px;padding:6px 9px;margin-top:7px}
+.cs-aj,.cs-v2,.cs-prog{font-size:12.5px;border-radius:10px;padding:7px 10px;margin-top:7px}
+.cs-aj{background:#FFF0D6;color:#6B4708}.cs-aj span,.cs-v2 span,.cs-prog span{display:block;opacity:.85;margin-top:2px}
+.cs-v2{background:#E3F0FA;color:#1F4E77}
+.cs-prog{background:var(--menta);color:var(--g800)}
+.lnk{font-weight:800;color:var(--g700);text-decoration:underline;font-size:12.5px}
+.cs-acc{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;align-items:center}.cs-acc .btn{padding:7px 12px;font-size:12px}
+.cs-hint{font-size:12px;font-weight:700;color:var(--g600)}
+.cs-form-aj{margin-top:9px;display:grid;gap:7px}
+.cs-form-aj textarea{width:100%;border:1.5px solid var(--linea);border-radius:12px;padding:9px 11px;font-size:13.5px;resize:vertical}
+.cs-form-aj textarea:focus{outline:none;border-color:var(--lima)}
+.cs-form-aj div{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.cs-form-aj select{border:1.5px solid var(--linea);border-radius:999px;padding:7px 10px;font-size:12.5px;background:#fff}
+.cs-form-aj .btn{padding:8px 14px;font-size:12.5px}
+.cs-vacio,.cs-gen{display:grid;justify-items:center;gap:10px;text-align:center;background:var(--blanco);border:1px dashed var(--lima3);border-radius:20px;padding:34px 20px;color:var(--suave);font-size:13.5px}
+.cs-vacio b,.cs-gen b{font-size:16px;color:var(--g800)}
+.cs-gen ol{list-style:none;margin:6px 0 0;padding:0;display:grid;gap:8px;text-align:left;font-size:13.5px;font-weight:600}
+.cs-gen li{display:flex;gap:10px;align-items:center;opacity:.4}
+.cs-gen li::before{content:"";width:16px;height:16px;border-radius:50%;border:2.5px solid var(--linea);flex:none}
+.cs-gen li.act{opacity:1;color:var(--g800)}.cs-gen li.act::before{border-color:var(--lima);border-top-color:transparent;animation:gira .7s linear infinite}
+.cs-gen li.ok{opacity:1;color:var(--g700)}.cs-gen li.ok::before{background:var(--lima);border-color:var(--lima)}
+@keyframes gira{to{transform:rotate(360deg)}}
+.cs-dos{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;margin-top:16px;align-items:start}
+.cs-ayuda{font-size:13px;color:var(--suave);margin:0 0 10px;line-height:1.5}
+.cs-sube{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-size:12.5px;font-weight:700;color:var(--g700)}
+.banco a.sub{outline:3px solid var(--lima);outline-offset:-3px}
+.cs-form{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.cs-form label{display:grid;gap:4px;font-size:12px;font-weight:800;color:var(--suave)}
+.cs-form .ancho{grid-column:1/-1}
+.cs-form input,.cs-form select,.cs-form textarea{border:1.5px solid var(--linea);border-radius:12px;padding:9px 11px;font-size:13.5px;font-weight:500;color:var(--tinta);background:#fff;resize:vertical}
+.cs-form input:focus,.cs-form select:focus,.cs-form textarea:focus{outline:none;border-color:var(--lima)}
+.cs-prods{margin-top:12px;display:grid;gap:6px;font-size:13px}.cs-prods b{color:var(--g800)}
+.cs-prods div{background:var(--papel);border:1px solid var(--linea);border-radius:10px;padding:7px 10px}.cs-prods span{display:block;font-size:12px;color:var(--suave)}
+.toast.ok{border-color:var(--lima)}
+/* Bosco, guía del panel */
+.guia-btn{position:fixed;right:18px;bottom:18px;z-index:85;display:flex;align-items:center;gap:10px;background:var(--g900);color:#fff;border-radius:999px;padding:6px 16px 6px 6px;box-shadow:0 16px 40px -12px rgba(2,31,24,.6);font-weight:800;font-size:13.5px}
+.guia-btn img{width:46px;height:46px;border-radius:50%;object-fit:cover;border:2px solid var(--lima);background:var(--g800)}
+.guia-btn:hover{background:var(--g800)}
+.guia{position:fixed;right:18px;bottom:18px;z-index:86;width:min(390px,calc(100vw - 24px));height:min(580px,calc(100vh - 36px));background:var(--papel);border-radius:24px;box-shadow:0 30px 80px -20px rgba(2,31,24,.55);display:flex;flex-direction:column;overflow:hidden;border:1px solid var(--linea)}
+.guia-cab{display:flex;align-items:center;gap:10px;background:var(--g900);color:#fff;padding:12px 14px}
+.guia-cab img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--lima);background:var(--g800)}
+.guia-cab b{display:block;font-size:15px}.guia-cab small{font-size:12px;color:var(--lima3)}
+.guia-cab button{margin-left:auto;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff}
+.guia-msgs{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
+.g-b{max-width:88%;padding:9px 12px;border-radius:16px;font-size:13.5px;line-height:1.45;overflow-wrap:anywhere}
+.g-b.bo{align-self:flex-start;background:#fff;border:1px solid var(--linea);border-bottom-left-radius:5px}
+.g-b.yo{align-self:flex-end;background:var(--g800);color:#fff;border-bottom-right-radius:5px}
+.g-b.esc{display:flex;gap:4px}.g-b.esc i{width:7px;height:7px;border-radius:50%;background:var(--lima3);animation:late 1.2s infinite}.g-b.esc i:nth-child(2){animation-delay:.2s}.g-b.esc i:nth-child(3){animation-delay:.4s}
+.g-acc{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.g-acc button{background:var(--menta);color:var(--g800);font-weight:800;font-size:12.5px;border-radius:999px;padding:6px 11px}
+.g-acc button:hover{background:var(--lima3)}
+.guia-sug{display:flex;flex-wrap:wrap;gap:6px;padding:0 14px 8px}
+.guia-sug button{border:1.5px solid var(--linea);background:#fff;color:var(--g800);font-weight:700;font-size:12.5px;border-radius:999px;padding:6px 11px}
+.guia-sug button:hover{border-color:var(--lima)}
+.guia-in{display:flex;gap:8px;padding:10px;border-top:1px solid var(--linea);background:#fff}
+.guia-in input{flex:1;border:1.5px solid var(--linea);border-radius:999px;padding:10px 14px;font-size:14px;outline:none}
+.guia-in input:focus{border-color:var(--lima)}
+.guia-in button{width:42px;height:42px;border-radius:50%;background:var(--lima);color:var(--g950);font-size:16px}
+@media (max-width:1180px){.cs-dos{grid-template-columns:1fr}.cs-pasos{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:980px){.cs-cuerpo{grid-template-columns:1fr}.tel-col{position:static}}
+@media (max-width:760px){.cs-cab{grid-template-columns:1fr;padding:16px}.cs-der{justify-items:stretch}.cs-der img{display:none}
+  .tel{width:320px;height:660px}.cs-fila{grid-template-columns:24px 70px minmax(0,1fr);gap:9px}.cs-min{width:70px}.cs-min.h{width:56px}
+  .cs-cuenta{margin-left:0;width:100%}.cs-form{grid-template-columns:1fr}.guia-btn span{display:none}.guia-btn{padding:6px}}
+
 /* Reporte */
 .reporte{white-space:pre-wrap;font-size:14.5px;line-height:1.6}
 .reporte .tt{display:block;font-weight:800;color:var(--g800);margin-top:10px}
@@ -463,24 +612,64 @@ button{cursor:pointer;background:none;border:0;padding:0}
     </section>
 
     <section id="tContenido" class="oculto">
-      <div class="gen-cab">
+      <div class="cs-cab">
         <div style="position:relative;z-index:1;min-width:0">
-          <h2>Contenido para redes, según lo que dice la gente</h2>
-          <p>Lee en vivo las preguntas, quejas, felicitaciones y temas del periodo y los filtros de arriba, junto con los eventos vigentes y las fechas que vienen, y escribe piezas listas para producir con fotos reales del centro comercial y cómo llegar a cada local.</p>
-          <div class="seg" id="enfoques"><button data-e="auto" class="on">Automático</button><button data-e="preguntas">Lo que preguntan</button><button data-e="quejas">Prevenir quejas</button><button data-e="eventos">Eventos y fechas</button><button data-e="tiendas">Tiendas</button><button data-e="servicios">Servicios</button></div>
-          <div class="gen-pedido"><input id="pedido" maxlength="300" placeholder="Indicación opcional: «para Black Friday», «solo historias», «tono más juvenil»…"></div>
+          <span class="cs-kick">Contenido de la semana · lo prepara Creative Whisper</span>
+          <h2>Posts hechos con lo que dice la gente</h2>
+          <p>Cada fin de semana leemos el reporte de sentimiento —lo que más preguntan, las quejas que se repiten y lo que felicitan— y preparamos los posts de la semana o del mes, con los eventos y fechas especiales. Ustedes los revisan aquí: aprueban los que están bien y piden un ajuste en los que no. El ajuste llega al instante a nuestra oficina y lo aprobado se programa solo en sus redes.</p>
+          <div class="cs-meta" id="csMeta"></div>
         </div>
-        <div class="der"><button class="btn btn-lima" id="btnGenerar2">✨ Generar contenido</button><div class="base" id="genBase"></div></div>
+        <div class="cs-der"><img id="csBosco" alt=""><button class="btn btn-lima" id="btnGenerarDemo">✨ Generar contenido</button><small>Lee el reporte de sentimiento y arma la tanda</small></div>
       </div>
-      <div class="cont-lado">
-        <div>
-          <div class="lectura oculto" id="lectura"></div>
-          <div class="piezas" id="piezas"><div class="caja vacio" style="grid-column:1/-1">Toque <b>Generar contenido</b> y las piezas van apareciendo una por una mientras se escriben.</div></div>
+      <div class="cs-pasos">
+        <div><b>1</b><span>📊</span><strong>Leemos el reporte</strong><small>Cada fin de semana: preguntas, quejas y felicitaciones.</small></div>
+        <div><b>2</b><span>🎨</span><strong>Diseñamos los posts</strong><small>De la semana o del mes, con eventos y fechas especiales.</small></div>
+        <div><b>3</b><span>✅</span><strong>Ustedes aprueban</strong><small>«Seleccionar todos» y aprobar, o pedir un ajuste con un comentario.</small></div>
+        <div><b>4</b><span>📅</span><strong>Se programa solo</strong><small>Sale en Instagram y Facebook en su fecha, una vez conectadas sus cuentas.</small></div>
+      </div>
+      <div class="cs-cuerpo">
+        <div class="tel-col"><div class="tel"><div class="tel-notch"></div><div class="tel-pant" id="tel"></div></div><div class="tel-pie">Vista previa en Instagram · aún no publicado</div></div>
+        <div class="cs-rev">
+          <div class="cs-barra oculto" id="csBarra">
+            <label class="cs-todos"><input type="checkbox" id="chkTodos"> Seleccionar todos</label>
+            <button class="btn btn-verde" id="btnAprobar" disabled>Aprobar seleccionados</button>
+            <span class="cs-cuenta" id="csCuenta"></span>
+          </div>
+          <div id="csLista"></div>
         </div>
-        <div class="lado">
-          <div class="caja"><h2><span class="ic">🗂️</span>Generado antes</h2><div class="historial" id="historial"><div class="vacio">—</div></div></div>
-          <div class="caja"><h2><span class="ic">📷</span>Banco de fotos <span class="d" id="bancoN"></span></h2><div style="font-size:12.5px;color:var(--suave)">Fotos de elbosque.com.ec guardadas para usar de base. El contenido sugiere cuál usar por código.</div><div class="banco" id="banco"></div>
-            <details style="margin-top:12px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:var(--g700)">Logos de los locales <span id="logosN"></span></summary><div class="logos" id="logos"></div></details></div>
+      </div>
+      <div class="cs-dos">
+        <div class="caja" id="cajaRepo"><h2><span class="ic">📸</span>Repositorio de fotos <span class="d" id="bancoN"></span></h2>
+          <p class="cs-ayuda">Tomen fotos del centro comercial —eventos, locales, decoración, gente disfrutando— y súbanlas aquí desde el celular o la computadora. Las usamos de base para los próximos posts.</p>
+          <div class="cs-sube"><button class="btn btn-verde" id="btnSubir">📤 Subir fotos</button><input type="file" id="archivoFotos" accept="image/*" multiple hidden><span id="subeEstado"></span></div>
+          <div class="banco" id="banco"></div>
+          <details style="margin-top:12px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:var(--g700)">Logos de los locales <span id="logosN"></span></summary><div class="logos" id="logos"></div></details>
+        </div>
+        <div class="caja" id="cajaProd"><h2><span class="ic">🎬</span>Agendar día de producción</h2>
+          <p class="cs-ayuda">¿Necesitan algo más elaborado y profesional? Sesión de fotos, video, reels o la cobertura de un evento: agenden un día de producción con Creative Whisper y lo coordinamos con ustedes.</p>
+          <form id="formProd" class="cs-form">
+            <label>Fecha<input type="date" id="prodFecha" required></label>
+            <label>Horario<select id="prodFranja"><option>mañana</option><option>tarde</option><option>todo el día</option></select></label>
+            <label class="ancho">¿Qué necesitan?<textarea id="prodIdea" rows="3" maxlength="600" placeholder="Ej.: fotos de la decoración navideña y un reel del encendido del árbol"></textarea></label>
+            <label class="ancho">Contacto<input id="prodContacto" maxlength="120" placeholder="Nombre y celular de quien coordina"></label>
+            <button class="btn btn-lima ancho" type="submit">🎬 Agendar día de producción</button>
+          </form>
+          <div id="prodLista"></div>
+        </div>
+      </div>
+      <div id="genCW" class="oculto" style="margin-top:22px">
+        <div class="gen-cab">
+          <div style="position:relative;z-index:1;min-width:0">
+            <h2>Generador en vivo (Creative Whisper)</h2>
+            <p>Herramienta interna: escribe piezas nuevas con el periodo y los filtros de arriba, los eventos vigentes y las fechas que vienen.</p>
+            <div class="seg" id="enfoques"><button data-e="auto" class="on">Automático</button><button data-e="preguntas">Lo que preguntan</button><button data-e="quejas">Prevenir quejas</button><button data-e="eventos">Eventos y fechas</button><button data-e="tiendas">Tiendas</button><button data-e="servicios">Servicios</button></div>
+            <div class="gen-pedido"><input id="pedido" maxlength="300" placeholder="Indicación opcional: «para Black Friday», «solo historias», «tono más juvenil»…"></div>
+          </div>
+          <div class="der"><button class="btn btn-lima" id="btnGenerarIA">✨ Escribir piezas</button><div class="base" id="genBase"></div></div>
+        </div>
+        <div class="cont-lado">
+          <div><div class="lectura oculto" id="lectura"></div><div class="piezas" id="piezas"><div class="caja vacio" style="grid-column:1/-1">Las piezas aparecen una por una mientras se escriben.</div></div></div>
+          <div class="lado"><div class="caja"><h2><span class="ic">🗂️</span>Generado antes</h2><div class="historial" id="historial"><div class="vacio">—</div></div></div></div>
         </div>
       </div>
     </section>
@@ -489,6 +678,10 @@ button{cursor:pointer;background:none;border:0;padding:0}
   </main>
 </div>
 
+<button class="guia-btn" id="guiaBtn"><img id="guiaCara" alt=""><span>¿Le ayudo con el panel?</span></button>
+<div class="guia oculto" id="guia"><div class="guia-cab"><img id="guiaCara2" alt=""><div><b>Bosco</b><small>Su guía del panel</small></div><button id="guiaX" aria-label="Cerrar">✕</button></div>
+  <div class="guia-msgs" id="guiaMsgs"></div><div class="guia-sug" id="guiaSug"></div>
+  <form class="guia-in" id="guiaForm"><input id="guiaTxt" placeholder="Pregúntele a Bosco…" autocomplete="off" maxlength="600"><button aria-label="Enviar">➤</button></form></div>
 <div class="velo" id="velo"><aside class="lateral" id="lateral" aria-label="Detalle del caso"></aside></div>
 <div id="toasts"></div>
 <div id="tip"></div>
@@ -633,7 +826,7 @@ function aplicarMarca(cu) {
     if (m.logo_mascara) { root.setProperty("--logo", `url("${m.logo_mascara}")`); $(id).style.aspectRatio = m.logo_ratio || 3.4; $(id).classList.add("lista"); }
     else { $(id).classList.add("sin"); $(id).textContent = cu?.nombre || ""; }
   }
-  if (m.asistente_foto) { $("#boscoFoto").src = m.asistente_foto; $("#mCara").src = m.asistente_foto; }
+  if (m.asistente_foto) for (const id of ["#boscoFoto", "#mCara", "#guiaCara", "#guiaCara2", "#csBosco"]) $(id).src = m.asistente_foto;
 }
 
 let pidiendoCompleto = false;
@@ -1075,7 +1268,7 @@ document.addEventListener("click", (e) => {
   const caso = t.closest("[data-caso]");
   if (caso) { abrirCaso(caso.dataset.caso); return; }
 });
-document.addEventListener("keydown", (e) => { if (e.key === "Escape") { cerrarLateral(); cerrarPop(); $("#modal").classList.add("oculto"); } });
+document.addEventListener("keydown", (e) => { if (e.key === "Escape") { cerrarLateral(); cerrarPop(); $("#modal").classList.add("oculto"); if (typeof cerrarGuia === "function" && !$("#guia").classList.contains("oculto")) cerrarGuia(); } });
 
 // Menú de cada filtro, con cuántos mensajes o casos hay en cada opción.
 function opcionesDe(dim) {
@@ -1179,18 +1372,12 @@ function senales() {
 }
 async function abrirContenido() {
   $("#genBase").textContent = baseTxt();
-  if (contenidoListo) return;
+  if (contenidoListo) { pintarCS(); return; }
   contenidoListo = true;
-  cargarHistorial();
-  try {
-    const d = await llamar({ accion: "medios", logos: true });
-    const fotos = (d.fotos || []).filter((f) => f.url);
-    $("#bancoN").textContent = `${fotos.length} fotos`;
-    $("#banco").innerHTML = fotos.map((f) => `<a href="${esc(f.url)}" target="_blank" rel="noopener" data-tip="${esc(f.descripcion || "")}"><img loading="lazy" src="${esc(f.url)}" alt="${esc(f.titulo || "")}"><span>${esc(f.codigo)} · ${esc(f.titulo || "")}</span></a>`).join("") || `<div class="vacio">Sin fotos todavía</div>`;
-    const logos = (d.logos || []).filter((l) => l.url).sort((a, b) => String(a.titulo).localeCompare(String(b.titulo)));
-    $("#logosN").textContent = `(${logos.length})`;
-    $("#logos").innerHTML = logos.map((l) => `<img loading="lazy" src="${esc(l.url)}" alt="${esc(l.titulo || "")}" data-tip="${esc(l.titulo || "")}">`).join("");
-  } catch (e) { $("#banco").innerHTML = `<div class="vacio">No se pudo cargar el banco de fotos.</div>`; }
+  CS.visible = csGenerado;
+  $("#genCW").classList.toggle("oculto", !CW_MODO);
+  if (CW_MODO) cargarHistorial();
+  pintarCS(); cargarPosts(); pintarRepo();
 }
 async function cargarHistorial(marcar) {
   try {
@@ -1245,7 +1432,7 @@ async function generar() {
   if (generando || !S.cargado) return;
   if (tab !== "contenido") irA("contenido");
   generando = true;
-  const botones = [$("#btnGenerar"), $("#btnGenerar2")];
+  const botones = [$("#btnGenerarIA")];
   botones.forEach((b) => { b.disabled = true; b.textContent = "✨ Escribiendo…"; });
   $$("#historial button").forEach((b) => b.classList.remove("on"));
   $("#lectura").classList.remove("oculto");
@@ -1285,8 +1472,7 @@ async function generar() {
   generando = false;
   botones.forEach((b) => { b.disabled = false; b.textContent = "✨ Generar contenido"; });
 }
-$("#btnGenerar").addEventListener("click", generar);
-$("#btnGenerar2").addEventListener("click", generar);
+$("#btnGenerarIA").addEventListener("click", generar);
 $("#enfoques").addEventListener("click", (e) => { const b = e.target.closest("button[data-e]"); if (!b) return; enfoque = b.dataset.e; $$("#enfoques button").forEach((x) => x.classList.toggle("on", x === b)); });
 $("#pedido").addEventListener("keydown", (e) => { if (e.key === "Enter") generar(); });
 $("#tContenido").addEventListener("click", (e) => {
@@ -1294,6 +1480,292 @@ $("#tContenido").addEventListener("click", (e) => {
   const c = e.target.closest("[data-copiar]"); if (c) { copiar(textoPieza(piezasVista[Number(c.dataset.copiar)], false), c); return; }
   const t = e.target.closest("[data-copiar-todo]"); if (t) { copiar(textoPieza(piezasVista[Number(t.dataset.copiarTodo)], true), t); return; }
 });
+
+// ---------- Contenido de la semana: revisión, Instagram de vista previa, repositorio y producción ----------
+const CW_MODO = /[#&]cw=1\b/.test(location.hash);
+const DIAS_L = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+const ESTADO_P = { por_revisar: ["Por revisar", "pend"], aprobado: ["Aprobado", "ok"], ajuste: ["En ajuste", "aj"], programado: ["Programado", "ok"], publicado: ["Publicado", "ok"] };
+const CS = { posts: [], cargado: false, visible: false, sel: new Set(), redes: false, producciones: [], abierto: null, slide: 0, vista: "perfil", historia: null };
+let csGenerado = false;
+try { csGenerado = sessionStorage.getItem("cw-cs-gen") === "1"; } catch (e) {}
+const fechaPost = (ts) => { const d = new Date(Date.parse(ts) - Q); return `${DIAS_L[d.getUTCDay()]} ${d.getUTCDate()} ${["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"][d.getUTCMonth()]} · ${String(d.getUTCHours()).padStart(2, "0")}:${String(d.getUTCMinutes()).padStart(2, "0")}`; };
+const esHist = (p) => p.formato === "Historia";
+function senalTxt(s) {
+  if (!s || !S.cargado) return "";
+  const r = rangos(), ms = [...S.msgs.values()].filter((m) => m._ts >= r.a && m._ts < r.b);
+  const per = S.dias === 1 ? "hoy" : `últimos ${S.dias} días`, partes = [];
+  if (s.preguntas?.length) {
+    const c = {}; for (const m of ms) if (m.q && s.preguntas.includes(m.q)) c[m.q] = (c[m.q] || 0) + 1;
+    const tot = Object.values(c).reduce((a, b) => a + b, 0), top = Object.entries(c).sort((a, b) => b[1] - a[1])[0];
+    if (tot) partes.push(`${tot} pregunta${tot === 1 ? "" : "s"} como «${top[0]}»`);
+  }
+  if (s.tema) {
+    const t = ms.filter((m) => m.m === s.tema), q = t.filter((m) => m.k === "queja").length;
+    if (t.length) partes.push(`${t.length} mensajes sobre ${s.tema}${s.quejas && q ? ` (${q} quejas)` : ""}`);
+  }
+  if (s.felicitaciones) { const re = new RegExp(s.felicitaciones, "i"), n = ms.filter((m) => m.k === "felicitacion" && re.test(m.x || "")).length; if (n) partes.push(`${n} felicitaciones`); }
+  if (s.evento) partes.push(s.evento);
+  return partes.length ? `📊 Basado en ${partes.join(" · ")} (${per}).` : "";
+}
+async function cargarPosts(silencio) {
+  try {
+    const d = await llamar({ accion: "posts" });
+    CS.posts = d.posts || []; CS.redes = !!d.redes_conectadas; CS.producciones = d.producciones || []; CS.cargado = true;
+    for (const id of [...CS.sel]) { const p = CS.posts.find((x) => x.id === id); if (!p || !["por_revisar", "ajuste"].includes(p.estado)) CS.sel.delete(id); }
+    pintarCS(); pintarProd();
+  } catch (e) { if (!silencio) $("#csLista").innerHTML = `<div class="caja vacio">No se pudo cargar el contenido: ${esc(e.message)}</div>`; }
+}
+function metaCS() {
+  const lote = CS.posts[0]?.lote;
+  if (!lote) return "";
+  const a = new Date(lote + "T12:00:00Z"), b = new Date(a.getTime() + 6 * 864e5), hoy = new Date(Date.now() - Q);
+  const sab = new Date(hoy); sab.setUTCDate(hoy.getUTCDate() + ((6 - hoy.getUTCDay() + 7) % 7 || 7));
+  return `🗓️ Semana del ${a.getUTCDate()} al ${b.getUTCDate()} de ${b.toLocaleDateString("es-EC", { month: "long", timeZone: "UTC" })} · ${CS.posts.filter((p) => !esHist(p)).length} posts y ${CS.posts.filter(esHist).length} historias · próxima tanda: sábado ${sab.getUTCDate()}`;
+}
+function pintarCS() {
+  const vis = CS.visible && CS.posts.length;
+  $("#csMeta").textContent = vis ? metaCS() : "La tanda de esta semana todavía no se ha generado.";
+  const pend = CS.posts.filter((p) => ["por_revisar", "ajuste"].includes(p.estado));
+  const n = (e) => CS.posts.filter((p) => p.estado === e).length;
+  $("#csBarra").classList.toggle("oculto", !vis);
+  $("#csCuenta").textContent = vis ? `${n("por_revisar")} por revisar · ${n("aprobado") + n("programado")} aprobados · ${n("ajuste")} en ajuste` : "";
+  $("#chkTodos").checked = pend.length > 0 && pend.every((p) => CS.sel.has(p.id));
+  $("#chkTodos").disabled = !pend.length;
+  $("#btnAprobar").disabled = !CS.sel.size;
+  $("#btnAprobar").textContent = CS.sel.size ? `Aprobar seleccionados (${CS.sel.size})` : "Aprobar seleccionados";
+  if (!vis) {
+    $("#csLista").innerHTML = `<div class="cs-vacio"><div class="cara" style="background-image:url('${esc($("#boscoFoto").src || "")}')"></div><b>Aún no hay contenido de esta semana</b><span>Toque «Generar contenido»: leemos el reporte de sentimiento y armamos los posts.</span><button class="btn btn-lima" data-cs="generar">✨ Generar contenido</button></div>`;
+  } else if (!$("#csLista").dataset.animando) {
+    // No borrar un ajuste que se está escribiendo.
+    const escribiendo = $$(".cs-form-aj:not(.oculto) textarea").some((t) => t.value.trim() || t === document.activeElement);
+    if (!escribiendo) $("#csLista").innerHTML = CS.posts.map(filaPost).join("");
+  }
+  pintarTel();
+}
+function filaPost(p) {
+  const [et, cl] = ESTADO_P[p.estado] || [p.estado, ""], puede = ["por_revisar", "ajuste"].includes(p.estado), sel = CS.sel.has(p.id);
+  const sen = senalTxt(p.senal);
+  const prog = p.estado === "aprobado" ? `<div class="cs-prog">📅 Se publica solo el <b>${esc(fechaPost(p.programar_en))}</b> en ${esc(p.red)}. ${CS.redes ? "" : "<span>La programación automática se activa cuando nos den acceso a sus cuentas en la implementación.</span>"} <button class="lnk" data-cs="reabrir" data-id="${p.id}">Deshacer</button></div>` : "";
+  const aj = p.estado === "ajuste" ? `<div class="cs-aj">✏️ Pidieron: «${esc(p.comentario || "")}»<span>Enviado a la oficina de Creative Whisper · en corrección${p.slides.length > 1 ? ` (lámina ${(p.ajuste_slide ?? 0) + 1})` : ""}.</span></div>` : "";
+  const v2 = p.version > 1 && p.estado === "por_revisar" ? `<div class="cs-v2">🔁 Versión ${p.version}: ${esc(p.respuesta_cw || "ajustado según su comentario")}${p.comentario ? ` <span>Pidieron: «${esc(p.comentario)}»</span>` : ""}</div>` : "";
+  return `<div class="cs-fila ${cl}${CS.abierto === p.id ? " ver" : ""}" data-post="${p.id}">
+    ${puede ? `<label class="cs-chk"><input type="checkbox" data-sel="${p.id}" ${sel ? "checked" : ""}></label>` : `<span class="cs-chk ok">✓</span>`}
+    <img class="cs-min ${esHist(p) ? "h" : ""}" src="${esc(p.slides[0] || "")}" alt="" loading="lazy" data-cs="ver" data-id="${p.id}">
+    <div class="cs-info">
+      <div class="cs-t"><b>${esc(p.titulo)}</b><span class="tag ${cl}">${et}</span></div>
+      <div class="cs-m">${esc(p.formato)}${p.slides.length > 1 ? ` · ${p.slides.length} láminas` : ""} · ${esc(fechaPost(p.programar_en))}</div>
+      ${sen ? `<div class="cs-sen">${esc(sen)}</div>` : ""}<div class="cs-pq">${esc(p.por_que || "")}</div>
+      ${p.nota_cw && p.estado !== "aprobado" ? `<div class="cs-nota">💡 Antes de publicar: ${esc(p.nota_cw)}</div>` : ""}
+      ${v2}${aj}${prog}
+      <div class="cs-acc"><button class="btn btn-claro" data-cs="ver" data-id="${p.id}">👁 Ver</button>
+        ${puede && !sel ? `<button class="btn btn-claro" data-cs="ajustar" data-id="${p.id}">✏️ Ajustar</button>` : ""}
+        ${puede && sel ? `<span class="cs-hint">Se aprobará con «Aprobar seleccionados»</span>` : ""}
+        <button class="btn btn-claro" data-cs="copiar" data-id="${p.id}">Copiar texto</button></div>
+      <div class="cs-form-aj oculto" id="aj${p.id}"><textarea rows="3" maxlength="800" placeholder="¿Qué le cambiamos? Ej.: usar otra foto, cambiar el título, quitar el precio…"></textarea>
+        <div>${p.slides.length > 1 ? `<select>${p.slides.map((_, i) => `<option value="${i}">Lámina ${i + 1}</option>`).join("")}</select>` : ""}<button class="btn btn-verde" data-cs="enviar-aj" data-id="${p.id}">Enviar a Creative Whisper</button><button class="lnk" data-cs="cancelar-aj" data-id="${p.id}">Cancelar</button></div></div>
+    </div></div>`;
+}
+// ----- Teléfono con el Instagram de vista previa -----
+function pintarTel() {
+  const t = $("#tel"), cara = $("#boscoFoto").src || "";
+  const av = `<div class="ig-av"><div class="logo-mini"></div></div>`;
+  const vis = CS.visible ? CS.posts : [];
+  const feed = vis.filter((p) => !esHist(p)).sort((a, b) => Date.parse(b.programar_en) - Date.parse(a.programar_en));
+  const hist = vis.filter(esHist);
+  if (CS.vista === "post" && CS.abierto) {
+    const p = CS.posts.find((x) => x.id === CS.abierto); if (!p) { CS.vista = "perfil"; return pintarTel(); }
+    if (esHist(p)) { CS.historia = p.id; CS.vista = "historia"; return pintarTel(); }
+    const k = Math.min(CS.slide, p.slides.length - 1);
+    const cap = esc(p.texto || "").replace(/(#[\wáéíóúñÁÉÍÓÚÑ]+)/g, '<span class="ig-h">$1</span>').replace(/\n/g, "<br>");
+    t.innerHTML = `<div class="ig-bar"><button data-tel="perfil">‹</button><b>Publicaciones</b><span></span></div>
+      <div class="ig-ph">${av}<div><b>ccelbosqueoficial</b><small>${p.estado === "aprobado" ? "Programado" : "Propuesta"} · ${esc(fechaPost(p.programar_en))}</small></div></div>
+      <div class="ig-img"><img src="${esc(p.slides[k] || "")}" alt="">${p.slides.length > 1 ? `<span class="ig-n">${k + 1}/${p.slides.length}</span>${k > 0 ? `<button class="ig-f iz" data-tel="ant">‹</button>` : ""}${k < p.slides.length - 1 ? `<button class="ig-f de" data-tel="sig">›</button>` : ""}` : ""}</div>
+      <div class="ig-ac"><span>♡</span><span>💬</span><span>➤</span>${p.slides.length > 1 ? `<span class="ig-pts">${p.slides.map((_, i) => `<i class="${i === k ? "on" : ""}"></i>`).join("")}</span>` : "<span class='ig-pts'></span>"}<span>🔖</span></div>
+      <div class="ig-cap"><b>ccelbosqueoficial</b> ${cap}</div>
+      <div class="ig-est">${(ESTADO_P[p.estado] || [p.estado])[0]}${p.estado === "aprobado" && !CS.redes ? " · se programa al conectar sus cuentas" : ""}</div>`;
+    return;
+  }
+  if (CS.vista === "historia" && CS.historia) {
+    const p = CS.posts.find((x) => x.id === CS.historia);
+    t.innerHTML = `<div class="ig-hist"><img src="${esc(p?.slides[0] || "")}" alt=""><div class="ig-hbar"><i></i></div><div class="ig-hcab">${av}<b>ccelbosqueoficial</b><small>${esc(fechaPost(p?.programar_en))}</small><button data-tel="perfil">✕</button></div></div>`;
+    return;
+  }
+  t.innerHTML = `<div class="ig-bar"><span></span><b>ccelbosqueoficial ⌄</b><span>☰</span></div>
+    <div class="ig-perfil">${av}<div><b>C.C. El Bosque</b><small>Centro comercial · Quito 💚<br>El centro comercial que resuelve tu día<br><span class="ig-h">elbosque.com.ec</span></small></div></div>
+    <div class="ig-pill">Vista previa · ${vis.length ? "tanda de esta semana" : "sin posts nuevos"}</div>
+    <div class="ig-dest">${hist.map((p) => `<button data-tel="hist" data-id="${p.id}"><span style="background-image:url('${esc(p.slides[0] || "")}')"></span>${esc(((t) => (t.length > 12 ? t.split(" ")[0] : t))(p.titulo.split(":")[0]))}</button>`).join("") || `<button disabled><span class="vac"></span>Historias</button>`}</div>
+    <div class="ig-tabs"><span class="on">▦</span><span>▶</span><span>👤</span></div>
+    <div class="ig-grid" id="igGrid">${feed.map((p, i) => `<button class="ig-cel ${p.estado}" data-tel="post" data-id="${p.id}" style="--d:${i * 0.06}s"><img src="${esc(p.slides[0] || "")}" alt="" loading="lazy">${p.slides.length > 1 ? `<i class="ig-car">❐</i>` : ""}${p.estado === "aprobado" ? `<i class="ig-ok">✓</i>` : p.estado === "ajuste" ? `<i class="ig-aj">✎</i>` : ""}</button>`).join("") || `<div class="ig-vacio"><div class="cara" style="background-image:url('${esc(cara)}')"></div>Aún no hay posts de esta semana</div>`}</div>`;
+}
+function verPost(id) { CS.abierto = Number(id); CS.slide = 0; CS.vista = "post"; pintarTel(); $$(".cs-fila").forEach((f) => f.classList.toggle("ver", Number(f.dataset.post) === CS.abierto)); if (window.innerWidth < 980) $(".tel-col").scrollIntoView({ behavior: "smooth", block: "start" }); }
+// ----- «Generar contenido»: la tanda aparece post por post -----
+let generandoCS = false;
+async function generarDemo() {
+  if (generandoCS) return;
+  irA("contenido");
+  generandoCS = true;
+  if (!CS.cargado) await cargarPosts();
+  const r = rangos(), ms = [...S.msgs.values()].filter((m) => m._ts >= r.a && m._ts < r.b);
+  const preg = ms.filter((m) => m.k === "consulta" || m.q).length, quejas = ms.filter((m) => m.k === "queja").length, fel = ms.filter((m) => m.k === "felicitacion").length;
+  const topTema = Object.entries(ms.filter((m) => m.k === "queja").reduce((o, m) => ((o[m.m] = (o[m.m] || 0) + 1), o), {})).sort((a, b) => b[1] - a[1])[0];
+  const pasos = [`Leyendo ${fmt(ms.length)} mensajes de ${S.dias === 1 ? "hoy" : `los últimos ${S.dias} días`}`,
+    `Agrupando ${fmt(preg)} preguntas, ${fmt(quejas)} quejas${topTema ? ` (sobre todo de ${topTema[0]})` : ""} y ${fmt(fel)} felicitaciones`,
+    "Cruzando con eventos y fechas: sorteo KIA EV2, pet friendly, Black Friday (27 nov)",
+    "Eligiendo fotos del repositorio y diseñando con Bosco"];
+  CS.visible = false; CS.vista = "perfil"; CS.abierto = null; pintarCS();
+  const L = $("#csLista"); L.dataset.animando = "1";
+  L.innerHTML = `<div class="cs-gen"><div class="cara" style="background-image:url('${esc($("#boscoFoto").src || "")}')"></div><b>Armando la tanda de esta semana…</b><ol>${pasos.map((p, i) => `<li id="paso${i}">${esc(p)}</li>`).join("")}</ol></div>`;
+  ["#btnGenerar", "#btnGenerarDemo"].forEach((s) => { const b = $(s); if (b) { b.disabled = true; b.textContent = "✨ Generando…"; } });
+  const espera = (ms) => new Promise((ok) => setTimeout(ok, ms));
+  for (let i = 0; i < pasos.length; i++) { $("#paso" + i)?.classList.add("act"); await espera(1100); $("#paso" + i)?.classList.replace("act", "ok"); }
+  CS.visible = true; delete L.dataset.animando; L.innerHTML = "";
+  pintarCS(); L.innerHTML = "";
+  const orden = [...CS.posts];
+  for (const p of orden) { L.insertAdjacentHTML("beforeend", filaPost(p)); L.lastElementChild.classList.add("entra"); await espera(260); }
+  csGenerado = true; try { sessionStorage.setItem("cw-cs-gen", "1"); } catch (e) {}
+  ["#btnGenerar", "#btnGenerarDemo"].forEach((s) => { const b = $(s); if (b) { b.disabled = false; b.textContent = "✨ Generar contenido"; } });
+  generandoCS = false;
+  toastTxt(`✨ ${CS.posts.filter((p) => !esHist(p)).length} posts y ${CS.posts.filter(esHist).length} historias listos para revisar`);
+}
+function toastTxt(t) { const d = document.createElement("div"); d.className = "toast ok"; d.innerHTML = `<b>${esc(t)}</b>`; $("#toasts").appendChild(d); setTimeout(() => d.remove(), 5000); }
+async function revisar(cuerpo, ok) {
+  try { await llamar({ accion: "revisar_posts", ...cuerpo }); if (ok) toastTxt(ok); await cargarPosts(); }
+  catch (e) { toastTxt("No se pudo guardar: " + e.message); }
+}
+// ----- Repositorio de fotos -----
+async function pintarRepo() {
+  try {
+    const d = await llamar({ accion: "medios", logos: true });
+    const fotos = (d.fotos || []).filter((f) => f.url).sort((a, b) => (b.etiquetas || []).includes("subida por el cliente") - (a.etiquetas || []).includes("subida por el cliente") || Number(b.codigo.slice(1)) - Number(a.codigo.slice(1)));
+    $("#bancoN").textContent = `${fotos.length} fotos`;
+    $("#banco").innerHTML = fotos.map((f) => { const sub = (f.etiquetas || []).includes("subida por el cliente"); return `<a href="${esc(f.url)}" target="_blank" rel="noopener" data-tip="${esc(f.descripcion || f.titulo || "")}" class="${sub ? "sub" : ""}"><img loading="lazy" src="${esc(f.url)}" alt="${esc(f.titulo || "")}"><span>${sub ? "📤 Subida por El Bosque" : `${esc(f.codigo)} · ${esc(f.titulo || "")}`}</span></a>`; }).join("") || `<div class="vacio">Sin fotos todavía</div>`;
+    const logos = (d.logos || []).filter((l) => l.url).sort((a, b) => String(a.titulo).localeCompare(String(b.titulo)));
+    $("#logosN").textContent = `(${logos.length})`;
+    $("#logos").innerHTML = logos.map((l) => `<img loading="lazy" src="${esc(l.url)}" alt="${esc(l.titulo || "")}" data-tip="${esc(l.titulo || "")}">`).join("");
+  } catch (e) { $("#banco").innerHTML = `<div class="vacio">No se pudo cargar el repositorio.</div>`; }
+}
+function reducir(file) {
+  return new Promise((ok, mal) => {
+    const img = new Image(), url = URL.createObjectURL(file);
+    img.onload = () => { const k = Math.min(1, 2048 / Math.max(img.width, img.height)), c = document.createElement("canvas"); c.width = Math.round(img.width * k); c.height = Math.round(img.height * k);
+      c.getContext("2d").drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(url); ok(c.toDataURL("image/jpeg", 0.86)); };
+    img.onerror = () => { URL.revokeObjectURL(url); mal(new Error("no es una imagen")); };
+    img.src = url;
+  });
+}
+async function subirFotos(files) {
+  const lista = [...files].slice(0, 20); let ok = 0;
+  for (let i = 0; i < lista.length; i++) {
+    $("#subeEstado").textContent = `Subiendo ${i + 1} de ${lista.length}…`;
+    try { const datos = await reducir(lista[i]); await llamar({ accion: "subir_medio", datos, nombre: lista[i].name.replace(/\.[^.]+$/, ""), titulo: lista[i].name.replace(/\.[^.]+$/, "") }); ok++; }
+    catch (e) { toastTxt(`${lista[i].name}: ${e.message}`); }
+  }
+  $("#subeEstado").textContent = ok ? `✅ ${ok} foto${ok === 1 ? "" : "s"} en el repositorio` : "";
+  if (ok) pintarRepo();
+}
+// ----- Día de producción -----
+function pintarProd() {
+  const m = new Date(Date.now() - Q + 864e5).toISOString().slice(0, 10);
+  $("#prodFecha").min = m;
+  const prods = CS.producciones.filter((x) => x.estado !== "cancelada");
+  $("#prodLista").innerHTML = prods.length ? `<div class="cs-prods"><b>Solicitudes enviadas</b>${prods.map((x) => `<div>🎬 ${esc(new Date(x.fecha + "T12:00:00Z").toLocaleDateString("es-EC", { weekday: "long", day: "numeric", month: "long", timeZone: "UTC" }))} · ${esc(x.franja || "")}<span>${x.estado === "solicitada" ? "Por confirmar con Creative Whisper" : esc(x.estado)}</span></div>`).join("")}</div>` : "";
+}
+$("#formProd").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const b = e.target.querySelector("button[type=submit]"); b.disabled = true;
+  try {
+    await llamar({ accion: "agendar_produccion", fecha: $("#prodFecha").value, franja: $("#prodFranja").value, idea: $("#prodIdea").value, contacto: $("#prodContacto").value });
+    toastTxt("🎬 Listo: Creative Whisper recibió su pedido y les confirma la fecha"); e.target.reset(); await cargarPosts(true);
+  } catch (x) { toastTxt("No se pudo enviar: " + x.message); }
+  b.disabled = false;
+});
+$("#btnSubir").addEventListener("click", () => $("#archivoFotos").click());
+$("#archivoFotos").addEventListener("change", (e) => { if (e.target.files?.length) subirFotos(e.target.files); e.target.value = ""; });
+$("#btnGenerar").addEventListener("click", generarDemo);
+$("#btnGenerarDemo").addEventListener("click", generarDemo);
+$("#chkTodos").addEventListener("change", (e) => { const pend = CS.posts.filter((p) => ["por_revisar", "ajuste"].includes(p.estado)); CS.sel = new Set(e.target.checked ? pend.map((p) => p.id) : []); pintarCS(); });
+$("#btnAprobar").addEventListener("click", () => { const ids = [...CS.sel]; CS.sel.clear(); revisar({ aprobar: ids }, `✅ ${ids.length} aprobado${ids.length === 1 ? "" : "s"}: se programan en sus fechas`); });
+$("#tContenido").addEventListener("change", (e) => { const c = e.target.closest("[data-sel]"); if (!c) return; const id = Number(c.dataset.sel); c.checked ? CS.sel.add(id) : CS.sel.delete(id); pintarCS(); });
+$("#tContenido").addEventListener("click", (e) => {
+  const tl = e.target.closest("[data-tel]");
+  if (tl) { const a = tl.dataset.tel;
+    if (a === "perfil") { CS.vista = "perfil"; CS.abierto = null; CS.historia = null; $$(".cs-fila").forEach((f) => f.classList.remove("ver")); }
+    else if (a === "post") { verPost(tl.dataset.id); return; }
+    else if (a === "hist") { CS.historia = Number(tl.dataset.id); CS.vista = "historia"; }
+    else if (a === "sig") CS.slide++; else if (a === "ant") CS.slide = Math.max(0, CS.slide - 1);
+    pintarTel(); return; }
+  const b = e.target.closest("[data-cs]"); if (!b) return;
+  const a = b.dataset.cs, id = Number(b.dataset.id), p = CS.posts.find((x) => x.id === id);
+  if (a === "generar") generarDemo();
+  if (a === "ver") verPost(id);
+  if (a === "reabrir") revisar({ reabrir: id });
+  if (a === "copiar" && p) copiar(`${p.texto || ""}${p.hashtags?.length ? "\n\n" + p.hashtags.join(" ") : ""}`, b);
+  if (a === "ajustar") { $("#aj" + id).classList.remove("oculto"); const s = $("#aj" + id + " select"); if (s && CS.abierto === id) s.value = String(CS.slide); $("#aj" + id + " textarea").focus(); }
+  if (a === "cancelar-aj") $("#aj" + id).classList.add("oculto");
+  if (a === "enviar-aj") { const f = $("#aj" + id), com = f.querySelector("textarea").value.trim(); if (!com) { f.querySelector("textarea").focus(); return; }
+    b.disabled = true; revisar({ ajustar: { id, comentario: com, slide: Number(f.querySelector("select")?.value ?? 0) } }, "✏️ Enviado a Creative Whisper: lo corregimos y vuelve aquí para su revisión"); }
+});
+setInterval(() => { if (tab === "contenido" && CS.visible && !generandoCS && !document.hidden) cargarPosts(true); }, 20000);
+
+// ---------- Bosco, guía del panel ----------
+const GUIA = { hist: [], ocupado: false };
+const SUG = ["¿Cómo leo el índice de sentimiento?", "¿Qué debo atender hoy?", "¿Cómo apruebo el contenido?", "¿Qué hago cuando llega una queja?"];
+function contextoGuia() {
+  const r = rangos(), m = msgsF(null, r), mp = msgsF(null, r, true), cs = casosF(null, r).filter((c) => c.estado !== "resuelto");
+  const cuenta = (a, f) => Object.entries(a.reduce((o, x) => { const k = f(x); if (k) o[k] = (o[k] || 0) + 1; return o; }, {})).sort((x, y) => y[1] - x[1]);
+  const n = (e) => CS.posts.filter((p) => p.estado === e).length;
+  return { pestaña: tab, periodo: S.dias === 1 ? "hoy" : `últimos ${S.dias} días`, filtros: typeof filtrosTxt === "function" ? filtrosTxt() : [], historico_de_ejemplo: !!(S.demo && S.cuenta?.modo_demo),
+    indice_sentimiento: indiceDe(m), indice_periodo_anterior: indiceDe(mp), mensajes: m.length, conversaciones: new Set(m.map((x) => x.z)).size, quejas: m.filter((x) => x.k === "queja").length,
+    casos_abiertos: cs.length, casos_abiertos_alta: cs.filter((c) => c.prioridad === "alta").length, casos_abiertos_por_area: Object.fromEntries(cuenta(cs, (c) => c.area)),
+    lugares_con_mas_quejas: cuenta(cs, (c) => c.zona).slice(0, 4), lo_que_mas_preguntan: cuenta(m, (x) => x.q).slice(0, 5), temas_con_mas_negativos: cuenta(m.filter((x) => x.s === "negativo"), (x) => x.m).slice(0, 4),
+    contenido: CS.cargado ? { mostrado: CS.visible, por_revisar: n("por_revisar"), aprobados: n("aprobado"), en_ajuste: n("ajuste"), redes_conectadas: CS.redes } : "sin abrir" };
+}
+function burbuja(rol, texto) {
+  const d = document.createElement("div"); d.className = "g-b " + (rol === "user" ? "yo" : "bo");
+  if (rol === "user") d.textContent = texto;
+  else {
+    const btns = []; const limpio = texto.replace(/\[\[([a-z]+):([^|\]]+)\|([^\]]+)\]\]/g, (_, t, v, l) => { btns.push([t, v, l]); return ""; }).trim();
+    d.innerHTML = esc(limpio).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/\n/g, "<br>") + (btns.length ? `<div class="g-acc">${btns.map(([t, v, l]) => `<button data-g="${esc(t)}" data-v="${esc(v)}">${esc(l)}</button>`).join("")}</div>` : "");
+  }
+  $("#guiaMsgs").appendChild(d); $("#guiaMsgs").scrollTop = 1e6;
+}
+function abrirGuia() {
+  $("#guia").classList.remove("oculto"); $("#guiaBtn").classList.add("oculto");
+  if (!$("#guiaMsgs").children.length) {
+    burbuja("assistant", `¡Hola! Soy ${S.cuenta?.asistente || "Bosco"} 🐻 Además de atender a los visitantes, les acompaño aquí: les explico cómo funciona el panel y qué conviene atender. ¿Por dónde empezamos?`);
+    $("#guiaSug").innerHTML = SUG.map((s) => `<button>${esc(s)}</button>`).join("");
+  }
+  setTimeout(() => $("#guiaTxt").focus(), 50);
+}
+async function preguntarGuia(txt) {
+  txt = txt.trim(); if (!txt || GUIA.ocupado) return;
+  GUIA.ocupado = true; $("#guiaSug").innerHTML = ""; burbuja("user", txt); GUIA.hist.push({ role: "user", content: txt });
+  const esc2 = document.createElement("div"); esc2.className = "g-b bo esc"; esc2.innerHTML = "<i></i><i></i><i></i>"; $("#guiaMsgs").appendChild(esc2); $("#guiaMsgs").scrollTop = 1e6;
+  try { const r = await llamar({ accion: "guia", historial: GUIA.hist.slice(-12), contexto: contextoGuia() }); esc2.remove(); burbuja("assistant", r.texto || "…"); GUIA.hist.push({ role: "assistant", content: r.texto || "" }); }
+  catch (e) { esc2.remove(); burbuja("assistant", "Uy, no pude responder ahora. ¿Lo intentamos de nuevo?"); GUIA.hist.pop(); }
+  GUIA.ocupado = false;
+}
+function accionGuia(t, v) {
+  if (t === "ir") irA(v);
+  if (t === "filtro") { const [k, val] = v.split("="); const dim = { tipo: "tipo", tema: "tema", estado: "estado", area: "area", canal: "canal", sent: "sent", sentimiento: "sent", prioridad: "prio" }[k];
+    if (dim && F[dim]) { F[dim].add(val.trim()); irA(["estado", "area", "prio"].includes(dim) ? "casos" : "resumen"); } }
+  if (t === "accion") {
+    if (v === "generar") generarDemo();
+    if (v === "aprobar") { irA("contenido"); if (!CS.visible) generarDemo(); else $("#csBarra").scrollIntoView({ behavior: "smooth", block: "center" }); }
+    if (v === "produccion") { irA("contenido"); setTimeout(() => $("#cajaProd").scrollIntoView({ behavior: "smooth", block: "center" }), 100); }
+    if (v === "subir") { irA("contenido"); setTimeout(() => $("#cajaRepo").scrollIntoView({ behavior: "smooth", block: "center" }), 100); }
+    if (v === "reporte") { irA("resumen"); setTimeout(() => $("#btnReporte").click(), 150); }
+    if (v === "hablar") $("#btnHablar").click();
+    if (v === "celular") $("#btnCel").click();
+  }
+  if (window.innerWidth < 760) cerrarGuia();
+}
+function cerrarGuia() { $("#guia").classList.add("oculto"); $("#guiaBtn").classList.remove("oculto"); }
+$("#guiaBtn").addEventListener("click", abrirGuia);
+$("#guiaX").addEventListener("click", cerrarGuia);
+$("#guiaForm").addEventListener("submit", (e) => { e.preventDefault(); const t = $("#guiaTxt").value; $("#guiaTxt").value = ""; preguntarGuia(t); });
+$("#guiaSug").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) preguntarGuia(b.textContent); });
+$("#guiaMsgs").addEventListener("click", (e) => { const b = e.target.closest("[data-g]"); if (b) accionGuia(b.dataset.g, b.dataset.v); });
 $("#mCerrar").addEventListener("click", () => $("#modal").classList.add("oculto"));
 $("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") $("#modal").classList.add("oculto"); });
 
