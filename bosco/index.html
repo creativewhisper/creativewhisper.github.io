@@ -105,7 +105,7 @@ body[data-rol="equipo"] [data-solo="gerencia"],body[data-rol="gerencia"] [data-s
 .mini{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:12px}
 .mini div{background:#fff;border-radius:14px;box-shadow:var(--sombra);padding:10px 12px}
 .mini b{display:block;font-size:19px}
-.mini span{font-size:11.5px;color:var(--suave);font-weight:600}
+.mini span{display:block;font-size:11.5px;line-height:1.3;color:var(--suave);font-weight:600;margin-top:2px}
 .barra-sent{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:6px 0 8px;background:var(--crema)}
 .barra-sent i{display:block}
 .ley{display:flex;gap:14px;font-size:12.5px;color:var(--suave);flex-wrap:wrap}
@@ -466,7 +466,7 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
           <button class="btn btn-l" id="btnActivar">Activar llamadas</button>
           <button class="btn btn-b" id="btnProbar">Probar llamada</button>
         </div>
-        <p class="sub" style="margin:10px 0 6px">Para ver la pantalla de llamada sin esperar una queja:</p>
+        <p class="sub" style="margin:10px 0 6px" id="simTxt">Para ver la pantalla de llamada sin esperar una queja:</p>
         <button class="btn btn-b btn-w" id="btnSimular">Simular una llamada de Bosco aquí</button>
       </div>
       <div class="card" data-solo="gerencia">
@@ -506,7 +506,7 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
   <div class="ll-app" id="llApp">App de Bosco</div>
   <div class="ll-cara"><span class="onda"></span><span class="onda d2"></span><img id="llFoto" src="icono-192.png" alt=""></div>
   <div class="ll-nom" id="llNom">Bosco</div>
-  <div class="ll-est" id="llEst">te está llamando…</div>
+  <div class="ll-est" id="llEst">le está llamando…</div>
   <div class="ll-motivo" id="llMotivo"></div>
   <div class="ll-sub" id="llSub"></div>
   <div class="ll-caso oculto" id="llCaso"></div>
@@ -591,8 +591,15 @@ function hace(iso) {
   const h = Math.round(m / 60); if (h < 24) return `hace ${h} h`;
   return new Date(iso).toLocaleDateString("es-EC", { day: "numeric", month: "short" });
 }
-const hora = (iso) => new Date(iso).toLocaleTimeString("es-EC", { hour: "2-digit", minute: "2-digit" });
+const hora = (iso) => new Date(iso).toLocaleTimeString("es-EC", { hour: "numeric", minute: "2-digit" });
 const asis = () => S.cuenta?.asistente || "Bosco";
+// Decimales con coma, como en el panel y la cotización («1,5 h», «4,1 ★»); «1.200» (miles) no se toca.
+const dec = (s) => String(s ?? "").replace(/(\d)\.(\d)(?!\d)/g, "$1,$2");
+// Que «24 h» o «15 min» no se partan en dos líneas.
+const nb = (html) => String(html).replace(/(\d) (h|min|%|días)(?![\wáéíóú])/g, "$1&nbsp;$2");
+const plural = (n, uno, varios) => `${n} ${n === 1 ? uno : varios}`;
+// Nombre del canal en una frase: «Llegó por WhatsApp», «Llegó por la web».
+const CANAL_N = { whatsapp: "WhatsApp", web: "la web", voz: "voz", instagram: "Instagram", facebook: "Facebook", tiktok: "TikTok", encuesta: "la encuesta" };
 
 // ---------- Marca ----------
 function aplicarMarca() {
@@ -754,9 +761,9 @@ function pintarBadges() {
 // ---------- Hoy ----------
 function delta(a, b, inv = false, dias = S.dias) {
   if (a == null || b == null) return "";
-  const d = Math.round((a - b) * 10) / 10; if (!d) return `<div class="d igual">= que ${dias === 1 ? "ayer" : "la semana anterior"}</div>`;
+  const d = Math.round((a - b) * 10) / 10; if (!d) return `<div class="d igual">igual que ${dias === 1 ? "ayer" : "la semana anterior"}</div>`;
   const bueno = inv ? d < 0 : d > 0;
-  return `<div class="d ${bueno ? "sube" : "baja"}">${d > 0 ? "▲" : "▼"} ${Math.abs(d)} vs ${dias === 1 ? "ayer" : "semana anterior"}</div>`;
+  return `<div class="d ${bueno ? "sube" : "baja"}">${d > 0 ? "▲" : "▼"} ${dec(Math.abs(d))} vs. ${dias === 1 ? "ayer" : "la semana anterior"}</div>`;
 }
 function anillo(v) {
   const c = v >= 62 ? "var(--lima)" : v <= 38 ? "var(--rojo)" : "var(--ambar)", r = 34, L = 2 * Math.PI * r;
@@ -808,10 +815,12 @@ function elegirMotivo(c) {
 function tarjetaPiloto() {
   const p = S.piloto; if (!p || !soyGerencia()) return "";
   const pct = p.pct, listo = p.comparadas >= 10 && pct >= 80;
-  const estado = p.comparadas ? `Coincide con usted en <b>${p.coincide} de ${p.comparadas}</b> decisiones (${pct} %).` : "Todavía no hay decisiones para comparar: cada vez que usted aprueba o descarta un caso, aprende.";
-  const ult = (p.ultimas || []).slice(0, 4).map((x) => `<li>${x.rol === "piloto" ? "🤖" : x.rol === "equipo" ? "👷" : "👤"} ${esc({ aprobar: "Aprobó", descartar: "Descartó", resolver: "Resolvió", cancelar: "Canceló", bloquear: "Bloqueó", no_puedo: "No pudo", pasar: "Pasó" }[x.decision] || x.decision)}${x.resumen ? `: ${esc(x.resumen.slice(0, 60))}` : ""}${x.motivo ? ` · <i>${esc(x.motivo)}</i>` : ""}${x.coincide === true ? " · ✓ " + esc(asis()) + " acertó" : x.coincide === false ? " · ✗ " + esc(asis()) + " habría decidido otra cosa" : ""}</li>`).join("");
+  const estado = p.comparadas ? `Coincide con usted en <b>${p.coincide} de ${p.comparadas}</b> decisiones (${pct} %).` : `Todavía no hay decisiones para comparar: cada vez que usted aprueba o no envía a nadie, ${esc(asis())} aprende.`;
+  // Resumen corto con «…» si se corta, para que no quede una palabra a medias.
+  const corto = (t) => (t.length > 60 ? t.slice(0, 58).replace(/\s+\S*$/, "") + "…" : t);
+  const ult = (p.ultimas || []).slice(0, 4).map((x) => `<li>${x.rol === "piloto" ? "🤖" : x.rol === "equipo" ? "👷" : "👤"} ${esc({ aprobar: "Aprobó", descartar: "No envió a nadie", resolver: "Resolvió", cancelar: "Canceló", bloquear: "Bloqueó", no_puedo: "No pudo", pasar: "Pasó" }[x.decision] || x.decision)}${x.resumen ? `: ${esc(corto(x.resumen))}` : ""}${x.motivo ? ` · <i>${esc(x.motivo)}</i>` : ""}${x.coincide === true ? " · ✓ " + esc(asis()) + " acertó" : x.coincide === false ? " · ✗ " + esc(asis()) + " habría decidido otra cosa" : ""}</li>`).join("");
   return `<div class="piloto${p.activo ? " on" : ""}"><h2>🤖 ${p.activo ? `${esc(asis())} está a cargo` : `Piloto automático`}</h2>
-    <p>${p.activo ? `${esc(asis())} decide los casos nuevos: aprueba y llama al responsable, o descarta con motivo. Si no está seguro, le pregunta. Usted recibe un aviso de cada decisión.${p.piloto_hoy ? ` Hoy decidió ${p.piloto_hoy}.` : ""}` : `${estado} ${listo ? "Ya está listo para hacerse cargo." : "Aprende de sus decisiones y de sus motivos."}`}</p>
+    <p>${p.activo ? `${esc(asis())} decide los casos nuevos: aprueba y llama al responsable, o no envía a nadie y deja el motivo. Si no está seguro, le pregunta. Usted recibe un aviso de cada decisión.${p.piloto_hoy ? ` Hoy decidió ${p.piloto_hoy}.` : ""}` : `${estado} ${listo ? "Ya está listo para hacerse cargo." : "Aprende de sus decisiones y de sus motivos."}`}</p>
     ${!p.activo && p.comparadas ? `<div class="barra"><i style="width:${pct}%"></i></div>` : ""}
     <button class="btn ${p.activo ? "btn-b" : "btn-l"}" id="btnPiloto">${p.activo ? "👤 Retomar el control" : `🤖 Poner a ${esc(asis())} a cargo`}</button>
     ${ult ? `<ul>${ult}</ul>` : ""}</div>`;
@@ -844,9 +853,9 @@ function pintarHoy() {
   html += `<div class="kpis">
     <div class="kpi grande">${anillo(k.indice)}<div><div class="et">Índice de sentimiento</div><div class="v num">${k.indice ?? "–"}<span style="font-size:18px;color:var(--suave)">/100</span></div>${delta(k.indice, k.indice_prev)}</div></div>
     <div class="kpi"><div class="et">Conversaciones</div><div class="v num">${k.conversaciones ?? 0}</div>${delta(k.conversaciones, k.conversaciones_prev)}</div>
-    <div class="kpi"><div class="et">Quejas</div><div class="v num" style="color:var(--rojo)">${k.quejas ?? 0}</div><div class="d igual">${k.quejas_graves ? `${k.quejas_graves} graves` : "ninguna grave"}</div></div>
-    <div class="kpi" data-ir="casos" style="cursor:pointer"><div class="et">Casos abiertos</div><div class="v num">${k.casos_abiertos ?? 0}</div><div class="d ${k.casos_alta_abiertos ? "baja" : "igual"}">${k.casos_alta_abiertos ? `${k.casos_alta_abiertos} de prioridad alta` : "sin prioridad alta"}</div></div>
-    <div class="kpi"><div class="et">Opinión</div><div class="v num">${k.opinion ?? "–"}<span style="font-size:16px;color:var(--ambar)"> ★</span></div><div class="d igual">${k.opiniones ?? 0} encuestas</div></div>
+    <div class="kpi"><div class="et">Quejas</div><div class="v num" style="color:var(--rojo)">${k.quejas ?? 0}</div><div class="d igual">${k.quejas_graves ? plural(k.quejas_graves, "grave", "graves") : "ninguna grave"}</div></div>
+    <div class="kpi" data-ir="casos" style="cursor:pointer"><div class="et">Casos sin resolver</div><div class="v num">${k.casos_abiertos ?? 0}</div><div class="d ${k.casos_alta_abiertos ? "baja" : "igual"}">${k.casos_alta_abiertos ? `${k.casos_alta_abiertos} de prioridad alta` : "sin prioridad alta"}</div></div>
+    <div class="kpi"><div class="et">Opinión</div><div class="v num">${k.opinion != null ? dec(k.opinion) : "–"}<span style="font-size:16px;color:var(--ambar)"> ★</span></div><div class="d igual">${k.opiniones ?? 0} encuestas</div></div>
   </div>
   <div class="mini"><div><b class="num">${k.min_resolucion != null ? k.min_resolucion + " min" : "–"}</b><span>Resolución</span></div><div><b class="num">${k.respuesta_seg != null ? k.respuesta_seg + " s" : "–"}</b><span>Respuesta</span></div><div><b class="num">${k.sorteo ?? 0}</b><span>Sorteo</span></div></div>`;
   html += `<div class="card"><h2>😊 Cómo se sienten</h2><div class="barra-sent"><i style="width:${pc(k.positivos)}%;background:var(--lima)"></i><i style="width:${pc(k.neutrales)}%;background:#C5CDB9"></i><i style="width:${pc(k.negativos)}%;background:var(--rojo)"></i></div>
@@ -869,7 +878,7 @@ function pintarHoy() {
       ["Equipo ocupado", g.equipo ? `${g.equipo.ocupados} de ${g.equipo.total}` : "–", ""]];
     html += `<div class="card"><h2>🏥 Salud del centro comercial</h2><div class="salud ${g.estado || ""}" style="box-shadow:none;padding:0"><div class="sal-n num">${g.salud ?? "–"}</div><div><b>Salud general</b><small>Promedio de las áreas, ponderado por cuántos casos tiene cada una.</small></div></div>
       <div class="kpis-area">${kg.map(([t, v, e]) => `<div class="kpi-a ${e}"><div class="t">${esc(t)}</div><div class="v">${esc(v)}</div></div>`).join("")}</div>
-      ${S.areas.map((a) => { const k = (a.kpis || [])[0], sa = a.salud || {}; return `<button class="fila-area" data-area-ver="${a.area}"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${sa.principal ? `A mejorar · ${esc(sa.principal)}` : `${a.pendientes} pendiente${a.pendientes === 1 ? "" : "s"}${a.fuera_de_tiempo ? ` · <span style="color:var(--rojo);font-weight:800">${a.fuera_de_tiempo} fuera de tiempo</span>` : ""}`}</small>${k ? `<span class="kpi-fila"><i class="${k.estado || ""}"></i>${esc(k.titulo)}: ${esc(k.valor)}</span>` : ""}</span><span class="nota-ind" style="background:${col(sa.estado)}" title="Salud del área">${sa.puntaje ?? "–"}</span></button>`; }).join("")}
+      ${S.areas.map((a) => { const k = (a.kpis || [])[0], sa = a.salud || {}; return `<button class="fila-area" data-area-ver="${a.area}"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${sa.principal ? `${mejorar(sa)} · ${esc(dec(sa.principal))}` : `${a.pendientes} pendiente${a.pendientes === 1 ? "" : "s"}${a.fuera_de_tiempo ? ` · <span style="color:var(--rojo);font-weight:800">${a.fuera_de_tiempo} fuera de tiempo</span>` : ""}`}</small>${k ? `<span class="kpi-fila"><i class="${k.estado || ""}"></i>${esc(k.titulo)}: ${esc(dec(k.valor))}</span>` : ""}</span><span class="nota-ind" style="background:${col(sa.estado)}" title="Salud del área">${sa.puntaje ?? "–"}</span></button>`; }).join("")}
       <p class="sub" style="margin-top:8px">Toque un área para ver sus indicadores. El número es la salud del área (0–100).</p></div>`;
   }
   html += `<div class="card"><h2>🎨 Contenido de la semana</h2><p class="sub" style="margin:0 0 10px">${porRev ? `${porRev} post${porRev > 1 ? "s" : ""} esperan su aprobación.` : "No hay posts pendientes de aprobación."}</p><button class="btn btn-b btn-w" data-ir="contenido">Revisar contenido</button></div>`;
@@ -909,7 +918,9 @@ document.addEventListener("click", (ev) => {
 });
 
 // ---------- Sentimiento de un área (la gerencia lo abre por área; el equipo ve el suyo en «Mi área») ----------
-const fmtM = (m) => (m == null ? "–" : m < 90 ? `${m} min` : m < 2880 ? `${Math.round(m / 6) / 10} h` : `${Math.round(m / 144) / 10} días`);
+const fmtM = (m) => (m == null ? "–" : m < 90 ? `${m} min` : m < 2880 ? `${dec(Math.round(m / 6) / 10)} h` : `${dec(Math.round(m / 144) / 10)} días`);
+// Con salud «bien» no se dice «A mejorar»: solo se nombra la parte más baja.
+const mejorar = (sal) => (sal.estado === "bien" ? "Lo más bajo" : "A mejorar");
 // Cada área ve lo suyo: las áreas de campo (limpieza, seguridad, operaciones) se miden por tiempos y cumplimiento;
 // administración, además, por la experiencia del visitante (sentimiento, satisfacción, quejas). La gerencia ve la salud.
 function htmlArea(d) {
@@ -917,20 +928,20 @@ function htmlArea(d) {
   if (d.error) return `<div class="vacio">${esc(d.error)}</div>`;
   const admin = d.area === "administracion", ger = soyGerencia(), sal = d.salud || {};
   const tot = (d.positivos + d.neutrales + d.negativos) || 1, pc = (x) => Math.round(((x || 0) / tot) * 100);
-  let h = `<div class="salud ${sal.estado || ""}"><div class="sal-n num">${sal.puntaje ?? "–"}</div><div><div class="et">${d.icono} ${esc(cap(d.nombre))}</div><b>Salud del área</b><small>${sal.principal ? `A mejorar · ${esc(sal.principal)}` : sal.puntaje != null ? "Todo dentro de lo esperado" : "Todavía no hay casos suficientes para medirla"}</small></div></div>`;
+  let h = `<div class="salud ${sal.estado || ""}"><div class="sal-n num">${sal.puntaje ?? "–"}</div><div><div class="et">${d.icono} ${esc(cap(d.nombre))}</div><b>Salud del área</b><small>${sal.principal ? `${mejorar(sal)} · ${esc(dec(sal.principal))}` : sal.puntaje != null ? "Todo dentro de lo esperado" : "Todavía no hay casos suficientes para medirla"}</small></div></div>`;
   if (d.fuera_de_tiempo) h += `<div class="aviso-meta">⏰ ${d.fuera_de_tiempo} caso${d.fuera_de_tiempo === 1 ? " pasó" : "s pasaron"} su tiempo meta sin resolverse${d.alta_abiertos ? ` · ${d.alta_abiertos} urgente${d.alta_abiertos === 1 ? "" : "s"}` : ""}</div>`;
   if (d.yo) h += `<div class="card"><h2>🙋 Usted</h2><div class="mini" style="margin:0"><div><b class="num">${d.yo.hechas_hoy}</b><span>Resueltas hoy</span></div><div><b class="num">${fmtM(d.yo.min_trabajo)}</b><span>Su tiempo de trabajo</span></div><div><b class="num">${d.yo.hechas_30}</b><span>En 30 días</span></div></div></div>`;
-  if ((d.kpis || []).length) h += `<div class="card"><h2>📏 Cómo se mide ${esc(d.nombre)}</h2><div class="kpis-area">${d.kpis.map((k) => `<div class="kpi-a ${k.estado || ""}"><div class="t">${esc(k.titulo)}</div><div class="v">${esc(k.valor)}</div>${k.meta ? `<span class="m">${k.estado === "bien" ? "✓ " : ""}${esc(k.meta)}</span>` : ""}${k.nota ? `<div class="n">${esc(k.nota)}</div>` : ""}</div>`).join("")}</div>${barrasDia(d.serie)}${d.metas_txt ? `<div class="metas-txt"><b>Tiempos meta</b> (desde que llega el reporte): ${esc(d.metas_txt)}${d.sin_verificar || d.bloqueados || d.descartados ? `<br>No cuentan ${[d.sin_verificar ? `${d.sin_verificar} sin verificar que la gerencia no aprobó` : "", d.descartados ? `${d.descartados} que no se enviaron a nadie` : "", d.bloqueados ? `${d.bloqueados} falso${d.bloqueados === 1 ? "" : "s"}` : ""].filter(Boolean).join(", ")}.` : ""}</div>` : ""}</div>`;
+  if ((d.kpis || []).length) h += `<div class="card"><h2>📏 Cómo se mide ${esc(d.nombre)}</h2><div class="kpis-area">${d.kpis.map((k) => `<div class="kpi-a ${k.estado || ""}"><div class="t">${nb(esc(k.titulo))}</div><div class="v">${nb(esc(dec(k.valor)))}</div>${k.meta ? `<span class="m">${k.estado === "bien" ? "✓ " : ""}${nb(esc(dec(k.meta)))}</span>` : ""}${k.nota ? `<div class="n">${nb(esc(dec(k.nota)))}</div>` : ""}</div>`).join("")}</div>${barrasDia(d.serie)}${d.metas_txt ? `<div class="metas-txt"><b>Tiempos meta</b> (desde que llega el reporte): ${nb(esc(dec(d.metas_txt)))}${d.sin_verificar || d.bloqueados || d.descartados ? `<br>No cuentan ${[d.sin_verificar ? `${d.sin_verificar} sin verificar que la gerencia no aprobó` : "", d.descartados ? `${d.descartados} que no se enviaron a nadie` : "", d.bloqueados ? `${d.bloqueados} falso${d.bloqueados === 1 ? "" : "s"}` : ""].filter(Boolean).join(", ")}.` : ""}</div>` : ""}</div>`;
   if (admin) {
     h += `<div class="card"><h2>😊 Cómo se sienten los visitantes</h2><div class="kpi grande" style="box-shadow:none;padding:0;margin:4px 0 10px">${anillo(d.indice ?? 0)}<div><div class="et">Cobros, atención y horarios</div><div class="v num">${d.indice ?? "–"}<span style="font-size:18px;color:var(--suave)">/100</span></div>${delta(d.indice, d.indice_prev, false, d.dias)}</div></div>
       <div class="barra-sent"><i style="width:${pc(d.positivos)}%;background:var(--lima)"></i><i style="width:${pc(d.neutrales)}%;background:#C5CDB9"></i><i style="width:${pc(d.negativos)}%;background:var(--rojo)"></i></div>
       <div class="ley"><span><i class="pt" style="background:var(--lima)"></i><b>${pc(d.positivos)}%</b> positivo</span><span><i class="pt" style="background:#C5CDB9"></i><b>${pc(d.neutrales)}%</b> neutral</span><span><i class="pt" style="background:var(--rojo)"></i><b>${pc(d.negativos)}%</b> negativo</span></div>${d.serie ? linea(d.serie) : ""}</div>`;
-    if ((d.por_tema || []).length) h += `<div class="card"><h2>🏷️ Por tema</h2>${d.por_tema.map((x) => `<div class="fila"><span style="flex:1">${esc(cap(x.tema))}<br><span class="sub">${x.n} mensajes · ${x.negativos} negativos</span></span><span class="nota-ind" style="background:${colorInd(x.indice)}">${x.indice ?? "–"}</span></div>`).join("")}</div>`;
+    if ((d.por_tema || []).length) h += `<div class="card"><h2>🏷️ Por tema</h2>${d.por_tema.map((x) => `<div class="fila"><span style="flex:1">${esc(cap(x.tema))}<br><span class="sub">${plural(x.n, "mensaje", "mensajes")} · ${plural(x.negativos, "negativo", "negativos")}</span></span><span class="nota-ind" style="background:${colorInd(x.indice)}" title="Índice de sentimiento">${x.indice ?? "–"}</span></div>`).join("")}<p class="sub" style="margin:8px 0 0">El número es el índice de sentimiento de cada tema <span style="white-space:nowrap">(0–100)</span>.</p></div>`;
   }
   if ((d.lugares || []).length) { const mx = Math.max(...d.lugares.map((x) => x.n)); h += `<div class="card"><h2>📍 ${admin ? "De qué se quejan más" : "Dónde se repite"}</h2>${d.lugares.map((x) => `<div class="fila"><span style="flex:1">${esc(x.zona)}${x.repite ? ' <span class="sub" style="color:var(--rojo);font-weight:800">· se repite</span>' : ""}<div class="bar neg" style="width:${(x.n / mx) * 100}%"></div></span><span class="n num">${x.n}</span></div>`).join("")}</div>`; }
   if ((d.casos || []).length) h += `<div class="card"><h2>⚠️ Sin resolver</h2>${d.casos.map((c) => `<div class="fila"><span style="flex:1"><b style="font-size:14px">${esc(c.resumen)}</b><br><span class="sub">${esc(PRIO[c.prioridad] || "")} · ${esc(EST[c.estado] || c.estado)}${c.zona ? " · " + esc(c.zona) : ""} · ${hace(c.creado)}${c.demo ? " · ejemplo" : ""}</span></span></div>`).join("")}</div>`;
   if (admin && (d.dicen || []).length) h += `<div class="card"><h2>🗣️ Lo que dicen</h2>${d.dicen.map((m) => `<div class="dice"><span class="ic">${CANAL[m.canal] || "💬"}</span><span class="t">${esc(m.texto)}<small><i class="pt" style="background:${m.sentimiento === "positivo" ? "var(--lima)" : m.sentimiento === "negativo" ? "var(--rojo)" : "#C5CDB9"}"></i>${hace(m.creado)}${m.demo ? " · ejemplo" : ""}</small></span></div>`).join("")}</div>`;
-  if (ger && !admin && d.mensajes) h += `<div class="card"><h2>😊 Visitantes sobre ${esc(d.nombre)}</h2><div class="fila"><span style="flex:1">${d.mensajes} mensajes · ${pc(d.negativos)} % negativos<br><span class="sub">Solo lo ve la gerencia: al equipo de campo se le mide por tiempos y cumplimiento.</span></span><span class="nota-ind" style="background:${colorInd(d.indice)}">${d.indice ?? "–"}</span></div></div>`;
+  if (ger && !admin && d.mensajes) h += `<div class="card"><h2>😊 Visitantes sobre ${esc(d.nombre)}</h2><div class="fila"><span style="flex:1">${plural(d.mensajes, "mensaje", "mensajes")} · ${pc(d.negativos)} % negativos<br><span class="sub">Solo lo ve la gerencia: al equipo de campo se le mide por tiempos y cumplimiento.</span></span><span class="nota-ind" style="background:${colorInd(d.indice)}">${d.indice ?? "–"}</span></div></div>`;
   if (ger && (sal.partes || []).length) h += `<div class="card"><h2>🏥 Cómo se calcula la salud</h2>${sal.partes.map((x) => `<div class="fila"><span style="flex:1">${esc(x.nombre)} <span class="sub">· pesa ${x.peso} %</span><div class="bar" style="width:${x.valor}%;background:${x.valor >= 80 ? "var(--lima)" : x.valor >= 70 ? "var(--ambar)" : "var(--rojo)"}"></div></span><span class="n num">${x.valor}</span></div>`).join("")}<p class="sub" style="margin:8px 0 0">Bien desde 80, atención entre 70 y 79, mal bajo 70.</p></div>`;
   return h;
 }
@@ -969,6 +980,7 @@ function abrirTarea(id) { S.hojaCaso = null; S.hojaTarea = id; S.eta = null; pin
 function pintarHojaTarea(id, refresco = false) {
   const t = S.tareas.find((x) => x.id === id); if (!t) return;
   if (refresco && document.activeElement && $("#hoja").contains(document.activeElement) && /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  const prev = refresco ? guardarHoja() : null;
   const c = t.caso || {}, area = AREA[t.area] || ["📌", t.area];
   let h = `<div class="caso-top" style="margin-right:40px"><span class="pri ${c.prioridad || ""}">● ${PRIO[c.prioridad] || "Tarea"}</span><span>${area[0]} ${esc(area[1])}</span><span class="t">${esc(c.codigo || "")}</span></div>
     <h3>${esc(t.instruccion)}</h3><div class="sub">${c.zona ? `📍 ${esc(c.zona)}<br>` : ""}${c.resumen ? `El visitante reportó: «${esc(c.resumen)}»<br>` : ""}Aprobada ${hace((t.pasos || []).find((p) => p.tipo === "aprobado")?.en || t.creado)}</div>`;
@@ -980,9 +992,22 @@ function pintarHojaTarea(id, refresco = false) {
   if (t.estado === "aceptada") h += `<div class="card" style="margin-top:12px"><h2>✅ ¿Ya está?</h2><textarea class="campo" id="notaT" placeholder="Qué se hizo (opcional)"></textarea>
     <div class="fila-btn"><button class="btn btn-b" id="btnFotoT">📷 Foto</button><button class="btn btn-l" data-t="hecha">Listo, resuelto</button></div><div class="sub" id="fotoTNom"></div></div>`;
   abrirHoja(h);
+  if (prev) restaurarHoja(prev);
   for (const b of $$("[data-eta]", $("#hoja"))) b.onclick = () => { S.eta = Number(b.dataset.eta); for (const x of $$("[data-eta]", $("#hoja"))) x.classList.toggle("on", x === b); };
   for (const b of $$("[data-t]", $("#hoja"))) b.onclick = () => accionTarea(t, b.dataset.t, b);
   const bf = $("#btnFotoT"); if (bf) bf.onclick = () => $("#archivoTarea").click();
+}
+// La recarga automática (cada 15 s) vuelve a pintar la hoja: se conserva lo que la persona ya escribió o eligió
+// (indicación, nota, minutos y el selector de «No enviar a nadie» abierto con su motivo).
+function guardarHoja() {
+  const caja = $("#cajaMotivo");
+  return { instr: $("#instr")?.value, nota: $("#notaT")?.value, motivo: caja && caja.children.length ? caja : null };
+}
+function restaurarHoja(prev) {
+  if (prev.instr && $("#instr")) $("#instr").value = prev.instr;
+  if (prev.nota && $("#notaT")) $("#notaT").value = prev.nota;
+  if (prev.motivo && $("#cajaMotivo")) { $("#cajaMotivo").replaceWith(prev.motivo); const d = $('[data-g="descartar"]', $("#hoja")); if (d) d.disabled = true; }
+  if (S.eta) for (const x of $$("[data-eta]", $("#hoja"))) x.classList.toggle("on", Number(x.dataset.eta) === S.eta);
 }
 
 async function lectura() {
@@ -1053,9 +1078,10 @@ function progreso(c, t) {
 function pintarHojaCaso(id, refresco = false) {
   const c = casoPorId(id); if (!c) return;
   if (refresco && document.activeElement && $("#hoja").contains(document.activeElement) && /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
+  const prev = refresco ? guardarHoja() : null;
   const t = tareaDe(c.id), area = AREA[c.area] || ["📌", c.area];
   let html = `<div class="caso-top" style="margin-right:40px"><span class="pri ${c.prioridad}">● ${PRIO[c.prioridad]}</span><span>${area[0]} ${esc(area[1])}</span><span class="t">${esc(c.codigo || "")}</span></div>
-    <h3>${esc(c.resumen)}</h3><div class="sub">${c.zona ? `📍 ${esc(c.zona)}<br>` : ""}${CANAL[c.canal] || ""} Llegó por ${esc(c.canal)} · ${hace(c.creado)} · ${hora(c.creado)}${c.demo ? " · histórico de ejemplo" : ""}</div>${cajaVerif(c)}`;
+    <h3>${esc(c.resumen)}</h3><div class="sub">${c.zona ? `📍 ${esc(c.zona)}<br>` : ""}${CANAL[c.canal] || ""} Llegó por ${esc(CANAL_N[c.canal] || c.canal)} · ${hace(c.creado)} · ${hora(c.creado)}${c.demo ? " · histórico de ejemplo" : ""}</div>${cajaVerif(c)}`;
   html += notaPiloto(c);
   html += progreso(c, t);
   if (t) {
@@ -1093,6 +1119,7 @@ function pintarHojaCaso(id, refresco = false) {
   html += `<details id="detConv"><summary>Conversación con el visitante</summary><div class="conv" id="convCaso"><p class="sub">Cargando…</p></div></details>`;
   const abierto = $("#detConv")?.open;
   abrirHoja(html);
+  if (prev) restaurarHoja(prev);
   if (abierto) { $("#detConv").open = true; cargarConv(c.id); }
   $("#detConv").addEventListener("toggle", (e) => { if (e.target.open) cargarConv(c.id); });
   for (const b of $$("[data-eta]", $("#hoja"))) b.onclick = () => { S.eta = Number(b.dataset.eta); for (const x of $$("[data-eta]", $("#hoja"))) x.classList.toggle("on", x === b); };
@@ -1229,6 +1256,7 @@ function pintarMas() {
   const d = S.disp || {};
   if (document.activeElement?.id !== "dNombre") $("#dNombre").value = d.nombre || "";
   $("#dRol").textContent = esEquipo() ? `Equipo de ${S.areaNombre || "su área"}: ve sus tareas y los indicadores de su área.` : "Gerencia: recibe las llamadas urgentes, aprueba y ve todo el análisis.";
+  $("#simTxt").textContent = `Para ver la pantalla de llamada sin esperar ${esEquipo() ? "una tarea" : "una queja"}:`;
   if (!esEquipo() && !S.equipo) cargarEquipo();
   const sel = new Set(S.areasSel || d.areas || []);
   $("#dAreas").innerHTML = Object.entries(AREA).map(([k, [ic, n]]) => `<button class="${sel.has(k) ? "on" : ""}" data-area="${k}">${ic} ${n}</button>`).join("");
@@ -1447,7 +1475,7 @@ function mostrarEntrante(modo, id, directo, extra) {
   cerrarHoja();
   S.llamada = { modo, id, fase: "entrante", inicio: null, log: [] };
   const ll = $("#ll"); ll.classList.remove("oculto", "hablando");
-  $("#llEst").textContent = directo ? "Toque contestar para hablar" : "te está llamando…";
+  $("#llEst").textContent = directo ? "Toque contestar para hablar" : "le está llamando…";
   $("#llMotivo").innerHTML = motivoDe(modo, id, extra); $("#llMotivo").classList.remove("oculto");
   $("#llSub").textContent = ""; $("#llCaso").classList.add("oculto");
   $("#llEntrante").classList.remove("oculto"); $("#llEnCurso").classList.add("oculto");
