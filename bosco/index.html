@@ -309,6 +309,25 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
 .fila-area .ic{font-size:20px;width:28px;text-align:center}
 .fila-area b{display:block;font-size:14.5px}
 .fila-area small{color:var(--suave);font-size:12px}
+.pulso{animation:late 1.2s ease-in-out 3}
+.ver{font-size:11.5px;font-weight:800;border-radius:99px;padding:3px 8px;background:var(--crema);color:var(--suave);white-space:nowrap}
+.ver.ubicacion,.ver.foto{background:var(--menta);color:var(--g700)}.ver.sin_verificar{background:#FBEBD0;color:#8A5A10}.ver.bloq{background:#F8DDD8;color:#A3301E}
+.verif-caja{background:var(--papel);border-radius:14px;padding:10px 12px;margin:10px 0;font-size:13px;line-height:1.4}
+.verif-caja .fotos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:8px}.verif-caja .fotos img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:10px}
+.kpis-area{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:4px 0 10px}
+.kpi-a{background:var(--papel);border-radius:14px;padding:10px 12px 11px;position:relative;overflow:hidden}
+.kpi-a::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:#C5CDB9}
+.kpi-a.bien::before{background:var(--lima)}.kpi-a.ojo::before{background:var(--ambar)}.kpi-a.mal::before{background:var(--rojo)}
+.kpi-a .t{font-size:11.5px;font-weight:700;color:var(--suave);line-height:1.25}
+.kpi-a .v{font-size:22px;font-weight:800;margin:3px 0 1px;font-variant-numeric:tabular-nums}
+.kpi-a .m{font-size:11px;font-weight:800;border-radius:99px;padding:2px 7px;display:inline-block;background:var(--crema);color:var(--suave)}
+.kpi-a.bien .m{background:var(--menta);color:var(--g700)}.kpi-a.ojo .m{background:#FBEBD0;color:#8A5A10}.kpi-a.mal .m{background:#F8DDD8;color:#A3301E}
+.kpi-a .n{font-size:11px;color:var(--suave);margin-top:5px;line-height:1.3}
+.aviso-meta{background:#F8DDD8;color:#A3301E;border-radius:12px;padding:9px 12px;font-size:13px;font-weight:700;margin-bottom:10px}
+.metas-txt{font-size:11.5px;color:var(--suave);line-height:1.45;border-top:1px solid var(--crema);padding-top:8px}
+.kpi-fila{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:12px;font-weight:700;color:var(--tinta)}
+.kpi-fila i{width:8px;height:8px;border-radius:50%;background:#C5CDB9;flex:none}
+.kpi-fila i.bien{background:var(--lima)}.kpi-fila i.ojo{background:var(--ambar)}.kpi-fila i.mal{background:var(--rojo)}
 .nota-ind{margin-left:auto;min-width:46px;text-align:center;font-weight:800;border-radius:12px;padding:6px 8px;font-size:15px;color:#fff}
 .qr-caja{background:#fff;border-radius:16px;padding:14px;display:grid;place-items:center;margin:10px 0}
 .qr-caja img{width:220px;height:220px;image-rendering:pixelated}
@@ -658,6 +677,16 @@ function linea(serie) {
   const dias = pts.map((p) => new Date(p.dia + "T12:00:00").toLocaleDateString("es-EC", { weekday: "narrow" }));
   return `<svg viewBox="-4 -6 308 ${h + 26}" style="width:100%;height:auto;margin-top:10px"><path d="${d} L${w} ${h + 4} L0 ${h + 4}Z" fill="rgba(97,173,48,.12)"/><path d="${d}" fill="none" stroke="var(--lima)" stroke-width="2.5" stroke-linejoin="round"/>${xy.map((p, i) => `<circle cx="${p[0]}" cy="${p[1]}" r="3" fill="#fff" stroke="var(--g700)" stroke-width="2"/><text x="${p[0]}" y="${h + 18}" font-size="10" text-anchor="middle" fill="var(--suave)" font-family="Manrope">${dias[i].toUpperCase()}</text>`).join("")}</svg>`;
 }
+// Resueltos por día: verde a tiempo, ámbar fuera de tiempo.
+function barrasDia(serie) {
+  const xs = serie || []; if (xs.length < 3 || !xs.some((x) => x.resueltos)) return "";
+  const w = 300, h = 60, bw = w / xs.length, mx = Math.max(...xs.map((x) => x.resueltos), 1);
+  return `<div class="sub" style="font-weight:700;margin-bottom:2px">Resueltos por día</div><svg viewBox="0 -12 ${w} ${h + 28}" style="width:100%;height:auto;margin-bottom:6px">${xs.map((x, i) => {
+    const hA = (x.a_tiempo / mx) * h, hF = ((x.resueltos - x.a_tiempo) / mx) * h, cx = i * bw + bw / 2, bx = i * bw + bw * 0.2, an = bw * 0.6;
+    const dia = new Date(x.dia + "T12:00:00").toLocaleDateString("es-EC", { weekday: "narrow" }).toUpperCase();
+    return `<rect x="${bx}" y="${h - hA}" width="${an}" height="${hA}" rx="3" fill="var(--lima)"/><rect x="${bx}" y="${h - hA - hF}" width="${an}" height="${hF}" rx="3" fill="var(--ambar)"/>${x.resueltos ? `<text x="${cx}" y="${h - hA - hF - 3}" font-size="10" font-weight="800" text-anchor="middle" fill="var(--tinta)" font-family="Manrope">${x.resueltos}</text>` : ""}<text x="${cx}" y="${h + 14}" font-size="10" text-anchor="middle" fill="var(--suave)" font-family="Manrope">${dia}</text>`;
+  }).join("")}</svg><div class="ley" style="margin-bottom:8px"><span><i class="pt" style="background:var(--lima)"></i>a tiempo</span><span><i class="pt" style="background:var(--ambar)"></i>fuera de tiempo</span></div>`;
+}
 function pintarHoy() {
   const p = S.panel, el = $("#hoyCuerpo");
   if (!p) { el.innerHTML = '<div class="esq"></div><div class="esq"></div><div class="esq"></div>'; return; }
@@ -690,12 +719,26 @@ function pintarHoy() {
   if (te.length) html += `<div class="card"><h2>🏷️ De qué hablan</h2>${te.map((x) => `<div class="fila"><span style="flex:1">${esc(String(x.tema || "").charAt(0).toUpperCase() + String(x.tema || "").slice(1))}<div class="bar ${x.neg > x.pos ? "neg" : ""}" style="width:${(x.n / mxt) * 100}%"></div></span><span class="n num">${x.n}</span></div>`).join("")}</div>`;
   const fe = (p.feed || []).filter((m) => (m.texto || "").length > 8 && m.categoria !== "otro").slice(0, 6);
   if (fe.length) html += `<div class="card"><h2>🗣️ Lo que dicen ahora</h2>${fe.map((m) => `<div class="dice"><span class="ic">${CANAL[m.canal] || "💬"}</span><span class="t">${esc(m.texto)}<small><i class="pt" style="background:${m.sentimiento === "positivo" ? "var(--lima)" : m.sentimiento === "negativo" ? "var(--rojo)" : "#C5CDB9"}"></i>${esc(m.tema || "")} · ${hace(m.creado)}${m.demo ? " · ejemplo" : ""}</small></span></div>`).join("")}</div>`;
-  if (S.areas) html += `<div class="card"><h2>🏢 Sentimiento por área</h2>${S.areas.map((a) => `<button class="fila-area" data-area-ver="${a.area}"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${a.mensajes} mensajes · ${a.quejas} queja${a.quejas === 1 ? "" : "s"} · ${a.abiertos + a.en_proceso} sin resolver</small></span><span class="nota-ind" style="background:${colorInd(a.indice)}">${a.indice ?? "–"}</span></button>`).join("")}</div>`;
+  if (S.areas) html += `<div class="card"><h2>🏢 Cómo va cada área</h2>${S.areas.map((a) => { const k = (a.kpis || [])[0]; return `<button class="fila-area" data-area-ver="${a.area}"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${a.mensajes} mensajes · ${a.abiertos + a.en_proceso} sin resolver${a.fuera_de_tiempo ? ` · <span style="color:var(--rojo);font-weight:800">${a.fuera_de_tiempo} fuera de tiempo</span>` : ""}</small>${k ? `<span class="kpi-fila"><i class="${k.estado || ""}"></i>${esc(k.titulo)}: ${esc(k.valor)}</span>` : ""}</span><span class="nota-ind" style="background:${colorInd(a.indice)}" title="Índice de sentimiento">${a.indice ?? "–"}</span></button>`; }).join("")}<p class="sub" style="margin-top:8px">El número es el sentimiento (0–100). Debajo, el indicador principal de cada área contra su meta.</p></div>`;
   html += `<div class="card"><h2>🎨 Contenido de la semana</h2><p class="sub" style="margin:0 0 10px">${porRev ? `${porRev} post${porRev > 1 ? "s" : ""} esperan su aprobación.` : "No hay posts pendientes de aprobación."}</p><button class="btn btn-b btn-w" data-ir="contenido">Revisar contenido</button></div>`;
   html += `<div class="card"><h2>📝 Lectura de la semana</h2><p class="sub" style="margin:0 0 10px">${esc(asis())} resume la semana y recomienda qué hacer.</p><button class="btn btn-p btn-w" id="btnLectura">Pedir la lectura</button></div>`;
   el.innerHTML = html;
 }
 const cap = (s) => String(s || "").charAt(0).toUpperCase() + String(s || "").slice(1);
+const VERIF = { ubicacion: ["📍", "Verificado en el C.C."], foto: ["📷", "Con foto"], sin_verificar: ["❔", "Sin verificar"] };
+const chipVerif = (c) => c.verif?.bloqueado ? '<span class="ver bloq">🚫 Bloqueado</span>' : VERIF[c.verificacion] ? `<span class="ver ${c.verificacion}">${VERIF[c.verificacion][0]} ${VERIF[c.verificacion][1]}</span>` : "";
+function cajaVerif(c) {
+  if (!c.verificacion && !c.verif) return "";
+  const v = c.verif || {}, u = v.ubicacion, d = (m) => (m >= 1000 ? `${(m / 1000).toFixed(1)} km` : `${m} m`);
+  let h = `<div class="verif-caja">${chipVerif(c)} `;
+  if (v.bloqueado) h += "La gerencia bloqueó este número por reporte falso.";
+  else if (c.verificacion === "ubicacion") h += `El visitante compartió su ubicación: está a ${d(u?.distancia_m ?? 0)} del centro del C.C.`;
+  else if (c.verificacion === "foto") h += "El visitante mandó una foto del lugar.";
+  else h += u ? `Compartió una ubicación a ${d(u.distancia_m)}: fuera del C.C.` : "El visitante no ha compartido ubicación ni foto. Decida usted si lo atiende.";
+  if ((v.fotos || []).length) h += `<div class="fotos" id="fotosCaso"><button class="btn btn-b" data-g="fotos" style="grid-column:1/-1">📷 Ver ${v.fotos.length === 1 ? "la foto" : `las ${v.fotos.length} fotos`}</button></div>`;
+  if (soyGerencia() && c.verificacion === "sin_verificar" && !v.bloqueado && c.estado !== "resuelto") h += `<button class="btn btn-b btn-w" data-g="bloquear" style="margin-top:8px;color:var(--rojo)">🚫 Es falso: bloquear este número</button>`;
+  return h + "</div>";
+}
 const colorInd = (v) => v == null ? "#C5CDB9" : v >= 62 ? "var(--lima)" : v <= 38 ? "var(--rojo)" : "var(--ambar)";
 function ordenCasos(a, b) { const o = { alta: 0, media: 1, baja: 2 }; return (a.demo - b.demo) || (o[a.prioridad] - o[b.prioridad]) || (new Date(b.creado) - new Date(a.creado)); }
 
@@ -720,10 +763,11 @@ function htmlArea(d) {
   const sinRes = (d.abiertos || 0) + (d.en_proceso || 0);
   let h = `<div class="kpi grande" style="margin-bottom:10px">${anillo(d.indice ?? 0)}<div><div class="et">${d.icono} ${esc(cap(d.nombre))}</div><div class="v num">${d.indice ?? "–"}<span style="font-size:18px;color:var(--suave)">/100</span></div>${delta(d.indice, d.indice_prev, false, d.dias)}</div></div>
     <div class="mini"><div><b class="num">${d.mensajes}</b><span>Mensajes</span></div><div><b class="num" style="color:var(--rojo)">${d.quejas}</b><span>Quejas</span></div><div><b class="num">${sinRes}</b><span>Sin resolver</span></div></div>
-    <div class="mini"><div><b class="num">${d.resueltos}</b><span>Resueltas</span></div><div><b class="num">${d.min_resolucion != null ? d.min_resolucion + " min" : "–"}</b><span>Resolución</span></div><div><b class="num" style="color:${d.alta_abiertos ? "var(--rojo)" : "inherit"}">${d.alta_abiertos}</b><span>Urgentes</span></div></div>
+    ${d.fuera_de_tiempo ? `<div class="aviso-meta">⏰ ${d.fuera_de_tiempo} caso${d.fuera_de_tiempo === 1 ? " pasó" : "s pasaron"} su tiempo meta sin resolverse${d.alta_abiertos ? ` · ${d.alta_abiertos} urgente${d.alta_abiertos === 1 ? "" : "s"}` : ""}</div>` : ""}
+    ${(d.kpis || []).length ? `<div class="card"><h2>📏 Cómo se mide ${esc(d.nombre)}</h2><div class="kpis-area">${d.kpis.map((k) => `<div class="kpi-a ${k.estado || ""}"><div class="t">${esc(k.titulo)}</div><div class="v">${esc(k.valor)}</div>${k.meta ? `<span class="m">${k.estado === "bien" ? "✓ " : ""}${esc(k.meta)}</span>` : ""}${k.nota ? `<div class="n">${esc(k.nota)}</div>` : ""}</div>`).join("")}</div>${barrasDia(d.serie)}${d.metas_txt ? `<div class="metas-txt"><b>Tiempos meta</b> (desde que llega el reporte): ${esc(d.metas_txt)}${d.sin_verificar || d.bloqueados ? `<br>No cuentan ${[d.sin_verificar ? `${d.sin_verificar} reporte${d.sin_verificar === 1 ? "" : "s"} sin verificar que la gerencia no aprobó` : "", d.bloqueados ? `${d.bloqueados} falso${d.bloqueados === 1 ? "" : "s"} (número bloqueado)` : ""].filter(Boolean).join(" ni ")}.` : ""}</div>` : ""}</div>` : ""}
     <div class="card"><h2>😊 Cómo se sienten con su área</h2><div class="barra-sent"><i style="width:${pc(d.positivos)}%;background:var(--lima)"></i><i style="width:${pc(d.neutrales)}%;background:#C5CDB9"></i><i style="width:${pc(d.negativos)}%;background:var(--rojo)"></i></div>
     <div class="ley"><span><i class="pt" style="background:var(--lima)"></i><b>${pc(d.positivos)}%</b> positivo</span><span><i class="pt" style="background:#C5CDB9"></i><b>${pc(d.neutrales)}%</b> neutral</span><span><i class="pt" style="background:var(--rojo)"></i><b>${pc(d.negativos)}%</b> negativo</span></div>${d.serie ? linea(d.serie) : ""}</div>`;
-  if ((d.lugares || []).length) { const mx = Math.max(...d.lugares.map((x) => x.n)); h += `<div class="card"><h2>📍 Dónde se quejan</h2>${d.lugares.map((x) => `<div class="fila"><span style="flex:1">${esc(x.zona)}<div class="bar neg" style="width:${(x.n / mx) * 100}%"></div></span><span class="n num">${x.n}</span></div>`).join("")}</div>`; }
+  if ((d.lugares || []).length) { const mx = Math.max(...d.lugares.map((x) => x.n)); h += `<div class="card"><h2>📍 Dónde se quejan</h2>${d.lugares.map((x) => `<div class="fila"><span style="flex:1">${esc(x.zona)}${x.repite ? ' <span class="sub" style="color:var(--rojo);font-weight:800">· se repite</span>' : ""}<div class="bar neg" style="width:${(x.n / mx) * 100}%"></div></span><span class="n num">${x.n}</span></div>`).join("")}</div>`; }
   if ((d.por_tema || []).length) h += `<div class="card"><h2>🏷️ Por tema</h2>${d.por_tema.map((x) => `<div class="fila"><span style="flex:1">${esc(cap(x.tema))}<br><span class="sub">${x.n} mensajes · ${x.negativos} negativos</span></span><span class="nota-ind" style="background:${colorInd(x.indice)}">${x.indice ?? "–"}</span></div>`).join("")}</div>`;
   if ((d.casos || []).length) h += `<div class="card"><h2>⚠️ Sin resolver</h2>${d.casos.map((c) => `<div class="fila"><span style="flex:1"><b style="font-size:14px">${esc(c.resumen)}</b><br><span class="sub">${esc(PRIO[c.prioridad] || "")} · ${esc(EST[c.estado] || c.estado)}${c.zona ? " · " + esc(c.zona) : ""} · ${hace(c.creado)}${c.demo ? " · ejemplo" : ""}</span></span></div>`).join("")}</div>`;
   if ((d.dicen || []).length) h += `<div class="card"><h2>🗣️ Lo que dicen</h2>${d.dicen.map((m) => `<div class="dice"><span class="ic">${CANAL[m.canal] || "💬"}</span><span class="t">${esc(m.texto)}<small><i class="pt" style="background:${m.sentimiento === "positivo" ? "var(--lima)" : m.sentimiento === "negativo" ? "var(--rojo)" : "#C5CDB9"}"></i>${hace(m.creado)}${m.demo ? " · ejemplo" : ""}</small></span></div>`).join("")}</div>`;
@@ -808,7 +852,7 @@ function tarjetaCaso(c) {
   return `<button class="caso p-${c.prioridad}${mia ? " tarea-mia" : ""}" data-caso="${c.id}">
     <div class="caso-top"><span class="pri ${c.prioridad}">● ${PRIO[c.prioridad] || c.prioridad}</span><span>${AREA[c.area]?.[0] || ""} ${esc(AREA[c.area]?.[1] || c.area)}</span><span class="t">${hace(c.creado)}</span></div>
     <div class="caso-txt">${esc(c.resumen)}</div>${c.zona ? `<div class="caso-zona">📍 ${esc(c.zona)}</div>` : ""}
-    <div class="caso-pie"><span class="est ${c.estado}">${EST[c.estado] || c.estado}</span>${c.demo ? '<span class="ej">ejemplo</span>' : ""}${mia ? '<span class="ej" style="background:var(--menta);color:var(--g700)">Para usted</span>' : ""}${t ? miniPasos(t) : ""}</div></button>`;
+    <div class="caso-pie"><span class="est ${c.estado}">${EST[c.estado] || c.estado}</span>${chipVerif(c)}${c.demo ? '<span class="ej">ejemplo</span>' : ""}${mia ? '<span class="ej" style="background:var(--menta);color:var(--g700)">Para usted</span>' : ""}${t ? miniPasos(t) : ""}</div></button>`;
 }
 function pintarCasos() {
   const el = $("#casosCuerpo"); if (!S.panel) { el.innerHTML = '<div class="esq"></div><div class="esq"></div>'; return; }
@@ -850,7 +894,7 @@ function pintarHojaCaso(id, refresco = false) {
   if (refresco && document.activeElement && $("#hoja").contains(document.activeElement) && /INPUT|TEXTAREA/.test(document.activeElement.tagName)) return;
   const t = tareaDe(c.id), area = AREA[c.area] || ["📌", c.area];
   let html = `<div class="caso-top" style="margin-right:40px"><span class="pri ${c.prioridad}">● ${PRIO[c.prioridad]}</span><span>${area[0]} ${esc(area[1])}</span><span class="t">${esc(c.codigo || "")}</span></div>
-    <h3>${esc(c.resumen)}</h3><div class="sub">${c.zona ? `📍 ${esc(c.zona)}<br>` : ""}${CANAL[c.canal] || ""} Llegó por ${esc(c.canal)} · ${hace(c.creado)} · ${hora(c.creado)}${c.demo ? " · histórico de ejemplo" : ""}</div>`;
+    <h3>${esc(c.resumen)}</h3><div class="sub">${c.zona ? `📍 ${esc(c.zona)}<br>` : ""}${CANAL[c.canal] || ""} Llegó por ${esc(c.canal)} · ${hace(c.creado)} · ${hora(c.creado)}${c.demo ? " · histórico de ejemplo" : ""}</div>${cajaVerif(c)}`;
   html += progreso(c, t);
   if (t) {
     html += `<ul class="linea-t">${(t.pasos || []).map((p) => `<li class="${["rechazada", "sin_respuesta", "sin_responsable"].includes(p.tipo) ? "alerta" : ""}"><time>${hora(p.en)}</time>${esc(p.txt)}</li>`).join("")}</ul>`;
@@ -914,6 +958,17 @@ async function accionTarea(t, estado, btn) {
 }
 async function accionGerencia(c, g, btn) {
   if (g === "contar") { cerrarHoja(); return mostrarEntrante("caso", c.id, true); }
+  if (g === "fotos") {
+    btn.disabled = true; const r = await A({ accion: "fotos", caso: c.id });
+    if (r.error || !(r.fotos || []).length) { btn.disabled = false; return toast(r.error || "No pude abrir las fotos."); }
+    $("#fotosCaso").innerHTML = r.fotos.map((u) => `<a href="${esc(u)}" target="_blank" rel="noopener"><img src="${esc(u)}" alt="Foto del visitante"></a>`).join(""); return;
+  }
+  if (g === "bloquear") {
+    if (!btn.dataset.seguro) { btn.dataset.seguro = "1"; btn.textContent = "¿Seguro? Toque otra vez para bloquear"; return; }
+    btn.disabled = true; const r = await A({ accion: "bloquear", id: c.id });
+    if (r.error) { btn.disabled = false; return toast(r.error); }
+    toast(`Número bloqueado: ${asis()} ya no le responderá.`); cerrarHoja(); return cargar();
+  }
   btn.disabled = true;
   if (g === "aprobar") {
     const r = await A({ accion: "aprobar", caso: c.id, instruccion: $("#instr")?.value || "" });
@@ -1303,10 +1358,21 @@ window.addEventListener("pagehide", () => { try { S.llamada?.conv?.endSession();
 // Mensajes del service worker (push con la app abierta y clics en notificaciones).
 function manejarHash(h = location.hash) {
   const q = new URLSearchParams(String(h).replace(/^#/, ""));
-  const ll = q.get("llamada"), caso = q.get("caso");
+  const ll = q.get("llamada"), caso = q.get("caso"), tarea = q.get("tarea"), resp = q.get("r");
   if (ll) { const [modo, id] = ll.split("-"); if (["caso", "tarea"].includes(modo) && Number(id)) abrirLlamadaDesdeAviso(modo, Number(id)); }
-  else if (caso && Number(caso)) { irA("casos"); abrirCaso(Number(caso)); }
-  if (ll || caso) { q.delete("llamada"); q.delete("caso"); const r = q.toString(); history.replaceState(null, "", location.pathname + location.search + (r ? "#" + r : "")); }
+  else if (caso && Number(caso)) { irA("casos"); abrirCaso(Number(caso)); if (resp === "aprobar") setTimeout(() => { const b = $('[data-g="aprobar"]', $("#hoja")); if (b) { b.scrollIntoView({ block: "center" }); b.classList.add("pulso"); } }, 400); }
+  else if (tarea && Number(tarea)) abrirTareaDesdeMensaje(Number(tarea), resp);
+  if (ll || caso || tarea) { q.delete("llamada"); q.delete("caso"); q.delete("tarea"); q.delete("r"); const r = q.toString(); history.replaceState(null, "", location.pathname + location.search + (r ? "#" + r : "")); }
+}
+// Mensaje de Bosco tras una llamada perdida: abre la tarea; «Voy» deja elegir en cuánto llega, «No puedo» lo marca.
+async function abrirTareaDesdeMensaje(id, resp) {
+  if (!S.tareas.some((x) => x.id === id)) await cargar();
+  const t = S.tareas.find((x) => x.id === id);
+  if (!t) return toast("Esa tarea ya no está disponible.");
+  if (!["llamando", "sin_respuesta", "rechazada"].includes(t.estado)) { toast(t.estado === "aceptada" ? `${t.responsable || "Alguien"} ya la tomó` : "Esa tarea ya se atendió"); }
+  if (esEquipo()) { irA("tareas"); abrirTarea(id); } else { irA("casos"); abrirCaso(t.caso_id); }
+  if (resp === "no") setTimeout(() => $('[data-t="rechazada"]', $("#hoja"))?.click(), 450);
+  else if (resp === "voy") setTimeout(() => { const e = $("[data-eta]", $("#hoja")); if (e) { e.scrollIntoView({ block: "center" }); toast("Elija en cuánto llega y toque «Voy»"); } }, 450);
 }
 async function abrirLlamadaDesdeAviso(modo, id) {
   if (modo === "tarea") {
@@ -1321,7 +1387,7 @@ async function abrirLlamadaDesdeAviso(modo, id) {
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.addEventListener("message", (ev) => {
     const d = ev.data || {};
-    if (d.tipo === "push") { cargar(); const c = d.carga || {}; if (c.tipo === "llamada" && !document.hidden) entrante(c.modo, c.id, c.cuerpo); else if (c.tipo === "aviso" && !document.hidden) toast(`${c.titulo}${c.cuerpo ? " · " + c.cuerpo : ""}`, 5000); }
+    if (d.tipo === "push") { cargar(); const c = d.carga || {}; if (c.tipo === "llamada" && !document.hidden) entrante(c.modo, c.id, c.cuerpo); else if ((c.tipo === "aviso" || c.tipo === "mensaje") && !document.hidden) toast(`${c.titulo}${c.cuerpo ? " · " + c.cuerpo : ""}`, 6000); }
     if (d.tipo === "abrir" && d.url) { try { manejarHash(new URL(d.url).hash); } catch {} }
   });
 }
