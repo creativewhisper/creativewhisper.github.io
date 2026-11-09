@@ -463,6 +463,12 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .guia-cab img{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--lima);background:var(--g800)}
 .guia-cab b{display:block;font-size:15px}.guia-cab small{font-size:12px;color:var(--lima3)}
 .guia-cab button{margin-left:auto;width:32px;height:32px;border-radius:50%;background:rgba(255,255,255,.12);color:#fff}
+.guia-barra{display:flex;align-items:center;gap:8px;padding:8px 14px;background:var(--g800);color:var(--lima3);font-size:12px;font-weight:700}
+.guia-barra span{flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.guia-barra button{background:rgba(255,255,255,.12);color:#fff;border-radius:999px;padding:5px 10px;font-size:11.5px;font-weight:800;white-space:nowrap}
+.guia-mic{width:40px;height:40px;border-radius:50%;background:var(--lima);color:#fff;display:grid;place-items:center;flex:none;font-size:17px}
+.guia-mic.on{background:var(--rojo);animation:late 1.2s infinite}
+.g-b.voz{font-style:italic}
 .guia-msgs{flex:1;overflow:auto;padding:14px;display:flex;flex-direction:column;gap:8px}
 .g-b{max-width:88%;padding:9px 12px;border-radius:16px;font-size:13.5px;line-height:1.45;overflow-wrap:anywhere}
 .g-b.bo{align-self:flex-start;background:#fff;border:1px solid var(--linea);border-bottom-left-radius:5px}
@@ -550,7 +556,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
     <div class="acciones">
       <button class="btn btn-blanco" id="btnGenerar">✨ Generar contenido</button>
       <button class="btn btn-lima" id="btnHablar">💬 Hablar con <span id="nomAsis">el asistente</span></button>
-      <button class="btn btn-borde" id="btnCel">📱 Panel en mi celular</button>
+      <button class="btn btn-borde" id="btnCel">📲 App en mi celular</button>
     </div>
   </div></header>
 
@@ -680,8 +686,9 @@ button{cursor:pointer;background:none;border:0;padding:0}
 
 <button class="guia-btn" id="guiaBtn"><img id="guiaCara" alt=""><span>¿Le ayudo con el panel?</span></button>
 <div class="guia oculto" id="guia"><div class="guia-cab"><img id="guiaCara2" alt=""><div><b>Bosco</b><small>Su guía del panel</small></div><button id="guiaX" aria-label="Cerrar">✕</button></div>
+  <div class="guia-barra"><span id="guiaVozEst">Escríbame o toque 🎙️ para hablar</span><button id="guiaVisitante" type="button">👤 Probar como visitante</button></div>
   <div class="guia-msgs" id="guiaMsgs"></div><div class="guia-sug" id="guiaSug"></div>
-  <form class="guia-in" id="guiaForm"><input id="guiaTxt" placeholder="Pregúntele a Bosco…" autocomplete="off" maxlength="600"><button aria-label="Enviar">➤</button></form></div>
+  <form class="guia-in" id="guiaForm"><button type="button" class="guia-mic" id="guiaMic" aria-label="Hablar con Bosco">🎙️</button><input id="guiaTxt" placeholder="Pregúntele a Bosco…" autocomplete="off" maxlength="600"><button aria-label="Enviar">➤</button></form></div>
 <div class="velo" id="velo"><aside class="lateral" id="lateral" aria-label="Detalle del caso"></aside></div>
 <div id="toasts"></div>
 <div id="tip"></div>
@@ -1323,13 +1330,20 @@ $("#btnReporte").addEventListener("click", async () => {
   } catch (e) { $("#reporte").textContent = "No se pudo generar ahora: " + e.message; }
   b.disabled = false; b.textContent = "Generar de nuevo";
 });
-$("#btnCel").addEventListener("click", () => modal("Este panel en su celular", [{ txt: "Escanee el código para abrir el panel en su celular. Cada queja nueva llega al instante, con aviso y vibración.", url: location.href, boton: "Abrir el panel" }]));
-$("#btnHablar").addEventListener("click", () => {
+$("#btnCel").addEventListener("click", () => {
+  const nom = S.cuenta?.asistente || "Bosco";
+  modal("En su celular", [
+    { t: `App de ${nom}`, txt: `Escanee e instale la app de ${nom}: lo más importante del panel, los casos, el chat con ${nom} y el contenido. Cuando entra algo urgente, ${nom} le llama ahí; si lo aprueba, llama al responsable y usted ve el avance.`, url: `https://creativewhisper.github.io/bosco/#t=${TOKEN}`, boton: "Abrir la app", cara: true },
+    { t: "Panel completo", txt: "Escanee para abrir este mismo panel en su celular. Cada queja nueva llega al instante, con aviso y vibración.", url: location.href, boton: "Abrir el panel" },
+  ]);
+});
+$("#btnHablar").addEventListener("click", abrirGuia);
+function probarVisitante() {
   const cu = S.cuenta || {}, nom = cu.asistente || "el asistente", ops = [];
   if (cu.wa_demo) ops.push({ t: "WhatsApp", txt: `Escanee como lo haría un visitante: se abre el chat de WhatsApp con ${nom}. Escríbale, mándele una foto o llámelo. Deje una queja y mírela llegar aquí.`, url: cu.wa_demo, boton: "Abrir el chat", cara: true });
   if (cu.web) ops.push({ t: "Web nueva", txt: `Se abre la web nueva con ${nom} listo para conversar, por escrito o por voz.`, url: cu.web, boton: "Abrir la web", cara: true });
-  if (ops.length) modal(`Hable con ${nom}`, ops);
-});
+  if (ops.length) modal(`Pruebe a ${nom} como visitante`, ops);
+}
 
 // ---------- Generar contenido ----------
 // El panel resume lo que ve (periodo + filtros) y la función escribe las piezas en vivo, una por línea (NDJSON).
@@ -1755,15 +1769,69 @@ function accionGuia(t, v) {
     if (v === "produccion") { irA("contenido"); setTimeout(() => $("#cajaProd").scrollIntoView({ behavior: "smooth", block: "center" }), 100); }
     if (v === "subir") { irA("contenido"); setTimeout(() => $("#cajaRepo").scrollIntoView({ behavior: "smooth", block: "center" }), 100); }
     if (v === "reporte") { irA("resumen"); setTimeout(() => $("#btnReporte").click(), 150); }
-    if (v === "hablar") $("#btnHablar").click();
-    if (v === "celular") $("#btnCel").click();
+    if (v === "hablar") hablarGuia();
+    if (v === "celular" || v === "app") $("#btnCel").click();
+    if (v === "qr") probarVisitante();
+    if (v === "limpiar_filtros") limpiarFiltros();
   }
-  if (window.innerWidth < 760) cerrarGuia();
+  if (window.innerWidth < 760 && !VOZ.conv) cerrarGuia();
 }
-function cerrarGuia() { $("#guia").classList.add("oculto"); $("#guiaBtn").classList.remove("oculto"); }
+
+// Bosco por voz dentro del panel: conversa en voz alta y mueve el panel (pestañas, filtros, acciones).
+const SDK_VOZ = "https://cdn.jsdelivr.net/npm/@elevenlabs/client@1.30.0/+esm";
+const VOZ = { conv: null, conectando: false };
+const estVoz = (t) => { $("#guiaVozEst").textContent = t || "Escríbame o toque 🎙️ para hablar"; };
+function burbujaVoz(rol, t) { burbuja(rol, t); $("#guiaMsgs").lastElementChild?.classList.add("voz"); GUIA.hist.push({ role: rol, content: t }); }
+function contextoVoz() { try { VOZ.conv?.sendContextualUpdate(`Así está el panel ahora (no lo leas en voz alta, úsalo para responder): ${JSON.stringify(contextoGuia())}`); } catch {} }
+async function conectarVoz(mod, cred, op) {
+  if (cred.token) {
+    let abandonada = false;
+    const envuelta = Object.fromEntries(Object.entries(op).map(([k, f]) => [k, typeof f === "function" && k.startsWith("on") ? (...a) => { if (!abandonada) return f(...a); } : f]));
+    const intento = mod.Conversation.startSession({ conversationToken: cred.token, connectionType: "webrtc", ...envuelta });
+    const r = await Promise.race([intento.then((c) => ({ c }), (e) => ({ e })), new Promise((ok) => setTimeout(() => ok({ tarde: true }), 10000))]);
+    if (r.c) return r.c;
+    abandonada = true;
+    if (r.tarde) intento.then((c) => { try { c.endSession(); } catch {} }, () => {});
+    if (!cred.signed_url) throw r.e || new Error("La voz no conectó");
+  }
+  return mod.Conversation.startSession({ signedUrl: cred.signed_url, connectionType: "websocket", ...op });
+}
+async function hablarGuia() {
+  abrirGuia();
+  if (VOZ.conv || VOZ.conectando) { VOZ.conectando = false; try { await VOZ.conv?.endSession(); } catch {} return finVoz(); }
+  VOZ.conectando = true; $("#guiaMic").classList.add("on"); $("#guiaSug").innerHTML = ""; estVoz("Pidiendo el micrófono…");
+  try { const st = await navigator.mediaDevices.getUserMedia({ audio: true }); st.getTracks().forEach((t) => t.stop()); }
+  catch { finVoz(); return burbuja("assistant", "No pude usar el micrófono. Sigamos por escrito 🙂"); }
+  estVoz("Conectando…");
+  try {
+    const [cred, mod] = await Promise.all([llamar({ accion: "voz_guia" }), import(SDK_VOZ)]);
+    if (!cred.token && !cred.signed_url) throw new Error(cred.error || "sin voz");
+    const mover = (fn) => (p) => { fn(p || {}); setTimeout(contextoVoz, 400); return "ok"; };
+    const op = {
+      clientTools: {
+        ir_a: mover((p) => irA(p.pestana)),
+        filtrar: mover((p) => accionGuia("filtro", `${p.dimension}=${p.valor}`)),
+        accion: mover((p) => accionGuia("accion", p.nombre)),
+      },
+      onConnect: () => estVoz("🎙️ Le escucho · toque 🎙️ para terminar"),
+      onDisconnect: () => finVoz(),
+      onError: (m) => console.warn("voz", m),
+      onModeChange: (m) => { if (VOZ.conv) estVoz(m?.mode === "speaking" ? `🔊 ${S.cuenta?.asistente || "Bosco"} está hablando…` : "🎙️ Le escucho"); },
+      onMessage: (m) => { const t = String(m?.message || "").trim(); if (t) burbujaVoz(m.role === "user" || m.source === "user" ? "user" : "assistant", t); },
+    };
+    const c = await conectarVoz(mod, cred, op);
+    if (!VOZ.conectando) { try { c.endSession(); } catch {} return; }
+    VOZ.conv = c; VOZ.conectando = false; contextoVoz();
+  } catch (e) { console.warn(e); finVoz(); burbuja("assistant", "La voz no está disponible en este momento. Sigamos por escrito 🙂"); }
+}
+function finVoz() { VOZ.conv = null; VOZ.conectando = false; $("#guiaMic").classList.remove("on"); estVoz(); }
+$("#guiaMic").addEventListener("click", hablarGuia);
+$("#guiaVisitante").addEventListener("click", probarVisitante);
+window.addEventListener("pagehide", () => { try { VOZ.conv?.endSession(); } catch {} });
+function cerrarGuia() { if (VOZ.conv || VOZ.conectando) { VOZ.conectando = false; try { VOZ.conv?.endSession(); } catch {} finVoz(); } $("#guia").classList.add("oculto"); $("#guiaBtn").classList.remove("oculto"); }
 $("#guiaBtn").addEventListener("click", abrirGuia);
 $("#guiaX").addEventListener("click", cerrarGuia);
-$("#guiaForm").addEventListener("submit", (e) => { e.preventDefault(); const t = $("#guiaTxt").value; $("#guiaTxt").value = ""; preguntarGuia(t); });
+$("#guiaForm").addEventListener("submit", (e) => { e.preventDefault(); const t = $("#guiaTxt").value; $("#guiaTxt").value = ""; if (VOZ.conv) { burbujaVoz("user", t.trim()); try { VOZ.conv.sendUserMessage(t.trim()); } catch {} return; } preguntarGuia(t); });
 $("#guiaSug").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) preguntarGuia(b.textContent); });
 $("#guiaMsgs").addEventListener("click", (e) => { const b = e.target.closest("[data-g]"); if (b) accionGuia(b.dataset.g, b.dataset.v); });
 $("#mCerrar").addEventListener("click", () => $("#modal").classList.add("oculto"));

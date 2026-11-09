@@ -1,0 +1,17 @@
+{
+  "id": "./",
+  "name": "Bosco · C.C. El Bosque",
+  "short_name": "Bosco",
+  "description": "Lo que dicen los visitantes de El Bosque, los casos y el contenido, con Bosco que llama cuando hay algo urgente.",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#032B21",
+  "theme_color": "#032B21",
+  "lang": "es",
+  "icons": [
+    { "src": "icono-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icono-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icono-mask-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
