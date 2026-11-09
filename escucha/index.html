@@ -256,6 +256,85 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .nota:focus{outline:none;border-color:var(--lima)}
 .lat-acc{display:flex;gap:8px;flex-wrap:wrap}
 
+/* Contenido */
+.btn-blanco{background:#fff;color:var(--g900)}
+.btn-blanco:hover{background:var(--menta)}
+.gen-cab{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:end;background:linear-gradient(135deg,var(--g900),var(--g700));color:#fff;border-radius:var(--r-lg);padding:20px 22px;position:relative;overflow:hidden}
+.gen-cab::after{content:"";position:absolute;right:-80px;bottom:-120px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(124,194,75,.25),transparent 65%);pointer-events:none}
+.gen-cab h2{margin:0;font-size:21px;font-weight:800;letter-spacing:-.01em}
+.gen-cab p{margin:5px 0 12px;color:rgba(255,255,255,.78);font-size:13.5px;max-width:720px}
+.gen-cab .seg{background:rgba(255,255,255,.1);flex-wrap:wrap}
+.gen-cab .seg button{color:rgba(255,255,255,.8)}
+.gen-cab .seg button.on{background:var(--lima);color:var(--g950)}
+.gen-pedido{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;position:relative;z-index:1}
+.gen-pedido input{flex:1 1 260px;border:1.5px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;padding:10px 15px;font-size:13.5px;outline:none}
+.gen-pedido input::placeholder{color:rgba(255,255,255,.55)}
+.gen-pedido input:focus{border-color:var(--lima2)}
+.gen-cab .der{position:relative;z-index:1;display:grid;gap:8px;justify-items:end}
+.gen-cab .der .btn{font-size:15px;padding:13px 22px}
+.gen-cab .base{font-size:12px;color:var(--lima3);text-align:right;max-width:280px}
+.lectura{margin-top:14px;background:var(--blanco);border:1px solid var(--linea);border-left:5px solid var(--lima);border-radius:var(--r-md);padding:14px 16px;font-size:14.5px;line-height:1.55;box-shadow:var(--sombra)}
+.lectura b{display:block;font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--suave);margin-bottom:3px}
+.piezas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:14px;align-items:start}
+.pieza{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-lg);box-shadow:var(--sombra);overflow:hidden;animation:entra .35s ease-out;min-width:0}
+.pieza .fv{display:grid;grid-template-columns:150px minmax(0,1fr);gap:0}
+.pieza .foto{position:relative;background:var(--crema);min-height:200px;overflow:hidden}
+.pieza .foto img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.pieza .foto .sin{position:absolute;inset:0;display:grid;place-items:center;text-align:center;font-size:12px;color:var(--suave);padding:10px}
+.pieza .foto .fmt{position:absolute;left:8px;top:8px;max-width:calc(100% - 16px);background:rgba(2,31,24,.82);color:#fff;font-size:11px;font-weight:800;border-radius:999px;padding:3px 9px}
+.pieza .foto .cod{position:absolute;left:8px;bottom:8px;background:rgba(255,255,255,.9);color:var(--g800);font-size:10.5px;font-weight:800;border-radius:999px;padding:2px 8px}
+.pieza .cab{padding:14px 16px 10px;min-width:0}
+.pieza .cab .tg{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:7px}
+.pieza h3{margin:0 0 6px;font-size:16px;line-height:1.3;color:var(--g800)}
+.pieza .pq{font-size:12.5px;color:var(--suave);background:var(--crema);border-radius:10px;padding:7px 10px;line-height:1.45}
+.pieza .pq::before{content:"📊 "}
+.pieza .gancho{font-weight:800;font-size:14.5px;margin:9px 0 0;color:var(--tinta)}
+.pieza .gancho::before{content:"🎬 "}
+.pieza .cuerpo{padding:4px 16px 14px;display:grid;gap:10px}
+.pieza details{border-top:1px solid var(--crema);padding-top:8px}
+.pieza summary{cursor:pointer;font-size:12.5px;font-weight:800;color:var(--g700);list-style:none;display:flex;align-items:center;gap:6px}
+.pieza summary::-webkit-details-marker{display:none}
+.pieza summary::before{content:"▸";transition:transform .15s}
+.pieza details[open] summary::before{transform:rotate(90deg)}
+.pieza ol{margin:8px 0 0;padding-left:20px;font-size:13.5px;display:grid;gap:4px}
+.pieza .txt{white-space:pre-wrap;font-size:13.5px;background:var(--papel);border:1px solid var(--linea);border-radius:12px;padding:10px 12px;margin-top:8px}
+.pieza .hs{display:flex;flex-wrap:wrap;gap:5px;margin-top:6px}
+.pieza .hs span{font-size:12px;font-weight:700;color:var(--g700);background:var(--menta);border-radius:999px;padding:2px 8px}
+.pieza .fila{display:flex;align-items:flex-start;gap:8px;font-size:13px}
+.pieza .fila b{color:var(--g800)}
+.pieza .nota-i{background:#FFF5E3;border:1px solid #F3D7A6;color:#6B4708;border-radius:12px;padding:8px 11px;font-size:12.5px}
+.pieza .nota-i::before{content:"⚠️ Antes de publicar: ";font-weight:800}
+.pieza .acc{display:flex;gap:6px;flex-wrap:wrap}
+.pieza .acc .btn{padding:7px 12px;font-size:12px}
+.tienda-c{display:grid;grid-template-columns:44px minmax(0,1fr);gap:10px;background:var(--papel);border:1px solid var(--linea);border-radius:14px;padding:9px 10px}
+.tienda-c img,.tienda-c .ini{width:44px;height:44px;border-radius:10px;object-fit:contain;background:#fff;border:1px solid var(--linea)}
+.tienda-c .ini{display:grid;place-items:center;font-weight:800;color:var(--g700)}
+.tienda-c b{display:block;font-size:13.5px}
+.tienda-c small{display:block;font-size:12px;color:var(--suave);line-height:1.4}
+.tienda-c a{font-size:12px;font-weight:800;color:var(--g700)}
+.pieza.espera{min-height:210px;background:linear-gradient(100deg,var(--blanco) 30%,var(--crema) 50%,var(--blanco) 70%);background-size:300% 100%;animation:brillo 1.4s linear infinite;display:grid;place-items:center;color:var(--suave);font-size:13px;font-weight:700}
+@keyframes brillo{from{background-position:100% 0}to{background-position:0 0}}
+.tag.pregunta{background:#E3F0FA;color:#245A86}
+.tag.evento{background:#EFE6FB;color:#5B2F91}
+.tag.tienda{background:var(--crema);color:var(--g800)}
+.tag.servicio{background:#E1F3F1;color:#13615A}
+.tag.tendencia{background:#FFF0D6;color:#8C5A0B}
+.historial{display:grid;gap:8px}
+.historial button{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 10px;text-align:left;background:var(--blanco);border:1px solid var(--linea);border-radius:14px;padding:10px 13px}
+.historial button:hover{border-color:var(--lima)}
+.historial button.on{border-color:var(--g800);box-shadow:inset 3px 0 0 var(--lima)}
+.historial b{font-size:13.5px}
+.historial small{grid-column:1/-1;color:var(--suave);font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.historial .n{font-size:12px;font-weight:800;color:var(--suave)}
+.banco{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:8px;margin-top:10px}
+.banco a{position:relative;display:block;aspect-ratio:1;border-radius:12px;overflow:hidden;background:var(--crema)}
+.banco img{width:100%;height:100%;object-fit:cover;display:block}
+.banco a span{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(2,31,24,.85));color:#fff;font-size:10.5px;font-weight:700;padding:14px 6px 5px;line-height:1.2}
+.logos{display:grid;grid-template-columns:repeat(auto-fill,minmax(64px,1fr));gap:6px;margin-top:10px}
+.logos img{width:100%;aspect-ratio:1;object-fit:contain;background:#fff;border:1px solid var(--linea);border-radius:10px;padding:4px}
+.cont-lado{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:14px;align-items:start;margin-top:14px}
+.cont-lado>.lado{display:grid;gap:14px;position:sticky;top:70px}
+
 /* Reporte */
 .reporte{white-space:pre-wrap;font-size:14.5px;line-height:1.6}
 .reporte .tt{display:block;font-weight:800;color:var(--g800);margin-top:10px}
@@ -287,7 +366,8 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .pie-pag{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;color:var(--suave);font-size:12px;margin-top:22px}
 
 @media (max-width:1240px){.k6{grid-template-columns:repeat(3,minmax(0,1fr))}.c33{grid-template-columns:1fr 1fr}.resumen-casos{grid-template-columns:repeat(3,minmax(0,1fr))}}
-@media (max-width:980px){.c3{grid-template-columns:1fr}.c33{grid-template-columns:1fr}}
+@media (max-width:1180px){.piezas{grid-template-columns:1fr}}
+@media (max-width:980px){.c3{grid-template-columns:1fr}.c33{grid-template-columns:1fr}.cont-lado{grid-template-columns:1fr}.cont-lado>.lado{position:static}}
 @media (max-width:760px){
   .top-in{padding:14px 16px;gap:12px}.logo{width:118px}.sep{display:none}.tit h1{font-size:17px}
   .bosco{order:3}.acciones{order:4;width:100%}.acciones .btn{flex:1}
@@ -299,6 +379,8 @@ button{cursor:pointer;background:none;border:0;padding:0}
   .dona svg{width:110px;height:110px}
   .lateral{width:100%}
   #toasts{right:12px;left:12px;width:auto;top:12px}
+  .gen-cab{grid-template-columns:1fr;padding:16px}.gen-cab .der{justify-items:stretch}.gen-cab .base{text-align:left;max-width:none}
+  .pieza .fv{grid-template-columns:1fr}.pieza .foto{aspect-ratio:16/10;min-height:0}
 }
 </style>
 </head>
@@ -317,6 +399,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
     </div>
     <div class="bosco" id="boscoChip"><img id="boscoFoto" alt=""><div><b id="boscoNom">Asistente</b><span id="boscoEst">atiende las 24 horas</span></div></div>
     <div class="acciones">
+      <button class="btn btn-blanco" id="btnGenerar">✨ Generar contenido</button>
       <button class="btn btn-lima" id="btnHablar">💬 Hablar con <span id="nomAsis">el asistente</span></button>
       <button class="btn btn-borde" id="btnCel">📱 Panel en mi celular</button>
     </div>
@@ -344,6 +427,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
       <button data-tab="resumen" class="on">Resumen</button>
       <button data-tab="casos">Quejas y casos <span class="b" id="bCasos">0</span></button>
       <button data-tab="conv">Conversaciones <span class="b cero" id="bConv">0</span></button>
+      <button data-tab="contenido">✨ Contenido</button>
     </nav>
 
     <section id="tResumen">
@@ -376,6 +460,29 @@ button{cursor:pointer;background:none;border:0;padding:0}
 
     <section id="tConv" class="oculto">
       <div class="caja"><h2><span class="ic">💬</span>Mensajes de los visitantes <span class="d" id="convD"></span></h2><div id="convLista"></div><button class="btn btn-claro mas oculto" id="btnMas">Ver más</button></div>
+    </section>
+
+    <section id="tContenido" class="oculto">
+      <div class="gen-cab">
+        <div style="position:relative;z-index:1;min-width:0">
+          <h2>Contenido para redes, según lo que dice la gente</h2>
+          <p>Lee en vivo las preguntas, quejas, felicitaciones y temas del periodo y los filtros de arriba, junto con los eventos vigentes y las fechas que vienen, y escribe piezas listas para producir con fotos reales del centro comercial y cómo llegar a cada local.</p>
+          <div class="seg" id="enfoques"><button data-e="auto" class="on">Automático</button><button data-e="preguntas">Lo que preguntan</button><button data-e="quejas">Prevenir quejas</button><button data-e="eventos">Eventos y fechas</button><button data-e="tiendas">Tiendas</button><button data-e="servicios">Servicios</button></div>
+          <div class="gen-pedido"><input id="pedido" maxlength="300" placeholder="Indicación opcional: «para Black Friday», «solo historias», «tono más juvenil»…"></div>
+        </div>
+        <div class="der"><button class="btn btn-lima" id="btnGenerar2">✨ Generar contenido</button><div class="base" id="genBase"></div></div>
+      </div>
+      <div class="cont-lado">
+        <div>
+          <div class="lectura oculto" id="lectura"></div>
+          <div class="piezas" id="piezas"><div class="caja vacio" style="grid-column:1/-1">Toque <b>Generar contenido</b> y las piezas van apareciendo una por una mientras se escriben.</div></div>
+        </div>
+        <div class="lado">
+          <div class="caja"><h2><span class="ic">🗂️</span>Generado antes</h2><div class="historial" id="historial"><div class="vacio">—</div></div></div>
+          <div class="caja"><h2><span class="ic">📷</span>Banco de fotos <span class="d" id="bancoN"></span></h2><div style="font-size:12.5px;color:var(--suave)">Fotos de elbosque.com.ec guardadas para usar de base. El contenido sugiere cuál usar por código.</div><div class="banco" id="banco"></div>
+            <details style="margin-top:12px"><summary style="cursor:pointer;font-weight:800;font-size:13px;color:var(--g700)">Logos de los locales <span id="logosN"></span></summary><div class="logos" id="logos"></div></details></div>
+        </div>
+      </div>
     </section>
 
     <div class="pie-pag"><span>Escucha digital · Creative Whisper</span><span>WhatsApp · web · voz · Instagram · Facebook · TikTok</span></div>
@@ -600,6 +707,7 @@ function pintar(nuevosM = new Set()) {
   if (tab === "resumen") { kpis(r); serie(r); dona(r); canales(r); temas(r); areas(r); calor(r); preguntas(r); destacados(r); ahora(r, nuevosM); }
   if (tab === "casos") tablero(r);
   if (tab === "conv") conversaciones(r, nuevosM);
+  if (tab === "contenido") $("#genBase").textContent = baseTxt();
 }
 
 function pintarFiltros() {
@@ -926,7 +1034,8 @@ $("#chkDemo").addEventListener("change", (e) => { S.demo = e.target.checked; car
 $("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button[data-tab]"); if (b) irA(b.dataset.tab); });
 function irA(t) {
   tab = t; $$("#tabs button").forEach((x) => x.classList.toggle("on", x.dataset.tab === t));
-  $("#tResumen").classList.toggle("oculto", t !== "resumen"); $("#tCasos").classList.toggle("oculto", t !== "casos"); $("#tConv").classList.toggle("oculto", t !== "conv");
+  $("#tResumen").classList.toggle("oculto", t !== "resumen"); $("#tCasos").classList.toggle("oculto", t !== "casos"); $("#tConv").classList.toggle("oculto", t !== "conv"); $("#tContenido").classList.toggle("oculto", t !== "contenido");
+  if (t === "contenido") abrirContenido();
   pintar();
 }
 let tq = null;
@@ -1027,6 +1136,163 @@ $("#btnHablar").addEventListener("click", () => {
   if (cu.wa_demo) ops.push({ t: "WhatsApp", txt: `Escanee como lo haría un visitante: se abre el chat de WhatsApp con ${nom}. Escríbale, mándele una foto o llámelo. Deje una queja y mírela llegar aquí.`, url: cu.wa_demo, boton: "Abrir el chat", cara: true });
   if (cu.web) ops.push({ t: "Web nueva", txt: `Se abre la web nueva con ${nom} listo para conversar, por escrito o por voz.`, url: cu.web, boton: "Abrir la web", cara: true });
   if (ops.length) modal(`Hable con ${nom}`, ops);
+});
+
+// ---------- Generar contenido ----------
+// El panel resume lo que ve (periodo + filtros) y la función escribe las piezas en vivo, una por línea (NDJSON).
+const ENF = { auto: "Automático", preguntas: "Lo que preguntan", quejas: "Prevenir quejas", eventos: "Eventos y fechas", tiendas: "Tiendas", servicios: "Servicios" };
+const SENAL = { pregunta: "Pregunta frecuente", queja: "Queja que se repite", evento: "Evento / fecha", felicitacion: "Lo que felicitan", tienda: "Tienda buscada", servicio: "Servicio", tendencia: "Tendencia" };
+let enfoque = "auto", generando = false, contenidoListo = false, historial = [];
+function filtrosTxt() {
+  const t = [];
+  for (const k of Object.keys(DIM)) if (F[k].size) t.push(`${DIM[k]}: ${[...F[k]].map((v) => ETIQ[k](v)).join(", ")}`);
+  if (F.dia) t.push(`Día: ${F.dia}`); if (F.hora != null) t.push(`Franja: ${DIAS[F.dow]} ${F.hora}:00`); if (F.pregunta) t.push(`Pregunta: ${F.pregunta}`); if (F.q) t.push(`Búsqueda: ${$("#q").value}`);
+  return t;
+}
+function baseTxt() {
+  if (!S.cargado) return "";
+  const m = msgsF(null, rangos());
+  const f = filtrosTxt();
+  return `Se leerán ${fmt(m.length)} mensajes de ${S.dias === 1 ? "hoy" : `los últimos ${S.dias} días`}${f.length ? ` · filtros: ${f.join(" · ")}` : ""}${S.demo && S.cuenta?.modo_demo ? " · incluye histórico de ejemplo" : ""}.`;
+}
+function senales() {
+  const r = rangos(), m = msgsF(null, r), mp = msgsF(null, r, true), cs = casosF(null, r, true);
+  const top = (arr, f, n) => { const o = {}; for (const x of arr) { const k = f(x); if (k) o[k] = (o[k] || 0) + 1; } return Object.entries(o).sort((a, b) => b[1] - a[1]).slice(0, n); };
+  const temasP = Object.fromEntries(top(mp, (x) => x.m, 30));
+  const temas = {};
+  for (const x of m) { const k = x.m; if (!k || k === "saludo u otro") continue; const t = temas[k] ??= { tema: k, n: 0, positivos: 0, negativos: 0, quejas: 0 }; t.n++; if (x.s === "positivo") t.positivos++; if (x.s === "negativo") t.negativos++; if (x.k === "queja") t.quejas++; }
+  const zonas = {};
+  for (const c of cs) { const k = `${c.zona || "sin zona"}|${c._tema}`; const z = zonas[k] ??= { zona: c.zona || null, tema: c._tema, area: c.area, n: 0, abiertas: 0, ejemplo: c.resumen }; z.n++; if (c.estado !== "resuelto") z.abiertas++; }
+  const textos = (f, n) => { const s = new Set(), out = []; for (const x of [...m].sort((a, b) => b._ts - a._ts)) { if (!f(x) || !x.x || x.x.length < 12 || s.has(x.x)) continue; s.add(x.x); out.push(x.x.slice(0, 160)); if (out.length >= n) break; } return out; };
+  const franjas = top(m, (x) => (x._h >= 9 && x._h <= 21 ? `${["lunes", "martes", "miércoles", "jueves", "viernes", "sábado", "domingo"][x._dow]} ${x._h}:00` : null), 4);
+  return {
+    periodo: S.dias === 1 ? "hoy" : `últimos ${S.dias} días`, filtros: filtrosTxt(), incluye_historico_de_ejemplo: !!(S.demo && S.cuenta?.modo_demo),
+    mensajes: m.length, mensajes_periodo_anterior: mp.length, conversaciones: new Set(m.map((x) => x.z)).size,
+    indice_sentimiento: indiceDe(m), indice_periodo_anterior: indiceDe(mp),
+    por_tipo: Object.fromEntries(top(m, (x) => x.k, 8)), por_canal: Object.fromEntries(top(m, (x) => CANAL[x.c]?.n ?? x.c, 8)),
+    temas: Object.values(temas).sort((a, b) => b.n - a.n).slice(0, 12).map((t) => ({ ...t, periodo_anterior: temasP[t.tema] || 0 })),
+    preguntas_frecuentes: top(m, (x) => x.q, 14).map(([pregunta, n]) => ({ pregunta, n })),
+    quejas_por_lugar: Object.values(zonas).sort((a, b) => b.n - a.n).slice(0, 12),
+    felicitaciones: textos((x) => x.k === "felicitacion", 6), sugerencias: textos((x) => x.k === "sugerencia", 5),
+    mensajes_recientes: textos((x) => x.k && x.k !== "felicitacion", 16), horas_con_mas_mensajes: franjas.map(([f, n]) => `${f} (${n})`),
+  };
+}
+async function abrirContenido() {
+  $("#genBase").textContent = baseTxt();
+  if (contenidoListo) return;
+  contenidoListo = true;
+  cargarHistorial();
+  try {
+    const d = await llamar({ accion: "medios", logos: true });
+    const fotos = (d.fotos || []).filter((f) => f.url);
+    $("#bancoN").textContent = `${fotos.length} fotos`;
+    $("#banco").innerHTML = fotos.map((f) => `<a href="${esc(f.url)}" target="_blank" rel="noopener" data-tip="${esc(f.descripcion || "")}"><img loading="lazy" src="${esc(f.url)}" alt="${esc(f.titulo || "")}"><span>${esc(f.codigo)} · ${esc(f.titulo || "")}</span></a>`).join("") || `<div class="vacio">Sin fotos todavía</div>`;
+    const logos = (d.logos || []).filter((l) => l.url).sort((a, b) => String(a.titulo).localeCompare(String(b.titulo)));
+    $("#logosN").textContent = `(${logos.length})`;
+    $("#logos").innerHTML = logos.map((l) => `<img loading="lazy" src="${esc(l.url)}" alt="${esc(l.titulo || "")}" data-tip="${esc(l.titulo || "")}">`).join("");
+  } catch (e) { $("#banco").innerHTML = `<div class="vacio">No se pudo cargar el banco de fotos.</div>`; }
+}
+async function cargarHistorial(marcar) {
+  try {
+    const d = await llamar({ accion: "contenidos" });
+    historial = d.contenidos || [];
+    pintarHistorial(marcar);
+  } catch (e) { $("#historial").innerHTML = `<div class="vacio">No se pudo cargar.</div>`; }
+}
+function pintarHistorial(marcar) {
+  $("#historial").innerHTML = historial.map((c) => `<button data-hist="${c.id}" class="${c.id === marcar ? "on" : ""}"><b>${esc(ENF[c.enfoque] || c.enfoque)}${c.pedido ? " · " + esc(c.pedido) : ""}</b><span class="n">${c.piezas.length} piezas</span><small>${esc(hace(Date.parse(c.creado)))} · ${esc(c.lectura || "")}</small></button>`).join("") || `<div class="vacio">Todavía no se ha generado contenido.</div>`;
+}
+function verHistorial(id) {
+  const c = historial.find((x) => String(x.id) === String(id));
+  if (!c || generando) return;
+  $("#lectura").classList.remove("oculto");
+  $("#lectura").innerHTML = `<b>Qué está diciendo la gente · ${esc(hace(Date.parse(c.creado)))}</b>${esc(c.lectura || "")}`;
+  $("#piezas").innerHTML = c.piezas.map((p, i) => piezaHTML(p, i)).join("");
+  $$("#historial button").forEach((b) => b.classList.toggle("on", b.dataset.hist === String(id)));
+}
+const cierre = (t) => { t = String(t || "").trim(); return !t || /[.!?…)»"”]$/.test(t) ? t : t + "…"; };
+function piezaHTML(p, i) {
+  const f = p.foto, tg = `<span class="tag ${esc(p.senal)}">${esc(SENAL[p.senal] || p.senal)}</span><span class="tag ${esc(p.prioridad)}">Prioridad ${esc(p.prioridad)}</span>`;
+  const foto = f && f.url ? `<img src="${esc(f.url)}" alt="${esc(f.titulo || "")}" loading="lazy"><span class="cod">${esc(f.codigo)}</span>` : `<div class="sin">Sin foto del banco:<br>producir foto o video nuevo</div>`;
+  const tiendas = (p.tiendas || []).map((t) => `<div class="tienda-c">${t.logo ? `<img src="${esc(t.logo)}" alt="" loading="lazy">` : `<span class="ini">${esc((t.nombre || "?")[0])}</span>`}<div><b>${esc(t.nombre)}</b><small>${esc([t.planta, t.local ? "local " + t.local : "", t.categoria].filter(Boolean).join(" · "))}</small>${t.como_llegar ? `<small>📍 ${esc(t.como_llegar)}</small>` : ""}<small>${t.ruta ? `<a href="${esc(t.ruta)}" target="_blank" rel="noopener">Ver la ruta en el mapa →</a>` : ""}${t.telefono ? ` · ☎ ${esc(t.telefono)}` : ""}</small></div></div>`).join("");
+  return `<article class="pieza" data-i="${i}">
+    <div class="fv"><div class="foto">${foto}<span class="fmt">${esc(p.formato)} · ${esc(p.red)}</span></div>
+      <div class="cab"><div class="tg">${tg}</div><h3>${esc(p.titulo)}</h3><div class="pq">${esc(cierre(p.por_que))}</div>${p.gancho ? `<div class="gancho">“${esc(p.gancho)}”</div>` : ""}</div></div>
+    <div class="cuerpo">
+      ${p.guion?.length ? `<details open><summary>${p.formato === "Carrusel" ? "Láminas" : "Guion"} (${p.guion.length})</summary><ol>${p.guion.map((g) => `<li>${esc(g)}</li>`).join("")}</ol></details>` : ""}
+      <details open><summary>Texto para publicar</summary><div class="txt">${esc(p.texto)}</div>${p.hashtags?.length ? `<div class="hs">${p.hashtags.map((h) => `<span>${esc(h)}</span>`).join("")}</div>` : ""}</details>
+      ${p.cta ? `<div class="fila">👉 <span><b>Llamado a la acción:</b> ${esc(p.cta)}</span></div>` : ""}
+      ${p.cuando ? `<div class="fila">🗓️ <span><b>Cuándo:</b> ${esc(p.cuando)}</span></div>` : ""}
+      ${f ? `<div class="fila">📷 <span><b>Foto base:</b> ${esc(f.codigo)} · ${esc(f.titulo || "")}${f.url ? ` · <a href="${esc(f.url)}" target="_blank" rel="noopener" style="color:var(--g700);font-weight:800">abrir</a>` : ""}</span></div>` : ""}
+      ${tiendas}
+      ${p.nota_interna ? `<div class="nota-i">${esc(cierre(p.nota_interna))}</div>` : ""}
+      <div class="acc"><button class="btn btn-verde" data-copiar="${i}">Copiar texto y hashtags</button><button class="btn btn-claro" data-copiar-todo="${i}">Copiar la pieza completa</button></div>
+    </div></article>`;
+}
+let piezasVista = [];
+function textoPieza(p, todo) {
+  const base = `${p.texto}${p.hashtags?.length ? "\n\n" + p.hashtags.join(" ") : ""}`;
+  if (!todo) return base;
+  return [`${p.titulo} (${p.formato} · ${p.red})`, `Por qué: ${p.por_que}`, p.gancho ? `Gancho: ${p.gancho}` : "", p.guion?.length ? `Guion:\n${p.guion.map((g, k) => `${k + 1}. ${g}`).join("\n")}` : "",
+    `Texto:\n${base}`, p.cta ? `Llamado a la acción: ${p.cta}` : "", p.cuando ? `Cuándo: ${p.cuando}` : "", p.foto ? `Foto base: ${p.foto.codigo} · ${p.foto.titulo || ""}` : "",
+    ...(p.tiendas || []).map((t) => `${t.nombre}: ${t.como_llegar || ""}${t.ruta ? " " + t.ruta : ""}`), p.nota_interna ? `Antes de publicar: ${p.nota_interna}` : ""].filter(Boolean).join("\n\n");
+}
+async function copiar(txt, boton) {
+  try { await navigator.clipboard.writeText(txt); } catch (e) { const t = document.createElement("textarea"); t.value = txt; document.body.appendChild(t); t.select(); try { document.execCommand("copy"); } catch (x) {} t.remove(); }
+  const o = boton.textContent; boton.textContent = "¡Copiado!"; setTimeout(() => (boton.textContent = o), 1600);
+}
+async function generar() {
+  if (generando || !S.cargado) return;
+  if (tab !== "contenido") irA("contenido");
+  generando = true;
+  const botones = [$("#btnGenerar"), $("#btnGenerar2")];
+  botones.forEach((b) => { b.disabled = true; b.textContent = "✨ Escribiendo…"; });
+  $$("#historial button").forEach((b) => b.classList.remove("on"));
+  $("#lectura").classList.remove("oculto");
+  $("#lectura").innerHTML = `<b>Leyendo la conversación…</b><span style="color:var(--suave)">${esc(baseTxt())}</span>`;
+  $("#piezas").innerHTML = "";
+  piezasVista = [];
+  let esperas = 0;
+  const ponerEsperas = (n) => { $$("#piezas .espera").forEach((x) => x.remove()); for (let k = 0; k < n; k++) $("#piezas").insertAdjacentHTML("beforeend", `<div class="pieza espera">Escribiendo la pieza…</div>`); esperas = n; };
+  ponerEsperas(2);
+  try {
+    const resp = await fetch(API, { method: "POST", headers: { "content-type": "application/json" },
+      body: JSON.stringify({ token: TOKEN, accion: "contenido", enfoque, pedido: $("#pedido").value.trim(), dias: S.dias, demo: S.demo, senales: senales() }) });
+    if (!resp.ok || !resp.body) { const j = await resp.json().catch(() => ({})); throw new Error(j.error || "HTTP " + resp.status); }
+    const rd = resp.body.getReader(), dec = new TextDecoder();
+    let buf = "", fin = null;
+    const manejar = (x) => {
+      if (x.tipo === "inicio") ponerEsperas(Math.min(2, x.n || 2));
+      else if (x.tipo === "lectura") $("#lectura").innerHTML = `<b>Qué está diciendo la gente</b>${esc(x.texto)}`;
+      else if (x.tipo === "pieza") { piezasVista.push(x); const k = piezasVista.length - 1; const pend = $("#piezas .espera"); pend ? pend.insertAdjacentHTML("beforebegin", piezaHTML(x, k)) : $("#piezas").insertAdjacentHTML("beforeend", piezaHTML(x, k)); }
+      else if (x.tipo === "fin") fin = x;
+      else if (x.tipo === "error") throw new Error(x.error);
+    };
+    while (true) {
+      const { value, done } = await rd.read();
+      if (done) break;
+      buf += dec.decode(value, { stream: true });
+      let k;
+      while ((k = buf.indexOf("\n")) >= 0) { const l = buf.slice(0, k).trim(); buf = buf.slice(k + 1); if (l) { try { manejar(JSON.parse(l)); } catch (e) { if (e.message && !(e instanceof SyntaxError)) throw e; } } }
+    }
+    $$("#piezas .espera").forEach((x) => x.remove());
+    if (!piezasVista.length) throw new Error("no llegaron piezas");
+    await cargarHistorial(fin?.id);
+  } catch (e) {
+    $$("#piezas .espera").forEach((x) => x.remove());
+    $("#piezas").insertAdjacentHTML("beforeend", `<div class="caja vacio" style="grid-column:1/-1">No se pudo terminar: ${esc(e.message)}</div>`);
+  }
+  generando = false;
+  botones.forEach((b) => { b.disabled = false; b.textContent = "✨ Generar contenido"; });
+}
+$("#btnGenerar").addEventListener("click", generar);
+$("#btnGenerar2").addEventListener("click", generar);
+$("#enfoques").addEventListener("click", (e) => { const b = e.target.closest("button[data-e]"); if (!b) return; enfoque = b.dataset.e; $$("#enfoques button").forEach((x) => x.classList.toggle("on", x === b)); });
+$("#pedido").addEventListener("keydown", (e) => { if (e.key === "Enter") generar(); });
+$("#tContenido").addEventListener("click", (e) => {
+  const h = e.target.closest("[data-hist]"); if (h) { verHistorial(h.dataset.hist); piezasVista = historial.find((x) => String(x.id) === h.dataset.hist)?.piezas || []; return; }
+  const c = e.target.closest("[data-copiar]"); if (c) { copiar(textoPieza(piezasVista[Number(c.dataset.copiar)], false), c); return; }
+  const t = e.target.closest("[data-copiar-todo]"); if (t) { copiar(textoPieza(piezasVista[Number(t.dataset.copiarTodo)], true), t); return; }
 });
 $("#mCerrar").addEventListener("click", () => $("#modal").classList.add("oculto"));
 $("#modal").addEventListener("click", (e) => { if (e.target.id === "modal") $("#modal").classList.add("oculto"); });
