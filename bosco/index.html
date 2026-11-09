@@ -206,7 +206,10 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
 .m .bots button{background:var(--menta);color:var(--g700);font-weight:800;font-size:12.5px;padding:7px 10px;border-radius:10px}
 .sug{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px;scrollbar-width:none}
 .sug button{flex:none;background:#fff;border:1.5px solid var(--linea);border-radius:99px;padding:8px 12px;font-size:13px;font-weight:700}
-.chat-pie{position:sticky;bottom:calc(76px + var(--sb));display:flex;gap:8px;align-items:center;background:var(--papel);padding:8px 0}
+/* El chat ocupa toda la pantalla disponible: los mensajes crecen y la caja para escribir queda abajo, sobre las pestañas. */
+#v-bosco.activa{display:flex;flex-direction:column;min-height:calc(100dvh - var(--st) - 72px - 14px - 96px - var(--sb))}
+#v-bosco .msgs{flex:1 1 auto;min-height:0;justify-content:flex-end}
+.chat-pie{position:sticky;bottom:calc(76px + var(--sb));display:flex;gap:8px;align-items:center;background:var(--papel);padding:8px 0;margin-top:auto}
 .chat-pie input{flex:1;border:1.5px solid var(--linea);border-radius:99px;padding:12px 16px;background:#fff;font-size:15px}
 .redondo{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;flex:none}
 .redondo svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
