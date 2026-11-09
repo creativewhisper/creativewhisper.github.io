@@ -392,7 +392,7 @@ details summary{cursor:pointer;font-weight:700;font-size:14px;padding:10px 0;col
   <h1>¿Cómo se llama?</h1>
   <p id="nomTxt">Bosco le saluda por su nombre cuando le llama.</p>
   <input class="campo" id="onNombre" placeholder="Su nombre" maxlength="60" autocomplete="given-name">
-  <div id="onAreasCaja" data-solo="gerencia" style="max-width:360px"><p class="sub" style="color:#cfe3d4;margin:4px 0 0">¿También es responsable de alguna área? (Bosco le pasará sus tareas)</p><div class="chips" id="onAreas" style="justify-content:center"></div></div>
+  <div id="onAreasCaja" data-solo="gerencia" style="max-width:360px"><p class="sub" style="color:#cfe3d4;margin:4px 0 6px">¿Cómo usará este celular?</p><div class="chips" id="onRol" style="justify-content:center;margin-bottom:10px"></div><p class="sub" id="onAreasTxt" style="color:#cfe3d4;margin:4px 0 0">Además, ¿Bosco le llama para tareas de alguna área? (opcional)</p><div class="chips" id="onAreas" style="justify-content:center"></div></div>
   <button class="btn btn-l btn-grande" id="btnOnListo">Listo</button>
 </div>
 <div class="pantalla oculto" id="vPausa">
@@ -666,8 +666,10 @@ function detectarCasos(p) {
 function detectarTareas(tareas) {
   if (S.primera || document.hidden) return;
   for (const t of tareas || []) {
-    const paso = [...(t.pasos || [])].reverse().find((p) => p.tipo === "pasada");
-    if (t.estado === "llamando" && misAreas().includes(t.area) && Date.now() - new Date(t.actualizado).getTime() < 10 * 60000 && paso?.de !== DISP) entrante("tarea", t.id);
+    // Suena solo en el celular al que le toca el turno (la última llamada guarda a quién se llamó).
+    const ps = [...(t.pasos || [])].reverse(), paso = ps.find((p) => p.tipo === "pasada"), ult = ps.find((p) => p.tipo === "llamada");
+    const meToca = !Array.isArray(ult?.a) || ult.a.includes(DISP);
+    if (t.estado === "llamando" && misAreas().includes(t.area) && Date.now() - new Date(t.actualizado).getTime() < 10 * 60000 && paso?.de !== DISP && meToca) entrante("tarea", t.id, null, `tarea-${t.id}-${ult?.en || ""}`);
   }
 }
 
@@ -1254,8 +1256,9 @@ async function cargarEquipo(nuevo) {
   const r = await A({ accion: "equipo", ...(nuevo ? { nuevo } : {}) });
   if (r.error) { $("#equipoLista").innerHTML = `<p class="sub">${esc(r.error)}</p>`; return; }
   S.equipo = r.equipo;
-  $("#equipoLista").innerHTML = r.equipo.map((a) => `<div class="fila-area" style="cursor:default"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${a.personas.length ? a.personas.map((x) => `${esc(x.nombre)}${x.llamadas ? " 📞" : ""}${x.ocupado ? ` <span style="color:var(--rojo);font-weight:800" title="${esc(x.ocupado)}">· 🔴 ocupado</span>` : " · 🟢 libre"}`).join(", ") : "Nadie todavía"}</small></span><button class="btn btn-b" style="padding:8px 12px;font-size:13px" data-eq="${a.area}">Invitar</button></div>`).join("");
+  $("#equipoLista").innerHTML = r.equipo.map((a) => `<div class="fila-area" style="cursor:default"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${a.personas.length ? a.personas.map((x) => `${esc(x.nombre)}${x.llamadas ? " 📞" : ""}${x.ocupado ? ` <span style="color:var(--rojo);font-weight:800" title="${esc(x.ocupado)}">· 🔴 ocupado</span>` : " · 🟢 libre"}`).join(", ") : "Nadie todavía"}</small></span><button class="btn btn-b" style="padding:8px 12px;font-size:13px" data-eq="${a.area}">Invitar</button></div>`).join("") + `<p class="sub" style="margin-top:10px">¿Este celular es de alguien del equipo? Ábralo como su área: ${r.equipo.map((a) => `<button class="btn btn-b" style="padding:6px 10px;font-size:12px;margin:4px 4px 0 0" data-usar="${a.area}">${a.icono} ${esc(cap(a.nombre))}</button>`).join("")}</p>`;
   for (const b of $$("[data-eq]", $("#equipoLista"))) b.onclick = () => invitar(b.dataset.eq);
+  for (const b of $$("[data-usar]", $("#equipoLista"))) b.onclick = () => { if (!b.dataset.seguro) { b.dataset.seguro = "1"; b.textContent = "¿Seguro? Toque otra vez"; return; } pasarAEquipo(b.dataset.usar, S.disp?.nombre || ""); };
 }
 let qrLib = null;
 function cargarQr() { return qrLib || (qrLib = new Promise((ok, mal) => { const sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"; sc.onload = () => ok(window.qrcode); sc.onerror = mal; document.head.appendChild(sc); })); }
@@ -1630,10 +1633,38 @@ function pasoNombre() {
     pantalla("#vNombre");
     $("#nomTxt").textContent = esEquipo() ? `Equipo de ${S.areaNombre || "su área"}. ${asis()} le saluda por su nombre cuando le llama.` : `${asis()} le saluda por su nombre cuando le llama.`;
     const sel = new Set(S.disp?.areas || []);
+    let rolEq = false;
+    if (esEquipo()) { try { const n = ls.get("bosco-nombre"); if (n) $("#onNombre").value = n; } catch {} }
+    // Con el enlace de la gerencia se elige el uso: gerencia (ve todo) o equipo de un área (solo sus tareas e indicadores).
+    $("#onRol").innerHTML = `<button class="on" data-rol="g">🏢 Gerencia: veo todo y apruebo</button><button data-rol="e">👷 Soy del equipo de un área</button>`;
+    $("#onRol").onclick = (e) => {
+      const b = e.target.closest("[data-rol]"); if (!b) return;
+      rolEq = b.dataset.rol === "e"; sel.clear();
+      for (const x of $$("[data-rol]", $("#onRol"))) x.classList.toggle("on", x === b);
+      for (const x of $$("[data-area]", $("#onAreas"))) x.classList.remove("on");
+      $("#onAreasTxt").textContent = rolEq ? "¿De qué área? Verá solo sus tareas y sus indicadores." : "Además, ¿Bosco le llama para tareas de alguna área? (opcional)";
+    };
     $("#onAreas").innerHTML = Object.entries(AREA).map(([k, [ic, n]]) => `<button class="${sel.has(k) ? "on" : ""}" data-area="${k}">${ic} ${n}</button>`).join("");
-    $("#onAreas").onclick = (e) => { const b = e.target.closest("[data-area]"); if (!b) return; sel.has(b.dataset.area) ? sel.delete(b.dataset.area) : sel.add(b.dataset.area); b.classList.toggle("on"); };
-    $("#btnOnListo").onclick = async () => { $("#dNombre").value = $("#onNombre").value.trim(); S.areasSel = esEquipo() ? null : [...sel]; await guardarDisp(); listo(); };
+    $("#onAreas").onclick = (e) => {
+      const b = e.target.closest("[data-area]"); if (!b) return;
+      if (rolEq) { sel.clear(); sel.add(b.dataset.area); for (const x of $$("[data-area]", $("#onAreas"))) x.classList.toggle("on", x === b); return; }
+      sel.has(b.dataset.area) ? sel.delete(b.dataset.area) : sel.add(b.dataset.area); b.classList.toggle("on");
+    };
+    $("#btnOnListo").onclick = async () => {
+      if (rolEq) { if (!sel.size) return toast("Elija su área"); return pasarAEquipo([...sel][0], $("#onNombre").value.trim()); }
+      $("#dNombre").value = $("#onNombre").value.trim(); S.areasSel = esEquipo() ? null : [...sel]; await guardarDisp(); listo();
+    };
   });
+}
+
+// Este celular pasa a ser del equipo de un área: abre la app con el enlace de esa área (solo sus tareas e indicadores).
+async function pasarAEquipo(area, nombre) {
+  const r = await A({ accion: "equipo" });
+  const enlace = (r.equipo || []).find((x) => x.area === area)?.enlace;
+  const tk = (String(enlace || "").match(/[?&]e=([a-f0-9]+)/i) || [])[1];
+  if (!tk) return toast("No pude abrir la app del área. Pida el enlace a la gerencia.");
+  ls.set("bosco-acceso", JSON.stringify({ e: tk })); ls.set("bosco-gerencia", "0"); if (nombre) ls.set("bosco-nombre", nombre);
+  location.replace(`./?e=${tk}`);
 }
 
 async function iniciar() {

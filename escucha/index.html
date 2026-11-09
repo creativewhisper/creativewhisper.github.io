@@ -57,6 +57,20 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .btn-claro:hover{border-color:var(--lima)}
 .btn-verde{background:var(--g800);color:#fff}
 .btn-verde:hover{background:var(--g700)}
+.btn-lima{background:var(--lima);color:#fff}.btn-lima:hover{background:var(--lima2)}
+.btn-rojo{background:#fff;border:1.5px solid #E7B3A9;color:#A3301E}.btn-rojo:hover{border-color:#A3301E}
+.piloto{display:flex;flex-wrap:wrap;align-items:center;gap:14px 20px;background:linear-gradient(135deg,var(--g800),var(--g950));color:#fff;border-radius:18px;padding:16px 20px;margin-bottom:14px}
+.piloto.on{background:linear-gradient(135deg,var(--g600),var(--g700));box-shadow:0 0 0 2px var(--lima2) inset}
+.piloto .pt{flex:1 1 320px;min-width:0}.piloto h2{margin:0 0 4px;font-size:16px}.piloto p{margin:0;font-size:13px;color:#CFE3C4;line-height:1.45}
+.piloto .barra{height:8px;border-radius:4px;background:rgba(255,255,255,.12);overflow:hidden;margin-top:8px;max-width:420px}.piloto .barra i{display:block;height:100%;background:var(--lima2)}
+.piloto .btn{background:var(--lima);color:#fff;border:0}.piloto.on .btn{background:#fff;color:var(--g800)}
+.decidir{display:flex;flex-direction:column;gap:8px;background:var(--papel);border:1px solid var(--linea);border-radius:14px;padding:12px}
+.decidir h2{margin:0;font-size:14px;color:var(--g800)}.decidir input{border:1.5px solid var(--linea);border-radius:10px;padding:9px 11px;font:inherit}
+.decidir .fila{display:flex;gap:8px;flex-wrap:wrap}.decidir .fila .btn{flex:1}
+.motivos{display:flex;flex-wrap:wrap;gap:6px}.motivos button{border:1.5px solid var(--linea);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:700;background:#fff;color:var(--g800)}
+.motivos button.on{background:var(--g800);border-color:var(--g800);color:#fff}
+.pred{background:var(--menta);color:var(--g800);border-radius:12px;padding:10px 12px;font-size:13px;line-height:1.4}
+.verif{display:inline-flex;gap:4px;align-items:center;border-radius:999px;padding:2px 9px;font-size:11.5px;font-weight:800;background:#FBEBD0;color:#8A5A10}.verif.ok{background:var(--menta);color:var(--g700)}
 .btn-rojo{background:var(--rojo);color:#fff}
 .btn:disabled{opacity:.5;cursor:default}
 
@@ -586,6 +600,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
     </nav>
 
     <section id="tResumen">
+      <div id="piloto"></div>
       <div class="rejilla k6" id="kpis"></div>
       <div class="rejilla c3" style="margin-top:14px">
         <div class="caja graf"><h2><span class="ic">📈</span>Conversaciones y sentimiento <span class="d" id="serieD"></span></h2><div id="serie"></div>
@@ -815,6 +830,15 @@ function hayFiltros() { return Object.keys(DIM).some((k) => F[k].size) || F.preg
 function limpiarFiltros() { for (const k of Object.keys(DIM)) F[k].clear(); F.pregunta = F.dia = F.dow = F.hora = null; F.q = ""; $("#q").value = ""; pintar(); }
 
 // ---------- Datos ----------
+// Las decisiones (aprobar, no enviar a nadie, resolver) y el piloto automático pasan por app-cliente, igual que en el celular:
+// al aprobar, Bosco llama por turno a la persona libre del área que más tiempo lleva sin tarea, y cada decisión guarda su motivo.
+const APP = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/app-cliente";
+async function app(cuerpo) {
+  const r = await fetch(APP, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token: TOKEN, demo: S.demo, ...cuerpo }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok || j.error) throw new Error(j.error || "HTTP " + r.status);
+  return j;
+}
 async function llamar(cuerpo) {
   const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ token: TOKEN, ...cuerpo }) });
   const j = await r.json().catch(() => ({}));
@@ -853,6 +877,7 @@ async function cargarTodo() {
     S.ultimaSync = Date.parse(d.generado) || Date.now();
     if (!primera) avisarNuevos(antes, new Set());
     S.cargado = true;
+    cargarPiloto();
     ver("vPanel"); pintar();
   } catch (e) {
     if (e.enlace) ver("vError"); else $("#actualizado").textContent = "sin conexión · reintentando";
@@ -1107,12 +1132,12 @@ function conversaciones(r, nuevos) {
 function tarjeta(c) {
   const ar = AREA[c.area] || { n: c.area, i: "•" };
   const t = c.estado === "resuelto" && c.resuelto_en ? `resuelto en ${durTxt((Date.parse(c.resuelto_en) - c._ts) / 6e4)}` : hace(c._ts);
-  const acc = c.estado === "abierto" ? `<button class="btn btn-claro" data-accion="en_proceso" data-id="${c.id}">Atender</button><button class="btn btn-verde" data-accion="resuelto" data-id="${c.id}">Resuelto</button>`
+  const acc = c.estado === "abierto" ? `<button class="btn btn-lima" data-accion="aprobar" data-id="${c.id}">✅ Aprobar</button><button class="btn btn-claro" data-accion="decidir" data-id="${c.id}">Otra decisión…</button>`
     : c.estado === "en_proceso" ? `<button class="btn btn-verde" data-accion="resuelto" data-id="${c.id}">Marcar resuelto</button>` : "";
   return `<div class="tarjeta ${c.prioridad}${nuevosCasos.has(c.id) ? " nuevo" : ""}" data-caso="${c.id}">
     <div class="ar">${ar.i} ${esc(ar.n)} · <span class="tag ${c.prioridad}">${esc(PRIO[c.prioridad])}</span><span class="cod">${esc(c.codigo)}</span></div>
     <div class="r">${esc(c.resumen || "(sin resumen)")}</div>
-    <div class="m">${c.zona ? `<span>📍 ${esc(c.zona)}</span>` : ""}<span>${esc(CANAL[c.canal]?.n ?? c.canal)}</span><span>${esc(t)}</span>${c.avisados ? `<span>📲 avisado</span>` : ""}${c.demo ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div>
+    <div class="m">${c.zona ? `<span>📍 ${esc(c.zona)}</span>` : ""}<span>${esc(CANAL[c.canal]?.n ?? c.canal)}</span><span>${esc(t)}</span>${chipVerif(c)}${c.app?.piloto ? `<span>🤖 decidió ${esc(S.cuenta?.asistente || "Bosco")}</span>` : ""}${c.avisados ? `<span>📲 avisado</span>` : ""}${c.demo ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div>
     ${acc ? `<div class="acc">${acc}</div>` : ""}</div>`;
 }
 function tablero(r) {
@@ -1160,11 +1185,17 @@ function pintarLateral(c, completo) {
   const paso = (ok, t, ts) => `<div class="paso${ok ? " ok" : ""}"><i></i><span>${t}</span><small>${ts ? hace(ts) : "—"}</small></div>`;
   const nota = $("#notaCaso")?.value ?? "";
   const conv = $("#conv")?.innerHTML;
-  const acc = c.estado === "abierto" ? `<button class="btn btn-claro" data-accion="en_proceso" data-id="${c.id}">Atender</button><button class="btn btn-verde" data-accion="resuelto" data-id="${c.id}">Marcar resuelto</button>`
+  const asis = S.cuenta?.asistente || "Bosco", p = c.app?.prediccion;
+  const acc = c.estado === "abierto" ? `<div class="decidir"><h2>Decidir</h2>
+      ${p ? `<div class="pred">🤖 <b>${esc(asis)} habría decidido:</b> ${esc({ aprobar: "aprobar y llamar al responsable", descartar: "no enviar a nadie", preguntar: "preguntarle a usted" }[p.decision] || p.decision)} (${Math.round((p.confianza || 0) * 100)} % seguro)${p.motivo ? ` · ${esc(p.motivo)}` : ""}</div>` : ""}
+      <input id="instr" maxlength="200" placeholder="Indicación para el responsable (opcional)" value="${esc(p?.decision === "aprobar" && p.instruccion ? p.instruccion : "")}">
+      <button class="btn btn-lima" data-accion="aprobar" data-id="${c.id}">✅ Aprobar: que ${esc(asis)} llame a ${esc(ar.n.toLowerCase())}</button>
+      <div class="fila"><button class="btn btn-rojo" data-accion="decidir" data-id="${c.id}">❌ No enviar a nadie</button><button class="btn btn-claro" data-accion="resuelto" data-id="${c.id}">Marcar resuelto</button></div>
+      <div id="cajaMotivo"></div></div>`
     : c.estado === "en_proceso" ? `<button class="btn btn-verde" data-accion="resuelto" data-id="${c.id}">Marcar resuelto</button>` : `<button class="btn btn-claro" data-accion="abierto" data-id="${c.id}">Reabrir</button>`;
   $("#lateral").innerHTML = `<div class="lat-cab"><button class="x" id="cerrarLat" aria-label="Cerrar">✕</button>
     <div class="cod">${esc(c.codigo)}${c.demo ? " · EJEMPLO" : ""}</div><h3>${esc(c.resumen || "(sin resumen)")}</h3>
-    <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag ${c.prioridad}">Prioridad ${esc(PRIO[c.prioridad]).toLowerCase()}</span><span class="tag ${c.estado}">${esc(ESTADO[c.estado])}</span></div></div>
+    <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="tag ${c.prioridad}">Prioridad ${esc(PRIO[c.prioridad]).toLowerCase()}</span><span class="tag ${c.estado}">${esc(ESTADO[c.estado])}</span>${chipVerif(c)}</div>${c.app?.descartado ? `<div class="pred" style="margin-top:8px">❌ No se envió a nadie · ${esc(c.app.descartado.motivo || "")}${c.app.descartado.por ? ` · ${esc(c.app.descartado.por)}` : ""}</div>` : c.app?.piloto ? `<div class="pred" style="margin-top:8px">🤖 Lo decidió ${esc(S.cuenta?.asistente || "Bosco")} (piloto automático)</div>` : ""}</div>
     <div class="lat-cuerpo">
       <div class="datos"><div><small>Área</small><b>${ar.i} ${esc(ar.n)}</b></div><div><small>Canal</small><b>${esc(CANAL[c.canal]?.n ?? c.canal)}</b></div>
         <div><small>Zona</small><b>${esc(c.zona || "No la indicó")}</b></div><div><small>Hora del hecho</small><b>${esc(c.hora || "No la indicó")}</b></div>
@@ -1176,13 +1207,67 @@ function pintarLateral(c, completo) {
       <div class="lat-acc">${acc}</div>
     </div>`;
 }
+const VERIF = { ubicacion: "📍 Verificado en el C.C.", foto: "📷 Con foto", sin_verificar: "❔ Sin verificar" };
+const chipVerif = (c) => (c.verif?.bloqueado ? `<span class="verif">🚫 Bloqueado</span>` : VERIF[c.verificacion] ? `<span class="verif${c.verificacion === "sin_verificar" ? "" : " ok"}">${VERIF[c.verificacion]}</span>` : "");
+async function aprobarCaso(id, boton) {
+  const c = S.casos.get(Number(id)); if (!c) return;
+  if (boton) boton.disabled = true;
+  try {
+    const r = await app({ accion: "aprobar", caso: c.id, instruccion: casoAbierto === c.id ? ($("#instr")?.value || "").trim() : "" });
+    const nombres = (r.tarea?.pasos || []).filter((x) => x.tipo === "llamada").map((x) => x.txt).pop();
+    toastTxt(r.ya ? "Ya hay una tarea en curso para este caso" : r.llamados ? (nombres || `${S.cuenta?.asistente || "Bosco"} está llamando al responsable`) : "Aprobado · nadie del área tiene la app con llamadas activas");
+    c.estado = "en_proceso"; c.en_proceso_en = c.en_proceso_en || new Date().toISOString(); prepC(c); pintar(); cargarPiloto();
+    if (casoAbierto === c.id) pintarLateral(c, false);
+  } catch (e) { toastTxt("No se pudo aprobar: " + e.message); if (boton) boton.disabled = false; }
+}
+const MOTIVOS = [["falso", "Es falso o una broma"], ["resuelto", "Ya se resolvió"], ["repetido", "Repetido: ya hay alguien atendiendo"], ["no_corresponde", "No nos corresponde"], ["no_prioritario", "No es prioritario ahora"], ["otro", "Otro"]];
+function elegirMotivo(id) {
+  const caja = $("#cajaMotivo"); if (!caja) return;
+  let tipo = null;
+  caja.innerHTML = `<div style="display:flex;flex-direction:column;gap:8px;margin-top:4px"><b style="font-size:13px;color:var(--g800)">¿Por qué no enviar a nadie? Con su motivo, ${esc(S.cuenta?.asistente || "Bosco")} aprende a decidir.</b>
+    <div class="motivos">${MOTIVOS.map(([k, t]) => `<button type="button" data-m="${k}">${esc(t)}</button>`).join("")}</div>
+    <input id="motivoTxt" maxlength="200" placeholder="Detalle (opcional)"><button class="btn btn-verde" id="motivoOk" disabled>Confirmar</button></div>`;
+  for (const b of caja.querySelectorAll("[data-m]")) b.onclick = () => { tipo = b.dataset.m; for (const x of caja.querySelectorAll("[data-m]")) x.classList.toggle("on", x === b); $("#motivoOk").disabled = false; };
+  $("#motivoTxt").oninput = () => { $("#motivoOk").disabled = !tipo && !$("#motivoTxt").value.trim(); };
+  $("#motivoOk").onclick = async (ev) => {
+    ev.target.disabled = true;
+    try {
+      await app({ accion: "descartar", caso: id, motivo_tipo: tipo || "otro", motivo: $("#motivoTxt").value.trim() });
+      const c = S.casos.get(Number(id)); const ahora = new Date().toISOString();
+      if (c) { c.estado = "resuelto"; c.resuelto_en = ahora; c.app = { ...(c.app || {}), descartado: { motivo: $("#motivoTxt").value.trim() || MOTIVOS.find((m) => m[0] === tipo)?.[1] } }; prepC(c); pintar(); if (casoAbierto === c.id) pintarLateral(c, false); }
+      toastTxt("Listo: no se envía a nadie. Motivo guardado"); cargarPiloto();
+    } catch (e) { toastTxt("No se pudo guardar: " + e.message); ev.target.disabled = false; }
+  };
+  caja.scrollIntoView({ block: "nearest", behavior: "smooth" });
+}
+// Piloto automático: el mismo que en la app de la gerencia.
+async function cargarPiloto() { try { S.piloto = await app({ accion: "piloto" }); pintarPiloto(); } catch (e) { /* sin piloto */ } }
+function pintarPiloto() {
+  const el = $("#piloto"), p = S.piloto; if (!el || !p) return;
+  const asis = S.cuenta?.asistente || "Bosco", listo = p.comparadas >= 10 && p.pct >= 80;
+  el.className = "piloto" + (p.activo ? " on" : "");
+  el.innerHTML = `<div class="pt"><h2>🤖 ${p.activo ? `${esc(asis)} está a cargo` : "Piloto automático"}</h2>
+    <p>${p.activo ? `${esc(asis)} decide los casos nuevos: aprueba y llama al responsable, o no envía a nadie y deja el motivo. Si no está seguro, le pregunta. Usted recibe un aviso de cada decisión.${p.piloto_hoy ? ` Hoy decidió ${p.piloto_hoy}.` : ""}`
+      : p.comparadas ? `Coincide con usted en <b>${p.coincide} de ${p.comparadas}</b> decisiones (${p.pct} %). ${listo ? "Ya está listo para hacerse cargo." : "Aprende de cada decisión y de su motivo."}` : `Cada vez que usted aprueba o no envía a nadie, ${esc(asis)} aprende. Aquí verá cuánto coincide con usted.`}</p>
+    ${!p.activo && p.comparadas ? `<div class="barra"><i style="width:${p.pct}%"></i></div>` : ""}</div>
+    <button class="btn" id="btnPiloto">${p.activo ? "👤 Retomar el control" : `🤖 Poner a ${esc(asis)} a cargo`}</button>`;
+  $("#btnPiloto").onclick = async (ev) => {
+    const b = ev.currentTarget, activo = !p.activo;
+    if (activo && !b.dataset.seguro) { b.dataset.seguro = "1"; b.textContent = `¿Seguro? ${asis} decidirá los casos nuevos. Clic otra vez`; return; }
+    b.disabled = true;
+    try { S.piloto = await app({ accion: "piloto", activo }); pintarPiloto(); toastTxt(activo ? `🤖 ${asis} quedó a cargo` : "Usted retomó el control"); }
+    catch (e) { toastTxt("No se pudo cambiar: " + e.message); b.disabled = false; }
+  };
+}
+
 function cerrarLateral() { $("#velo").classList.remove("on"); casoAbierto = null; }
 async function cambiarEstado(id, estado, boton) {
   const c = S.casos.get(Number(id)); if (!c) return;
   if (boton) boton.disabled = true;
   const nota = casoAbierto === c.id ? ($("#notaCaso")?.value || "").trim() : "";
   try {
-    await llamar({ accion: "caso", id: c.id, estado, ...(nota ? { nota } : {}) });
+    if (estado === "abierto") await llamar({ accion: "caso", id: c.id, estado, ...(nota ? { nota } : {}) });
+    else await app({ accion: "caso", id: c.id, estado, ...(nota ? { nota } : {}) });
     const ahora = new Date().toISOString();
     c.estado = estado; if (nota) c.nota = nota;
     if (estado === "en_proceso") c.en_proceso_en = ahora;
@@ -1250,7 +1335,13 @@ document.addEventListener("click", (e) => {
   if (q) { const k = q.dataset.quitar; if (k === "dia") F.dia = null; else if (k === "hora") F.hora = F.dow = null; else if (k === "pregunta") F.pregunta = null; else if (k === "q") { F.q = ""; $("#q").value = ""; } else F[k].delete(q.dataset.v); pintar(); return; }
   if (t.closest("#limpiar")) { limpiarFiltros(); return; }
   const acc = t.closest("[data-accion]");
-  if (acc) { e.stopPropagation(); cambiarEstado(acc.dataset.id, acc.dataset.accion, acc); return; }
+  if (acc) {
+    e.stopPropagation();
+    const a = acc.dataset.accion;
+    if (a === "aprobar") return aprobarCaso(acc.dataset.id, acc);
+    if (a === "decidir") { if (casoAbierto !== Number(acc.dataset.id)) { abrirCaso(acc.dataset.id); setTimeout(() => elegirMotivo(Number(acc.dataset.id)), 300); } else elegirMotivo(Number(acc.dataset.id)); return; }
+    cambiarEstado(acc.dataset.id, a, acc); return;
+  }
   if (t.closest("#cerrarLat") || t.id === "velo") { cerrarLateral(); return; }
   const fb = t.closest(".fb[data-dim]");
   if (fb) { abrirPop(fb); return; }
