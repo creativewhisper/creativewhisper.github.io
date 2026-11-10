@@ -18,5 +18,13 @@ Seis videos verticales de unos 25 s, en español e inglés (`cw-<nn>-<grupo>-<es
 ```
 - `data-solo`: ids de servicio o grupos (sin el atributo salen los 19).
 - `data-lang="en"` para la versión en inglés (por defecto, el idioma de la página).
-- `data-titulo="no"` si la sección ya tiene su propio título; `data-tema="claro"` para fondos claros.
+- `data-titulo="no"` si la sección ya tiene su propio título, o un título propio; `data-tema="claro"` para fondos claros.
 - Los videos no van dentro del archivo cifrado: se cargan desde esta carpeta solo cuando el cliente toca una tarjeta.
+
+## Cómo se ven (v2, 9-nov-2026)
+- Cada servicio es una tarjeta vertical tipo reel con un cuadro real de su parte del video (`th/<id>-<es|en>.webp`, 360×640). Los servicios mensuales llevan la etiqueta "Mensual" / "Monthly" sobre la imagen.
+- Las tarjetas van en una fila que se desliza (flechas en computadora, dedo en celular).
+- Al pasar el mouse, la tarjeta se mueve sin sonido desde ese mismo cuadro.
+- Al tocarla, el video se abre grande sobre la página, con sonido, en el segundo del servicio, con una barra por capítulos arriba y la lista de capítulos al lado (en celular, botones abajo). Se cierra con la X, Esc o tocando afuera.
+- El título de la sección toma la letra del último h1/h2 de la página antes de las tarjetas, para que se vea parte de cada cotización.
+- El segundo de cada miniatura está en `TH` dentro de `tarjetas.js`. Si se cambia un video, hay que volver a sacar sus miniaturas y revisar esos segundos.
