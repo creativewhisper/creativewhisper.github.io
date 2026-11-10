@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>/* idioma: inglés por defecto; navegador en español -> versión en español (salvo elección manual) */(function(){try{var s=localStorage.getItem("cw-lang");if(s==="en")return;var l=(navigator.languages&&navigator.languages[0])||navigator.language||"";if(s==="es"||/^es\b/i.test(l)){var m={"/": "/es/", "/index.html": "/es/", "/services.html": "/servicios.html", "/data.html": "/datos.html", "/portfolio.html": "/portafolio.html", "/privacy.html": "/privacidad.html"},t=m[location.pathname];if(t)location.replace(t+location.search+location.hash);}}catch(e){}})();</script>
+<link rel="alternate" hreflang="en" href="https://creativewhisper.github.io/data.html">
+<link rel="alternate" hreflang="es" href="https://creativewhisper.github.io/datos.html">
+<link rel="alternate" hreflang="x-default" href="https://creativewhisper.github.io/data.html">
+<style>.lang-sw{display:inline-flex;align-items:center;justify-content:center;height:34px;min-width:44px;padding:0 10px;border-radius:999px;border:1px solid rgba(236,230,219,.28);color:inherit;font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.14em;text-decoration:none;opacity:.85;transition:opacity .2s,border-color .2s;flex:none}.lang-sw:hover{opacity:1;border-color:rgba(236,230,219,.6)}.lang-sw b{font-weight:600;opacity:.45;margin:0 .35em}</style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0908">
+<title>Data analysis — Creative Whisper</title>
+<link rel="icon" href="assets/monograma-cw.png">
+<meta name="description" content="Data analysis in Quito, Ecuador: assessment, governance, cleaning, models, segmentation and conversation analysis to decide who to talk to, with which product and when.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Creative Whisper">
+<meta property="og:title" content="Data analysis — Creative Whisper">
+<meta property="og:description" content="Data to decide who to talk to, with which product and when.">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://creativewhisper.github.io/data.html">
+<meta property="og:image" content="https://creativewhisper.github.io/assets/og-cw-paleta.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://creativewhisper.github.io/data.html">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+:root{--ac:var(--orange);--ae:var(--orange);--at:var(--ink)}
+
+:root{--c1:var(--orange);--c2:var(--teal);--c3:var(--peach)}
+.shead .label i,.ph-in .label i{background:var(--orange)}
+.demo{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);border:1px solid var(--line-2);padding:5px 9px;border-radius:999px;white-space:nowrap}
+
+/* ciclo */
+.cyc{position:relative;border-top:1px solid var(--line)}
+.cyc-stage{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:calc(var(--header) + 3vh) 0 4vh}
+.cyc-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(28px,5vw,80px);align-items:center}
+.cyc-copy .label{display:flex;align-items:center;gap:10px;color:var(--beige)}
+.cyc-copy .label i{width:22px;height:8px;background:var(--orange);transform:skewX(-11deg)}
+.cyc-copy h2{font-size:clamp(48px,5.6vw,100px);margin:14px 0 14px}
+.cyc-what{color:var(--mute);max-width:44ch}
+.panel{margin-top:clamp(22px,4vh,40px);padding-top:22px;border-top:2px solid var(--pc,var(--orange));min-height:250px;transition:border-color .3s}
+.panel-n{font-size:clamp(64px,7vw,120px);color:var(--pc,var(--orange));line-height:.85;display:block;transition:color .3s}
+.panel h3{font-size:clamp(24px,2.2vw,34px);font-weight:600;letter-spacing:-.015em;margin:12px 0 8px}
+.panel p{color:#D7CFC2;max-width:44ch}
+.panel-l{display:block;color:var(--mute);margin:18px 0 8px}
+.outs{display:flex;flex-wrap:wrap;gap:8px}
+.outs span{font-size:13.5px;padding:6px 12px;border:1.5px solid var(--pc,var(--nc,var(--orange)));border-radius:999px}
+.cyc-ring svg{width:100%;max-width:560px;margin-left:auto;overflow:visible}
+.cyc-ring text{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.06em;fill:var(--mute);transition:fill .3s}
+.cyc-ring .ctr{font-family:var(--f-display);font-weight:900;font-size:58px;fill:var(--bone);letter-spacing:0}
+.cyc-ring .ax{font-size:10px;letter-spacing:.2em}
+.node{cursor:pointer;outline:none}
+.node .ring{fill:none;stroke:var(--nc);stroke-width:1.5;opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.6);transition:opacity .3s,transform .3s}
+.node .dot{fill:var(--ink);stroke:var(--nc);stroke-width:2.5;transition:fill .3s}
+.node.on .dot,.node.past .dot{fill:var(--nc)}
+.node.on .ring{opacity:1;transform:none}
+.node.on text{fill:var(--bone)}
+.node:focus-visible .ring{opacity:1;transform:none}
+.cyc-list{display:none;list-style:none;margin-top:36px}
+@media (max-width:900px){
+  .cyc-stage{min-height:0;padding:90px 0 40px;display:block}
+  .cyc-grid{grid-template-columns:1fr}
+  .panel{display:none}
+  .cyc-ring svg{max-width:420px;margin:0 auto}
+  .cyc-list{display:grid;gap:0}
+  .cyc-list li{display:grid;grid-template-columns:62px 1fr;gap:14px;padding:22px 0;border-top:1px solid var(--line)}
+  .cyc-list .n{font-size:44px;color:var(--nc);line-height:.9}
+  .cyc-list h3{font-size:20px;font-weight:600;margin-bottom:6px}
+  .cyc-list p{color:var(--mute);font-size:15.5px;margin-bottom:12px}
+  .cyc-list .outs span{border-color:var(--nc);font-size:12.5px}
+}
+
+/* cadena del dato */
+.pipe{position:relative;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(16px,2vw,32px);padding-top:34px}
+.pipe-line{position:absolute;left:0;right:0;top:9px;height:2px;background:var(--line-2)}
+.pipe-line i{position:absolute;inset:0;background:linear-gradient(90deg,var(--orange),var(--red) 25%,var(--peach) 50%,var(--teal) 75%,var(--beige));transform-origin:0 50%;transform:scaleX(0)}
+.st{position:relative}
+.st::before{content:"";position:absolute;top:-34px;left:0;width:20px;height:20px;background:var(--sc);transform:skewX(-11deg)}
+.st .k{display:block;font-size:clamp(56px,5.4vw,92px);color:var(--sc);line-height:.85}
+.st h3{font-size:clamp(20px,1.7vw,26px);font-weight:600;margin:14px 0 8px}
+.st p{color:var(--mute);font-size:15.5px}
+@media (max-width:900px){.pipe{grid-template-columns:1fr;gap:40px;padding-top:0;padding-left:40px}.pipe-line{left:9px;right:auto;top:0;bottom:0;width:2px;height:auto}.pipe-line i{transform-origin:50% 0}.st::before{top:6px;left:-40px}}
+
+/* gráficos */
+.chart-card{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:clamp(18px,2.6vw,34px)}
+.chart-head{display:flex;justify-content:space-between;align-items:center;gap:16px}
+.chart-head h3{font-size:clamp(18px,1.5vw,22px);font-weight:600}
+.chart-sub{color:var(--mute);font-size:14.5px;margin:6px 0 16px}
+.chart-card svg{width:100%;height:auto;overflow:visible}
+.chart-card .axline{stroke:var(--line);stroke-width:1}
+.chart-card .ax{font-family:var(--f-mono);font-size:11px;fill:var(--mute);letter-spacing:.04em}
+.chart-card .val{font-family:var(--f-mono);font-size:12px;fill:var(--bone);font-weight:500}
+.segs{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,.65fr);gap:clamp(20px,3vw,40px);align-items:start}
+.seg{transition:opacity .3s}
+.segs.dim .seg{opacity:.12}
+.segs.dim .seg.on{opacity:1}
+.seg-cards{display:grid;gap:14px}
+.seg-card{all:unset;box-sizing:border-box;cursor:pointer;display:grid;grid-template-columns:92px 1fr;gap:16px;align-items:center;padding:12px;border:1px solid var(--line);border-radius:14px;background:var(--ink-2);transition:border-color .25s,background .25s}
+.seg-card:hover,.seg-card:focus-visible,.seg-card.on{border-color:var(--sc);background:color-mix(in srgb,var(--sc) 10%,var(--ink-2))}
+.seg-card .thumb{display:block;aspect-ratio:1;overflow:hidden;border-radius:9px;clip-path:polygon(10% 0,100% 0,90% 100%,0 100%)}
+.seg-card .thumb img{width:100%;height:100%;object-fit:cover}
+.seg-card .txt{display:flex;flex-direction:column;gap:6px}
+.dotcol{display:flex;align-items:center;gap:8px;font-weight:600}
+.dotcol i{width:16px;height:7px;background:var(--sc);transform:skewX(-11deg)}
+.seg-card .p{color:var(--mute);font-size:14px;line-height:1.4}
+.pill{align-self:flex-start;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--sc);border:1px solid var(--sc);padding:4px 8px;border-radius:999px}
+.plot{overflow:hidden}
+.changes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin-top:18px}
+.changes > div{border-top:2px solid var(--sc);padding-top:12px}
+.changes h4{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--sc);margin-bottom:6px;font-weight:500}
+.changes p{color:var(--mute);font-size:14.5px}
+@media (max-width:900px){.segs{grid-template-columns:1fr}.changes{grid-template-columns:1fr}}
+
+/* diagnóstico */
+.dials{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,3vw,40px)}
+.dial{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px}
+.dial svg{width:min(100%,220px)}
+.dial-n{position:absolute;top:0;left:0;right:0;aspect-ratio:1;max-width:220px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:clamp(40px,4vw,64px);color:var(--dc)}
+.dial-n sup{font-size:.42em;color:var(--bone);margin:-.6em 0 0 .04em}
+.dial .label{color:var(--mute)}
+.demo-line{margin-top:28px}
+@media (max-width:760px){.dials{grid-template-columns:repeat(2,minmax(0,1fr));gap:28px 16px}}
+
+/* conversaciones */
+.conv-grid{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:clamp(28px,5vw,80px);align-items:center}
+.conv-ph{aspect-ratio:4/3;overflow:hidden;border-radius:6px;background:var(--ink-2)}
+.conv-ph img{width:100%;height:100%;object-fit:cover}
+.conv-tx .label{display:flex;align-items:center;gap:10px;color:var(--teal)}
+.conv-tx .label i{width:22px;height:8px;background:var(--teal);transform:skewX(-11deg)}
+.conv-tx h2{font-size:clamp(46px,5.4vw,96px);margin:14px 0 16px}
+.conv-tx > p{color:#D7CFC2;max-width:46ch}
+.conv-tx ul{list-style:none;margin:22px 0 26px;display:grid;gap:10px}
+.conv-tx li{position:relative;padding-left:28px}
+.conv-tx li::before{content:"";position:absolute;left:0;top:.6em;width:14px;height:6px;background:var(--teal);transform:skewX(-11deg)}
+.conv .lnk{--lc:var(--teal)}
+@media (max-width:900px){.conv-grid{grid-template-columns:1fr}}
+
+/* equipo */
+.photos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,2vw,28px)}
+.photos .pf{aspect-ratio:3/4;overflow:hidden;border-radius:6px;background:var(--ink-2)}
+.photos img{width:100%;height:100%;object-fit:cover}
+.photos figcaption{margin-top:14px;color:var(--mute);font-size:15px}
+.photos figcaption b{display:block;font-family:var(--f-mono);font-weight:500;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--orange);margin-bottom:6px}
+.creds{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:clamp(40px,5vw,72px)}
+.creds > div{border-top:2px solid var(--sc);padding-top:16px}
+.creds h3{font-size:clamp(18px,1.4vw,21px);font-weight:600;margin-bottom:8px}
+.creds p{color:var(--mute);font-size:15px}
+.aff{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,4vw,64px);align-items:center;margin-top:clamp(40px,5vw,72px);padding:clamp(22px,3vw,40px);background:var(--ink-2);border:1px solid var(--line);border-radius:16px}
+.aff-marks{display:flex;align-items:center;gap:22px}
+.aff-marks img{height:58px;width:auto;filter:grayscale(1) brightness(1.8)}
+.aff-marks .sep{width:1px;height:46px;background:var(--line-2)}
+.aff-tx h3{font-size:clamp(22px,2vw,30px);font-weight:600;letter-spacing:-.015em;margin-bottom:10px}
+.aff-tx p{color:var(--mute);max-width:62ch;margin-bottom:14px}
+@media (max-width:900px){.photos{grid-template-columns:repeat(2,minmax(0,1fr))}.photos figure:last-child{display:none}.creds{grid-template-columns:repeat(2,minmax(0,1fr))}.aff{grid-template-columns:minmax(0,1fr)}.aff-marks img{height:44px}}
+@media (max-width:560px){.creds{grid-template-columns:minmax(0,1fr)}}
+
+/* franja con foto */
+.band{position:relative;height:clamp(420px,80vh,760px);overflow:hidden;display:flex;align-items:flex-end}
+.band-ph{position:absolute;inset:-12% 0}
+.band-ph img{width:100%;height:100%;object-fit:cover}
+.band::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,9,8,.92) 0%,rgba(10,9,8,.35) 60%,rgba(10,9,8,.2) 100%)}
+.band-tx{position:relative;z-index:2;padding-bottom:clamp(40px,8vh,90px)}
+.band-tx p{font-size:clamp(44px,6.4vw,112px);max-width:16ch}
+
+/* para empezar */
+.ask{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(16px,3vw,40px)}
+.ask > div{border-top:2px solid var(--sc);padding-top:18px}
+.ask span{display:block;font-size:56px;color:var(--sc);line-height:.9}
+.ask h3{font-size:clamp(20px,1.7vw,26px);font-weight:600;margin:12px 0 8px}
+.ask p{color:var(--mute)}
+@media (max-width:760px){.ask{grid-template-columns:1fr}}
+
+.disclaim{padding:0 0 24px;font-family:var(--f-mono);font-size:11px;letter-spacing:.1em;color:var(--mute);text-transform:uppercase}
+
+/* modo estático */
+.static .cyc-stage{min-height:0}
+.static .pipe-line i{transform:none}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Skip to content</a>
+<div class="intro" aria-hidden="true"><i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--ink);--e:var(--beige)"></i></div>
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Creative Whisper, home">
+      <img src="assets/monograma-cw.png" alt="" width="40" height="26">
+      <span>CREATIVE WHISPER</span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Main">
+      <a href="services.html">Services</a>
+      <a href="index.html#trabajo">Work</a>
+      <a href="data.html" aria-current="page">Data</a>
+      <a href="portfolio.html">Photography</a>
+      <a href="#contacto">Contact</a>
+    </nav>
+    <a class="lang-sw" href="/datos.html" hreflang="es" lang="es" data-set-lang="es" aria-label="Ver esta página en español">EN <b>/</b> ES</a>
+    <button class="menu-btn js-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    <a class="btn btn--solid js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting.">Book a meeting</a>
+  </div>
+  <i class="progress" aria-hidden="true"></i>
+</header>
+<div class="sx-chip" role="status" aria-live="polite"><span data-sx-state>Playing · tap to pause</span><a class="sx-skip" href="#">Contact ↓</a><span class="sx-chip-bar"><i></i></span></div>
+<div class="cursor" aria-hidden="true" hidden><span></span></div>
+
+<main id="contenido">
+
+<section class="ph" aria-labelledby="ph-t">
+  <div class="ph-strips" aria-hidden="true">
+    <i style="--k:0;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:1;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:2;--c:var(--red);--e:var(--red-e)"></i><i style="--k:3;--c:var(--orange);--e:var(--orange);--w:12vw"></i>
+  </div>
+  <div class="ph-media"><video src="assets/datos/reto-loop.mp4" poster="assets/datos/reto-poster.webp" muted loop playsinline autoplay preload="metadata" aria-label="Data club team working on an analytics challenge"></video></div>
+  <div class="wrap ph-in">
+    <span class="label"><i></i>Creative Whisper · Data</span>
+    <h1 id="ph-t">Data analysis to decide <span class="nw"><span class="tp" style="--c:var(--orange)">who to talk to</span>,</span> <span class="nw"><span class="tp" style="--c:var(--peach)">with which product</span></span> and <span class="nw"><span class="tp" style="--c:var(--teal)">when</span>.</span></h1>
+    <p class="lede">We work with the information your company already has (sales, CRM, point of sale, social media and conversations) and turn it into decisions for your campaigns.</p>
+    <div class="ctas">
+      <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about data analysis."><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>Book a meeting</a>
+      <a class="btn btn--ghost" href="#ciclo">See the full cycle</a>
+    </div>
+  </div>
+  <p class="ph-word js-letters" aria-hidden="true">Data</p>
+</section>
+
+<section class="statement" aria-label="Approach">
+  <div class="wrap">
+    <span class="label">Why we start with data</span>
+    <p class="st-text js-words">Before producing a piece we review your company's [data.|orange|ink] It tells us [who_to_talk_to,|red|bone] with which [product|peach|ink] and at what [moment.|teal|ink]</p>
+  </div>
+</section>
+
+<section class="cyc" id="ciclo" aria-labelledby="cyc-t">
+  <div class="cyc-stage">
+    <div class="wrap cyc-grid">
+      <div class="cyc-copy">
+        <span class="label"><i></i>01 · The full cycle</span>
+        <h2 class="display" id="cyc-t">Six stages,<br>one cycle.</h2>
+        <p class="cyc-what">Video is one stage, not the whole service. Scroll or tap each point to see what we do there and what you get at the end.</p>
+        <div class="panel" aria-live="polite">
+          <span class="panel-n display js-pn">01</span>
+          <h3 class="js-pt">Assessment</h3>
+          <p class="js-pd">We review what data the company has, where it lives and what state it arrives in.</p>
+          <span class="panel-l label">What you get</span>
+          <div class="outs js-po"><span>Source map</span><span>Quality report</span></div>
+        </div>
+      </div>
+      <div class="cyc-ring">
+        <svg viewBox="0 0 460 460" role="img" aria-label="Work cycle: assessment, architecture and cleaning, analysis and models, insight, campaign and production, evaluation and adjustment.">
+          <circle cx="230" cy="230" r="150" fill="none" stroke="var(--line)" stroke-width="2"/>
+          <circle class="arc" cx="230" cy="230" r="150" fill="none" stroke="url(#gArc)" stroke-width="4" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1" transform="rotate(-90 230 230)"/>
+          <defs><linearGradient id="gArc" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#F5A300"/><stop offset=".35" stop-color="#E3120B"/><stop offset=".6" stop-color="#FFD7BD"/><stop offset=".85" stop-color="#3EA398"/><stop offset="1" stop-color="#CDBFA6"/></linearGradient></defs>
+          <circle cx="230" cy="230" r="118" fill="none" stroke="var(--line)" stroke-dasharray="2 8"/>
+          <text x="230" y="222" text-anchor="middle" class="ctr js-cn">01</text>
+          <text x="230" y="250" text-anchor="middle" class="ax">OF 06</text>
+          <g class="node on" data-i="0" tabindex="0" role="button" aria-label="Assessment" style="--nc:var(--orange)">
+          <circle class="hit" cx="230.0" cy="80.0" r="24" fill="transparent"/>
+          <circle class="ring" cx="230.0" cy="80.0" r="17"/>
+          <circle class="dot" cx="230.0" cy="80.0" r="8"/>
+          <text x="230.0" y="58.0" text-anchor="middle">01 Assessment</text>
+        </g><g class="node" data-i="1" tabindex="0" role="button" aria-label="Architecture and cleaning" style="--nc:var(--red)">
+          <circle class="hit" cx="359.9" cy="155.0" r="24" fill="transparent"/>
+          <circle class="ring" cx="359.9" cy="155.0" r="17"/>
+          <circle class="dot" cx="359.9" cy="155.0" r="8"/>
+          <text x="359.9" y="133.0" text-anchor="middle">02 Architecture and cleaning</text>
+        </g><g class="node" data-i="2" tabindex="0" role="button" aria-label="Analysis and models" style="--nc:var(--peach)">
+          <circle class="hit" cx="359.9" cy="305.0" r="24" fill="transparent"/>
+          <circle class="ring" cx="359.9" cy="305.0" r="17"/>
+          <circle class="dot" cx="359.9" cy="305.0" r="8"/>
+          <text x="359.9" y="337.0" text-anchor="middle">03 Analysis and models</text>
+        </g><g class="node" data-i="3" tabindex="0" role="button" aria-label="Insight" style="--nc:var(--teal)">
+          <circle class="hit" cx="230.0" cy="380.0" r="24" fill="transparent"/>
+          <circle class="ring" cx="230.0" cy="380.0" r="17"/>
+          <circle class="dot" cx="230.0" cy="380.0" r="8"/>
+          <text x="230.0" y="412.0" text-anchor="middle">04 Insight</text>
+        </g><g class="node" data-i="4" tabindex="0" role="button" aria-label="Campaign and production" style="--nc:var(--beige)">
+          <circle class="hit" cx="100.1" cy="305.0" r="24" fill="transparent"/>
+          <circle class="ring" cx="100.1" cy="305.0" r="17"/>
+          <circle class="dot" cx="100.1" cy="305.0" r="8"/>
+          <text x="100.1" y="337.0" text-anchor="middle">05 Campaign and production</text>
+        </g><g class="node" data-i="5" tabindex="0" role="button" aria-label="Evaluation and adjustment" style="--nc:var(--orange)">
+          <circle class="hit" cx="100.1" cy="155.0" r="24" fill="transparent"/>
+          <circle class="ring" cx="100.1" cy="155.0" r="17"/>
+          <circle class="dot" cx="100.1" cy="155.0" r="8"/>
+          <text x="100.1" y="133.0" text-anchor="middle">06 Evaluation and adjustment</text>
+        </g>
+        </svg>
+      </div>
+    </div>
+    <ol class="wrap cyc-list"><li style="--nc:var(--orange)"><span class="n display">01</span><div><h3>Assessment</h3><p>We review what data the company has, where it lives and what state it arrives in.</p><span class="outs"><span>Source map</span><span>Quality report</span></span></div></li><li style="--nc:var(--red)"><span class="n display">02</span><div><h3>Architecture and cleaning</h3><p>We organize the information in one place, with clear rules on who uses it and how.</p><span class="outs"><span>Data model</span><span>Governance rules</span></span></div></li><li style="--nc:var(--peach)"><span class="n display">03</span><div><h3>Analysis and models</h3><p>We look for patterns: what sells together, who buys again, what predicts a purchase.</p><span class="outs"><span>Segmentation</span><span>Predictive model</span></span></div></li><li style="--nc:var(--teal)"><span class="n display">04</span><div><h3>Insight</h3><p>The conclusion in one sentence: who to talk to, with which product and when.</p><span class="outs"><span>Actionable insight</span><span>Message per segment</span></span></div></li><li style="--nc:var(--beige)"><span class="n display">05</span><div><h3>Campaign and production</h3><p>Each piece is produced for a specific segment and goal.</p><span class="outs"><span>Script</span><span>Pieces per format</span></span></div></li><li style="--nc:var(--orange)"><span class="n display">06</span><div><h3>Evaluation and adjustment</h3><p>We measure against the goal, compare with the previous campaign and correct the next one.</p><span class="outs"><span>Dashboard</span><span>Adjustment plan</span></span></div></li></ol>
+  </div>
+</section>
+
+<section class="sec line chain" aria-labelledby="chain-t">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="label"><i></i>02 · The data chain</span><h2 class="display js-rise" id="chain-t">Five stations<br>before the script.</h2></div>
+      <p>Without this chain there is no insight. Each station leaves the information ready for the next one.</p>
+    </div>
+    <div class="pipe">
+      <div class="pipe-line" aria-hidden="true"><i></i></div>
+      <div class="st" style="--sc:var(--orange)"><span class="k display">01</span><h3>Sources</h3><p>Sales, CRM, web, point of sale and social media in one inventory.</p></div>
+      <div class="st" style="--sc:var(--red)"><span class="k display">02</span><h3>Governance</h3><p>Who can see what, how each field is named and who is responsible for it.</p></div>
+      <div class="st" style="--sc:var(--peach)"><span class="k display">03</span><h3>Cleaning</h3><p>Duplicates removed, consistent formats, gaps resolved. Without this, nothing else works.</p></div>
+      <div class="st" style="--sc:var(--teal)"><span class="k display">04</span><h3>Models</h3><p>Segmentation, recommendation and repurchase prediction on reliable data.</p></div>
+      <div class="st" style="--sc:var(--beige)"><span class="k display">05</span><h3>Insight</h3><p>A clear conclusion that becomes the campaign brief.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec line segs-sec" aria-labelledby="seg-t">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="label"><i></i>03 · From segment to piece</span><h2 class="display js-rise" id="seg-t">Each group,<br>its own piece.</h2></div>
+      <p>Segments are defined with statistical models and each one gets a piece designed for it. Hover or tap a card to see which customers it speaks to.</p>
+    </div>
+    <div class="segs" id="segsWrap">
+      <div class="chart-card">
+        <div class="chart-head"><h3>Customer segmentation</h3><span class="demo">Sample data</span></div>
+        <p class="chart-sub">Each dot is a customer.</p>
+        <svg viewBox="0 0 880 420" role="img" aria-label="Customer segments by purchase frequency and average ticket. Sample data.">
+          <line class="axline" x1="52" x2="730" y1="18.0" y2="18.0"/>
+          <line class="axline" x1="52" x2="730" y1="107.0" y2="107.0"/>
+          <line class="axline" x1="52" x2="730" y1="196.0" y2="196.0"/>
+          <line class="axline" x1="52" x2="730" y1="285.0" y2="285.0"/>
+          <line class="axline" x1="52" x2="730" y1="374.0" y2="374.0"/>
+          <line class="axline" x1="52" x2="52" y1="18" y2="374"/>
+          <text class="ax" x="52" y="400" >Purchase frequency →</text>
+          <text class="ax" transform="translate(36,374) rotate(-90)">Average ticket →</text>
+          <g class="seg" data-seg="recurrentes">
+          <circle cx="522.8" cy="106.6" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="524.8" cy="136.0" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="477.1" cy="132.4" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="615.5" cy="109.7" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="610.5" cy="115.9" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="566.9" cy="118.2" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="427.2" cy="94.4" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="574.5" cy="107.0" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="425.5" cy="186.9" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="479.8" cy="141.5" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="560.9" cy="126.4" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="575.5" cy="147.7" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="561.1" cy="110.8" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="495.3" cy="63.7" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="577.9" cy="82.2" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="498.1" cy="151.1" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="516.8" cy="128.6" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="583.0" cy="116.0" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="509.8" cy="158.9" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="504.9" cy="81.3" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="485.4" cy="116.1" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="569.1" cy="177.8" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="543.4" cy="78.3" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="403.6" cy="136.2" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="533.0" cy="153.9" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="573.9" cy="127.0" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="440.9" cy="95.3" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="585.5" cy="91.1" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="637.8" cy="111.9" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="548.2" cy="171.1" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="581.9" cy="146.6" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="509.5" cy="169.8" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="474.6" cy="143.7" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <circle cx="627.5" cy="197.1" r="4.5" fill="var(--c1)" fill-opacity=".72"/>
+          <ellipse cx="540.2" cy="124.8" rx="142.4" ry="74.8" fill="none" stroke="var(--c1)" stroke-opacity=".5" stroke-dasharray="3 4"/>
+          <text class="val" x="692.5" y="42.0">Regulars</text>
+          </g>
+          <g class="seg" data-seg="ocasionales">
+          <circle cx="163.9" cy="207.1" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="400.0" cy="192.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="127.9" cy="324.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="311.6" cy="248.8" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="191.4" cy="175.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="372.2" cy="210.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="302.5" cy="198.8" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="412.2" cy="190.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="324.7" cy="194.0" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="154.9" cy="162.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="360.2" cy="194.7" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="121.9" cy="244.4" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="351.0" cy="294.7" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="267.5" cy="173.8" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="175.8" cy="148.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="327.4" cy="223.8" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="309.0" cy="189.6" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="292.3" cy="168.4" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="228.7" cy="235.1" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="367.3" cy="216.2" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="210.9" cy="176.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="401.8" cy="236.4" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="170.2" cy="223.1" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="270.4" cy="230.1" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="396.8" cy="261.2" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="385.1" cy="271.5" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="218.5" cy="190.4" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="374.4" cy="180.7" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="310.6" cy="211.3" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="294.9" cy="192.8" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="268.2" cy="205.5" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="329.1" cy="217.3" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="344.7" cy="193.2" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="446.1" cy="203.5" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="247.7" cy="233.3" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="281.5" cy="177.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="255.1" cy="200.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="432.0" cy="326.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="191.1" cy="206.9" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="314.9" cy="207.2" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="247.4" cy="189.4" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <circle cx="305.5" cy="239.7" r="4.5" fill="var(--c2)" fill-opacity=".72"/>
+          <ellipse cx="282.5" cy="217.4" rx="170.9" ry="89.7" fill="none" stroke="var(--c2)" stroke-opacity=".5" stroke-dasharray="3 4"/>
+          <text class="val" x="463.4" y="119.6">Occasional</text>
+          </g>
+          <g class="seg" data-seg="nuevos">
+          <circle cx="349.4" cy="84.9" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="167.3" cy="99.5" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="187.4" cy="98.3" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="65.6" cy="111.9" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="262.7" cy="133.8" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="197.1" cy="65.8" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="253.4" cy="48.5" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="97.3" cy="107.6" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="180.4" cy="76.3" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="267.8" cy="182.3" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="267.6" cy="142.7" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="242.8" cy="144.1" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="211.9" cy="58.0" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="192.0" cy="90.2" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="249.8" cy="91.8" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="195.8" cy="47.2" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="265.1" cy="105.7" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="368.7" cy="133.1" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="257.0" cy="104.8" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="209.2" cy="73.7" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="214.7" cy="75.9" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="108.0" cy="144.7" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="238.7" cy="127.2" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="138.5" cy="143.4" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="278.4" cy="72.4" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <circle cx="291.0" cy="126.4" r="4.5" fill="var(--c3)" fill-opacity=".72"/>
+          <ellipse cx="201.2" cy="96.3" rx="128.1" ry="67.3" fill="none" stroke="var(--c3)" stroke-opacity=".5" stroke-dasharray="3 4"/>
+          <text class="val" x="339.3" y="21.0">New</text>
+          </g>
+          </svg>
+      </div>
+      <div class="seg-cards">
+        <button type="button" class="seg-card" data-seg="recurrentes" style="--sc:var(--c1)"><span class="thumb"><img src="assets/f-testimonio.webp" alt="" style="object-position:50% 18%" loading="lazy"></span><span class="txt"><span class="dotcol"><i></i>Regulars</span><span class="p">They buy often and spend more. They do not need you to explain who you are.</span><span class="pill">Testimonial + new product</span></span></button>
+        <button type="button" class="seg-card" data-seg="ocasionales" style="--sc:var(--c2)"><span class="thumb"><img src="assets/f-futbol.webp" alt="" loading="lazy"></span><span class="txt"><span class="dotcol"><i></i>Occasional</span><span class="p">They show up in season. Remind them why they came back last time.</span><span class="pill">Short reel + seasonal offer</span></span></button>
+        <button type="button" class="seg-card" data-seg="nuevos" style="--sc:var(--c3)"><span class="thumb"><img src="assets/locucion.webp" alt="" loading="lazy"></span><span class="txt"><span class="dotcol"><i></i>New</span><span class="p">High ticket on the first purchase. They are deciding whether to stay.</span><span class="pill">Brand video + behind the scenes</span></span></button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec line track-sec" aria-labelledby="trk-t">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="label"><i></i>04 · Tracking</span><h2 class="display js-rise" id="trk-t">Measuring while<br>the campaign runs.</h2></div>
+      <p>We measure against the goal and adjust production while the campaign is live.</p>
+    </div>
+    <div class="chart-card">
+      <div class="chart-head"><h3>Weekly campaign results</h3><span class="demo">Sample data</span></div>
+      <p class="chart-sub">Dotted lines mark the moments when the analysis changed production.</p>
+      <div class="plot"><svg viewBox="0 0 880 320" role="img" aria-label="Weekly evolution of the campaign with three adjustments. Sample data.">
+          <line class="axline" x1="52" x2="822" y1="274.0" y2="274.0"/>
+          <text class="ax" x="42" y="278.0" text-anchor="end">0</text>
+          <line class="axline" x1="52" x2="822" y1="212.0" y2="212.0"/>
+          <text class="ax" x="42" y="216.0" text-anchor="end">20</text>
+          <line class="axline" x1="52" x2="822" y1="150.0" y2="150.0"/>
+          <text class="ax" x="42" y="154.0" text-anchor="end">40</text>
+          <line class="axline" x1="52" x2="822" y1="88.0" y2="88.0"/>
+          <text class="ax" x="42" y="92.0" text-anchor="end">60</text>
+          <line class="axline" x1="52" x2="822" y1="26.0" y2="26.0"/>
+          <text class="ax" x="42" y="30.0" text-anchor="end">80</text>
+          <path class="ln" pathLength="1" d="M52.0,218.2 L111.2,208.9 L170.5,212.0 L229.7,193.4 L288.9,177.9 L348.2,181.0 L407.4,156.2 L466.6,137.6 L525.8,143.8 L585.1,115.9 L644.3,94.2 L703.5,100.4 L762.8,75.6 L822.0,53.9" fill="none" stroke="var(--c1)" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+          <line x1="229.7" x2="229.7" y1="20" y2="274" stroke="var(--line-2)" stroke-dasharray="3 4"/>
+          <circle cx="229.7" cy="193.4" r="5" fill="var(--ink-2)" class="mk" stroke="var(--c1)" stroke-width="2"/>
+          <text class="ax" x="237.7" y="16">v1 · launch</text>
+          <line x1="466.6" x2="466.6" y1="20" y2="274" stroke="var(--line-2)" stroke-dasharray="3 4"/>
+          <circle cx="466.6" cy="137.6" r="5" fill="var(--ink-2)" class="mk" stroke="var(--c1)" stroke-width="2"/>
+          <text class="ax" x="474.6" y="16">v2 · new hook</text>
+          <line x1="703.5" x2="703.5" y1="20" y2="274" stroke="var(--line-2)" stroke-dasharray="3 4"/>
+          <circle cx="703.5" cy="100.4" r="5" fill="var(--ink-2)" class="mk" stroke="var(--c1)" stroke-width="2"/>
+          <text class="ax" x="711.5" y="16">v3 · new segment</text>
+          <circle class="mk" cx="822.0" cy="53.9" r="4.5" fill="var(--c1)"/>
+          <text class="val" x="832.0" y="57.9">71</text>
+          <line class="axline" x1="52" x2="822" y1="274" y2="274"/>
+          <text class="ax" x="52" y="300">Week 1</text>
+          <text class="ax" x="822" y="300" text-anchor="end">Week 14</text>
+          </svg></div>
+      <div class="changes" data-rv="kids">
+        <div style="--sc:var(--orange)"><h4>v1 · launch</h4><p>General pieces for the whole base.</p></div>
+        <div style="--sc:var(--red)"><h4>v2 · new hook</h4><p>The model showed an early drop-off: the opening was redone.</p></div>
+        <div style="--sc:var(--teal)"><h4>v3 · new segment</h4><p>A high-ticket group appeared: pieces made just for them.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="sec line diag" aria-labelledby="dg-t">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="label"><i></i>05 · Data assessment</span><h2 class="display js-rise" id="dg-t">The first<br>deliverable.</h2></div>
+      <p>The real state of your data, measured on four fronts. It can be hired on its own and is the entry point to the rest of the service.</p>
+    </div>
+    <div class="dials">
+      <div class="dial" style="--dc:var(--orange)">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="44" fill="none" stroke="var(--ink-3)" stroke-width="10"/>
+          <circle class="dv" cx="60" cy="60" r="44" fill="none" stroke="var(--orange)" stroke-width="10" stroke-linecap="round" pathLength="100" stroke-dasharray="40 100" data-v="40" transform="rotate(-90 60 60)"/>
+        </svg>
+        <span class="dial-n display"><span class="odo" data-to="40">40</span><sup>%</sup></span>
+        <span class="label">Governance</span>
+      </div>
+      <div class="dial" style="--dc:var(--red)">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="44" fill="none" stroke="var(--ink-3)" stroke-width="10"/>
+          <circle class="dv" cx="60" cy="60" r="44" fill="none" stroke="var(--red)" stroke-width="10" stroke-linecap="round" pathLength="100" stroke-dasharray="65 100" data-v="65" transform="rotate(-90 60 60)"/>
+        </svg>
+        <span class="dial-n display"><span class="odo" data-to="65">65</span><sup>%</sup></span>
+        <span class="label">Architecture</span>
+      </div>
+      <div class="dial" style="--dc:var(--peach)">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="44" fill="none" stroke="var(--ink-3)" stroke-width="10"/>
+          <circle class="dv" cx="60" cy="60" r="44" fill="none" stroke="var(--peach)" stroke-width="10" stroke-linecap="round" pathLength="100" stroke-dasharray="55 100" data-v="55" transform="rotate(-90 60 60)"/>
+        </svg>
+        <span class="dial-n display"><span class="odo" data-to="55">55</span><sup>%</sup></span>
+        <span class="label">Data quality</span>
+      </div>
+      <div class="dial" style="--dc:var(--teal)">
+        <svg viewBox="0 0 120 120" aria-hidden="true">
+          <circle cx="60" cy="60" r="44" fill="none" stroke="var(--ink-3)" stroke-width="10"/>
+          <circle class="dv" cx="60" cy="60" r="44" fill="none" stroke="var(--teal)" stroke-width="10" stroke-linecap="round" pathLength="100" stroke-dasharray="30 100" data-v="30" transform="rotate(-90 60 60)"/>
+        </svg>
+        <span class="dial-n display"><span class="odo" data-to="30">30</span><sup>%</sup></span>
+        <span class="label">Measurement</span>
+      </div>
+    </div>
+    <p class="demo-line"><span class="demo">Sample data</span></p>
+  </div>
+</section>
+
+<section class="sec line conv" id="conversaciones" aria-labelledby="cv-t">
+  <div class="wrap conv-grid">
+    <figure class="conv-ph" data-rv="wipe"><img src="assets/srv/conversaciones.webp" alt="Conversation report with indicators, sentiment and a priority complaint" loading="lazy"></figure>
+    <div class="conv-tx">
+      <span class="label"><i></i>06 · Conversation analysis</span>
+      <h2 class="display js-rise" id="cv-t">What your<br>customers say.</h2>
+      <p>Your brand's conversations on WhatsApp and Instagram are data too. We turn them into clear information to decide what to sell, what to improve and what to communicate.</p>
+      <ul data-rv="kids">
+        <li>Dashboard with the indicators of your chats</li>
+        <li>Frequent questions and complaints, sorted by topic</li>
+        <li>Alerts to handle the most serious complaints first</li>
+        <li>Post ideas based on what customers ask</li>
+        <li>Easy-to-read weekly or monthly reports</li>
+      </ul>
+      <a class="lnk" href="services.html#svc-analisis-de-conversaciones">See the service →</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec line team-sec" aria-labelledby="tm-t">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="label"><i></i>Who does it</span><h2 class="display js-rise" id="tm-t">Analytics and production<br>in the same hands.</h2></div>
+      <p>Analytics is not an add-on: it is the team's core training. That is why the campaign and the production come from the same analysis.</p>
+    </div>
+    <div class="photos">
+      <figure><div class="pf" data-rv="wipe"><img src="assets/datos/escenario-1.webp" alt="Team member presenting on stage with the slides projected." loading="lazy"></div><figcaption><b>On stage</b>Analytics and production in the same hands, from start to finish.</figcaption></figure>
+      <figure><div class="pf" data-rv="wipe"><img src="assets/datos/escenario-2.webp" alt="Team member giving a data analytics talk." loading="lazy"></div><figcaption><b>Training</b>We give analytics talks and workshops for companies and universities.</figcaption></figure>
+      <figure><div class="pf" data-rv="wipe"><img src="assets/datos/trabajo.webp" alt="Reviewing a database on a laptop during a work session." loading="lazy"></div><figcaption><b>On the real database</b>Cleaning, models and segmentation on the client's data, not on an exercise.</figcaption></figure>
+    </div>
+    <div class="creds" data-rv="kids">
+      <div style="--sc:var(--orange)"><h3>Master's in Business Analytics</h3><p>Graduate training in business analytics, applied to real commercial decisions.</p></div>
+      <div style="--sc:var(--red)"><h3>CRM analytics and BI</h3><p>Professional experience in customer analytics, recommendation systems and executive reporting.</p></div>
+      <div style="--sc:var(--peach)"><h3>Models and segmentation</h3><p>Cleaning, modeling and machine learning applied to customer databases, not classroom exercises.</p></div>
+      <div style="--sc:var(--teal)"><h3>In-house production</h3><p>The same team directs, shoots and edits: the insight is not lost along the way.</p></div>
+    </div>
+    <div class="aff" data-rv="up">
+      <div class="aff-marks"><img src="assets/datos/usfq.png" alt="Universidad San Francisco de Quito"><span class="sep"></span><img src="assets/datos/dc-usfq.png" alt="Data Club USFQ"></div>
+      <div class="aff-tx">
+        <h3>Trained at USFQ. Founders of the <span class="tp" style="--c:var(--orange)">Data Club</span>.</h3>
+        <p>Marketing, Finance and a minor in Data Analytics, plus the Master's in Business Analytics, all at Universidad San Francisco de Quito, where we also founded the university's data analytics club.</p>
+        <a class="lnk" href="https://www.instagram.com/datausfq" target="_blank" rel="noopener">@datausfq ↗</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="band" aria-label="The same team">
+  <div class="band-ph"><img src="assets/datos/audiencia.webp" alt="Full auditorium during a data analysis talk." loading="lazy"></div>
+  <div class="wrap band-tx"><p class="display js-rise">The same team that teaches data analysis produces your campaign.</p></div>
+</section>
+
+<section class="sec need" aria-labelledby="nd-t">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="label"><i></i>To get started</span><h2 class="display js-rise" id="nd-t">What we need<br>from you.</h2></div>
+      <p>No new platforms needed: we work with the systems your company already uses.</p>
+    </div>
+    <div class="ask" data-rv="kids">
+      <div style="--sc:var(--orange)"><span class="display">01</span><h3>Read access</h3><p>Sales or CRM, even if it is a monthly Excel export.</p></div>
+      <div style="--sc:var(--peach)"><span class="display">02</span><h3>A business goal</h3><p>Which product to move, which customer to win back, which month to lift.</p></div>
+      <div style="--sc:var(--teal)"><span class="display">03</span><h3>A previous campaign</h3><p>To compare against something and show the tracking.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- cierre -->
+<section class="end" id="contacto" aria-label="Contact">
+  <div class="end-stage">
+    <div class="end-strips" aria-hidden="true"><i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--ink);--e:var(--beige)"></i></div>
+    <p class="end-word display js-letters">Let's talk</p>
+    <p class="end-sub">about your data. We schedule a meeting and review where to start.</p>
+    <div class="end-ctas">
+      <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about data analysis."><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>Message us on WhatsApp</a>
+      <a class="btn btn--ghost" href="index.html#contacto">Fill in the form</a>
+    </div>
+    <div class="end-lines">
+      <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about data analysis.">WhatsApp · +593 96 957 7774</a>
+      <a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">@creative.whisper.productions</a>
+      <a href="cotizacion.html">Online quote</a>
+    </div>
+  </div>
+</section>
+
+</main>
+<p class="wrap disclaim">The figures in the charts on this page are illustrative examples, not client results.</p>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Creative Whisper · Quito, Ecuador</span>
+    <nav aria-label="Secondary">
+      <a href="index.html">Home</a><a href="services.html">Services</a><a href="data.html">Data</a><a href="portfolio.html">Photography</a><a href="cotizacion.html">Quote</a><a href="privacy.html">Privacy</a><a href="admin.html">Admin</a>
+    </nav>
+  </div>
+</footer>
+
+<a class="fab js-fab js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting." aria-label="Message us on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+  Write to us
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/site.js"></script>
+<script>
+
+cwSite({
+  end: '#contacto',
+  init(k) {
+    const { $, $$, vh, gsap } = k;
+    const S = [{"n": "01", "t": "Assessment", "d": "We review what data the company has, where it lives and what state it arrives in.", "o": ["Source map", "Quality report"], "c": "--orange"}, {"n": "02", "t": "Architecture and cleaning", "d": "We organize the information in one place, with clear rules on who uses it and how.", "o": ["Data model", "Governance rules"], "c": "--red"}, {"n": "03", "t": "Analysis and models", "d": "We look for patterns: what sells together, who buys again, what predicts a purchase.", "o": ["Segmentation", "Predictive model"], "c": "--peach"}, {"n": "04", "t": "Insight", "d": "The conclusion in one sentence: who to talk to, with which product and when.", "o": ["Actionable insight", "Message per segment"], "c": "--teal"}, {"n": "05", "t": "Campaign and production", "d": "Each piece is produced for a specific segment and goal.", "o": ["Script", "Pieces per format"], "c": "--beige"}, {"n": "06", "t": "Evaluation and adjustment", "d": "We measure against the goal, compare with the previous campaign and correct the next one.", "o": ["Dashboard", "Adjustment plan"], "c": "--orange"}];
+    const nodes = $$('.node'), panel = $('.panel'), pn = $('.js-pn'), pt = $('.js-pt'), pd = $('.js-pd'), po = $('.js-po'), cn = $('.js-cn');
+    let cur = 0;
+    const pick = (i, anim = true) => {
+      if (i === cur && anim) return; cur = i;
+      nodes.forEach((n, j) => { n.classList.toggle('on', j === i); n.classList.toggle('past', j < i); });
+      const s = S[i]; cn.textContent = s.n;
+      const fill = () => { pn.textContent = s.n; pt.textContent = s.t; pd.textContent = s.d; po.innerHTML = s.o.map(x => `<span>${x}</span>`).join(''); panel.style.setProperty('--pc', `var(${s.c})`); };
+      if (anim && !k.static) gsap.timeline().to(panel.children, { y: -14, opacity: 0, duration: .15, stagger: .02 }).add(fill).fromTo(panel.children, { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: .3, stagger: .04, ease: 'power2.out' });
+      else fill();
+    };
+    nodes.forEach(n => {
+      const i = +n.dataset.i;
+      n.addEventListener('click', () => pick(i)); n.addEventListener('mouseenter', () => pick(i));
+      n.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(i); } });
+    });
+    pick(0, false);
+
+    const wrap = $('#segsWrap'), groups = $$('svg .seg', wrap), cards = $$('.seg-card', wrap);
+    const hi = key => { wrap.classList.toggle('dim', !!key); groups.forEach(g => g.classList.toggle('on', g.dataset.seg === key)); cards.forEach(c => c.classList.toggle('on', c.dataset.seg === key)); };
+    cards.forEach(c => { c.addEventListener('mouseenter', () => hi(c.dataset.seg)); c.addEventListener('mouseleave', () => hi(null)); c.addEventListener('focus', () => hi(c.dataset.seg)); c.addEventListener('blur', () => hi(null)); c.addEventListener('click', () => hi(c.classList.contains('on') ? null : c.dataset.seg)); });
+
+    if (k.static) return;
+    const wide = matchMedia('(min-width:901px)');
+
+    /* ciclo: al bajar avanza etapa por etapa; al subir retrocede */
+    const arc = $('.arc');
+    if (wide.matches) {
+      gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.cyc', start: 'top top', end: () => '+=' + vh() * 2.6, pin: true, scrub: .6,
+        onUpdate: s => pick(Math.min(5, Math.floor(s.progress * 6))) } })
+        .fromTo(arc, { strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1 }, 0)
+        .fromTo('.cyc-ring svg', { rotation: -12, scale: .92 }, { rotation: 0, scale: 1, duration: 1, transformOrigin: '50% 50%' }, 0);
+    } else {
+      gsap.fromTo(arc, { strokeDashoffset: 1 }, { strokeDashoffset: 0, ease: 'none', scrollTrigger: { trigger: '.cyc-ring', start: 'top 85%', end: 'bottom 40%', scrub: .6 } });
+      $$('.cyc-list li').forEach(li => gsap.fromTo(li, { y: 40, opacity: 0 }, { y: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: li, start: 'top 92%', end: 'top 65%', scrub: .6 } }));
+    }
+
+    /* cadena: la línea avanza y cada estación se enciende */
+    const sts = $$('.st');
+    const ct = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.pipe', start: 'top 80%', end: 'bottom 45%', scrub: .6 } });
+    ct.fromTo('.pipe-line i', { scaleX: wide.matches ? 0 : 1, scaleY: wide.matches ? 1 : 0 }, { scaleX: 1, scaleY: 1, duration: 1 }, 0);
+    sts.forEach((s, i) => ct.fromTo(s, { opacity: .18, y: 26 }, { opacity: 1, y: 0, duration: .2 }, i * .18));
+
+    /* segmentos: los puntos aparecen grupo por grupo */
+    const st = { trigger: '.chart-card', start: 'top 80%', end: 'center 45%', scrub: .6 };
+    const tlS = gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { ...st, trigger: wrap } });
+    groups.forEach((g, i) => {
+      tlS.fromTo($$('circle', g), { scale: 0, transformOrigin: '50% 50%', transformBox: 'fill-box' }, { scale: 1, duration: .4, stagger: .006, ease: 'back.out(2)' }, i * .35)
+         .fromTo($$('ellipse, text', g), { opacity: 0 }, { opacity: 1, duration: .2 }, i * .35 + .3);
+    });
+    gsap.fromTo(cards, { y: 40, opacity: 0 }, { y: 0, opacity: 1, ease: 'none', stagger: .15, scrollTrigger: { trigger: '.seg-cards', start: 'top 85%', end: 'top 50%', scrub: .6 } });
+
+    /* seguimiento: la línea se dibuja con el scroll */
+    const plot = $('.plot');
+    gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: plot, start: 'top 80%', end: 'bottom 50%', scrub: .6 } })
+      .fromTo($('.ln', plot), { strokeDasharray: 1, strokeDashoffset: 1 }, { strokeDashoffset: 0, duration: 1 }, 0)
+      .fromTo($$('.mk', plot), { scale: 0, transformOrigin: '50% 50%', transformBox: 'fill-box' }, { scale: 1, duration: .08, stagger: .3, ease: 'back.out(3)' }, .2);
+
+    /* diagnóstico: los anillos se llenan */
+    $$('.dv').forEach((c, i) => gsap.fromTo(c, { strokeDasharray: '0 100' }, { strokeDasharray: `${c.dataset.v} 100`, ease: 'power2.out', scrollTrigger: { trigger: '.dials', start: 'top 85%', end: 'center 50%', scrub: .6 + i * .2 } }));
+
+    /* franja con foto: se mueve más lento que la página */
+    gsap.fromTo('.band-ph', { yPercent: -8 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: '.band', start: 'top bottom', end: 'bottom top', scrub: true } });
+  }
+});
+
+</script>
+<!-- Asistente de chat y voz: configuración en assets/asistente-cw.js -->
+<script src="assets/asistente-cw.js" defer></script>
+<script src="assets/lang.js" defer></script>
+</body>
+</html>

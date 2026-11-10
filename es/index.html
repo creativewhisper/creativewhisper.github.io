@@ -1,0 +1,1219 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<link rel="alternate" hreflang="en" href="https://creativewhisper.github.io/">
+<link rel="alternate" hreflang="es" href="https://creativewhisper.github.io/es/">
+<link rel="alternate" hreflang="x-default" href="https://creativewhisper.github.io/">
+<style>.lang-sw{display:inline-flex;align-items:center;justify-content:center;height:34px;min-width:44px;padding:0 10px;border-radius:999px;border:1px solid rgba(236,230,219,.28);color:inherit;font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.14em;text-decoration:none;opacity:.85;transition:opacity .2s,border-color .2s;flex:none}.lang-sw:hover{opacity:1;border-color:rgba(236,230,219,.6)}.lang-sw b{font-weight:600;opacity:.45;margin:0 .35em}</style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0908">
+<title>Creative Whisper — Agencia de marketing en Quito</title>
+<link rel="icon" href="../assets/monograma-cw.png">
+<meta name="description" content="Creative Whisper es una agencia de marketing en Quito: análisis de datos, producción audiovisual, marketing digital y atención automatizada por WhatsApp en un solo equipo.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Creative Whisper","url":"https://creativewhisper.github.io/","description":"Agencia de marketing en Quito: análisis de datos, producción audiovisual, marketing digital y atención automatizada por WhatsApp.","image":"https://creativewhisper.github.io/assets/monograma-cw.png","telephone":"+593969577774","address":{"@type":"PostalAddress","addressLocality":"Quito","addressCountry":"EC"},"areaServed":"Ecuador"}</script>
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Creative Whisper">
+<meta property="og:title" content="Creative Whisper — Agencia de marketing en Quito">
+<meta property="og:description" content="Datos, producción audiovisual, marketing digital y atención automatizada en un solo equipo.">
+<meta property="og:locale" content="es_EC">
+<meta name="twitter:card" content="summary_large_image">
+<meta property="og:url" content="https://creativewhisper.github.io/es/">
+<meta property="og:image" content="https://creativewhisper.github.io/assets/og-cw-paleta.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<link rel="canonical" href="https://creativewhisper.github.io/es/">
+<link rel="preload" as="image" href="../assets/scroll/f001.webp">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* =========================================================
+   CREATIVE WHISPER — inicio
+   Concepto: la paleta de franjas diagonales de las marcas de la casa
+   (BaTaKá, TOROTE, ÜINKY, PORTHOS y CW) es el hilo de todo el recorrido.
+   Cada escena tiene su propia sorpresa y todo depende del scroll:
+   avanza al bajar, retrocede al subir.
+   Un solo mundo visual oscuro, a propósito.
+   ========================================================= */
+:root{
+  color-scheme: dark;
+  --ink:#0A0908; --ink-2:#14120F; --bone:#ECE6DB; --mute:#A39A8D;
+  --line:rgba(236,230,219,.12); --line-2:rgba(236,230,219,.26);
+  --orange:#F5A300; --red:#E3120B; --red-e:#B00C08; --peach:#FFD7BD; --peach-e:#FFBF7A;
+  --teal:#3EA398; --teal-e:#2C7E74; --beige:#CDBFA6; --rec:#E3120B;
+  --f-display:"Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --f-sans:"Hanken Grotesk", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --gutter:clamp(16px, 4vw, 56px);
+  --header:68px;
+  --max:1400px;
+  --ew:14px;           /* filo de color entre franjas */
+  --s:12;              /* inclinación de las franjas, en % del ancho (lo recalcula JS) */
+}
+[hidden]{display:none!important}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+body{margin:0;background:var(--ink);color:var(--bone);font-family:var(--f-sans);font-size:17px;line-height:1.55;-webkit-font-smoothing:antialiased;overflow-x:clip}
+img,video,canvas{display:block;max-width:100%}
+a{color:inherit}
+button{font:inherit;color:inherit}
+h1,h2,h3,p,dl,dd{margin:0}
+.skip{position:absolute;left:-999px;top:8px;background:var(--bone);color:var(--ink);padding:8px 12px;z-index:200}
+.skip:focus{left:8px}
+:focus-visible{outline:2px solid var(--orange);outline-offset:3px}
+.wrap{width:100%;max-width:var(--max);margin:0 auto;padding-left:max(var(--gutter), env(safe-area-inset-left, 0px));padding-right:max(var(--gutter), env(safe-area-inset-right, 0px))}
+.label{font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase}
+.display{font-family:var(--f-display);font-weight:900;text-transform:uppercase;line-height:.84;letter-spacing:-.005em;text-wrap:balance}
+
+/* ---------- botones ---------- */
+.btn{display:inline-flex;align-items:center;gap:10px;min-height:50px;padding:0 24px;border-radius:999px;font-weight:600;font-size:15px;text-decoration:none;border:1px solid transparent;cursor:pointer;transition:background .25s,color .25s,border-color .25s}
+.btn svg{width:18px;height:18px;flex:none}
+.btn--solid{background:var(--bone);color:var(--ink)}
+.btn--solid:hover{background:var(--orange)}
+.btn--ghost{border-color:var(--line-2);color:var(--bone)}
+.btn--ghost:hover{border-color:var(--bone)}
+
+/* ---------- header ---------- */
+.top{position:fixed;inset:0 0 auto 0;z-index:60;height:calc(var(--header) + env(safe-area-inset-top, 0px));padding-top:env(safe-area-inset-top, 0px);display:flex;align-items:center;transition:background .3s,border-color .3s;border-bottom:1px solid transparent}
+.top.is-solid{background:rgba(10,9,8,.86);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-color:var(--line)}
+.top .wrap{display:flex;align-items:center;gap:26px;max-width:none}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;margin-right:auto}
+.brand img{width:40px;height:auto}
+.brand span{font-family:var(--f-mono);font-size:12px;letter-spacing:.24em;white-space:nowrap}
+.nav{display:flex;gap:26px}
+.nav a{font-size:14px;text-decoration:none;color:var(--mute);transition:color .2s}
+.nav a:hover{color:var(--bone)}
+.top .btn{min-height:40px;padding:0 18px;font-size:14px}
+.menu-btn{display:none;background:none;border:1px solid var(--line-2);border-radius:999px;height:40px;padding:0 16px;font-size:14px;cursor:pointer}
+.progress{position:absolute;left:0;bottom:-1px;height:2px;width:100%;background:linear-gradient(90deg,var(--orange) 0 20%,var(--red) 20% 40%,var(--peach) 40% 60%,var(--teal) 60% 80%,var(--beige) 80%);transform-origin:0 50%;transform:scaleX(0)}
+@media (max-width:900px){
+  .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;background:rgba(10,9,8,.97);border-bottom:1px solid var(--line);padding:8px var(--gutter) 20px}
+  .nav.open{display:flex}
+  .nav a{font-size:24px;color:var(--bone);padding:14px 0;border-bottom:1px solid var(--line);font-family:var(--f-display);font-weight:800;text-transform:uppercase;letter-spacing:.02em}
+  .menu-btn{display:inline-flex;align-items:center}
+  .brand span{display:none}
+  .top .wrap{gap:10px}
+}
+
+/* ---------- elementos que acompañan todo el recorrido ---------- */
+.hud{position:fixed;left:max(var(--gutter), env(safe-area-inset-left, 0px));bottom:calc(20px + env(safe-area-inset-bottom, 0px));z-index:50;display:flex;align-items:center;gap:12px;font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#fff;pointer-events:none;mix-blend-mode:difference}
+.hud i{width:7px;height:7px;border-radius:50%;background:#fff;animation:blink 1.6s steps(1) infinite}
+.hud b{font-weight:500;font-variant-numeric:tabular-nums}
+@keyframes blink{50%{opacity:.15}}
+@media (max-width:700px){.hud{display:none}}
+.fab{position:fixed;right:max(16px, env(safe-area-inset-right, 0px));bottom:max(16px, env(safe-area-inset-bottom, 0px));z-index:55;display:flex;align-items:center;gap:10px;height:56px;padding:0 22px 0 18px;border-radius:999px;background:var(--bone);color:var(--ink);text-decoration:none;font-weight:600;font-size:15px;box-shadow:0 12px 34px rgba(0,0,0,.5);transform:translateY(160%);transition:transform .45s cubic-bezier(.2,.7,.1,1),background .2s}
+.fab.is-on{transform:none}
+.fab:hover{background:var(--orange)}
+.fab svg{width:22px;height:22px;color:#128C4B}
+.cursor{position:fixed;left:0;top:0;z-index:80;width:14px;height:14px;margin:-7px 0 0 -7px;border-radius:50%;background:#fff;mix-blend-mode:difference;pointer-events:none;display:grid;place-items:center;transition:width .3s,height .3s,margin .3s}
+.cursor span{font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#000;opacity:0;transition:opacity .2s}
+.cursor.big{width:84px;height:84px;margin:-42px 0 0 -42px}
+.cursor.big span{opacity:1}
+
+/* ---------- recorrido automático: la página baja sola hasta el contacto ---------- */
+.sx-chip{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom, 0px));transform:translateX(-50%);z-index:56;display:flex;align-items:center;gap:14px;padding:8px 8px 8px 16px;border-radius:999px;background:rgba(10,9,8,.86);border:1px solid var(--line-2);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);font-family:var(--f-mono);font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--bone);white-space:nowrap;transition:opacity .5s,transform .5s;overflow:hidden}
+.sx-chip::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--red);flex:none;animation:blink 1.2s steps(1) infinite}
+.sx-chip[data-state=paused]::before{animation:none;background:var(--mute)}
+.sx-chip .sx-skip{color:var(--ink);background:var(--bone);text-decoration:none;padding:9px 13px;border-radius:999px;letter-spacing:.1em}
+.sx-chip .sx-skip:hover{background:var(--orange)}
+.sx-chip-bar{position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--line)}
+.sx-chip-bar i{position:absolute;inset:0;background:linear-gradient(90deg,var(--orange),var(--red),var(--peach),var(--teal),var(--beige));transform-origin:0 50%;transform:scaleX(0)}
+.sx-chip.is-done{opacity:0;transform:translate(-50%,20px)}
+@media (max-width:700px){
+  .sx-chip{left:max(16px, env(safe-area-inset-left, 0px));transform:none;bottom:max(16px, env(safe-area-inset-bottom, 0px));height:56px;box-sizing:border-box;font-size:10px;gap:10px;padding:0 8px 0 14px}
+  .sx-chip.is-done{transform:translateY(20px)}
+}
+.static .sx-chip{display:none}
+
+/* ---------- intro: las cinco franjas abren la página ---------- */
+.intro{position:fixed;inset:0;z-index:100;pointer-events:none;display:none;overflow:hidden}
+.js .intro{display:block}
+.intro i{position:absolute;top:-4%;bottom:-4%;width:26%;left:calc(var(--k) * 24% - 10%);transform:skewX(-11deg);background:var(--c);box-shadow:-12px 0 0 var(--e)}
+
+/* =========================================================
+   ESCENA 1 · Portada: se entra por la letra I de WHISPER
+   ========================================================= */
+.hero{position:relative;height:100vh;height:100svh;overflow:hidden;background:var(--ink)}
+.hero-media{position:absolute;inset:0;clip-path:polygon(0% 0%,100% 0%,100% 100%,0% 100%)}
+.hero-media canvas,.hero-media .poster{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero-mask{position:absolute;inset:0;background:#000;mix-blend-mode:multiply;display:flex;align-items:flex-end;justify-content:center;padding-bottom:clamp(36px,6vh,72px);overflow:hidden}
+.mask-wrap{display:block}
+.mask-word{position:relative;display:block;color:#fff;font-family:var(--f-display);font-weight:900;font-size:min(27vw,52vh);line-height:.8;letter-spacing:-.01em;white-space:nowrap;text-transform:uppercase}
+.mask-word span{display:inline-block}
+.hero-shade{position:absolute;inset:0;background:rgba(10,9,8,.5);opacity:0;pointer-events:none}
+.hero-copy{position:absolute;left:0;right:0;top:calc(var(--header) + clamp(24px,6vh,72px))}
+.hero-copy .in{display:flex;flex-direction:column;align-items:flex-start;gap:18px;max-width:780px}
+.hero-copy .label{color:var(--beige)}
+.hero h1{font-weight:500;font-size:clamp(30px,3.7vw,60px);line-height:1.04;letter-spacing:-.025em;max-width:19ch;text-wrap:balance}
+.hero h1 b{font-weight:600;color:var(--orange)}
+.hero .sub{color:#CFC7BA;font-size:clamp(16px,1.25vw,19px);max-width:46ch}
+.hero .ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:6px}
+.cam{position:absolute;top:calc(var(--header) + 18px);right:max(var(--gutter), env(safe-area-inset-right, 0px));text-align:right;font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:rgba(236,230,219,.75);line-height:1.9}
+.cam b{font-weight:500;color:var(--bone);font-variant-numeric:tabular-nums}
+.cam b i{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--rec);margin-right:8px;vertical-align:1px;animation:blink 1.6s steps(1) infinite}
+.verbs{position:absolute;inset:0;display:grid;place-items:center;pointer-events:none}
+.verb{grid-area:1/1;display:flex;flex-direction:column;align-items:center;gap:14px}
+.verb .tape{display:block;background:var(--c);color:var(--t);padding:.06em .32em .02em;clip-path:inset(0% 100% 0% 0%);font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:clamp(60px,13vw,230px);line-height:.88;transform:skewX(-11deg)}
+.verb .tape span{display:inline-block;transform:skewX(11deg)}
+.verb small{font-family:var(--f-mono);font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--bone);opacity:0;background:rgba(10,9,8,.7);padding:6px 10px}
+.hero-cap{position:absolute;left:50%;bottom:4.5vh;transform:translateX(-50%);font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);opacity:0;white-space:nowrap}
+@media (max-width:700px){
+  .hero-mask{padding-bottom:9vh}
+  .mask-word{font-size:29vw}
+  .hero-copy{top:calc(var(--header) + 20px)}
+  .hero h1{font-size:clamp(28px,8.4vw,40px)}
+  .hero .sub{display:none}
+  .cam{display:none}
+}
+
+/* ---------- marcas con las que hemos trabajado ---------- */
+.brands{padding:clamp(48px,7vw,96px) 0;border-bottom:1px solid var(--line);overflow:hidden}
+.brands .label{display:block;text-align:center;margin-bottom:30px;color:var(--mute)}
+.marquee{overflow:hidden;-webkit-mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);mask-image:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.marquee .track{display:flex;width:max-content;will-change:transform}
+.marquee .set{display:flex;align-items:center;gap:clamp(44px,6vw,96px);padding-right:clamp(44px,6vw,96px)}
+.marquee img{height:30px;width:auto;opacity:.75;filter:grayscale(1) brightness(1.7) contrast(.9)}
+.marquee img.tall{height:40px}
+
+/* =========================================================
+   ESCENA 2 · Enfoque: las palabras clave se pintan con la paleta
+   ========================================================= */
+.statement{position:relative;height:100vh;height:100svh;display:flex;align-items:center}
+.statement .label{display:block;color:var(--beige);margin-bottom:30px}
+.st-text{font-weight:500;font-size:clamp(30px,4.3vw,72px);line-height:1.12;letter-spacing:-.03em;max-width:21ch}
+.js .st-text .w{opacity:.14}
+.st-text .key{position:relative;display:inline-block;isolation:isolate;padding:0 .1em}
+.st-text .key .hl{position:absolute;inset:.06em -.02em -.02em;background:var(--c);z-index:-1;transform-origin:0 50%;transform:skewX(-11deg) scaleX(0)}
+
+/* =========================================================
+   ESCENA 3 · Servicios: las franjas de la paleta se vuelven las áreas
+   ========================================================= */
+.services{position:relative}
+.svc-stage{position:relative;height:100vh;height:100svh;overflow:hidden;background:var(--ink)}
+.svc-intro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding-top:var(--header)}
+.svc-intro .label{color:var(--beige);margin-bottom:22px}
+.svc-intro h2{font-size:clamp(64px,12vw,210px)}
+.svc-intro h2 em{font-style:normal;color:var(--beige)}
+.strp{position:absolute;inset:0;--a:0;--w:0}
+.strp .edge,.strp .fill{position:absolute;inset:0;display:block}
+.strp .fill{background:var(--c);color:var(--fg);clip-path:polygon(calc((var(--a) + var(--s)) * 1%) 0%,calc((var(--a) + var(--w) + var(--s)) * 1%) 0%,calc((var(--a) + var(--w)) * 1%) 100%,calc(var(--a) * 1%) 100%)}
+.strp .edge{background:var(--e);clip-path:polygon(calc((var(--a) + var(--s)) * 1% - var(--ew)) 0%,calc((var(--a) + var(--s)) * 1%) 0%,calc(var(--a) * 1%) 100%,calc(var(--a) * 1% - var(--ew)) 100%)}
+.tag{position:absolute;top:50%;left:0;font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:clamp(26px,3.2vw,52px);white-space:nowrap;transform:translate(-50%,-50%) rotate(var(--ang,-79deg));color:var(--fg)}
+.tag small{font-family:var(--f-mono);font-weight:500;font-size:.32em;letter-spacing:.14em;margin-right:.8em;vertical-align:.5em}
+.p-in{position:absolute;inset:0;padding:calc(var(--header) + 4vh) max(var(--gutter), env(safe-area-inset-right, 0px)) 8vh max(var(--gutter), env(safe-area-inset-left, 0px));display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,.8fr);gap:4vw;align-items:end}
+.p-num{position:absolute;right:-1vw;top:calc(var(--header) - 4vh);font-family:var(--f-display);font-weight:900;font-size:52vh;line-height:.8;color:transparent;-webkit-text-stroke:2px var(--fg);opacity:.2;pointer-events:none}
+.p-copy{position:relative;display:flex;flex-direction:column;align-items:flex-start;gap:clamp(14px,2.2vh,24px);min-width:0}
+.p-copy .label{opacity:.85}
+.p-title{font-size:clamp(60px,9.2vw,168px)}
+.p-title.long{font-size:clamp(46px,7.2vw,132px)}
+.p-text{font-size:clamp(16px,1.35vw,21px);max-width:40ch;line-height:1.45;font-weight:500}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips a{font-size:14px;font-weight:500;text-decoration:none;padding:8px 14px;border:1.5px solid currentColor;border-radius:999px;transition:background .2s,color .2s}
+.chips a:hover{background:var(--fg);color:var(--c)}
+.p-media{position:relative;justify-self:end;width:min(100%,30vw);aspect-ratio:4/5;clip-path:polygon(14% 0%,100% 0%,86% 100%,0% 100%);overflow:hidden;background:rgba(0,0,0,.2)}
+.p-media img{position:absolute;top:-4%;left:-12%;width:124%;height:108%;max-width:none;object-fit:cover}
+.p-cta{justify-self:end}
+ul.houses{display:flex;flex-wrap:wrap;gap:10px;margin:0;padding:0}
+.houses li{list-style:none}
+.houses a{display:flex;flex-direction:column;padding:10px 22px 10px 24px;background:var(--hc);color:var(--ink);text-decoration:none;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%);transition:transform .25s,filter .25s}
+.houses a:hover{transform:translateY(-4px);filter:brightness(1.08)}
+.houses a:focus-visible{outline:2px solid var(--bone);outline-offset:3px}
+.houses a span::after{content:" →"}
+.houses b{font-family:var(--f-display);font-weight:900;font-size:clamp(22px,2vw,32px);line-height:1;letter-spacing:.01em}
+.houses span{font-size:12px;font-weight:500}
+@media (max-width:900px){
+  :root{--ew:9px}
+  .p-in{grid-template-columns:1fr;align-content:end;gap:18px;padding-bottom:calc(5vh + 64px)}
+  .p-media{position:absolute;right:var(--gutter);top:calc(var(--header) + 3vh);width:30vw;aspect-ratio:3/4}
+  .p-num{font-size:34vh;top:auto;bottom:34vh;right:-2vw}
+  .p-title{font-size:clamp(52px,15vw,96px)}
+  .p-title.long{font-size:clamp(40px,12vw,80px)}
+  .p-text{font-size:15.5px}
+  .chips a{font-size:12.5px;padding:6px 11px}
+  .tag{font-size:clamp(20px,6vw,34px)}
+  .p-cta{justify-self:start}
+}
+@media (max-width:700px){.p-media{display:none}}
+@media (max-width:900px) and (max-height:740px){.p-text{display:none}}
+
+/* =========================================================
+   ESCENA 4 · Trabajo: carrusel 3D movido por el scroll
+   ========================================================= */
+.work{position:relative}
+.work-stage{position:relative;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding-top:var(--header)}
+.work-bg{position:absolute;left:0;top:54%;transform:translateY(-50%);white-space:nowrap;font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:38vh;line-height:1;color:transparent;-webkit-text-stroke:1.5px rgba(236,230,219,.1);pointer-events:none;will-change:transform}
+.work-head{position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:clamp(18px,3.5vh,40px)}
+.work-head .label{color:var(--beige)}
+.work-head h2{font-size:clamp(44px,6vw,104px);margin-top:10px}
+.work-head .count{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:var(--mute);white-space:nowrap;font-variant-numeric:tabular-nums}
+.rail-wrap{position:relative;perspective:1400px}
+.rail{display:flex;gap:clamp(16px,2vw,32px);padding:0 max(var(--gutter), env(safe-area-inset-left, 0px));width:max-content;will-change:transform;transform-style:preserve-3d}
+.card{position:relative;flex:none;height:min(58svh,580px);border-radius:12px;overflow:hidden;background:var(--ink-2);text-decoration:none;display:block;margin:0;will-change:transform}
+.card.v{aspect-ratio:9/16}
+.card.p{aspect-ratio:4/5}
+.card img,.card video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,9,8,.85) 0%,rgba(10,9,8,0) 50%)}
+.card .meta{position:absolute;left:18px;right:18px;bottom:16px;z-index:2;display:block}
+.card .meta .label{color:var(--orange);font-size:10px;display:block}
+.card .meta b{display:block;font-weight:600;font-size:clamp(17px,1.4vw,21px);line-height:1.25;margin-top:6px}
+.card .meta em{display:block;font-style:normal;font-size:13.5px;color:var(--mute);margin-top:6px}
+.card.end{display:flex;flex-direction:column;justify-content:space-between;padding:28px;background:var(--orange);color:var(--ink)}
+.card.end::after{display:none}
+.card.end h3{font-size:clamp(40px,3.6vw,64px)}
+.card.end .links{display:flex;flex-direction:column}
+.card.end .links a,.card.end .links button{all:unset;cursor:pointer;display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-top:1.5px solid rgba(10,9,8,.3);font-weight:600}
+.card.end .links a:focus-visible,.card.end .links button:focus-visible{outline:2px solid var(--ink)}
+.rail-bar{position:relative;margin:clamp(18px,3vh,32px) max(var(--gutter), env(safe-area-inset-left, 0px)) 0;height:2px;background:var(--line-2)}
+.rail-bar i{position:absolute;inset:0;background:var(--orange);transform-origin:0 50%;transform:scaleX(0)}
+@media (max-width:700px){.card{height:min(52svh,470px)}.work-head .count{display:none}}
+
+/* =========================================================
+   ESCENA 5 · Caso: la foto crece hasta llenar la pantalla
+   ========================================================= */
+.case{position:relative}
+.case-stage{position:relative;height:100vh;height:100svh;overflow:hidden;display:flex;align-items:flex-end}
+.case-media{position:absolute;inset:0;clip-path:inset(0% 0% 0% 0%)}
+.case-media img{width:100%;height:100%;object-fit:cover}
+.case-shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,9,8,.94) 0%,rgba(10,9,8,.6) 50%,rgba(10,9,8,.25) 100%)}
+.case-tease{position:absolute;left:50%;top:calc(50% + 26vh);transform:translateX(-50%);font-family:var(--f-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute);white-space:nowrap;opacity:0}
+.case-copy{position:relative;padding-bottom:clamp(40px,9vh,96px)}
+.case-copy .label{color:var(--orange)}
+.case-copy h2{font-size:clamp(68px,13vw,240px);line-height:.9;margin:6px 0 14px;overflow:hidden;padding:.2em 0 .06em}
+.case-copy h2 span{display:inline-block}
+.case-copy h2 .word{white-space:nowrap}
+.case-copy p{max-width:52ch;color:#D7CFC2;font-size:clamp(16px,1.25vw,19px)}
+.case-copy dl{display:flex;flex-wrap:wrap;gap:clamp(20px,4vw,64px);margin-top:28px}
+.case-copy dt{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute)}
+.case-copy dd{font-family:var(--f-display);font-weight:800;font-size:clamp(28px,2.6vw,44px);line-height:1.1;text-transform:uppercase}
+
+/* =========================================================
+   ESCENA 6 · Cifras con rodillos que giran con el scroll
+   ========================================================= */
+.facts{padding:clamp(80px,12vw,160px) 0}
+.facts .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}
+.fact{padding:26px 26px 0 0;border-top:2px solid var(--fc)}
+.fact+.fact{padding-left:26px}
+.num{display:flex;align-items:flex-start;font-family:var(--f-display);font-weight:900;font-size:clamp(88px,12vw,210px);line-height:1;color:var(--fc);font-variant-numeric:tabular-nums}
+.num sup{font-size:.4em;line-height:1;margin:.12em 0 0 .06em;color:var(--bone)}
+.odo{display:inline-flex;height:1em;overflow:hidden}
+.odo-col{display:block;height:1em;overflow:hidden}
+.odo-in{display:flex;flex-direction:column}
+.odo-in span{display:block;height:1em;text-align:center}
+.fact p{color:var(--mute);margin-top:14px;max-width:26ch;font-size:15.5px}
+@media (max-width:760px){.facts .grid{grid-template-columns:1fr;gap:36px}.fact+.fact{padding-left:0}}
+
+/* ---------- preguntas ---------- */
+.faq{padding:0 0 clamp(80px,10vw,140px)}
+.faq .wrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(32px,6vw,96px)}
+.faq .label{color:var(--beige)}
+.faq h2{font-size:clamp(52px,6vw,100px);margin-top:12px}
+.faq details{border-top:1px solid var(--line)}
+.faq details:last-child{border-bottom:1px solid var(--line)}
+.faq summary{list-style:none;cursor:pointer;display:flex;justify-content:space-between;gap:24px;padding:22px 0;font-size:clamp(17px,1.4vw,20px);font-weight:500}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font-family:var(--f-mono);color:var(--orange);font-size:22px;line-height:1;transition:transform .3s}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq details p{color:var(--mute);padding:0 0 24px;max-width:60ch}
+@media (max-width:900px){.faq .wrap{grid-template-columns:1fr}}
+
+/* =========================================================
+   ESCENA 7 · Final: la paleta cae, se abre y queda la invitación
+   ========================================================= */
+.finale{position:relative}
+.fin-stage{position:relative;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 var(--gutter)}
+.fin-stage .strp{--a:calc(var(--k) * 20 - var(--s) / 2);--w:20.4}
+.fin-stage .strp.first{--a:calc(-1 * var(--s) - 1);--w:calc(21.4 + var(--s) / 2)}
+.fin-stage .strp.last{--w:calc(21.4 + var(--s) / 2)}
+.fin-word{position:relative;font-size:clamp(84px,20vw,380px);display:flex;justify-content:center}
+.fin-word span{display:inline-block;color:var(--ink);-webkit-text-stroke:2px var(--bone);paint-order:stroke fill}
+.fin-sub{position:relative;font-size:clamp(22px,2.6vw,40px);font-weight:500;letter-spacing:-.02em;margin-top:10px}
+.fin-ctas{position:relative;display:flex;flex-wrap:wrap;justify-content:center;gap:12px;margin-top:30px}
+.fin-ctas .btn{min-height:58px;padding:0 30px;font-size:16px}
+
+/* ---------- contacto ---------- */
+.contact{padding:clamp(56px,7vw,96px) 0;border-top:1px solid var(--line)}
+.contact .grid{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(32px,6vw,96px)}
+.direct .label{color:var(--beige)}
+.direct h2{font-size:clamp(48px,5vw,84px);margin:12px 0 18px}
+.direct p{color:var(--mute);max-width:40ch;margin-bottom:26px}
+.direct .lines a{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:20px 0;border-top:1px solid var(--line);text-decoration:none;font-size:clamp(18px,1.6vw,22px);transition:color .2s}
+.direct .lines a:last-child{border-bottom:1px solid var(--line)}
+.direct .lines a:hover{color:var(--orange)}
+.direct .lines small{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;color:var(--mute);text-transform:uppercase;white-space:nowrap}
+form.brief{background:var(--ink-2);border:1px solid var(--line);border-radius:16px;padding:clamp(22px,3vw,36px)}
+.brief .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.brief .f{margin-bottom:22px}
+.brief .f label,.brief legend{display:block;font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--mute);margin:0 0 8px;padding:0}
+.brief input[type=text],.brief textarea{width:100%;background:transparent;border:0;border-bottom:1px solid var(--line-2);color:var(--bone);font:inherit;font-size:16px;padding:8px 0 10px;border-radius:0}
+.brief input:focus,.brief textarea:focus{outline:none;border-color:var(--orange)}
+.brief textarea{resize:vertical;min-height:72px}
+.brief fieldset{border:0;padding:0;margin:0 0 22px}
+.picks{display:flex;flex-wrap:wrap;gap:8px}
+.picks label{position:relative}
+.picks input{position:absolute;opacity:0;pointer-events:none}
+.picks span{display:inline-block;padding:8px 14px;border:1px solid var(--line-2);border-radius:999px;font-size:14px;cursor:pointer;transition:all .2s}
+.picks input:checked+span{background:var(--pc);color:var(--ink);border-color:var(--pc)}
+.picks input:focus-visible+span{outline:2px solid var(--orange);outline-offset:2px}
+.brief .btn{width:100%;justify-content:center}
+.brief .note{font-size:13px;color:var(--mute);text-align:center;margin-top:12px}
+@media (max-width:900px){.contact .grid{grid-template-columns:1fr}.brief .row{grid-template-columns:1fr;gap:0}}
+
+footer{border-top:1px solid var(--line);padding:32px 0 104px;color:var(--mute);font-size:14px}
+footer .wrap{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px 32px}
+footer nav{display:flex;flex-wrap:wrap;gap:8px 22px}
+footer a{text-decoration:none}
+footer a:hover{color:var(--bone)}
+
+dialog.reel{border:0;padding:0;background:transparent;max-width:min(92vw,420px);width:100%;overflow:visible}
+dialog.reel::backdrop{background:rgba(10,9,8,.94)}
+dialog.reel video{width:100%;border-radius:14px}
+dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:var(--bone);cursor:pointer}
+
+/* =========================================================
+   Modo estático: movimiento reducido o sin librerías.
+   Todo queda visible, en orden y sin escenas fijadas.
+   ========================================================= */
+.static .intro,.static .hero-mask,.static .verbs,.static .hero-media canvas,.static .edge,.static .tag,.static .work-bg,.static .fin-stage .strp,.static .case-tease,.static .cursor{display:none!important}
+.static .hero-media::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(10,9,8,.9),rgba(10,9,8,.4))}
+.static .st-text .w{opacity:1}
+.static .st-text .key .hl{transform:skewX(-11deg) scaleX(1)}
+.static .svc-stage{height:auto;overflow:visible}
+.static .svc-intro{position:relative;padding-block:120px 60px}
+.static .strp{position:relative}
+.static .strp .fill{position:relative;clip-path:none;min-height:100vh;overflow:hidden}
+.static .rail-wrap{overflow-x:auto}
+.static .rail{padding-bottom:12px}
+.static .fin-word span{color:var(--bone)}
+.static .fab{transform:none}
+.static .hud i,.static .cam b i{animation:none}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+
+<div class="intro" aria-hidden="true">
+  <i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--ink);--e:var(--beige)"></i>
+</div>
+
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="#inicio" aria-label="Creative Whisper, inicio">
+      <img src="../assets/monograma-cw.png" alt="" width="40" height="26">
+      <span>CREATIVE WHISPER</span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Principal">
+      <a href="#servicios">Servicios</a>
+      <a href="#trabajo">Trabajo</a>
+      <a href="../datos.html">Datos</a>
+      <a href="../portafolio.html">Fotografía</a>
+      <a href="#contacto">Contacto</a>
+    </nav>
+    <a class="lang-sw" href="/" hreflang="en" lang="en" data-set-lang="en" aria-label="Read this page in English">ES <b>/</b> EN</a>
+    <button class="menu-btn js-menu" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
+    <a class="btn btn--solid js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">Agendar reunión</a>
+  </div>
+  <i class="progress" aria-hidden="true"></i>
+</header>
+
+<div class="hud" aria-hidden="true"><i></i><b class="js-tc">00:00:00:00</b><span class="js-scene">Inicio</span></div>
+<div class="sx-chip" role="status" aria-live="polite"><span data-sx-state>Reproduciendo · toca para pausar</span><a class="sx-skip" href="#">Contacto ↓</a><span class="sx-chip-bar"><i></i></span></div>
+<div class="cursor" aria-hidden="true" hidden><span></span></div>
+
+<main id="contenido">
+
+<!-- 1 · PORTADA -->
+<section class="hero" id="inicio" data-scene="Inicio">
+  <div class="hero-media">
+    <img class="poster" src="../assets/scroll/f001.webp" alt="" aria-hidden="true">
+    <canvas aria-hidden="true"></canvas>
+  </div>
+  <div class="hero-mask" aria-hidden="true">
+    <span class="mask-wrap"><span class="mask-word"><span>W</span><span>H</span><span class="mi">I</span><span>S</span><span>P</span><span>E</span><span>R</span></span></span>
+  </div>
+  <div class="hero-shade"></div>
+  <div class="cam" aria-hidden="true">
+    <div><b><i></i>REC <span class="js-hero-tc">00:00:20:15</span></b></div>
+    <div>4K · 23.98 FPS · 16:9</div>
+  </div>
+  <div class="hero-copy wrap">
+    <div class="in">
+      <span class="label">Creative Whisper · Agencia de marketing · Quito</span>
+      <h1>Datos, producción audiovisual y marketing digital <b>en un solo equipo.</b></h1>
+      <p class="sub">Entendemos a tus clientes, creamos el contenido que necesitan ver y te ayudamos a venderles por WhatsApp e Instagram.</p>
+      <div class="ctas">
+        <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+          Agendar reunión
+        </a>
+        <a class="btn btn--ghost" href="#servicios">Ver servicios</a>
+      </div>
+    </div>
+  </div>
+  <div class="verbs" aria-hidden="true">
+    <div class="verb" style="--c:var(--orange);--t:var(--ink)"><b class="tape"><span>Analizamos</span></b><small>01 · Datos</small></div>
+    <div class="verb" style="--c:var(--red);--t:var(--bone)"><b class="tape"><span>Producimos</span></b><small>02 · Producción</small></div>
+    <div class="verb" style="--c:var(--peach);--t:var(--ink)"><b class="tape"><span>Publicamos</span></b><small>03 · Marketing digital</small></div>
+    <div class="verb" style="--c:var(--teal);--t:var(--ink)"><b class="tape"><span>Atendemos</span></b><small>04 · Automatización</small></div>
+  </div>
+  <div class="hero-cap" aria-hidden="true">Cobertura de evento · Festival off-road</div>
+</section>
+
+<!-- marcas -->
+<section class="brands" aria-label="Marcas con las que hemos trabajado">
+  <span class="label">Marcas con las que hemos trabajado</span>
+  <div class="marquee"><div class="track js-marquee">
+    <div class="set">
+      <img src="../assets/marcas/usfq.png" alt="USFQ" class="tall"><img src="../assets/marcas/jeep.png" alt="Jeep"><img src="../assets/marcas/byd.png" alt="BYD"><img src="../assets/marcas/subaru.png" alt="Subaru"><img src="../assets/marcas/ram.png" alt="RAM" class="tall"><img src="../assets/marcas/citroen.png" alt="Citroën" class="tall"><img src="../assets/marcas/ds.png" alt="DS" class="tall"><img src="../assets/marcas/fiat.png" alt="Fiat" class="tall"><img src="../assets/marcas/dongfeng.png" alt="Dongfeng" class="tall"><img src="../assets/marcas/royal-enfield.png" alt="Royal Enfield">
+    </div>
+    <div class="set" aria-hidden="true">
+      <img src="../assets/marcas/usfq.png" alt="" class="tall"><img src="../assets/marcas/jeep.png" alt=""><img src="../assets/marcas/byd.png" alt=""><img src="../assets/marcas/subaru.png" alt=""><img src="../assets/marcas/ram.png" alt="" class="tall"><img src="../assets/marcas/citroen.png" alt="" class="tall"><img src="../assets/marcas/ds.png" alt="" class="tall"><img src="../assets/marcas/fiat.png" alt="" class="tall"><img src="../assets/marcas/dongfeng.png" alt="" class="tall"><img src="../assets/marcas/royal-enfield.png" alt="">
+    </div>
+  </div></div>
+</section>
+
+<!-- 2 · ENFOQUE -->
+<section class="statement" id="enfoque" data-scene="Enfoque">
+  <div class="wrap">
+    <span class="label">Cómo trabajamos</span>
+    <p class="st-text js-words">Cada proyecto empieza por los [datos|orange|ink] de tu empresa. Con ellos decidimos a quién hablarle y qué contar. Después lo [producimos|red|bone], lo [publicamos|peach|ink] y [atendemos|teal|ink] a cada cliente que responde.</p>
+  </div>
+</section>
+
+<!-- 3 · SERVICIOS -->
+<section class="services" id="servicios" data-scene="Servicios">
+  <div class="svc-stage">
+    <div class="svc-intro wrap">
+      <span class="label">Servicios</span>
+      <h2 class="display">Cuatro áreas.<br><em>Un mismo equipo.</em></h2>
+    </div>
+
+    <div class="strp" style="--c:var(--orange);--e:var(--orange);--fg:var(--ink)">
+      <b class="edge"></b>
+      <div class="fill">
+        <span class="tag"><small>01</small>Datos</span>
+        <div class="p-in">
+          <span class="p-num" aria-hidden="true">01</span>
+          <div class="p-copy">
+            <span class="label">01 / 04 · Entender</span>
+            <h3 class="p-title display">Datos</h3>
+            <p class="p-text">Analizamos ventas, CRM, redes y conversaciones para decidir a quién hablarle, con qué producto y en qué momento.</p>
+            <div class="chips">
+              <a href="../servicios.html#svc-analisis-de-datos" data-cursor="Ver">Análisis de datos y dashboards</a>
+              <a href="../servicios.html#svc-analisis-de-conversaciones" data-cursor="Ver">Análisis de conversaciones</a>
+            </div>
+          </div>
+          <div class="p-media"><img src="../assets/datos/codigo.webp" alt="Análisis de datos en una laptop" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strp" style="--c:var(--red);--e:var(--red-e);--fg:var(--bone)">
+      <b class="edge"></b>
+      <div class="fill">
+        <span class="tag"><small>02</small>Producción</span>
+        <div class="p-in">
+          <span class="p-num" aria-hidden="true">02</span>
+          <div class="p-copy">
+            <span class="label">02 / 04 · Crear</span>
+            <h3 class="p-title display">Producción</h3>
+            <p class="p-text">Video, fotografía y voz con equipo de cine, del guion a la entrega en todos los formatos.</p>
+            <div class="chips">
+              <a href="../servicios.html#svc-video-de-marca" data-cursor="Ver">Video de marca</a>
+              <a href="../servicios.html#svc-contenido-vertical" data-cursor="Ver">Reels y TikTok</a>
+              <a href="../servicios.html#svc-testimonios-y-casos" data-cursor="Ver">Testimonios</a>
+              <a href="../servicios.html#svc-video-corporativo-b2b" data-cursor="Ver">Video corporativo B2B</a>
+              <a href="../servicios.html#svc-cortometrajes-y-branded-content" data-cursor="Ver">Cortometrajes</a>
+              <a href="../servicios.html#svc-cobertura-de-eventos" data-cursor="Ver">Eventos</a>
+              <a href="../servicios.html#svc-fotografia-de-producto" data-cursor="Ver">Fotografía de producto</a>
+              <a href="../servicios.html#svc-actores-y-creadores" data-cursor="Ver">Actores y creadores</a>
+              <a href="../servicios.html#svc-doblaje-locucion-y-adr" data-cursor="Ver">Locución y doblaje</a>
+            </div>
+          </div>
+          <div class="p-media"><img src="../assets/f-entrevista.webp" alt="Rodaje de una entrevista de marca" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strp" style="--c:var(--peach);--e:var(--peach-e);--fg:var(--ink)">
+      <b class="edge"></b>
+      <div class="fill">
+        <span class="tag"><small>03</small>Digital</span>
+        <div class="p-in">
+          <span class="p-num" aria-hidden="true">03</span>
+          <div class="p-copy">
+            <span class="label">03 / 04 · Publicar</span>
+            <h3 class="p-title display long">Marketing<br>digital</h3>
+            <p class="p-text">Llevamos ese contenido a tus clientes con campañas, redes y páginas web listas para vender.</p>
+            <div class="chips">
+              <a href="../servicios.html#svc-campanas-en-meta-ads" data-cursor="Ver">Campañas en Meta Ads</a>
+              <a href="../servicios.html#svc-diseno-para-instagram" data-cursor="Ver">Diseño para Instagram</a>
+              <a href="../servicios.html#svc-sitios-web-con-pedido-por-whatsapp" data-cursor="Ver">Sitios web con pedido por WhatsApp</a>
+              <a href="../servicios.html#svc-paginas-web-interactivas" data-cursor="Ver">Páginas web interactivas</a>
+            </div>
+          </div>
+          <div class="p-media"><img src="../assets/srv/instagram.webp" alt="Diseño de publicaciones para Instagram" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strp" style="--c:var(--teal);--e:var(--teal-e);--fg:var(--ink)">
+      <b class="edge"></b>
+      <div class="fill">
+        <span class="tag"><small>04</small>Atención</span>
+        <div class="p-in">
+          <span class="p-num" aria-hidden="true">04</span>
+          <div class="p-copy">
+            <span class="label">04 / 04 · Atender</span>
+            <h3 class="p-title display long">Automati&shy;zación</h3>
+            <p class="p-text">Un asistente con inteligencia artificial responde por WhatsApp, Instagram y tu sitio web las 24 horas, con la voz de tu marca.</p>
+            <div class="chips">
+              <a href="../servicios.html#svc-automatizacion-de-whatsapp" data-cursor="Ver">Automatización de WhatsApp</a>
+              <a href="../servicios.html#svc-asistente-web-en-vivo" data-cursor="Ver">Asistente en vivo para tu web</a>
+              <a href="../servicios.html#svc-community-manager-con-ia" data-cursor="Ver">Community manager con IA</a>
+            </div>
+          </div>
+          <div class="p-media"><img src="../assets/srv/whatsapp.webp" alt="Asistente de WhatsApp respondiendo a un cliente" loading="lazy"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="strp" style="--c:var(--ink);--e:var(--beige);--fg:var(--bone)">
+      <b class="edge"></b>
+      <div class="fill">
+        <span class="tag"><small>CW</small>Marcas propias</span>
+        <div class="p-in">
+          <div class="p-copy">
+            <span class="label" style="color:var(--beige)">Creative Whisper · Marcas propias</span>
+            <h3 class="p-title display long">Nuestras<br>marcas</h3>
+            <p class="p-text" style="color:#D7CFC2">Cada servicio lo operamos a diario en nuestras propias marcas antes de ofrecerlo.</p>
+            <ul class="houses">
+              <li><a href="https://batakataka.github.io/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--orange)"><b>BaTaKá</b><span>Bebida energética</span></a></li>
+              <li><a href="https://torotegymwear.github.io/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--red);color:var(--bone)"><b>TOROTE</b><span>Ropa deportiva</span></a></li>
+              <li><a href="https://uinkyporthos.github.io/uinky/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--peach)"><b>ÜINKY</b><span>Jabonería artesanal</span></a></li>
+              <li><a href="https://uinkyporthos.github.io/porthos/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--teal)"><b>PORTHOS</b><span>Jabones para hombre</span></a></li>
+            </ul>
+          </div>
+          <div class="p-cta">
+            <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero saber por dónde empezar con mi marca.">Agendar reunión →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 4 · TRABAJO -->
+<section class="work" id="trabajo" data-scene="Trabajo">
+  <div class="work-stage">
+    <div class="work-bg" aria-hidden="true">Trabajo reciente — Trabajo reciente — Trabajo reciente —</div>
+    <div class="wrap work-head">
+      <div>
+        <span class="label">Trabajo reciente</span>
+        <h2 class="display">Filmado y editado<br>por nuestro equipo.</h2>
+      </div>
+      <span class="count"><span class="js-count">01</span> / 08</span>
+    </div>
+    <div class="rail-wrap">
+      <div class="rail js-rail">
+        <figure class="card v" data-cursor="Play">
+          <video muted loop playsinline preload="none" poster="../assets/clip-evento.webp" data-src="../assets/clip-evento.mp4"></video>
+          <figcaption class="meta"><span class="label">CADE · USFQ</span><b>Cobertura de evento</b></figcaption>
+        </figure>
+        <a class="card p" href="../portafolio.html" data-cursor="Ver">
+          <img src="../assets/auto/royal-enfield-linea-58.webp" alt="Fotografía de producto de una motocicleta Royal Enfield" loading="lazy">
+          <span class="meta"><span class="label">Fotografía de producto</span><b>Más de 700 fotografías automotrices</b><em>Ver portafolio →</em></span>
+        </a>
+        <figure class="card v" data-cursor="Play">
+          <video muted loop playsinline preload="none" poster="../assets/clip-ficcion.webp" data-src="../assets/clip-ficcion.mp4"></video>
+          <figcaption class="meta"><span class="label">Narrativa</span><b>Cápsula de ficción</b></figcaption>
+        </figure>
+        <figure class="card v" data-cursor="Play">
+          <video muted loop playsinline preload="none" poster="../assets/clip-testimonio.webp" data-src="../assets/clip-testimonio.mp4"></video>
+          <figcaption class="meta"><span class="label">USFQ</span><b>Testimonios</b></figcaption>
+        </figure>
+        <a class="card p" href="../datos.html" data-cursor="Ver">
+          <img src="../assets/datos/escenario-2.webp" alt="Charla del Data Club USFQ" loading="lazy" style="object-position:50% 30%">
+          <span class="meta"><span class="label">Análisis de datos</span><b>Data Club USFQ</b><em>Ver cómo trabajamos el dato →</em></span>
+        </a>
+        <figure class="card v" data-cursor="Play">
+          <video muted loop playsinline preload="none" poster="../assets/clip-adr.webp" data-src="../assets/clip-adr.mp4"></video>
+          <figcaption class="meta"><span class="label">Audio</span><b>Doblaje y ADR</b></figcaption>
+        </figure>
+        <figure class="card v" data-cursor="Play">
+          <video muted loop playsinline preload="none" poster="../assets/clip-entrevista.webp" data-src="../assets/clip-entrevista.mp4"></video>
+          <figcaption class="meta"><span class="label">Contenido</span><b>Entrevista de marca</b></figcaption>
+        </figure>
+        <div class="card p end">
+          <h3 class="display">¿Algo así para tu marca?</h3>
+          <div class="links">
+            <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, vi su trabajo y quiero cotizar un proyecto.">Cotizar un proyecto <span>→</span></a>
+            <button type="button" class="js-reel">Ver el reel completo <span>▶</span></button>
+            <a href="../portafolio.html">Fotografía automotriz <span>→</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="rail-bar" aria-hidden="true"><i class="js-railbar"></i></div>
+  </div>
+</section>
+
+<!-- 5 · CASO -->
+<section class="case" id="caso" aria-labelledby="case-t" data-scene="Caso">
+  <div class="case-stage">
+    <div class="case-media"><img src="../assets/cade-evento.webp" alt="Estudiantes del Colegio de Administración y Economía de la USFQ" loading="lazy"></div>
+    <div class="case-shade"></div>
+    <span class="case-tease" aria-hidden="true">Caso · Cortometraje institucional</span>
+    <div class="case-copy wrap">
+      <span class="label">Cortometraje institucional · CADE USFQ</span>
+      <h2 class="display" id="case-t">Un día dragón</h2>
+      <p>Un cortometraje para el Colegio de Administración y Economía de la USFQ, escrito para la Generación Z y contado con humor: un protagonista, una vida planificada en una hoja de cálculo y un campus entero como escenario.</p>
+      <dl>
+        <div><dt>Duración</dt><dd>15–20 min</dd></div>
+        <div><dt>Locaciones</dt><dd>13</dd></div>
+        <div><dt>Rodaje</dt><dd>4 días</dd></div>
+        <div><dt>Público</dt><dd>Gen Z</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- 6 · CIFRAS -->
+<section class="facts" id="cifras" aria-label="Cifras" data-scene="Cifras">
+  <div class="wrap grid">
+    <div class="fact" style="--fc:var(--orange)"><div class="num"><span class="odo" data-to="700">700</span><sup>+</sup></div><p>fotografías de producto automotriz entregadas</p></div>
+    <div class="fact" style="--fc:var(--peach)"><div class="num"><span class="odo" data-to="4">4</span></div><p>formatos de cada rodaje: 9:16, 4:5, 16:9 y 2.39:1</p></div>
+    <div class="fact" style="--fc:var(--teal)"><div class="num"><span class="odo" data-to="24">24</span><sup>/7</sup></div><p>atención automatizada por WhatsApp, Instagram y tu sitio web</p></div>
+  </div>
+</section>
+
+<!-- preguntas -->
+<section class="faq" id="preguntas" aria-labelledby="faq-t" data-scene="Preguntas">
+  <div class="wrap">
+    <div><span class="label">Preguntas frecuentes</span><h2 class="display" id="faq-t">Antes de<br>escribirnos.</h2></div>
+    <div>
+      <details><summary>¿Con qué tipo de marcas trabajan?</summary><p>Con marcas, emprendimientos e instituciones que quieren vender más y comunicar mejor: desde productos de consumo hasta concesionarios, universidades y empresas B2B.</p></details>
+      <details><summary>¿Puedo contratar un solo servicio?</summary><p>Sí. Cada servicio se contrata por separado o combinado en un plan mensual. En la primera reunión te recomendamos por dónde empezar.</p></details>
+      <details><summary>¿Cómo cobran?</summary><p>Por proyecto, según el alcance. Después de la reunión te enviamos una propuesta con alcance, cronograma y precio.</p></details>
+      <details><summary>¿Cómo empezamos?</summary><p>Escríbenos por WhatsApp con lo que tienes en mente. Agendamos una reunión corta y te enviamos la propuesta.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- 7 · FINAL -->
+<section class="finale" aria-label="Invitación a conversar" data-scene="Hablemos">
+  <div class="fin-stage">
+    <div class="strp first" style="--k:0;--c:var(--orange);--e:var(--orange)"><b class="edge"></b><b class="fill"></b></div>
+    <div class="strp" style="--k:1;--c:var(--red);--e:var(--red-e)"><b class="edge"></b><b class="fill"></b></div>
+    <div class="strp" style="--k:2;--c:var(--peach);--e:var(--peach-e)"><b class="edge"></b><b class="fill"></b></div>
+    <div class="strp" style="--k:3;--c:var(--teal);--e:var(--teal-e)"><b class="edge"></b><b class="fill"></b></div>
+    <div class="strp last" style="--k:4;--c:var(--ink);--e:var(--beige)"><b class="edge"></b><b class="fill"></b></div>
+    <h2 class="fin-word display" aria-label="Hablemos"><span>H</span><span>A</span><span>B</span><span>L</span><span>E</span><span>M</span><span>O</span><span>S</span></h2>
+    <p class="fin-sub">de tu marca. Escríbenos y agendamos una reunión.</p>
+    <div class="fin-ctas">
+      <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+        Escribir por WhatsApp
+      </a>
+      <a class="btn btn--ghost" href="#contacto">Dejar un mensaje</a>
+    </div>
+  </div>
+</section>
+
+<!-- contacto -->
+<section class="contact" id="contacto" data-scene="Contacto">
+  <div class="wrap grid">
+    <div class="direct">
+      <span class="label">Contacto</span>
+      <h2 class="display">Agenda una<br>reunión.</h2>
+      <p>Cuéntanos qué necesitas. En una reunión de media hora revisamos tu marca y te proponemos el primer paso.</p>
+      <div class="lines">
+        <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">WhatsApp · 096 957 7774 <small>Escribir →</small></a>
+        <a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">@creative.whisper.productions <small>Instagram →</small></a>
+        <a href="../cotizacion.html">Cotización en línea <small>Abrir →</small></a>
+      </div>
+    </div>
+    <form class="brief js-brief" novalidate>
+      <div class="row">
+        <div class="f"><label for="b-nombre">Tu nombre</label><input type="text" id="b-nombre" name="nombre" autocomplete="name" required></div>
+        <div class="f"><label for="b-marca">Marca o empresa</label><input type="text" id="b-marca" name="marca" autocomplete="organization"></div>
+      </div>
+      <fieldset>
+        <legend>¿Qué necesitas?</legend>
+        <div class="picks">
+          <label style="--pc:var(--orange)"><input type="checkbox" name="area" value="Datos" id="p-datos"><span>Datos</span></label>
+          <label style="--pc:var(--red)"><input type="checkbox" name="area" value="Producción" id="p-prod"><span>Producción</span></label>
+          <label style="--pc:var(--peach)"><input type="checkbox" name="area" value="Marketing digital" id="p-mkt"><span>Marketing digital</span></label>
+          <label style="--pc:var(--teal)"><input type="checkbox" name="area" value="Automatización" id="p-auto"><span>Automatización</span></label>
+          <label style="--pc:var(--beige)"><input type="checkbox" name="area" value="Aún no lo sé" id="p-nose"><span>Aún no lo sé</span></label>
+        </div>
+      </fieldset>
+      <div class="f"><label for="b-idea">Cuéntanos brevemente</label><textarea id="b-idea" name="idea" rows="3"></textarea></div>
+      <button class="btn btn--solid" type="submit">Enviar por WhatsApp →</button>
+      <p class="note">Se abre WhatsApp con tu mensaje listo para enviar.</p>
+    </form>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Creative Whisper · Quito, Ecuador</span>
+    <nav aria-label="Secundaria">
+      <a href="../servicios.html">Servicios</a><a href="../datos.html">Datos</a><a href="../portafolio.html">Fotografía</a><a href="../cotizacion.html">Cotización</a><a href="../privacidad.html">Privacidad</a><a href="../admin.html">Admin</a>
+    </nav>
+  </div>
+</footer>
+
+<a class="fab js-fab js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión." aria-label="Escríbenos por WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+  Escríbenos
+</a>
+
+<dialog class="reel js-reel-dlg" aria-label="Reel de Creative Whisper">
+  <button type="button" class="js-reel-close">CERRAR ✕</button>
+  <video controls playsinline preload="none" poster="../assets/clip-evento.webp" src="../assets/reel-cw.mp4"></video>
+</dialog>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  const WA = '593969577774';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const pad = n => String(n).padStart(2, '0');
+  const root = document.documentElement;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = matchMedia('(pointer: fine)').matches;
+  const hasGsap = !!(window.gsap && window.ScrollTrigger);
+  const cssVar = name => getComputedStyle(root).getPropertyValue(name).trim();
+
+  /* =====================================================
+     Lo que funciona siempre (con o sin animación)
+     ===================================================== */
+  $$('.js-wa').forEach(a => {
+    if (a.dataset.msg) a.href = `https://wa.me/${WA}?text=${encodeURIComponent(a.dataset.msg)}`;
+    a.target = '_blank'; a.rel = 'noopener';
+  });
+
+  $('.js-brief').addEventListener('submit', e => {
+    e.preventDefault();
+    const f = e.target, nombre = f.nombre.value.trim(), marca = f.marca.value.trim(), idea = f.idea.value.trim();
+    const areas = $$('input[name=area]:checked', f).map(i => i.value);
+    if (!nombre) { f.nombre.focus(); f.nombre.style.borderColor = 'var(--red)'; return; }
+    let t = `Hola Creative Whisper, soy ${nombre}${marca ? ` de ${marca}` : ''}.`;
+    if (areas.length) t += ` Me interesa: ${areas.join(', ')}.`;
+    if (idea) t += ` ${idea}`;
+    const a = document.createElement('a');
+    a.href = `https://wa.me/${WA}?text=${encodeURIComponent(t)}`; a.target = '_blank'; a.rel = 'noopener';
+    document.body.appendChild(a); a.click(); a.remove();
+  });
+
+  const menuBtn = $('.js-menu'), menu = $('#menu'), top = $('.top');
+  const closeMenu = () => { menu.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); menuBtn.textContent = 'Menú'; };
+  menuBtn.addEventListener('click', () => {
+    const open = menu.classList.toggle('open');
+    menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.textContent = open ? 'Cerrar' : 'Menú';
+    top.classList.add('is-solid');
+  });
+  $$('a', menu).forEach(a => a.addEventListener('click', closeMenu));
+
+  const dlg = $('.js-reel-dlg'), reelVid = $('video', dlg);
+  $('.js-reel').addEventListener('click', () => { dlg.showModal(); reelVid.play().catch(() => {}); });
+  const closeReel = () => { reelVid.pause(); dlg.close(); };
+  $('.js-reel-close').addEventListener('click', closeReel);
+  dlg.addEventListener('click', e => { if (e.target === dlg) closeReel(); });
+
+  // los videos de la galería solo corren cuando se ven
+  const vio = new IntersectionObserver(es => es.forEach(en => {
+    const v = en.target;
+    if (en.isIntersecting) { if (!v.getAttribute('src')) v.src = v.dataset.src; v.play().catch(() => {}); } else v.pause();
+  }), { threshold: .3 });
+  $$('.rail video').forEach(v => vio.observe(v));
+
+  // texto del enfoque: palabras sueltas y palabras clave con color
+  const st = $('.js-words');
+  st.innerHTML = st.textContent.trim().split(/\s+/).map(w => {
+    const m = w.match(/^\[(.+?)\|(\w+)\|(\w+)\](.*)$/);
+    if (!m) return `<span class="w">${w}</span>`;
+    return `<span class="w key" style="--c:var(--${m[2]})" data-fg="--${m[3]}"><i class="hl"></i>${m[1]}</span>${m[4] ? `<span class="w">${m[4]}</span>` : ''}`;
+  }).join(' ');
+
+  // rodillos de las cifras
+  const odos = $$('.odo').flatMap(el => {
+    const to = el.dataset.to; el.setAttribute('aria-label', to); el.textContent = '';
+    return [...to].map(ch => {
+      const col = document.createElement('span'); col.className = 'odo-col';
+      const inner = document.createElement('span'); inner.className = 'odo-in';
+      for (let k = 0; k < 3; k++) for (let d = 0; d < 10; d++) { const s = document.createElement('span'); s.textContent = d; inner.appendChild(s); }
+      col.appendChild(inner); el.appendChild(col);
+      return { inner, d: +ch };
+    });
+  });
+
+  /* ---------- modo estático ---------- */
+  if (reduce || !hasGsap) {
+    root.classList.add('static');
+    $('.intro').remove();
+    $('.hero .poster').src = '../assets/scroll/f040.webp';
+    $$('.st-text .key').forEach(k => k.style.color = `var(${k.dataset.fg})`);
+    odos.forEach(o => o.inner.style.transform = `translateY(${-(20 + o.d)}em)`);
+    top.classList.add('is-solid');
+    $('.js-fab').classList.add('is-on');
+    return;
+  }
+
+  /* =====================================================
+     Animación: GSAP + ScrollTrigger (+ Lenis con mouse)
+     ===================================================== */
+  gsap.registerPlugin(ScrollTrigger);
+  ScrollTrigger.config({ ignoreMobileResize: true });
+  let lenis = null;
+  if (window.Lenis && finePointer) {
+    lenis = new Lenis({ lerp: .09, smoothWheel: true });
+    window.cwLenis = lenis;
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(t => lenis.raf(t * 1000));
+    gsap.ticker.lagSmoothing(0);
+  }
+  $$('a[href^="#"]').forEach(a => a.addEventListener('click', e => {
+    const id = a.getAttribute('href'); if (id.length < 2) return;
+    const t = document.querySelector(id); if (!t) return;
+    e.preventDefault();
+    if (lenis) lenis.scrollTo(t, { duration: 1.6 }); else t.scrollIntoView({ behavior: 'smooth' });
+  }));
+
+  const vw = () => innerWidth, vh = () => innerHeight;
+  const SLANT = 11 * Math.PI / 180;
+  let s = 12;
+  function geometry() {
+    s = Math.tan(SLANT) * vh() / vw() * 100;
+    root.style.setProperty('--s', s.toFixed(3));
+  }
+  geometry();
+
+  /* ---------- intro: las franjas suben y abren la página ---------- */
+  gsap.timeline({ delay: .15 })
+    .to('.intro i', { yPercent: -112, duration: 1, ease: 'power3.inOut', stagger: .07 })
+    .add(() => $('.intro').remove())
+    .from('.hero-copy .in > *', { y: 46, opacity: 0, duration: .9, ease: 'power3.out', stagger: .08 }, .55)
+    .from('.mask-wrap', { yPercent: 40, opacity: 0, duration: 1.2, ease: 'power3.out' }, .5);
+
+  /* ---------- secuencia de cuadros de la portada ---------- */
+  const N = 59, frames = new Array(N);
+  const canvas = $('.hero canvas'), ctx = canvas.getContext('2d'), poster = $('.hero .poster');
+  let drawn = -1;
+  const src = i => `../assets/scroll/f${String(i + 1).padStart(3, '0')}.webp`;
+  function loadFrame(i) {
+    if (frames[i]) return;
+    const im = new Image(); im.decoding = 'async'; im.src = src(i);
+    im.onload = () => { if (i === 0) { poster.style.visibility = 'hidden'; draw(0, true); } };
+    frames[i] = im;
+  }
+  loadFrame(0);
+  const loadAll = () => { for (let i = 1; i < N; i++) loadFrame(i); };
+  if (document.readyState === 'complete') setTimeout(loadAll, 60); else addEventListener('load', () => setTimeout(loadAll, 60));
+  function sizeCanvas() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    canvas.width = Math.round(canvas.clientWidth * dpr); canvas.height = Math.round(canvas.clientHeight * dpr);
+    draw(drawn < 0 ? 0 : drawn, true);
+  }
+  function draw(i, force) {
+    i = Math.max(0, Math.min(N - 1, i));
+    if (i === drawn && !force) return;
+    let k = i;
+    while (k > 0 && !(frames[k] && frames[k].complete && frames[k].naturalWidth)) k--;
+    const im = frames[k]; if (!im || !im.complete || !im.naturalWidth) return;
+    const cw = canvas.width, ch = canvas.height, sc = Math.max(cw / im.naturalWidth, ch / im.naturalHeight);
+    const w = im.naturalWidth * sc, h = im.naturalHeight * sc;
+    ctx.drawImage(im, (cw - w) / 2, (ch - h) / 2, w, h);
+    drawn = i;
+  }
+  const heroTc = $('.js-hero-tc');
+  const fr = { f: 0 };
+  const onFrame = () => {
+    const i = Math.round(fr.f); draw(i);
+    const t = 15 + i * 2; heroTc.textContent = `00:00:${pad(20 + Math.floor(t / 24))}:${pad(t % 24)}`;
+  };
+
+  // el zoom entra por el centro de la letra I
+  const maskWord = $('.mask-word'), mi = $('.mask-word .mi');
+  function setOrigin() { maskWord.style.transformOrigin = `${mi.offsetLeft + mi.offsetWidth / 2}px ${mi.offsetTop + mi.offsetHeight * .52}px`; }
+  setOrigin();
+
+  /* ---------- ESCENA 1: portada ---------- */
+  const heroTl = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: { trigger: '.hero', start: 'top top', end: () => '+=' + vh() * 4.6, pin: true, scrub: .9, invalidateOnRefresh: true }
+  });
+  heroTl
+    .fromTo('.hero-copy', { y: 0, opacity: 1 }, { y: -90, opacity: 0, duration: .45 }, 0)
+    .fromTo('.cam', { opacity: 1 }, { opacity: 0, duration: .3 }, 0)
+    .fromTo(maskWord, { scale: 1 }, { scale: 72, duration: 1.3, ease: 'power3.in' }, 0)
+    .fromTo('.hero-mask', { opacity: 1 }, { opacity: 0, duration: .12 }, 1.2)
+    .fromTo(fr, { f: 0 }, { f: 14, duration: 1.3, onUpdate: onFrame }, 0)
+    .fromTo(fr, { f: 14 }, { f: N - 1, duration: 2.6, onUpdate: onFrame, immediateRender: false }, 1.3)
+    .fromTo('.hero-shade', { opacity: 0 }, { opacity: 1, duration: .25 }, 1.3)
+    .fromTo('.hero-shade', { opacity: 1 }, { opacity: 0, duration: .25, immediateRender: false }, 3.75);
+  $$('.verb').forEach((v, i) => {
+    const t0 = 1.45 + i * .6, tape = $('.tape', v), small = $('small', v);
+    heroTl
+      .fromTo(tape, { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: .2, ease: 'power2.out' }, t0)
+      .fromTo($('span', tape), { yPercent: 60 }, { yPercent: 0, duration: .22, ease: 'power2.out' }, t0)
+      .fromTo(small, { opacity: 0 }, { opacity: 1, duration: .1 }, t0 + .1)
+      .fromTo(tape, { clipPath: 'inset(0% 0% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 100%)', duration: .16, ease: 'power2.in', immediateRender: false }, t0 + .42)
+      .fromTo(small, { opacity: 1 }, { opacity: 0, duration: .08, immediateRender: false }, t0 + .42);
+  });
+  heroTl
+    .fromTo('.hero-media', { clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)', scale: 1 },
+      { clipPath: 'polygon(9% 0%, 100% 0%, 91% 100%, 0% 100%)', scale: .78, duration: .7, ease: 'power2.inOut' }, 3.9)
+    .fromTo('.hero-cap', { opacity: 0 }, { opacity: 1, duration: .2 }, 4.35)
+    .to({}, { duration: .25 });
+
+  /* ---------- marcas: avanzan solas y cambian de sentido con el scroll ---------- */
+  const track = $('.js-marquee');
+  let mx = 0, mdir = 1, lastY = scrollY, half = track.scrollWidth / 2;
+  gsap.ticker.add(() => {
+    const y = scrollY, v = lenis ? lenis.velocity : (y - lastY); lastY = y;
+    if (v > .3) mdir = 1; else if (v < -.3) mdir = -1;
+    mx -= (.55 + Math.min(Math.abs(v), 60) * .35) * mdir;
+    if (half) { if (mx <= -half) mx += half; if (mx > 0) mx -= half; }
+    gsap.set(track, { x: mx, skewX: gsap.utils.clamp(-14, 14, -v * .35) });
+  });
+
+  /* ---------- ESCENA 2: enfoque ---------- */
+  const stTl = gsap.timeline({ scrollTrigger: { trigger: '.statement', start: 'top top', end: () => '+=' + vh() * 2.2, pin: true, scrub: .6 } });
+  $$('.st-text .w').forEach((w, i) => {
+    stTl.to(w, { opacity: 1, duration: .12, ease: 'none' }, i * .1);
+    if (w.classList.contains('key')) {
+      const hl = $('.hl', w);
+      gsap.set(hl, { skewX: -11, scaleX: 0 });
+      stTl.to(hl, { scaleX: 1, duration: .3, ease: 'power3.out' }, i * .1 + .04)
+          .to(w, { color: cssVar(w.dataset.fg), duration: .08, ease: 'none' }, i * .1 + .1);
+    }
+  });
+  stTl.to({}, { duration: .4 });
+
+  /* ---------- ESCENA 3: servicios ---------- */
+  const strips = $$('.svc-stage .strp');
+  const nS = strips.length;
+  // en la fila inicial cada franja ocupa una quinta parte a media altura; la primera y la última se estiran hasta los bordes
+  const lineA = i => i === 0 ? -s - 1 : i * 100 / nS - s / 2;
+  const lineW = i => (i === 0 || i === nS - 1) ? 100 / nS + s / 2 + 1.4 : 100 / nS + .4;
+  const full = { '--a': () => -s - 1, '--w': () => 100 + s + 2 };
+  function placeTags() {
+    const ang = -(90 - SLANT * 180 / Math.PI);
+    strips.forEach((el, i) => {
+      const tag = $('.tag', el);
+      tag.style.left = (i * 100 / nS + 50 / nS) + '%';
+      tag.style.setProperty('--ang', ang + 'deg');
+    });
+  }
+  placeTags();
+  const svcIn = strips.map(el => $$('.p-copy > *, .p-cta, .p-media', el));
+  const svcNum = strips.map(el => $('.p-num', el));
+  const numIn = (i, t) => { if (svcNum[i]) svTl.fromTo(svcNum[i], { opacity: 0, yPercent: 25 }, { opacity: .2, yPercent: 0, duration: .7, ease: 'power2.out' }, t); };
+  const svcImg = strips.map(el => $('.p-media img', el));
+  const svTl = gsap.timeline({
+    defaults: { ease: 'none' },
+    scrollTrigger: { trigger: '.services', start: 'top top', end: () => '+=' + vh() * 9, pin: true, scrub: .9, invalidateOnRefresh: true }
+  });
+  svTl
+    .fromTo(strips, { '--a': i => lineA(i), '--w': i => lineW(i), yPercent: i => (i % 2 ? -104 : 104) },
+      { '--a': i => lineA(i), '--w': i => lineW(i), yPercent: 0, duration: 1, ease: 'power3.out', stagger: .12 }, .2)
+    .fromTo('.svc-intro', { scale: 1, opacity: 1 }, { scale: .86, opacity: 0, duration: .7 }, .35)
+    .fromTo('.svc-stage .tag', { opacity: 0 }, { opacity: 1, duration: .25 }, .9)
+    .fromTo('.svc-stage .tag', { opacity: 1 }, { opacity: 0, duration: .25, immediateRender: false }, 1.8)
+    // 01: la franja naranja ocupa todo; las demás se van a la derecha
+    .fromTo(strips[0], { '--a': () => lineA(0), '--w': () => lineW(0) }, { ...full, duration: 1, ease: 'power2.inOut', immediateRender: false }, 1.8)
+    .fromTo(strips.slice(1), { '--a': i => lineA(i + 1), '--w': i => lineW(i + 1) }, { '--a': 104, '--w': 0, duration: .9, ease: 'power2.inOut', stagger: .04, immediateRender: false }, 1.8)
+    .fromTo(svcIn[0], { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: .45, stagger: .06, ease: 'power2.out' }, 2.35);
+  numIn(0, 2.3);
+  if (svcImg[0]) svTl.fromTo(svcImg[0], { xPercent: 8 }, { xPercent: -8, duration: 2.4 }, 2.2);
+  for (let i = 1; i < nS; i++) {
+    const t0 = 3.4 + (i - 1) * 1.55;
+    svTl
+      .fromTo(strips[i], { '--a': 104, '--w': 0 }, { ...full, duration: 1, ease: 'power2.inOut', immediateRender: false }, t0)
+      .fromTo(svcIn[i - 1], { x: 0, opacity: 1 }, { x: -80, opacity: .4, duration: .9, stagger: .02, immediateRender: false }, t0)
+      .fromTo(svcIn[i], { y: 70, opacity: 0 }, { y: 0, opacity: 1, duration: .45, stagger: .06, ease: 'power2.out' }, t0 + .55);
+    numIn(i, t0 + .5);
+    if (svcImg[i]) svTl.fromTo(svcImg[i], { xPercent: 8 }, { xPercent: -8, duration: 2.4 }, t0 + .3);
+  }
+  svTl.to({}, { duration: .5 });
+
+  /* ---------- ESCENA 4: trabajo en carrusel 3D ---------- */
+  const rail = $('.js-rail'), cards = $$('.rail > *'), railBar = $('.js-railbar'), count = $('.js-count'), workBg = $('.work-bg');
+  const railDist = () => Math.max(0, rail.scrollWidth - vw());
+  let cardBox = [];
+  const measureCards = () => { cardBox = cards.map(c => ({ l: c.offsetLeft, w: c.offsetWidth })); };
+  const setRot = cards.map(c => gsap.quickSetter(c, 'rotationY', 'deg'));
+  const setSc = cards.map(c => gsap.quickSetter(c, 'scale'));
+  const setZ = cards.map(c => gsap.quickSetter(c, 'z', 'px'));
+  function update3d() {
+    const x = gsap.getProperty(rail, 'x'), c = vw() / 2, dist = railDist() || 1;
+    let ci = 0;
+    cardBox.forEach((b, i) => {
+      const d = gsap.utils.clamp(-1.4, 1.4, (b.l + b.w / 2 + x - c) / c);
+      setRot[i](d * -24); setSc[i](1 - Math.min(Math.abs(d), 1) * .1); setZ[i](-Math.abs(d) * 140);
+      if (b.l + x < c) ci = i;
+    });
+    railBar.style.transform = `scaleX(${-x / dist})`;
+    gsap.set(workBg, { x: -vw() * .1 + x * .35 });
+    count.textContent = pad(Math.min(ci + 1, cards.length));
+  }
+  gsap.to(rail, {
+    x: () => -railDist(), ease: 'none', onUpdate: update3d,
+    scrollTrigger: { trigger: '.work', start: 'top top', end: () => '+=' + (railDist() + vh() * .4), pin: true, scrub: .8, invalidateOnRefresh: true }
+  });
+
+  /* ---------- ESCENA 5: el caso crece a pantalla completa ---------- */
+  const caseTitle = $('.case-copy h2');
+  caseTitle.innerHTML = caseTitle.textContent.split(' ').map(w => `<span class="word">${[...w].map(c => `<span>${c}</span>`).join('')}</span>`).join(' ');
+  gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.case', start: 'top top', end: () => '+=' + vh() * 2.2, pin: true, scrub: .9 } })
+    .fromTo('.case-media', { clipPath: 'inset(26% 33% 26% 33% round 18px)' }, { clipPath: 'inset(0% 0% 0% 0% round 0px)', duration: 1, ease: 'power2.inOut' }, 0)
+    .fromTo('.case-media img', { scale: 1.35 }, { scale: 1, duration: 1.1, ease: 'power2.inOut' }, 0)
+    .fromTo('.case-tease', { opacity: 1 }, { opacity: 0, duration: .2 }, .1)
+    .fromTo('.case-shade', { opacity: 0 }, { opacity: 1, duration: .5 }, .6)
+    .fromTo('.case-copy .label', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: .25 }, .85)
+    .fromTo('.case-copy h2 .word > span', { yPercent: 175 }, { yPercent: 0, duration: .5, stagger: .03, ease: 'power3.out' }, .9)
+    .fromTo('.case-copy p', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: .3 }, 1.25)
+    .fromTo('.case-copy dl > div', { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: .3, stagger: .06 }, 1.35)
+    .to({}, { duration: .4 });
+
+  /* ---------- ESCENA 6: los rodillos giran con el scroll ---------- */
+  odos.forEach((o, i) => {
+    gsap.fromTo(o.inner, { yPercent: 0 }, {
+      yPercent: -(20 + o.d) / 30 * 100, ease: 'power2.out',
+      scrollTrigger: { trigger: '.facts', start: 'top 85%', end: 'center 50%', scrub: .6 + (i % 3) * .3 }
+    });
+  });
+  gsap.fromTo('.fact p', { y: 24, opacity: 0 }, { y: 0, opacity: 1, stagger: .1, ease: 'none', scrollTrigger: { trigger: '.facts', start: 'top 75%', end: 'center 55%', scrub: .5 } });
+
+  /* ---------- ESCENA 7: la paleta cae y queda la invitación ---------- */
+  const finStrips = $$('.fin-stage .strp'), letters = $$('.fin-word span');
+  gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.finale', start: 'top top', end: () => '+=' + vh() * 2.6, pin: true, scrub: .9 } })
+    .fromTo(finStrips, { yPercent: i => (i % 2 ? 104 : -104) }, { yPercent: 0, duration: 1, ease: 'power3.out', stagger: .1 }, 0)
+    .fromTo(letters, { yPercent: 130, scale: .5, opacity: 0 }, { yPercent: 0, scale: 1, opacity: 1, duration: .55, stagger: .05, ease: 'back.out(1.7)' }, .75)
+    .fromTo(finStrips, { yPercent: 0 }, { yPercent: i => (i % 2 ? -104 : 104), duration: 1, ease: 'power3.in', stagger: .08, immediateRender: false }, 1.85)
+    .fromTo(letters, { color: cssVar('--ink') }, { color: cssVar('--bone'), duration: .35, stagger: .03, immediateRender: false }, 2.3)
+    .fromTo('.fin-sub', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .35 }, 2.55)
+    .fromTo('.fin-ctas', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: .35 }, 2.65)
+    .to({}, { duration: .4 });
+
+  /* ---------- lo que acompaña todo el recorrido ---------- */
+  const bar = $('.progress'), tc = $('.js-tc'), sceneEl = $('.js-scene'), fab = $('.js-fab');
+  gsap.ticker.add(() => {
+    const H = document.documentElement.scrollHeight - vh(), y = scrollY, p = H > 0 ? y / H : 0;
+    bar.style.transform = `scaleX(${p})`;
+    const secs = p * 150, f = Math.floor((secs % 1) * 24);
+    tc.textContent = `00:${pad(Math.floor(secs / 60))}:${pad(Math.floor(secs % 60))}:${pad(f)}`;
+    top.classList.toggle('is-solid', y > 30 || menu.classList.contains('open'));
+  });
+  // escena actual: la última cuyo bloque (incluido su espacio fijado) ya pasó la mitad de la pantalla
+  const scenes = $$('[data-scene]').map(sec => ({ name: sec.dataset.scene, box: sec.parentElement.classList.contains('pin-spacer') ? sec.parentElement : sec }));
+  let lastScene = '';
+  gsap.ticker.add(() => {
+    let cur = scenes[0].name;
+    for (const sc of scenes) if (sc.box.getBoundingClientRect().top < vh() * .55) cur = sc.name;
+    if (cur !== lastScene) { sceneEl.textContent = cur; lastScene = cur; }
+  });
+  ScrollTrigger.create({
+    trigger: '.brands', start: 'top bottom', endTrigger: '.finale', end: 'top 60%',
+    onToggle: self => fab.classList.toggle('is-on', self.isActive)
+  });
+
+  /* ---------- cursor y botones magnéticos (solo con mouse) ---------- */
+  if (finePointer) {
+    const cur = $('.cursor'), label = $('span', cur); cur.hidden = false;
+    const cx = gsap.quickTo(cur, 'x', { duration: .35, ease: 'power3' }), cy = gsap.quickTo(cur, 'y', { duration: .35, ease: 'power3' });
+    gsap.set(cur, { opacity: 0 });
+    addEventListener('pointermove', e => { cx(e.clientX); cy(e.clientY); if (!cur.dataset.on) { cur.dataset.on = 1; gsap.to(cur, { opacity: 1, duration: .3 }); } });
+    document.addEventListener('pointerleave', () => { delete cur.dataset.on; gsap.to(cur, { opacity: 0, duration: .2 }); });
+    $$('[data-cursor]').forEach(el => {
+      el.addEventListener('pointerenter', () => { label.textContent = el.dataset.cursor; cur.classList.add('big'); });
+      el.addEventListener('pointerleave', () => cur.classList.remove('big'));
+    });
+    $$('.mag').forEach(el => {
+      const mx2 = gsap.quickTo(el, 'x', { duration: .4, ease: 'power3' }), my2 = gsap.quickTo(el, 'y', { duration: .4, ease: 'power3' });
+      el.addEventListener('pointermove', e => { const r = el.getBoundingClientRect(); mx2((e.clientX - r.left - r.width / 2) * .3); my2((e.clientY - r.top - r.height / 2) * .4); });
+      el.addEventListener('pointerleave', () => { mx2(0); my2(0); });
+    });
+  }
+
+  /* ---------- medidas ---------- */
+  ScrollTrigger.addEventListener('refreshInit', () => { geometry(); placeTags(); setOrigin(); half = track.scrollWidth / 2; });
+  ScrollTrigger.addEventListener('refresh', () => { sizeCanvas(); measureCards(); update3d(); });
+  sizeCanvas(); measureCards(); update3d();
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(() => ScrollTrigger.refresh());
+  addEventListener('load', () => ScrollTrigger.refresh());
+
+  /* ---------- recorrido automático ----------
+     La página baja sola desde que abre, como una película. Cualquier toque, clic, rueda o tecla
+     la pausa y sigue después de 1 segundo sin interacción. Termina en el contacto. */
+  (function autoplay({ end, chip, speed, delay, offset }) {
+    if (!end || !chip || /[?&]noauto/.test(location.search)) { if (chip) chip.remove(); return; }
+    const label = chip.querySelector('[data-sx-state]'), barI = chip.querySelector('.sx-chip-bar i');
+    const corto = matchMedia('(max-width:700px)');
+    let acc = scrollY, last = 0, paused = true, done = false, timer = null;
+    const endY = () => end.getBoundingClientRect().top + scrollY - offset();
+    const ui = () => {
+      chip.dataset.state = paused ? 'paused' : 'playing';
+      label.textContent = paused ? (corto.matches ? 'Pausa' : 'En pausa · sigue en 1 s') : (corto.matches ? 'Bajando' : 'Reproduciendo · toca para pausar');
+    };
+    const evs = ['wheel', 'touchstart', 'touchmove', 'pointerdown', 'keydown'];
+    const ir = y => { if (lenis) lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo({ top: y, behavior: 'instant' }); };
+    function stop() {
+      if (done) return; done = true; clearTimeout(timer);
+      evs.forEach(e => removeEventListener(e, interrupt));
+      chip.classList.add('is-done'); setTimeout(() => chip.remove(), 700);
+    }
+    window.sxTour = { stop };   // el asistente lo detiene al abrirse
+    function tick(t) {
+      if (done) return;
+      const target = endY();
+      if (!paused) {
+        const dt = last ? Math.min(100, t - last) : 16;
+        acc += vh() * speed * dt / 1000;
+        if (acc >= target) { ir(target); stop(); return; }
+        ir(Math.round(acc));
+      }
+      last = t;
+      barI.style.transform = `scaleX(${Math.min(1, Math.max(0, scrollY / Math.max(1, target)))})`;
+      requestAnimationFrame(tick);
+    }
+    function interrupt() {
+      if (done) return;
+      paused = true; last = 0; ui();
+      clearTimeout(timer); timer = setTimeout(resume, 1000);
+    }
+    function resume() {
+      if (done) return;
+      if (scrollY >= endY() - 4) { stop(); return; }
+      acc = scrollY; paused = false; last = 0; ui();
+    }
+    evs.forEach(e => addEventListener(e, interrupt, { passive: true }));
+    document.addEventListener('visibilitychange', () => { if (document.hidden) interrupt(); });
+    addEventListener('scroll', () => { if (!done && paused && scrollY >= endY() - 4) stop(); }, { passive: true });
+    chip.querySelector('.sx-skip').addEventListener('click', e => {
+      e.preventDefault(); stop();
+      if (lenis) lenis.scrollTo(endY(), { duration: 1.6 }); else window.scrollTo({ top: endY(), behavior: 'smooth' });
+    });
+    if (corto.matches) label.textContent = 'Bajando';
+    chip.dataset.state = 'playing';
+    timer = setTimeout(resume, delay);
+    requestAnimationFrame(tick);
+  })({ end: $('#contacto'), chip: $('.sx-chip'), speed: .6, delay: 2300, offset: () => top.offsetHeight });
+})();
+</script>
+<!-- Asistente de chat y voz: configuración en assets/asistente-cw.js, asistente común en asistente/asistente.js -->
+<script src="../assets/asistente-cw.js" defer></script>
+<script src="../assets/lang.js" defer></script>
+</body>
+</html>
