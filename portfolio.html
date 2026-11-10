@@ -1,0 +1,707 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>/* idioma: inglés por defecto; navegador en español -> versión en español (salvo elección manual) */(function(){try{var s=localStorage.getItem("cw-lang");if(s==="en")return;var l=(navigator.languages&&navigator.languages[0])||navigator.language||"";if(s==="es"||/^es\b/i.test(l)){var m={"/": "/es/", "/index.html": "/es/", "/services.html": "/servicios.html", "/data.html": "/datos.html", "/portfolio.html": "/portafolio.html", "/privacy.html": "/privacidad.html"},t=m[location.pathname];if(t)location.replace(t+location.search+location.hash);}}catch(e){}})();</script>
+<link rel="alternate" hreflang="en" href="https://creativewhisper.github.io/portfolio.html">
+<link rel="alternate" hreflang="es" href="https://creativewhisper.github.io/portafolio.html">
+<link rel="alternate" hreflang="x-default" href="https://creativewhisper.github.io/portfolio.html">
+<style>.lang-sw{display:inline-flex;align-items:center;justify-content:center;height:34px;min-width:44px;padding:0 10px;border-radius:999px;border:1px solid rgba(236,230,219,.28);color:inherit;font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.14em;text-decoration:none;opacity:.85;transition:opacity .2s,border-color .2s;flex:none}.lang-sw:hover{opacity:1;border-color:rgba(236,230,219,.6)}.lang-sw b{font-weight:600;opacity:.45;margin:0 .35em}</style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0908">
+<title>Automotive photography — Creative Whisper</title>
+<link rel="icon" href="assets/monograma-cw.png">
+<meta name="description" content="Automotive product photography by Creative Whisper in Quito, Ecuador: 9 brands, 20 vehicle lines and more than 700 photographs for dealerships, launches and social media.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Creative Whisper">
+<meta property="og:title" content="Automotive photography — Creative Whisper">
+<meta property="og:description" content="9 brands, 20 vehicle lines and more than 700 photographs for dealerships and social media.">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://creativewhisper.github.io/portfolio.html">
+<meta property="og:image" content="https://creativewhisper.github.io/assets/og-cw-paleta.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://creativewhisper.github.io/portfolio.html">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+:root{--ac:var(--red);--ae:var(--red-e);--at:var(--bone)}
+
+@media (min-width:901px){.ph-media{width:min(26vw,380px)}}
+.ph-stats{margin-top:6px}
+
+/* selección: riel 3D movido por el scroll */
+.sel{position:relative;border-top:1px solid var(--line)}
+.sel-stage{position:relative;height:100vh;height:100svh;overflow:hidden;display:flex;flex-direction:column;justify-content:center;padding-top:var(--header)}
+.sel-bg{position:absolute;left:0;top:56%;transform:translateY(-50%);white-space:nowrap;font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:30vh;line-height:1;color:transparent;-webkit-text-stroke:1.5px rgba(236,230,219,.08);pointer-events:none;will-change:transform}
+.sel-head{position:relative;display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:clamp(18px,3.5vh,40px)}
+.sel-head .label{color:var(--red)}
+.sel-head h2{font-size:clamp(44px,6vw,104px);margin-top:10px}
+.sel-head .count{font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;color:var(--mute);font-variant-numeric:tabular-nums}
+.sel-wrap{position:relative;perspective:1400px}
+.sel-rail{display:flex;gap:clamp(16px,2vw,32px);padding:0 max(var(--gutter), env(safe-area-inset-left, 0px));width:max-content;will-change:transform;transform-style:preserve-3d}
+.sl{position:relative;flex:none;height:min(52svh,520px);aspect-ratio:16/10;border-radius:12px;overflow:hidden;background:var(--ink-2);cursor:pointer;will-change:transform}
+.sl img{width:100%;height:100%;object-fit:cover}
+.sl::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,9,8,.85),rgba(10,9,8,0) 45%)}
+.sl figcaption{position:absolute;left:18px;bottom:16px;z-index:2}
+.sl figcaption .label{color:var(--red);font-size:10px;display:block}
+.sl figcaption b{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:clamp(24px,2.2vw,36px);line-height:1}
+.sel-bar{position:relative;margin:clamp(18px,3vh,32px) max(var(--gutter), env(safe-area-inset-left, 0px)) 0;height:2px;background:var(--line-2)}
+.sel-bar i{position:absolute;inset:0;background:var(--red);transform-origin:0 50%;transform:scaleX(0)}
+@media (max-width:900px){
+  .sel-stage{height:auto;padding:90px 0 60px}
+  .sel-wrap{overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+  .sl{height:auto;width:78vw;scroll-snap-align:center}
+  .sel-bar,.sel-head .count{display:none}
+}
+
+/* galería */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:clamp(24px,3vw,40px)}
+.filters button{display:inline-flex;align-items:center;gap:8px;border:1.5px solid var(--line-2);background:transparent;border-radius:999px;padding:9px 16px;font-size:14px;font-weight:500;cursor:pointer;transition:background .2s,color .2s,border-color .2s}
+.filters button small{font-family:var(--f-mono);font-size:10.5px;opacity:.6}
+.filters button:hover{border-color:var(--fc)}
+.filters button[aria-pressed=true]{background:var(--fc);border-color:var(--fc);color:var(--ft,var(--ink))}
+.grid{columns:3 300px;column-gap:clamp(10px,1.4vw,18px)}
+.shot{position:relative;break-inside:avoid;margin:0 0 clamp(10px,1.4vw,18px);border-radius:8px;overflow:hidden;background:var(--ink-2);cursor:pointer}
+.shot img{width:100%;height:auto;transition:transform .7s cubic-bezier(.2,.7,.1,1)}
+.shot:hover img{transform:scale(1.04)}
+.shot figcaption{position:absolute;left:12px;right:12px;bottom:10px;z-index:2;font-weight:600;font-size:14px;opacity:0;transform:translateY(8px);transition:opacity .3s,transform .3s}
+.shot figcaption .label{display:block;color:var(--orange);font-size:9.5px}
+.shot::after{content:"";position:absolute;inset:0;background:linear-gradient(0deg,rgba(10,9,8,.8),rgba(10,9,8,0) 50%);opacity:0;transition:opacity .3s}
+.shot:hover figcaption,.shot:focus-visible figcaption{opacity:1;transform:none}
+.shot:hover::after,.shot:focus-visible::after{opacity:1}
+.shot.out{display:none}
+.js .shot{clip-path:inset(100% 0 0 0)}
+.js .shot.in{clip-path:inset(0 0 0 0);transition:clip-path .8s cubic-bezier(.2,.7,.1,1)}
+.static .shot{clip-path:none}
+@media (max-width:700px){.grid{columns:2;column-gap:8px}.shot{margin-bottom:8px;border-radius:6px}}
+
+/* incluye */
+.incs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:clamp(16px,2.4vw,36px)}
+.incs > div{border-top:2px solid var(--sc);padding-top:18px}
+.incs span{display:block;font-size:52px;color:var(--sc);line-height:.9}
+.incs h3{font-size:clamp(19px,1.5vw,23px);font-weight:600;margin:12px 0 8px}
+.incs p{color:var(--mute);font-size:15.5px}
+.also{margin-top:clamp(32px,4vw,56px);font-size:clamp(17px,1.4vw,21px);max-width:60ch;line-height:1.7}
+@media (max-width:900px){.incs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.incs{grid-template-columns:minmax(0,1fr)}}
+
+/* marcas */
+.bcs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line)}
+.bc{all:unset;box-sizing:border-box;cursor:pointer;position:relative;display:flex;flex-direction:column;gap:8px;padding:clamp(22px,2.6vw,36px);background:var(--ink);isolation:isolate;overflow:hidden;min-height:190px}
+.bc::before{content:"";position:absolute;inset:0;background:var(--bc);z-index:-1;clip-path:polygon(0 100%,0 100%,-20% 100%,-20% 100%);transition:clip-path .55s cubic-bezier(.2,.7,.1,1)}
+.bc:hover::before,.bc:focus-visible::before{clip-path:polygon(0 0,120% 0,100% 100%,-20% 100%)}
+.bc img{height:38px;width:auto;max-width:150px;object-fit:contain;object-position:left;filter:grayscale(1) brightness(1.8);margin-bottom:auto;transition:filter .3s}
+.bc b{font-family:var(--f-display);font-weight:900;text-transform:uppercase;font-size:clamp(28px,2.4vw,40px);line-height:1;margin-top:22px}
+.bc small{color:var(--mute);font-size:14px;transition:color .3s}
+.bc:hover b,.bc:hover small,.bc:focus-visible b,.bc:focus-visible small{color:var(--ink)}
+.bc:hover img,.bc:focus-visible img{filter:grayscale(1) brightness(0)}
+@media (max-width:760px){.bcs{grid-template-columns:repeat(2,minmax(0,1fr))}.bc{min-height:150px}}
+
+/* visor */
+.viewer{position:fixed;inset:0;z-index:150;background:rgba(10,9,8,.96);display:flex;align-items:center;justify-content:center;gap:12px;padding:56px 12px 24px}
+.viewer figure{max-width:min(92vw,1400px);max-height:100%;display:flex;flex-direction:column;align-items:center}
+.viewer img{max-width:100%;max-height:calc(100svh - 140px);object-fit:contain;border-radius:6px}
+.viewer figcaption{display:flex;justify-content:space-between;gap:20px;width:100%;margin-top:14px;font-weight:600}
+.viewer figcaption em{font-style:normal;color:var(--mute);font-weight:400}
+.viewer .v-count{color:var(--mute)}
+.v-close{position:absolute;top:16px;right:20px;background:none;border:0;font-family:var(--f-mono);font-size:12px;letter-spacing:.14em;cursor:pointer;color:var(--bone)}
+.v-nav{flex:none;width:52px;height:52px;border-radius:50%;border:1px solid var(--line-2);background:rgba(10,9,8,.6);font-size:28px;line-height:1;cursor:pointer;color:var(--bone)}
+.v-nav:hover{border-color:var(--bone)}
+@media (max-width:700px){.v-nav{position:absolute;bottom:20px}.v-prev{left:20px}.v-next{right:20px}.viewer{padding-bottom:90px}}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Skip to content</a>
+<div class="intro" aria-hidden="true"><i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--ink);--e:var(--beige)"></i></div>
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Creative Whisper, home">
+      <img src="assets/monograma-cw.png" alt="" width="40" height="26">
+      <span>CREATIVE WHISPER</span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Main">
+      <a href="services.html">Services</a>
+      <a href="index.html#trabajo">Work</a>
+      <a href="data.html">Data</a>
+      <a href="portfolio.html" aria-current="page">Photography</a>
+      <a href="#contacto">Contact</a>
+    </nav>
+    <a class="lang-sw" href="/portafolio.html" hreflang="es" lang="es" data-set-lang="es" aria-label="Ver esta página en español">EN <b>/</b> ES</a>
+    <button class="menu-btn js-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    <a class="btn btn--solid js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting.">Book a meeting</a>
+  </div>
+  <i class="progress" aria-hidden="true"></i>
+</header>
+<div class="sx-chip" role="status" aria-live="polite"><span data-sx-state>Playing · tap to pause</span><a class="sx-skip" href="#">Contact ↓</a><span class="sx-chip-bar"><i></i></span></div>
+<div class="cursor" aria-hidden="true" hidden><span></span></div>
+
+<main id="contenido">
+
+<section class="ph" aria-labelledby="ph-t">
+  <div class="ph-strips" aria-hidden="true">
+    <i style="--k:0;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:1;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:2;--c:var(--red);--e:var(--red-e);--w:12vw"></i><i style="--k:3;--c:var(--orange);--e:var(--orange)"></i>
+  </div>
+  <div class="ph-media"><img src="assets/auto/royal-enfield-linea-58.webp" alt="Product photography of a Royal Enfield motorcycle"></div>
+  <div class="wrap ph-in">
+    <span class="label"><i></i>Creative Whisper · Photography</span>
+    <h1 id="ph-t"><span class="tp" style="--c:var(--red);--t:var(--bone)">Automotive</span> product photography for dealerships and launches.</h1>
+    <p class="lede">Exteriors, interiors, finish details and layouts for social media. Each brand with its own visual language, from the showroom floor to the mountains.</p>
+    <dl class="ph-stats">
+      <div style="--sc:var(--orange)"><dt>Brands</dt><dd><span class="odo" data-to="9">9</span></dd></div>
+      <div style="--sc:var(--red)"><dt>Vehicle lines</dt><dd><span class="odo" data-to="20">20</span></dd></div>
+      <div style="--sc:var(--teal)"><dt>Photographs</dt><dd><span class="odo" data-to="700">700</span><sup>+</sup></dd></div>
+    </dl>
+    <div class="ctas">
+      <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like a quote for an automotive photo session."><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>Get a session quote</a>
+      <a class="btn btn--ghost" href="#galeria">See the gallery</a>
+    </div>
+  </div>
+  <p class="ph-word js-letters" aria-hidden="true">Photography</p>
+</section>
+
+<section class="sel" aria-labelledby="sel-t">
+  <div class="sel-stage">
+    <div class="sel-bg" aria-hidden="true">BYD · Citroën · DS · Dongfeng · Fiat · Jeep · Ram · Royal Enfield · Subaru ·</div>
+    <div class="wrap sel-head">
+      <div><span class="label">Selection</span><h2 class="display" id="sel-t">One photo<br>per brand.</h2></div>
+      <span class="count"><span class="js-count">01</span> / 09</span>
+    </div>
+    <div class="sel-wrap"><div class="sel-rail">
+        <figure class="sl" data-cursor="Ver" data-src="assets/auto/byd-yuan-pro-09.webp" tabindex="0">
+          <img src="assets/auto/byd-yuan-pro-09.webp" alt="BYD Yuan Pro — product photography" loading="lazy">
+          <figcaption><span class="label">BYD</span><b>Yuan Pro</b></figcaption>
+        </figure>
+        <figure class="sl" data-cursor="Ver" data-src="assets/auto/citroen-c4-17.webp" tabindex="0">
+          <img src="assets/auto/citroen-c4-17.webp" alt="Citroën C4 — product photography" loading="lazy">
+          <figcaption><span class="label">Citroën</span><b>C4</b></figcaption>
+        </figure>
+        <figure class="sl" data-cursor="Ver" data-src="assets/auto/ds-linea-25.webp" tabindex="0">
+          <img src="assets/auto/ds-linea-25.webp" alt="DS — product photography" loading="lazy">
+          <figcaption><span class="label">DS</span><b>DS line</b></figcaption>
+        </figure>
+        <figure class="sl" data-cursor="Ver" data-src="assets/auto/dongfeng-nammi-01-33.webp" tabindex="0">
+          <img src="assets/auto/dongfeng-nammi-01-33.webp" alt="Dongfeng Nammi 01 — product photography" loading="lazy">
+          <figcaption><span class="label">Dongfeng</span><b>Nammi 01</b></figcaption>
+        </figure>
+        <figure class="sl" data-cursor="Ver" data-src="assets/auto/fiat-pulse-42.webp" tabindex="0">
+          <img src="assets/auto/fiat-pulse-42.webp" alt="Fiat Pulse — product photography" loading="lazy">
+          <figcaption><span class="label">Fiat</span><b>Pulse</b></figcaption>
+        </figure>
+        <figure class="sl" data-cursor="Ver" data-src="assets/auto/jeep-avenger-48.webp" tabindex="0">
+          <img src="assets/auto/jeep-avenger-48.webp" alt="Jeep Avenger — product photography" loading="lazy">
+          <figcaption><span class="label">Jeep</span><b>Avenger</b></figcaption>
+        </figure>
+        <figure class="sl" data-cursor="Ver" data-src="assets/auto/ram-1500-54.webp" tabindex="0">
+          <img src="assets/auto/ram-1500-54.webp" alt="Ram 1500 — product photography" loading="lazy">
+          <figcaption><span class="label">Ram</span><b>1500</b></figcaption>
+        </figure>
+        <figure class="sl" data-cursor="Ver" data-src="assets/auto/royal-enfield-linea-61.webp" tabindex="0">
+          <img src="assets/auto/royal-enfield-linea-61.webp" alt="Royal Enfield — product photography" loading="lazy">
+          <figcaption><span class="label">Royal Enfield</span><b>Royal Enfield line</b></figcaption>
+        </figure>
+        <figure class="sl" data-cursor="Ver" data-src="assets/auto/subaru-crosstrek-66.webp" tabindex="0">
+          <img src="assets/auto/subaru-crosstrek-66.webp" alt="Subaru Crosstrek — product photography" loading="lazy">
+          <figcaption><span class="label">Subaru</span><b>Crosstrek</b></figcaption>
+        </figure>
+    </div></div>
+    <div class="sel-bar" aria-hidden="true"><i></i></div>
+  </div>
+</section>
+
+<section class="sec line gal" id="galeria" aria-labelledby="gal-t">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="label"><i></i>Gallery</span><h2 class="display js-rise" id="gal-t">Nine brands,<br>73 selected photos.</h2></div>
+      <p>A selection from an archive of more than 700 photographs. Filter by brand and tap a photo to enlarge it.</p>
+    </div>
+    <div class="filters" role="group" aria-label="Filter by brand"><button type="button" aria-pressed="true" data-f="todas" style="--fc:var(--bone)">All <small>73</small></button><button type="button" aria-pressed="false" data-f="byd" style="--fc:var(--orange);--ft:var(--ink)">BYD <small>10</small></button><button type="button" aria-pressed="false" data-f="citroen" style="--fc:var(--red);--ft:var(--bone)">Citroën <small>11</small></button><button type="button" aria-pressed="false" data-f="ds" style="--fc:var(--peach);--ft:var(--ink)">DS <small>5</small></button><button type="button" aria-pressed="false" data-f="dongfeng" style="--fc:var(--teal);--ft:var(--ink)">Dongfeng <small>10</small></button><button type="button" aria-pressed="false" data-f="fiat" style="--fc:var(--beige);--ft:var(--ink)">Fiat <small>9</small></button><button type="button" aria-pressed="false" data-f="jeep" style="--fc:var(--orange);--ft:var(--ink)">Jeep <small>7</small></button><button type="button" aria-pressed="false" data-f="ram" style="--fc:var(--red);--ft:var(--bone)">Ram <small>5</small></button><button type="button" aria-pressed="false" data-f="royal-enfield" style="--fc:var(--peach);--ft:var(--ink)">Royal Enfield <small>6</small></button><button type="button" aria-pressed="false" data-f="subaru" style="--fc:var(--teal);--ft:var(--ink)">Subaru <small>10</small></button></div>
+    <div class="grid">
+      <figure class="shot v" data-b="byd" data-name="Atto 8" data-brand="BYD" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/byd-atto-8-00.webp" alt="BYD Atto 8 — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">BYD</span>Atto 8</figcaption>
+      </figure>
+      <figure class="shot v" data-b="byd" data-name="Atto 8" data-brand="BYD" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/byd-atto-8-01.webp" alt="BYD Atto 8 — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">BYD</span>Atto 8</figcaption>
+      </figure>
+      <figure class="shot" data-b="byd" data-name="Atto 8" data-brand="BYD" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/byd-atto-8-02.webp" alt="BYD Atto 8 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">BYD</span>Atto 8</figcaption>
+      </figure>
+      <figure class="shot v" data-b="byd" data-name="Atto 8" data-brand="BYD" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/byd-atto-8-03.webp" alt="BYD Atto 8 — visual layout" width="1078" height="1347" loading="lazy" decoding="async">
+        <figcaption><span class="label">BYD</span>Atto 8</figcaption>
+      </figure>
+      <figure class="shot" data-b="byd" data-name="Seagull" data-brand="BYD" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/byd-seagull-04.webp" alt="BYD Seagull — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">BYD</span>Seagull</figcaption>
+      </figure>
+      <figure class="shot v" data-b="byd" data-name="Seagull" data-brand="BYD" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/byd-seagull-05.webp" alt="BYD Seagull — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">BYD</span>Seagull</figcaption>
+      </figure>
+      <figure class="shot v" data-b="byd" data-name="Seagull" data-brand="BYD" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/byd-seagull-06.webp" alt="BYD Seagull — visual layout" width="1200" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">BYD</span>Seagull</figcaption>
+      </figure>
+      <figure class="shot" data-b="byd" data-name="Sealion 7" data-brand="BYD" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/byd-sealion-7-07.webp" alt="BYD Sealion 7 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">BYD</span>Sealion 7</figcaption>
+      </figure>
+      <figure class="shot" data-b="byd" data-name="Sealion 7" data-brand="BYD" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/byd-sealion-7-08.webp" alt="BYD Sealion 7 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">BYD</span>Sealion 7</figcaption>
+      </figure>
+      <figure class="shot" data-b="byd" data-name="Yuan Pro" data-brand="BYD" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/byd-yuan-pro-09.webp" alt="BYD Yuan Pro — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">BYD</span>Yuan Pro</figcaption>
+      </figure>
+      <figure class="shot" data-b="citroen" data-name="Berlingo" data-brand="Citroën" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/citroen-berlingo-10.webp" alt="Citroën Berlingo — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Citroën</span>Berlingo</figcaption>
+      </figure>
+      <figure class="shot" data-b="citroen" data-name="Berlingo" data-brand="Citroën" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/citroen-berlingo-11.webp" alt="Citroën Berlingo — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Citroën</span>Berlingo</figcaption>
+      </figure>
+      <figure class="shot" data-b="citroen" data-name="C3 Aircross" data-brand="Citroën" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/citroen-c3-aircross-12.webp" alt="Citroën C3 Aircross — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Citroën</span>C3 Aircross</figcaption>
+      </figure>
+      <figure class="shot v" data-b="citroen" data-name="C3 Aircross" data-brand="Citroën" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/citroen-c3-aircross-13.webp" alt="Citroën C3 Aircross — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Citroën</span>C3 Aircross</figcaption>
+      </figure>
+      <figure class="shot v" data-b="citroen" data-name="C3 Aircross" data-brand="Citroën" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/citroen-c3-aircross-14.webp" alt="Citroën C3 Aircross — visual layout" width="864" height="1080" loading="lazy" decoding="async">
+        <figcaption><span class="label">Citroën</span>C3 Aircross</figcaption>
+      </figure>
+      <figure class="shot" data-b="citroen" data-name="C4" data-brand="Citroën" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/citroen-c4-15.webp" alt="Citroën C4 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Citroën</span>C4</figcaption>
+      </figure>
+      <figure class="shot v" data-b="citroen" data-name="C4" data-brand="Citroën" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/citroen-c4-16.webp" alt="Citroën C4 — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Citroën</span>C4</figcaption>
+      </figure>
+      <figure class="shot" data-b="citroen" data-name="C4" data-brand="Citroën" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/citroen-c4-17.webp" alt="Citroën C4 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Citroën</span>C4</figcaption>
+      </figure>
+      <figure class="shot" data-b="citroen" data-name="C4" data-brand="Citroën" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/citroen-c4-18.webp" alt="Citroën C4 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Citroën</span>C4</figcaption>
+      </figure>
+      <figure class="shot" data-b="citroen" data-name="C4" data-brand="Citroën" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/citroen-c4-19.webp" alt="Citroën C4 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Citroën</span>C4</figcaption>
+      </figure>
+      <figure class="shot v" data-b="citroen" data-name="C4" data-brand="Citroën" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/citroen-c4-20.webp" alt="Citroën C4 — visual layout" width="1200" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Citroën</span>C4</figcaption>
+      </figure>
+      <figure class="shot" data-b="ds" data-name="Línea DS" data-brand="DS" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/ds-linea-21.webp" alt="DS — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">DS</span>DS line</figcaption>
+      </figure>
+      <figure class="shot v" data-b="ds" data-name="Línea DS" data-brand="DS" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/ds-linea-22.webp" alt="DS — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">DS</span>DS line</figcaption>
+      </figure>
+      <figure class="shot v" data-b="ds" data-name="Línea DS" data-brand="DS" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/ds-linea-23.webp" alt="DS — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">DS</span>DS line</figcaption>
+      </figure>
+      <figure class="shot v" data-b="ds" data-name="Línea DS" data-brand="DS" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/ds-linea-24.webp" alt="DS — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">DS</span>DS line</figcaption>
+      </figure>
+      <figure class="shot" data-b="ds" data-name="Línea DS" data-brand="DS" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/ds-linea-25.webp" alt="DS — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">DS</span>DS line</figcaption>
+      </figure>
+      <figure class="shot" data-b="dongfeng" data-name="C1217 truck" data-brand="Dongfeng" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/dongfeng-camion-c1217-26.webp" alt="Dongfeng C1217 truck — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Dongfeng</span>C1217 truck</figcaption>
+      </figure>
+      <figure class="shot" data-b="dongfeng" data-name="C1217 truck" data-brand="Dongfeng" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/dongfeng-camion-c1217-27.webp" alt="Dongfeng C1217 truck — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Dongfeng</span>C1217 truck</figcaption>
+      </figure>
+      <figure class="shot" data-b="dongfeng" data-name="E 613 truck" data-brand="Dongfeng" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/dongfeng-camion-e-613-28.webp" alt="Dongfeng E 613 truck — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Dongfeng</span>E 613 truck</figcaption>
+      </figure>
+      <figure class="shot" data-b="dongfeng" data-name="E 613 truck" data-brand="Dongfeng" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/dongfeng-camion-e-613-29.webp" alt="Dongfeng E 613 truck — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Dongfeng</span>E 613 truck</figcaption>
+      </figure>
+      <figure class="shot" data-b="dongfeng" data-name="Forthing" data-brand="Dongfeng" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/dongfeng-forthing-30.webp" alt="Dongfeng Forthing — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Dongfeng</span>Forthing</figcaption>
+      </figure>
+      <figure class="shot" data-b="dongfeng" data-name="Forthing" data-brand="Dongfeng" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/dongfeng-forthing-31.webp" alt="Dongfeng Forthing — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Dongfeng</span>Forthing</figcaption>
+      </figure>
+      <figure class="shot" data-b="dongfeng" data-name="Nammi 01" data-brand="Dongfeng" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/dongfeng-nammi-01-32.webp" alt="Dongfeng Nammi 01 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Dongfeng</span>Nammi 01</figcaption>
+      </figure>
+      <figure class="shot" data-b="dongfeng" data-name="Nammi 01" data-brand="Dongfeng" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/dongfeng-nammi-01-33.webp" alt="Dongfeng Nammi 01 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Dongfeng</span>Nammi 01</figcaption>
+      </figure>
+      <figure class="shot" data-b="dongfeng" data-name="Vigo" data-brand="Dongfeng" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/dongfeng-vigo-34.webp" alt="Dongfeng Vigo — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Dongfeng</span>Vigo</figcaption>
+      </figure>
+      <figure class="shot v" data-b="dongfeng" data-name="Vigo" data-brand="Dongfeng" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/dongfeng-vigo-35.webp" alt="Dongfeng Vigo — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Dongfeng</span>Vigo</figcaption>
+      </figure>
+      <figure class="shot" data-b="fiat" data-name="600" data-brand="Fiat" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/fiat-600-36.webp" alt="Fiat 600 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Fiat</span>600</figcaption>
+      </figure>
+      <figure class="shot" data-b="fiat" data-name="600" data-brand="Fiat" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/fiat-600-37.webp" alt="Fiat 600 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Fiat</span>600</figcaption>
+      </figure>
+      <figure class="shot" data-b="fiat" data-name="600" data-brand="Fiat" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/fiat-600-38.webp" alt="Fiat 600 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Fiat</span>600</figcaption>
+      </figure>
+      <figure class="shot" data-b="fiat" data-name="600" data-brand="Fiat" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/fiat-600-39.webp" alt="Fiat 600 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Fiat</span>600</figcaption>
+      </figure>
+      <figure class="shot v" data-b="fiat" data-name="600" data-brand="Fiat" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/fiat-600-40.webp" alt="Fiat 600 — visual layout" width="1080" height="1350" loading="lazy" decoding="async">
+        <figcaption><span class="label">Fiat</span>600</figcaption>
+      </figure>
+      <figure class="shot" data-b="fiat" data-name="Pulse" data-brand="Fiat" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/fiat-pulse-41.webp" alt="Fiat Pulse — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Fiat</span>Pulse</figcaption>
+      </figure>
+      <figure class="shot" data-b="fiat" data-name="Pulse" data-brand="Fiat" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/fiat-pulse-42.webp" alt="Fiat Pulse — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Fiat</span>Pulse</figcaption>
+      </figure>
+      <figure class="shot" data-b="fiat" data-name="Pulse" data-brand="Fiat" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/fiat-pulse-43.webp" alt="Fiat Pulse — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Fiat</span>Pulse</figcaption>
+      </figure>
+      <figure class="shot v" data-b="fiat" data-name="Pulse" data-brand="Fiat" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/fiat-pulse-44.webp" alt="Fiat Pulse — visual layout" width="1200" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Fiat</span>Pulse</figcaption>
+      </figure>
+      <figure class="shot" data-b="jeep" data-name="Avenger" data-brand="Jeep" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/jeep-avenger-45.webp" alt="Jeep Avenger — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Jeep</span>Avenger</figcaption>
+      </figure>
+      <figure class="shot" data-b="jeep" data-name="Avenger" data-brand="Jeep" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/jeep-avenger-46.webp" alt="Jeep Avenger — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Jeep</span>Avenger</figcaption>
+      </figure>
+      <figure class="shot" data-b="jeep" data-name="Avenger" data-brand="Jeep" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/jeep-avenger-47.webp" alt="Jeep Avenger — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Jeep</span>Avenger</figcaption>
+      </figure>
+      <figure class="shot" data-b="jeep" data-name="Avenger" data-brand="Jeep" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/jeep-avenger-48.webp" alt="Jeep Avenger — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Jeep</span>Avenger</figcaption>
+      </figure>
+      <figure class="shot v" data-b="jeep" data-name="Avenger" data-brand="Jeep" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/jeep-avenger-49.webp" alt="Jeep Avenger — visual layout" width="1200" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Jeep</span>Avenger</figcaption>
+      </figure>
+      <figure class="shot v" data-b="jeep" data-name="Avenger" data-brand="Jeep" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/jeep-avenger-50.webp" alt="Jeep Avenger — visual layout" width="1200" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Jeep</span>Avenger</figcaption>
+      </figure>
+      <figure class="shot" data-b="jeep" data-name="Compass" data-brand="Jeep" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/jeep-compass-51.webp" alt="Jeep Compass — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Jeep</span>Compass</figcaption>
+      </figure>
+      <figure class="shot" data-b="ram" data-name="1500" data-brand="Ram" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/ram-1500-52.webp" alt="Ram 1500 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Ram</span>1500</figcaption>
+      </figure>
+      <figure class="shot" data-b="ram" data-name="1500" data-brand="Ram" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/ram-1500-53.webp" alt="Ram 1500 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Ram</span>1500</figcaption>
+      </figure>
+      <figure class="shot" data-b="ram" data-name="1500" data-brand="Ram" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/ram-1500-54.webp" alt="Ram 1500 — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Ram</span>1500</figcaption>
+      </figure>
+      <figure class="shot v" data-b="ram" data-name="1500" data-brand="Ram" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/ram-1500-55.webp" alt="Ram 1500 — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Ram</span>1500</figcaption>
+      </figure>
+      <figure class="shot" data-b="ram" data-name="1500" data-brand="Ram" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/ram-1500-56.webp" alt="Ram 1500 — visual layout" width="1500" height="937" loading="lazy" decoding="async">
+        <figcaption><span class="label">Ram</span>1500</figcaption>
+      </figure>
+      <figure class="shot v" data-b="royal-enfield" data-name="Línea Royal Enfield" data-brand="Royal Enfield" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/royal-enfield-linea-57.webp" alt="Royal Enfield — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Royal Enfield</span>Royal Enfield line</figcaption>
+      </figure>
+      <figure class="shot v" data-b="royal-enfield" data-name="Línea Royal Enfield" data-brand="Royal Enfield" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/royal-enfield-linea-58.webp" alt="Royal Enfield — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Royal Enfield</span>Royal Enfield line</figcaption>
+      </figure>
+      <figure class="shot v" data-b="royal-enfield" data-name="Línea Royal Enfield" data-brand="Royal Enfield" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/royal-enfield-linea-59.webp" alt="Royal Enfield — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Royal Enfield</span>Royal Enfield line</figcaption>
+      </figure>
+      <figure class="shot v" data-b="royal-enfield" data-name="Línea Royal Enfield" data-brand="Royal Enfield" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/royal-enfield-linea-60.webp" alt="Royal Enfield — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Royal Enfield</span>Royal Enfield line</figcaption>
+      </figure>
+      <figure class="shot" data-b="royal-enfield" data-name="Línea Royal Enfield" data-brand="Royal Enfield" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/royal-enfield-linea-61.webp" alt="Royal Enfield — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Royal Enfield</span>Royal Enfield line</figcaption>
+      </figure>
+      <figure class="shot v" data-b="royal-enfield" data-name="Línea Royal Enfield" data-brand="Royal Enfield" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/royal-enfield-linea-62.webp" alt="Royal Enfield — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Royal Enfield</span>Royal Enfield line</figcaption>
+      </figure>
+      <figure class="shot" data-b="subaru" data-name="Crosstrek" data-brand="Subaru" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/subaru-crosstrek-63.webp" alt="Subaru Crosstrek — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Subaru</span>Crosstrek</figcaption>
+      </figure>
+      <figure class="shot v" data-b="subaru" data-name="Crosstrek" data-brand="Subaru" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/subaru-crosstrek-64.webp" alt="Subaru Crosstrek — visual layout" width="1200" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Subaru</span>Crosstrek</figcaption>
+      </figure>
+      <figure class="shot v" data-b="subaru" data-name="Crosstrek" data-brand="Subaru" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/subaru-crosstrek-65.webp" alt="Subaru Crosstrek — visual layout" width="1200" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Subaru</span>Crosstrek</figcaption>
+      </figure>
+      <figure class="shot" data-b="subaru" data-name="Crosstrek" data-brand="Subaru" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/subaru-crosstrek-66.webp" alt="Subaru Crosstrek — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Subaru</span>Crosstrek</figcaption>
+      </figure>
+      <figure class="shot" data-b="subaru" data-name="Crosstrek" data-brand="Subaru" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/subaru-crosstrek-67.webp" alt="Subaru Crosstrek — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Subaru</span>Crosstrek</figcaption>
+      </figure>
+      <figure class="shot" data-b="subaru" data-name="Forester" data-brand="Subaru" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/subaru-forester-68.webp" alt="Subaru Forester — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Subaru</span>Forester</figcaption>
+      </figure>
+      <figure class="shot" data-b="subaru" data-name="Forester" data-brand="Subaru" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/subaru-forester-69.webp" alt="Subaru Forester — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Subaru</span>Forester</figcaption>
+      </figure>
+      <figure class="shot" data-b="subaru" data-name="WRX" data-brand="Subaru" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/subaru-wrx-70.webp" alt="Subaru WRX — product photography" width="1500" height="844" loading="lazy" decoding="async">
+        <figcaption><span class="label">Subaru</span>WRX</figcaption>
+      </figure>
+      <figure class="shot v" data-b="subaru" data-name="WRX" data-brand="Subaru" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/subaru-wrx-71.webp" alt="Subaru WRX — product photography" width="844" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Subaru</span>WRX</figcaption>
+      </figure>
+      <figure class="shot v" data-b="subaru" data-name="WRX" data-brand="Subaru" tabindex="0" data-cursor="Ver">
+        <img src="assets/auto/subaru-wrx-72.webp" alt="Subaru WRX — visual layout" width="1200" height="1500" loading="lazy" decoding="async">
+        <figcaption><span class="label">Subaru</span>WRX</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<section class="sec line inc" aria-labelledby="inc-t">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="label"><i></i>What is included</span><h2 class="display js-rise" id="inc-t">From the session<br>to the product page.</h2></div>
+      <p>We quote per session or per vehicle line, delivered in formats ready for web, product pages and social media.</p>
+    </div>
+    <div class="incs" data-rv="kids">
+      <div style="--sc:var(--orange)"><span class="display">01</span><h3>Exteriors, interiors and details</h3><p>The whole vehicle and the finishes that set it apart.</p></div>
+      <div style="--sc:var(--red)"><span class="display">02</span><h3>Retouching and color</h3><p>Each line with its brand's color and tone.</p></div>
+      <div style="--sc:var(--peach)"><span class="display">03</span><h3>Layouts for social media</h3><p>Pieces designed for feed, stories and launches.</p></div>
+      <div style="--sc:var(--teal)"><span class="display">04</span><h3>Web and high-resolution delivery</h3><p>Files ready for product pages, print and social media.</p></div>
+    </div>
+    <p class="also">We also make <a class="lnk" style="--lc:var(--red)" href="services.html#svc-contenido-vertical">vertical video</a> of the same vehicle and a <a class="lnk" style="--lc:var(--teal)" href="services.html#svc-automatizacion-de-whatsapp">WhatsApp assistant</a> that answers every lead.</p>
+  </div>
+</section>
+
+<section class="sec line marcas" aria-labelledby="mc-t">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="label"><i></i>Brands</span><h2 class="display js-rise" id="mc-t">Who we<br>have worked with.</h2></div>
+      <p>Product sessions, launches and social media content with their dealerships in Ecuador. Tap a brand to see its photos.</p>
+    </div>
+    <div class="bcs" data-rv="kids">
+      <button type="button" class="bc" data-f="byd" style="--bc:var(--orange)" aria-label="See photos of BYD">
+        <img src="assets/marcas/byd.png" alt="" loading="lazy">
+        <b>BYD</b><small>Atto 8, Seagull, Sealion 7, Yuan Pro</small>
+      </button>
+      <button type="button" class="bc" data-f="citroen" style="--bc:var(--red)" aria-label="See photos of Citroën">
+        <img src="assets/marcas/citroen.png" alt="" loading="lazy">
+        <b>Citroën</b><small>Berlingo, C3 Aircross, C4</small>
+      </button>
+      <button type="button" class="bc" data-f="ds" style="--bc:var(--peach)" aria-label="See photos of DS">
+        <img src="assets/marcas/ds.png" alt="" loading="lazy">
+        <b>DS</b><small>Full line</small>
+      </button>
+      <button type="button" class="bc" data-f="dongfeng" style="--bc:var(--teal)" aria-label="See photos of Dongfeng">
+        <img src="assets/marcas/dongfeng.png" alt="" loading="lazy">
+        <b>Dongfeng</b><small>C1217 truck, E 613 truck, Forthing, Nammi 01, Vigo</small>
+      </button>
+      <button type="button" class="bc" data-f="fiat" style="--bc:var(--beige)" aria-label="See photos of Fiat">
+        <img src="assets/marcas/fiat.png" alt="" loading="lazy">
+        <b>Fiat</b><small>600, Pulse</small>
+      </button>
+      <button type="button" class="bc" data-f="jeep" style="--bc:var(--orange)" aria-label="See photos of Jeep">
+        <img src="assets/marcas/jeep.png" alt="" loading="lazy">
+        <b>Jeep</b><small>Avenger, Compass</small>
+      </button>
+      <button type="button" class="bc" data-f="ram" style="--bc:var(--red)" aria-label="See photos of Ram">
+        <img src="assets/marcas/ram.png" alt="" loading="lazy">
+        <b>Ram</b><small>1500</small>
+      </button>
+      <button type="button" class="bc" data-f="royal-enfield" style="--bc:var(--peach)" aria-label="See photos of Royal Enfield">
+        <img src="assets/marcas/royal-enfield.png" alt="" loading="lazy">
+        <b>Royal Enfield</b><small>Full line</small>
+      </button>
+      <button type="button" class="bc" data-f="subaru" style="--bc:var(--teal)" aria-label="See photos of Subaru">
+        <img src="assets/marcas/subaru.png" alt="" loading="lazy">
+        <b>Subaru</b><small>Crosstrek, Forester, WRX</small>
+      </button>
+    </div>
+  </div>
+</section>
+
+<div class="viewer" id="viewer" role="dialog" aria-modal="true" aria-label="Enlarged photo" hidden>
+  <button type="button" class="v-close" aria-label="Close">CLOSE ✕</button>
+  <button type="button" class="v-nav v-prev" aria-label="Previous photo">‹</button>
+  <figure><img class="v-img" alt=""><figcaption><span class="v-name"></span><span class="v-count label"></span></figcaption></figure>
+  <button type="button" class="v-nav v-next" aria-label="Next photo">›</button>
+</div>
+
+<!-- cierre -->
+<section class="end" id="contacto" aria-label="Contact">
+  <div class="end-stage">
+    <div class="end-strips" aria-hidden="true"><i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--ink);--e:var(--beige)"></i></div>
+    <p class="end-word display js-letters">Let's talk</p>
+    <p class="end-sub">about your next session. We quote per session or per vehicle line.</p>
+    <div class="end-ctas">
+      <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like a quote for an automotive photo session."><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>Message us on WhatsApp</a>
+      <a class="btn btn--ghost" href="index.html#contacto">Fill in the form</a>
+    </div>
+    <div class="end-lines">
+      <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like a quote for an automotive photo session.">WhatsApp · +593 96 957 7774</a>
+      <a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">@creative.whisper.productions</a>
+      <a href="cotizacion.html">Online quote</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Creative Whisper · Quito, Ecuador</span>
+    <nav aria-label="Secondary">
+      <a href="index.html">Home</a><a href="services.html">Services</a><a href="data.html">Data</a><a href="portfolio.html">Photography</a><a href="cotizacion.html">Quote</a><a href="privacy.html">Privacy</a><a href="admin.html">Admin</a>
+    </nav>
+  </div>
+</footer>
+
+<a class="fab js-fab js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting." aria-label="Message us on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+  Write to us
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/site.js"></script>
+<script>
+
+cwSite({
+  end: '#contacto',
+  init(k) {
+    const { $, $$, vh, vw, pad, gsap } = k;
+    const shots = $$('.shot'), btns = $$('.filters button');
+
+    /* filtros */
+    const filtrar = f => {
+      btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.f === f)));
+      shots.forEach(s => s.classList.toggle('out', f !== 'todas' && s.dataset.b !== f));
+      if (window.ScrollTrigger && !k.static) ScrollTrigger.refresh();
+    };
+    btns.forEach(b => b.addEventListener('click', () => filtrar(b.dataset.f)));
+    $$('.bc').forEach(c => c.addEventListener('click', () => { filtrar(c.dataset.f); k.goTo ? k.goTo($('#galeria')) : $('#galeria').scrollIntoView(); }));
+
+    /* visor */
+    const viewer = $('#viewer'), vImg = $('.v-img'), vName = $('.v-name'), vCount = $('.v-count');
+    let order = [], pos = 0, lastFocus = null;
+    const show = i => {
+      pos = (i + order.length) % order.length;
+      const s = order[pos], im = $('img', s);
+      vImg.src = im.currentSrc || im.src; vImg.alt = im.alt;
+      vName.innerHTML = `${s.dataset.name} <em>· ${s.dataset.brand}</em>`;
+      vCount.textContent = `${pad(pos + 1)} / ${pad(order.length)}`;
+    };
+    const open = (s, list) => { order = list; lastFocus = document.activeElement; show(order.indexOf(s)); viewer.hidden = false; document.documentElement.style.overflow = 'hidden'; if (k.lenis) k.lenis.stop(); $('.v-close').focus(); };
+    const close = () => { viewer.hidden = true; document.documentElement.style.overflow = ''; vImg.removeAttribute('src'); if (k.lenis) k.lenis.start(); if (lastFocus) lastFocus.focus({ preventScroll: true }); };
+    const visibles = () => shots.filter(s => !s.classList.contains('out'));
+    shots.forEach(s => {
+      s.addEventListener('click', () => open(s, visibles()));
+      s.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); open(s, visibles()); } });
+    });
+    const sls = $$('.sl');
+    const slOpen = sl => { const t = shots.find(s => $('img', s).getAttribute('src') === sl.dataset.src); if (t) open(t, shots); };
+    sls.forEach(sl => { sl.addEventListener('click', () => slOpen(sl)); sl.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); slOpen(sl); } }); });
+    $('.v-close').addEventListener('click', close);
+    $('.v-prev').addEventListener('click', e => { e.stopPropagation(); show(pos - 1); });
+    $('.v-next').addEventListener('click', e => { e.stopPropagation(); show(pos + 1); });
+    viewer.addEventListener('click', e => { if (e.target === viewer) close(); });
+    addEventListener('keydown', e => {
+      if (viewer.hidden) return;
+      if (e.key === 'Escape') close();
+      if (e.key === 'ArrowLeft') show(pos - 1);
+      if (e.key === 'ArrowRight') show(pos + 1);
+    });
+
+    if (k.static) return;
+
+    /* galería: cada foto se descubre al entrar y se vuelve a cubrir al salir por arriba */
+    ScrollTrigger.batch(shots, { start: 'top 94%', onEnter: b => b.forEach((s, i) => setTimeout(() => s.classList.add('in'), i * 70)), onLeaveBack: b => b.forEach(s => s.classList.remove('in')) });
+
+    /* selección: riel 3D movido por el scroll (solo en pantallas anchas) */
+    if (matchMedia('(min-width:901px)').matches) {
+      const rail = $('.sel-rail'), bar = $('.sel-bar i'), count = $('.js-count'), bg = $('.sel-bg');
+      const dist = () => Math.max(0, rail.scrollWidth - vw());
+      let box = [];
+      const measure = () => { box = sls.map(c => ({ l: c.offsetLeft, w: c.offsetWidth })); };
+      const rot = sls.map(c => gsap.quickSetter(c, 'rotationY', 'deg')), sc = sls.map(c => gsap.quickSetter(c, 'scale')), z = sls.map(c => gsap.quickSetter(c, 'z', 'px'));
+      const upd = () => {
+        const x = gsap.getProperty(rail, 'x'), c = vw() / 2; let ci = 0;
+        box.forEach((b, i) => { const d = gsap.utils.clamp(-1.4, 1.4, (b.l + b.w / 2 + x - c) / c); rot[i](d * -24); sc[i](1 - Math.min(Math.abs(d), 1) * .1); z[i](-Math.abs(d) * 140); if (b.l + x < c) ci = i; });
+        bar.style.transform = `scaleX(${-x / (dist() || 1)})`; gsap.set(bg, { x: -vw() * .1 + x * .35 }); count.textContent = pad(Math.min(ci + 1, sls.length));
+      };
+      gsap.to(rail, { x: () => -dist(), ease: 'none', onUpdate: upd, scrollTrigger: { trigger: '.sel', start: 'top top', end: () => '+=' + (dist() + vh() * .4), pin: true, scrub: .8, invalidateOnRefresh: true } });
+      ScrollTrigger.addEventListener('refresh', () => { measure(); upd(); });
+      measure(); upd();
+    }
+  }
+});
+
+</script>
+<!-- Asistente de chat y voz: configuración en assets/asistente-cw.js -->
+<script src="assets/asistente-cw.js" defer></script>
+<script src="assets/lang.js" defer></script>
+</body>
+</html>

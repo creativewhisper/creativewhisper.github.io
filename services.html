@@ -1,0 +1,686 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<script>/* idioma: inglés por defecto; navegador en español -> versión en español (salvo elección manual) */(function(){try{var s=localStorage.getItem("cw-lang");if(s==="en")return;var l=(navigator.languages&&navigator.languages[0])||navigator.language||"";if(s==="es"||/^es\b/i.test(l)){var m={"/": "/es/", "/index.html": "/es/", "/services.html": "/servicios.html", "/data.html": "/datos.html", "/portfolio.html": "/portafolio.html", "/privacy.html": "/privacidad.html"},t=m[location.pathname];if(t)location.replace(t+location.search+location.hash);}}catch(e){}})();</script>
+<link rel="alternate" hreflang="en" href="https://creativewhisper.github.io/services.html">
+<link rel="alternate" hreflang="es" href="https://creativewhisper.github.io/servicios.html">
+<link rel="alternate" hreflang="x-default" href="https://creativewhisper.github.io/services.html">
+<style>.lang-sw{display:inline-flex;align-items:center;justify-content:center;height:34px;min-width:44px;padding:0 10px;border-radius:999px;border:1px solid rgba(236,230,219,.28);color:inherit;font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.14em;text-decoration:none;opacity:.85;transition:opacity .2s,border-color .2s;flex:none}.lang-sw:hover{opacity:1;border-color:rgba(236,230,219,.6)}.lang-sw b{font-weight:600;opacity:.45;margin:0 .35em}</style>
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0908">
+<title>Services — Creative Whisper</title>
+<link rel="icon" href="assets/monograma-cw.png">
+<meta name="description" content="Creative Whisper services in Quito, Ecuador: data analysis, video production, digital marketing, interactive websites and AI assistants for WhatsApp, Instagram and your website.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Creative Whisper">
+<meta property="og:title" content="Services — Creative Whisper">
+<meta property="og:description" content="Data, production, digital marketing and AI automation in one team.">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://creativewhisper.github.io/services.html">
+<meta property="og:image" content="https://creativewhisper.github.io/assets/og-cw-paleta.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://creativewhisper.github.io/services.html">
+<script>document.documentElement.classList.add('js')</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+:root{--ac:var(--orange);--ae:var(--orange);--at:var(--ink)}
+
+/* ---------- cuatro áreas: las franjas suben y se vuelven el índice ---------- */
+.areas{position:relative}
+.areas-stage{position:relative;height:100vh;height:100svh;overflow:hidden}
+.areas-intro{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding-top:var(--header)}
+.areas-intro .label{color:var(--beige);margin-bottom:22px}
+.areas-intro h2{font-size:clamp(64px,11vw,200px)}
+.areas-intro h2 em{font-style:normal;color:var(--beige)}
+.areas-intro p{color:var(--mute);margin-top:24px;font-size:clamp(16px,1.3vw,20px)}
+.ap{position:absolute;top:-4%;bottom:-4%;left:calc(var(--k) * 25% - 3%);width:calc(25% + 3.2%);transform:skewX(-11deg);background:var(--c);box-shadow:-14px 0 0 var(--e);color:var(--fg);z-index:calc(var(--k) + 2)}
+.ap-in{position:absolute;inset:0;transform:skewX(11deg);display:flex;flex-direction:column;justify-content:flex-end;padding:calc(var(--header) + 4vh) 18% 9vh 22%}
+.ap .label{opacity:.85}
+.ap h3{font-size:clamp(34px,3.3vw,58px);margin:12px 0 6px;line-height:.92}
+.ap h3 a{text-decoration:none}
+.ap-n{font-family:var(--f-mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;opacity:.75;margin-bottom:18px}
+.ap ul{list-style:none;display:flex;flex-direction:column}
+.ap li a{display:flex;gap:10px;padding:7px 0;border-top:1.5px solid color-mix(in srgb,var(--fg) 26%,transparent);text-decoration:none;font-size:clamp(13px,1vw,15px);font-weight:500;line-height:1.25;transition:padding .25s}
+.ap li a span{font-family:var(--f-mono);font-size:10.5px;opacity:.7;padding-top:2px}
+.ap li a:hover{padding-left:8px}
+@media (max-width:900px){
+  .areas-stage{height:auto;overflow:visible}
+  .areas-intro{position:relative;padding:120px var(--gutter) 40px}
+  .ap{position:relative;top:auto;bottom:auto;left:auto;width:auto;transform:none;box-shadow:none;clip-path:polygon(0 0,100% 4%,100% 100%,0 96%);margin-top:-1px}
+  .ap-in{position:relative;transform:none;padding:64px var(--gutter) 64px}
+  .ap h3{font-size:clamp(40px,11vw,64px)}
+  .ap li a{font-size:15px;padding:10px 0}
+}
+
+/* ---------- cómo trabajamos: los pasos pasan de lado ---------- */
+.proc{position:relative;border-top:1px solid var(--line)}
+.proc-stage{position:relative;min-height:100vh;min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:calc(var(--header) + 4vh) 0 6vh;overflow:hidden}
+.proc-head{display:flex;justify-content:space-between;align-items:flex-end;gap:32px;margin-bottom:clamp(28px,5vh,56px)}
+.proc-head .label{color:var(--beige)}
+.proc-head h2{font-size:clamp(48px,6.4vw,112px);margin-top:12px}
+.proc-head p{color:var(--mute);max-width:40ch}
+.proc-track{position:relative}
+.proc-line{position:absolute;left:0;right:0;top:9px;height:2px;background:var(--line-2)}
+.proc-line i{position:absolute;inset:0;background:linear-gradient(90deg,var(--beige),var(--orange) 25%,var(--red) 50%,var(--peach) 75%,var(--teal));transform-origin:0 50%;transform:scaleX(0)}
+.proc-rail{display:flex;gap:clamp(20px,3vw,48px);padding:0 max(var(--gutter), env(safe-area-inset-left, 0px));width:max-content;will-change:transform}
+.step{position:relative;width:clamp(270px,26vw,380px);padding-top:40px}
+.step-dot{position:absolute;top:0;left:0;width:20px;height:20px;background:var(--c);transform:skewX(-11deg)}
+.step-n{display:block;font-size:clamp(60px,6vw,100px);color:var(--c);line-height:.85}
+.step h3{font-size:clamp(22px,1.8vw,28px);font-weight:600;margin:14px 0 8px;letter-spacing:-.01em}
+.step p{color:var(--mute);font-size:15.5px;max-width:34ch}
+.step-ph{margin-top:20px;aspect-ratio:16/10;overflow:hidden;clip-path:polygon(8% 0%,100% 0%,92% 100%,0% 100%);background:var(--ink-2)}
+.step-ph img{width:100%;height:100%;object-fit:cover}
+@media (max-width:900px){
+  .proc-head{flex-direction:column;align-items:flex-start}
+  .proc-line{display:none}
+  .proc-rail{flex-direction:column;width:auto;gap:48px}
+  .step{width:auto}
+}
+
+/* ---------- detalle por área ---------- */
+.area{position:relative;padding-bottom:clamp(60px,8vw,120px)}
+.area-band{position:relative;background:var(--c);color:var(--fg);padding:clamp(110px,14vw,190px) 0 clamp(56px,7vw,96px);overflow:hidden;clip-path:polygon(0 0,100% 0,100% calc(100% - 5vw),0 100%)}
+.area-band::before{content:"";position:absolute;top:0;bottom:0;left:-4vw;width:14px;background:var(--e);transform:skewX(-11deg)}
+.area-num{position:absolute;right:-1vw;bottom:-5vw;font-size:min(42vw,62vh);line-height:.8;color:transparent;-webkit-text-stroke:2px var(--fg);opacity:.18;pointer-events:none}
+.area-head{position:relative}
+.area-head .label{opacity:.85}
+.area-head h2{font-size:clamp(64px,12vw,220px);margin:14px 0 18px}
+.area-head p{font-size:clamp(17px,1.5vw,23px);font-weight:500;max-width:40ch;line-height:1.4}
+.svc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(48px,6vw,96px) clamp(28px,4vw,64px);margin-top:clamp(56px,7vw,110px)}
+.svc{scroll-margin-top:calc(var(--header) + 24px)}
+.svc-ph{aspect-ratio:16/10;overflow:hidden;background:var(--ink-2);border-radius:4px}
+.svc-ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.2,.7,.1,1)}
+.svc:hover .svc-ph img{transform:scale(1.04)}
+.svc-tx{padding-top:24px}
+.svc-tx .label{color:var(--mute)}
+.svc-tx .label b{font-weight:500;color:var(--c)}
+.svc h3{font-family:var(--f-display);font-weight:800;text-transform:uppercase;font-size:clamp(32px,3vw,50px);line-height:.95;margin:10px 0 14px;letter-spacing:.005em}
+.svc-tx > p{color:#D7CFC2;max-width:52ch}
+.svc ul{list-style:none;margin:18px 0 22px;display:grid;gap:8px}
+.svc li{position:relative;padding-left:26px;font-size:15.5px;color:var(--bone)}
+.svc li::before{content:"";position:absolute;left:0;top:.62em;width:14px;height:6px;background:var(--c);transform:skewX(-11deg)}
+.svc-acts{display:flex;flex-wrap:wrap;gap:12px 26px}
+.lnk--alt{--lc:var(--beige)}
+.area .lnk{--lc:var(--c)}
+.area .lnk--alt{--lc:var(--beige)}
+@media (max-width:900px){.svc-grid{grid-template-columns:1fr}.area-band{clip-path:polygon(0 0,100% 0,100% calc(100% - 28px),0 100%)}}
+
+/* formatos: un solo cuadro que cambia de recorte */
+.fmt{position:relative;margin-top:clamp(70px,9vw,140px)}
+.fmt-stage{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center;padding:calc(var(--header) + 3vh) 0 4vh;border-top:1px solid var(--line)}
+.fmt-grid{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,80px);align-items:center}
+.fmt-copy .label{color:var(--red)}
+.fmt-copy h3{font-size:clamp(46px,5.4vw,96px);margin:12px 0 16px}
+.fmt-copy > p{color:var(--mute);max-width:40ch}
+.fmt-list{list-style:none;margin-top:26px;display:grid;gap:2px;counter-reset:f}
+.fmt-list li{display:flex;gap:16px;align-items:baseline;padding:12px 0;border-top:1px solid var(--line);color:var(--mute);transition:color .3s}
+.fmt-list li b{font-family:var(--f-display);font-weight:800;font-size:26px;min-width:84px;color:var(--line-2);transition:color .3s}
+.fmt-list li.on{color:var(--bone)}
+.fmt-list li.on b{color:var(--red)}
+.fmt-frame{position:relative;width:100%;aspect-ratio:16/9}
+.fmt-crop{position:absolute;inset:0;clip-path:inset(0% 34.2% 0% 34.2%);background:var(--ink-2)}
+.fmt-crop img{width:100%;height:100%;object-fit:cover}
+.fmt-frame::before{content:"";position:absolute;inset:0;border:1px dashed var(--line-2)}
+.fmt-tag{position:absolute;left:50%;bottom:-38px;transform:translateX(-50%);font-family:var(--f-mono);font-size:12px;letter-spacing:.16em;color:var(--red)}
+.deliv{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:clamp(28px,5vw,80px);margin-top:clamp(40px,6vw,90px)}
+.deliv-h .label{color:var(--mute)}
+.deliv-h h3{font-size:clamp(40px,4.2vw,72px);margin-top:10px}
+.deliv dl{display:grid;grid-template-columns:1fr 1fr;gap:0 32px}
+.deliv dl > div{padding:16px 0;border-top:1px solid var(--line)}
+.deliv dt{font-family:var(--f-mono);font-size:10.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:6px}
+.deliv dd{margin:0;font-size:15.5px}
+@media (max-width:900px){.fmt-grid,.deliv{grid-template-columns:1fr}.fmt-stage{min-height:0;padding:60px 0 90px}.deliv dl{grid-template-columns:1fr}}
+
+/* con quién trabajamos */
+.rows{border-bottom:1px solid var(--line)}
+.row{position:relative;display:grid;grid-template-columns:90px minmax(0,1fr) minmax(0,1.1fr) auto;gap:20px 32px;align-items:center;padding:30px 0;border-top:1px solid var(--line);isolation:isolate}
+.row::before{content:"";position:absolute;inset:0 -2vw;background:var(--c);z-index:-1;transform:scaleY(0);transform-origin:50% 100%;transition:transform .45s cubic-bezier(.2,.7,.1,1);opacity:.1}
+.row:hover::before{transform:scaleY(1)}
+.row-n{font-size:46px;color:var(--c);line-height:1}
+.row h3{font-size:clamp(20px,1.8vw,28px);font-weight:600;letter-spacing:-.01em}
+.row p{color:var(--mute)}
+.row-brands{display:flex;flex-wrap:wrap;gap:8px}
+.row-brands a{background:var(--hc);color:var(--ink);text-decoration:none;font-family:var(--f-display);font-weight:900;font-size:19px;padding:6px 16px 6px 18px;clip-path:polygon(8px 0%,100% 0%,calc(100% - 8px) 100%,0% 100%)}
+.row-brands a:hover{filter:brightness(1.08)}
+@media (max-width:900px){.row{grid-template-columns:56px 1fr}.row p,.row .lnk,.row-brands{grid-column:2}.row-n{font-size:34px}}
+
+/* modo estático */
+.static .areas-stage{height:auto;overflow:visible}
+.static .areas-intro{position:relative;padding:140px var(--gutter) 60px}
+.static .ap{position:relative;inset:auto;left:auto;width:auto;transform:none;box-shadow:none;top:auto;bottom:auto}
+.static .ap-in{position:relative;transform:none;padding:60px var(--gutter)}
+.static .proc-rail{flex-wrap:wrap;width:auto}
+.static .fmt-crop{clip-path:none}
+
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Skip to content</a>
+<div class="intro" aria-hidden="true"><i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--ink);--e:var(--beige)"></i></div>
+<header class="top" id="top">
+  <div class="wrap">
+    <a class="brand" href="index.html" aria-label="Creative Whisper, home">
+      <img src="assets/monograma-cw.png" alt="" width="40" height="26">
+      <span>CREATIVE WHISPER</span>
+    </a>
+    <nav class="nav" id="menu" aria-label="Main">
+      <a href="services.html" aria-current="page">Services</a>
+      <a href="index.html#trabajo">Work</a>
+      <a href="data.html">Data</a>
+      <a href="portfolio.html">Photography</a>
+      <a href="#contacto">Contact</a>
+    </nav>
+    <a class="lang-sw" href="/servicios.html" hreflang="es" lang="es" data-set-lang="es" aria-label="Ver esta página en español">EN <b>/</b> ES</a>
+    <button class="menu-btn js-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    <a class="btn btn--solid js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting.">Book a meeting</a>
+  </div>
+  <i class="progress" aria-hidden="true"></i>
+</header>
+<div class="sx-chip" role="status" aria-live="polite"><span data-sx-state>Playing · tap to pause</span><a class="sx-skip" href="#">Contact ↓</a><span class="sx-chip-bar"><i></i></span></div>
+<div class="cursor" aria-hidden="true" hidden><span></span></div>
+
+<main id="contenido">
+
+<section class="ph" aria-labelledby="ph-t">
+  <div class="ph-strips" aria-hidden="true">
+    <i style="--k:0;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:1;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:2;--c:var(--red);--e:var(--red-e)"></i><i style="--k:3;--c:var(--orange);--e:var(--orange)"></i>
+  </div>
+  <div class="ph-media"><img src="assets/hero-escena.webp" alt="Editing a piece in the post-production suite" style="object-position:38% 50%"></div>
+  <div class="wrap ph-in">
+    <span class="label"><i></i>Creative Whisper · Services</span>
+    <h1 id="ph-t">Eighteen services in four areas: <span class="nw"><span class="tp" style="--c:var(--orange)">data</span>,</span> <span class="nw"><span class="tp" style="--c:var(--red);--t:var(--bone)">production</span>,</span> <span class="nw"><span class="tp" style="--c:var(--peach)">digital marketing</span></span> and <span class="nw"><span class="tp" style="--c:var(--teal)">automation</span>.</span></h1>
+    <p class="lede">We analyze your information to know which campaign you need, produce it from start to finish and take it to social media, your website and WhatsApp, where your customers decide.</p>
+    <div class="ctas">
+      <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting."><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>Book a meeting</a>
+      <a class="btn btn--ghost" href="#areas">See the four areas</a>
+    </div>
+  </div>
+  <p class="ph-word js-letters" aria-hidden="true">Services</p>
+</section>
+
+<section class="areas" id="areas" aria-labelledby="areas-t">
+  <div class="areas-stage">
+    <div class="areas-intro wrap">
+      <span class="label">Services</span>
+      <h2 class="display" id="areas-t">Four areas.<br><em>One team.</em></h2>
+      <p>Everything can be hired separately or combined in a monthly plan.</p>
+    </div>
+    <div class="ap" style="--k:0;--c:var(--orange);--e:var(--orange);--fg:var(--ink)">
+      <div class="ap-in">
+        <span class="label">01 / 04 · Understand</span>
+        <h3 class="display"><a href="#area-datos">Data</a></h3>
+        <p class="ap-n">2 services</p>
+        <ul><li><a href="#svc-analisis-de-datos"><span>01</span>Data analysis</a></li><li><a href="#svc-analisis-de-conversaciones"><span>02</span>Conversation analysis</a></li></ul>
+      </div>
+    </div>
+    <div class="ap" style="--k:1;--c:var(--red);--e:var(--red-e);--fg:var(--bone)">
+      <div class="ap-in">
+        <span class="label">02 / 04 · Create</span>
+        <h3 class="display"><a href="#area-produccion">Production</a></h3>
+        <p class="ap-n">9 services</p>
+        <ul><li><a href="#svc-video-de-marca"><span>03</span>Brand video</a></li><li><a href="#svc-contenido-vertical"><span>04</span>Vertical content</a></li><li><a href="#svc-testimonios-y-casos"><span>05</span>Testimonials and case studies</a></li><li><a href="#svc-video-corporativo-b2b"><span>06</span>B2B corporate video</a></li><li><a href="#svc-cortometrajes-y-branded-content"><span>07</span>Short films and branded content</a></li><li><a href="#svc-cobertura-de-eventos"><span>08</span>Event coverage</a></li><li><a href="#svc-fotografia-de-producto"><span>09</span>Product photography</a></li><li><a href="#svc-actores-y-creadores"><span>10</span>Actors and creators</a></li><li><a href="#svc-doblaje-locucion-y-adr"><span>11</span>Dubbing, voice-over and ADR</a></li></ul>
+      </div>
+    </div>
+    <div class="ap" style="--k:2;--c:var(--peach);--e:var(--peach-e);--fg:var(--ink)">
+      <div class="ap-in">
+        <span class="label">03 / 04 · Publish</span>
+        <h3 class="display"><a href="#area-digital">Digital marketing</a></h3>
+        <p class="ap-n">4 services</p>
+        <ul><li><a href="#svc-campanas-en-meta-ads"><span>12</span>Meta Ads campaigns</a></li><li><a href="#svc-diseno-para-instagram"><span>13</span>Instagram design</a></li><li><a href="#svc-sitios-web-con-pedido-por-whatsapp"><span>14</span>Websites with WhatsApp ordering</a></li><li><a href="#svc-paginas-web-interactivas"><span>15</span>Interactive website design</a></li></ul>
+      </div>
+    </div>
+    <div class="ap" style="--k:3;--c:var(--teal);--e:var(--teal-e);--fg:var(--ink)">
+      <div class="ap-in">
+        <span class="label">04 / 04 · Respond</span>
+        <h3 class="display"><a href="#area-automatizacion">Automation</a></h3>
+        <p class="ap-n">3 services</p>
+        <ul><li><a href="#svc-automatizacion-de-whatsapp"><span>16</span>WhatsApp automation</a></li><li><a href="#svc-asistente-web-en-vivo"><span>17</span>Live assistant for your website</a></li><li><a href="#svc-community-manager-con-ia"><span>18</span>AI community manager</a></li></ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="proc" id="proceso" aria-labelledby="proc-t">
+  <div class="proc-stage">
+    <div class="wrap proc-head">
+      <div><span class="label">How we work</span><h2 class="display" id="proc-t">From data to<br>conversation.</h2></div>
+      <p>The same path for a fifteen-second reel or a full campaign: first understand, then produce, publish and respond.</p>
+    </div>
+    <div class="proc-track">
+      <div class="proc-line" aria-hidden="true"><i></i></div>
+      <div class="proc-rail">
+      <article class="step" style="--c:var(--beige)">
+        <span class="step-dot" aria-hidden="true"></span>
+        <span class="step-n display">01</span>
+        <h3>Meeting</h3>
+        <p>Half an hour to understand your brand, who you talk to and what you need to achieve.</p>
+        <figure class="step-ph"><img src="assets/bts-hoja.webp" alt="" loading="lazy"></figure>
+      </article>
+      <article class="step" style="--c:var(--orange)">
+        <span class="step-dot" aria-hidden="true"></span>
+        <span class="step-n display">02</span>
+        <h3>Analysis</h3>
+        <p>We review your data and your conversations to decide who to talk to, with which product and when.</p>
+        <figure class="step-ph"><img src="assets/datos/trabajo.webp" alt="" loading="lazy"></figure>
+      </article>
+      <article class="step" style="--c:var(--red)">
+        <span class="step-dot" aria-hidden="true"></span>
+        <span class="step-n display">03</span>
+        <h3>Production</h3>
+        <p>Script, shoot, photography, voice and editing, with versions for every format.</p>
+        <figure class="step-ph"><img src="assets/eq-fx2.webp" alt="" loading="lazy"></figure>
+      </article>
+      <article class="step" style="--c:var(--peach)">
+        <span class="step-dot" aria-hidden="true"></span>
+        <span class="step-n display">04</span>
+        <h3>Publishing</h3>
+        <p>Campaigns, social media design and websites ready to take orders.</p>
+        <figure class="step-ph"><img src="assets/srv/instagram.webp" alt="" loading="lazy"></figure>
+      </article>
+      <article class="step" style="--c:var(--teal)">
+        <span class="step-dot" aria-hidden="true"></span>
+        <span class="step-n display">05</span>
+        <h3>Response and measurement</h3>
+        <p>An assistant attends to every customer who responds, and we measure how each piece performed to adjust the next one.</p>
+        <figure class="step-ph"><img src="assets/srv/whatsapp.webp" alt="" loading="lazy"></figure>
+      </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="area" id="area-datos" style="--c:var(--orange);--e:var(--orange);--fg:var(--ink)" aria-labelledby="area-datos-t">
+  <div class="area-band" data-rv="skew">
+    <span class="area-num display" aria-hidden="true">01</span>
+    <div class="wrap area-head">
+      <span class="label">01 / 04 · Understand · 2 services</span>
+      <h2 class="display js-rise" id="area-datos-t">Data</h2>
+      <p>We analyze sales, CRM, social media and conversations to decide who to talk to, with which product and when. Everything else comes from there.</p>
+    </div>
+  </div>
+  <div class="wrap svc-grid">
+      <article class="svc" id="svc-analisis-de-datos">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/datos/codigo.webp" alt="Screen with code during a data analysis" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>01</b> · Data</span>
+          <h3>Data analysis</h3>
+          <p>We analyze your company's data (sales, CRM, point of sale, social media) to decide who to talk to, with which product and when. The campaign is designed on that analysis.</p>
+          <ul><li>Data governance and architecture</li><li>Cleaning, models and machine learning</li><li>Customer segmentation and actionable insight</li><li>Power BI dashboards to track your sales and campaigns</li><li>Evaluation and adjustment of past campaigns</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Data analysis service.">Ask on WhatsApp →</a><a class="lnk lnk--alt" href="data.html">See the full service →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-analisis-de-conversaciones">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/conversaciones.webp" alt="Conversation report with indicators, sentiment and a priority complaint" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>02</b> · Data</span>
+          <h3>Conversation analysis</h3>
+          <p>We turn your brand's conversations with its customers into clear information to decide what to sell, what to improve and what to communicate.</p>
+          <ul><li>Dashboard with the indicators of your chats</li><li>Frequent questions and complaints, sorted by topic</li><li>Alerts to handle the most serious complaints first</li><li>Post ideas based on what customers ask</li><li>Easy-to-read weekly or monthly reports</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Conversation analysis service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+  </div>
+</section>
+<section class="area" id="area-produccion" style="--c:var(--red);--e:var(--red-e);--fg:var(--bone)" aria-labelledby="area-produccion-t">
+  <div class="area-band" data-rv="skew">
+    <span class="area-num display" aria-hidden="true">02</span>
+    <div class="wrap area-head">
+      <span class="label">02 / 04 · Create · 9 services</span>
+      <h2 class="display js-rise" id="area-produccion-t">Production</h2>
+      <p>Video, photography and voice with our own crew, from script to delivery, in every format.</p>
+    </div>
+  </div>
+  <div class="wrap svc-grid">
+      <article class="svc" id="svc-video-de-marca">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/fmt-169.webp" alt="Frame from a brand video" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>03</b> · Production</span>
+          <h3>Brand video</h3>
+          <p>The centerpiece of your communication: who you are, how you work and why customers should choose you.</p>
+          <ul><li>Concept and script</li><li>Shot on a Cinema Line camera</li><li>Aerial shots when they add value</li><li>Long version and social media cuts</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Brand video service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-contenido-vertical">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/vertical.webp" alt="Vertical pieces for social media" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>04</b> · Production</span>
+          <h3>Vertical content</h3>
+          <p>Reels and TikToks designed to hold attention in the first seconds, shot with the same quality as a commercial.</p>
+          <ul><li>Package of pieces per session</li><li>Hooks designed for each piece</li><li>Built-in subtitles</li><li>9:16 and 4:5 formats</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Vertical content service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-testimonios-y-casos">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/f-testimonio.webp" alt="Recording a testimonial" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>05</b> · Production</span>
+          <h3>Testimonials and case studies</h3>
+          <p>Your customers speaking for you: the proof that settles the last doubt before buying.</p>
+          <ul><li>Question guide</li><li>Careful lighting and sound</li><li>Name and title lower thirds</li><li>Long version and cuts</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Testimonials and case studies service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-video-corporativo-b2b">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/auto/dongfeng-camion-c1217-27.webp" alt="Cargo truck photographed for a business client" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>06</b> · Production</span>
+          <h3>B2B corporate video</h3>
+          <p>For companies that sell to other companies: we show your plant, your processes and your credentials so a new client trusts you before the first visit.</p>
+          <ul><li>Plant tour and location</li><li>Aerial shots of the facilities</li><li>Short pieces with the founder or manager</li><li>Standards, licenses and certifications</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the B2B corporate video service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-cortometrajes-y-branded-content">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/f-futbol.webp" alt="Scene from a short film" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>07</b> · Production</span>
+          <h3>Short films and branded content</h3>
+          <p>Longer stories for institutions and brands that want to move people, not just inform them.</p>
+          <ul><li>Creative and technical script</li><li>Directing and cinematography</li><li>Editing and post-production</li><li>Credits and final delivery</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Short films and branded content service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-cobertura-de-eventos">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/cade-evento.webp" alt="Coverage of a university event" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>08</b> · Production</span>
+          <h3>Event coverage</h3>
+          <p>The atmosphere, the people and the moments that later become content for the whole year.</p>
+          <ul><li>Full-day coverage</li><li>Aftermovie</li><li>Same-day vertical pieces</li><li>Event photography</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Event coverage service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-fotografia-de-producto">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/auto/jeep-avenger-45.webp" alt="Product photography of a Jeep Avenger" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>09</b> · Production</span>
+          <h3>Product photography</h3>
+          <p>Catalog, product page and social media photos. Our strongest experience: more than 700 automotive photographs for nine brands.</p>
+          <ul><li>Exteriors, interiors and details</li><li>Retouching and color</li><li>Layouts for posts</li><li>Delivered in web size and high resolution</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Product photography service.">Ask on WhatsApp →</a><a class="lnk lnk--alt" href="portfolio.html">See automotive photography →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-actores-y-creadores">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/bts-notas.webp" alt="Preparing actors before a shoot" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>10</b> · Production</span>
+          <h3>Actors and creators</h3>
+          <p>We give your brand a face and a voice, with profiles chosen for your audience and the tone of the piece.</p>
+          <ul><li>Profile proposal</li><li>On-set direction</li><li>UGC-style content</li><li>Schedule coordination</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Actors and creators service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-doblaje-locucion-y-adr">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/adr-dos.webp" alt="Dubbing session in the studio" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>11</b> · Production</span>
+          <h3>Dubbing, voice-over and ADR</h3>
+          <p>Clean, synchronized voices for fiction, commercials and institutional pieces.</p>
+          <ul><li>Voice casting</li><li>Recording in a voice-over studio</li><li>Sync and editing</li><li>Final mix</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Dubbing, voice-over and ADR service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+  </div>
+    <div class="fmt" id="formatos">
+      <div class="fmt-stage">
+        <div class="wrap fmt-grid">
+          <div class="fmt-copy">
+            <span class="label">Production · Formats</span>
+            <h3 class="display">The same shot,<br>four formats.</h3>
+            <p>One shoot delivers the versions for web, product pages and social media, without filming again.</p>
+            <ol class="fmt-list">
+              <li class="on"><b>9:16</b>Reels, TikTok and stories</li>
+              <li><b>4:5</b>Instagram and Facebook feed</li>
+              <li><b>16:9</b>Web, YouTube and presentations</li>
+              <li><b>2.39:1</b>Cinema format for brand pieces</li>
+            </ol>
+          </div>
+          <div class="fmt-frame" aria-hidden="true">
+            <div class="fmt-crop"><img src="assets/srv/fmt-169.webp" alt=""></div>
+            <span class="fmt-tag">9:16</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap deliv">
+      <div class="deliv-h"><span class="label">What you get</span><h3 class="display">Delivery formats</h3></div>
+      <dl data-rv="kids">
+        <div><dt>Video</dt><dd>Final 4K file and a lightweight version for social media</dd></div>
+        <div><dt>Cuts</dt><dd>Long version and short pieces from the same footage</dd></div>
+        <div><dt>Photo</dt><dd>Edited selection in high resolution and web size</dd></div>
+        <div><dt>Audio</dt><dd>Final mix; voice-over and dubbing when the project includes them</dd></div>
+        <div><dt>Equipment</dt><dd>Sony FX2, DJI Mic, RS 4 Mini, DJI Mini drone and voice-over studio</dd></div>
+        <div><dt>Measurement</dt><dd>Report on how each piece performed, when we run the full plan</dd></div>
+      </dl>
+    </div>
+</section>
+<section class="area" id="area-digital" style="--c:var(--peach);--e:var(--peach-e);--fg:var(--ink)" aria-labelledby="area-digital-t">
+  <div class="area-band" data-rv="skew">
+    <span class="area-num display" aria-hidden="true">03</span>
+    <div class="wrap area-head">
+      <span class="label">03 / 04 · Publish · 4 services</span>
+      <h2 class="display js-rise" id="area-digital-t">Digital marketing</h2>
+      <p>We take that content to your customers with campaigns, social media design and websites built to sell.</p>
+    </div>
+  </div>
+  <div class="wrap svc-grid">
+      <article class="svc" id="svc-campanas-en-meta-ads">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/meta-ads.webp" alt="Instagram ad with a button to message on WhatsApp and a campaign summary" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>12</b> · Digital marketing</span>
+          <h3>Meta Ads campaigns</h3>
+          <p>Facebook and Instagram campaigns that turn attention into conversations with your brand.</p>
+          <ul><li>Campaign strategy and assets</li><li>Ads that open a WhatsApp conversation</li><li>Audience chosen by customer stage</li><li>Measurement and continuous improvement</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Meta Ads campaigns service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-diseno-para-instagram">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/instagram.webp" alt="Instagram post design" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>13</b> · Digital marketing</span>
+          <h3>Instagram design</h3>
+          <p>Posts, carousels and stories with your brand's look, connected to your video campaigns and published on a fixed calendar.</p>
+          <ul><li>Brand visual system</li><li>Posts and carousels</li><li>Stories and covers</li><li>Captions and calendar</li><li>Scheduled publishing every week</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Instagram design service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-sitios-web-con-pedido-por-whatsapp">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/web-pedidos.webp" alt="Web catalog where customers build their order and send it via WhatsApp" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>14</b> · Digital marketing</span>
+          <h3>Websites with WhatsApp ordering</h3>
+          <p>Fast, elegant pages for your brand or catalog, designed for customers to buy from their phone.</p>
+          <ul><li>Design tailored to the brand</li><li>Catalog with an order cart</li><li>Ordering straight through WhatsApp</li><li>Search engine visibility</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Websites with WhatsApp ordering service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-paginas-web-interactivas">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/web-interactiva.webp" alt="Interactive website with animated scenes on desktop and mobile" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>15</b> · Digital marketing</span>
+          <h3>Interactive website design</h3>
+          <p>Sites that follow the scroll with animations and scenes designed for your brand, so visitors stay, understand what you do and write to you.</p>
+          <ul><li>Visual concept based on your brand</li><li>Scenes that move forward and back with the scroll</li><li>Designed for mobile and desktop</li><li>Direct invitation to WhatsApp or to book a meeting</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Interactive website design service.">Ask on WhatsApp →</a><a class="lnk lnk--alt" href="https://torotegymwear.github.io/" target="_blank" rel="noopener">See an example: TOROTE →</a></div>
+        </div>
+      </article>
+  </div>
+</section>
+<section class="area" id="area-automatizacion" style="--c:var(--teal);--e:var(--teal-e);--fg:var(--ink)" aria-labelledby="area-automatizacion-t">
+  <div class="area-band" data-rv="skew">
+    <span class="area-num display" aria-hidden="true">04</span>
+    <div class="wrap area-head">
+      <span class="label">04 / 04 · Respond · 3 services</span>
+      <h2 class="display js-rise" id="area-automatizacion-t">Automation</h2>
+      <p>AI assistants answer on WhatsApp, Instagram and your website, in your brand's voice.</p>
+    </div>
+  </div>
+  <div class="wrap svc-grid">
+      <article class="svc" id="svc-automatizacion-de-whatsapp">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/whatsapp.webp" alt="WhatsApp assistant replying to a customer" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>16</b> · Automation</span>
+          <h3>WhatsApp automation</h3>
+          <p>An AI assistant handles your WhatsApp 24 hours a day with your brand's information and tone.</p>
+          <ul><li>Instant replies to your customers</li><li>Orders handled from start to finish</li><li>Integration with your Meta Ads campaigns</li><li>Your team steps in when needed</li><li>Monthly plan with maintenance included</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the WhatsApp automation service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-asistente-web-en-vivo">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/asistente-web.webp" alt="Website with an assistant talking live with a visitor" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>17</b> · Automation</span>
+          <h3>Live assistant for your website</h3>
+          <p>An AI assistant talks live with every visitor to your site: it answers questions, recommends products and guides the conversation to an order or a meeting.</p>
+          <ul><li>Instant answers, at any hour</li><li>Your brand's information and tone</li><li>Moves the customer to WhatsApp or to book an appointment</li><li>Your team receives the cases that need a person</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the Live website assistant service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+      <article class="svc" id="svc-community-manager-con-ia">
+        <figure class="svc-ph" data-rv="wipe"><img src="assets/srv/instagram-cm.webp" alt="Instagram direct messages and comments answered by the brand" loading="lazy"></figure>
+        <div class="svc-tx">
+          <span class="label"><b>18</b> · Automation</span>
+          <h3>AI community manager</h3>
+          <p>Your Instagram account replies right away and in your brand's voice, while your team focuses on what needs human judgment.</p>
+          <ul><li>Direct messages and comments handled</li><li>Replies in your brand's voice</li><li>Important cases escalated to the team</li></ul>
+          <div class="svc-acts"><a class="lnk js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like information about the AI community manager service.">Ask on WhatsApp →</a></div>
+        </div>
+      </article>
+  </div>
+</section>
+<section class="sec line sectores" aria-labelledby="sect-t">
+  <div class="wrap">
+    <div class="shead">
+      <div><span class="label"><i></i>Who we work with</span><h2 class="display js-rise" id="sect-t">Brands that<br>want to sell more.</h2></div>
+      <p>We run every service daily on our own brands before we offer it.</p>
+    </div>
+    <div class="rows">
+      <div class="row" style="--c:var(--orange)" data-rv="up"><span class="row-n display">01</span><h3>Car dealerships and brands</h3><p>More than 700 product photographs for nine brands, social media video and an assistant that answers every lead.</p><a class="lnk" style="--lc:var(--orange)" href="portfolio.html">Automotive photography →</a></div>
+      <div class="row" style="--c:var(--red)" data-rv="up"><span class="row-n display">02</span><h3>Consumer products</h3><p>We apply it every day on our own brands.</p><span class="row-brands"><a href="https://batakataka.github.io/" target="_blank" rel="noopener" style="--hc:var(--orange)">BaTaKá</a><a href="https://torotegymwear.github.io/" target="_blank" rel="noopener" style="--hc:var(--red);color:var(--bone)">TOROTE</a><a href="https://uinkyporthos.github.io/uinky/" target="_blank" rel="noopener" style="--hc:var(--peach)">ÜINKY</a><a href="https://uinkyporthos.github.io/porthos/" target="_blank" rel="noopener" style="--hc:var(--teal)">PORTHOS</a></span></div>
+      <div class="row" style="--c:var(--peach)" data-rv="up"><span class="row-n display">03</span><h3>Universities and institutions</h3><p>Short films, event coverage, testimonials and data analytics workshops.</p><a class="lnk" style="--lc:var(--peach)" href="index.html#trabajo">See recent work →</a></div>
+      <div class="row" style="--c:var(--teal)" data-rv="up"><span class="row-n display">04</span><h3>B2B companies</h3><p>Corporate video of your plant and processes, and analysis of your conversations with customers.</p><a class="lnk" style="--lc:var(--teal)" href="#svc-video-corporativo-b2b">B2B corporate video →</a></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec faq" aria-labelledby="faq-t">
+  <div class="wrap">
+    <div><span class="label">Frequently asked questions</span><h2 class="display js-rise" id="faq-t">Before<br>you write to us.</h2></div>
+    <div data-rv="kids">
+      <details><summary>How do you charge?</summary><p>Per project or with a monthly plan. We quote each project according to its scope and complexity. After the meeting we send you a proposal with scope, timeline and price.</p></details>
+      <details><summary>Can I hire a single service?</summary><p>Yes. Each service can be hired on its own or combined in a monthly plan. Combining areas almost always pays off: for example, photo and video from the same shoot, or a campaign with its WhatsApp assistant.</p></details>
+      <details><summary>How long does it take?</summary><p>It depends on the project. A package of social media pieces takes days; a brand video, a website or a short film takes weeks.</p></details>
+      <details><summary>Do you work outside Quito?</summary><p>Yes. We travel to other cities and locations; travel and logistics are added to the proposal. Data, digital marketing and automation services are delivered remotely.</p></details>
+      <details><summary>Does the assistant replace my team?</summary><p>No. It handles the repetitive work on WhatsApp, Instagram or your website, and passes the cases that need a person to your team. It is hired as a monthly plan, with maintenance included.</p></details>
+      <details><summary>How do we start?</summary><p>Message us on WhatsApp with what you have in mind. We schedule a half-hour meeting and send you the proposal.</p></details>
+    </div>
+  </div>
+</section>
+
+<!-- cierre -->
+<section class="end" id="contacto" aria-label="Contact">
+  <div class="end-stage">
+    <div class="end-strips" aria-hidden="true"><i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--ink);--e:var(--beige)"></i></div>
+    <p class="end-word display js-letters">Let's talk</p>
+    <p class="end-sub">about your brand. Write to us and we will suggest where to start.</p>
+    <div class="end-ctas">
+      <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like a proposal for my brand."><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>Message us on WhatsApp</a>
+      <a class="btn btn--ghost" href="index.html#contacto">Fill in the form</a>
+    </div>
+    <div class="end-lines">
+      <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like a proposal for my brand.">WhatsApp · +593 96 957 7774</a>
+      <a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">@creative.whisper.productions</a>
+      <a href="cotizacion.html">Online quote</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Creative Whisper · Quito, Ecuador</span>
+    <nav aria-label="Secondary">
+      <a href="index.html">Home</a><a href="services.html">Services</a><a href="data.html">Data</a><a href="portfolio.html">Photography</a><a href="cotizacion.html">Quote</a><a href="privacy.html">Privacy</a><a href="admin.html">Admin</a>
+    </nav>
+  </div>
+</footer>
+
+<a class="fab js-fab js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting." aria-label="Message us on WhatsApp">
+  <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
+  Write to us
+</a>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="assets/site.js"></script>
+<script>
+
+cwSite({
+  end: '#contacto',
+  init(k) {
+    const { $, $$, vh, vw, gsap } = k;
+    if (k.static) return;
+    const wide = matchMedia('(min-width:901px)');
+
+    /* cuatro áreas: el título se va y las franjas suben una por una */
+    if (wide.matches) {
+      const ps = $$('.ap');
+      gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.areas', start: 'top top', end: () => '+=' + vh() * 1.7, pin: true, scrub: .9, invalidateOnRefresh: true } })
+        .fromTo('.areas-intro', { scale: 1, opacity: 1 }, { scale: .86, opacity: 0, duration: .6 }, .45)
+        .fromTo(ps, { yPercent: i => (i % 2 ? -106 : 106) }, { yPercent: 0, duration: 1, ease: 'power3.out', stagger: .14 }, .1)
+        .fromTo($$('.ap-in > *'), { y: 50, opacity: 0 }, { y: 0, opacity: 1, duration: .35, stagger: .03, ease: 'power2.out' }, .9)
+        .to({}, { duration: .5 });
+    } else {
+      $$('.ap').forEach(p => gsap.fromTo(p, { clipPath: 'polygon(0 0,0 0,0 100%,0 96%)' }, { clipPath: 'polygon(0 0,100% 4%,100% 100%,0 96%)', ease: 'none', scrollTrigger: { trigger: p, start: 'top 90%', end: 'top 45%', scrub: .6 } }));
+    }
+
+    /* cómo trabajamos: el riel avanza de lado y la línea se pinta */
+    const rail = $('.proc-rail'), line = $('.proc-line i'), steps = $$('.step');
+    if (wide.matches) {
+      const dist = () => Math.max(0, rail.scrollWidth - vw() + 40);
+      gsap.timeline({ defaults: { ease: 'none' }, scrollTrigger: { trigger: '.proc', start: 'top top', end: () => '+=' + (dist() + vh() * .6), pin: true, scrub: .8, invalidateOnRefresh: true } })
+        .fromTo(rail, { x: 0 }, { x: () => -dist(), duration: 1 }, 0)
+        .fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 1 }, 0)
+        .fromTo(steps.map(s => $('.step-ph', s)), { clipPath: 'polygon(8% 100%,100% 100%,92% 100%,0% 100%)' }, { clipPath: 'polygon(8% 0%,100% 0%,92% 100%,0% 100%)', duration: .25, stagger: .17 }, 0)
+        .fromTo(steps.map(s => $('.step-n', s)), { yPercent: 60, opacity: 0 }, { yPercent: 0, opacity: 1, duration: .15, stagger: .17 }, 0);
+    } else {
+      steps.forEach(s => gsap.fromTo(s, { y: 50, opacity: 0 }, { y: 0, opacity: 1, ease: 'none', scrollTrigger: { trigger: s, start: 'top 92%', end: 'top 60%', scrub: .6 } }));
+    }
+
+    /* número gigante de cada área: se desliza mientras pasa la franja */
+    $$('.area').forEach(a => gsap.fromTo($('.area-num', a), { yPercent: 30 }, { yPercent: -20, ease: 'none', scrollTrigger: { trigger: $('.area-band', a), start: 'top bottom', end: 'bottom top', scrub: .6 } }));
+
+    /* formatos: la misma toma cambia de recorte */
+    const crop = $('.fmt-crop'), tag = $('.fmt-tag'), lis = $$('.fmt-list li');
+    const C = ['inset(0% 34.2% 0% 34.2%)', 'inset(0% 27.5% 0% 27.5%)', 'inset(0% 0% 0% 0%)', 'inset(12.8% 0% 12.8% 0%)'];
+    const T = ['9:16', '4:5', '16:9', '2.39:1'];
+    const mark = i => { lis.forEach((l, j) => l.classList.toggle('on', j === i)); tag.textContent = T[i]; };
+    if (wide.matches) {
+      const f = gsap.timeline({ defaults: { ease: 'power2.inOut' }, scrollTrigger: { trigger: '.fmt', start: 'top top', end: () => '+=' + vh() * 2.2, pin: true, scrub: .7,
+        onUpdate: s => mark(s.progress < .204 ? 0 : s.progress < .5 ? 1 : s.progress < .796 ? 2 : 3) } });
+      f.to({}, { duration: .3 });
+      for (let i = 1; i < 4; i++) f.fromTo(crop, { clipPath: C[i - 1] }, { clipPath: C[i], duration: .5, immediateRender: false }).to({}, { duration: .3 });
+      f.fromTo('.fmt-crop img', { scale: 1.08 }, { scale: 1, duration: f.duration(), ease: 'none' }, 0);
+    } else {
+      let i = 0; crop.style.clipPath = C[0];
+      setInterval(() => { i = (i + 1) % 4; gsap.to(crop, { clipPath: C[i], duration: .8, ease: 'power2.inOut' }); mark(i); }, 2200);
+    }
+  }
+});
+
+</script>
+<!-- Asistente de chat y voz: configuración en assets/asistente-cw.js -->
+<script src="assets/asistente-cw.js" defer></script>
+<script src="assets/lang.js" defer></script>
+</body>
+</html>

@@ -1,18 +1,24 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
+<script>/* idioma: inglés por defecto; navegador en español -> versión en español (salvo elección manual) */(function(){try{var s=localStorage.getItem("cw-lang");if(s==="en")return;var l=(navigator.languages&&navigator.languages[0])||navigator.language||"";if(s==="es"||/^es\b/i.test(l)){var m={"/": "/es/", "/index.html": "/es/", "/services.html": "/servicios.html", "/data.html": "/datos.html", "/portfolio.html": "/portafolio.html", "/privacy.html": "/privacidad.html"},t=m[location.pathname];if(t)location.replace(t+location.search+location.hash);}}catch(e){}})();</script>
+<link rel="alternate" hreflang="en" href="https://creativewhisper.github.io/">
+<link rel="alternate" hreflang="es" href="https://creativewhisper.github.io/es/">
+<link rel="alternate" hreflang="x-default" href="https://creativewhisper.github.io/">
+<style>.lang-sw{display:inline-flex;align-items:center;justify-content:center;height:34px;min-width:44px;padding:0 10px;border-radius:999px;border:1px solid rgba(236,230,219,.28);color:inherit;font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.14em;text-decoration:none;opacity:.85;transition:opacity .2s,border-color .2s;flex:none}.lang-sw:hover{opacity:1;border-color:rgba(236,230,219,.6)}.lang-sw b{font-weight:600;opacity:.45;margin:0 .35em}</style>
+
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0A0908">
-<title>Creative Whisper — Agencia de marketing en Quito</title>
+<title>Creative Whisper — Marketing agency in Quito, Ecuador</title>
 <link rel="icon" href="assets/monograma-cw.png">
-<meta name="description" content="Creative Whisper es una agencia de marketing en Quito: análisis de datos, producción audiovisual, marketing digital y atención automatizada por WhatsApp en un solo equipo.">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Creative Whisper","url":"https://creativewhisper.github.io/","description":"Agencia de marketing en Quito: análisis de datos, producción audiovisual, marketing digital y atención automatizada por WhatsApp.","image":"https://creativewhisper.github.io/assets/monograma-cw.png","telephone":"+593969577774","address":{"@type":"PostalAddress","addressLocality":"Quito","addressCountry":"EC"},"areaServed":"Ecuador"}</script>
+<meta name="description" content="Creative Whisper is a marketing agency in Quito, Ecuador: data analysis, video production, digital marketing and automated WhatsApp customer service in one team.">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Creative Whisper","url":"https://creativewhisper.github.io/","description":"Marketing agency in Quito, Ecuador: data analysis, video production, digital marketing and automated WhatsApp customer service.","inLanguage":"en","image":"https://creativewhisper.github.io/assets/monograma-cw.png","telephone":"+593969577774","address":{"@type":"PostalAddress","addressLocality":"Quito","addressCountry":"EC"},"areaServed":"Ecuador"}</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Creative Whisper">
-<meta property="og:title" content="Creative Whisper — Agencia de marketing en Quito">
-<meta property="og:description" content="Datos, producción audiovisual, marketing digital y atención automatizada en un solo equipo.">
-<meta property="og:locale" content="es_EC">
+<meta property="og:title" content="Creative Whisper — Marketing agency in Quito, Ecuador">
+<meta property="og:description" content="Data, video production, digital marketing and automated customer service in one team.">
+<meta property="og:locale" content="en_US">
 <meta name="twitter:card" content="summary_large_image">
 <meta property="og:url" content="https://creativewhisper.github.io/">
 <meta property="og:image" content="https://creativewhisper.github.io/assets/og-cw-paleta.png">
@@ -389,7 +395,7 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 </style>
 </head>
 <body>
-<a class="skip" href="#contenido">Saltar al contenido</a>
+<a class="skip" href="#contenido">Skip to content</a>
 
 <div class="intro" aria-hidden="true">
   <i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--ink);--e:var(--beige)"></i>
@@ -397,25 +403,26 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 
 <header class="top" id="top">
   <div class="wrap">
-    <a class="brand" href="#inicio" aria-label="Creative Whisper, inicio">
+    <a class="brand" href="#inicio" aria-label="Creative Whisper, home">
       <img src="assets/monograma-cw.png" alt="" width="40" height="26">
       <span>CREATIVE WHISPER</span>
     </a>
-    <nav class="nav" id="menu" aria-label="Principal">
-      <a href="#servicios">Servicios</a>
-      <a href="#trabajo">Trabajo</a>
-      <a href="datos.html">Datos</a>
-      <a href="portafolio.html">Fotografía</a>
-      <a href="#contacto">Contacto</a>
+    <nav class="nav" id="menu" aria-label="Main">
+      <a href="#servicios">Services</a>
+      <a href="#trabajo">Work</a>
+      <a href="data.html">Data</a>
+      <a href="portfolio.html">Photography</a>
+      <a href="#contacto">Contact</a>
     </nav>
-    <button class="menu-btn js-menu" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
-    <a class="btn btn--solid js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">Agendar reunión</a>
+    <a class="lang-sw" href="/es/" hreflang="es" lang="es" data-set-lang="es" aria-label="Ver esta página en español">EN <b>/</b> ES</a>
+    <button class="menu-btn js-menu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
+    <a class="btn btn--solid js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting.">Book a meeting</a>
   </div>
   <i class="progress" aria-hidden="true"></i>
 </header>
 
-<div class="hud" aria-hidden="true"><i></i><b class="js-tc">00:00:00:00</b><span class="js-scene">Inicio</span></div>
-<div class="sx-chip" role="status" aria-live="polite"><span data-sx-state>Reproduciendo · toca para pausar</span><a class="sx-skip" href="#">Contacto ↓</a><span class="sx-chip-bar"><i></i></span></div>
+<div class="hud" aria-hidden="true"><i></i><b class="js-tc">00:00:00:00</b><span class="js-scene">Home</span></div>
+<div class="sx-chip" role="status" aria-live="polite"><span data-sx-state>Playing · tap to pause</span><a class="sx-skip" href="#">Contact ↓</a><span class="sx-chip-bar"><i></i></span></div>
 <div class="cursor" aria-hidden="true" hidden><span></span></div>
 
 <main id="contenido">
@@ -436,30 +443,30 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
   </div>
   <div class="hero-copy wrap">
     <div class="in">
-      <span class="label">Creative Whisper · Agencia de marketing · Quito</span>
-      <h1>Datos, producción audiovisual y marketing digital <b>en un solo equipo.</b></h1>
-      <p class="sub">Entendemos a tus clientes, creamos el contenido que necesitan ver y te ayudamos a venderles por WhatsApp e Instagram.</p>
+      <span class="label">Creative Whisper · Marketing agency · Quito</span>
+      <h1>Data, video production and digital marketing <b>in one team.</b></h1>
+      <p class="sub">We understand your customers, create the content they need to see and help you sell to them on WhatsApp and Instagram.</p>
       <div class="ctas">
-        <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">
+        <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting.">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
-          Agendar reunión
+          Book a meeting
         </a>
-        <a class="btn btn--ghost" href="#servicios">Ver servicios</a>
+        <a class="btn btn--ghost" href="#servicios">See services</a>
       </div>
     </div>
   </div>
   <div class="verbs" aria-hidden="true">
-    <div class="verb" style="--c:var(--orange);--t:var(--ink)"><b class="tape"><span>Analizamos</span></b><small>01 · Datos</small></div>
-    <div class="verb" style="--c:var(--red);--t:var(--bone)"><b class="tape"><span>Producimos</span></b><small>02 · Producción</small></div>
-    <div class="verb" style="--c:var(--peach);--t:var(--ink)"><b class="tape"><span>Publicamos</span></b><small>03 · Marketing digital</small></div>
-    <div class="verb" style="--c:var(--teal);--t:var(--ink)"><b class="tape"><span>Atendemos</span></b><small>04 · Automatización</small></div>
+    <div class="verb" style="--c:var(--orange);--t:var(--ink)"><b class="tape"><span>We analyze</span></b><small>01 · Data</small></div>
+    <div class="verb" style="--c:var(--red);--t:var(--bone)"><b class="tape"><span>We produce</span></b><small>02 · Production</small></div>
+    <div class="verb" style="--c:var(--peach);--t:var(--ink)"><b class="tape"><span>We publish</span></b><small>03 · Digital marketing</small></div>
+    <div class="verb" style="--c:var(--teal);--t:var(--ink)"><b class="tape"><span>We respond</span></b><small>04 · Automation</small></div>
   </div>
-  <div class="hero-cap" aria-hidden="true">Cobertura de evento · Festival off-road</div>
+  <div class="hero-cap" aria-hidden="true">Event coverage · Off-road festival</div>
 </section>
 
 <!-- marcas -->
-<section class="brands" aria-label="Marcas con las que hemos trabajado">
-  <span class="label">Marcas con las que hemos trabajado</span>
+<section class="brands" aria-label="Brands we have worked with">
+  <span class="label">Brands we have worked with</span>
   <div class="marquee"><div class="track js-marquee">
     <div class="set">
       <img src="assets/marcas/usfq.png" alt="USFQ" class="tall"><img src="assets/marcas/jeep.png" alt="Jeep"><img src="assets/marcas/byd.png" alt="BYD"><img src="assets/marcas/subaru.png" alt="Subaru"><img src="assets/marcas/ram.png" alt="RAM" class="tall"><img src="assets/marcas/citroen.png" alt="Citroën" class="tall"><img src="assets/marcas/ds.png" alt="DS" class="tall"><img src="assets/marcas/fiat.png" alt="Fiat" class="tall"><img src="assets/marcas/dongfeng.png" alt="Dongfeng" class="tall"><img src="assets/marcas/royal-enfield.png" alt="Royal Enfield">
@@ -473,8 +480,8 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 <!-- 2 · ENFOQUE -->
 <section class="statement" id="enfoque" data-scene="Enfoque">
   <div class="wrap">
-    <span class="label">Cómo trabajamos</span>
-    <p class="st-text js-words">Cada proyecto empieza por los [datos|orange|ink] de tu empresa. Con ellos decidimos a quién hablarle y qué contar. Después lo [producimos|red|bone], lo [publicamos|peach|ink] y [atendemos|teal|ink] a cada cliente que responde.</p>
+    <span class="label">How we work</span>
+    <p class="st-text js-words">Every project starts with your company's [data|orange|ink]. It tells us who to talk to and what to say. Then we [produce|red|bone] it, [publish|peach|ink] it and [respond|teal|ink] to every customer who reaches out.</p>
   </div>
 </section>
 
@@ -482,26 +489,26 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 <section class="services" id="servicios" data-scene="Servicios">
   <div class="svc-stage">
     <div class="svc-intro wrap">
-      <span class="label">Servicios</span>
-      <h2 class="display">Cuatro áreas.<br><em>Un mismo equipo.</em></h2>
+      <span class="label">Services</span>
+      <h2 class="display">Four areas.<br><em>One team.</em></h2>
     </div>
 
     <div class="strp" style="--c:var(--orange);--e:var(--orange);--fg:var(--ink)">
       <b class="edge"></b>
       <div class="fill">
-        <span class="tag"><small>01</small>Datos</span>
+        <span class="tag"><small>01</small>Data</span>
         <div class="p-in">
           <span class="p-num" aria-hidden="true">01</span>
           <div class="p-copy">
-            <span class="label">01 / 04 · Entender</span>
-            <h3 class="p-title display">Datos</h3>
-            <p class="p-text">Analizamos ventas, CRM, redes y conversaciones para decidir a quién hablarle, con qué producto y en qué momento.</p>
+            <span class="label">01 / 04 · Understand</span>
+            <h3 class="p-title display">Data</h3>
+            <p class="p-text">We analyze sales, CRM, social media and conversations to decide who to talk to, with which product and when.</p>
             <div class="chips">
-              <a href="servicios.html#svc-analisis-de-datos" data-cursor="Ver">Análisis de datos y dashboards</a>
-              <a href="servicios.html#svc-analisis-de-conversaciones" data-cursor="Ver">Análisis de conversaciones</a>
+              <a href="services.html#svc-analisis-de-datos" data-cursor="Ver">Data analysis and dashboards</a>
+              <a href="services.html#svc-analisis-de-conversaciones" data-cursor="Ver">Conversation analysis</a>
             </div>
           </div>
-          <div class="p-media"><img src="assets/datos/codigo.webp" alt="Análisis de datos en una laptop" loading="lazy"></div>
+          <div class="p-media"><img src="assets/datos/codigo.webp" alt="Data analysis on a laptop" loading="lazy"></div>
         </div>
       </div>
     </div>
@@ -509,26 +516,26 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
     <div class="strp" style="--c:var(--red);--e:var(--red-e);--fg:var(--bone)">
       <b class="edge"></b>
       <div class="fill">
-        <span class="tag"><small>02</small>Producción</span>
+        <span class="tag"><small>02</small>Production</span>
         <div class="p-in">
           <span class="p-num" aria-hidden="true">02</span>
           <div class="p-copy">
-            <span class="label">02 / 04 · Crear</span>
-            <h3 class="p-title display">Producción</h3>
-            <p class="p-text">Video, fotografía y voz con equipo de cine, del guion a la entrega en todos los formatos.</p>
+            <span class="label">02 / 04 · Create</span>
+            <h3 class="p-title display">Production</h3>
+            <p class="p-text">Video, photography and voice with a film crew, from script to delivery, in every format.</p>
             <div class="chips">
-              <a href="servicios.html#svc-video-de-marca" data-cursor="Ver">Video de marca</a>
-              <a href="servicios.html#svc-contenido-vertical" data-cursor="Ver">Reels y TikTok</a>
-              <a href="servicios.html#svc-testimonios-y-casos" data-cursor="Ver">Testimonios</a>
-              <a href="servicios.html#svc-video-corporativo-b2b" data-cursor="Ver">Video corporativo B2B</a>
-              <a href="servicios.html#svc-cortometrajes-y-branded-content" data-cursor="Ver">Cortometrajes</a>
-              <a href="servicios.html#svc-cobertura-de-eventos" data-cursor="Ver">Eventos</a>
-              <a href="servicios.html#svc-fotografia-de-producto" data-cursor="Ver">Fotografía de producto</a>
-              <a href="servicios.html#svc-actores-y-creadores" data-cursor="Ver">Actores y creadores</a>
-              <a href="servicios.html#svc-doblaje-locucion-y-adr" data-cursor="Ver">Locución y doblaje</a>
+              <a href="services.html#svc-video-de-marca" data-cursor="Ver">Brand video</a>
+              <a href="services.html#svc-contenido-vertical" data-cursor="Ver">Reels and TikTok</a>
+              <a href="services.html#svc-testimonios-y-casos" data-cursor="Ver">Testimonials</a>
+              <a href="services.html#svc-video-corporativo-b2b" data-cursor="Ver">B2B corporate video</a>
+              <a href="services.html#svc-cortometrajes-y-branded-content" data-cursor="Ver">Short films</a>
+              <a href="services.html#svc-cobertura-de-eventos" data-cursor="Ver">Events</a>
+              <a href="services.html#svc-fotografia-de-producto" data-cursor="Ver">Product photography</a>
+              <a href="services.html#svc-actores-y-creadores" data-cursor="Ver">Actors and creators</a>
+              <a href="services.html#svc-doblaje-locucion-y-adr" data-cursor="Ver">Voice-over and dubbing</a>
             </div>
           </div>
-          <div class="p-media"><img src="assets/f-entrevista.webp" alt="Rodaje de una entrevista de marca" loading="lazy"></div>
+          <div class="p-media"><img src="assets/f-entrevista.webp" alt="Filming a brand interview" loading="lazy"></div>
         </div>
       </div>
     </div>
@@ -540,17 +547,17 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
         <div class="p-in">
           <span class="p-num" aria-hidden="true">03</span>
           <div class="p-copy">
-            <span class="label">03 / 04 · Publicar</span>
-            <h3 class="p-title display long">Marketing<br>digital</h3>
-            <p class="p-text">Llevamos ese contenido a tus clientes con campañas, redes y páginas web listas para vender.</p>
+            <span class="label">03 / 04 · Publish</span>
+            <h3 class="p-title display long">Digital<br>marketing</h3>
+            <p class="p-text">We take that content to your customers through campaigns, social media and websites built to sell.</p>
             <div class="chips">
-              <a href="servicios.html#svc-campanas-en-meta-ads" data-cursor="Ver">Campañas en Meta Ads</a>
-              <a href="servicios.html#svc-diseno-para-instagram" data-cursor="Ver">Diseño para Instagram</a>
-              <a href="servicios.html#svc-sitios-web-con-pedido-por-whatsapp" data-cursor="Ver">Sitios web con pedido por WhatsApp</a>
-              <a href="servicios.html#svc-paginas-web-interactivas" data-cursor="Ver">Páginas web interactivas</a>
+              <a href="services.html#svc-campanas-en-meta-ads" data-cursor="Ver">Meta Ads campaigns</a>
+              <a href="services.html#svc-diseno-para-instagram" data-cursor="Ver">Instagram design</a>
+              <a href="services.html#svc-sitios-web-con-pedido-por-whatsapp" data-cursor="Ver">Websites with WhatsApp ordering</a>
+              <a href="services.html#svc-paginas-web-interactivas" data-cursor="Ver">Interactive websites</a>
             </div>
           </div>
-          <div class="p-media"><img src="assets/srv/instagram.webp" alt="Diseño de publicaciones para Instagram" loading="lazy"></div>
+          <div class="p-media"><img src="assets/srv/instagram.webp" alt="Instagram post design" loading="lazy"></div>
         </div>
       </div>
     </div>
@@ -558,20 +565,20 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
     <div class="strp" style="--c:var(--teal);--e:var(--teal-e);--fg:var(--ink)">
       <b class="edge"></b>
       <div class="fill">
-        <span class="tag"><small>04</small>Atención</span>
+        <span class="tag"><small>04</small>Support</span>
         <div class="p-in">
           <span class="p-num" aria-hidden="true">04</span>
           <div class="p-copy">
-            <span class="label">04 / 04 · Atender</span>
-            <h3 class="p-title display long">Automati&shy;zación</h3>
-            <p class="p-text">Un asistente con inteligencia artificial responde por WhatsApp, Instagram y tu sitio web las 24 horas, con la voz de tu marca.</p>
+            <span class="label">04 / 04 · Respond</span>
+            <h3 class="p-title display long">Auto&shy;mation</h3>
+            <p class="p-text">An AI assistant answers on WhatsApp, Instagram and your website 24 hours a day, in your brand's voice.</p>
             <div class="chips">
-              <a href="servicios.html#svc-automatizacion-de-whatsapp" data-cursor="Ver">Automatización de WhatsApp</a>
-              <a href="servicios.html#svc-asistente-web-en-vivo" data-cursor="Ver">Asistente en vivo para tu web</a>
-              <a href="servicios.html#svc-community-manager-con-ia" data-cursor="Ver">Community manager con IA</a>
+              <a href="services.html#svc-automatizacion-de-whatsapp" data-cursor="Ver">WhatsApp automation</a>
+              <a href="services.html#svc-asistente-web-en-vivo" data-cursor="Ver">Live assistant for your website</a>
+              <a href="services.html#svc-community-manager-con-ia" data-cursor="Ver">AI community manager</a>
             </div>
           </div>
-          <div class="p-media"><img src="assets/srv/whatsapp.webp" alt="Asistente de WhatsApp respondiendo a un cliente" loading="lazy"></div>
+          <div class="p-media"><img src="assets/srv/whatsapp.webp" alt="WhatsApp assistant replying to a customer" loading="lazy"></div>
         </div>
       </div>
     </div>
@@ -579,21 +586,21 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
     <div class="strp" style="--c:var(--ink);--e:var(--beige);--fg:var(--bone)">
       <b class="edge"></b>
       <div class="fill">
-        <span class="tag"><small>CW</small>Marcas propias</span>
+        <span class="tag"><small>CW</small>Our own brands</span>
         <div class="p-in">
           <div class="p-copy">
-            <span class="label" style="color:var(--beige)">Creative Whisper · Marcas propias</span>
-            <h3 class="p-title display long">Nuestras<br>marcas</h3>
-            <p class="p-text" style="color:#D7CFC2">Cada servicio lo operamos a diario en nuestras propias marcas antes de ofrecerlo.</p>
+            <span class="label" style="color:var(--beige)">Creative Whisper · Our own brands</span>
+            <h3 class="p-title display long">Our<br>brands</h3>
+            <p class="p-text" style="color:#D7CFC2">We run every service daily on our own brands before we offer it.</p>
             <ul class="houses">
-              <li><a href="https://batakataka.github.io/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--orange)"><b>BaTaKá</b><span>Bebida energética</span></a></li>
-              <li><a href="https://torotegymwear.github.io/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--red);color:var(--bone)"><b>TOROTE</b><span>Ropa deportiva</span></a></li>
-              <li><a href="https://uinkyporthos.github.io/uinky/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--peach)"><b>ÜINKY</b><span>Jabonería artesanal</span></a></li>
-              <li><a href="https://uinkyporthos.github.io/porthos/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--teal)"><b>PORTHOS</b><span>Jabones para hombre</span></a></li>
+              <li><a href="https://batakataka.github.io/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--orange)"><b>BaTaKá</b><span>Energy drink</span></a></li>
+              <li><a href="https://torotegymwear.github.io/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--red);color:var(--bone)"><b>TOROTE</b><span>Sportswear</span></a></li>
+              <li><a href="https://uinkyporthos.github.io/uinky/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--peach)"><b>ÜINKY</b><span>Artisanal soaps</span></a></li>
+              <li><a href="https://uinkyporthos.github.io/porthos/" target="_blank" rel="noopener" data-cursor="Ver" style="--hc:var(--teal)"><b>PORTHOS</b><span>Soaps for men</span></a></li>
             </ul>
           </div>
           <div class="p-cta">
-            <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero saber por dónde empezar con mi marca.">Agendar reunión →</a>
+            <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to know where to start with my brand.">Book a meeting →</a>
           </div>
         </div>
       </div>
@@ -604,11 +611,11 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 <!-- 4 · TRABAJO -->
 <section class="work" id="trabajo" data-scene="Trabajo">
   <div class="work-stage">
-    <div class="work-bg" aria-hidden="true">Trabajo reciente — Trabajo reciente — Trabajo reciente —</div>
+    <div class="work-bg" aria-hidden="true">Recent work — Recent work — Recent work —</div>
     <div class="wrap work-head">
       <div>
-        <span class="label">Trabajo reciente</span>
-        <h2 class="display">Filmado y editado<br>por nuestro equipo.</h2>
+        <span class="label">Recent work</span>
+        <h2 class="display">Shot and edited<br>by our team.</h2>
       </div>
       <span class="count"><span class="js-count">01</span> / 08</span>
     </div>
@@ -616,38 +623,38 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
       <div class="rail js-rail">
         <figure class="card v" data-cursor="Play">
           <video muted loop playsinline preload="none" poster="assets/clip-evento.webp" data-src="assets/clip-evento.mp4"></video>
-          <figcaption class="meta"><span class="label">CADE · USFQ</span><b>Cobertura de evento</b></figcaption>
+          <figcaption class="meta"><span class="label">CADE · USFQ</span><b>Event coverage</b></figcaption>
         </figure>
-        <a class="card p" href="portafolio.html" data-cursor="Ver">
-          <img src="assets/auto/royal-enfield-linea-58.webp" alt="Fotografía de producto de una motocicleta Royal Enfield" loading="lazy">
-          <span class="meta"><span class="label">Fotografía de producto</span><b>Más de 700 fotografías automotrices</b><em>Ver portafolio →</em></span>
+        <a class="card p" href="portfolio.html" data-cursor="Ver">
+          <img src="assets/auto/royal-enfield-linea-58.webp" alt="Product photography of a Royal Enfield motorcycle" loading="lazy">
+          <span class="meta"><span class="label">Product photography</span><b>More than 700 automotive photographs</b><em>See portfolio →</em></span>
         </a>
         <figure class="card v" data-cursor="Play">
           <video muted loop playsinline preload="none" poster="assets/clip-ficcion.webp" data-src="assets/clip-ficcion.mp4"></video>
-          <figcaption class="meta"><span class="label">Narrativa</span><b>Cápsula de ficción</b></figcaption>
+          <figcaption class="meta"><span class="label">Narrative</span><b>Fiction short</b></figcaption>
         </figure>
         <figure class="card v" data-cursor="Play">
           <video muted loop playsinline preload="none" poster="assets/clip-testimonio.webp" data-src="assets/clip-testimonio.mp4"></video>
-          <figcaption class="meta"><span class="label">USFQ</span><b>Testimonios</b></figcaption>
+          <figcaption class="meta"><span class="label">USFQ</span><b>Testimonials</b></figcaption>
         </figure>
-        <a class="card p" href="datos.html" data-cursor="Ver">
-          <img src="assets/datos/escenario-2.webp" alt="Charla del Data Club USFQ" loading="lazy" style="object-position:50% 30%">
-          <span class="meta"><span class="label">Análisis de datos</span><b>Data Club USFQ</b><em>Ver cómo trabajamos el dato →</em></span>
+        <a class="card p" href="data.html" data-cursor="Ver">
+          <img src="assets/datos/escenario-2.webp" alt="Data Club USFQ talk" loading="lazy" style="object-position:50% 30%">
+          <span class="meta"><span class="label">Data analysis</span><b>Data Club USFQ</b><em>See how we work with data →</em></span>
         </a>
         <figure class="card v" data-cursor="Play">
           <video muted loop playsinline preload="none" poster="assets/clip-adr.webp" data-src="assets/clip-adr.mp4"></video>
-          <figcaption class="meta"><span class="label">Audio</span><b>Doblaje y ADR</b></figcaption>
+          <figcaption class="meta"><span class="label">Audio</span><b>Dubbing and ADR</b></figcaption>
         </figure>
         <figure class="card v" data-cursor="Play">
           <video muted loop playsinline preload="none" poster="assets/clip-entrevista.webp" data-src="assets/clip-entrevista.mp4"></video>
-          <figcaption class="meta"><span class="label">Contenido</span><b>Entrevista de marca</b></figcaption>
+          <figcaption class="meta"><span class="label">Content</span><b>Brand interview</b></figcaption>
         </figure>
         <div class="card p end">
-          <h3 class="display">¿Algo así para tu marca?</h3>
+          <h3 class="display">Something like this for your brand?</h3>
           <div class="links">
-            <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, vi su trabajo y quiero cotizar un proyecto.">Cotizar un proyecto <span>→</span></a>
-            <button type="button" class="js-reel">Ver el reel completo <span>▶</span></button>
-            <a href="portafolio.html">Fotografía automotriz <span>→</span></a>
+            <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I saw your work and would like a quote for a project.">Get a project quote <span>→</span></a>
+            <button type="button" class="js-reel">Watch the full reel <span>▶</span></button>
+            <a href="portfolio.html">Automotive photography <span>→</span></a>
           </div>
         </div>
       </div>
@@ -659,61 +666,61 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 <!-- 5 · CASO -->
 <section class="case" id="caso" aria-labelledby="case-t" data-scene="Caso">
   <div class="case-stage">
-    <div class="case-media"><img src="assets/cade-evento.webp" alt="Estudiantes del Colegio de Administración y Economía de la USFQ" loading="lazy"></div>
+    <div class="case-media"><img src="assets/cade-evento.webp" alt="Students of the USFQ School of Business and Economics" loading="lazy"></div>
     <div class="case-shade"></div>
-    <span class="case-tease" aria-hidden="true">Caso · Cortometraje institucional</span>
+    <span class="case-tease" aria-hidden="true">Case · Institutional short film</span>
     <div class="case-copy wrap">
-      <span class="label">Cortometraje institucional · CADE USFQ</span>
+      <span class="label">Institutional short film · CADE USFQ</span>
       <h2 class="display" id="case-t">Un día dragón</h2>
-      <p>Un cortometraje para el Colegio de Administración y Economía de la USFQ, escrito para la Generación Z y contado con humor: un protagonista, una vida planificada en una hoja de cálculo y un campus entero como escenario.</p>
+      <p>A short film for the USFQ School of Business and Economics, written for Gen Z and told with humor: one protagonist, a life planned on a spreadsheet and an entire campus as the set.</p>
       <dl>
-        <div><dt>Duración</dt><dd>15–20 min</dd></div>
-        <div><dt>Locaciones</dt><dd>13</dd></div>
-        <div><dt>Rodaje</dt><dd>4 días</dd></div>
-        <div><dt>Público</dt><dd>Gen Z</dd></div>
+        <div><dt>Length</dt><dd>15–20 min</dd></div>
+        <div><dt>Locations</dt><dd>13</dd></div>
+        <div><dt>Shoot</dt><dd>4 days</dd></div>
+        <div><dt>Audience</dt><dd>Gen Z</dd></div>
       </dl>
     </div>
   </div>
 </section>
 
 <!-- 6 · CIFRAS -->
-<section class="facts" id="cifras" aria-label="Cifras" data-scene="Cifras">
+<section class="facts" id="cifras" aria-label="Numbers" data-scene="Cifras">
   <div class="wrap grid">
-    <div class="fact" style="--fc:var(--orange)"><div class="num"><span class="odo" data-to="700">700</span><sup>+</sup></div><p>fotografías de producto automotriz entregadas</p></div>
-    <div class="fact" style="--fc:var(--peach)"><div class="num"><span class="odo" data-to="4">4</span></div><p>formatos de cada rodaje: 9:16, 4:5, 16:9 y 2.39:1</p></div>
-    <div class="fact" style="--fc:var(--teal)"><div class="num"><span class="odo" data-to="24">24</span><sup>/7</sup></div><p>atención automatizada por WhatsApp, Instagram y tu sitio web</p></div>
+    <div class="fact" style="--fc:var(--orange)"><div class="num"><span class="odo" data-to="700">700</span><sup>+</sup></div><p>automotive product photographs delivered</p></div>
+    <div class="fact" style="--fc:var(--peach)"><div class="num"><span class="odo" data-to="4">4</span></div><p>formats from every shoot: 9:16, 4:5, 16:9 and 2.39:1</p></div>
+    <div class="fact" style="--fc:var(--teal)"><div class="num"><span class="odo" data-to="24">24</span><sup>/7</sup></div><p>automated customer service on WhatsApp, Instagram and your website</p></div>
   </div>
 </section>
 
 <!-- preguntas -->
 <section class="faq" id="preguntas" aria-labelledby="faq-t" data-scene="Preguntas">
   <div class="wrap">
-    <div><span class="label">Preguntas frecuentes</span><h2 class="display" id="faq-t">Antes de<br>escribirnos.</h2></div>
+    <div><span class="label">Frequently asked questions</span><h2 class="display" id="faq-t">Before<br>you write to us.</h2></div>
     <div>
-      <details><summary>¿Con qué tipo de marcas trabajan?</summary><p>Con marcas, emprendimientos e instituciones que quieren vender más y comunicar mejor: desde productos de consumo hasta concesionarios, universidades y empresas B2B.</p></details>
-      <details><summary>¿Puedo contratar un solo servicio?</summary><p>Sí. Cada servicio se contrata por separado o combinado en un plan mensual. En la primera reunión te recomendamos por dónde empezar.</p></details>
-      <details><summary>¿Cómo cobran?</summary><p>Por proyecto, según el alcance. Después de la reunión te enviamos una propuesta con alcance, cronograma y precio.</p></details>
-      <details><summary>¿Cómo empezamos?</summary><p>Escríbenos por WhatsApp con lo que tienes en mente. Agendamos una reunión corta y te enviamos la propuesta.</p></details>
+      <details><summary>What kind of brands do you work with?</summary><p>Brands, startups and institutions that want to sell more and communicate better: from consumer products to car dealerships, universities and B2B companies.</p></details>
+      <details><summary>Can I hire a single service?</summary><p>Yes. Each service can be hired on its own or combined in a monthly plan. In the first meeting we recommend where to start.</p></details>
+      <details><summary>How do you charge?</summary><p>Per project, based on scope. After the meeting we send you a proposal with scope, timeline and price.</p></details>
+      <details><summary>How do we start?</summary><p>Message us on WhatsApp with what you have in mind. We schedule a short meeting and send you the proposal.</p></details>
     </div>
   </div>
 </section>
 
 <!-- 7 · FINAL -->
-<section class="finale" aria-label="Invitación a conversar" data-scene="Hablemos">
+<section class="finale" aria-label="Invitation to talk" data-scene="Hablemos">
   <div class="fin-stage">
     <div class="strp first" style="--k:0;--c:var(--orange);--e:var(--orange)"><b class="edge"></b><b class="fill"></b></div>
     <div class="strp" style="--k:1;--c:var(--red);--e:var(--red-e)"><b class="edge"></b><b class="fill"></b></div>
     <div class="strp" style="--k:2;--c:var(--peach);--e:var(--peach-e)"><b class="edge"></b><b class="fill"></b></div>
     <div class="strp" style="--k:3;--c:var(--teal);--e:var(--teal-e)"><b class="edge"></b><b class="fill"></b></div>
     <div class="strp last" style="--k:4;--c:var(--ink);--e:var(--beige)"><b class="edge"></b><b class="fill"></b></div>
-    <h2 class="fin-word display" aria-label="Hablemos"><span>H</span><span>A</span><span>B</span><span>L</span><span>E</span><span>M</span><span>O</span><span>S</span></h2>
-    <p class="fin-sub">de tu marca. Escríbenos y agendamos una reunión.</p>
+    <h2 class="fin-word display" aria-label="Let's talk"><span>H</span><span>A</span><span>B</span><span>L</span><span>E</span><span>M</span><span>O</span><span>S</span></h2>
+    <p class="fin-sub">about your brand. Write to us and we will schedule a meeting.</p>
     <div class="fin-ctas">
-      <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">
+      <a class="btn btn--solid js-wa mag" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting.">
         <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
-        Escribir por WhatsApp
+        Message us on WhatsApp
       </a>
-      <a class="btn btn--ghost" href="#contacto">Dejar un mensaje</a>
+      <a class="btn btn--ghost" href="#contacto">Leave a message</a>
     </div>
   </div>
 </section>
@@ -722,33 +729,33 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 <section class="contact" id="contacto" data-scene="Contacto">
   <div class="wrap grid">
     <div class="direct">
-      <span class="label">Contacto</span>
-      <h2 class="display">Agenda una<br>reunión.</h2>
-      <p>Cuéntanos qué necesitas. En una reunión de media hora revisamos tu marca y te proponemos el primer paso.</p>
+      <span class="label">Contact</span>
+      <h2 class="display">Book a<br>meeting.</h2>
+      <p>Tell us what you need. In a half-hour meeting we review your brand and propose the first step.</p>
       <div class="lines">
-        <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión.">WhatsApp · 096 957 7774 <small>Escribir →</small></a>
+        <a class="js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting.">WhatsApp · +593 96 957 7774 <small>Write →</small></a>
         <a href="https://www.instagram.com/creative.whisper.productions" target="_blank" rel="noopener">@creative.whisper.productions <small>Instagram →</small></a>
-        <a href="cotizacion.html">Cotización en línea <small>Abrir →</small></a>
+        <a href="cotizacion.html">Online quote <small>Open →</small></a>
       </div>
     </div>
     <form class="brief js-brief" novalidate>
       <div class="row">
-        <div class="f"><label for="b-nombre">Tu nombre</label><input type="text" id="b-nombre" name="nombre" autocomplete="name" required></div>
-        <div class="f"><label for="b-marca">Marca o empresa</label><input type="text" id="b-marca" name="marca" autocomplete="organization"></div>
+        <div class="f"><label for="b-nombre">Your name</label><input type="text" id="b-nombre" name="nombre" autocomplete="name" required></div>
+        <div class="f"><label for="b-marca">Brand or company</label><input type="text" id="b-marca" name="marca" autocomplete="organization"></div>
       </div>
       <fieldset>
-        <legend>¿Qué necesitas?</legend>
+        <legend>What do you need?</legend>
         <div class="picks">
-          <label style="--pc:var(--orange)"><input type="checkbox" name="area" value="Datos" id="p-datos"><span>Datos</span></label>
-          <label style="--pc:var(--red)"><input type="checkbox" name="area" value="Producción" id="p-prod"><span>Producción</span></label>
-          <label style="--pc:var(--peach)"><input type="checkbox" name="area" value="Marketing digital" id="p-mkt"><span>Marketing digital</span></label>
-          <label style="--pc:var(--teal)"><input type="checkbox" name="area" value="Automatización" id="p-auto"><span>Automatización</span></label>
-          <label style="--pc:var(--beige)"><input type="checkbox" name="area" value="Aún no lo sé" id="p-nose"><span>Aún no lo sé</span></label>
+          <label style="--pc:var(--orange)"><input type="checkbox" name="area" value="Data" id="p-datos"><span>Data</span></label>
+          <label style="--pc:var(--red)"><input type="checkbox" name="area" value="Production" id="p-prod"><span>Production</span></label>
+          <label style="--pc:var(--peach)"><input type="checkbox" name="area" value="Digital marketing" id="p-mkt"><span>Digital marketing</span></label>
+          <label style="--pc:var(--teal)"><input type="checkbox" name="area" value="Automation" id="p-auto"><span>Automation</span></label>
+          <label style="--pc:var(--beige)"><input type="checkbox" name="area" value="I am not sure yet" id="p-nose"><span>I am not sure yet</span></label>
         </div>
       </fieldset>
-      <div class="f"><label for="b-idea">Cuéntanos brevemente</label><textarea id="b-idea" name="idea" rows="3"></textarea></div>
-      <button class="btn btn--solid" type="submit">Enviar por WhatsApp →</button>
-      <p class="note">Se abre WhatsApp con tu mensaje listo para enviar.</p>
+      <div class="f"><label for="b-idea">Tell us briefly</label><textarea id="b-idea" name="idea" rows="3"></textarea></div>
+      <button class="btn btn--solid" type="submit">Send via WhatsApp →</button>
+      <p class="note">WhatsApp opens with your message ready to send.</p>
     </form>
   </div>
 </section>
@@ -758,19 +765,19 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 <footer>
   <div class="wrap">
     <span>© 2026 Creative Whisper · Quito, Ecuador</span>
-    <nav aria-label="Secundaria">
-      <a href="servicios.html">Servicios</a><a href="datos.html">Datos</a><a href="portafolio.html">Fotografía</a><a href="cotizacion.html">Cotización</a><a href="privacidad.html">Privacidad</a><a href="admin.html">Admin</a>
+    <nav aria-label="Secondary">
+      <a href="services.html">Services</a><a href="data.html">Data</a><a href="portfolio.html">Photography</a><a href="cotizacion.html">Quote</a><a href="privacy.html">Privacy</a><a href="admin.html">Admin</a>
     </nav>
   </div>
 </footer>
 
-<a class="fab js-fab js-wa" href="https://wa.me/593969577774" data-msg="Hola Creative Whisper, quiero agendar una reunión." aria-label="Escríbenos por WhatsApp">
+<a class="fab js-fab js-wa" href="https://wa.me/593969577774" data-msg="Hi Creative Whisper, I would like to schedule a meeting." aria-label="Message us on WhatsApp">
   <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2Zm0 18.2a8.2 8.2 0 0 1-4.2-1.1l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2Zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8-.2-.1-.4-.1-.6.1l-.8 1c-.1.2-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.2-.4.7-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.2s.9 2.5 1 2.7c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.3.8 3.1.6.5-.1 1.5-.6 1.7-1.2.2-.6.2-1.1.2-1.2-.1-.1-.2-.2-.5-.3Z"/></svg>
-  Escríbenos
+  Write to us
 </a>
 
-<dialog class="reel js-reel-dlg" aria-label="Reel de Creative Whisper">
-  <button type="button" class="js-reel-close">CERRAR ✕</button>
+<dialog class="reel js-reel-dlg" aria-label="Creative Whisper reel">
+  <button type="button" class="js-reel-close">CLOSE ✕</button>
   <video controls playsinline preload="none" poster="assets/clip-evento.webp" src="assets/reel-cw.mp4"></video>
 </dialog>
 
@@ -802,8 +809,8 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
     const f = e.target, nombre = f.nombre.value.trim(), marca = f.marca.value.trim(), idea = f.idea.value.trim();
     const areas = $$('input[name=area]:checked', f).map(i => i.value);
     if (!nombre) { f.nombre.focus(); f.nombre.style.borderColor = 'var(--red)'; return; }
-    let t = `Hola Creative Whisper, soy ${nombre}${marca ? ` de ${marca}` : ''}.`;
-    if (areas.length) t += ` Me interesa: ${areas.join(', ')}.`;
+    let t = `Hi Creative Whisper, I am ${nombre}${marca ? ` from ${marca}` : ''}.`;
+    if (areas.length) t += ` I am interested in: ${areas.join(', ')}.`;
     if (idea) t += ` ${idea}`;
     const a = document.createElement('a');
     a.href = `https://wa.me/${WA}?text=${encodeURIComponent(t)}`; a.target = '_blank'; a.rel = 'noopener';
@@ -811,10 +818,10 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
   });
 
   const menuBtn = $('.js-menu'), menu = $('#menu'), top = $('.top');
-  const closeMenu = () => { menu.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); menuBtn.textContent = 'Menú'; };
+  const closeMenu = () => { menu.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); menuBtn.textContent = 'Menu'; };
   menuBtn.addEventListener('click', () => {
     const open = menu.classList.toggle('open');
-    menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.textContent = open ? 'Cerrar' : 'Menú';
+    menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.textContent = open ? 'Close' : 'Menu';
     top.classList.add('is-solid');
   });
   $$('a', menu).forEach(a => a.addEventListener('click', closeMenu));
@@ -1159,7 +1166,7 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
     const endY = () => end.getBoundingClientRect().top + scrollY - offset();
     const ui = () => {
       chip.dataset.state = paused ? 'paused' : 'playing';
-      label.textContent = paused ? (corto.matches ? 'Pausa' : 'En pausa · sigue en 1 s') : (corto.matches ? 'Bajando' : 'Reproduciendo · toca para pausar');
+      label.textContent = paused ? (corto.matches ? 'Paused' : 'Paused · resumes in 1 s') : (corto.matches ? 'Scrolling' : 'Playing · tap to pause');
     };
     const evs = ['wheel', 'touchstart', 'touchmove', 'pointerdown', 'keydown'];
     const ir = y => { if (lenis) lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo({ top: y, behavior: 'instant' }); };
@@ -1199,7 +1206,7 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
       e.preventDefault(); stop();
       if (lenis) lenis.scrollTo(endY(), { duration: 1.6 }); else window.scrollTo({ top: endY(), behavior: 'smooth' });
     });
-    if (corto.matches) label.textContent = 'Bajando';
+    if (corto.matches) label.textContent = 'Scrolling';
     chip.dataset.state = 'playing';
     timer = setTimeout(resume, delay);
     requestAnimationFrame(tick);
@@ -1208,5 +1215,6 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 </script>
 <!-- Asistente de chat y voz: configuración en assets/asistente-cw.js, asistente común en asistente/asistente.js -->
 <script src="assets/asistente-cw.js" defer></script>
+<script src="assets/lang.js" defer></script>
 </body>
 </html>

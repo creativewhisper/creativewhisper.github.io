@@ -9,6 +9,7 @@ window.cwSite = function ({ end = '#contacto', autoplay = true, speed = .6, init
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const pad = n => String(n).padStart(2, '0');
   const root = document.documentElement;
+  const EN = /^en/i.test(root.lang || '');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
   const finePointer = matchMedia('(pointer: fine)').matches;
   const hasGsap = !!(window.gsap && window.ScrollTrigger);
@@ -21,10 +22,10 @@ window.cwSite = function ({ end = '#contacto', autoplay = true, speed = .6, init
     a.target = '_blank'; a.rel = 'noopener';
   });
   const top = $('.top'), menuBtn = $('.js-menu'), menu = $('#menu');
-  const closeMenu = () => { menu.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); menuBtn.textContent = 'Menú'; };
+  const closeMenu = () => { menu.classList.remove('open'); menuBtn.setAttribute('aria-expanded', 'false'); menuBtn.textContent = EN ? 'Menu' : 'Menú'; };
   menuBtn.addEventListener('click', () => {
     const open = menu.classList.toggle('open');
-    menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.textContent = open ? 'Cerrar' : 'Menú';
+    menuBtn.setAttribute('aria-expanded', String(open)); menuBtn.textContent = open ? (EN ? 'Close' : 'Cerrar') : (EN ? 'Menu' : 'Menú');
     top.classList.add('is-solid');
   });
   $$('a', menu).forEach(a => a.addEventListener('click', closeMenu));
@@ -220,7 +221,7 @@ window.cwSite = function ({ end = '#contacto', autoplay = true, speed = .6, init
     const endY = () => endEl.getBoundingClientRect().top + scrollY - top.offsetHeight;
     const ui = () => {
       chip.dataset.state = paused ? 'paused' : 'playing';
-      label.textContent = paused ? (corto.matches ? 'Pausa' : 'En pausa · sigue en 1 s') : (corto.matches ? 'Bajando' : 'Reproduciendo · toca para pausar');
+      label.textContent = paused ? (corto.matches ? (EN ? 'Paused' : 'Pausa') : (EN ? 'Paused · resumes in 1 s' : 'En pausa · sigue en 1 s')) : (corto.matches ? (EN ? 'Scrolling' : 'Bajando') : (EN ? 'Playing · tap to pause' : 'Reproduciendo · toca para pausar'));
     };
     const evs = ['wheel', 'touchstart', 'touchmove', 'pointerdown', 'keydown'];
     const ir = y => { if (lenis) lenis.scrollTo(y, { immediate: true, force: true }); else window.scrollTo({ top: y, behavior: 'instant' }); };
@@ -257,7 +258,7 @@ window.cwSite = function ({ end = '#contacto', autoplay = true, speed = .6, init
     document.addEventListener('visibilitychange', () => { if (document.hidden) interrupt(); });
     addEventListener('scroll', () => { if (!done && paused && scrollY >= endY() - 4) stop(); }, { passive: true });
     chip.querySelector('.sx-skip').addEventListener('click', e => { e.preventDefault(); stop(); goTo(endEl); });
-    if (corto.matches) label.textContent = 'Bajando';
+    if (corto.matches) label.textContent = EN ? 'Scrolling' : 'Bajando';
     chip.dataset.state = 'playing';
     timer = setTimeout(resume, delay);
     requestAnimationFrame(tick);
