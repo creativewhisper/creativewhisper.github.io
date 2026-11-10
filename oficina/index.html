@@ -129,6 +129,12 @@ details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer
 .enlaces{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
 .enlaces a,.enlaces button{display:block;text-align:center;padding:11px 8px;border-radius:12px;background:var(--tarjeta-2);font-weight:700;font-size:14px;text-decoration:none;color:var(--texto)}
 .chk{display:flex;gap:8px;align-items:center;font-size:14px;color:var(--suave);margin-top:10px}
+/* Fase 2: alta de clientes y lista de estado */
+.nuevo input,.nuevo select{width:100%;margin-top:8px;border-radius:12px;border:1px solid var(--linea);background:var(--tarjeta-2);padding:11px 12px;font-size:16px;color:var(--texto)}
+.enlace-alta{margin-top:10px;background:var(--tarjeta-2);border-radius:12px;padding:10px 12px;font-size:13px;word-break:break-all}
+.enlace-alta .qr{background:#fff;border-radius:10px;padding:8px;width:max-content;margin:8px auto 0}
+.lista-estado{margin-top:10px;font-size:14px;line-height:1.5}
+.lista-estado .ok{color:var(--porthos)} .lista-estado .no{color:var(--bataka)} .lista-estado .apag{color:var(--suave)}
 </style>
 </head>
 <body>
@@ -164,6 +170,7 @@ details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script>
 "use strict";
 const SUPABASE_URL = "https://jlyrymgbykhpktabvlkl.supabase.co";
@@ -415,13 +422,46 @@ async function llamarPanel(cuerpo) {
   return j;
 }
 let cuentasCli = [];
+// Fase 2: alta-cliente crea la cuenta y el enlace de alta, y da la lista de estado de cada cuenta.
+async function llamarAlta(cuerpo) {
+  const { data } = await sb.auth.getSession();
+  const r = await fetch(SUPABASE_URL + "/functions/v1/alta-cliente", { method: "POST",
+    headers: { "content-type": "application/json", apikey: SUPABASE_KEY, authorization: "Bearer " + (data?.session?.access_token ?? "") }, body: JSON.stringify(cuerpo) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || ("HTTP " + r.status));
+  return j;
+}
+const VERTICALES = [["concesionario", "Concesionario de autos"], ["centro_comercial", "Centro comercial"], ["marca_consumo", "Marca de consumo"]];
+const tarjetaNuevo = () => `<div class="card nuevo" style="--color:var(--bataka)">
+  <div class="marca">Nuevo cliente</div>
+  <div class="sub" style="margin-top:4px">Crea la cuenta con la plantilla de su vertical y un enlace de alta que vence en 7 días. El cliente lo llena en unos 15 minutos.</div>
+  <input id="ncNombre" type="text" placeholder="Nombre del cliente (ej. Autos del Valle)" maxlength="80">
+  <select id="ncVertical">${VERTICALES.map(([v, n]) => `<option value="${v}">${n}</option>`).join("")}</select>
+  <input id="ncAsistente" type="text" placeholder="Nombre del asistente (opcional)" maxlength="30">
+  <div class="acciones"><button class="btn pri" data-nuevo="1">Crear y sacar el enlace</button></div>
+  <div id="ncEnlace"></div></div>`;
+function pintarEnlace(destino, nombre, enlace, vence) {
+  const texto = `Hola, ${nombre}. Este es el enlace para el alta de su servicio de escucha digital con Creative Whisper (toma unos 15 minutos): ${enlace}`;
+  destino.innerHTML = `<div class="enlace-alta"><b>Enlace de alta</b> · vence el ${esc(fechaCorta(String(vence).slice(0, 10)))}<br>${esc(enlace)}
+    <div class="enlaces"><button data-copiar="${esc(enlace)}">Copiar enlace</button><a href="https://wa.me/?text=${encodeURIComponent(texto)}" target="_blank" rel="noopener">Mandar por WhatsApp</a></div>
+    <div class="qr" data-qr="${esc(enlace)}"></div></div>`;
+  const q = destino.querySelector("[data-qr]");
+  if (window.QRCode && q) { try { new QRCode(q, { text: enlace, width: 150, height: 150 }); } catch (e) { q.remove(); } } else if (q) q.remove();
+}
+function listaEstado(est) {
+  if (!est?.items) return "";
+  const canales = est.items.filter((i) => ["whatsapp", "instagram", "facebook", "messenger"].includes(i.clave) || i.ok === false);
+  return `<div class="lista-estado">${canales.map((i) => `<span class="${i.ok === true ? "ok" : i.ok === null ? "apag" : "no"}">${esc(i.nombre)} ${i.ok === true ? "✓" : i.ok === null ? "apagado" : "pendiente: falta " + esc(i.falta)}</span>`).join(" · ")}</div>
+    ${est.alta ? `<div class="sub">Alta ${est.alta.estado === "completada" ? "completada" + (est.alta.segundos ? " en " + Math.max(1, Math.round(est.alta.segundos / 60)) + " min" : "") : est.alta.estado === "abierta" ? "abierta · el enlace vence el " + esc(fechaCorta(String(est.alta.vence).slice(0, 10))) : est.alta.estado}</div>` : ""}`;
+}
 const fechaCorta = (f) => { if (!f) return "sin fecha"; try { return new Date(f + "T12:00:00").toLocaleDateString("es-EC", { day: "numeric", month: "short", year: "numeric" }); } catch (e) { return f; } };
 async function pintarClientes() {
-  const { cuentas } = await llamarPanel({ accion: "cuentas" });
+  const [{ cuentas }, estados] = await Promise.all([llamarPanel({ accion: "cuentas" }), llamarAlta({ accion: "estados" }).catch(() => ({ cuentas: [] }))]);
   cuentasCli = cuentas || [];
-  if (!cuentasCli.length) { $("#cuerpo").innerHTML = `<div class="vacio"><b>Sin clientes todavía</b>Las cuentas de Escucha digital aparecen aquí.</div>`; return; }
+  const estadoDe = new Map((estados.cuentas || []).map((x) => [x.empresa_id, x]));
+  if (!cuentasCli.length) { $("#cuerpo").innerHTML = tarjetaNuevo() + `<div class="vacio"><b>Sin clientes todavía</b>Las cuentas de Escucha digital aparecen aquí.</div>`; return; }
   const hoy = new Date().toISOString().slice(0, 10);
-  $("#cuerpo").innerHTML = cuentasCli.map((c) => {
+  $("#cuerpo").innerHTML = tarjetaNuevo() + cuentasCli.map((c) => {
     const on = c.estado === "activa";
     const vencida = c.pagado_hasta && c.pagado_hasta < hoy;
     return `<div class="card cli" style="--color:${on ? "var(--porthos)" : "var(--torote)"}">
@@ -434,6 +474,8 @@ async function pintarClientes() {
       <div class="sub" style="margin-top:6px">${c.estado_motivo ? esc(c.estado_motivo) + " · " : ""}${c.estado_cambiado_en ? esc(hora(c.estado_cambiado_en)) : ""}</div>
       <div class="fila2"><label>Pagado hasta${vencida ? ' <span class="etq nec">vencida</span>' : ""}</label><input type="date" value="${esc(c.pagado_hasta || "")}" data-fecha="${c.id}"><button class="btn" style="flex:0 0 auto;padding:10px 12px" data-mes="${c.id}">+1 mes</button></div>
       <label class="chk"><input type="checkbox" data-auto="${c.id}" ${c.suspension_automatica ? "checked" : ""}> Suspender sola si vence (3 días de gracia)</label>
+      ${listaEstado(estadoDe.get(c.id))}
+      ${c.etapa === "alta" || estadoDe.get(c.id)?.alta ? `<div class="acciones"><button class="btn" data-enlace="${c.id}">${c.etapa === "alta" ? "Nuevo enlace de alta" : "Enlace para revisar el alta"}</button></div><div data-enlace-de="${c.id}"></div>` : ""}
       <div class="datos3"><div><b>${c.mensajes_7d}</b><span>mensajes reales 7 d</span></div><div><b>${c.casos_abiertos}</b><span>casos abiertos</span></div><div><b>${c.contactos_alerta}</b><span>reciben alertas</span></div></div>
       <div class="enlaces">
         <a href="${esc(c.panel)}" target="_blank" rel="noopener">Panel en vivo</a>
@@ -472,7 +514,29 @@ async function accionCliente(el) {
   } catch (e) { toast("No se pudo: " + e.message); }
   if (tab === "cli") pintarClientes();
 }
-$("#cuerpo").addEventListener("click", (e) => {
+$("#cuerpo").addEventListener("click", async (e) => {
+  if (tab !== "cli") return;
+  const cp = e.target.closest("[data-copiar]");
+  if (cp) { try { await navigator.clipboard.writeText(cp.dataset.copiar); toast("Enlace copiado"); } catch (x) { toast("Cópialo a mano"); } return; }
+  const nv = e.target.closest("[data-nuevo]");
+  if (nv) {
+    const nombre = $("#ncNombre").value.trim(); if (!nombre) { toast("Escribe el nombre del cliente"); return; }
+    nv.disabled = true;
+    try {
+      const r = await llamarAlta({ accion: "nuevo", nombre, vertical: $("#ncVertical").value, asistente: $("#ncAsistente").value.trim() });
+      toast("Cuenta creada");
+      pintarEnlace($("#ncEnlace"), nombre, r.enlace, r.vence); $("#ncNombre").value = ""; $("#ncAsistente").value = "";
+    } catch (x) { toast("No se pudo: " + x.message); } finally { nv.disabled = false; }
+    return;
+  }
+  const en = e.target.closest("[data-enlace]");
+  if (en) {
+    const c = cuentasCli.find((x) => x.id === en.dataset.enlace); if (!c) return;
+    if (!confirm(`¿Sacar un enlace nuevo para ${c.nombre}? El anterior deja de servir (lo ya llenado se conserva).`)) return;
+    try { const r = await llamarAlta({ accion: "enlace", empresa_id: c.id }); pintarEnlace(document.querySelector(`[data-enlace-de="${c.id}"]`), c.nombre, r.enlace, r.vence); }
+    catch (x) { toast("No se pudo: " + x.message); }
+    return;
+  }
   const el = e.target.closest("[data-sw],[data-mes],[data-limpiar],[data-demo]");
   if (el && tab === "cli") { e.stopPropagation(); accionCliente(el); }
 });

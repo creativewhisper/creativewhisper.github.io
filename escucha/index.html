@@ -551,6 +551,10 @@ button{cursor:pointer;background:none;border:0;padding:0}
   .gen-cab{grid-template-columns:1fr;padding:16px}.gen-cab .der{justify-items:stretch}.gen-cab .base{text-align:left;max-width:none}
   .pieza .fv{grid-template-columns:1fr}.pieza .foto{aspect-ratio:16/10;min-height:0}
 }
+/* Fase 2: lista de estado de una cuenta nueva (solo si la cuenta se dio de alta con el asistente de alta) */
+.estado-alta{max-width:1240px;margin:12px auto 0;padding:0 16px}
+.estado-alta div{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-md);padding:10px 14px;font-size:14px;box-shadow:var(--sombra)}
+.estado-alta b{margin-right:6px} .estado-alta .ok{color:var(--g700)} .estado-alta .no{color:var(--ambar)} .estado-alta .apag{color:var(--suave)}
 </style>
 </head>
 <body>
@@ -573,6 +577,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
       <button class="btn btn-borde" id="btnCel">📲 App en mi celular</button>
     </div>
   </div></header>
+  <div class="estado-alta oculto" id="estadoAlta"></div>
 
   <div class="filtros">
     <div class="filtros-in" id="barra">
@@ -850,6 +855,19 @@ async function llamar(cuerpo) {
   return j;
 }
 function ver(id) { for (const v of ["vCargando", "vError", "vSuspendida", "vPanel"]) $("#" + v).classList.toggle("oculto", v !== id); }
+// Fase 2: «WhatsApp ✓ · Instagram pendiente: falta X». Solo para cuentas dadas de alta con el asistente de alta y mientras falte algo.
+async function estadoAlta() {
+  try {
+    const r = await fetch(API.replace("panel-cliente", "alta-cliente"), { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ accion: "estado", tp: TOKEN }) });
+    if (!r.ok) return;
+    const { estado: e } = await r.json();
+    if (!e?.alta || (e.listo && e.etapa === "activa")) return;
+    const items = (e.items || []).filter((i) => ["whatsapp", "instagram", "facebook", "messenger"].includes(i.clave) || i.ok === false);
+    const esc2 = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+    $("#estadoAlta").innerHTML = `<div><b>Estado de la conexión${e.etapa === "prueba" ? " (en prueba)" : ""}:</b>${items.map((i) => `<span class="${i.ok === true ? "ok" : i.ok === null ? "apag" : "no"}">${esc2(i.nombre)} ${i.ok === true ? "✓" : i.ok === null ? "apagado" : "pendiente: falta " + esc2(i.falta)}</span>`).join(" · ")}</div>`;
+    $("#estadoAlta").classList.remove("oculto");
+  } catch (x) { /* sin la función nueva el panel sigue igual */ }
+}
 function aplicarMarca(cu) {
   const m = cu?.marca;
   if (!m) { for (const id of ["#logo", "#logoSus"]) { $(id).classList.add("sin"); $(id).textContent = cu?.nombre || ""; } return; }
@@ -928,7 +946,7 @@ async function cargarTodo() {
     S.ops = new Map(d.opiniones.map((o) => [o.i, prepT(o)]));
     S.sorteo = new Map((d.sorteo || []).map((o) => [o.i, prepT(o)]));
     S.ints = new Map((d.interesados || []).map((o) => [o.i, prepT(o)]));
-    if (d.cuenta) { S.cuenta = d.cuenta; aplicarConfig(d.cuenta); if (primera) aplicarMarca(d.cuenta); }
+    if (d.cuenta) { S.cuenta = d.cuenta; aplicarConfig(d.cuenta); if (primera) { aplicarMarca(d.cuenta); estadoAlta(); } }
     S.ultimaSync = Date.parse(d.generado) || Date.now();
     if (!primera) avisarNuevos(antes, new Set());
     S.cargado = true;

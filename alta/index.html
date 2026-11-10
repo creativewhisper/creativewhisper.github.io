@@ -1,0 +1,517 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0A0908">
+<title>Alta · Creative Whisper</title>
+<link rel="icon" href="../assets/monograma-cw.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<style>
+/* Paleta de Creative Whisper: el alta es de CW. La vista previa de la marca del cliente usa sus propios colores. */
+:root{
+  --naranja:#F5A300;--rojo:#E3120B;--durazno:#FFD7BD;--verde:#3EA398;--negro:#0A0908;--beige:#CDBFA6;
+  --fondo:#FBF7F2;--tarjeta:#FFFFFF;--texto:#0A0908;--suave:#6B6259;--linea:#E6DCCD;--campo:#FFFDFA;
+  --ok:#2E8A80;--mal:#C40F09;
+  --f:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif;
+  --r:16px;--sombra:0 1px 2px rgba(10,9,8,.05),0 10px 30px -18px rgba(10,9,8,.35);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fondo);color:var(--texto);font-family:var(--f);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:var(--negro)}
+.oculto{display:none!important}
+.franja{height:6px;background:linear-gradient(100deg,var(--naranja) 0 25%,var(--rojo) 25% 50%,var(--durazno) 50% 75%,var(--verde) 75% 100%)}
+header{background:var(--negro);color:#fff}
+.cab{max-width:760px;margin:0 auto;padding:18px 16px 16px;display:flex;gap:14px;align-items:center}
+.cab img{width:40px;height:40px;border-radius:10px;background:#fff;flex:none}
+.cab h1{margin:0;font-size:20px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
+.cab p{margin:2px 0 0;color:var(--beige);font-size:14px}
+.progreso{max-width:760px;margin:0 auto;padding:0 16px 14px}
+.barra{height:6px;border-radius:9px;background:#2a2622;overflow:hidden}
+.barra i{display:block;height:100%;width:0;background:var(--naranja);transition:width .3s}
+.pasos{display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none}
+.pasos button{flex:0 0 auto;border:0;border-radius:999px;padding:5px 11px;font-size:13px;font-weight:600;background:#211d1a;color:#bdb3a6;cursor:pointer}
+.pasos button.activo{background:var(--naranja);color:var(--negro)}
+.pasos button.hecho{background:#1f3b38;color:#bfe8e2}
+main{max-width:760px;margin:0 auto;padding:20px 16px 120px}
+.tarjeta{background:var(--tarjeta);border:1px solid var(--linea);border-radius:var(--r);padding:20px;box-shadow:var(--sombra);margin-bottom:16px}
+h2{margin:0 0 4px;font-size:22px;font-weight:800;letter-spacing:-.01em}
+h3{margin:18px 0 6px;font-size:16px;font-weight:700}
+.ayuda{color:var(--suave);font-size:14px;margin:0 0 14px}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--suave)}
+input[type=text],input[type=email],input[type=tel],input[type=url],input[type=password],select,textarea{width:100%;border:1px solid var(--linea);border-radius:12px;background:var(--campo);padding:11px 12px;font-size:16px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--naranja);box-shadow:0 0 0 3px rgba(245,163,0,.22)}
+textarea{min-height:110px;resize:vertical}
+.fila{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.fila{grid-template-columns:1fr}}
+.btn{border:0;border-radius:12px;padding:12px 18px;font-weight:700;font-size:15px;cursor:pointer;background:#EFE7DB;color:var(--negro)}
+.btn.pri{background:var(--naranja);color:var(--negro)}
+.btn.oscuro{background:var(--negro);color:#fff}
+.btn.chico{padding:7px 12px;font-size:14px;border-radius:10px}
+.btn:disabled{opacity:.5;cursor:default}
+.acciones{display:flex;gap:10px;justify-content:space-between;align-items:center;margin-top:18px;flex-wrap:wrap}
+.grupo{border:1px dashed var(--linea);border-radius:14px;padding:12px;margin-top:10px;position:relative}
+.grupo .quitar{position:absolute;top:8px;right:8px}
+.aviso{border-radius:12px;padding:10px 12px;font-size:14px;margin-top:12px}
+.aviso.mal{background:#FDE7E6;color:var(--mal)} .aviso.ok{background:#E3F4F1;color:#1E5E57} .aviso.info{background:#FFF1E3;color:#6B4700}
+.lista-meta{list-style:none;padding:0;margin:8px 0 0}
+.lista-meta li{display:flex;gap:10px;align-items:flex-start;padding:9px 0;border-bottom:1px solid var(--linea)}
+.lista-meta input{margin-top:4px;width:18px;height:18px;accent-color:var(--verde)}
+ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
+.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.chip{border:1px solid var(--linea);border-radius:999px;padding:6px 12px;font-size:14px;background:#fff;cursor:pointer}
+.chip.si{background:var(--durazno);border-color:var(--naranja)}
+.galeria{display:grid;grid-template-columns:repeat(auto-fill,minmax(110px,1fr));gap:10px;margin-top:8px}
+.galeria label{margin:0;position:relative;border:2px solid var(--linea);border-radius:12px;overflow:hidden;cursor:pointer;background:#f4efe8;aspect-ratio:1;display:grid;place-items:center}
+.galeria img{width:100%;height:100%;object-fit:contain}
+.galeria.fotos img{object-fit:cover}
+.galeria input{position:absolute;top:8px;left:8px;width:18px;height:18px;accent-color:var(--naranja)}
+.galeria label:has(input:checked){border-color:var(--naranja)}
+.colores{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
+.colores input[type=color]{width:56px;height:40px;border:1px solid var(--linea);border-radius:10px;padding:2px;background:#fff}
+.muestra{border-radius:14px;padding:16px;color:#fff;display:flex;gap:12px;align-items:center;margin-top:12px}
+.muestra .logo{width:120px;height:36px;background:var(--acento,#fff);-webkit-mask:var(--logo) left center/contain no-repeat;mask:var(--logo) left center/contain no-repeat}
+.muestra .logo.sin{background:none;-webkit-mask:none;mask:none;font-weight:800;color:var(--acento,#fff)}
+.muestra b{display:block} .muestra span{font-size:13px;opacity:.8}
+.estado{list-style:none;padding:0;margin:8px 0 0}
+.estado li{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--linea);font-size:15px}
+.estado .ic{width:22px;flex:none;text-align:center;font-weight:800}
+.estado .ok{color:var(--ok)} .estado .no{color:#B36B00} .estado .apag{color:var(--suave)}
+.pasos-conexion{list-style:none;padding:0;margin:10px 0 0}
+.pasos-conexion li{padding:6px 0;font-size:14px;border-bottom:1px solid var(--linea)}
+.legal{max-height:260px;overflow:auto;border:1px solid var(--linea);border-radius:12px;padding:12px 14px;background:var(--campo);font-size:14px}
+.legal h4{margin:10px 0 4px;font-size:15px} .legal p{margin:6px 0} .legal table{border-collapse:collapse;width:100%;font-size:13px} .legal td,.legal th{border:1px solid var(--linea);padding:4px 6px;text-align:left;vertical-align:top}
+.borrador{background:var(--rojo);color:#fff;border-radius:8px;padding:6px 10px;font-size:13px;font-weight:700;margin:8px 0}
+.check{display:flex;gap:10px;align-items:flex-start;font-weight:500;margin-top:12px}
+.check input{margin-top:4px;width:18px;height:18px;accent-color:var(--naranja);flex:none}
+.qr{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:12px}
+.qr div{border:1px solid var(--linea);border-radius:14px;padding:14px;text-align:center;background:#fff}
+.qr canvas,.qr img{margin:8px auto;display:block}
+.cargando{display:inline-block;width:16px;height:16px;border:2px solid var(--beige);border-top-color:var(--negro);border-radius:50%;animation:g .8s linear infinite;vertical-align:-3px;margin-right:6px}
+@keyframes g{to{transform:rotate(360deg)}}
+/* Agente conversacional */
+#abrirChat{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));border:0;border-radius:999px;padding:13px 18px;background:var(--negro);color:#fff;font-weight:700;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);cursor:pointer;z-index:5}
+#abrirChat::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--naranja);margin-right:8px;vertical-align:1px}
+#chat{position:fixed;right:16px;bottom:16px;width:min(380px,calc(100vw - 32px));height:min(560px,calc(100dvh - 32px));background:#fff;border:1px solid var(--linea);border-radius:18px;box-shadow:0 20px 60px -20px rgba(0,0,0,.45);display:flex;flex-direction:column;z-index:6;overflow:hidden}
+#chat .ch{background:var(--negro);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px}
+#chat .ch b{flex:1} #chat .ch button{background:none;border:0;color:#fff;font-size:22px;cursor:pointer;line-height:1}
+#msgs{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--fondo)}
+.m{max-width:85%;padding:9px 12px;border-radius:14px;font-size:15px;white-space:pre-wrap;word-wrap:break-word}
+.m.yo{align-self:flex-end;background:var(--durazno)} .m.ag{align-self:flex-start;background:#fff;border:1px solid var(--linea)}
+#chat form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--linea)}
+#chat input{flex:1}
+.pie{position:fixed;left:0;right:0;bottom:0;background:rgba(251,247,242,.94);backdrop-filter:blur(6px);border-top:1px solid var(--linea);z-index:4}
+.pie .in{max-width:760px;margin:0 auto;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;justify-content:space-between;align-items:center;padding-right:150px}
+.pie .tiempo{font-size:13px;color:var(--suave)}
+@media (max-width:560px){.pie .in{padding-right:16px;padding-bottom:calc(70px + env(safe-area-inset-bottom,0px))}}
+</style>
+</head>
+<body>
+<div class="franja"></div>
+<header>
+  <div class="cab"><img src="../assets/monograma-cw.png" alt=""><div><h1 id="titulo">Alta de tu servicio</h1><p id="subtitulo">Escucha digital · Creative Whisper</p></div></div>
+  <div class="progreso"><div class="barra"><i id="barra"></i></div><div class="pasos" id="navPasos"></div></div>
+</header>
+
+<main>
+  <div id="vCargando" class="tarjeta"><span class="cargando"></span>Abriendo tu alta…</div>
+  <div id="vError" class="tarjeta oculto"><h2>No pudimos abrir el enlace</h2><p class="ayuda" id="errorTxt"></p></div>
+
+  <!-- 0. Bienvenida -->
+  <section class="tarjeta oculto" data-paso="inicio">
+    <h2>Hola, <span class="nombreEmpresa"></span> 👋</h2>
+    <p class="ayuda">En unos 15 minutos dejamos listo tu asistente: atiende a tus clientes por WhatsApp, Instagram y la web, te muestra en un panel en vivo lo que dicen y te avisa al celular las quejas graves.</p>
+    <h3>Vas a necesitar</h3>
+    <ul class="lista-meta">
+      <li>📄 El RUC, las sedes y sus horarios.</li>
+      <li>🌐 La dirección de tu web (de ahí armamos solos la información del asistente, tu logo, tus colores y tus fotos; tú lo revisas).</li>
+      <li>📱 El WhatsApp de quienes recibirán las alertas.</li>
+      <li>🔑 Acceso de administrador al portafolio comercial de Meta de la empresa (para la parte de canales; si no lo tienes ahora, la terminamos juntos en una sesión corta).</li>
+    </ul>
+    <p class="ayuda" style="margin-top:12px">Puedes dejarlo a medias: lo que guardas queda guardado y vuelves con el mismo enlace. Si tienes dudas, abre «¿Dudas?» abajo a la derecha.</p>
+    <div class="acciones"><span></span><button class="btn pri" data-ir="empresa" id="empezar">Empezar</button></div>
+  </section>
+
+  <!-- 1. Empresa -->
+  <section class="tarjeta oculto" data-paso="empresa">
+    <h2>Tu empresa</h2>
+    <p class="ayuda">Esto lo usa el asistente para responder bien y lo usamos para el acuerdo de datos.</p>
+    <div class="fila">
+      <div><label for="razon">Razón social</label><input id="razon" type="text" autocomplete="organization"></div>
+      <div><label for="ruc">RUC</label><input id="ruc" type="text" inputmode="numeric" maxlength="13" placeholder="13 dígitos"></div>
+    </div>
+    <div class="fila">
+      <div><label for="telefono">Teléfono de atención <small>(opcional)</small></label><input id="telefono" type="tel"></div>
+      <div><label for="correoPriv">Correo para temas de datos personales</label><input id="correoPriv" type="email" placeholder="servicio@tuempresa.com"></div>
+    </div>
+    <label for="nombreAsistente">Nombre del asistente <small>(opcional: por ejemplo «Vale»)</small></label><input id="nombreAsistente" type="text" maxlength="30">
+    <h3>Sedes y horarios</h3>
+    <div id="sedes"></div>
+    <button class="btn chico" id="masSede" type="button">+ Otra sede</button>
+    <label for="horarioGeneral">Horario de atención general <small>(opcional)</small></label><input id="horarioGeneral" type="text" placeholder="Lunes a sábado de 9:00 a 19:00">
+    <div class="aviso mal oculto" data-error="empresa"></div>
+    <div class="acciones"><button class="btn" data-ir="inicio">Atrás</button><button class="btn pri" data-guardar="empresa">Guardar y seguir</button></div>
+  </section>
+
+  <!-- 2. Web -->
+  <section class="tarjeta oculto" data-paso="web">
+    <h2>Tu web</h2>
+    <p class="ayuda">Escribe la dirección de tu web. Leemos sus páginas y armamos la información del asistente, tu logo, tus colores y tus fotos. Sirve cualquier web. Después lo revisas y corriges.</p>
+    <div class="fila" style="grid-template-columns:1fr auto;align-items:end">
+      <div><label for="url">Dirección de la web</label><input id="url" type="url" placeholder="tuempresa.com.ec" inputmode="url"></div>
+      <button class="btn oscuro" id="leerWeb" type="button">Leer mi web</button>
+    </div>
+    <p class="ayuda" style="margin-top:8px"><a href="#" id="sinWeb">No tengo web: escribo la información</a></p>
+    <div class="aviso mal oculto" data-error="web"></div>
+    <div id="revision" class="oculto">
+      <div class="aviso info" id="leido"></div>
+      <h3>Lo que sabrá el asistente</h3>
+      <p class="ayuda">Corrige lo que haga falta. Lo marcado con [revisar] conviene confirmarlo. No pongas precios ni promociones que puedan cambiar sin avisarnos.</p>
+      <textarea id="base" style="min-height:260px"></textarea>
+      <div id="bloqueMarca">
+        <h3>Logo</h3>
+        <div class="galeria" id="logos"></div>
+        <label for="subirLogo">O sube tu logo <small>(PNG, SVG o WebP, menos de 300 KB, ideal con fondo transparente)</small></label><input id="subirLogo" type="file" accept="image/png,image/svg+xml,image/webp">
+        <h3>Colores</h3>
+        <div class="colores"><label style="margin:0">Principal <input type="color" id="colPrincipal" value="#0A0908"></label><label style="margin:0">Acento <input type="color" id="colAcento" value="#F5A300"></label></div>
+        <div class="muestra" id="muestra"><div class="logo sin" id="muestraLogo"></div><div><b class="nombreEmpresa"></b><span>Así se verá tu panel</span></div></div>
+        <h3>Fotos para tu contenido</h3>
+        <p class="ayuda">Marca las que podemos usar (máximo 12).</p>
+        <div class="galeria fotos" id="fotos"></div>
+      </div>
+    </div>
+    <div class="acciones"><button class="btn" data-ir="empresa">Atrás</button><button class="btn pri oculto" id="guardarWeb">Guardar y seguir</button></div>
+  </section>
+
+  <!-- 3. Alertas -->
+  <section class="tarjeta oculto" data-paso="alertas">
+    <h2>¿Quién recibe las alertas?</h2>
+    <p class="ayuda">Cuando alguien se queja de algo grave, avisamos al celular de estas personas en segundos. Elige de qué área es cada una.</p>
+    <div id="personas"></div>
+    <button class="btn chico" id="masPersona" type="button">+ Otra persona</button>
+    <div class="aviso mal oculto" data-error="alertas"></div>
+    <div class="acciones"><button class="btn" data-ir="web">Atrás</button><button class="btn pri" data-guardar="alertas">Guardar y seguir</button></div>
+  </section>
+
+  <!-- 4. Límites -->
+  <section class="tarjeta oculto" data-paso="limites">
+    <h2>Lo que el asistente nunca debe decir</h2>
+    <p class="ayuda">Toca los que apliquen y agrega lo tuyo. El asistente no cierra ventas, no da descuentos y no inventa: si no sabe, lo pasa a tu equipo.</p>
+    <div class="chips" id="sugerencias"></div>
+    <label for="nunca">Otras cosas que nunca debe decir o prometer</label>
+    <textarea id="nunca" placeholder="Por ejemplo: no confirmar fechas de entrega; no hablar de casos legales."></textarea>
+    <div class="aviso mal oculto" data-error="limites"></div>
+    <div class="acciones"><button class="btn" data-ir="alertas">Atrás</button><button class="btn pri" data-guardar="limites">Guardar y seguir</button></div>
+  </section>
+
+  <!-- 5. Canales -->
+  <section class="tarjeta oculto" data-paso="canales">
+    <h2>Tus canales de Meta</h2>
+    <p class="ayuda">WhatsApp e Instagram se conectan dentro de la cuenta de Meta de tu empresa: todo queda a nombre de tu empresa. Primero, que esté listo esto:</p>
+    <ul class="lista-meta" id="listaMeta">
+      <li><input type="checkbox" id="lm_portafolio"><label for="lm_portafolio" style="margin:0;font-weight:500"><b>Portafolio comercial</b> de la empresa en Meta (business.facebook.com), con tu usuario como administrador.</label></li>
+      <li><input type="checkbox" id="lm_admin_cw"><label for="lm_admin_cw" style="margin:0;font-weight:500"><b>Creative Whisper como administrador.</b> Configuración del negocio → Usuarios → Socios → Agregar → con el identificador del portafolio de Creative Whisper <b id="idCw">(te lo pasa el equipo)</b> → acceso total a la app, la cuenta de WhatsApp, la página y la cuenta de Instagram.</label></li>
+      <li><input type="checkbox" id="lm_numero"><label for="lm_numero" style="margin:0;font-weight:500"><b>Número de WhatsApp</b> para el asistente. Si hoy lo usas en la app de WhatsApp Business, al conectarlo deja de funcionar en la app (lo usará el asistente).</label></li>
+      <li><input type="checkbox" id="lm_tarjeta"><label for="lm_tarjeta" style="margin:0;font-weight:500"><b>Tarjeta de crédito</b> en la cuenta de WhatsApp (WhatsApp Manager → Configuración de pago). Meta cobra los mensajes a tu empresa.</label></li>
+      <li><input type="checkbox" id="lm_instagram_pro"><label for="lm_instagram_pro" style="margin:0;font-weight:500"><b>Instagram profesional</b> (de empresa o creador).</label></li>
+      <li><input type="checkbox" id="lm_pagina"><label for="lm_pagina" style="margin:0;font-weight:500"><b>Página de Facebook</b> vinculada a esa cuenta de Instagram.</label></li>
+    </ul>
+    <h3>¿Ya tienes el acceso de la app?</h3>
+    <p class="ayuda">Si tu equipo ya creó la app y el usuario del sistema (guía de conexión), pega aquí los datos. Se guardan cifrados y nadie los vuelve a ver. Si no, sigue: lo terminamos contigo en una sesión corta.</p>
+    <details id="detalleConectar"><summary style="cursor:pointer;font-weight:700">Conectar ahora</summary>
+      <div class="fila">
+        <div><label for="appId">Identificador de la app</label><input id="appId" type="text" inputmode="numeric" autocomplete="off"></div>
+        <div><label for="appSecret">Clave secreta de la app</label><input id="appSecret" type="password" autocomplete="off"></div>
+      </div>
+      <label for="tokenSu">Token del usuario del sistema</label><input id="tokenSu" type="password" autocomplete="off">
+      <div class="fila">
+        <div><label for="pin">PIN de verificación en dos pasos <small>(solo si tu número ya tiene uno)</small></label><input id="pin" type="password" inputmode="numeric" maxlength="6" autocomplete="off"></div>
+        <div><label for="igToken">Token de Instagram <small>(solo si no está vinculada a una página)</small></label><input id="igToken" type="password" autocomplete="off"></div>
+      </div>
+      <div id="elegirNumero" class="oculto"><label>¿Qué número conectamos?</label><div id="numeros"></div></div>
+      <div class="acciones"><span></span><button class="btn oscuro" id="conectar" type="button">Conectar</button></div>
+      <ul class="pasos-conexion" id="resConexion"></ul>
+    </details>
+    <div class="aviso mal oculto" data-error="canales"></div>
+    <div class="acciones"><button class="btn" data-ir="limites">Atrás</button><button class="btn pri" data-guardar="canales_listos">Guardar y seguir</button></div>
+  </section>
+
+  <!-- 6. Aceptación -->
+  <section class="tarjeta oculto" data-paso="aceptacion">
+    <h2>Condiciones y acuerdo de datos</h2>
+    <p class="ayuda">Tu empresa es la responsable de los datos de sus clientes y Creative Whisper los trata por encargo suyo, solo para darte el servicio.</p>
+    <div id="docsLegales"></div>
+    <div class="fila">
+      <div><label for="acNombre">Tu nombre</label><input id="acNombre" type="text" autocomplete="name"></div>
+      <div><label for="acCargo">Tu cargo</label><input id="acCargo" type="text" autocomplete="organization-title"></div>
+    </div>
+    <label for="acCorreo">Tu correo</label><input id="acCorreo" type="email" autocomplete="email">
+    <label class="check"><input type="checkbox" id="acTerminos"> Acepto las condiciones del servicio en nombre de la empresa.</label>
+    <label class="check"><input type="checkbox" id="acAcuerdo"> Acepto el acuerdo de tratamiento de datos (la empresa es responsable y Creative Whisper es encargado).</label>
+    <div class="aviso mal oculto" data-error="aceptacion"></div>
+    <div class="acciones"><button class="btn" data-ir="canales">Atrás</button><button class="btn pri" data-guardar="aceptacion">Aceptar y seguir</button></div>
+  </section>
+
+  <!-- 7. Listo -->
+  <section class="tarjeta oculto" data-paso="listo">
+    <h2 id="tituloListo">Revisa y termina</h2>
+    <p class="ayuda" id="ayudaListo">Esto es lo que ya está listo y lo que falta. Puedes terminar aunque falten los canales: los conectamos contigo en la sesión de conexión.</p>
+    <ul class="estado" id="estadoLista"></ul>
+    <div class="aviso mal oculto" data-error="listo"></div>
+    <div id="final" class="oculto">
+      <div class="aviso ok" id="finalTxt"></div>
+      <div class="qr">
+        <div><b>Tu panel en vivo</b><div id="qrPanel"></div><a id="linkPanel" target="_blank" rel="noopener">Abrir el panel</a></div>
+        <div><b>La app para tu celular</b><div id="qrApp"></div><a id="linkApp" target="_blank" rel="noopener">Abrir la app</a></div>
+      </div>
+      <ul class="pasos-conexion" id="pruebasCanales"></ul>
+    </div>
+    <div class="acciones"><button class="btn" data-ir="aceptacion" id="atrasListo">Atrás</button><button class="btn pri" id="terminar">Terminar el alta</button></div>
+  </section>
+</main>
+
+<div class="pie" id="pie"><div class="in"><span class="tiempo" id="tiempo"></span><span class="tiempo" id="guardado"></span></div></div>
+
+<button id="abrirChat" type="button">¿Dudas?</button>
+<div id="chat" class="oculto" role="dialog" aria-label="Asistente del alta">
+  <div class="ch"><b>Asistente del alta</b><button type="button" id="cerrarChat" aria-label="Cerrar">×</button></div>
+  <div id="msgs"><div class="m ag">Hola. Te ayudo con cualquier paso del alta: cómo encontrar el RUC, cómo agregar a Creative Whisper en Meta o qué poner en cada campo. No pegues aquí claves ni tokens.</div></div>
+  <form id="formChat"><input id="txtChat" type="text" placeholder="Escribe tu pregunta…" autocomplete="off" maxlength="1500"><button class="btn pri chico" type="submit">Enviar</button></form>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script>
+"use strict";
+const API = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/alta-cliente";
+const ID_PORTAFOLIO_CW = "";   // identificador del portafolio comercial de Creative Whisper en Meta (lo completa Matías)
+const PASOS = [["inicio", "Inicio"], ["empresa", "Empresa"], ["web", "Web"], ["alertas", "Alertas"], ["limites", "Límites"], ["canales", "Canales"], ["aceptacion", "Aceptación"], ["listo", "Listo"]];
+const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const T = ((location.hash + location.search).match(/[#&?]a=([a-f0-9]{64})/) || [])[1] || "";
+let S = null, pasoActual = "inicio", logoSubido = null, chat = [];
+const ss = { get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) { /* sin almacenamiento */ } } };
+
+async function api(cuerpo) {
+  const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ t: T, ...cuerpo }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok && r.status !== 409) throw Object.assign(new Error(j.error || "No se pudo completar. Inténtalo otra vez."), { status: r.status, json: j });
+  return Object.assign(j, { _status: r.status });
+}
+function error(paso, txt) { const d = $(`[data-error="${paso}"]`); if (!d) return; d.textContent = txt || ""; d.classList.toggle("oculto", !txt); }
+function marcarGuardado() { $("#guardado").textContent = "Guardado ✓"; setTimeout(() => ($("#guardado").textContent = ""), 2500); }
+
+// ---------- Navegación ----------
+function hechos() { const p = S?.pasos || {}; return { inicio: true, empresa: !!p.empresa, web: !!p.web, alertas: !!p.alertas, limites: !!p.limites, canales: !!p.canales_listos, aceptacion: !!p.aceptacion, listo: S?.estado_alta === "completada" }; }
+function pintarNav() {
+  const h = hechos();
+  $("#navPasos").innerHTML = PASOS.map(([k, n], i) => `<button type="button" data-ir="${k}" class="${k === pasoActual ? "activo" : h[k] && k !== "inicio" ? "hecho" : ""}">${i ? i + ". " : ""}${n}</button>`).join("");
+  const n = Object.entries(h).filter(([k, v]) => v && k !== "inicio").length;
+  $("#barra").style.width = Math.round((n / (PASOS.length - 1)) * 100) + "%";
+}
+function ir(paso) {
+  pasoActual = paso; ss.set("alta-paso", paso);
+  for (const s of $$("section[data-paso]")) s.classList.toggle("oculto", s.dataset.paso !== paso);
+  pintarNav();
+  if (paso === "listo") pintarEstado();
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+document.addEventListener("click", (e) => { const b = e.target.closest("[data-ir]"); if (b) { e.preventDefault(); ir(b.dataset.ir); } });
+
+// ---------- Empresa ----------
+function sedeHtml(s = {}) {
+  return `<div class="grupo sede"><button class="btn chico quitar" type="button" title="Quitar">×</button>
+    <div class="fila"><div><label>Nombre de la sede</label><input type="text" class="sNombre" value="${esc(s.nombre)}" placeholder="Matriz"></div><div><label>Dirección</label><input type="text" class="sDir" value="${esc(s.direccion)}"></div></div>
+    <label>Horario</label><input type="text" class="sHor" value="${esc(s.horario)}" placeholder="Lunes a viernes 8:30-18:30; sábados 9:00-14:00"></div>`;
+}
+function agregar(cont, html) { cont.insertAdjacentHTML("beforeend", html); }
+$("#masSede").onclick = () => agregar($("#sedes"), sedeHtml());
+$("#sedes").addEventListener("click", (e) => { if (e.target.closest(".quitar") && $$("#sedes .sede").length > 1) e.target.closest(".sede").remove(); });
+
+// ---------- Alertas ----------
+function personaHtml(p = {}) {
+  const areas = [["todas", "Todas las áreas"], ...(S?.areas || []).map((a) => [a.id, a.nombre])];
+  const sel = (p.areas || ["todas"])[0];
+  return `<div class="grupo persona"><button class="btn chico quitar" type="button" title="Quitar">×</button>
+    <div class="fila"><div><label>Nombre</label><input type="text" class="pNombre" value="${esc(p.nombre)}"></div><div><label>Cargo <small>(opcional)</small></label><input type="text" class="pCargo" value="${esc(p.cargo)}"></div></div>
+    <div class="fila"><div><label>WhatsApp</label><input type="tel" class="pWa" value="${esc(p.whatsapp)}" placeholder="0991234567"></div><div><label>Área</label><select class="pArea">${areas.map(([v, n]) => `<option value="${esc(v)}" ${v === sel ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></div></div></div>`;
+}
+$("#masPersona").onclick = () => agregar($("#personas"), personaHtml());
+$("#personas").addEventListener("click", (e) => { if (e.target.closest(".quitar") && $$("#personas .persona").length > 1) e.target.closest(".persona").remove(); });
+
+// ---------- Guardar pasos ----------
+function datosDe(paso) {
+  if (paso === "empresa") return { razon_social: $("#razon").value, ruc: $("#ruc").value, telefono: $("#telefono").value, correo_privacidad: $("#correoPriv").value, asistente: $("#nombreAsistente").value, horario_general: $("#horarioGeneral").value,
+    sedes: $$("#sedes .sede").map((g) => ({ nombre: g.querySelector(".sNombre").value, direccion: g.querySelector(".sDir").value, horario: g.querySelector(".sHor").value })) };
+  if (paso === "alertas") return { personas: $$("#personas .persona").map((g) => ({ nombre: g.querySelector(".pNombre").value, cargo: g.querySelector(".pCargo").value, whatsapp: g.querySelector(".pWa").value, areas: [g.querySelector(".pArea").value] })) };
+  if (paso === "limites") return { nunca_decir: $("#nunca").value, temas: $$("#sugerencias .chip.si").map((c) => c.dataset.v) };
+  if (paso === "canales_listos") return Object.fromEntries(["portafolio", "admin_cw", "numero", "tarjeta", "instagram_pro", "pagina"].map((k) => [k, $("#lm_" + k).checked]));
+  if (paso === "aceptacion") return { nombre: $("#acNombre").value, cargo: $("#acCargo").value, correo: $("#acCorreo").value, terminos: $("#acTerminos").checked, acuerdo: $("#acAcuerdo").checked };
+}
+const SIGUIENTE = { empresa: "web", alertas: "limites", limites: "canales", canales_listos: "aceptacion", aceptacion: "listo" };
+document.addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-guardar]"); if (!b) return;
+  const paso = b.dataset.guardar, err = paso === "canales_listos" ? "canales" : paso;
+  b.disabled = true; error(err, "");
+  try {
+    const r = await api({ accion: "guardar", paso, datos: datosDe(paso) });
+    S.pasos = { ...(S.pasos || {}), [paso]: new Date().toISOString() };
+    if (r.datos) S.datos = { ...(S.datos || {}), [paso]: r.datos };
+    if (r.estado) S.estado = r.estado;
+    marcarGuardado(); ir(SIGUIENTE[paso]);
+  } catch (x) { error(err, x.message); } finally { b.disabled = false; }
+});
+
+// ---------- Web ----------
+function pintarRevision(w) {
+  $("#revision").classList.remove("oculto"); $("#guardarWeb").classList.remove("oculto");
+  $("#leido").innerHTML = w.paginas?.length ? `Leímos ${w.paginas.length} página${w.paginas.length === 1 ? "" : "s"} de ${esc(w.dominio)}.${(w.avisos || []).map((a) => "<br>⚠️ " + esc(a)).join("")}` : "Escribe abajo lo que el asistente debe saber: sedes, horarios, productos o servicios, formas de pago y preguntas frecuentes.";
+  $("#base").value = w.base || "";
+  $("#bloqueMarca").classList.toggle("oculto", !w.paginas?.length);
+  $("#logos").innerHTML = (w.logos || []).map((l, i) => `<label title="${esc(l.alt || "")}"><input type="radio" name="logo" value="${esc(l.url)}" ${i === 0 ? "checked" : ""}><img src="${esc(l.url)}" alt="" loading="lazy" referrerpolicy="no-referrer"></label>`).join("") || `<p class="ayuda">No encontramos el logo: súbelo abajo.</p>`;
+  $("#fotos").innerHTML = (w.fotos || []).map((f, i) => `<label><input type="checkbox" value="${esc(f.url)}" ${i < 6 ? "checked" : ""}><img src="${esc(f.url)}" alt="${esc(f.alt || "")}" loading="lazy" referrerpolicy="no-referrer"></label>`).join("") || `<p class="ayuda">No encontramos fotos en la web.</p>`;
+  if (w.colores?.[0]) $("#colPrincipal").value = w.colores[0].hex;
+  if (w.colores?.[1]) $("#colAcento").value = w.colores[1].hex;
+  muestra();
+}
+function muestra() {
+  const m = $("#muestra"), lg = $("#muestraLogo");
+  m.style.background = $("#colPrincipal").value; m.style.setProperty("--acento", $("#colAcento").value);
+  const elegido = logoSubido || $('#logos input[name="logo"]:checked')?.value;
+  if (elegido) { m.style.setProperty("--logo", `url("${elegido.replace(/"/g, "%22")}")`); lg.classList.remove("sin"); lg.textContent = ""; }
+  else { lg.classList.add("sin"); lg.textContent = S?.empresa?.nombre || ""; }
+}
+for (const id of ["#colPrincipal", "#colAcento"]) $(id).addEventListener("input", muestra);
+$("#logos").addEventListener("change", () => { logoSubido = null; muestra(); });
+$("#subirLogo").addEventListener("change", (e) => {
+  const f = e.target.files?.[0]; if (!f) return;
+  if (f.size > 300_000) { error("web", "El logo debe pesar menos de 300 KB."); return; }
+  const r = new FileReader(); r.onload = () => { logoSubido = String(r.result); for (const i of $$('#logos input')) i.checked = false; muestra(); }; r.readAsDataURL(f);
+});
+$("#leerWeb").onclick = async () => {
+  const b = $("#leerWeb"); b.disabled = true; error("web", ""); b.innerHTML = `<span class="cargando"></span>Leyendo…`;
+  try { const r = await api({ accion: "importar_web", url: $("#url").value }); S.web = r.web; pintarRevision(r.web); }
+  catch (x) { error("web", x.message); } finally { b.disabled = false; b.textContent = "Leer mi web"; }
+};
+$("#sinWeb").onclick = (e) => { e.preventDefault(); pintarRevision({ base: S.web?.base || `# ${S.empresa.nombre}\n\n## Quiénes somos\n\n## Productos y servicios\n\n## Sedes, horarios y contacto\n\n## Preguntas frecuentes\n` }); };
+$("#guardarWeb").onclick = async () => {
+  const b = $("#guardarWeb"); b.disabled = true; error("web", "");
+  try {
+    const fotos = $$("#fotos input:checked").map((i) => i.value).slice(0, 12);
+    const r = await api({ accion: "revisar_web", base: $("#base").value, logo: logoSubido || $('#logos input[name="logo"]:checked')?.value || null,
+      colores: $("#bloqueMarca").classList.contains("oculto") ? {} : { principal: $("#colPrincipal").value, acento: $("#colAcento").value }, fotos });
+    if (r.avisos?.length) error("web", r.avisos.join(" "));
+    S.pasos = { ...(S.pasos || {}), web: new Date().toISOString() }; marcarGuardado(); ir("alertas");
+  } catch (x) { error("web", x.message); } finally { b.disabled = false; }
+};
+
+// ---------- Canales: conectar ----------
+$("#conectar").onclick = async () => {
+  const b = $("#conectar"); b.disabled = true; error("canales", ""); b.innerHTML = `<span class="cargando"></span>Conectando…`;
+  const elegido = $('#numeros input[name="numero"]:checked')?.value;
+  const cuerpo = { accion: "conectar", app_id: $("#appId").value.trim(), app_secret: $("#appSecret").value.trim(), token: $("#tokenSu").value.trim(), pin: $("#pin").value.trim(), ig_token: $("#igToken").value.trim(), phone_number_id: elegido || undefined };
+  try {
+    const r = await api(cuerpo);
+    if (r._status === 409 && r.elegir) {
+      $("#elegirNumero").classList.remove("oculto");
+      $("#numeros").innerHTML = r.elegir.map((n, i) => `<label class="check"><input type="radio" name="numero" value="${esc(n.id)}" ${i ? "" : "checked"}> ${esc(n.numero)} ${n.nombre ? "· " + esc(n.nombre) : ""}</label>`).join("");
+      error("canales", r.error); return;
+    }
+    $("#resConexion").innerHTML = (r.pasos || []).map((p) => `<li>${p.ok === true ? "✅" : p.ok === false ? "⚠️" : "➖"} ${esc(p.detalle)}</li>`).join("");
+    if (r.estado) S.estado = r.estado;
+    // Los datos secretos no se quedan en la página.
+    for (const id of ["#appSecret", "#tokenSu", "#pin", "#igToken"]) $(id).value = "";
+  } catch (x) { error("canales", x.message); } finally { b.disabled = false; b.textContent = "Conectar"; }
+};
+
+// ---------- Aceptación ----------
+function md(t) {   // Markdown sencillo de los textos legales (títulos, negritas, listas y tablas)
+  const lineas = esc(t).split("\n"); let html = "", tabla = false;
+  for (const l of lineas) {
+    if (/^\|/.test(l)) { if (/^\|[-| ]+\|$/.test(l)) continue; const c = l.split("|").slice(1, -1).map((x) => x.trim()); html += (tabla ? "" : "<table>") + "<tr>" + c.map((x) => `<td>${x}</td>`).join("") + "</tr>"; tabla = true; continue; }
+    if (tabla) { html += "</table>"; tabla = false; }
+    if (/^#{1,3} /.test(l)) html += `<h4>${l.replace(/^#+ /, "")}</h4>`; else if (/^[-\d]+[.)]? /.test(l)) html += `<p>• ${l.replace(/^[-\d]+[.)]? /, "")}</p>`; else if (l.trim()) html += `<p>${l}</p>`;
+  }
+  if (tabla) html += "</table>";
+  return html.replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>");
+}
+function pintarLegal() {
+  const L = S.legal || {};
+  $("#docsLegales").innerHTML = ["terminos", "acuerdo_datos"].map((k) => L[k] ? `<h3>${esc(L[k].titulo)}</h3>${L[k].borrador ? `<div class="borrador">Versión en revisión legal: cuando esté la final te pediremos aceptarla otra vez.</div>` : ""}<div class="legal">${md(L[k].texto)}</div>` : "").join("");
+}
+
+// ---------- Estado y terminar ----------
+function pintarEstado() {
+  const items = S?.estado?.items || [];
+  $("#estadoLista").innerHTML = items.map((i) => `<li><span class="ic ${i.ok === true ? "ok" : i.ok === null ? "apag" : "no"}">${i.ok === true ? "✓" : i.ok === null ? "–" : "!"}</span><span><b>${esc(i.nombre)}</b>${i.ok === true ? (i.detalle ? " · " + esc(i.detalle) : "") : i.ok === null ? " · " + esc(i.detalle) : " · falta " + esc(i.falta)}</span></li>`).join("");
+}
+function qr(id, texto) { const d = $(id); d.innerHTML = ""; try { new QRCode(d, { text: texto, width: 160, height: 160, colorDark: "#0A0908", colorLight: "#ffffff" }); } catch (e) { d.textContent = ""; } }
+function pintarFinal(r) {
+  $("#final").classList.remove("oculto"); $("#terminar").classList.add("oculto"); $("#atrasListo").classList.add("oculto");
+  $("#tituloListo").textContent = "¡Listo! Tu servicio está en prueba"; $("#ayudaListo").textContent = "Abre tu panel y la app desde el celular con estos códigos. El equipo revisa todo y te avisa cuando pasa a activo.";
+  const min = r.segundos ? Math.max(1, Math.round(r.segundos / 60)) : null;
+  $("#finalTxt").textContent = min ? `Completaste el alta en ${min} minuto${min === 1 ? "" : "s"}.` : "Alta completada.";
+  $("#linkPanel").href = r.panel; $("#linkApp").href = r.app; qr("#qrPanel", r.panel); qr("#qrApp", r.app);
+  const nombres = { whatsapp: "WhatsApp", instagram: "Instagram", messenger: "Messenger" };
+  $("#pruebasCanales").innerHTML = Object.entries(r.resultado || {}).map(([k, v]) => `<li>${v.ok === true ? "✅" : v.ok === false ? "⚠️" : "➖"} <b>${nombres[k] || k}</b>: ${esc(v.detalle)}</li>`).join("");
+}
+$("#terminar").onclick = async () => {
+  const b = $("#terminar"); b.disabled = true; error("listo", ""); b.innerHTML = `<span class="cargando"></span>Terminando…`;
+  try { const r = await api({ accion: "terminar" }); S.estado = r.estado; S.estado_alta = "completada"; pintarEstado(); pintarFinal(r); pintarNav(); }
+  catch (x) { error("listo", x.json?.faltan ? "Faltan pasos: " + x.json.faltan.join(", ") : x.message); } finally { b.disabled = false; b.textContent = "Terminar el alta"; }
+};
+
+// ---------- Agente del alta ----------
+$("#abrirChat").onclick = () => { $("#chat").classList.remove("oculto"); $("#abrirChat").classList.add("oculto"); $("#txtChat").focus(); };
+$("#cerrarChat").onclick = () => { $("#chat").classList.add("oculto"); $("#abrirChat").classList.remove("oculto"); };
+$("#formChat").onsubmit = async (e) => {
+  e.preventDefault();
+  const t = $("#txtChat").value.trim(); if (!t) return;
+  $("#txtChat").value = ""; chat.push({ rol: "usuario", texto: t });
+  $("#msgs").insertAdjacentHTML("beforeend", `<div class="m yo">${esc(t)}</div><div class="m ag" id="pensando"><span class="cargando"></span></div>`); $("#msgs").scrollTop = 1e9;
+  try { const r = await api({ accion: "asistente", mensajes: chat.slice(-12) }); chat.push({ rol: "asistente", texto: r.texto }); $("#pensando").outerHTML = `<div class="m ag">${esc(r.texto)}</div>`; }
+  catch (x) { $("#pensando").outerHTML = `<div class="m ag">${esc(x.message)}</div>`; }
+  $("#msgs").scrollTop = 1e9;
+};
+
+// ---------- Inicio ----------
+function llenar() {
+  const d = S.datos || {}, e = d.empresa || {};
+  for (const el of $$(".nombreEmpresa")) el.textContent = S.empresa.nombre;
+  $("#titulo").textContent = `Alta de ${S.empresa.nombre}`; $("#subtitulo").textContent = `Escucha digital · ${S.empresa.vertical_nombre || ""}`.replace(/ · $/, "");
+  $("#razon").value = e.razon_social || ""; $("#ruc").value = e.ruc || ""; $("#telefono").value = e.telefono || ""; $("#correoPriv").value = e.correo_privacidad || "";
+  $("#nombreAsistente").value = e.asistente || S.empresa.asistente || ""; $("#horarioGeneral").value = e.horario_general || "";
+  $("#sedes").innerHTML = (e.sedes?.length ? e.sedes : [{}]).map(sedeHtml).join("");
+  $("#personas").innerHTML = (d.alertas?.personas?.length ? d.alertas.personas : [{}]).map(personaHtml).join("");
+  const lim = d.limites || {};
+  $("#sugerencias").innerHTML = [...new Set([...(S.sugerencias_limites || []), ...(lim.temas || [])])].map((s) => `<button type="button" class="chip ${(lim.temas || []).includes(s) ? "si" : ""}" data-v="${esc(s)}">${esc(s)}</button>`).join("");
+  $("#nunca").value = lim.nunca_decir || "";
+  for (const [k, v] of Object.entries(d.canales_listos || {})) { const c = $("#lm_" + k); if (c) c.checked = !!v; }
+  if (ID_PORTAFOLIO_CW) $("#idCw").textContent = ID_PORTAFOLIO_CW;
+  const ac = d.aceptacion || {}; $("#acNombre").value = ac.nombre || ""; $("#acCargo").value = ac.cargo || ""; $("#acCorreo").value = ac.correo || "";
+  if (S.web) { $("#url").value = S.web.url || ""; pintarRevision(S.web); }
+  pintarLegal();
+}
+$("#sugerencias").addEventListener("click", (e) => { const c = e.target.closest(".chip"); if (c) c.classList.toggle("si"); });
+const inicio = Date.now();
+setInterval(() => { const m = Math.floor((Date.now() - inicio) / 60000); $("#tiempo").textContent = m ? `${m} min en esta visita` : ""; }, 15000);
+
+(async () => {
+  if (!T) { $("#vCargando").classList.add("oculto"); $("#vError").classList.remove("oculto"); $("#errorTxt").textContent = "Falta el código del enlace. Ábrelo tal como te llegó."; return; }
+  try { S = await api({ accion: "abrir" }); }
+  catch (x) { $("#vCargando").classList.add("oculto"); $("#vError").classList.remove("oculto"); $("#errorTxt").textContent = x.message; $("#pie").classList.add("oculto"); return; }
+  $("#vCargando").classList.add("oculto");
+  llenar();
+  if (S.estado_alta === "completada") { ir("listo"); pintarFinal({ panel: S.panel, app: S.app, resultado: {} }); $("#finalTxt").textContent = "Esta alta ya está completada."; return; }
+  const guardado = ss.get("alta-paso");
+  ir(guardado && PASOS.some(([k]) => k === guardado) ? guardado : "inicio");
+})();
+</script>
+</body>
+</html>
