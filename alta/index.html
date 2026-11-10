@@ -290,7 +290,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
 <script>
 "use strict";
 const API = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/alta-cliente";
-const ID_PORTAFOLIO_CW = "";   // identificador del portafolio comercial de Creative Whisper en Meta (lo completa Matías)
+const ID_PORTAFOLIO_CW = "";   // identificador del portafolio comercial de Creative Whisper en Meta (se completa antes de publicar)
 const PASOS = [["inicio", "Inicio"], ["empresa", "Empresa"], ["web", "Web"], ["alertas", "Alertas"], ["limites", "Límites"], ["canales", "Canales"], ["aceptacion", "Aceptación"], ["listo", "Listo"]];
 const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
