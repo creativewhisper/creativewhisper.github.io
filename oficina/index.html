@@ -426,7 +426,8 @@ async function pintarClientes() {
     const vencida = c.pagado_hasta && c.pagado_hasta < hoy;
     return `<div class="card cli" style="--color:${on ? "var(--porthos)" : "var(--torote)"}">
       <div class="cab2"><b>${esc(c.nombre)}</b><span class="estado ${on ? "on" : "off"}">${on ? "Activa" : "Suspendida"}</span></div>
-      <div class="sub">${esc(c.plan || "Escucha digital")}${c.asistente ? " · asistente " + esc(c.asistente) : ""}${c.modo_demo ? " · modo demo" : ""}</div>
+      <div class="sub">${esc(c.plan || "Escucha digital")}${c.vertical ? " · " + esc(String(c.vertical).replace(/_/g, " ")) : ""}${c.asistente ? " · asistente " + esc(c.asistente) : ""}${c.modo_demo ? " · modo demo" : ""}</div>
+      ${c.etapa ? `<div class="fila2"><label>Etapa de la cuenta</label><select data-etapa="${c.id}" style="flex:1;padding:10px;border-radius:10px">${[["alta", "Alta (se está configurando)"], ["prueba", "Prueba"], ["activa", "Activa (cliente en servicio)"]].map(([v, n]) => `<option value="${v}" ${c.etapa === v ? "selected" : ""}>${n}</option>`).join("")}</select></div>` : ""}
       <button class="interruptor ${on ? "on" : ""}" data-sw="${c.id}" data-on="${on ? 1 : 0}"><span class="pista"></span><span class="tx">
         <b>${on ? "Membresía activa" : "Membresía suspendida"}</b>
         <span>${on ? "El asistente atiende por WhatsApp y la web, y el panel está en vivo. Toca para suspender." : "El asistente no responde y el panel está en pausa. Toca para reactivar."}</span></span></button>
@@ -477,8 +478,9 @@ $("#cuerpo").addEventListener("click", (e) => {
 });
 $("#cuerpo").addEventListener("change", async (e) => {
   if (tab !== "cli") return;
-  const f = e.target.closest("input[data-fecha]"), a = e.target.closest("input[data-auto]");
+  const f = e.target.closest("input[data-fecha]"), a = e.target.closest("input[data-auto]"), et = e.target.closest("select[data-etapa]");
   try {
+    if (et) { await llamarPanel({ accion: "etapa", empresa_id: et.dataset.etapa, etapa: et.value }); toast("Etapa guardada"); }
     if (f) { await llamarPanel({ accion: "membresia", empresa_id: f.dataset.fecha, pagado_hasta: f.value || null }); toast("Fecha guardada"); }
     if (a) { await llamarPanel({ accion: "membresia", empresa_id: a.dataset.auto, suspension_automatica: a.checked }); toast(a.checked ? "Se suspenderá sola si vence" : "Solo la suspendes tú"); }
   } catch (x) { toast("No se pudo: " + x.message); }

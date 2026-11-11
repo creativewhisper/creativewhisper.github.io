@@ -13,7 +13,9 @@
     var u = location.search + location.hash, t = (u.match(/[#&?]t=([a-f0-9]{16,64})/i) || [])[1], e = (u.match(/[#&?]e=([a-f0-9]{16,64})/i) || [])[1];
     if (!t && !e) return;
     var base = location.origin + location.pathname.replace(/[^/]*$/, "");
-    var m = { id: base, name: "Bosco · C.C. El Bosque", short_name: "Bosco", start_url: base + "?" + (t ? "t=" + t : "e=" + e), scope: base, display: "standalone",
+    // El nombre de la app es el del asistente de la cuenta (se guarda al entrar); la primera vez, uno neutro.
+    var cu = null; try { cu = JSON.parse(localStorage.getItem("app-cuenta") || "null"); } catch (x) {}
+    var m = { id: base, name: cu && cu.asistente ? cu.asistente + " · " + (cu.nombre || "") : "Asistente", short_name: cu && cu.asistente ? cu.asistente : "Asistente", start_url: base + "?" + (t ? "t=" + t : "e=" + e), scope: base, display: "standalone",
       orientation: "portrait", background_color: "#032B21", theme_color: "#032B21", lang: "es",
       icons: [{ src: base + "icono-192.png", sizes: "192x192", type: "image/png", purpose: "any" }, { src: base + "icono-512.png", sizes: "512x512", type: "image/png", purpose: "any" }, { src: base + "icono-mask-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" }] };
     document.getElementById("manif").href = "data:application/manifest+json," + encodeURIComponent(JSON.stringify(m));
@@ -537,7 +539,8 @@ const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 const ls = { get(k) { try { return localStorage.getItem(k); } catch { return null; } }, set(k, v) { try { localStorage.setItem(k, v); } catch {} } };
 const ss = { get(k) { try { return sessionStorage.getItem(k); } catch { return null; } }, set(k, v) { try { sessionStorage.setItem(k, v); } catch {} } };
-const AREA = { mantenimiento: ["🧹", "Mantenimiento y limpieza"], seguridad: ["🛡️", "Seguridad"], operaciones: ["⚙️", "Operaciones"], administracion: ["🗂️", "Administración"] };
+// Fase 1: las áreas llegan del servidor al entrar (inicio.areas). Estas son solo el valor inicial.
+let AREA = { mantenimiento: ["🧹", "Mantenimiento y limpieza"], seguridad: ["🛡️", "Seguridad"], operaciones: ["⚙️", "Operaciones"], administracion: ["🗂️", "Administración"] };
 const CANAL = { whatsapp: "💬", web: "🌐", voz: "🎙️", instagram: "📸", facebook: "👍", tiktok: "🎵", encuesta: "⭐" };
 const PRIO = { alta: "Alta", media: "Media", baja: "Baja" };
 const EST = { abierto: "Abierto", en_proceso: "En proceso", resuelto: "Resuelto" };
@@ -592,7 +595,31 @@ function hace(iso) {
   return new Date(iso).toLocaleDateString("es-EC", { day: "numeric", month: "short" });
 }
 const hora = (iso) => new Date(iso).toLocaleTimeString("es-EC", { hour: "numeric", minute: "2-digit" });
-const asis = () => S.cuenta?.asistente || "Bosco";
+const asis = () => S.cuenta?.asistente || "el asistente";
+const mayus = (s) => String(s || "").charAt(0).toUpperCase() + String(s || "").slice(1);
+// Fase 1 · Nombres por cuenta. Los textos de esta página que nombran al asistente o al lugar del primer cliente se cambian,
+// al vuelo, por los de la cuenta que la abre. Para esa primera cuenta no cambia nada.
+function personalizar(cu) {
+  if (personalizar.hecho || !cu) return;
+  const reglas = [];
+  if (cu.asistente && cu.asistente !== "Bosco") reglas.push([/\bBosco\b/g, cu.asistente]);
+  if (cu.nombre && !/El Bosque/.test(cu.nombre)) reglas.push([/C\.C\. El Bosque|\bEl Bosque\b/g, cu.nombre]);
+  const lugar = cu.config?.negocio?.lugar;
+  if (lugar && lugar !== "el centro comercial") reglas.push([/\bdel centro comercial\b/g, lugar.startsWith("el ") ? "d" + lugar : "de " + lugar], [/\bel centro comercial\b/g, lugar]);
+  if (!reglas.length) return;
+  personalizar.hecho = true;
+  const cambiar = (s) => reglas.reduce((t, [re, v]) => t.replace(re, v), s);
+  const nodo = (n) => {
+    if (n.nodeType === 3) { const t = cambiar(n.nodeValue); if (t !== n.nodeValue) n.nodeValue = t; return; }
+    if (n.nodeType !== 1 || n.tagName === "SCRIPT" || n.tagName === "STYLE") return;
+    for (const a of ["placeholder", "aria-label", "title", "alt"]) { const v = n.getAttribute(a); if (v) { const t = cambiar(v); if (t !== v) n.setAttribute(a, t); } }
+    for (const h of n.childNodes) nodo(h);
+  };
+  nodo(document.body);
+  new MutationObserver((ms) => { for (const m of ms) { if (m.type === "characterData") nodo(m.target); for (const n of m.addedNodes) nodo(n); } })
+    .observe(document.body, { childList: true, subtree: true, characterData: true });
+}
+
 // Decimales con coma, como en el panel y la cotización («1,5 h», «4,1 ★»); «1.200» (miles) no se toca.
 const dec = (s) => String(s ?? "").replace(/(\d)\.(\d)(?!\d)/g, "$1,$2");
 // Que «24 h» o «15 min» no se partan en dos líneas.
@@ -876,7 +903,7 @@ function pintarHoy() {
       ["Satisfacción", g.csat != null ? `${g.csat} %` : "–", g.csat == null ? "" : g.csat >= 85 ? "bien" : g.csat >= 70 ? "ojo" : "mal"],
       ["Quejas por 100 conversaciones", g.quejas_100 != null ? String(g.quejas_100) : "–", g.quejas_100 == null ? "" : g.quejas_100 <= 5 ? "bien" : g.quejas_100 <= 10 ? "ojo" : "mal"],
       ["Equipo ocupado", g.equipo ? `${g.equipo.ocupados} de ${g.equipo.total}` : "–", ""]];
-    html += `<div class="card"><h2>🏥 Salud del centro comercial</h2><div class="salud ${g.estado || ""}" style="box-shadow:none;padding:0"><div class="sal-n num">${g.salud ?? "–"}</div><div><b>Salud general</b><small>Promedio de las áreas, ponderado por cuántos casos tiene cada una.</small></div></div>
+    html += `<div class="card"><h2>🏥 Salud de la operación</h2><div class="salud ${g.estado || ""}" style="box-shadow:none;padding:0"><div class="sal-n num">${g.salud ?? "–"}</div><div><b>Salud general</b><small>Promedio de las áreas, ponderado por cuántos casos tiene cada una.</small></div></div>
       <div class="kpis-area">${kg.map(([t, v, e]) => `<div class="kpi-a ${e}"><div class="t">${esc(t)}</div><div class="v">${esc(v)}</div></div>`).join("")}</div>
       ${S.areas.map((a) => { const k = (a.kpis || [])[0], sa = a.salud || {}; return `<button class="fila-area" data-area-ver="${a.area}"><span class="ic">${a.icono}</span><span style="flex:1"><b>${esc(cap(a.nombre))}</b><small>${sa.principal ? `${mejorar(sa)} · ${esc(dec(sa.principal))}` : `${a.pendientes} pendiente${a.pendientes === 1 ? "" : "s"}${a.fuera_de_tiempo ? ` · <span style="color:var(--rojo);font-weight:800">${a.fuera_de_tiempo} fuera de tiempo</span>` : ""}`}</small>${k ? `<span class="kpi-fila"><i class="${k.estado || ""}"></i>${esc(k.titulo)}: ${esc(dec(k.valor))}</span>` : ""}</span><span class="nota-ind" style="background:${col(sa.estado)}" title="Salud del área">${sa.puntaje ?? "–"}</span></button>`; }).join("")}
       <p class="sub" style="margin-top:8px">Toque un área para ver sus indicadores. El número es la salud del área (0–100).</p></div>`;
@@ -1705,7 +1732,11 @@ async function iniciar() {
   if (ini.enlace) return vincular(esEquipo() ? "Ese enlace ya no es válido. Pida el nuevo a la gerencia." : "Ese enlace ya no es válido.");
   if (ini.suspendida) return pausa(ini.cuenta);
   if (ini.error) { vincular(ini.error); return; }
-  S.cuenta = ini.cuenta; S.disp = ini.dispositivo; S.vapid = ini.vapid; S.areaNombre = ini.area_nombre; S.areaId = ini.area;
+  S.cuenta = ini.cuenta;
+  if (Array.isArray(ini.areas) && ini.areas.length) AREA = Object.fromEntries(ini.areas.map((a) => [a.id, [a.icono || "📌", mayus(a.nombre)]]));
+  try { localStorage.setItem("app-cuenta", JSON.stringify({ asistente: S.cuenta?.asistente || "", nombre: S.cuenta?.nombre || "" })); } catch (x) {}
+  personalizar(S.cuenta);
+  S.disp = ini.dispositivo; S.vapid = ini.vapid; S.areaNombre = ini.area_nombre; S.areaId = ini.area;
   if (esEquipo() && S.disp) S.disp.areas = [ini.area];
   if (esEquipo() && !S.disp) S.disp = null;
   document.body.dataset.rol = esEquipo() ? "equipo" : "gerencia";
