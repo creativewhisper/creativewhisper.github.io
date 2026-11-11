@@ -4,7 +4,7 @@
    Todo lo que se anima con el scroll usa scrub: avanza al bajar y retrocede al subir.
    ========================================================= */
 window.cwSite = function ({ end = '#contacto', autoplay = true, speed = .6, init } = {}) {
-  const WA = '593969577774';
+  const WA = '593969235680';
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
   const pad = n => String(n).padStart(2, '0');
