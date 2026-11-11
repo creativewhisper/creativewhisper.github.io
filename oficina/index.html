@@ -135,6 +135,18 @@ details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer
 .enlace-alta .qr{background:#fff;border-radius:10px;padding:8px;width:max-content;margin:8px auto 0}
 .lista-estado{margin-top:10px;font-size:14px;line-height:1.5}
 .lista-estado .ok{color:var(--porthos)} .lista-estado .no{color:var(--bataka)} .lista-estado .apag{color:var(--suave)}
+
+/* Fase 4 · Tablero de salud, uso por plan, enlaces del panel y privacidad (paleta de CW) */
+.salud-n{display:inline-block;border-radius:8px;padding:2px 9px;font-size:12px;font-weight:800;letter-spacing:.03em;margin-left:6px}
+.salud-n.ok{background:rgba(62,163,152,.18);color:var(--porthos)} .salud-n.aviso{background:rgba(245,163,0,.18);color:var(--bataka)} .salud-n.alerta{background:var(--torote);color:#fff}
+.alerta-fila{border-left:3px solid var(--linea);padding:6px 0 6px 10px;margin-top:8px;font-size:14px}
+.alerta-fila.alerta{border-color:var(--torote)} .alerta-fila.aviso{border-color:var(--bataka)}
+.alerta-fila b{display:block} .alerta-fila span{color:var(--suave)}
+.salud-tabla{width:100%;border-collapse:collapse;font-size:13px;margin-top:8px} .salud-tabla td{padding:5px 6px 5px 0;border-top:1px solid var(--linea);vertical-align:top} .salud-tabla td:last-child{text-align:right;color:var(--suave)}
+.medidor{height:8px;border-radius:9px;background:var(--tarjeta-2);overflow:hidden;margin-top:6px} .medidor i{display:block;height:100%;background:var(--porthos)} .medidor i.cerca{background:var(--bataka)} .medidor i.pasado{background:var(--torote)}
+.salud-sec{margin-top:14px} .salud-sec h4{margin:0 0 2px;font-size:14px;font-weight:800}
+.salud-in{flex:1;min-width:0;border-radius:10px;border:1px solid var(--linea);background:var(--tarjeta-2);padding:10px;font-size:15px;color:var(--texto)}
+.salud-in.corto{flex:0 0 96px}
 </style>
 </head>
 <body>
@@ -604,6 +616,174 @@ $("#cuerpo").addEventListener("change", async (e) => {
     if (a) { await llamarPanel({ accion: "membresia", empresa_id: a.dataset.auto, suspension_automatica: a.checked }); toast(a.checked ? "Se suspenderá sola si vence" : "Solo la suspendes tú"); }
   } catch (x) { toast("No se pudo: " + x.message); }
 });
+
+// ---------- Fase 4 · Tablero de salud, uso por plan, enlaces del panel, privacidad y validación del sentimiento ----------
+// Todo sale de operacion-cliente y calidad-cliente (la función oficina no se toca). Las alertas las calcula la base (cli_salud).
+const llamarOp = (c) => llamarFn("operacion-cliente", c), llamarCal = (c) => llamarFn("calidad-cliente", c);
+let saludTodo = null;
+const fechaHora = (f) => { if (!f) return "nunca"; try { return new Date(f).toLocaleString("es-EC", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }); } catch (e) { return String(f); } };
+const dinero = (v) => (v === null || v === undefined ? "sin dato" : "US$ " + Number(v).toLocaleString("es-EC", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+const NIVEL_TXT = { ok: "sin alertas", aviso: "avisos", alerta: "alertas" };
+const chipSalud = (n, cuantas) => `<span class="salud-n ${esc(n)}">${n === "ok" ? "sin alertas" : cuantas + " " + (n === "alerta" ? (cuantas === 1 ? "alerta" : "alertas") : (cuantas === 1 ? "aviso" : "avisos"))}</span>`;
+const filasAlerta = (al) => (al || []).map((a) => `<div class="alerta-fila ${esc(a.nivel)}"><b>${esc(a.titulo)}</b><span>${esc(a.detalle || "")}</span></div>`).join("");
+const cuantasDe = (x) => (x.nivel === "alerta" ? (x.alertas || []).filter((a) => a.nivel === "alerta").length : (x.alertas || []).length);
+
+function tarjetaSalud() {
+  return `<div class="card" id="saludCard" style="--color:var(--cw-2)"><div class="cab2"><b>Salud del servicio</b><span id="saludChip"></span></div>
+    <div id="saludResumen" class="sub">Revisando…</div>
+    <div class="fila2"><input class="salud-in" id="guardiaTxt" maxlength="400" placeholder="Pregúntale al guardia: ¿qué hago con esta alerta?"><button class="btn" style="flex:0 0 auto" data-salud-accion="guardia">Preguntar</button></div>
+    <div id="guardiaRes" class="sub" style="white-space:pre-wrap"></div>
+    <details style="margin-top:10px"><summary style="cursor:pointer;font-weight:700">Trabajos programados</summary><div id="saludCrons" class="sub"></div></details>
+    <details style="margin-top:10px" data-priv><summary style="cursor:pointer;font-weight:700">Privacidad: borrado por plazo de conservación</summary><div id="privRes" class="sub" style="margin-top:6px">Cargando…</div></details>
+    <details style="margin-top:10px" data-calidad><summary style="cursor:pointer;font-weight:700">Validación del sentimiento</summary><div id="calRes" class="sub" style="margin-top:6px">Cargando…</div></details></div>`;
+}
+function pintarSaludTodo() {
+  const s = saludTodo; if (!s || !$("#saludCard")) return;
+  const pl = s.plataforma || { nivel: "ok", alertas: [], trabajos: [] }, cuentas = s.cuentas || [];
+  const conAlerta = cuentas.filter((c) => c.nivel === "alerta"), total = cuentas.reduce((a, c) => a + (c.alertas || []).filter((x) => x.nivel === "alerta").length, 0) + (pl.alertas || []).filter((x) => x.nivel === "alerta").length;
+  const nivel = total ? "alerta" : (pl.nivel === "aviso" || cuentas.some((c) => c.nivel === "aviso")) ? "aviso" : "ok";
+  $("#saludChip").innerHTML = chipSalud(nivel, total || cuentas.reduce((a, c) => a + (c.alertas || []).length, 0) + (pl.alertas || []).length);
+  $("#saludResumen").innerHTML = (total ? `<b style="color:var(--texto)">${total} ${total === 1 ? "alerta abierta" : "alertas abiertas"}</b>${conAlerta.length ? ` · ${conAlerta.map((c) => esc(c.nombre)).join(", ")}` : ""}.` : "Ninguna alerta abierta.") + ` Revisado: ${esc(fechaHora(s.generado))}`
+    + ((pl.alertas || []).length ? `<div style="margin-top:6px"><b style="color:var(--texto)">Plataforma (afecta a todas las cuentas)</b>${filasAlerta(pl.alertas)}</div>` : "")
+    + (s.marcas_propias ? `<div style="margin-top:6px">Gasto de IA del bot de las marcas propias este mes: ${esc(dinero(s.marcas_propias.usd))} (${s.marcas_propias.llamadas} llamadas).</div>` : "");
+  $("#saludCrons").innerHTML = `<table class="salud-tabla">${(pl.trabajos || []).map((t) => `<tr><td><b style="color:${t.estado === "bien" ? "var(--porthos)" : "var(--torote)"}">${esc(t.estado)}</b> · ${esc(t.trabajo)}<br>${esc(t.para)}</td><td>${esc(fechaHora(t.ultima_corrida))}${t.fallas_24h ? `<br>${t.fallas_24h} fallas en 24 h` : ""}</td></tr>`).join("")}</table>`;
+  for (const c of cuentas) { const el = document.querySelector(`[data-salud-chip="${c.empresa_id}"]`); if (el) el.innerHTML = chipSalud(c.nivel, cuantasDe(c)); }
+}
+async function cargarSaludTodo() { try { saludTodo = await llamarOp({ accion: "salud" }); pintarSaludTodo(); } catch (x) { if ($("#saludResumen")) $("#saludResumen").textContent = "No se pudo revisar la salud: " + x.message; } }
+
+function pintarSaludCuenta(id, c, u, en) {
+  const el = document.querySelector(`[data-salud-de="${id}"]`); if (!el) return;
+  const uso = u.uso || {}, costo = u.costo || {}, f = u.facturacion || {};
+  const pct = uso.pct === null || uso.pct === undefined ? null : Number(uso.pct), pctC = costo.pct_del_tope === null || costo.pct_del_tope === undefined ? null : Number(costo.pct_del_tope);
+  const barra = (p) => (p === null ? "" : `<div class="medidor"><i class="${p >= 100 ? "pasado" : p >= 80 ? "cerca" : ""}" style="width:${Math.min(100, Math.max(2, p))}%"></i></div>`);
+  const unidad = esc(uso.unidad || "respuestas");
+  el.innerHTML = `
+    <div>${c.alertas && c.alertas.length ? filasAlerta(c.alertas) : `<span style="color:var(--porthos)">Sin alertas abiertas.</span>`}</div>
+    <div class="salud-sec"><h4>Cuenta</h4>Interruptor: <b>${c.cuenta.interruptor === "activa" ? "encendido" : "apagado (en pausa)"}</b> · etapa: <b>${esc(c.cuenta.etapa)}</b> · reciben alertas: ${c.cuenta.reciben_alertas}</div>
+    <div class="salud-sec"><h4>Canales (último mensaje)</h4>${(c.canales || []).length ? `<table class="salud-tabla">${c.canales.map((k) => `<tr><td><b>${esc(k.canal)}</b>${k.identificador ? " · " + esc(k.identificador) : ""}<br>${esc(k.estado)}${k.error ? " · " + esc(k.error) : ""}</td><td>${esc(fechaHora(k.ultimo_mensaje))}</td></tr>`).join("")}</table>` : "Todavía sin mensajes reales."}
+      ${(c.tokens || []).length ? `<div style="margin-top:6px">Accesos: ${c.tokens.map((t) => `${esc(t.canal)} ${t.vence ? "vence en " + t.dias + " días" : "no vence"}`).join(" · ")}</div>` : ""}</div>
+    <div class="salud-sec"><h4>Mensajes y publicaciones</h4>Sin respuesta: <b>${c.mensajes.sin_respuesta}</b> · sin clasificar: <b>${c.mensajes.sin_clasificar}</b>${c.publicaciones ? ` · publicaciones con error: <b>${c.publicaciones.con_error}</b> · trabadas: <b>${c.publicaciones.trabadas + c.publicaciones.envio_sin_confirmar}</b> · por revisar: ${c.publicaciones.por_revisar}` : ""}</div>
+    <div class="salud-sec"><h4>Uso del mes contra su plan</h4><b>${uso.usadas ?? 0}</b> ${unidad}${uso.incluidas ? ` de ${uso.incluidas} incluidas (${String(pct).replace(".", ",")} %)` : " · sin tope cargado"}${barra(pct)}
+      ${uso.extra ? `<div>Excedente: <b>${uso.extra}</b> ${unidad} = <b>${esc(dinero(uso.extra_usd))}</b> (a ${esc(dinero(uso.precio_extra_mil_usd))} por 1.000)</div>` : ""}
+      ${uso.incluidas ? `<div>A este ritmo cierra el mes en ${uso.proyeccion}${uso.proyeccion_extra_usd ? ` (excedente de ${esc(dinero(uso.proyeccion_extra_usd))})` : ""}.</div>` : ""}
+      ${(u.cierres || []).length ? `<div style="margin-top:4px">Meses cerrados: ${u.cierres.slice(0, 6).map((m) => `${esc(m.mes)}: ${m.usadas ?? 0}${m.extra ? ` (+${m.extra}, ${esc(dinero(m.extra_usd))})` : ""}`).join(" · ")}</div>` : ""}</div>
+    <div class="salud-sec"><h4>Gasto de IA del mes</h4><b>${esc(dinero(costo.usd))}</b>${costo.tope_usd ? ` de ${esc(dinero(costo.tope_usd))} de tope (${esc(costo.tope_origen || "")})` : " · sin tope cargado"}${barra(pctC)}
+      <div>Proyección al cierre: ${esc(dinero(costo.proyeccion_usd))}${costo.pct_del_precio !== null && costo.pct_del_precio !== undefined ? ` · ${String(costo.pct_del_precio).replace(".", ",")} % del precio del plan` : ""}. Voz: sin medir.</div>
+      <div>${Object.entries(costo.por_funcion || {}).map(([k, v]) => `${esc(k)}: ${esc(dinero(v.usd))}`).join(" · ")}</div></div>
+    <div class="salud-sec"><h4>Su plan (solo lo ve la oficina)</h4>
+      <div class="fila2"><label>Unidades incluidas al mes</label><input class="salud-in corto" inputmode="numeric" data-plan="${uso.unidad === "conversaciones" ? "conversaciones_incluidas" : "respuestas_incluidas"}" value="${esc(uso.incluidas ?? "")}"></div>
+      <div class="fila2"><label>Precio del plan al mes (US$)</label><input class="salud-in corto" inputmode="decimal" data-plan="precio_mes_usd" value="${esc(f.precio_mes_usd ?? "")}"></div>
+      <div class="fila2"><label>Tope de gasto de IA (US$; vacío = 25 % del precio)</label><input class="salud-in corto" inputmode="decimal" data-plan="tope_ia_usd" value="${esc(f.tope_ia_usd ?? "")}"></div>
+      <div class="acciones"><button class="btn" data-salud-accion="plan" data-id="${id}">Guardar el plan</button></div></div>
+    <div class="salud-sec"><h4>Enlaces del panel y de la app</h4>${(en.enlaces || []).filter((x) => x.vigente).map((x) => `<div class="fila2" style="margin-top:6px"><label style="color:var(--texto)">${esc(x.persona || "Sin nombre")}${x.tipo === "legado" ? ' <span class="etq tu">compartido de antes</span>' : ""}<br><span class="sub">vence ${esc(fechaHora(x.vence))} · último uso ${esc(fechaHora(x.ultimo_uso))}</span></label>${x.tipo === "legado" ? `<button class="btn" style="flex:0 0 auto;padding:9px 12px" data-salud-accion="gracia" data-id="${id}">+30 días</button>` : `<button class="btn" style="flex:0 0 auto;padding:9px 12px" data-salud-accion="revocar" data-id="${id}" data-enlace="${x.id}">Revocar</button>`}</div>`).join("") || "Ningún enlace vigente."}
+      <div class="fila2"><input class="salud-in" maxlength="80" placeholder="Nombre o cargo de la persona" data-enlace-persona="${id}"><button class="btn" style="flex:0 0 auto" data-salud-accion="enlace" data-id="${id}">Crear enlace</button></div>
+      <div data-enlace-nuevo="${id}"></div><div class="sub">Cada enlace es de una persona, vence a los ${en.ajustes?.dias ?? 90} días y se renueva solo mientras lo use. Se muestra una sola vez.</div></div>
+    <div class="salud-sec"><h4>Reporte mensual</h4>
+      <label class="chk"><input type="checkbox" data-rep="${id}" data-clave="mensual" ${c.reporte_mensual ? "checked" : ""}> Armar el reporte mensual el día 1</label>
+      <label class="chk"><input type="checkbox" data-rep="${id}" data-clave="mensual_envio" ${c.reporte_envio ? "checked" : ""}> Avisar al cliente en su app cuando esté listo (apagado por defecto)</label>
+      <div class="acciones"><button class="btn" data-salud-accion="reporte" data-id="${id}">Armar ahora el del mes pasado</button></div></div>
+    <div class="salud-sec"><h4>Privacidad de esta cuenta</h4><div data-plazos="${id}">Plazos: cargando…</div>
+      <div class="acciones"><button class="btn" data-salud-accion="exportar" data-id="${id}">Exportar sus datos</button></div><div data-export="${id}"></div>
+      <div class="fila2"><input class="salud-in" maxlength="80" placeholder="Teléfono, @usuario o sesión de la persona" data-persona="${id}"><button class="btn" style="flex:0 0 auto" data-salud-accion="borrar" data-id="${id}">Borrar a esta persona</button></div><div data-borrar="${id}"></div></div>`;
+  llamarOp({ accion: "conservacion_plazos", empresa_id: id }).then((r) => { const d = document.querySelector(`[data-plazos="${id}"]`); if (d) d.textContent = `Plazos: mensajes ${r.plazos.mensajes_meses} meses · fotos y ubicaciones ${r.plazos.medios_dias} días · voz ${r.plazos.voz_dias} días · casos ${r.plazos.casos_meses} meses desde que se cierran · registros técnicos ${r.tecnicos_dias} días.`; }).catch(() => {});
+}
+async function cargarSaludCuenta(id) {
+  const el = document.querySelector(`[data-salud-de="${id}"]`); if (!el) return;
+  try {
+    const [s, u, en, cu] = await Promise.all([llamarOp({ accion: "salud", empresa_id: id }), llamarOp({ accion: "uso", empresa_id: id }), llamarOp({ accion: "enlaces", empresa_id: id }), Promise.resolve(cuentasCli.find((x) => x.id === id))]);
+    const c = s.cuentas[0]; c.reporte_mensual = !!u.reporte?.mensual; c.reporte_envio = !!u.reporte?.mensual_envio;
+    pintarSaludCuenta(id, c, u, en);
+    const chip = document.querySelector(`[data-salud-chip="${id}"]`); if (chip) chip.innerHTML = chipSalud(c.nivel, cuantasDe(c));
+  } catch (x) { el.textContent = "No se pudo cargar: " + x.message; }
+}
+async function pintarPrivacidad() {
+  const el = $("#privRes"); if (!el) return;
+  try {
+    const r = await llamarOp({ accion: "conservacion_modo" }), u = r.ultima;
+    el.innerHTML = `Modo: <b style="color:var(--texto)">${r.modo === "aplicar" ? "borra lo vencido todos los días" : "simulación (cuenta, no borra)"}</b>.
+      ${u ? `Última corrida: ${esc(fechaHora(u.corrido))} (${esc(u.modo)}): ${u.totales?.mensajes ?? 0} mensajes, ${u.totales?.casos ?? 0} casos, ${u.totales?.fotos_y_ubicaciones ?? 0} fotos y ubicaciones, ${u.tecnicos?.eventos ?? 0} registros técnicos${u.modo === "simular" ? " se borrarían" : " borrados"}.` : "Todavía no corrió."}
+      <div class="acciones"><button class="btn" data-salud-accion="simular">Ver qué se borraría hoy</button><button class="btn" data-salud-accion="modo" data-modo="${r.modo === "aplicar" ? "simular" : "aplicar"}">${r.modo === "aplicar" ? "Volver a simulación" : "Empezar a borrar lo vencido"}</button></div>`;
+  } catch (x) { el.textContent = "No se pudo cargar: " + x.message; }
+}
+async function pintarCalidad() {
+  const el = $("#calRes"); if (!el) return;
+  try {
+    const r = await llamarCal({ accion: "informe" }), i = r.informe, m = i.metas;
+    const linea = (n, x, p) => `<tr><td>${n}</td><td>${x.valor === null ? "sin dato" : p ? Math.round(x.valor * 1000) / 10 + " %" : x.valor.toFixed(2)} (meta ${p ? x.meta * 100 + " %" : x.meta}) · ${x.cumple === null ? "sin medir" : x.cumple ? "cumple" : "NO cumple"}</td></tr>`;
+    el.innerHTML = `Muestra: <b style="color:var(--texto)">${i.en_muestra}</b> mensajes · etiquetados: <b style="color:var(--texto)">${i.etiquetados}</b> · personas: ${esc(i.personas.join(", ") || "ninguna")}.
+      <div style="margin-top:4px">${i.valido_para_la_meta ? '<b style="color:var(--porthos)">Válido para la meta.</b>' : '<b style="color:var(--bataka)">Todavía no vale para la meta:</b> ' + esc(i.por_que_no.join("; ")) + "."}</div>
+      <table class="salud-tabla">${linea("Sentimiento: acierto", m.sentimiento_acierto, true)}${linea("Sentimiento: kappa", m.sentimiento_kappa, false)}${linea("Categoría: acierto", m.categoria_acierto, true)}${linea("Quejas graves detectadas", m.graves_deteccion, true)}</table>
+      <div class="acciones"><button class="btn" data-salud-accion="muestra">Completar la muestra</button><button class="btn" data-salud-accion="reclasificar">Reclasificar la muestra</button></div>
+      <div class="fila2"><input class="salud-in" id="etqNombre" maxlength="60" placeholder="Nombre de quien va a etiquetar"><button class="btn" style="flex:0 0 auto" data-salud-accion="etiquetador">Crear enlace</button></div><div id="etqEnlace"></div>`;
+  } catch (x) { el.textContent = "No se pudo cargar: " + x.message; }
+}
+// El enlace recién creado se muestra UNA vez (la base guarda solo su huella): copiar, mandar por WhatsApp o QR.
+function enlaceNuevo(destino, titulo, enlace, vence, textoWA, app) {
+  destino.innerHTML = `<div class="enlace-alta"><b>${esc(titulo)}</b> · vence el ${esc(fechaCorta(String(vence).slice(0, 10)))}<br>${esc(enlace)}
+    <div class="enlaces"><button data-copiar="${esc(enlace)}">Copiar enlace</button>${app ? `<button data-copiar="${esc(app)}">Copiar el de la app</button>` : ""}<a href="https://wa.me/?text=${encodeURIComponent(textoWA)}" target="_blank" rel="noopener">Mandar por WhatsApp</a></div>
+    <div class="qr" data-qr="${esc(enlace)}"></div><div class="sub">Guárdalo ahora: no se vuelve a mostrar.</div></div>`;
+  const q = destino.querySelector("[data-qr]");
+  if (window.QRCode && q) { try { new QRCode(q, { text: enlace, width: 150, height: 150 }); } catch (e) { q.remove(); } } else if (q) q.remove();
+}
+const _pintarClientesF3 = pintarClientes;
+pintarClientes = async function () {
+  await _pintarClientesF3();
+  if (tab !== "cli" || !cuentasCli.length) return;
+  const cuerpo = $("#cuerpo"), primera = cuerpo.querySelector(".card.cli");
+  if (primera && !$("#saludCard")) primera.insertAdjacentHTML("beforebegin", tarjetaSalud());
+  cuerpo.querySelectorAll(".card.cli").forEach((card) => {
+    const id = card.querySelector("[data-sw]")?.dataset.sw; if (!id || card.querySelector("[data-salud]")) return;
+    card.querySelector(".datos3")?.insertAdjacentHTML("beforebegin", `<details data-salud="${id}" style="margin:10px 0"><summary style="cursor:pointer;font-weight:700">Salud y uso <span data-salud-chip="${id}"></span></summary><div data-salud-de="${id}" class="sub" style="margin-top:8px">Cargando…</div></details>`);
+  });
+  if (saludTodo) pintarSaludTodo();
+  cargarSaludTodo();
+};
+document.addEventListener("toggle", (e) => {
+  const d = e.target; if (!d.open || !d.dataset) return;
+  if (d.dataset.salud) cargarSaludCuenta(d.dataset.salud);
+  if ("priv" in d.dataset) pintarPrivacidad();
+  if ("calidad" in d.dataset) pintarCalidad();
+}, true);
+$("#cuerpo").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-salud-accion]"); if (!b || tab !== "cli") return;
+  e.stopPropagation(); const a = b.dataset.saludAccion, id = b.dataset.id; b.disabled = true;
+  try {
+    if (a === "guardia") { const p = $("#guardiaTxt").value.trim(); if (p) { $("#guardiaRes").textContent = "…"; $("#guardiaRes").textContent = (await llamarOp({ accion: "agente", pregunta: p })).texto; } }
+    if (a === "plan") { const f = {}; document.querySelectorAll(`[data-salud-de="${id}"] [data-plan]`).forEach((i) => { f[i.dataset.plan] = i.value.trim() === "" ? null : i.value.trim().replace(",", "."); }); await llamarOp({ accion: "plan", empresa_id: id, facturacion: f }); toast("Plan guardado"); await cargarSaludCuenta(id); }
+    if (a === "enlace") {
+      const persona = document.querySelector(`[data-enlace-persona="${id}"]`).value.trim(); if (!persona) { toast("Escribe el nombre o el cargo"); b.disabled = false; return; }
+      const r = await llamarOp({ accion: "enlace_crear", empresa_id: id, persona }); await cargarSaludCuenta(id);
+      const d = document.querySelector(`[data-enlace-nuevo="${id}"]`); if (d) enlaceNuevo(d, "Enlace del panel de " + r.persona, r.panel, r.vence, `Hola. Este es su enlace personal del panel (no lo comparta): ${r.panel}`, r.app);
+    }
+    if (a === "revocar") { if (confirm("¿Revocar este enlace? Deja de abrir en el acto.")) { await llamarOp({ accion: "enlace_revocar", empresa_id: id, id: Number(b.dataset.enlace) }); toast("Enlace revocado"); await cargarSaludCuenta(id); } }
+    if (a === "gracia") { await llamarOp({ accion: "enlace_gracia", empresa_id: id, dias: 30 }); toast("El enlace compartido vale 30 días desde hoy"); await cargarSaludCuenta(id); }
+    if (a === "reporte") { const r = await llamarOp({ accion: "reporte_mensual", empresa_id: id }); toast(r.omitida ? "Ya estaba armado" : "Reporte de " + r.mes + " armado"); }
+    if (a === "exportar") {
+      const d = document.querySelector(`[data-export="${id}"]`); d.textContent = "Armando los archivos…";
+      const r = await llamarOp({ accion: "exportar", empresa_id: id });
+      d.innerHTML = `${r.filas} filas en ${r.archivos.filter((x) => x.filas).length} archivos. Los enlaces vencen en ${r.vence_en_dias} días.<br>` + [`<a href="${esc(r.leeme)}" target="_blank" rel="noopener">LEEME</a>`, ...r.archivos.filter((x) => x.url).map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.tabla)} (${x.filas})</a>`)].join(" · ");
+    }
+    if (a === "borrar") {
+      const ident = document.querySelector(`[data-persona="${id}"]`).value.trim(), d = document.querySelector(`[data-borrar="${id}"]`);
+      if (ident.length < 4) { toast("Escribe el teléfono, el usuario o la sesión"); b.disabled = false; return; }
+      const v = await llamarOp({ accion: "borrar_persona", empresa_id: id, identificador: ident });
+      const resumen = `${v.mensajes} mensajes, ${v.conversaciones} conversaciones, ${v.interesados} registros de interesado, ${v.opiniones} opiniones; ${v.casos_sin_datos} casos quedan sin sus datos y se borran ${v.fotos} fotos`;
+      if (!v.sesiones && !v.contactos_de_alertas) d.textContent = "No se encontró nada de esa persona en esta cuenta.";
+      else if (confirm(`Se va a borrar: ${resumen}. No se puede deshacer. ¿Borrar?`)) { await llamarOp({ accion: "borrar_persona", empresa_id: id, identificador: ident, aplicar: true }); d.textContent = "Borrado: " + resumen + ". Quedó la constancia."; }
+    }
+    if (a === "simular") { const r = await llamarOp({ accion: "conservacion", simular: true }); toast(`Hoy se borrarían ${r.totales.mensajes} mensajes y ${r.totales.casos} casos`); await pintarPrivacidad(); }
+    if (a === "modo") { if (b.dataset.modo !== "aplicar" || confirm("Desde mañana se borra todos los días lo que pasó su plazo de conservación. No se puede deshacer. ¿Empezar?")) { await llamarOp({ accion: "conservacion_modo", modo: b.dataset.modo }); await pintarPrivacidad(); } }
+    if (a === "muestra") { const r = await llamarCal({ accion: "muestra" }); toast(`Muestra: ${r.total} mensajes (${r.agregados} nuevos; faltan ${r.faltan} para 300)`); await pintarCalidad(); }
+    if (a === "reclasificar") { const r = await llamarCal({ accion: "reclasificar", limite: 40 }); toast(`${r.reclasificados} reclasificados; faltan ${r.faltan}`); await pintarCalidad(); }
+    if (a === "etiquetador") { const n = $("#etqNombre").value.trim(); if (!n) { toast("Escribe el nombre"); b.disabled = false; return; } const r = await llamarCal({ accion: "enlace", nombre: n }); enlaceNuevo($("#etqEnlace"), "Enlace de etiquetado de " + r.nombre, r.enlace, r.vence, `Hola. Con este enlace etiquetas los mensajes desde el celular (unas 2 horas en total, se puede por partes): ${r.enlace}`); }
+  } catch (x) { toast("No se pudo: " + x.message); }
+  b.disabled = false;
+});
+$("#cuerpo").addEventListener("change", async (e) => {
+  const c = e.target.closest("input[data-rep]"); if (!c || tab !== "cli") return;
+  try { await llamarOp({ accion: "reporte_ajustes", empresa_id: c.dataset.rep, [c.dataset.clave]: c.checked }); toast("Guardado"); } catch (x) { toast("No se pudo: " + x.message); c.checked = !c.checked; }
+}, true);
+$("#cuerpo").addEventListener("keydown", (e) => { if (e.key === "Enter" && e.target.id === "guardiaTxt") document.querySelector('[data-salud-accion="guardia"]')?.click(); });
 
 // ---------- Navegación ----------
 function contador() {

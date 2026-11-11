@@ -1714,6 +1714,14 @@ async function cargarReporteSemanal() {
       ${(r.posts || []).length ? `<div style="margin-top:12px;display:grid;gap:8px">${r.posts.map((p) => `<div style="display:flex;gap:10px;align-items:center">${p.portada ? `<img src="${esc(p.portada)}" alt="" style="width:46px;height:58px;object-fit:cover;border-radius:6px">` : ""}<div><b>${esc(p.titulo)}</b><div class="cs-m">${esc(p.formato)} · alcance ${numF(p.alcance)} · interacciones ${numF(p.interacciones)} · guardados ${numF(p.guardados)}${p.efecto && p.efecto.cambio_pct != null ? ` · mensajes del tema ${p.efecto.cambio_pct > 0 ? "+" : ""}${p.efecto.cambio_pct} %` : ""}</div></div></div>`).join("")}</div>` : ""}
       ${d.reportes.length > 1 ? `<div class="cs-m" style="margin-top:10px">Anteriores: ${d.reportes.slice(1).map((x) => esc(x.semana)).join(" · ")}</div>` : ""}</details>`;
   } catch { el.innerHTML = ""; }
+  // Fase 4 · Reporte mensual (se arma solo el día 1): va debajo del semanal.
+  try {
+    const m = await llamar({ accion: "reporte_mensual" }), x = (m.reportes || [])[0];
+    if (x) {
+      const f = new Date(String(x.mes).slice(0, 10) + "T12:00:00Z");
+      el.insertAdjacentHTML("beforeend", `<details class="caja" style="margin:10px 0"><summary style="cursor:pointer;font-weight:700">📅 Reporte mensual · ${esc(f.toLocaleDateString("es-EC", { month: "long", year: "numeric", timeZone: "UTC" }))}</summary><div style="white-space:pre-wrap;margin-top:10px;line-height:1.5">${esc(x.texto)}</div>${m.reportes.length > 1 ? `<div class="cs-m" style="margin-top:10px">Anteriores: ${m.reportes.slice(1).map((y) => esc(String(y.mes).slice(0, 7))).join(" · ")}</div>` : ""}</details>`);
+    }
+  } catch { /* sin reporte mensual */ }
 }
 const CS = { posts: [], cargado: false, visible: false, sel: new Set(), redes: false, producciones: [], abierto: null, slide: 0, vista: "perfil", historia: null };
 let csGenerado = false;
@@ -2068,6 +2076,46 @@ else {
   setInterval(() => { if (S.cargado && tab !== "conv") pintar(); }, 60000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) refrescar(); });
 }
+
+// ---------- Fase 4 · El enlace del panel vence y se renueva solo; el enlace compartido de antes tiene fecha ----------
+// El panel pregunta qué enlace es. Si es personal y está en sus últimos días, lo cambia por uno nuevo sin que la persona
+// haga nada. Si es el compartido de antes, ofrece crear el personal. Si ya no abre, lo dice y prueba el que este
+// navegador tenga guardado. (Los colores son los de la marca de la cuenta, que el panel ya aplica a sus variables.)
+(async () => {
+  if (!TOKEN) return;
+  const guardado = () => { try { return localStorage.getItem("cw-panel-enlace"); } catch (e) { return null; } };
+  const recordar = (t) => { try { localStorage.setItem("cw-panel-enlace", t); sessionStorage.setItem("cw-panel-token", t); } catch (e) {} };
+  const irCon = (t) => { recordar(t); location.hash = "#t=" + t; location.reload(); };
+  const franja = (html) => { const d = document.createElement("div"); d.id = "enlaceAviso"; d.style.cssText = "position:sticky;top:0;z-index:40;background:var(--g900);color:#fff;padding:10px 14px;font-size:14px;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center"; d.innerHTML = html; document.body.prepend(d); return d; };
+  let e = null;
+  try {
+    const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ accion: "enlace", token: TOKEN }) });
+    if (r.status === 404) {
+      const g = guardado();
+      if (g && g !== TOKEN) return irCon(g);
+      franja("Este enlace ya no abre el panel. Pida un enlace nuevo a quien administra el panel en su empresa.");
+      return;
+    }
+    if (!r.ok) return;
+    e = (await r.json()).enlace;
+  } catch (x) { return; }
+  if (!e) return;
+  if (e.tipo === "panel") {
+    recordar(TOKEN);
+    if (e.renovar) { try { const n = await llamar({ accion: "enlace_renovar" }); if (n && n.token) irCon(n.token); } catch (x) { /* se intenta la próxima vez */ } }
+    return;
+  }
+  // Enlace compartido de antes: sigue abriendo hasta su fecha. Cada persona puede sacar el suyo.
+  const hasta = new Date(e.vence).toLocaleDateString("es-EC", { day: "numeric", month: "long" });
+  const f = franja(`<span>Este enlace compartido deja de abrir el <b>${esc(hasta)}</b>. Cree su enlace personal: es solo suyo y se renueva solo.</span><button id="enlaceCrear" style="border:0;border-radius:999px;padding:8px 14px;font-weight:700;background:var(--lima);color:var(--g950);cursor:pointer">Crear mi enlace</button>`);
+  f.querySelector("#enlaceCrear").addEventListener("click", async () => {
+    let nombre = ""; try { nombre = localStorage.getItem(typeof CLAVE_QUIEN === "string" ? CLAVE_QUIEN : "") || ""; } catch (x) {}
+    nombre = (prompt("Su nombre o su cargo (para saber de quién es cada enlace):", nombre) || "").trim().slice(0, 80);
+    if (nombre.length < 2) return;
+    try { const n = await llamar({ accion: "enlace_personal", nombre }); if (n && n.token) { alert("Listo. Se va a abrir su enlace personal: guárdelo en sus favoritos y no lo comparta."); irCon(n.token); } }
+    catch (x) { alert("No se pudo crear el enlace: " + x.message); }
+  });
+})();
 </script>
 </body>
 </html>
