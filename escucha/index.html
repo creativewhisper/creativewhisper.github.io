@@ -645,6 +645,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
           <h2>Posts hechos con lo que dice la gente</h2>
           <p>Cada fin de semana leemos el reporte de sentimiento —lo que más preguntan, las quejas que se repiten y lo que felicitan— y preparamos los posts de la semana o del mes, con los eventos y fechas especiales. Ustedes los revisan aquí: aprueban los que están bien y piden un ajuste en los que no. El ajuste llega al instante a nuestra oficina y lo aprobado se programa solo en sus redes.</p>
           <div class="cs-meta" id="csMeta"></div>
+          <div id="csReporte"></div>
         </div>
         <div class="cs-der"><img id="csBosco" alt=""><button class="btn btn-lima" id="btnGenerarDemo">✨ Generar contenido</button><small>Lee el reporte de sentimiento y arma la tanda</small></div>
       </div>
@@ -1674,7 +1675,46 @@ $("#tContenido").addEventListener("click", (e) => {
 // ---------- Contenido de la semana: revisión, Instagram de vista previa, repositorio y producción ----------
 const CW_MODO = /[#&]cw=1\b/.test(location.hash);
 const DIAS_L = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
-const ESTADO_P = { por_revisar: ["Por revisar", "pend"], aprobado: ["Aprobado", "ok"], ajuste: ["En ajuste", "aj"], programado: ["Programado", "ok"], publicado: ["Publicado", "ok"] };
+const ESTADO_P = { por_revisar: ["Por revisar", "pend"], aprobado: ["Aprobado", "ok"], ajuste: ["En ajuste", "aj"], programado: ["Programado", "ok"], publicado: ["Publicado", "ok"],
+  necesita_pieza: ["En producción", "aj"], publicando: ["Publicando…", "ok"], error: ["No se pudo publicar", "aj"] };
+// Fase 3: quién aprueba (el enlace del panel es compartido: el nombre se pide una vez y queda en este navegador).
+const CLAVE_QUIEN = "cw_quien_" + String(location.hash).slice(3, 11);
+function quienAprueba(pedir) {
+  let q = ""; try { q = localStorage.getItem(CLAVE_QUIEN) || ""; } catch {}
+  if (!q && pedir) { q = (prompt("¿Quién aprueba? Su nombre queda en el registro de aprobaciones.") || "").trim().slice(0, 80); if (q) try { localStorage.setItem(CLAVE_QUIEN, q); } catch {} }
+  return q;
+}
+const numF = (n) => (n == null ? "—" : Number(n).toLocaleString("es-EC"));
+// Lo nuevo de cada post: datos por confirmar, quién aprobó, cuándo sale, cómo le fue y si algo falló.
+function extraPost(p) {
+  let h = "";
+  if ((p.confirmar || []).length && ["por_revisar", "ajuste"].includes(p.estado)) h += `<div class="cs-aj">⚠️ Falta confirmar: ${p.confirmar.map((c) => `<b>${esc(c)}</b>`).join(", ")}<span>No se puede aprobar hasta poner el dato correcto. <button class="lnk" data-cs="editar" data-id="${p.id}">Corregir el texto</button></span></div>`;
+  if (p.estado === "necesita_pieza") h += `<div class="cs-aj">🎬 El equipo está produciendo esta pieza<span>Cuando esté lista aparecerá aquí para su aprobación. Mientras tanto no se publica.</span></div>`;
+  if (p.aprobacion && p.aprobacion.vigente && ["aprobado", "programado", "publicando", "publicado", "error"].includes(p.estado)) h += `<div class="cs-m">✓ Aprobado por ${esc(p.aprobacion.quien || "la gerencia")} el ${esc(fechaPost(p.aprobacion.cuando))} desde ${p.aprobacion.desde === "app" ? "la app" : "el panel"}</div>`;
+  if (p.estado === "programado") h += `<div class="cs-prog">📅 Programado: sale solo el <b>${esc(fechaPost(p.programar_en))}</b> en ${esc(p.red)}.${p.nota_publicacion ? ` <span>${esc(p.nota_publicacion)}</span>` : ""} <button class="lnk" data-cs="reabrir" data-id="${p.id}">Deshacer</button></div>`;
+  if (p.estado === "error") h += `<div class="cs-aj">⚠️ No se pudo publicar<span>El equipo ya recibió el aviso y lo está resolviendo. No se publicó dos veces.</span></div>`;
+  if (p.estado === "publicado") {
+    const r = p.resultados || {}, e = p.efecto;
+    const enl = (r.redes || []).filter((x) => x.enlace).map((x) => `<a href="${esc(x.enlace)}" target="_blank" rel="noopener">${x.red === "instagram" ? "Instagram" : "Facebook"}</a>`).join(" · ");
+    h += `<div class="cs-prog">✅ Publicado el <b>${esc(fechaPost(p.publicado_en))}</b>${enl ? ` · ${enl}` : ""}${p.nota_publicacion ? `<span>${esc(p.nota_publicacion)}</span>` : ""}</div>`;
+    h += r.horas ? `<div class="cs-sen">📈 A las ${r.horas} h: alcance ${numF(r.alcance)} · interacciones ${numF(r.interacciones)} · guardados ${numF(r.guardados)} · compartidos ${numF(r.compartidos)} · comentarios ${numF(r.comentarios)}</div>` : `<div class="cs-m">📈 Los resultados se miden a las 24 y a las 48 horas.</div>`;
+    if (e && e.cambio_pct != null) h += `<div class="cs-sen">💬 Mensajes sobre «${esc(e.tema)}»: ${numF(e.por_dia_antes)} por día antes → ${numF(e.por_dia_despues)} después (${e.cambio_pct > 0 ? "+" : ""}${e.cambio_pct} %)</div>`;
+  }
+  return h;
+}
+// Reporte semanal (se arma solo los lunes): lo que dijo la gente, lo publicado y cómo le fue.
+async function cargarReporteSemanal() {
+  const el = $("#csReporte"); if (!el) return;
+  try {
+    const d = await llamar({ accion: "reporte_semanal" }), r = (d.reportes || [])[0];
+    if (!r) { el.innerHTML = ""; return; }
+    const a = new Date(r.semana + "T12:00:00Z"), b = new Date(a.getTime() + 6 * 864e5);
+    el.innerHTML = `<details class="caja" style="margin:10px 0"${location.hash.includes("reporte") ? " open" : ""}><summary style="cursor:pointer;font-weight:700">📊 Reporte semanal · del ${a.getUTCDate()} al ${b.getUTCDate()} de ${b.toLocaleDateString("es-EC", { month: "long", timeZone: "UTC" })}</summary>
+      <div style="white-space:pre-wrap;margin-top:10px;line-height:1.5">${esc(r.texto)}</div>
+      ${(r.posts || []).length ? `<div style="margin-top:12px;display:grid;gap:8px">${r.posts.map((p) => `<div style="display:flex;gap:10px;align-items:center">${p.portada ? `<img src="${esc(p.portada)}" alt="" style="width:46px;height:58px;object-fit:cover;border-radius:6px">` : ""}<div><b>${esc(p.titulo)}</b><div class="cs-m">${esc(p.formato)} · alcance ${numF(p.alcance)} · interacciones ${numF(p.interacciones)} · guardados ${numF(p.guardados)}${p.efecto && p.efecto.cambio_pct != null ? ` · mensajes del tema ${p.efecto.cambio_pct > 0 ? "+" : ""}${p.efecto.cambio_pct} %` : ""}</div></div></div>`).join("")}</div>` : ""}
+      ${d.reportes.length > 1 ? `<div class="cs-m" style="margin-top:10px">Anteriores: ${d.reportes.slice(1).map((x) => esc(x.semana)).join(" · ")}</div>` : ""}</details>`;
+  } catch { el.innerHTML = ""; }
+}
 const CS = { posts: [], cargado: false, visible: false, sel: new Set(), redes: false, producciones: [], abierto: null, slide: 0, vista: "perfil", historia: null };
 let csGenerado = false;
 try { csGenerado = sessionStorage.getItem("cw-cs-gen") === "1"; } catch (e) {}
@@ -1699,8 +1739,8 @@ function senalTxt(s) {
 }
 async function cargarPosts(silencio) {
   try {
-    const d = await llamar({ accion: "posts" });
-    CS.posts = d.posts || []; CS.redes = !!d.redes_conectadas; CS.producciones = d.producciones || []; CS.cargado = true;
+    const d = await llamar({ accion: "posts", v: 3 });
+    CS.posts = d.posts || []; if (!silencio) cargarReporteSemanal(); CS.redes = !!d.redes_conectadas; CS.producciones = d.producciones || []; CS.cargado = true;
     for (const id of [...CS.sel]) { const p = CS.posts.find((x) => x.id === id); if (!p || !["por_revisar", "ajuste"].includes(p.estado)) CS.sel.delete(id); }
     pintarCS(); pintarProd();
   } catch (e) { if (!silencio) $("#csLista").innerHTML = `<div class="caja vacio">No se pudo cargar el contenido: ${esc(e.message)}</div>`; }
@@ -1746,7 +1786,7 @@ function filaPost(p) {
       <div class="cs-m">${esc(p.formato)}${p.slides.length > 1 ? ` · ${p.slides.length} láminas` : ""} · ${esc(fechaPost(p.programar_en))}</div>
       ${sen ? `<div class="cs-sen">${esc(sen)}</div>` : ""}<div class="cs-pq">${esc(p.por_que || "")}</div>
       ${p.nota_cw && p.estado !== "aprobado" ? `<div class="cs-nota">💡 Antes de publicar: ${esc(p.nota_cw)}</div>` : ""}
-      ${v2}${aj}${prog}
+      ${v2}${aj}${prog}${extraPost(p)}
       <div class="cs-acc"><button class="btn btn-claro" data-cs="ver" data-id="${p.id}">👁 Ver</button>
         ${puede && !sel ? `<button class="btn btn-claro" data-cs="ajustar" data-id="${p.id}">✏️ Ajustar</button>` : ""}
         ${puede && sel ? `<span class="cs-hint">Se aprobará con «Aprobar seleccionados»</span>` : ""}
@@ -1819,7 +1859,13 @@ async function generarDemo() {
 }
 function toastTxt(t) { const d = document.createElement("div"); d.className = "toast ok"; d.innerHTML = `<b>${esc(t)}</b>`; $("#toasts").appendChild(d); setTimeout(() => d.remove(), 5000); }
 async function revisar(cuerpo, ok) {
-  try { await llamar({ accion: "revisar_posts", ...cuerpo }); if (ok) toastTxt(ok); await cargarPosts(); }
+  try {
+    const firma = { desde: "panel", quien: quienAprueba(!!cuerpo.aprobar) };
+    if (cuerpo.aprobar && !firma.quien) { toastTxt("Escriba su nombre para aprobar."); return; }
+    const r = await llamar({ accion: "revisar_posts", v: 3, ...firma, ...cuerpo });
+    if ((r.rechazados || []).length) toastTxt(`${r.aprobados} aprobado(s). ${r.rechazados.length} no se pudo: ${r.rechazados[0].motivo}`); else if (ok) toastTxt(ok);
+    await cargarPosts();
+  }
   catch (e) { toastTxt("No se pudo guardar: " + e.message); }
 }
 // ----- Repositorio de fotos -----
@@ -1889,6 +1935,7 @@ $("#tContenido").addEventListener("click", (e) => {
   if (a === "generar") generarDemo();
   if (a === "ver") verPost(id);
   if (a === "reabrir") revisar({ reabrir: id });
+  if (a === "editar" && p) { const t = prompt("Corrija el texto de la publicación (reemplace cada [confirmar: …] por el dato correcto):", p.texto || ""); if (t && t.trim()) revisar({ editar: { id, texto: t.trim() } }, "Texto corregido: ya puede aprobarlo"); }
   if (a === "copiar" && p) copiar(`${p.texto || ""}${p.hashtags?.length ? "\n\n" + p.hashtags.join(" ") : ""}`, b);
   if (a === "ajustar") { $("#aj" + id).classList.remove("oculto"); const s = $("#aj" + id + " select"); if (s && CS.abierto === id) s.value = String(CS.slide); $("#aj" + id + " textarea").focus(); }
   if (a === "cancelar-aj") $("#aj" + id).classList.add("oculto");

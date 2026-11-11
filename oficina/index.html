@@ -242,10 +242,10 @@ function pintarPara() {
       ${esIG ? `<div class="propuesta"><span>Respuesta lista:</span> ${esc(k.propuesta)}</div>` : ""}
       ${k?.enlace ? `<a class="btn enlace" href="${esc(k.enlace)}" target="_blank" rel="noopener">📄 ${esRotulo ? "Abrir rótulo para imprimir" : "Abrir documento"}</a>` : ""}
       ${esAjuste && k.ajuste.imagen ? `<a class="comprobante" href="${esc(k.ajuste.imagen)}" target="_blank" rel="noopener"><img src="${esc(k.ajuste.imagen)}" alt="Imagen a ajustar" loading="lazy"></a>` : ""}
-      ${esAjuste ? `<label class="btn aj-archivo">📤 Elegir la imagen corregida<input type="file" accept="image/*" hidden></label><span class="aj-nom"></span>` : ""}
+      ${esAjuste ? `<label class="btn aj-archivo">📤 ${k.ajuste.pieza ? (k.ajuste.video ? "Elegir las imágenes o el video de la pieza" : "Elegir las imágenes de la pieza") : "Elegir la imagen corregida"}<input type="file" accept="image/*${k.ajuste.video ? ",video/mp4,video/quicktime" : ""}" ${k.ajuste.pieza ? "multiple " : ""}hidden></label><span class="aj-nom"></span>` : ""}
       ${esPago && k.imagen ? `<a class="comprobante" href="${esc(k.imagen)}" target="_blank" rel="noopener"><img src="${esc(k.imagen)}" alt="Comprobante de pago" loading="lazy" onerror="this.parentNode.textContent='Abrir el comprobante (PDF)'"></a>` : ""}
       <textarea class="com" rows="1" ${esEnvio ? 'inputmode="numeric" ' : ""}placeholder="${esAjuste ? "Nota para el cliente (opcional): qué se cambió" : esIG ? "Escribe otra respuesta o deja vacío para enviar la de arriba" : esEnvio ? "Número de guía de Servientrega" : esPago ? "Si no llegó, explica por qué (se lo enviamos al cliente)" : pide ? "Escribe aquí lo que te piden" : "Comentario (opcional)"}"></textarea>
-      <div class="acciones">${esAjuste ? `<button class="btn pri" data-aj="subir">Enviar al cliente</button><button class="btn" data-aj="listo">Ya está, sin imagen nueva</button>` : esPago ? `<button class="btn pri" data-dec="aprobado" data-vacio="Pago correcto" data-lleno="Pago correcto">Pago correcto</button><button class="btn" data-dec="rechazado">No llegó</button>`
+      <div class="acciones">${esAjuste ? `<button class="btn pri" data-aj="subir">Enviar al cliente</button>${k.ajuste.pieza ? "" : `<button class="btn" data-aj="listo">Ya está, sin imagen nueva</button>`}` : esPago ? `<button class="btn pri" data-dec="aprobado" data-vacio="Pago correcto" data-lleno="Pago correcto">Pago correcto</button><button class="btn" data-dec="rechazado">No llegó</button>`
         : esEnvio ? `<button class="btn pri" data-dec="aprobado" data-vacio="Enviar guía al cliente" data-lleno="Enviar guía al cliente">Enviar guía al cliente</button>`
         : esRotulo ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo entregué" data-lleno="Ya lo entregué">Ya lo entregué</button>`
         : esIG ? `<button class="btn pri" data-dec="aprobado" data-vacio="Enviar" data-lleno="Enviar la mía">Enviar</button><button class="btn" data-dec="rechazado">No responder</button>` : pide ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo hice" data-lleno="Enviar">Ya lo hice</button><button class="btn" data-dec="rechazado">Luego</button>`
@@ -274,12 +274,20 @@ function reducirImagen(file) {
 async function ajustarPost(boton) {
   const card = boton.closest(".card"), id = Number(card.dataset.id), t = pend.find((x) => x.id === id), a = t?.tarjeta?.ajuste;
   if (!a) return;
-  const archivo = card.querySelector(".aj-archivo input")?.files?.[0];
-  if (boton.dataset.aj === "subir" && !archivo) { toast("Elige primero la imagen corregida"); return; }
+  const archivos = [...(card.querySelector(".aj-archivo input")?.files ?? [])], archivo = archivos[0];
+  if (boton.dataset.aj === "subir" && !archivo) { toast(a.pieza ? "Elige primero la pieza" : "Elige primero la imagen corregida"); return; }
   card.querySelectorAll("button").forEach((b) => (b.disabled = true));
   try {
-    const datos = boton.dataset.aj === "subir" ? await reducirImagen(archivo) : undefined;
-    await llamarPanel({ accion: "post_ajustado", empresa_id: a.empresa_id, post_id: a.post_id, slide: a.slide, datos, nota: (card.querySelector(".com")?.value ?? "").trim(), tablero_id: id });
+    const base = { accion: "post_ajustado", empresa_id: a.empresa_id, post_id: a.post_id, nota: (card.querySelector(".com")?.value ?? "").trim(), tablero_id: id };
+    if (a.pieza && archivo && archivo.type.startsWith("video/")) {
+      // Fase 3 · reel del equipo: sube directo al almacenamiento privado con un enlace de un solo uso.
+      if (archivo.size > 100 * 1024 * 1024) throw new Error("el video pesa más de 100 MB");
+      const u = await llamarPanel({ accion: "url_video", empresa_id: a.empresa_id, post_id: a.post_id, tipo: archivo.type });
+      const r = await fetch(u.url.startsWith("http") ? u.url : SUPABASE_URL + "/storage/v1" + u.url, { method: "PUT", headers: { "content-type": archivo.type, "x-upsert": "true" }, body: archivo });
+      if (!r.ok) throw new Error("no se pudo subir el video");
+      await llamarPanel({ ...base, video_ruta: u.ruta });
+    } else if (a.pieza && archivos.length) await llamarPanel({ ...base, imagenes: await Promise.all(archivos.slice(0, 10).map(reducirImagen)) });
+    else await llamarPanel({ ...base, slide: a.slide, datos: boton.dataset.aj === "subir" ? await reducirImagen(archivo) : undefined });
     toast(`Listo: «${a.titulo}» volvió al panel de ${a.cliente} para su revisión`);
     card.style.transition = "opacity .25s"; card.style.opacity = "0";
     setTimeout(() => { pend = pend.filter((x) => x.id !== id); pintarPara(); contador(); }, 250);
@@ -475,6 +483,7 @@ async function pintarClientes() {
       <div class="fila2"><label>Pagado hasta${vencida ? ' <span class="etq nec">vencida</span>' : ""}</label><input type="date" value="${esc(c.pagado_hasta || "")}" data-fecha="${c.id}"><button class="btn" style="flex:0 0 auto;padding:10px 12px" data-mes="${c.id}">+1 mes</button></div>
       <label class="chk"><input type="checkbox" data-auto="${c.id}" ${c.suspension_automatica ? "checked" : ""}> Suspender sola si vence (3 días de gracia)</label>
       ${listaEstado(estadoDe.get(c.id))}
+      ${c.etapa && c.etapa !== "alta" ? `<details data-contenido="${c.id}" style="margin:10px 0"><summary style="cursor:pointer;font-weight:700">Contenido y publicación</summary><div data-contenido-de="${c.id}" class="sub" style="margin-top:8px">Cargando…</div></details>` : ""}
       ${c.etapa === "alta" || estadoDe.get(c.id)?.alta ? `<div class="acciones"><button class="btn" data-enlace="${c.id}">${c.etapa === "alta" ? "Nuevo enlace de alta" : "Enlace para revisar el alta"}</button></div><div data-enlace-de="${c.id}"></div>` : ""}
       <div class="datos3"><div><b>${c.mensajes_7d}</b><span>mensajes reales 7 d</span></div><div><b>${c.casos_abiertos}</b><span>casos abiertos</span></div><div><b>${c.contactos_alerta}</b><span>reciben alertas</span></div></div>
       <div class="enlaces">
@@ -540,6 +549,52 @@ $("#cuerpo").addEventListener("click", async (e) => {
   const el = e.target.closest("[data-sw],[data-mes],[data-limpiar],[data-demo]");
   if (el && tab === "cli") { e.stopPropagation(); accionCliente(el); }
 });
+// Fase 3 · contenido por cuenta: la tanda, la publicación y el envío del reporte los enciende o apaga Matías; los posts
+// que no se pudieron publicar se reintentan desde aquí. (Paleta y estilos de la oficina.)
+async function llamarFn(fn, cuerpo) {
+  const { data } = await sb.auth.getSession();
+  const r = await fetch(SUPABASE_URL + "/functions/v1/" + fn, { method: "POST", headers: { "content-type": "application/json", apikey: SUPABASE_KEY, authorization: "Bearer " + (data?.session?.access_token ?? "") }, body: JSON.stringify(cuerpo) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || ("HTTP " + r.status));
+  return j;
+}
+const DIAS_TANDA = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
+const EST_POST = { preparando: "armando imagen", necesita_pieza: "espera pieza del equipo", por_revisar: "por revisar", ajuste: "en ajuste", aprobado: "aprobado", programado: "programado", publicando: "publicando", publicado: "publicado", error: "ERROR" };
+async function pintarContenidoCuenta(id) {
+  const el = document.querySelector(`[data-contenido-de="${id}"]`); if (!el) return;
+  try {
+    const d = await llamarPanel({ accion: "posts_cuenta", empresa_id: id }), a = d.ajustes || {};
+    const chk = (clave, on, txt) => `<label class="chk"><input type="checkbox" data-aj-cont="${id}" data-clave="${clave}" ${on ? "checked" : ""}> ${txt}</label>`;
+    el.innerHTML = `${chk("tanda.activa", a.tanda_activa, `Tanda semanal automática (${DIAS_TANDA[a.tanda_dia] ?? "sábado"}, ${a.tanda_hora}:00)`)}
+      ${chk("publicacion.activa", a.publicar, "Publicar solo lo aprobado (solo en etapa «Activa»)")}
+      ${chk("reporte.envio_auto", a.envio_reporte, "Enviar el reporte semanal al cliente (aviso en su app)")}
+      ${chk("tanda.avisar", a.tanda_avisar, "Avisar al cliente cuando su tanda esté lista")}
+      <div class="acciones"><button class="btn" data-cont="tanda" data-id="${id}">Armar la tanda ahora</button><button class="btn" data-cont="comprobar" data-id="${id}">Comprobar la conexión para publicar</button></div>
+      <div data-cont-res="${id}"></div>
+      ${(d.tandas || []).length ? `<div style="margin-top:8px">Tandas: ${d.tandas.map((t) => `${esc(t.semana)} (${esc(t.estado)}, ${t.piezas} piezas${t.error ? ` · ${esc(t.error)}` : ""})`).join(" · ")}</div>` : ""}
+      ${(d.posts || []).slice(0, 14).map((p) => `<div style="margin-top:6px"><b>${esc(p.titulo)}</b> · ${esc(EST_POST[p.estado] || p.estado)}${p.aprobado_por ? ` · aprobó ${esc(p.aprobado_por)} (${esc(p.aprobado_desde || "")})` : ""}${p.error ? `<br><span style="color:var(--torote)">${esc(p.error)}</span>` : ""}${p.estado === "error" ? ` <button class="btn" data-cont="reintentar" data-id="${id}" data-post="${p.id}">Reintentar</button>` : ""}</div>`).join("")}`;
+  } catch (x) { el.textContent = "No se pudo cargar: " + x.message; }
+}
+document.addEventListener("toggle", (e) => { const d = e.target; if (d.dataset && d.dataset.contenido && d.open) pintarContenidoCuenta(d.dataset.contenido); }, true);
+$("#cuerpo").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-cont]"); if (!b || tab !== "cli") return;
+  e.stopPropagation(); b.disabled = true;
+  const id = b.dataset.id, res = document.querySelector(`[data-cont-res="${id}"]`);
+  try {
+    if (b.dataset.cont === "tanda") { const r = await llamarFn("contenido-cliente", { accion: "tanda", empresa_id: id, forzar: true }); const t = (r.tandas || [])[0] || {}; toast(t.piezas ? `Tanda armada: ${t.piezas} piezas` : (t.omitida || t.error || "Sin cambios")); }
+    if (b.dataset.cont === "comprobar") { const r = await llamarFn("publicador-cliente", { accion: "comprobar", empresa_id: id }); if (res) res.innerHTML = (r.items || []).map((x) => `<div>${x.ok === true ? "✅" : x.ok === false ? "❌" : "➖"} ${esc(x.detalle)}</div>`).join(""); }
+    if (b.dataset.cont === "reintentar") { await llamarFn("publicador-cliente", { accion: "reintentar", empresa_id: id, post_id: Number(b.dataset.post) }); toast("Reprogramado: sale en la próxima corrida"); }
+    if (b.dataset.cont !== "comprobar") pintarContenidoCuenta(id);
+  } catch (x) { toast("No se pudo: " + x.message); }
+  b.disabled = false;
+});
+$("#cuerpo").addEventListener("change", async (e) => {
+  const c = e.target.closest("input[data-aj-cont]");
+  if (c && tab === "cli") {
+    const [grupo, clave] = c.dataset.clave.split(".");
+    try { await llamarPanel({ accion: "contenido_ajustes", empresa_id: c.dataset.ajCont, [grupo]: { [clave]: c.checked } }); toast("Guardado"); } catch (x) { toast("No se pudo: " + x.message); c.checked = !c.checked; }
+  }
+}, true);
 $("#cuerpo").addEventListener("change", async (e) => {
   if (tab !== "cli") return;
   const f = e.target.closest("input[data-fecha]"), a = e.target.closest("input[data-auto]"), et = e.target.closest("select[data-etapa]");
