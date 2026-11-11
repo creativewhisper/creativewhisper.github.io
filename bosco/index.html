@@ -682,8 +682,9 @@ async function cargar() {
 }
 async function cargarPosts() {
   if (esEquipo()) return;
-  const r = await P({ accion: "posts" });
+  const r = await P({ accion: "posts", v: 3 });
   if (!r.error) { S.posts = r.posts || []; S.redes = !!r.redes_conectadas; S.producciones = r.producciones || []; }
+  if (S.reporteSem === undefined) { S.reporteSem = ""; reporteSemanalApp().catch(() => {}); }
   if (S.tab === "contenido") pintarContenido(); pintarBadges();
 }
 const abiertos = () => (S.panel?.casos || []).filter((c) => c.estado !== "resuelto");
@@ -1211,10 +1212,11 @@ function pintarContenido() {
   for (const id of [...S.sel]) if (!porRev.some((x) => x.id === id)) S.sel.delete(id);
   const fecha = (iso) => iso ? new Date(iso).toLocaleDateString("es-EC", { weekday: "short", day: "numeric", month: "short" }) + " · " + hora(iso) : "";
   let html = `<div class="card"><h2>🎨 Contenido de la semana</h2><p class="sub" style="margin:0">Creative Whisper lo arma cada fin de semana con lo que dicen los visitantes. Apruebe lo que le guste; lo que no, pida un ajuste y vuelve corregido.${S.redes ? " Lo aprobado se programa solo en sus redes." : " Lo aprobado se programará solo en sus redes cuando entreguen el acceso."}</p></div>`;
+  html += S.reporteSem || "";
   if (porRev.length) html += `<div class="barra-ap"><label><input type="checkbox" id="chkTodos" ${S.sel.size === porRev.length ? "checked" : ""}> Todos</label><span>${S.sel.size} de ${porRev.length}</span><button id="btnAprobarSel" ${S.sel.size ? "" : "disabled"}>Aprobar</button></div>`;
   html += ps.map((x) => {
     const sl = (x.slides || []).filter(Boolean), sel = S.sel.has(x.id);
-    return `<div class="post" data-post="${x.id}"><div class="post-cab">${x.estado === "por_revisar" ? `<button class="sel ${sel ? "on" : ""}" data-sel="${x.id}" aria-label="Seleccionar">${sel ? "✓" : ""}</button>` : ""}<div style="min-width:0"><b>${esc(x.titulo)}</b><small>${esc(x.formato)} · ${esc(x.red)} · ${fecha(x.programar_en)}</small></div><span class="estado-post ${x.estado}">${{ por_revisar: "Por revisar", aprobado: "✓ Aprobado", ajuste: "En ajuste", programado: "Programado", publicado: "Publicado" }[x.estado] || x.estado}</span></div>
+    return `<div class="post" data-post="${x.id}"><div class="post-cab">${x.estado === "por_revisar" ? `<button class="sel ${sel ? "on" : ""}" data-sel="${x.id}" aria-label="Seleccionar">${sel ? "✓" : ""}</button>` : ""}<div style="min-width:0"><b>${esc(x.titulo)}</b><small>${esc(x.formato)} · ${esc(x.red)} · ${fecha(x.programar_en)}</small></div><span class="estado-post ${x.estado}">${{ por_revisar: "Por revisar", aprobado: "✓ Aprobado", ajuste: "En ajuste", programado: "Programado", publicado: "Publicado", necesita_pieza: "En producción", publicando: "Publicando…", error: "No se pudo publicar" }[x.estado] || x.estado}</span></div>${extraPostApp(x)}
       <div class="slides" data-slides="${x.id}">${sl.map((u, i) => `<img src="${esc(u)}" alt="Lámina ${i + 1}" loading="lazy">`).join("")}</div>${sl.length > 1 ? `<div class="puntos" data-puntos="${x.id}">${sl.map((_, i) => `<i class="${i ? "" : "on"}"></i>`).join("")}</div>` : ""}
       <div class="post-txt">${x.por_que ? `<div class="por">💡 ${esc(x.por_que)}</div>` : ""}<div class="cuerpo" data-txt>${esc(x.texto)}</div>${x.respuesta_cw ? `<div class="por" style="margin-top:8px;background:var(--menta)">✏️ ${esc(x.respuesta_cw)}</div>` : ""}${x.estado === "ajuste" && x.comentario ? `<div class="por" style="margin-top:8px">Su comentario: ${esc(x.comentario)}</div>` : ""}</div>
       ${x.estado === "por_revisar" ? `<div class="post-acc"><button class="btn btn-b" data-ajustar="${x.id}">Ajustar</button><button class="btn btn-l" data-aprobar="${x.id}">Aprobar</button></div><div class="oculto" data-caja="${x.id}" style="padding:0 14px 14px"><textarea class="campo" placeholder="¿Qué quiere cambiar?"></textarea><button class="btn btn-p btn-w" data-enviar="${x.id}">Enviar a Creative Whisper</button></div>` : x.estado === "aprobado" ? `<div class="post-acc"><button class="btn btn-b" data-reabrir="${x.id}">Volver a revisar</button></div>` : ""}</div>`;
@@ -1243,10 +1245,10 @@ $("#contCuerpo").addEventListener("click", async (ev) => {
   if (b.dataset.enviar) {
     const id = Number(b.dataset.enviar), com = $(`[data-caja="${id}"] textarea`).value.trim(); if (!com) return toast("Escriba qué quiere cambiar.");
     const s = $(`[data-slides="${id}"]`), slide = s ? Math.round(s.scrollLeft / (s.clientWidth || 1)) : 0;
-    b.disabled = true; const r = await P({ accion: "revisar_posts", ajustar: { id, comentario: com, slide } }); b.disabled = false;
+    b.disabled = true; const r = await P({ accion: "revisar_posts", v: 3, desde: "app", dispositivo: DISP, ajustar: { id, comentario: com, slide } }); b.disabled = false;
     if (r.error) return toast(r.error); toast("Enviado: Creative Whisper lo ajusta y vuelve aquí"); return cargarPosts();
   }
-  if (b.dataset.reabrir) { await P({ accion: "revisar_posts", reabrir: Number(b.dataset.reabrir) }); return cargarPosts(); }
+  if (b.dataset.reabrir) { await P({ accion: "revisar_posts", v: 3, desde: "app", dispositivo: DISP, reabrir: Number(b.dataset.reabrir) }); return cargarPosts(); }
   if (b.id === "btnSubir") return $("#archivoFotos").click();
   if (b.id === "btnProd") {
     b.disabled = true; const r = await P({ accion: "agendar_produccion", fecha: $("#pFecha").value, franja: $("#pFranja").value, idea: $("#pIdea").value, contacto: $("#pContacto").value }); b.disabled = false;
@@ -1254,12 +1256,32 @@ $("#contCuerpo").addEventListener("click", async (ev) => {
   }
 });
 $("#contCuerpo").addEventListener("change", (ev) => { if (ev.target.id === "chkTodos") { const pr = (S.posts || []).filter((x) => x.estado === "por_revisar"); S.sel = ev.target.checked ? new Set(pr.map((x) => x.id)) : new Set(); pintarContenido(); } });
+// Fase 3: lo nuevo de cada post (datos por confirmar, resultados) y el reporte semanal.
+const numF = (n) => (n == null ? "—" : Number(n).toLocaleString("es-EC"));
+function extraPostApp(x) {
+  let h = "";
+  if ((x.confirmar || []).length && x.estado === "por_revisar") h += `<div class="sub" style="padding:0 14px 8px">⚠️ Falta confirmar: ${x.confirmar.map((c) => esc(c)).join(", ")}. Corrija el texto desde el panel o pida un ajuste.</div>`;
+  if (x.estado === "necesita_pieza") h += `<div class="sub" style="padding:0 14px 8px">🎬 El equipo está produciendo esta pieza. Aparecerá aquí para su aprobación.</div>`;
+  if (x.estado === "error") h += `<div class="sub" style="padding:0 14px 8px">⚠️ No se pudo publicar. El equipo ya recibió el aviso.</div>`;
+  if (x.estado === "publicado" && x.resultados && x.resultados.horas) h += `<div class="sub" style="padding:0 14px 8px">📈 A las ${x.resultados.horas} h: alcance ${numF(x.resultados.alcance)} · interacciones ${numF(x.resultados.interacciones)} · guardados ${numF(x.resultados.guardados)}${x.efecto && x.efecto.cambio_pct != null ? ` · mensajes del tema ${x.efecto.cambio_pct > 0 ? "+" : ""}${x.efecto.cambio_pct} %` : ""}</div>`;
+  return h;
+}
+async function reporteSemanalApp() {
+  const r = await P({ accion: "reporte_semanal" }), x = (r.reportes || [])[0];
+  S.reporteSem = x ? `<div class="card"><details${location.hash.includes("reporte") ? " open" : ""}><summary style="font-weight:700">📊 Reporte semanal · semana del ${esc(x.semana)}</summary><p class="sub" style="white-space:pre-wrap;margin:10px 0 0">${esc(x.texto)}</p></details></div>` : "";
+  // Fase 4 · Reporte mensual (se arma solo el día 1).
+  try {
+    const m = await P({ accion: "reporte_mensual" }), y = (m.reportes || [])[0];
+    if (y) S.reporteSem += `<div class="card"><details><summary style="font-weight:700">📅 Reporte mensual · ${esc(String(y.mes).slice(0, 7))}</summary><p class="sub" style="white-space:pre-wrap;margin:10px 0 0">${esc(y.texto)}</p></details></div>`;
+  } catch { /* sin reporte mensual */ }
+  if (S.tab === "contenido") pintarContenido();
+}
 async function aprobarPosts(ids, b) {
   if (!ids.length) return; b.disabled = true;
-  const r = await P({ accion: "revisar_posts", aprobar: ids }); b.disabled = false;
+  const r = await P({ accion: "revisar_posts", v: 3, desde: "app", dispositivo: DISP, aprobar: ids }); b.disabled = false;
   if (r.error) return toast(r.error);
   for (const id of ids) S.sel.delete(id);
-  toast(`${r.aprobados} post${r.aprobados === 1 ? "" : "s"} aprobado${r.aprobados === 1 ? "" : "s"} ✅`); cargarPosts();
+  toast((r.rechazados || []).length ? `${r.aprobados} aprobado(s). ${r.rechazados[0].motivo}` : `${r.aprobados} post${r.aprobados === 1 ? "" : "s"} aprobado${r.aprobados === 1 ? "" : "s"} ✅`); cargarPosts();
 }
 function reducir(file, max = 1600) {
   return new Promise((ok, mal) => {
@@ -1763,6 +1785,24 @@ async function iniciar() {
   document.addEventListener("visibilitychange", () => { if (!document.hidden) cargar(); });
 }
 iniciar();
+
+// ---------- Fase 4 · El enlace de la gerencia vence y se renueva solo ----------
+// La app guarda el enlace en el celular. Cuando está en sus últimos días lo cambia por uno nuevo sin que la persona haga
+// nada. Si es el enlace compartido de antes, avisa hasta cuándo abre. (Los enlaces de las áreas no cambian.)
+(async () => {
+  if (!TOKEN) return;
+  try {
+    const r = await fetch(PANEL_FN, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ accion: "enlace", token: TOKEN }) });
+    if (!r.ok) return;
+    const e = (await r.json()).enlace; if (!e) return;
+    if (e.tipo === "panel" && e.renovar) {
+      const n = await (await fetch(PANEL_FN, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ accion: "enlace_renovar", token: TOKEN }) })).json();
+      if (n && n.token) { TOKEN = n.token; ACC = { t: n.token }; ls.set("bosco-acceso", JSON.stringify(ACC)); }
+    } else if (e.tipo === "legado" && e.dias <= 20) {
+      toast(`Este enlace compartido deja de abrir en ${e.dias} días. Abra el panel y cree su enlace personal.`, 7000);
+    }
+  } catch (x) { /* se intenta la próxima vez */ }
+})();
 </script>
 </body>
 </html>

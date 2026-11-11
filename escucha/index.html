@@ -551,6 +551,10 @@ button{cursor:pointer;background:none;border:0;padding:0}
   .gen-cab{grid-template-columns:1fr;padding:16px}.gen-cab .der{justify-items:stretch}.gen-cab .base{text-align:left;max-width:none}
   .pieza .fv{grid-template-columns:1fr}.pieza .foto{aspect-ratio:16/10;min-height:0}
 }
+/* Fase 2: lista de estado de una cuenta nueva (solo si la cuenta se dio de alta con el asistente de alta) */
+.estado-alta{max-width:1240px;margin:12px auto 0;padding:0 16px}
+.estado-alta div{background:var(--blanco);border:1px solid var(--linea);border-radius:var(--r-md);padding:10px 14px;font-size:14px;box-shadow:var(--sombra)}
+.estado-alta b{margin-right:6px} .estado-alta .ok{color:var(--g700)} .estado-alta .no{color:var(--ambar)} .estado-alta .apag{color:var(--suave)}
 </style>
 </head>
 <body>
@@ -573,6 +577,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
       <button class="btn btn-borde" id="btnCel">📲 App en mi celular</button>
     </div>
   </div></header>
+  <div class="estado-alta oculto" id="estadoAlta"></div>
 
   <div class="filtros">
     <div class="filtros-in" id="barra">
@@ -640,6 +645,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
           <h2>Posts hechos con lo que dice la gente</h2>
           <p>Cada fin de semana leemos el reporte de sentimiento —lo que más preguntan, las quejas que se repiten y lo que felicitan— y preparamos los posts de la semana o del mes, con los eventos y fechas especiales. Ustedes los revisan aquí: aprueban los que están bien y piden un ajuste en los que no. El ajuste llega al instante a nuestra oficina y lo aprobado se programa solo en sus redes.</p>
           <div class="cs-meta" id="csMeta"></div>
+          <div id="csReporte"></div>
         </div>
         <div class="cs-der"><img id="csBosco" alt=""><button class="btn btn-lima" id="btnGenerarDemo">✨ Generar contenido</button><small>Lee el reporte de sentimiento y arma la tanda</small></div>
       </div>
@@ -850,6 +856,19 @@ async function llamar(cuerpo) {
   return j;
 }
 function ver(id) { for (const v of ["vCargando", "vError", "vSuspendida", "vPanel"]) $("#" + v).classList.toggle("oculto", v !== id); }
+// Fase 2: «WhatsApp ✓ · Instagram pendiente: falta X». Solo para cuentas dadas de alta con el asistente de alta y mientras falte algo.
+async function estadoAlta() {
+  try {
+    const r = await fetch(API.replace("panel-cliente", "alta-cliente"), { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ accion: "estado", tp: TOKEN }) });
+    if (!r.ok) return;
+    const { estado: e } = await r.json();
+    if (!e?.alta || (e.listo && e.etapa === "activa")) return;
+    const items = (e.items || []).filter((i) => ["whatsapp", "instagram", "facebook", "messenger"].includes(i.clave) || i.ok === false);
+    const esc2 = (t) => String(t ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+    $("#estadoAlta").innerHTML = `<div><b>Estado de la conexión${e.etapa === "prueba" ? " (en prueba)" : ""}:</b>${items.map((i) => `<span class="${i.ok === true ? "ok" : i.ok === null ? "apag" : "no"}">${esc2(i.nombre)} ${i.ok === true ? "✓" : i.ok === null ? "apagado" : "pendiente: falta " + esc2(i.falta)}</span>`).join(" · ")}</div>`;
+    $("#estadoAlta").classList.remove("oculto");
+  } catch (x) { /* sin la función nueva el panel sigue igual */ }
+}
 function aplicarMarca(cu) {
   const m = cu?.marca;
   if (!m) { for (const id of ["#logo", "#logoSus"]) { $(id).classList.add("sin"); $(id).textContent = cu?.nombre || ""; } return; }
@@ -928,7 +947,7 @@ async function cargarTodo() {
     S.ops = new Map(d.opiniones.map((o) => [o.i, prepT(o)]));
     S.sorteo = new Map((d.sorteo || []).map((o) => [o.i, prepT(o)]));
     S.ints = new Map((d.interesados || []).map((o) => [o.i, prepT(o)]));
-    if (d.cuenta) { S.cuenta = d.cuenta; aplicarConfig(d.cuenta); if (primera) aplicarMarca(d.cuenta); }
+    if (d.cuenta) { S.cuenta = d.cuenta; aplicarConfig(d.cuenta); if (primera) { aplicarMarca(d.cuenta); estadoAlta(); } }
     S.ultimaSync = Date.parse(d.generado) || Date.now();
     if (!primera) avisarNuevos(antes, new Set());
     S.cargado = true;
@@ -1656,7 +1675,54 @@ $("#tContenido").addEventListener("click", (e) => {
 // ---------- Contenido de la semana: revisión, Instagram de vista previa, repositorio y producción ----------
 const CW_MODO = /[#&]cw=1\b/.test(location.hash);
 const DIAS_L = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
-const ESTADO_P = { por_revisar: ["Por revisar", "pend"], aprobado: ["Aprobado", "ok"], ajuste: ["En ajuste", "aj"], programado: ["Programado", "ok"], publicado: ["Publicado", "ok"] };
+const ESTADO_P = { por_revisar: ["Por revisar", "pend"], aprobado: ["Aprobado", "ok"], ajuste: ["En ajuste", "aj"], programado: ["Programado", "ok"], publicado: ["Publicado", "ok"],
+  necesita_pieza: ["En producción", "aj"], publicando: ["Publicando…", "ok"], error: ["No se pudo publicar", "aj"] };
+// Fase 3: quién aprueba (el enlace del panel es compartido: el nombre se pide una vez y queda en este navegador).
+const CLAVE_QUIEN = "cw_quien_" + String(location.hash).slice(3, 11);
+function quienAprueba(pedir) {
+  let q = ""; try { q = localStorage.getItem(CLAVE_QUIEN) || ""; } catch {}
+  if (!q && pedir) { q = (prompt("¿Quién aprueba? Su nombre queda en el registro de aprobaciones.") || "").trim().slice(0, 80); if (q) try { localStorage.setItem(CLAVE_QUIEN, q); } catch {} }
+  return q;
+}
+const numF = (n) => (n == null ? "—" : Number(n).toLocaleString("es-EC"));
+// Lo nuevo de cada post: datos por confirmar, quién aprobó, cuándo sale, cómo le fue y si algo falló.
+function extraPost(p) {
+  let h = "";
+  if ((p.confirmar || []).length && ["por_revisar", "ajuste"].includes(p.estado)) h += `<div class="cs-aj">⚠️ Falta confirmar: ${p.confirmar.map((c) => `<b>${esc(c)}</b>`).join(", ")}<span>No se puede aprobar hasta poner el dato correcto. <button class="lnk" data-cs="editar" data-id="${p.id}">Corregir el texto</button></span></div>`;
+  if (p.estado === "necesita_pieza") h += `<div class="cs-aj">🎬 El equipo está produciendo esta pieza<span>Cuando esté lista aparecerá aquí para su aprobación. Mientras tanto no se publica.</span></div>`;
+  if (p.aprobacion && p.aprobacion.vigente && ["aprobado", "programado", "publicando", "publicado", "error"].includes(p.estado)) h += `<div class="cs-m">✓ Aprobado por ${esc(p.aprobacion.quien || "la gerencia")} el ${esc(fechaPost(p.aprobacion.cuando))} desde ${p.aprobacion.desde === "app" ? "la app" : "el panel"}</div>`;
+  if (p.estado === "programado") h += `<div class="cs-prog">📅 Programado: sale solo el <b>${esc(fechaPost(p.programar_en))}</b> en ${esc(p.red)}.${p.nota_publicacion ? ` <span>${esc(p.nota_publicacion)}</span>` : ""} <button class="lnk" data-cs="reabrir" data-id="${p.id}">Deshacer</button></div>`;
+  if (p.estado === "error") h += `<div class="cs-aj">⚠️ No se pudo publicar<span>El equipo ya recibió el aviso y lo está resolviendo. No se publicó dos veces.</span></div>`;
+  if (p.estado === "publicado") {
+    const r = p.resultados || {}, e = p.efecto;
+    const enl = (r.redes || []).filter((x) => x.enlace).map((x) => `<a href="${esc(x.enlace)}" target="_blank" rel="noopener">${x.red === "instagram" ? "Instagram" : "Facebook"}</a>`).join(" · ");
+    h += `<div class="cs-prog">✅ Publicado el <b>${esc(fechaPost(p.publicado_en))}</b>${enl ? ` · ${enl}` : ""}${p.nota_publicacion ? `<span>${esc(p.nota_publicacion)}</span>` : ""}</div>`;
+    h += r.horas ? `<div class="cs-sen">📈 A las ${r.horas} h: alcance ${numF(r.alcance)} · interacciones ${numF(r.interacciones)} · guardados ${numF(r.guardados)} · compartidos ${numF(r.compartidos)} · comentarios ${numF(r.comentarios)}</div>` : `<div class="cs-m">📈 Los resultados se miden a las 24 y a las 48 horas.</div>`;
+    if (e && e.cambio_pct != null) h += `<div class="cs-sen">💬 Mensajes sobre «${esc(e.tema)}»: ${numF(e.por_dia_antes)} por día antes → ${numF(e.por_dia_despues)} después (${e.cambio_pct > 0 ? "+" : ""}${e.cambio_pct} %)</div>`;
+  }
+  return h;
+}
+// Reporte semanal (se arma solo los lunes): lo que dijo la gente, lo publicado y cómo le fue.
+async function cargarReporteSemanal() {
+  const el = $("#csReporte"); if (!el) return;
+  try {
+    const d = await llamar({ accion: "reporte_semanal" }), r = (d.reportes || [])[0];
+    if (!r) { el.innerHTML = ""; return; }
+    const a = new Date(r.semana + "T12:00:00Z"), b = new Date(a.getTime() + 6 * 864e5);
+    el.innerHTML = `<details class="caja" style="margin:10px 0"${location.hash.includes("reporte") ? " open" : ""}><summary style="cursor:pointer;font-weight:700">📊 Reporte semanal · del ${a.getUTCDate()} al ${b.getUTCDate()} de ${b.toLocaleDateString("es-EC", { month: "long", timeZone: "UTC" })}</summary>
+      <div style="white-space:pre-wrap;margin-top:10px;line-height:1.5">${esc(r.texto)}</div>
+      ${(r.posts || []).length ? `<div style="margin-top:12px;display:grid;gap:8px">${r.posts.map((p) => `<div style="display:flex;gap:10px;align-items:center">${p.portada ? `<img src="${esc(p.portada)}" alt="" style="width:46px;height:58px;object-fit:cover;border-radius:6px">` : ""}<div><b>${esc(p.titulo)}</b><div class="cs-m">${esc(p.formato)} · alcance ${numF(p.alcance)} · interacciones ${numF(p.interacciones)} · guardados ${numF(p.guardados)}${p.efecto && p.efecto.cambio_pct != null ? ` · mensajes del tema ${p.efecto.cambio_pct > 0 ? "+" : ""}${p.efecto.cambio_pct} %` : ""}</div></div></div>`).join("")}</div>` : ""}
+      ${d.reportes.length > 1 ? `<div class="cs-m" style="margin-top:10px">Anteriores: ${d.reportes.slice(1).map((x) => esc(x.semana)).join(" · ")}</div>` : ""}</details>`;
+  } catch { el.innerHTML = ""; }
+  // Fase 4 · Reporte mensual (se arma solo el día 1): va debajo del semanal.
+  try {
+    const m = await llamar({ accion: "reporte_mensual" }), x = (m.reportes || [])[0];
+    if (x) {
+      const f = new Date(String(x.mes).slice(0, 10) + "T12:00:00Z");
+      el.insertAdjacentHTML("beforeend", `<details class="caja" style="margin:10px 0"><summary style="cursor:pointer;font-weight:700">📅 Reporte mensual · ${esc(f.toLocaleDateString("es-EC", { month: "long", year: "numeric", timeZone: "UTC" }))}</summary><div style="white-space:pre-wrap;margin-top:10px;line-height:1.5">${esc(x.texto)}</div>${m.reportes.length > 1 ? `<div class="cs-m" style="margin-top:10px">Anteriores: ${m.reportes.slice(1).map((y) => esc(String(y.mes).slice(0, 7))).join(" · ")}</div>` : ""}</details>`);
+    }
+  } catch { /* sin reporte mensual */ }
+}
 const CS = { posts: [], cargado: false, visible: false, sel: new Set(), redes: false, producciones: [], abierto: null, slide: 0, vista: "perfil", historia: null };
 let csGenerado = false;
 try { csGenerado = sessionStorage.getItem("cw-cs-gen") === "1"; } catch (e) {}
@@ -1681,8 +1747,8 @@ function senalTxt(s) {
 }
 async function cargarPosts(silencio) {
   try {
-    const d = await llamar({ accion: "posts" });
-    CS.posts = d.posts || []; CS.redes = !!d.redes_conectadas; CS.producciones = d.producciones || []; CS.cargado = true;
+    const d = await llamar({ accion: "posts", v: 3 });
+    CS.posts = d.posts || []; if (!silencio) cargarReporteSemanal(); CS.redes = !!d.redes_conectadas; CS.producciones = d.producciones || []; CS.cargado = true;
     for (const id of [...CS.sel]) { const p = CS.posts.find((x) => x.id === id); if (!p || !["por_revisar", "ajuste"].includes(p.estado)) CS.sel.delete(id); }
     pintarCS(); pintarProd();
   } catch (e) { if (!silencio) $("#csLista").innerHTML = `<div class="caja vacio">No se pudo cargar el contenido: ${esc(e.message)}</div>`; }
@@ -1728,7 +1794,7 @@ function filaPost(p) {
       <div class="cs-m">${esc(p.formato)}${p.slides.length > 1 ? ` · ${p.slides.length} láminas` : ""} · ${esc(fechaPost(p.programar_en))}</div>
       ${sen ? `<div class="cs-sen">${esc(sen)}</div>` : ""}<div class="cs-pq">${esc(p.por_que || "")}</div>
       ${p.nota_cw && p.estado !== "aprobado" ? `<div class="cs-nota">💡 Antes de publicar: ${esc(p.nota_cw)}</div>` : ""}
-      ${v2}${aj}${prog}
+      ${v2}${aj}${prog}${extraPost(p)}
       <div class="cs-acc"><button class="btn btn-claro" data-cs="ver" data-id="${p.id}">👁 Ver</button>
         ${puede && !sel ? `<button class="btn btn-claro" data-cs="ajustar" data-id="${p.id}">✏️ Ajustar</button>` : ""}
         ${puede && sel ? `<span class="cs-hint">Se aprobará con «Aprobar seleccionados»</span>` : ""}
@@ -1801,7 +1867,13 @@ async function generarDemo() {
 }
 function toastTxt(t) { const d = document.createElement("div"); d.className = "toast ok"; d.innerHTML = `<b>${esc(t)}</b>`; $("#toasts").appendChild(d); setTimeout(() => d.remove(), 5000); }
 async function revisar(cuerpo, ok) {
-  try { await llamar({ accion: "revisar_posts", ...cuerpo }); if (ok) toastTxt(ok); await cargarPosts(); }
+  try {
+    const firma = { desde: "panel", quien: quienAprueba(!!cuerpo.aprobar) };
+    if (cuerpo.aprobar && !firma.quien) { toastTxt("Escriba su nombre para aprobar."); return; }
+    const r = await llamar({ accion: "revisar_posts", v: 3, ...firma, ...cuerpo });
+    if ((r.rechazados || []).length) toastTxt(`${r.aprobados} aprobado(s). ${r.rechazados.length} no se pudo: ${r.rechazados[0].motivo}`); else if (ok) toastTxt(ok);
+    await cargarPosts();
+  }
   catch (e) { toastTxt("No se pudo guardar: " + e.message); }
 }
 // ----- Repositorio de fotos -----
@@ -1871,6 +1943,7 @@ $("#tContenido").addEventListener("click", (e) => {
   if (a === "generar") generarDemo();
   if (a === "ver") verPost(id);
   if (a === "reabrir") revisar({ reabrir: id });
+  if (a === "editar" && p) { const t = prompt("Corrija el texto de la publicación (reemplace cada [confirmar: …] por el dato correcto):", p.texto || ""); if (t && t.trim()) revisar({ editar: { id, texto: t.trim() } }, "Texto corregido: ya puede aprobarlo"); }
   if (a === "copiar" && p) copiar(`${p.texto || ""}${p.hashtags?.length ? "\n\n" + p.hashtags.join(" ") : ""}`, b);
   if (a === "ajustar") { $("#aj" + id).classList.remove("oculto"); const s = $("#aj" + id + " select"); if (s && CS.abierto === id) s.value = String(CS.slide); $("#aj" + id + " textarea").focus(); }
   if (a === "cancelar-aj") $("#aj" + id).classList.add("oculto");
@@ -2003,6 +2076,46 @@ else {
   setInterval(() => { if (S.cargado && tab !== "conv") pintar(); }, 60000);
   document.addEventListener("visibilitychange", () => { if (!document.hidden) refrescar(); });
 }
+
+// ---------- Fase 4 · El enlace del panel vence y se renueva solo; el enlace compartido de antes tiene fecha ----------
+// El panel pregunta qué enlace es. Si es personal y está en sus últimos días, lo cambia por uno nuevo sin que la persona
+// haga nada. Si es el compartido de antes, ofrece crear el personal. Si ya no abre, lo dice y prueba el que este
+// navegador tenga guardado. (Los colores son los de la marca de la cuenta, que el panel ya aplica a sus variables.)
+(async () => {
+  if (!TOKEN) return;
+  const guardado = () => { try { return localStorage.getItem("cw-panel-enlace"); } catch (e) { return null; } };
+  const recordar = (t) => { try { localStorage.setItem("cw-panel-enlace", t); sessionStorage.setItem("cw-panel-token", t); } catch (e) {} };
+  const irCon = (t) => { recordar(t); location.hash = "#t=" + t; location.reload(); };
+  const franja = (html) => { const d = document.createElement("div"); d.id = "enlaceAviso"; d.style.cssText = "position:sticky;top:0;z-index:40;background:var(--g900);color:#fff;padding:10px 14px;font-size:14px;display:flex;gap:10px;align-items:center;justify-content:center;flex-wrap:wrap;text-align:center"; d.innerHTML = html; document.body.prepend(d); return d; };
+  let e = null;
+  try {
+    const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ accion: "enlace", token: TOKEN }) });
+    if (r.status === 404) {
+      const g = guardado();
+      if (g && g !== TOKEN) return irCon(g);
+      franja("Este enlace ya no abre el panel. Pida un enlace nuevo a quien administra el panel en su empresa.");
+      return;
+    }
+    if (!r.ok) return;
+    e = (await r.json()).enlace;
+  } catch (x) { return; }
+  if (!e) return;
+  if (e.tipo === "panel") {
+    recordar(TOKEN);
+    if (e.renovar) { try { const n = await llamar({ accion: "enlace_renovar" }); if (n && n.token) irCon(n.token); } catch (x) { /* se intenta la próxima vez */ } }
+    return;
+  }
+  // Enlace compartido de antes: sigue abriendo hasta su fecha. Cada persona puede sacar el suyo.
+  const hasta = new Date(e.vence).toLocaleDateString("es-EC", { day: "numeric", month: "long" });
+  const f = franja(`<span>Este enlace compartido deja de abrir el <b>${esc(hasta)}</b>. Cree su enlace personal: es solo suyo y se renueva solo.</span><button id="enlaceCrear" style="border:0;border-radius:999px;padding:8px 14px;font-weight:700;background:var(--lima);color:var(--g950);cursor:pointer">Crear mi enlace</button>`);
+  f.querySelector("#enlaceCrear").addEventListener("click", async () => {
+    let nombre = ""; try { nombre = localStorage.getItem(typeof CLAVE_QUIEN === "string" ? CLAVE_QUIEN : "") || ""; } catch (x) {}
+    nombre = (prompt("Su nombre o su cargo (para saber de quién es cada enlace):", nombre) || "").trim().slice(0, 80);
+    if (nombre.length < 2) return;
+    try { const n = await llamar({ accion: "enlace_personal", nombre }); if (n && n.token) { alert("Listo. Se va a abrir su enlace personal: guárdelo en sus favoritos y no lo comparta."); irCon(n.token); } }
+    catch (x) { alert("No se pudo crear el enlace: " + x.message); }
+  });
+})();
 </script>
 </body>
 </html>

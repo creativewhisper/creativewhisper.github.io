@@ -1,0 +1,240 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0A0908">
+<title>Etiquetar mensajes · Creative Whisper</title>
+<link rel="icon" href="../assets/monograma-cw.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<style>
+/* Paleta de Creative Whisper: esta página es de CW (la usa el equipo para validar el sentimiento). */
+:root{
+  --naranja:#F5A300;--rojo:#E3120B;--durazno:#FFD7BD;--verde:#3EA398;--negro:#0A0908;--beige:#CDBFA6;
+  --fondo:#FBF7F2;--tarjeta:#FFFFFF;--texto:#0A0908;--suave:#6B6259;--linea:#E6DCCD;
+  --f:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif;
+  --safe-b:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fondo);color:var(--texto);font-family:var(--f);font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100dvh;display:flex;flex-direction:column}
+button,input,textarea{font:inherit;color:inherit}
+.oculto{display:none!important}
+.franja{height:5px;background:linear-gradient(100deg,var(--naranja) 0 25%,var(--rojo) 25% 50%,var(--durazno) 50% 75%,var(--verde) 75% 100%)}
+header{background:var(--negro);color:#fff;padding:12px 16px 12px}
+header .fila{display:flex;justify-content:space-between;align-items:baseline;gap:10px;max-width:640px;margin:0 auto}
+header b{font-size:16px;font-weight:800}
+header span{color:var(--beige);font-size:14px;white-space:nowrap}
+.barra{height:6px;border-radius:9px;background:#2a2622;overflow:hidden;max-width:640px;margin:8px auto 0}
+.barra i{display:block;height:100%;width:0;background:var(--naranja);transition:width .25s}
+main{flex:1;width:100%;max-width:640px;margin:0 auto;padding:14px 14px calc(96px + var(--safe-b))}
+.msj{background:var(--tarjeta);border:1px solid var(--linea);border-radius:18px;padding:16px 16px 14px;box-shadow:0 10px 30px -22px rgba(10,9,8,.4)}
+.msj .de{font-size:13px;color:var(--suave);font-weight:600;margin-bottom:6px}
+.msj p{margin:0;font-size:20px;line-height:1.35;font-weight:600;white-space:pre-wrap;overflow-wrap:anywhere}
+.paso{margin-top:16px}
+.paso h2{font-size:15px;margin:0 0 8px;font-weight:800;display:flex;justify-content:space-between;align-items:center}
+.paso h2 small{font-weight:600;color:var(--suave);font-size:13px}
+/* Las opciones tienen todas el mismo color: el color no debe empujar hacia ninguna. */
+.ops{display:grid;gap:8px}
+.ops.tres{grid-template-columns:repeat(3,1fr)} .ops.dos{grid-template-columns:repeat(2,1fr)}
+.op{border:2px solid var(--linea);background:var(--tarjeta);border-radius:14px;padding:14px 8px;min-height:56px;font-weight:700;cursor:pointer;text-align:center;line-height:1.2;touch-action:manipulation}
+.op small{display:block;font-weight:500;font-size:12px;color:var(--suave);margin-top:3px}
+.op.sel{border-color:var(--negro);background:var(--negro);color:#fff}
+.op.sel small{color:var(--beige)}
+.op:active{transform:scale(.98)}
+.extras{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{border:1px solid var(--linea);background:transparent;border-radius:999px;padding:9px 13px;font-size:14px;font-weight:600;cursor:pointer}
+.chip.on{background:var(--durazno);border-color:var(--durazno)}
+.nota{font-size:13px;color:var(--suave);margin:10px 2px 0}
+.def{margin-top:16px;border-top:1px solid var(--linea);padding-top:10px;font-size:14px;color:var(--suave)}
+.def summary{cursor:pointer;font-weight:700;color:var(--texto)}
+.def dt{font-weight:700;color:var(--texto);margin-top:6px}.def dd{margin:0}
+.pie{position:fixed;left:0;right:0;bottom:0;background:var(--negro);padding:10px 14px calc(10px + var(--safe-b));display:flex;gap:8px;justify-content:center}
+.pie button{border:0;border-radius:12px;padding:13px 14px;font-weight:800;cursor:pointer;flex:1;max-width:312px}
+.pie .ayuda{background:var(--verde);color:#fff}.pie .atras{background:#2a2622;color:#fff;flex:0 0 auto}
+.aviso{background:var(--tarjeta);border:1px solid var(--linea);border-radius:18px;padding:22px 18px;text-align:center}
+.aviso h1{font-size:22px;margin:0 0 6px}
+/* Ayudante */
+.hoja{position:fixed;inset:0;background:rgba(10,9,8,.5);display:flex;align-items:flex-end;z-index:5}
+.hoja .caja{background:var(--fondo);width:100%;max-width:640px;margin:0 auto;border-radius:20px 20px 0 0;padding:14px 14px calc(12px + var(--safe-b));max-height:82dvh;display:flex;flex-direction:column}
+.hoja .cab{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.hoja .cab b{font-size:17px}.hoja .cab button{border:0;background:transparent;font-size:26px;line-height:1;padding:4px 8px;cursor:pointer}
+.hoja .sub{font-size:13px;color:var(--suave);margin:2px 0 8px}
+.chat{overflow:auto;flex:1;display:flex;flex-direction:column;gap:8px;padding:4px 0 8px;min-height:90px}
+.burbuja{padding:10px 12px;border-radius:14px;max-width:88%;white-space:pre-wrap;font-size:15px}
+.burbuja.yo{align-self:flex-end;background:var(--negro);color:#fff}.burbuja.el{align-self:flex-start;background:var(--tarjeta);border:1px solid var(--linea)}
+.atajos{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+.atajos button{flex:0 0 auto;border:1px solid var(--linea);background:var(--tarjeta);border-radius:999px;padding:7px 11px;font-size:13px;font-weight:600;cursor:pointer}
+.escribir{display:flex;gap:8px}
+.escribir textarea{flex:1;border:1px solid var(--linea);border-radius:12px;padding:10px;resize:none;background:#fff;min-height:44px}
+.escribir button{border:0;border-radius:12px;background:var(--naranja);font-weight:800;padding:0 16px;cursor:pointer}
+.toast{position:fixed;left:50%;bottom:calc(84px + var(--safe-b));transform:translateX(-50%);background:var(--negro);color:#fff;padding:9px 14px;border-radius:999px;font-size:14px;z-index:9}
+</style>
+</head>
+<body>
+<div class="franja"></div>
+<header>
+  <div class="fila"><b id="quien">Etiquetar mensajes</b><span id="cuenta"></span></div>
+  <div class="barra"><i id="barra"></i></div>
+</header>
+<main>
+  <div id="vCarga" class="aviso"><h1>Cargando…</h1></div>
+  <div id="vError" class="aviso oculto"><h1>Este enlace no abre</h1><p id="errorTxt">Pide un enlace nuevo de etiquetado.</p></div>
+  <div id="vFin" class="aviso oculto"><h1>¡Listo! No queda ninguno</h1><p>Etiquetaste todos los mensajes de la muestra. Ya puedes cerrar esta página.</p></div>
+  <div id="vTrabajo" class="oculto">
+    <div class="msj"><div class="de" id="de"></div><p id="texto"></p></div>
+    <div class="paso"><h2>1 · ¿Cómo se siente la persona? <small>teclas 1 2 3</small></h2><div class="ops tres" id="opsSent"></div></div>
+    <div class="paso"><h2>2 · ¿Qué busca con el mensaje?</h2><div class="ops dos" id="opsCat"></div></div>
+    <div class="paso oculto" id="pasoGrave"><h2>3 · ¿Es una queja grave?</h2><div class="ops dos" id="opsGrave"></div><p class="nota" id="defGrave"></p></div>
+    <div class="extras">
+      <button class="chip" id="chipDuda" aria-pressed="false">Tengo duda</button>
+      <button class="chip" id="chipDato">Tiene un nombre o un dato personal</button>
+    </div>
+    <p class="nota">Etiqueta lo que dice el mensaje, no lo que crees que el sistema respondió. Se guarda solo al terminar el último paso.</p>
+    <details class="def"><summary>Ver las definiciones</summary><dl id="defs"></dl></details>
+  </div>
+</main>
+<div class="pie oculto" id="pie">
+  <button class="atras" id="btnAtras" aria-label="Deshacer el anterior">↩ Anterior</button>
+  <button class="ayuda" id="btnAyuda">¿Dudas? Pregúntale al ayudante</button>
+</div>
+<div class="hoja oculto" id="hoja" role="dialog" aria-label="Ayudante">
+  <div class="caja">
+    <div class="cab"><b>Ayudante de etiquetado</b><button id="hojaCerrar" aria-label="Cerrar">×</button></div>
+    <div class="sub">No sabe qué respondió el sistema y no elige por ti: te explica en qué fijarte.</div>
+    <div class="chat" id="chat"></div>
+    <div class="atajos" id="atajos"></div>
+    <div class="escribir"><textarea id="pregunta" rows="1" maxlength="400" placeholder="Escribe tu duda…"></textarea><button id="btnPreguntar">Enviar</button></div>
+  </div>
+</div>
+<script>
+"use strict";
+const API = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/calidad-cliente";
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+function toast(t) { const d = document.createElement("div"); d.className = "toast"; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2200); }
+function guardar(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* sin almacenamiento */ } }
+function leer(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+// El enlace llega en #e=…; se guarda en el celular y se quita de la barra de direcciones.
+let TOKEN = (location.hash.match(/e=([a-f0-9]{32,64})/i) || [])[1] || leer("cw-etiquetar");
+if (TOKEN) { guardar("cw-etiquetar", TOKEN); if (location.hash) history.replaceState(null, "", location.pathname); }
+
+async function api(cuerpo) {
+  const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ e: TOKEN, ...cuerpo }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(j.error || ("HTTP " + r.status)), { status: r.status });
+  return j;
+}
+
+let DEF = null, cola = [], actual = null, sel = {}, duda = false, usoAyuda = false, t0 = 0, anterior = null, historial = [], guardando = false;
+
+function pintarProgreso(p) {
+  if (!p) return;
+  $("#cuenta").textContent = `${p.hechos} de ${p.total}` + (p.total < p.meta ? ` · meta ${p.meta}` : "");
+  $("#barra").style.width = (p.total ? Math.round((p.hechos / p.total) * 100) : 0) + "%";
+}
+function opciones(dest, lista, campo) {
+  $(dest).innerHTML = lista.map((o) => `<button class="op" data-campo="${campo}" data-valor="${esc(o.id)}">${esc(o.nombre)}<small>${esc(o.ayuda || "")}</small></button>`).join("");
+}
+function marcar() {
+  document.querySelectorAll(".op").forEach((b) => b.classList.toggle("sel", String(sel[b.dataset.campo]) === b.dataset.valor));
+  $("#pasoGrave").classList.toggle("oculto", sel.categoria !== "queja");
+  $("#chipDuda").classList.toggle("on", duda); $("#chipDuda").setAttribute("aria-pressed", String(duda));
+}
+function mostrar() {
+  actual = cola.shift() || null;
+  sel = {}; duda = false; usoAyuda = false; historial = []; t0 = Date.now();
+  if (!actual) { $("#vTrabajo").classList.add("oculto"); $("#pie").classList.add("oculto"); $("#vFin").classList.remove("oculto"); return; }
+  $("#de").textContent = `${actual.canal} · ${actual.tipo} a ${actual.negocio}`;
+  $("#texto").textContent = actual.texto;
+  marcar(); window.scrollTo({ top: 0 });
+}
+async function traer() {
+  const r = await api({ accion: "siguiente", n: 12 });
+  const ya = new Set([...(actual ? [actual.id] : []), ...cola.map((m) => m.id)]);
+  cola.push(...(r.mensajes || []).filter((m) => !ya.has(m.id)));
+  pintarProgreso(r.progreso);
+}
+async function terminarMensaje() {
+  if (guardando || !actual) return; guardando = true;
+  const m = actual, cuerpo = { accion: "etiquetar", id: m.id, sentimiento: sel.sentimiento, categoria: sel.categoria, grave: sel.categoria === "queja" && sel.grave === "si", duda, uso_ayuda: usoAyuda, ms: Date.now() - t0 };
+  try {
+    const r = await api(cuerpo); pintarProgreso(r.progreso); anterior = m;
+    if (cola.length < 4) traer().catch(() => {});
+    if (!cola.length) await traer();
+    mostrar();
+  } catch (e) { toast("No se guardó: " + e.message); }
+  guardando = false;
+}
+function elegir(campo, valor) {
+  sel[campo] = valor; marcar();
+  const completo = sel.sentimiento && sel.categoria && (sel.categoria !== "queja" || sel.grave);
+  if (completo) setTimeout(terminarMensaje, 140);
+}
+document.addEventListener("click", (e) => {
+  const b = e.target.closest(".op"); if (b) elegir(b.dataset.campo, b.dataset.valor);
+});
+$("#chipDuda").addEventListener("click", () => { duda = !duda; marcar(); });
+$("#chipDato").addEventListener("click", async () => {
+  if (!actual || !confirm("¿Este mensaje tiene un nombre o un dato personal? Se saca de la muestra para todos.")) return;
+  try { const r = await api({ accion: "dato_personal", id: actual.id }); pintarProgreso(r.progreso); if (!cola.length) await traer(); mostrar(); toast("Mensaje retirado. Gracias."); } catch (e) { toast("No se pudo: " + e.message); }
+});
+$("#btnAtras").addEventListener("click", async () => {
+  if (!anterior) { toast("No hay un mensaje anterior en esta sesión"); return; }
+  try { const r = await api({ accion: "deshacer", id: anterior.id }); pintarProgreso(r.progreso); if (actual) cola.unshift(actual); cola.unshift(anterior); anterior = null; mostrar(); } catch (e) { toast("No se pudo: " + e.message); }
+});
+document.addEventListener("keydown", (e) => {
+  if (!actual || !$("#hoja").classList.contains("oculto") || e.target.tagName === "TEXTAREA") return;
+  const i = Number(e.key) - 1;
+  if (!sel.sentimiento && i >= 0 && i < 3) elegir("sentimiento", DEF.sentimiento[i].id);
+  else if (sel.sentimiento && !sel.categoria && i >= 0 && i < 6) elegir("categoria", DEF.categoria[i].id);
+  else if (sel.categoria === "queja" && !sel.grave && (e.key === "s" || e.key === "n")) elegir("grave", e.key === "s" ? "si" : "no");
+});
+
+// ---------- Ayudante: explica en qué fijarse, no elige ----------
+function burbuja(de, t) { const d = document.createElement("div"); d.className = "burbuja " + (de === "yo" ? "yo" : "el"); d.textContent = t; $("#chat").appendChild(d); $("#chat").scrollTop = 1e6; return d; }
+async function preguntar(texto) {
+  const p = (texto || $("#pregunta").value).trim(); if (!p || !actual) return;
+  $("#pregunta").value = ""; burbuja("yo", p); const espera = burbuja("el", "…");
+  usoAyuda = true;
+  try { const r = await api({ accion: "ayuda", id: actual.id, pregunta: p, historial }); espera.textContent = r.texto; historial.push({ de: "yo", texto: p }, { de: "agente", texto: r.texto }); }
+  catch (e) { espera.textContent = "No pude responder ahora. Si sigues con la duda, marca «Tengo duda» y elige lo más cercano."; }
+}
+$("#btnAyuda").addEventListener("click", () => {
+  $("#hoja").classList.remove("oculto"); $("#chat").innerHTML = "";
+  burbuja("el", "Cuéntame qué te hace dudar de este mensaje. Te digo en qué fijarte para cada opción; la decisión es tuya.");
+  for (const h of historial) burbuja(h.de === "yo" ? "yo" : "el", h.texto);
+  $("#pregunta").focus();
+});
+$("#hojaCerrar").addEventListener("click", () => $("#hoja").classList.add("oculto"));
+$("#hoja").addEventListener("click", (e) => { if (e.target === $("#hoja")) $("#hoja").classList.add("oculto"); });
+$("#btnPreguntar").addEventListener("click", () => preguntar());
+$("#pregunta").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); preguntar(); } });
+$("#atajos").innerHTML = ["¿En qué me fijo para el sentimiento?", "¿Consulta o interés?", "¿Cuándo una queja es grave?", "No se entiende el mensaje"].map((t) => `<button>${esc(t)}</button>`).join("");
+$("#atajos").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) preguntar(b.textContent); });
+
+(async () => {
+  if (!TOKEN) { $("#vCarga").classList.add("oculto"); $("#vError").classList.remove("oculto"); $("#errorTxt").textContent = "Abre esta página desde tu enlace de etiquetado."; return; }
+  try {
+    const i = await api({ accion: "inicio" });
+    DEF = i.definiciones; $("#quien").textContent = "Hola, " + i.nombre; pintarProgreso(i.progreso);
+    opciones("#opsSent", DEF.sentimiento, "sentimiento"); opciones("#opsCat", DEF.categoria, "categoria");
+    opciones("#opsGrave", [{ id: "no", nombre: "No es grave", ayuda: "Molestia o problema menor" }, { id: "si", nombre: "Sí, es grave", ayuda: "Riesgo, dinero, amenaza pública o afecta a muchos" }], "grave");
+    $("#defGrave").textContent = DEF.grave;
+    $("#defs").innerHTML = [...DEF.sentimiento, ...DEF.categoria].map((d) => `<dt>${esc(d.nombre)}</dt><dd>${esc(d.ayuda)}</dd>`).join("") + `<dt>Queja grave</dt><dd>${esc(DEF.grave)}</dd><dt>Tengo duda</dt><dd>${esc(DEF.duda)}</dd>`;
+    await traer();
+    $("#vCarga").classList.add("oculto"); $("#vTrabajo").classList.remove("oculto"); $("#pie").classList.remove("oculto");
+    mostrar();
+  } catch (e) {
+    $("#vCarga").classList.add("oculto"); $("#vError").classList.remove("oculto");
+    $("#errorTxt").textContent = e.status === 404 ? "Este enlace de etiquetado no es válido o ya venció. Pide uno nuevo." : "No se pudo cargar: " + e.message;
+  }
+})();
+</script>
+</body>
+</html>
