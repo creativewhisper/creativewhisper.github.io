@@ -435,6 +435,18 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .cs-m{font-size:12.5px;color:var(--suave);margin-top:2px;text-transform:capitalize}
 .cs-sen{font-size:12.5px;font-weight:700;color:var(--g700);margin-top:6px}
 .cs-pq{font-size:13px;color:#33473F;margin-top:3px}
+/* Fase 7 · historias de la semana (aprobación en lote), reel con voz y tanda de muestra */
+.cs-hist{border:1px solid #E3DDD2;border-radius:14px;padding:12px 14px;margin:0 0 12px;background:#FFFDF8}
+.cs-hist-cab{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}.cs-hist-cab b{font-size:15px}.cs-hist-cab span{font-size:12.5px;color:#6B6259;display:block}
+.cs-hist-tira{display:flex;gap:8px;overflow-x:auto;padding:10px 0 4px;scrollbar-width:thin}
+.cs-hist-tira button{flex:none;width:74px;border:0;background:none;padding:0;cursor:pointer;text-align:center;font-size:11px;color:#6B6259}
+.cs-hist-tira img{width:74px;height:131px;object-fit:cover;border-radius:10px;border:2px solid #E3DDD2;display:block;background:#eee}
+.cs-hist-tira .ok img{border-color:#3EA398}.cs-hist-tira .aj img{border-color:#F5A300}
+.cs-hist details{margin-top:6px}.cs-hist summary{cursor:pointer;font-size:13px;font-weight:600;color:#6B6259}
+.cs-reel{display:block;width:min(240px,100%);aspect-ratio:9/16;border-radius:12px;background:#000;margin-top:8px}
+.cs-guion{font-size:12.5px;color:#4a443d;margin-top:6px}.cs-guion summary{cursor:pointer;font-weight:600}.cs-guion li{margin:3px 0}
+.cs-prueba{font-size:13px;background:#FFF1E3;border:1px solid #F5A300;border-radius:10px;padding:8px 10px;margin-top:7px;display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.cs-prueba a{font-weight:700;color:#0A0908}
 .cs-nota{font-size:12.5px;background:#FFF5E3;border:1px solid #F3D7A6;color:#6B4708;border-radius:10px;padding:6px 9px;margin-top:7px}
 .cs-aj,.cs-v2,.cs-prog{font-size:12.5px;border-radius:10px;padding:7px 10px;margin-top:7px}
 .cs-aj{background:#FFF0D6;color:#6B4708}.cs-aj span,.cs-v2 span,.cs-prog span{display:block;opacity:.85;margin-top:2px}
@@ -1696,6 +1708,9 @@ const numF = (n) => (n == null ? "—" : Number(n).toLocaleString("es-EC"));
 // Lo nuevo de cada post: datos por confirmar, quién aprobó, cuándo sale, cómo le fue y si algo falló.
 function extraPost(p) {
   let h = "";
+  // Fase 7 · el reel con voz se ve y se oye ANTES de aprobarlo; la tanda de muestra de la prueba se puede descargar y no se publica.
+  if (p.video_url) h += `<video class="cs-reel" controls playsinline preload="none" poster="${esc(p.slides[0] || "")}" src="${esc(p.video_url)}"></video>${(p.guion || []).length ? `<details class="cs-guion"><summary>Ver el guion de la voz${p.segundos ? ` (${Math.round(p.segundos)} s)` : ""}</summary><ol>${p.guion.map((g) => `<li><b>${esc(g.pantalla)}</b> — ${esc(g.voz)}</li>`).join("")}</ol></details>` : ""}`;
+  if (p.prueba) h += `<div class="cs-prueba"><span>Esto es lo que recibirías cada semana. Es una muestra: no se publica.</span><span>${p.slides.map((u, i) => `<a href="${esc(u)}" target="_blank" rel="noopener" download>Descargar${p.slides.length > 1 ? " " + (i + 1) : ""}</a>`).join(" · ")} · <a href="../cuenta/#plan" target="_top">Mejorar plan</a></span></div>`;
   if ((p.confirmar || []).length && ["por_revisar", "ajuste"].includes(p.estado)) h += `<div class="cs-aj">⚠️ Falta confirmar: ${p.confirmar.map((c) => `<b>${esc(c)}</b>`).join(", ")}<span>No se puede aprobar hasta poner el dato correcto. <button class="lnk" data-cs="editar" data-id="${p.id}">Corregir el texto</button></span></div>`;
   if (p.estado === "necesita_pieza") h += `<div class="cs-aj">🎬 El equipo está produciendo esta pieza<span>Cuando esté lista aparecerá aquí para su aprobación. Mientras tanto no se publica.</span></div>`;
   if (p.aprobacion && p.aprobacion.vigente && ["aprobado", "programado", "publicando", "publicado", "error"].includes(p.estado)) h += `<div class="cs-m">✓ Aprobado por ${esc(p.aprobacion.quien || "la gerencia")} el ${esc(fechaPost(p.aprobacion.cuando))} desde ${p.aprobacion.desde === "app" ? "la app" : "el panel"}</div>`;
@@ -1757,6 +1772,8 @@ async function cargarPosts(silencio) {
   try {
     const d = await llamar({ accion: "posts", v: 3 });
     CS.posts = d.posts || []; if (!silencio) cargarReporteSemanal(); CS.redes = !!d.redes_conectadas; CS.producciones = d.producciones || []; CS.cargado = true;
+    // Fase 7 · lo que armó la tanda automática (o la tanda de muestra de una prueba) se ve sin tocar «Generar contenido».
+    if (CS.posts.some((p) => p.origen === "tanda" || p.origen === "prueba")) CS.visible = true;
     for (const id of [...CS.sel]) { const p = CS.posts.find((x) => x.id === id); if (!p || !["por_revisar", "ajuste"].includes(p.estado)) CS.sel.delete(id); }
     pintarCS(); pintarProd();
   } catch (e) { if (!silencio) $("#csLista").innerHTML = `<div class="caja vacio">No se pudo cargar el contenido: ${esc(e.message)}</div>`; }
@@ -1784,12 +1801,24 @@ function pintarCS() {
   } else if (!$("#csLista").dataset.animando) {
     // No borrar un ajuste que se está escribiendo.
     const escribiendo = $$(".cs-form-aj:not(.oculto) textarea").some((t) => t.value.trim() || t === document.activeElement);
-    if (!escribiendo) $("#csLista").innerHTML = CS.posts.map(filaPost).join("");
+    if (!escribiendo) $("#csLista").innerHTML = bloqueHistorias() + CS.posts.filter((p) => !esDiaria(p)).map(filaPost).join("");
   }
   pintarTel();
 }
+// Fase 7 · las historias diarias de la semana van juntas: se ven todas en una tira, se aprueban de un toque («todas las de la
+// semana») y, quien quiera, las abre una por una para ajustar o aprobar solo algunas. Cada una se aprueba en SU versión.
+const esDiaria = (p) => p.clase === "historia";
+function bloqueHistorias() {
+  const hs = CS.posts.filter(esDiaria); if (!hs.length) return "";
+  const pend = hs.filter((p) => ["por_revisar", "ajuste"].includes(p.estado)), lote = (pend[0] || hs[0]).lote, ok = hs.filter((p) => ["aprobado", "programado", "publicado", "publicando"].includes(p.estado)).length;
+  const dia = (p) => new Date(p.programar_en).toLocaleDateString("es-EC", { weekday: "short", timeZone: "America/Guayaquil" });
+  return `<div class="cs-hist" id="csHist"><div class="cs-hist-cab"><div><b>📱 Historias de la semana: ${hs.length}</b><span>${pend.length ? `${pend.length} por revisar` : "todas revisadas"}${ok ? ` · ${ok} aprobadas` : ""} · se publican solas en Instagram, cada una en su día</span></div>
+    ${pend.length ? `<button class="btn btn-verde" data-cs="aprobar-historias" data-lote="${esc(lote)}">Aprobar las ${pend.length} historias</button>` : ""}</div>
+    <div class="cs-hist-tira">${hs.map((p) => `<button type="button" class="${(ESTADO_P[p.estado] || ["", ""])[1]}" data-cs="ver" data-id="${p.id}" title="${esc(p.titulo)}"><img src="${esc(p.slides[0] || "")}" alt="" loading="lazy">${esc(dia(p))}</button>`).join("")}</div>
+    <details${CS.histAbierto ? " open" : ""} id="csHistDet"><summary>Revisarlas una por una (ajustar o aprobar solo algunas)</summary>${hs.map(filaPost).join("")}</details></div>`;
+}
 function filaPost(p) {
-  const [et, cl] = ESTADO_P[p.estado] || [p.estado, ""], puede = ["por_revisar", "ajuste"].includes(p.estado), sel = CS.sel.has(p.id);
+  const [et, cl] = ESTADO_P[p.estado] || [p.estado, ""], puede = ["por_revisar", "ajuste"].includes(p.estado) && !p.prueba, sel = CS.sel.has(p.id);
   const sen = senalTxt(p.senal);
   const prog = p.estado === "aprobado" ? `<div class="cs-prog">📅 Se publica solo el <b>${esc(fechaPost(p.programar_en))}</b> en ${esc(p.red)}. ${CS.redes ? "" : "<span>La programación automática se activa cuando nos den acceso a sus cuentas en la implementación.</span>"} <button class="lnk" data-cs="reabrir" data-id="${p.id}">Deshacer</button></div>` : "";
   const aj = p.estado === "ajuste" ? `<div class="cs-aj">✏️ Pidieron: «${esc(p.comentario || "")}»<span>Enviado a la oficina de Creative Whisper · en corrección${p.slides.length > 1 ? ` (lámina ${(p.ajuste_slide ?? 0) + 1})` : ""}.</span></div>` : "";
@@ -1876,8 +1905,9 @@ async function generarDemo() {
 function toastTxt(t) { const d = document.createElement("div"); d.className = "toast ok"; d.innerHTML = `<b>${esc(t)}</b>`; $("#toasts").appendChild(d); setTimeout(() => d.remove(), 5000); }
 async function revisar(cuerpo, ok) {
   try {
-    const firma = { desde: "panel", quien: quienAprueba(!!cuerpo.aprobar) };
-    if (cuerpo.aprobar && !firma.quien) { toastTxt("Escriba su nombre para aprobar."); return; }
+    const aprueba = !!(cuerpo.aprobar || cuerpo.aprobar_historias);
+    const firma = { desde: "panel", quien: quienAprueba(aprueba) };
+    if (aprueba && !firma.quien) { toastTxt("Escriba su nombre para aprobar."); return; }
     const r = await llamar({ accion: "revisar_posts", v: 3, ...firma, ...cuerpo });
     if ((r.rechazados || []).length) toastTxt(`${r.aprobados} aprobado(s). ${r.rechazados.length} no se pudo: ${r.rechazados[0].motivo}`); else if (ok) toastTxt(ok);
     await cargarPosts();
@@ -1935,7 +1965,9 @@ $("#btnSubir").addEventListener("click", () => $("#archivoFotos").click());
 $("#archivoFotos").addEventListener("change", (e) => { if (e.target.files?.length) subirFotos(e.target.files); e.target.value = ""; });
 $("#btnGenerar").addEventListener("click", generarDemo);
 $("#btnGenerarDemo").addEventListener("click", generarDemo);
-$("#chkTodos").addEventListener("change", (e) => { const pend = CS.posts.filter((p) => ["por_revisar", "ajuste"].includes(p.estado)); CS.sel = new Set(e.target.checked ? pend.map((p) => p.id) : []); pintarCS(); });
+$("#chkTodos").addEventListener("change", (e) => { const pend = CS.posts.filter((p) => ["por_revisar", "ajuste"].includes(p.estado) && !p.prueba); CS.sel = new Set(e.target.checked ? pend.map((p) => p.id) : []); pintarCS(); });
+document.addEventListener("click", (e) => { const b = e.target.closest('[data-cs="aprobar-historias"]'); if (b) revisar({ aprobar_historias: b.dataset.lote }, "✅ Historias de la semana aprobadas: cada una sale en su día"); });
+document.addEventListener("toggle", (e) => { if (e.target.id === "csHistDet") CS.histAbierto = e.target.open; }, true);
 $("#btnAprobar").addEventListener("click", () => { const ids = [...CS.sel]; CS.sel.clear(); revisar({ aprobar: ids }, `✅ ${ids.length} aprobado${ids.length === 1 ? "" : "s"}: se programan en sus fechas`); });
 $("#tContenido").addEventListener("change", (e) => { const c = e.target.closest("[data-sel]"); if (!c) return; const id = Number(c.dataset.sel); c.checked ? CS.sel.add(id) : CS.sel.delete(id); pintarCS(); });
 $("#tContenido").addEventListener("click", (e) => {

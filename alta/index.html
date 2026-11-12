@@ -109,17 +109,43 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
 .canal h3{margin:0 0 2px;display:flex;align-items:center;gap:8px}
 .canal .est{font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;background:#EFE7DB;color:var(--suave)}
 .canal .est.ok{background:#E3F4F1;color:#1E5E57}.canal .est.camino{background:#FFF1E3;color:#8A5A00}
+/* Fase 7 · video explicativo (póster liviano; el video solo se baja al tocar) */
+.video{position:relative;border-radius:14px;overflow:hidden;background:var(--negro);margin:14px 0 4px;aspect-ratio:16/9}
+.video img,.video video{display:block;width:100%;height:100%;object-fit:cover}
+.video .tocar{position:absolute;inset:0;border:0;background:linear-gradient(180deg,rgba(10,9,8,0) 40%,rgba(10,9,8,.72));color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:16px;text-align:left;font:inherit}
+.video .tocar .tri{position:absolute;right:16px;bottom:16px;width:62px;height:62px;border-radius:50%;background:var(--naranja);display:grid;place-items:center;box-shadow:0 12px 30px -8px rgba(0,0,0,.6)}
+.video .tocar .tri::after{content:"";border-style:solid;border-width:11px 0 11px 19px;border-color:transparent transparent transparent var(--negro);margin-left:5px}
+.video .tocar b{font-size:17px;font-weight:800;padding-right:80px}.video .tocar small{padding-right:80px}.video .tocar small{font-size:13px;color:var(--beige)}
+@media (max-width:560px){.video{aspect-ratio:9/16;max-height:70vh;margin-inline:auto;max-width:330px}}
+/* Fase 7 · conexión guiada */
+.g-modos{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.g-modo{border:2px solid var(--linea);background:#fff;border-radius:14px;padding:14px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px}
+.g-modo .ic{font-size:24px}.g-modo b{font-size:16px}.g-modo small{color:var(--suave);font-size:13.5px;line-height:1.35}
+.g-modo.on{border-color:var(--naranja);background:#FFF8EC}
+.g-avance{margin:6px 0 12px}.g-barra{height:10px;border-radius:9px;background:#EFE7DB;overflow:hidden}.g-barra i{display:block;height:100%;background:linear-gradient(90deg,var(--verde),var(--naranja));transition:width .3s}
+.g-cuenta{display:flex;justify-content:space-between;gap:10px;font-size:14px;margin-top:6px}.g-cuenta span{color:var(--suave)}
+.g-puntos{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}.g-puntos button{width:30px;height:30px;border-radius:50%;border:0;background:#EFE7DB;color:var(--suave);font-weight:700;font-size:13px;cursor:pointer}
+.g-puntos button.ok{background:#E3F4F1;color:#1E5E57}.g-puntos button.on{background:var(--naranja);color:var(--negro)}
+.g-caja{border:1px solid var(--linea);border-radius:14px;padding:16px;background:var(--campo)}
+.g-cab{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.g-cab h3{margin:0;font-size:18px}.g-min{flex:none;background:var(--durazno);border-radius:999px;padding:3px 10px;font-size:13px;font-weight:700}
+.g-dos{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);gap:16px;align-items:center;margin-top:12px}
+.g-dib svg{width:100%;height:auto;display:block;font-family:var(--f)}
+.dibujo .anillo{animation:g-late 1.6s ease-in-out infinite}.dibujo .cursor{animation:g-toca 1.6s ease-in-out infinite}
+@keyframes g-late{0%,100%{opacity:1}50%{opacity:.25}}@keyframes g-toca{0%,100%{transform:translate(0,0)}50%{transform:translate(-3px,-4px)}}
+@media (prefers-reduced-motion:reduce){.dibujo .anillo,.dibujo .cursor{animation:none}}
+.g-que{margin:0;padding-left:20px}.g-que li{margin:8px 0;font-size:15.5px}
+.g-lista{list-style:none;margin:8px 0 0;padding:0}.g-lista li{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid var(--linea)}
+.g-lista label{display:flex;gap:10px;align-items:flex-start;margin:0;font-weight:400;cursor:pointer;flex:1}.g-lista input{width:22px;height:22px;margin-top:2px;accent-color:var(--verde);flex:none}
+.g-lista b{display:block;font-weight:600}.g-lista small{display:block;color:var(--suave);font-size:13.5px;line-height:1.35}
+.g-copia,.g-perm{display:flex;gap:6px;flex-wrap:wrap;align-items:center;margin-top:10px}.g-copia code,.g-perm code{background:#EFE7DB;border-radius:8px;padding:4px 8px;font-size:12.5px}
+.g-abrir{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}.g-abrir a{text-decoration:none}.g-abrir small,.g-ayuda{color:var(--suave);font-size:13.5px}
+.g-ayuda{margin:14px 0 0}.g-fin{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+a.btn{text-decoration:none;display:inline-block}
+@media (max-width:640px){.g-modos,.g-dos{grid-template-columns:1fr}.g-fin{width:100%}.g-fin .btn{flex:1}}
+/* Fase 7 · el chat queda abierto al lado en computadora: la página y su pie le hacen sitio */
+.pie{right:var(--ae-ancho,0px)}
+@media (max-width:719px){html{--ae-sube:58px}}
 /* Agente conversacional */
-#abrirChat{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));border:0;border-radius:999px;padding:13px 18px;background:var(--negro);color:#fff;font-weight:700;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);cursor:pointer;z-index:5}
-#abrirChat::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--naranja);margin-right:8px;vertical-align:1px}
-#chat{position:fixed;right:16px;bottom:16px;width:min(380px,calc(100vw - 32px));height:min(560px,calc(100dvh - 32px));background:#fff;border:1px solid var(--linea);border-radius:18px;box-shadow:0 20px 60px -20px rgba(0,0,0,.45);display:flex;flex-direction:column;z-index:6;overflow:hidden}
-#chat .ch{background:var(--negro);color:#fff;padding:12px 14px;display:flex;align-items:center;gap:10px}
-#chat .ch b{flex:1} #chat .ch button{background:none;border:0;color:#fff;font-size:22px;cursor:pointer;line-height:1}
-#msgs{flex:1;overflow:auto;padding:12px;display:flex;flex-direction:column;gap:8px;background:var(--fondo)}
-.m{max-width:85%;padding:9px 12px;border-radius:14px;font-size:15px;white-space:pre-wrap;word-wrap:break-word}
-.m.yo{align-self:flex-end;background:var(--durazno)} .m.ag{align-self:flex-start;background:#fff;border:1px solid var(--linea)}
-#chat form{display:flex;gap:8px;padding:10px;border-top:1px solid var(--linea)}
-#chat input{flex:1}
 .pie{position:fixed;left:0;right:0;bottom:0;background:rgba(251,247,242,.94);backdrop-filter:blur(6px);border-top:1px solid var(--linea);z-index:4}
 .pie .in{max-width:760px;margin:0 auto;padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));display:flex;gap:10px;justify-content:space-between;align-items:center;padding-right:150px}
 .pie .tiempo{font-size:13px;color:var(--suave)}
@@ -141,13 +167,14 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
   <section class="tarjeta oculto" data-paso="inicio">
     <h2>Hola, <span class="nombreEmpresa" data-nt></span> 👋</h2>
     <p class="ayuda">En unos 10 minutos dejamos listo tu asistente: atiende a tus clientes por WhatsApp, Instagram y tu web, te muestra en un panel en vivo lo que dicen y te avisa al celular las quejas graves.</p>
+    <div class="video" id="videoInicio" data-nt></div>
     <h3>Vas a necesitar</h3>
     <ul class="lista-meta">
       <li>🌐 La dirección de tu web (de ahí sacamos solos la información del asistente, tu logo, tus colores, tus fotos y hasta tu horario; tú lo revisas).</li>
       <li>📍 La dirección y el horario de tu local<span id="pideRuc">, y tu RUC</span>.</li>
       <li>📱 El WhatsApp de quien recibirá las alertas.</li>
     </ul>
-    <p class="ayuda" style="margin-top:12px">No necesitas saber de Meta ni de programación: WhatsApp e Instagram se conectan con un botón o los conectamos por ti. Puedes dejarlo a medias: lo que guardas queda guardado y vuelves con el mismo enlace. Si tienes dudas, abre «¿Dudas?» abajo a la derecha.</p>
+    <p class="ayuda" style="margin-top:12px">No necesitas saber de Meta ni de programación: para conectar WhatsApp e Instagram te llevamos paso a paso, o lo hacemos contigo en una videollamada. Nada se publica en tus redes sin tu aprobación. Puedes dejarlo a medias: lo que guardas queda guardado y vuelves con el mismo enlace. Si tienes dudas, el chat está siempre abierto y puedes hablar con el agente.</p>
     <div class="acciones"><span></span><button class="btn pri" data-ir="web" id="empezar">Empezar</button></div>
   </section>
 
@@ -241,7 +268,10 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
   <!-- 5. Canales (fase 5: con un botón o «lo hacemos por ti») -->
   <section class="tarjeta oculto" data-paso="canales">
     <h2>Conecta tus canales</h2>
-    <p class="ayuda">Elige por dónde responde tu asistente. No necesitas saber de Meta: o lo conectas con un botón, o lo conectamos por ti. Si prefieres, déjalo para después: lo haces desde tu cuenta cuando quieras.</p>
+    <p class="ayuda">WhatsApp e Instagram se conectan dentro de TU cuenta de Meta, así siguen siendo tuyos. Te llevo de la mano, un paso a la vez. Puedes parar cuando quieras: lo que avanzas queda guardado.</p>
+    <div class="video" id="videoCanales" data-nt></div>
+    <div id="guia" data-nt></div>
+    <details id="otrasFormas" style="margin-top:16px"><summary style="cursor:pointer;font-weight:600;color:var(--suave)">¿Tu página muestra un botón «Conectar»? También sirve</summary>
     <div class="canal" id="canalWa">
       <h3>💬 WhatsApp <span class="est" id="waEst">Sin conectar</span></h3>
       <p class="ayuda" style="margin:0">Tu asistente responde en el número de tu negocio. El número sigue siendo tuyo.</p>
@@ -258,25 +288,26 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
       <div class="acciones" style="margin-top:10px;justify-content:flex-start" id="igForm"><button class="btn oscuro" id="igConectar" type="button">Conectar Instagram</button></div>
       <div id="igDetalle"></div>
     </div>
-    <details id="detalleConectar" style="margin-top:16px"><summary style="cursor:pointer;font-weight:600;color:var(--suave)">Opción avanzada: ya tengo los accesos de mi app de Meta</summary>
-      <p class="ayuda" style="margin-top:8px">Solo si tu equipo técnico ya creó la app y el usuario del sistema. Se guardan cifrados y nadie los vuelve a ver.</p>
-      <div class="fila">
-        <div><label for="appId">Identificador de la app</label><input id="appId" type="text" name="cw-meta-app" inputmode="numeric" autocomplete="off"></div>
-        <div><label for="appSecret">Clave secreta de la app</label><input id="appSecret" type="password" name="cw-meta-clave-app" autocomplete="new-password" data-lpignore="true" data-1p-ignore></div>
-      </div>
-      <label for="tokenSu">Token del usuario del sistema</label><input id="tokenSu" type="password" name="cw-meta-token" autocomplete="new-password" data-lpignore="true" data-1p-ignore>
-      <div class="fila">
-        <div><label for="wabaId">Cuenta de WhatsApp <small>(solo si el alta te lo pide: el «WhatsApp Business Account ID»)</small></label><input id="wabaId" type="text" name="cw-meta-cuenta-wa" inputmode="numeric" maxlength="25" autocomplete="off"></div>
-        <div><label for="pin">PIN de verificación en dos pasos <small>(solo si tu número ya tiene uno)</small></label><input id="pin" type="password" name="cw-meta-pin" inputmode="numeric" maxlength="6" autocomplete="new-password" data-lpignore="true" data-1p-ignore></div>
-        <div><label for="igToken">Token de Instagram <small>(solo si no está vinculada a una página)</small></label><input id="igToken" type="password" name="cw-meta-token-ig" autocomplete="new-password" data-lpignore="true" data-1p-ignore></div>
-      </div>
-      <div id="elegirNumero" class="oculto"><label>¿Qué número conectamos?</label><div id="numeros"></div></div>
-      <div class="acciones"><span></span><button class="btn oscuro" id="conectar" type="button">Conectar</button></div>
-      <ul class="pasos-conexion" id="resConexion"></ul>
     </details>
     <div class="aviso mal oculto" data-error="canales"></div>
     <div class="acciones"><button class="btn" data-ir="limites">Atrás</button><button class="btn pri" data-guardar="canales_listos">Guardar y seguir</button></div>
   </section>
+  <!-- Los campos protegidos de la conexión: la guía los muestra en su paso 6 (son siempre estos mismos elementos). -->
+  <div id="camposPegar" hidden>
+      <div class="fila">
+        <div><label for="appId">Identificador de la app</label><input id="appId" type="text" name="cw-meta-app" inputmode="numeric" autocomplete="off"></div>
+        <div><label for="appSecret">Clave secreta de la app</label><input id="appSecret" type="password" name="cw-meta-clave-app" autocomplete="new-password" data-lpignore="true" data-1p-ignore></div>
+      </div>
+      <label for="tokenSu">Clave de acceso</label><input id="tokenSu" type="password" name="cw-meta-token" autocomplete="new-password" data-lpignore="true" data-1p-ignore>
+      <div class="fila">
+        <div><label for="wabaId">Cuenta de WhatsApp <small>(solo si el alta te lo pide: el «WhatsApp Business Account ID»)</small></label><input id="wabaId" type="text" name="cw-meta-cuenta-wa" inputmode="numeric" maxlength="25" autocomplete="off"></div>
+        <div><label for="pin">PIN de verificación en dos pasos <small>(solo si tu número ya tiene uno)</small></label><input id="pin" type="password" name="cw-meta-pin" inputmode="numeric" maxlength="6" autocomplete="new-password" data-lpignore="true" data-1p-ignore></div>
+        <div><label for="igToken">Clave de acceso de Instagram <small>(solo si no está vinculada a una página)</small></label><input id="igToken" type="password" name="cw-meta-token-ig" autocomplete="new-password" data-lpignore="true" data-1p-ignore></div>
+      </div>
+      <div id="elegirNumero" class="oculto"><label>¿Qué número conectamos?</label><div id="numeros"></div></div>
+      <div class="acciones"><span></span><button class="btn oscuro" id="conectar" type="button">Conectar</button></div>
+      <ul class="pasos-conexion" id="resConexion"></ul>
+  </div>
 
   <!-- 6. Aceptación -->
   <section class="tarjeta oculto" data-paso="aceptacion">
@@ -316,17 +347,12 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
 
 <div class="pie" id="pie"><div class="in"><span class="tiempo" id="tiempo"></span><span class="tiempo" id="guardado"></span></div></div>
 
-<button id="abrirChat" type="button">¿Dudas?</button>
-<div id="chat" class="oculto" role="dialog" aria-label="Asistente del alta">
-  <div class="ch"><b>Asistente del alta</b><button type="button" id="cerrarChat" aria-label="Cerrar">×</button></div>
-  <div id="msgs"><div class="m ag">Hola. Te ayudo con cualquier paso del alta: qué poner en cada campo, cómo conectar tu WhatsApp o qué hace tu asistente. No pegues aquí claves ni códigos.</div></div>
-  <form id="formChat"><input id="txtChat" type="text" placeholder="Escribe tu pregunta…" autocomplete="off" maxlength="1500"><button class="btn pri chico" type="submit">Enviar</button></form>
-</div>
-
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="../assets/imagenes-cw.js"></script>
 <script src="../assets/idioma.js"></script>
 <script src="en.js"></script>
+<script src="../assets/agente-escucha.js"></script>
+<script src="guia.js"></script>
 <script>
 "use strict";
 const API = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/alta-cliente";
@@ -341,7 +367,7 @@ const PASOS = [["inicio", "Inicio"], ["web", "Web"], ["empresa", "Empresa"], ["a
 const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const T = ((location.hash + location.search).match(/[#&?]a=([a-f0-9]{64})/) || [])[1] || "";
-let S = null, pasoActual = "inicio", logoSubido = null, chat = [];
+let S = null, pasoActual = "inicio", logoSubido = null;
 const ss = { get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { sessionStorage.setItem(k, v); } catch (e) { /* sin almacenamiento */ } } };
 
 async function api(cuerpo) {
@@ -595,6 +621,7 @@ $("#conectar").onclick = async () => {
     if (r.estado) S.estado = r.estado;
     // Los datos secretos no se quedan en la página.
     for (const id of ["#appSecret", "#tokenSu", "#pin", "#igToken"]) $(id).value = "";
+    if ((r.pasos || []).length && !(r.pasos || []).some((p) => p.ok === false)) { guia?.hecho(6); leerCanales(); }
   } catch (x) { error("canales", x.message); } finally { b.disabled = false; b.textContent = "Conectar"; }
 };
 
@@ -637,18 +664,33 @@ $("#terminar").onclick = async () => {
   catch (x) { error("listo", x.json?.faltan ? "Faltan pasos: " + x.json.faltan.join(", ") : x.message); } finally { b.disabled = false; b.textContent = "Terminar el alta"; }
 };
 
-// ---------- Agente del alta ----------
-$("#abrirChat").onclick = () => { $("#chat").classList.remove("oculto"); $("#abrirChat").classList.add("oculto"); $("#txtChat").focus(); };
-$("#cerrarChat").onclick = () => { $("#chat").classList.add("oculto"); $("#abrirChat").classList.remove("oculto"); };
-$("#formChat").onsubmit = async (e) => {
-  e.preventDefault();
-  const t = $("#txtChat").value.trim(); if (!t) return;
-  $("#txtChat").value = ""; chat.push({ rol: "usuario", texto: t });
-  $("#msgs").insertAdjacentHTML("beforeend", `<div class="m yo" data-nt>${esc(t)}</div><div class="m ag" id="pensando"><span class="cargando"></span></div>`); $("#msgs").scrollTop = 1e9;
-  try { const r = await api({ accion: "asistente", idioma: CWIdioma.idioma, mensajes: chat.slice(-12) }); chat.push({ rol: "asistente", texto: r.texto }); $("#pensando").outerHTML = `<div class="m ag" data-nt>${esc(r.texto)}</div>`; }
-  catch (x) { $("#pensando").outerHTML = `<div class="m ag">${esc(x.message)}</div>`; }
-  $("#msgs").scrollTop = 1e9;
-};
+// ---------- Agente del alta (fase 7): siempre a la mano. En computadora, abierto al lado; en celular, una burbuja que se expande. ----------
+// Sabe en qué paso está la persona. Una clave pegada aquí se descarta en la página (no se envía) y, por si acaso, también en el servidor.
+const RE_CLAVE = /\b(?:EAA|IGAA|IGQV)[A-Za-z0-9_-]{10,}|\b[a-f0-9]{32}\b|[A-Za-z0-9_-]{60,}/;
+const AVISO_CLAVE = () => CWIdioma.idioma === "en" ? "For your security I did not send that: it looks like an access key. Paste it only in the protected fields of step 6 of the connection guide." : "Por seguridad no envié eso: parece una clave. Pégala solo en los campos protegidos del paso 6 de la guía de conexión.";
+let ayudante = null, guia = null;
+function crearAyudante() {
+  if (ayudante || !window.AgenteEscucha) return;
+  const en = CWIdioma.idioma === "en";
+  ayudante = AgenteEscucha({ api: API, accion: "asistente", idioma: CWIdioma.idioma, fijo: true,
+    titulo: en ? "Setup assistant" : "Asistente del alta", boton: en ? "Questions? Ask me" : "¿Dudas? Pregúntame",
+    saludo: en ? "Hi. I'm here the whole time. Ask me about any step: what to put in each field, how to connect your WhatsApp, or what your assistant does. You can also talk to me. Never paste keys or codes here." : "Hola. Estoy aquí todo el tiempo. Pregúntame por cualquier paso: qué poner en cada campo, cómo conectar tu WhatsApp o qué hace tu asistente. También puedes hablarme. No pegues aquí claves ni códigos.",
+    sugerencias: en ? ["What do I need to have ready?", "How long does it take?", "Is anything published without my approval?"] : ["¿Qué necesito tener listo?", "¿Cuánto tiempo toma?", "¿Se publica algo sin mi aprobación?"],
+    nota: en ? "Automated assistant. Never type passwords, access keys or codes here." : "Asistente automático. No escribas aquí contraseñas, claves de acceso ni códigos.",
+    datos: () => ({ t: T, paso: pasoActual, paso_conexion: pasoActual === "canales" && guia?.estado().modo === "guiada" ? guia.estado().paso : null }),
+    filtro: (texto) => (RE_CLAVE.test(texto) ? AVISO_CLAVE() : null),
+    voz: { pedir: async () => { try { return await api({ accion: "voz", idioma: CWIdioma.idioma, paso: pasoActual, paso_conexion: guia?.estado().paso ?? null }); } catch (x) { return { error: x.message }; } } } });
+}
+
+// ---------- Video explicativo (fase 7): póster liviano; el archivo solo se baja cuando la persona lo toca ----------
+function pintarVideo(id) {
+  const c = $(id); if (!c) return;
+  const en = CWIdioma.idioma === "en", vertical = window.matchMedia("(max-width:560px)").matches, base = `video/alta-${en ? "en" : "es"}-${vertical ? "v" : "h"}`;
+  c.innerHTML = `<img src="${base}.jpg" alt="" loading="lazy" width="${vertical ? 540 : 960}" height="${vertical ? 960 : 540}"><button type="button" class="tocar" aria-label="${en ? "Play the video" : "Ver el video"}"><span class="tri"></span><b>${en ? "What is going to happen (1 min)" : "Qué va a pasar (1 min)"}</b><small>${en ? "What you need, how long it takes, and why nothing is published without your approval." : "Qué necesitas, cuánto toma y por qué nada se publica sin tu aprobación."}</small></button>`;
+  c.querySelector(".tocar").onclick = () => { c.innerHTML = `<video controls playsinline autoplay preload="metadata" poster="${base}.jpg"><source src="${base}.mp4" type="video/mp4"></video>`; };
+}
+function pintarVideos() { pintarVideo("#videoInicio"); pintarVideo("#videoCanales"); }
+CWIdioma.alCambiar(() => { pintarVideos(); guia?.pintar(); });
 
 // ---------- Inicio ----------
 function llenar() {
@@ -678,6 +720,10 @@ setInterval(() => { const m = Math.floor((Date.now() - inicio) / 60000); $("#tie
   catch (x) { $("#vCargando").classList.add("oculto"); $("#vError").classList.remove("oculto"); $("#errorTxt").textContent = x.message; $("#pie").classList.add("oculto"); return; }
   $("#vCargando").classList.add("oculto");
   llenar();
+  pintarVideos(); crearAyudante();
+  guia = CWGuia({ raiz: $("#guia"), camposPegar: $("#camposPegar"), empresa: () => S.empresa.nombre, idioma: () => CWIdioma.idioma, estado: (S.datos || {}).conexion_guia,
+    guardar: (datos) => api({ accion: "guardar", paso: "conexion_guia", datos }).then(marcarGuardado, () => {}),
+    decir: (t) => { ayudante?.decir(t); marcarGuardado(); }, despues: () => $('[data-guardar="canales_listos"]').click() });
   if (S.estado_alta === "completada") { ir("listo"); pintarFinal({ panel: S.panel, app: S.app, resultado: {} }); $("#finalTxt").textContent = "Esta alta ya está completada."; return; }
   // Fase 5: el nombre y la foto que ya tenga el asistente, y cómo van los canales (también al volver del permiso de Instagram).
   apiCuenta("ajustes").then((a) => { if (a.asistente?.foto) { foto.guardada = a.asistente.foto; S.asistente_listo = true; pintarNav(); } if (a.asistente?.nombre && !$("#nombreAsistente").value) $("#nombreAsistente").value = a.asistente.nombre; }).catch(() => {});

@@ -7,6 +7,7 @@
     exactos: {
       // Marco
       "Mi cuenta": "My account", "Mejorar plan": "Upgrade", "Elegir un plan": "Choose a plan", "Salir": "Sign out", "Cambiar de cuenta": "Switch account",
+      "Historias diarias": "Daily stories", "Reels con voz": "Reels with voice-over",
       "Inicio": "Home", "Conversaciones": "Conversations", "Contenido": "Content", "Conexiones": "Connections", "Archivos": "Files", "Plan y consumo": "Plan & usage", "Ajustes": "Settings",
       "Abriendo tu cuenta…": "Opening your account…", "Un momento…": "One moment…", "Cerrar": "Close", "Cancelar": "Cancel", "Guardar": "Save", "Guardado.": "Saved.", "Guardando…": "Saving…", "Preparando…": "Getting it ready…",
       "No se pudo completar. Inténtalo otra vez.": "Something went wrong. Please try again.",
@@ -176,7 +177,7 @@
       [/^Pagado hasta el (.+?)( · (.+) •••• (\d+))?\.$/, function (_m, f, _x, marca, u4) { return "Paid until " + f + (u4 ? " · " + (marca === "Tarjeta" ? "Card" : marca) + " •••• " + u4 : "") + "."; }],
       [/^(.+) usados, sin tope\.$/, "$1 used, no cap."],
       [/^([\d.,]+ (?:KB|MB|GB)) de ([\d.,]+ (?:KB|MB|GB))$/, "$1 of $2"],
-      [/^1 crédito = 1 respuesta escrita de tu asistente\. Una respuesta por voz gasta (.+), una pieza de contenido (.+) y una tanda de ideas (.+)\. Escuchar y clasificar lo que te escriben no gasta\.$/, "1 credit = 1 written reply from your assistant. A voice reply uses $1, a content piece $2 and an idea batch $3. Listening to and sorting what people write uses none."],
+      [/^1 crédito = 1 respuesta escrita de tu asistente\. Una respuesta por voz gasta (.+), una pieza de contenido (.+), una historia (.+), un reel con voz (.+) y una tanda de ideas (.+)\. Escuchar y clasificar lo que te escriben no gasta\.$/, "1 credit = 1 written reply from your assistant. A voice reply uses $1, a content piece $2, a story $3, a reel with voice-over $4 and an idea batch $5. Listening to and sorting what people write uses none."],
       [/^No pudimos cobrar tu plan\. Tienes hasta el (.+); después pasa al plan gratis \(no se borra nada\)\.$/, "We could not charge your plan. You have until $1; after that it moves to the free plan (nothing is deleted)."],
       [/^Tu plan termina el (.+) y pasas al plan gratis\.$/, "Your plan ends on $1 and you move to the free plan."],
       [/^Listo: sigues con tu plan hasta el (.+) y después pasas al plan gratis\. No se borra nada\.$/, "Done: you keep your plan until $1 and then move to the free plan. Nothing is deleted."],
