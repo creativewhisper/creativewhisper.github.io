@@ -109,7 +109,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
 .canal h3{margin:0 0 2px;display:flex;align-items:center;gap:8px}
 .canal .est{font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;background:#EFE7DB;color:var(--suave)}
 .canal .est.ok{background:#E3F4F1;color:#1E5E57}.canal .est.camino{background:#FFF1E3;color:#8A5A00}
-/* Fase 7 · video explicativo (póster liviano; el video solo se baja al tocar) */
+/* Fases 7 y 7b · videos (póster liviano; el video solo se baja al tocar) */
 .video{position:relative;border-radius:14px;overflow:hidden;background:var(--negro);margin:14px 0 4px;aspect-ratio:16/9}
 .video img,.video video{display:block;width:100%;height:100%;object-fit:cover}
 .video .tocar{position:absolute;inset:0;border:0;background:linear-gradient(180deg,rgba(10,9,8,0) 40%,rgba(10,9,8,.72));color:#fff;cursor:pointer;display:flex;flex-direction:column;align-items:flex-start;justify-content:flex-end;padding:16px;text-align:left;font:inherit}
@@ -141,6 +141,13 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
 .g-abrir{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:14px}.g-abrir a{text-decoration:none}.g-abrir small,.g-ayuda{color:var(--suave);font-size:13.5px}
 .g-ayuda{margin:14px 0 0}.g-fin{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
 a.btn{text-decoration:none;display:inline-block}
+.g-canales{margin:4px 0 14px}.g-canales>p{margin:0 0 8px;font-weight:600}.g-chips{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.g-chips button{border:2px solid var(--linea);background:#fff;border-radius:12px;padding:10px 12px;text-align:left;cursor:pointer;display:flex;flex-direction:column;gap:2px;font-family:inherit}.g-chips button.on{border-color:var(--verde);background:#EEF8F6}.g-chips b{font-size:15px}.g-chips small{color:var(--suave);font-size:12.5px;line-height:1.3}
+.g-caps{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-top:14px}.g-cap{margin:0;border:1px solid var(--linea);border-radius:12px;overflow:hidden;background:#fff;display:flex;flex-direction:column}
+.g-cap img{display:block;width:100%;height:auto;aspect-ratio:1200/750;background:#EFE7DB}.g-cap figcaption{padding:10px 12px 12px;display:flex;flex-direction:column;gap:8px;flex:1;justify-content:space-between}.g-cap figcaption b{font-size:14.5px;font-weight:600;line-height:1.3}
+.g-cap .g-abrir{margin-top:0;gap:8px}.g-ruta{display:block;margin-top:8px;color:var(--suave);font-size:13px}.g-caps:has(.g-cap:only-child){max-width:640px}
+.g-id{display:block;margin:12px 0 0;font-weight:400}.g-id span{display:block;font-size:13.5px;color:var(--suave);margin-bottom:6px}.g-id input{max-width:280px}
+@media (max-width:640px){.g-chips{grid-template-columns:1fr}.g-chips button{flex-direction:row;align-items:baseline;gap:8px}}
 @media (max-width:640px){.g-modos,.g-dos{grid-template-columns:1fr}.g-fin{width:100%}.g-fin .btn{flex:1}}
 /* Fase 7 · el chat queda abierto al lado en computadora: la página y su pie le hacen sitio */
 .pie{right:var(--ae-ancho,0px)}
@@ -218,6 +225,7 @@ a.btn{text-decoration:none;display:inline-block}
   <section class="tarjeta oculto" data-paso="web">
     <h2>Tu web</h2>
     <p class="ayuda">Escribe la dirección de tu web. Leemos sus páginas y armamos la información del asistente, tu logo, tus colores y tus fotos. Sirve cualquier web. Después lo revisas y corriges.</p>
+    <div class="video" id="videoWeb" data-nt></div>
     <div class="fila" style="grid-template-columns:1fr auto;align-items:end">
       <div><label for="url">Dirección de la web</label><input id="url" type="text" name="cw-web" placeholder="tuempresa.com.ec" inputmode="url" autocomplete="off" autocapitalize="off"></div>
       <button class="btn oscuro" id="leerWeb" type="button">Leer mi web</button>
@@ -269,7 +277,6 @@ a.btn{text-decoration:none;display:inline-block}
   <section class="tarjeta oculto" data-paso="canales">
     <h2>Conecta tus canales</h2>
     <p class="ayuda">WhatsApp e Instagram se conectan dentro de TU cuenta de Meta, así siguen siendo tuyos. Te llevo de la mano, un paso a la vez. Puedes parar cuando quieras: lo que avanzas queda guardado.</p>
-    <div class="video" id="videoCanales" data-nt></div>
     <div id="guia" data-nt></div>
     <details id="otrasFormas" style="margin-top:16px"><summary style="cursor:pointer;font-weight:600;color:var(--suave)">¿Tu página muestra un botón «Conectar»? También sirve</summary>
     <div class="canal" id="canalWa">
@@ -682,14 +689,21 @@ function crearAyudante() {
     voz: { pedir: async () => { try { return await api({ accion: "voz", idioma: CWIdioma.idioma, paso: pasoActual, paso_conexion: guia?.estado().paso ?? null }); } catch (x) { return { error: x.message }; } } } });
 }
 
-// ---------- Video explicativo (fase 7): póster liviano; el archivo solo se baja cuando la persona lo toca ----------
-function pintarVideo(id) {
-  const c = $(id); if (!c) return;
-  const en = CWIdioma.idioma === "en", vertical = window.matchMedia("(max-width:560px)").matches, base = `video/alta-${en ? "en" : "es"}-${vertical ? "v" : "h"}`;
-  c.innerHTML = `<img src="${base}.jpg" alt="" loading="lazy" width="${vertical ? 540 : 960}" height="${vertical ? 960 : 540}"><button type="button" class="tocar" aria-label="${en ? "Play the video" : "Ver el video"}"><span class="tri"></span><b>${en ? "What is going to happen (1 min)" : "Qué va a pasar (1 min)"}</b><small>${en ? "What you need, how long it takes, and why nothing is published without your approval." : "Qué necesitas, cuánto toma y por qué nada se publica sin tu aprobación."}</small></button>`;
-  c.querySelector(".tocar").onclick = () => { c.innerHTML = `<video controls playsinline autoplay preload="metadata" poster="${base}.jpg"><source src="${base}.mp4" type="video/mp4"></video>`; };
+// ---------- Videos (fases 7 y 7b): el de bienvenida al inicio y uno por conexión (tu web, WhatsApp, Instagram, Facebook) ----------
+// Póster liviano; el archivo del video solo se baja cuando la persona lo toca (preload="none"). Van sin voz y con subtítulos.
+const VIDEOS = { bienvenida: ["Así funciona Susurro digital (1 min)", "El servicio trabajando y lo que vas a hacer en el alta.", "This is how Digital Whisper works (1 min)", "The service at work and what you will do during setup."],
+  web: ["Tu web: cómo funciona y qué haces", "El chat en tu página y los pasos, en menos de un minuto.", "Your website: how it works and what you do", "The chat on your site and the steps, in under a minute."],
+  whatsapp: ["WhatsApp: cómo funciona y los pasos", "Tu asistente respondiendo y lo que haces en Meta.", "WhatsApp: how it works and the steps", "Your assistant answering and what you do in Meta."],
+  instagram: ["Instagram: cómo funciona y los pasos", "Comentarios respondidos y contenido publicado.", "Instagram: how it works and the steps", "Comments answered and content published."],
+  facebook: ["Facebook: cómo funciona y los pasos", "Lo que apruebas se publica en tu página.", "Facebook: how it works and the steps", "What you approve is published on your Page."] };
+function pintarVideo(c, cual) {
+  if (typeof c === "string") c = $(c); if (!c || !VIDEOS[cual]) return;
+  const en = CWIdioma.idioma === "en", vertical = window.matchMedia("(max-width:560px)").matches, T = VIDEOS[cual], base = `video/${cual === "bienvenida" ? "bienvenida" : "conexion-" + cual}-${en ? "en" : "es"}-${vertical ? "v" : "h"}`;
+  c.dataset.video = cual;
+  c.innerHTML = `<img src="${base}.jpg" alt="" loading="lazy" width="${vertical ? 540 : 960}" height="${vertical ? 960 : 540}"><button type="button" class="tocar" aria-label="${en ? "Play the video" : "Ver el video"}"><span class="tri"></span><b>${esc(T[en ? 2 : 0])}</b><small>${esc(T[en ? 3 : 1])}</small></button>`;
+  c.querySelector(".tocar").onclick = () => { c.innerHTML = `<video controls playsinline preload="none" poster="${base}.jpg"><source src="${base}.mp4" type="video/mp4"></video>`; c.querySelector("video").play().catch(() => {}); };
 }
-function pintarVideos() { pintarVideo("#videoInicio"); pintarVideo("#videoCanales"); }
+function pintarVideos() { pintarVideo("#videoInicio", "bienvenida"); pintarVideo("#videoWeb", "web"); }
 CWIdioma.alCambiar(() => { pintarVideos(); guia?.pintar(); });
 
 // ---------- Inicio ----------
@@ -722,6 +736,7 @@ setInterval(() => { const m = Math.floor((Date.now() - inicio) / 60000); $("#tie
   llenar();
   pintarVideos(); crearAyudante();
   guia = CWGuia({ raiz: $("#guia"), camposPegar: $("#camposPegar"), empresa: () => S.empresa.nombre, idioma: () => CWIdioma.idioma, estado: (S.datos || {}).conexion_guia,
+    video: (el, canal) => pintarVideo(el, canal), appId: () => $("#appId").value.trim(), ponerAppId: (v) => { if (!$("#appId").value.trim() || /^\d*$/.test($("#appId").value.trim())) $("#appId").value = v; },
     guardar: (datos) => api({ accion: "guardar", paso: "conexion_guia", datos }).then(marcarGuardado, () => {}),
     decir: (t) => { ayudante?.decir(t); marcarGuardado(); }, despues: () => $('[data-guardar="canales_listos"]').click() });
   if (S.estado_alta === "completada") { ir("listo"); pintarFinal({ panel: S.panel, app: S.app, resultado: {} }); $("#finalTxt").textContent = "Esta alta ya está completada."; return; }
