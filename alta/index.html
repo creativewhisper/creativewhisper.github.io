@@ -74,6 +74,8 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
 .galeria.fotos img{object-fit:cover}
 .galeria input{position:absolute;top:8px;left:8px;width:18px;height:18px;accent-color:var(--naranja)}
 .galeria label:has(input:checked){border-color:var(--naranja)}
+#logos label{background:conic-gradient(#d9d2c8 25%,#9a9288 0 50%,#d9d2c8 0 75%,#9a9288 0) 0 0/18px 18px}
+#logos label .etq-subido{position:absolute;bottom:6px;right:6px;background:var(--naranja);color:#0A0908;font-size:11px;font-weight:700;padding:2px 6px;border-radius:6px}
 .colores{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
 .colores input[type=color]{width:56px;height:40px;border:1px solid var(--linea);border-radius:10px;padding:2px;background:#fff}
 .muestra{border-radius:14px;padding:16px;color:#fff;display:flex;gap:12px;align-items:center;margin-top:12px}
@@ -232,6 +234,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
       </div>
       <label for="tokenSu">Token del usuario del sistema</label><input id="tokenSu" type="password" autocomplete="off">
       <div class="fila">
+        <div><label for="wabaId">Cuenta de WhatsApp <small>(solo si el alta te lo pide: el «WhatsApp Business Account ID»)</small></label><input id="wabaId" inputmode="numeric" maxlength="25" autocomplete="off"></div>
         <div><label for="pin">PIN de verificación en dos pasos <small>(solo si tu número ya tiene uno)</small></label><input id="pin" type="password" inputmode="numeric" maxlength="6" autocomplete="off"></div>
         <div><label for="igToken">Token de Instagram <small>(solo si no está vinculada a una página)</small></label><input id="igToken" type="password" autocomplete="off"></div>
       </div>
@@ -388,11 +391,18 @@ function muestra() {
   else { lg.classList.add("sin"); lg.textContent = S?.empresa?.nombre || ""; }
 }
 for (const id of ["#colPrincipal", "#colAcento"]) $(id).addEventListener("input", muestra);
-$("#logos").addEventListener("change", () => { logoSubido = null; muestra(); });
+$("#logos").addEventListener("change", (e) => { logoSubido = e.target.value === "subido" ? ($("#logoPropio img")?.src || null) : null; muestra(); });
 $("#subirLogo").addEventListener("change", (e) => {
   const f = e.target.files?.[0]; if (!f) return;
   if (f.size > 300_000) { error("web", "El logo debe pesar menos de 300 KB."); return; }
-  const r = new FileReader(); r.onload = () => { logoSubido = String(r.result); for (const i of $$('#logos input')) i.checked = false; muestra(); }; r.readAsDataURL(f);
+  const r = new FileReader(); r.onload = () => {
+    logoSubido = String(r.result);
+    $("#logos .ayuda")?.remove(); $("#logoPropio")?.remove();
+    const l = document.createElement("label"); l.id = "logoPropio"; l.title = "Tu logo";
+    l.innerHTML = `<input type="radio" name="logo" value="subido" checked><img alt="Tu logo"><span class="etq-subido">Tu logo</span>`;
+    l.querySelector("img").src = logoSubido; $("#logos").prepend(l); muestra();
+    e.target.value = "";   // así se puede volver a elegir el mismo archivo
+  }; r.readAsDataURL(f);
 });
 $("#leerWeb").onclick = async () => {
   const b = $("#leerWeb"); b.disabled = true; error("web", ""); b.innerHTML = `<span class="cargando"></span>Leyendo…`;
@@ -415,7 +425,7 @@ $("#guardarWeb").onclick = async () => {
 $("#conectar").onclick = async () => {
   const b = $("#conectar"); b.disabled = true; error("canales", ""); b.innerHTML = `<span class="cargando"></span>Conectando…`;
   const elegido = $('#numeros input[name="numero"]:checked')?.value;
-  const cuerpo = { accion: "conectar", app_id: $("#appId").value.trim(), app_secret: $("#appSecret").value.trim(), token: $("#tokenSu").value.trim(), pin: $("#pin").value.trim(), ig_token: $("#igToken").value.trim(), phone_number_id: elegido || undefined };
+  const cuerpo = { accion: "conectar", app_id: $("#appId").value.trim(), app_secret: $("#appSecret").value.trim(), token: $("#tokenSu").value.trim(), pin: $("#pin").value.trim(), ig_token: $("#igToken").value.trim(), waba_id: $("#wabaId").value.trim() || undefined, phone_number_id: elegido || undefined };
   try {
     const r = await api(cuerpo);
     if (r._status === 409 && r.elegir) {
