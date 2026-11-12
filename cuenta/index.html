@@ -69,7 +69,7 @@ input:focus,select:focus,textarea:focus{border-color:var(--naranja);box-shadow:0
 /* entrar */
 .entrar{max-width:440px;margin:6vh auto 0}
 .entrar h1{margin-bottom:10px}
-#codigo{font:500 28px/1 var(--fm);letter-spacing:.4em;text-align:center}
+#codigo{font:500 28px/1 var(--fm);letter-spacing:.25em;text-align:center}
 /* barras de consumo */
 .barra{height:14px;border-radius:9px;background:#EFE7DB;overflow:hidden;margin:10px 0 6px}
 .barra i{display:block;height:100%;width:0;background:var(--verde);border-radius:9px;transition:width .5s}
@@ -180,7 +180,7 @@ iframe.panel{width:100%;height:calc(100dvh - 150px);min-height:520px;border:1px 
     </form>
     <form id="fCodigo" class="tarjeta" style="margin-top:16px" hidden>
       <label for="codigo" style="margin-top:0">El código que llegó a <span id="aCorreo"></span></label>
-      <input id="codigo" type="text" name="cw-codigo" inputmode="numeric" maxlength="6" autocomplete="one-time-code" pattern="[0-9]{6}" required>
+      <input id="codigo" type="text" name="cw-codigo" inputmode="numeric" maxlength="10" autocomplete="one-time-code" pattern="[0-9]{6,10}" required>
       <p class="ayuda" style="margin-top:6px">Llega en menos de un minuto. Revisa también el correo no deseado. Si el correo trae un botón «Entrar», también sirve.</p>
       <div class="aviso mal" id="eCodigo" hidden></div>
       <div class="acciones"><button class="btn pri" type="submit" id="bCodigo">Entrar</button><button class="btn" type="button" id="otroCorreo">Usar otro correo</button></div>
@@ -276,7 +276,7 @@ $("#otroCorreo").onclick = () => { $("#fCodigo").hidden = true; $("#fCorreo").hi
 $("#fCodigo").addEventListener("submit", async (e) => {
   e.preventDefault(); const er = $("#eCodigo"); er.hidden = true;
   const fin = ocupado($("#bCodigo"), "Entrando…");
-  const { error } = await sb.auth.verifyOtp({ email: correoEnCurso, token: $("#codigo").value.trim(), type: "email" });
+  const { error } = await sb.auth.verifyOtp({ email: correoEnCurso, token: $("#codigo").value.replace(/\D/g, ""), type: "email" });
   fin();
   if (error) { er.textContent = "Ese código no es correcto o ya venció. Pide uno nuevo."; er.hidden = false; return; }
   await abrir();
