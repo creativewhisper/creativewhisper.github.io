@@ -159,6 +159,7 @@ ul,ol{padding:0}
 /* palabras que se encienden con el scroll (como el enfoque de la portada) */
 .statement{position:relative;min-height:100vh;min-height:100svh;display:flex;align-items:center}
 .statement .label{display:block;color:var(--beige);margin-bottom:30px}
+.st-text b{font-weight:inherit}
 .st-text{font-weight:500;font-size:clamp(30px,4.3vw,72px);line-height:1.12;letter-spacing:-.03em;max-width:21ch}
 .js .st-text .w{opacity:.14}
 .st-text .key{position:relative;display:inline-block;isolation:isolate;padding:0 .1em}

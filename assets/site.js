@@ -31,13 +31,17 @@ window.cwSite = function ({ end = '#contacto', autoplay = true, speed = .6, init
   $$('a', menu).forEach(a => a.addEventListener('click', closeMenu));
 
   // palabras del enunciado: sueltas y clave con color  [palabra|color|colorDeTexto]
-  $$('.js-words').forEach(st => {
-    st.innerHTML = st.textContent.trim().split(/\s+/).map(w => {
-      const m = w.match(/^\[(.+?)\|(\w+)\|(\w+)\](.*)$/);
-      if (!m) return `<span class="w">${w}</span>`;
-      return `<span class="w key" style="--c:var(--${m[2]})" data-fg="--${m[3]}"><i class="hl"></i>${m[1].replace(/_/g, ' ')}</span>${m[4] ? `<span class="w">${m[4]}</span>` : ''}`;
-    }).join(' ');
-  });
+  const paintWords = st => {
+    // el HTML trae el texto limpio (lo leen buscadores e IAs); las palabras clave van en <b data-c data-fg>
+    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    let html = '';
+    st.childNodes.forEach(n => {
+      if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach(p => { if (p) html += /^\s+$/.test(p) ? ' ' : `<span class="w">${esc(p)}</span>`; });
+      else if (n.dataset && n.dataset.c) html += `<span class="w key" style="--c:var(--${n.dataset.c})" data-fg="--${n.dataset.fg}"><i class="hl"></i>${esc(n.textContent)}</span>`;
+    });
+    return html.trim();
+  };
+  $$('.js-words').forEach(st => { st.innerHTML = paintWords(st); });
 
   // rodillos de cifras
   const odos = $$('.odo').map(el => {
