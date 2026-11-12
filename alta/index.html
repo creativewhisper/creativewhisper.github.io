@@ -29,6 +29,7 @@ a{color:var(--negro)}
 .franja{height:6px;background:linear-gradient(100deg,var(--naranja) 0 25%,var(--rojo) 25% 50%,var(--durazno) 50% 75%,var(--verde) 75% 100%)}
 header{background:var(--negro);color:#fff}
 .cab{max-width:760px;margin:0 auto;padding:18px 16px 16px;display:flex;gap:14px;align-items:center}
+.cab .idioma{background:none;border:1px solid rgba(255,255,255,.28);color:inherit;border-radius:999px;height:34px;padding:0 12px;font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.14em;cursor:pointer;flex:none}.cab .idioma b{font-weight:600;opacity:.45;margin:0 .3em}
 .cab img{width:40px;height:40px;border-radius:10px;background:#fff;flex:none}
 .cab h1{margin:0;font-size:20px;font-weight:800;letter-spacing:-.01em;line-height:1.2}
 .cab p{margin:2px 0 0;color:var(--beige);font-size:14px}
@@ -128,7 +129,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
 <body>
 <div class="franja"></div>
 <header>
-  <div class="cab"><img src="../assets/favicon-cw.png" alt=""><div><h1 id="titulo">Alta de tu servicio</h1><p id="subtitulo">Escucha digital · Creative Whisper</p></div></div>
+  <div class="cab"><img src="../assets/favicon-cw.png" alt=""><div style="flex:1;min-width:0"><h1 id="titulo">Alta de tu servicio</h1><p id="subtitulo">Susurro digital · Creative Whisper</p></div><button class="idioma" id="idioma" type="button"></button></div>
   <div class="progreso"><div class="barra"><i id="barra"></i></div><div class="pasos" id="navPasos"></div></div>
 </header>
 
@@ -138,7 +139,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
 
   <!-- 0. Bienvenida -->
   <section class="tarjeta oculto" data-paso="inicio">
-    <h2>Hola, <span class="nombreEmpresa"></span> 👋</h2>
+    <h2>Hola, <span class="nombreEmpresa" data-nt></span> 👋</h2>
     <p class="ayuda">En unos 10 minutos dejamos listo tu asistente: atiende a tus clientes por WhatsApp, Instagram y tu web, te muestra en un panel en vivo lo que dicen y te avisa al celular las quejas graves.</p>
     <h3>Vas a necesitar</h3>
     <ul class="lista-meta">
@@ -207,7 +208,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
         <label for="subirLogo">O sube tu logo <small>(PNG, SVG, WebP o JPG, ideal con fondo transparente; si pesa mucho lo achicamos solos)</small></label><input id="subirLogo" type="file" accept="image/png,image/svg+xml,image/webp,image/jpeg"><p class="ayuda oculto" id="logoNota" style="margin:6px 0 0"></p>
         <h3>Colores</h3>
         <div class="colores"><label style="margin:0">Principal <input type="color" id="colPrincipal" value="#0A0908"></label><label style="margin:0">Acento <input type="color" id="colAcento" value="#F5A300"></label></div>
-        <div class="muestra" id="muestra"><div class="logo sin" id="muestraLogo"></div><div><b class="nombreEmpresa"></b><span>Así se verá tu panel</span></div></div>
+        <div class="muestra" id="muestra"><div class="logo sin" id="muestraLogo"></div><div><b class="nombreEmpresa" data-nt></b><span>Así se verá tu panel</span></div></div>
         <h3>Fotos para tu contenido</h3>
         <p class="ayuda">Marca las que podemos usar (máximo 12).</p>
         <div class="galeria fotos" id="fotos"></div>
@@ -230,7 +231,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
   <section class="tarjeta oculto" data-paso="limites">
     <h2>Lo que el asistente nunca debe decir</h2>
     <p class="ayuda">Toca los que apliquen y agrega lo tuyo. El asistente no cierra ventas, no da descuentos y no inventa: si no sabe, lo pasa a tu equipo.</p>
-    <div class="chips" id="sugerencias"></div>
+    <div class="chips" id="sugerencias" data-nt></div>
     <label for="nunca">Otras cosas que nunca debe decir o prometer</label>
     <textarea id="nunca" placeholder="Por ejemplo: no confirmar fechas de entrega; no hablar de casos legales."></textarea>
     <div class="aviso mal oculto" data-error="limites"></div>
@@ -281,7 +282,8 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
   <section class="tarjeta oculto" data-paso="aceptacion">
     <h2>Condiciones y acuerdo de datos</h2>
     <p class="ayuda">Tu empresa es la responsable de los datos de sus clientes y Creative Whisper los trata por encargo suyo, solo para darte el servicio.</p>
-    <div id="docsLegales"></div>
+    <p class="aviso info oculto" id="legalEn" data-nt lang="en">These documents are provided in Spanish, which is the version that applies. If you need help reading them, ask the team before accepting.</p>
+    <div id="docsLegales" data-nt></div>
     <div class="fila">
       <div><label for="acNombre">Tu nombre</label><input id="acNombre" type="text" name="cw-acepta-nombre" autocomplete="name"></div>
       <div><label for="acCargo">Tu cargo</label><input id="acCargo" type="text" name="cw-acepta-cargo" autocomplete="organization-title" placeholder="Dueña, gerente…"></div>
@@ -323,9 +325,15 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="../assets/imagenes-cw.js"></script>
+<script src="../assets/idioma.js"></script>
+<script src="en.js"></script>
 <script>
 "use strict";
 const API = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/alta-cliente";
+// Idioma: español o inglés en la misma página (botón de la cabecera). Los documentos legales quedan en español, con un aviso.
+CWIdioma.boton(document.querySelector("#idioma"));
+const avisoLegal = () => document.querySelector("#legalEn").classList.toggle("oculto", CWIdioma.idioma !== "en");
+CWIdioma.alCambiar(avisoLegal); avisoLegal();
 
 const API_CUENTA = API.replace(/alta-cliente$/, "cuenta-cliente");   // nombre y foto del asistente, y conexión de canales (fase 5)
 // Fase 5: primero la web (de ahí salen el teléfono, la dirección y el horario para no escribirlos dos veces), luego la empresa y el asistente.
@@ -391,7 +399,7 @@ function personaHtml(p = {}) {
   const sel = (p.areas || ["todas"])[0];
   return `<div class="grupo persona"><button class="btn chico quitar" type="button" title="Quitar">×</button>
     <div class="fila"><div><label>Nombre</label><input type="text" class="pNombre" name="cw-alerta-nombre" autocomplete="off" value="${esc(p.nombre)}"></div><div><label>Cargo <small>(opcional)</small></label><input type="text" class="pCargo" name="cw-alerta-cargo" autocomplete="off" value="${esc(p.cargo)}"></div></div>
-    <div class="fila"><div><label>WhatsApp</label><input type="tel" class="pWa" name="cw-alerta-whatsapp" autocomplete="off" value="${esc(p.whatsapp)}" placeholder="0991234567"></div><div><label>Área</label><select class="pArea">${areas.map(([v, n]) => `<option value="${esc(v)}" ${v === sel ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></div></div></div>`;
+    <div class="fila"><div><label>WhatsApp</label><input type="tel" class="pWa" name="cw-alerta-whatsapp" autocomplete="off" value="${esc(p.whatsapp)}" placeholder="0991234567"></div><div><label>Área</label><select class="pArea">${areas.map(([v, n]) => `<option value="${esc(v)}" ${v === sel ? "selected" : ""}${v === "todas" ? "" : " data-nt"}>${esc(n)}</option>`).join("")}</select></div></div></div>`;
 }
 $("#masPersona").onclick = () => agregar($("#personas"), personaHtml());
 $("#personas").addEventListener("click", (e) => { if (e.target.closest(".quitar") && $$("#personas .persona").length > 1) e.target.closest(".persona").remove(); });
@@ -557,7 +565,7 @@ $("#waConectar").onclick = async () => {
       sondeoWa = setInterval(async () => { if (++n > 120) return clearInterval(sondeoWa); try { const e = await apiCuenta("whatsapp_estado"); if (e.estado === "conectado") { clearInterval(sondeoWa); canales.whatsapp = "conectado"; $("#waDetalle").innerHTML = `<div class="aviso ok" style="margin-top:10px">¡WhatsApp conectado!</div>`; pintarCanales(); } else if (e.estado === "fallo") { clearInterval(sondeoWa); canales.whatsapp = null; $("#waDetalle").innerHTML = `<div class="aviso mal" style="margin-top:10px">${esc(e.detalle)}</div>`; pintarCanales(); } } catch (x) { /* se reintenta */ } }, 4000);
     } else { canales.whatsapp = "asistida"; $("#waDetalle").innerHTML = guiaEquipo(r.coexistencia); }
     pintarCanales();
-  } catch (x) { error("canales", x.status === 402 ? "Tu plan incluye un canal. Puedes conectar el otro al subir de plan, desde tu cuenta." : x.message); } finally { b.disabled = false; b.textContent = "Conectar WhatsApp"; }
+  } catch (x) { error("canales", x.status === 402 ? "Tu plan incluye un canal. Puedes conectar el otro al mejorar tu plan, desde tu cuenta." : x.message); } finally { b.disabled = false; b.textContent = "Conectar WhatsApp"; }
 };
 $("#igConectar").onclick = async () => {
   const b = $("#igConectar"); b.disabled = true; error("canales", "");
@@ -568,7 +576,7 @@ $("#igConectar").onclick = async () => {
     else if (r.modo === "boton") { ss.set("cw-alta-token", T); ss.set("alta-paso", "canales"); location.href = r.url; return; }   // vuelve a tu cuenta y de ahí a este paso
     else { canales.instagram = "asistida"; $("#igDetalle").innerHTML = canales.whatsapp === "asistida" ? `<div class="aviso ok" style="margin-top:10px">Listo: el equipo conecta tu Instagram en la misma llamada.</div>` : guiaEquipo(false); }
     pintarCanales();
-  } catch (x) { error("canales", x.status === 402 ? "Tu plan incluye un canal. Puedes conectar el otro al subir de plan, desde tu cuenta." : x.message); } finally { b.disabled = false; }
+  } catch (x) { error("canales", x.status === 402 ? "Tu plan incluye un canal. Puedes conectar el otro al mejorar tu plan, desde tu cuenta." : x.message); } finally { b.disabled = false; }
 };
 
 // ---------- Canales: conectar (opción avanzada, con los accesos de la app de Meta del cliente) ----------
@@ -636,8 +644,8 @@ $("#formChat").onsubmit = async (e) => {
   e.preventDefault();
   const t = $("#txtChat").value.trim(); if (!t) return;
   $("#txtChat").value = ""; chat.push({ rol: "usuario", texto: t });
-  $("#msgs").insertAdjacentHTML("beforeend", `<div class="m yo">${esc(t)}</div><div class="m ag" id="pensando"><span class="cargando"></span></div>`); $("#msgs").scrollTop = 1e9;
-  try { const r = await api({ accion: "asistente", mensajes: chat.slice(-12) }); chat.push({ rol: "asistente", texto: r.texto }); $("#pensando").outerHTML = `<div class="m ag">${esc(r.texto)}</div>`; }
+  $("#msgs").insertAdjacentHTML("beforeend", `<div class="m yo" data-nt>${esc(t)}</div><div class="m ag" id="pensando"><span class="cargando"></span></div>`); $("#msgs").scrollTop = 1e9;
+  try { const r = await api({ accion: "asistente", idioma: CWIdioma.idioma, mensajes: chat.slice(-12) }); chat.push({ rol: "asistente", texto: r.texto }); $("#pensando").outerHTML = `<div class="m ag" data-nt>${esc(r.texto)}</div>`; }
   catch (x) { $("#pensando").outerHTML = `<div class="m ag">${esc(x.message)}</div>`; }
   $("#msgs").scrollTop = 1e9;
 };
@@ -646,7 +654,7 @@ $("#formChat").onsubmit = async (e) => {
 function llenar() {
   const d = S.datos || {}, e = d.empresa || {};
   for (const el of $$(".nombreEmpresa")) el.textContent = S.empresa.nombre;
-  $("#titulo").textContent = `Alta de ${S.empresa.nombre}`; $("#subtitulo").textContent = `Escucha digital · ${S.empresa.vertical_nombre || ""}`.replace(/ · $/, "");
+  $("#titulo").textContent = `Alta de ${S.empresa.nombre}`; $("#subtitulo").textContent = `Susurro digital · ${S.empresa.vertical_nombre || ""}`.replace(/ · $/, "");
   $("#razon").value = e.razon_social || ""; $("#ruc").value = e.ruc || ""; $("#telefono").value = e.telefono || ""; $("#correoPriv").value = e.correo_privacidad || "";
   $("#nombreAsistente").value = e.asistente || S.empresa.asistente || ""; $("#horarioGeneral").value = e.horario_general || "";
   $("#pideRuc").classList.toggle("oculto", !!S.ruc_opcional);

@@ -1,11 +1,16 @@
 User-agent: *
 Allow: /
+# Herramientas internas y páginas con enlace personal: no se rastrean (y además llevan «noindex»).
 Disallow: /admin.html
 Disallow: /oficina/
 Disallow: /finanzas/
 Disallow: /cotizacion.html
 Disallow: /reporte/
-Disallow: /cuenta/
 Disallow: /alta/
+Disallow: /escucha/
+Disallow: /bosco/
+Disallow: /etiquetar/
+# /cuenta/ (la entrada de los clientes) se enlaza desde el menú: se deja rastrear para que los buscadores LEAN su «noindex»
+# y no la muestren. /escucha-digital/ y /en/digital-whisper/ son redirecciones a la página nueva, también con «noindex».
 
 Sitemap: https://creativewhisper.net/sitemap.xml

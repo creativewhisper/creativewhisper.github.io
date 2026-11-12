@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#0A0908">
-<title>Mi cuenta · Creative Whisper</title>
+<title>Mi cuenta · Susurro digital</title>
 <link rel="icon" href="../assets/favicon-cw.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -115,6 +115,25 @@ table.t td.n,table.t th.n{text-align:right;font-variant-numeric:tabular-nums}
 .planes{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:10px}
 .plan{border:1.5px solid var(--linea);border-radius:16px;padding:16px}
 .plan.actual{border-color:var(--negro)}
+/* idioma y «Mejorar plan» */
+.cab .idioma{background:none;border:1px solid #3a342d;color:#fff;border-radius:999px;height:34px;padding:0 12px;font:500 12px/1 var(--fm);letter-spacing:.14em;cursor:pointer;flex:none}
+.cab .idioma b{font-weight:600;opacity:.45;margin:0 .3em}
+.cab .mejorar{flex:none;border:0;border-radius:999px;background:var(--naranja);color:var(--negro);font-weight:800;font-size:14px;padding:9px 16px;cursor:pointer;white-space:nowrap}
+.cab .mejorar:hover{background:#FFB61F}
+.entrar-idioma{display:flex;justify-content:flex-end;max-width:440px;margin:0 auto}
+@media (max-width:640px){.cab{flex-wrap:wrap;row-gap:10px}.cab .quien{flex:1 1 55%}.cab .logo{display:none}}
+/* avisos con llamado a la acción: la prueba y los límites del plan */
+.llamado{display:flex;gap:12px 16px;align-items:center;flex-wrap:wrap;border-radius:16px;padding:14px 16px;border:1.5px solid var(--linea);background:#fff}
+.llamado .tx{flex:1 1 260px;min-width:0}
+.llamado .tx b{display:block;font-size:16px}
+.llamado .tx span{display:block;font-size:14px;color:var(--suave)}
+.llamado.prueba{background:var(--negro);color:#fff;border-color:var(--negro)}
+.llamado.prueba .tx span{color:#CFC7BA}
+.llamado.prueba .dias-n{font:900 46px/1 var(--fd);color:var(--naranja);flex:none;min-width:1.2ch;text-align:center}
+.llamado.prueba .dias-n small{display:block;font:500 10px/1.2 var(--fm);letter-spacing:.14em;text-transform:uppercase;color:#CFC7BA}
+.llamado.cerca{background:#FFF1E3;border-color:#F5A300}.llamado.cerca .tx span{color:#6B4700}
+.llamado.tope{background:#FDE7E6;border-color:var(--rojo)}.llamado.tope .tx b{color:var(--mal)}.llamado.tope .tx span{color:#7A1410}
+.mejora{background:linear-gradient(120deg,#FFF6E6,#FFE9DA);border-color:#F3D9B5}
 .plan b.nombre{font:900 30px/1 var(--fd);text-transform:uppercase;display:block}
 .plan ul{list-style:none;padding:0;margin:10px 0;display:grid;gap:4px;font-size:14px}
 .plan .precio{font-size:15px;font-weight:700;margin-top:4px}
@@ -134,9 +153,11 @@ iframe.panel{width:100%;height:calc(100dvh - 150px);min-height:520px;border:1px 
 <header>
   <div class="cab">
     <img class="cw" src="../assets/monograma-cw.png" alt="Creative Whisper" width="40" height="27">
-    <div class="quien"><small>Mi cuenta</small><b id="cNombre">Escucha digital</b></div>
+    <div class="quien"><small>Mi cuenta</small><b id="cNombre" data-nt>Susurro digital</b></div>
     <div class="logo" id="cLogo" hidden></div>
-    <select id="cCuentas" hidden aria-label="Cambiar de cuenta"></select>
+    <select id="cCuentas" hidden aria-label="Cambiar de cuenta" data-nt></select>
+    <button class="mejorar" id="mejorar" type="button" hidden>Mejorar plan</button>
+    <button class="idioma" id="idioma" type="button"></button>
     <button class="salir" id="salir" type="button" hidden>Salir</button>
   </div>
 </header>
@@ -151,7 +172,7 @@ iframe.panel{width:100%;height:calc(100dvh - 150px);min-height:520px;border:1px 
   <!-- Entrar con el correo -->
   <section id="vEntrar" class="entrar" hidden>
     <h1>Entra a tu cuenta</h1>
-    <p class="ayuda">Escribe el correo con el que creaste tu cuenta. Te enviamos un código de 6 números: no hay contraseñas que recordar.</p>
+    <p class="ayuda">Escribe el correo de tu cuenta. Te enviamos un código de 6 números: no hay contraseñas que recordar.</p>
     <form id="fCorreo" class="tarjeta" style="margin-top:16px">
       <label for="correo" style="margin-top:0">Tu correo</label><input id="correo" type="email" name="cw-correo-cuenta" autocomplete="email" required>
       <div class="aviso mal" id="eCorreo" hidden></div>
@@ -164,12 +185,12 @@ iframe.panel{width:100%;height:calc(100dvh - 150px);min-height:520px;border:1px 
       <div class="aviso mal" id="eCodigo" hidden></div>
       <div class="acciones"><button class="btn pri" type="submit" id="bCodigo">Entrar</button><button class="btn" type="button" id="otroCorreo">Usar otro correo</button></div>
     </form>
-    <p class="ayuda" style="margin-top:16px">¿Todavía no tienes cuenta? <a href="../escucha-digital/#empezar">Empieza gratis</a>.</p>
+    <p class="ayuda" style="margin-top:16px">¿Todavía no tienes cuenta? <a href="../susurro-digital/#solicitar" data-publica>Solicita tu prueba gratuita</a>.</p>
   </section>
   <section id="vSinCuenta" class="entrar" hidden>
     <h1>Este correo no tiene una cuenta</h1>
     <p class="ayuda" id="tSinCuenta"></p>
-    <div class="acciones"><a class="btn pri" href="../escucha-digital/#empezar">Crear mi cuenta gratis</a><button class="btn" type="button" id="salir2">Probar con otro correo</button></div>
+    <div class="acciones"><a class="btn pri" href="../susurro-digital/#solicitar" data-publica>Solicitar prueba gratuita</a><button class="btn" type="button" id="salir2">Probar con otro correo</button></div>
   </section>
 
   <section data-v="inicio" hidden></section>
@@ -187,6 +208,8 @@ iframe.panel{width:100%;height:calc(100dvh - 150px);min-height:520px;border:1px 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="../assets/imagenes-cw.js"></script>
 <script src="../assets/agente-escucha.js"></script>
+<script src="../assets/idioma.js"></script>
+<script src="en.js"></script>
 <script>
 "use strict";
 const SUPABASE_URL = "https://jlyrymgbykhpktabvlkl.supabase.co";
@@ -196,8 +219,13 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSe
 const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const ss = { get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) { /* sin almacenamiento */ } } };
-const num = (n) => Number(n ?? 0).toLocaleString("es-EC", { maximumFractionDigits: 1 });
-const fecha = (f) => { try { return new Date(String(f).length === 10 ? f + "T12:00:00" : f).toLocaleDateString("es-EC", { day: "numeric", month: "long", timeZone: "America/Guayaquil" }); } catch (e) { return String(f); } };
+const num = (n) => Number(n ?? 0).toLocaleString(CWIdioma.loc(), { maximumFractionDigits: 1 });
+const fecha = (f) => { try { return new Date(String(f).length === 10 ? f + "T12:00:00" : f).toLocaleDateString(CWIdioma.loc(), { day: "numeric", month: "long", timeZone: "America/Guayaquil" }); } catch (e) { return String(f); } };
+// Idioma: el botón de la cabecera cambia entre español e inglés sin salir de la página; la vista abierta se vuelve a pintar.
+CWIdioma.boton($("#idioma"));
+const enlacesPublica = () => { for (const a of $$("[data-publica]")) a.href = CWIdioma.idioma === "en" ? "../digital-whisper/#solicitar" : "../susurro-digital/#solicitar"; };
+CWIdioma.alCambiar(() => { enlacesPublica(); if (D) { pintarMarco(); ir(vista); } });
+enlacesPublica();
 const mb = (b) => (b >= 1048576 * 1000 ? (b / 1073741824).toFixed(1) + " GB" : b >= 1048576 ? Math.round(b / 1048576) + " MB" : Math.max(0, Math.round(b / 1024)) + " KB");
 
 // Tres maneras de entrar: la sesión (correo y código), un enlace personal (#t=…) o, viniendo del alta, su enlace de alta.
@@ -224,23 +252,24 @@ function cerrar() { const d = $("#dlg"); if (d.open) d.close(); }
 $("#dlg").addEventListener("click", (e) => { if (e.target.closest("[data-cerrar]") || e.target === $("#dlg")) cerrar(); });
 // Muro de pago suave: explica qué pasó y ofrece ver los planes. Nunca bloquea lo demás.
 function muro(j) {
-  dialogo(`<h2>Llegaste al límite de tu plan</h2><p>${esc(j.error || "Tu plan no lo permite.")}</p><p class="ayuda" style="margin-top:8px">No se borra nada y todo lo demás sigue funcionando.</p>
-    <div class="acciones"><button class="btn pri" id="mVerPlanes" type="button">Ver planes</button><button class="btn" type="button" data-cerrar>Ahora no</button></div>`);
-  $("#mVerPlanes").onclick = () => { cerrar(); ir("plan"); };
+  dialogo(`<h2>${j.motivo === "prueba_terminada" ? "Tu prueba terminó" : "Llegaste al límite de tu plan"}</h2><p>${esc(j.error || "Tu plan no lo permite.")}</p><p class="ayuda" style="margin-top:8px">No se borra nada y todo lo demás sigue funcionando.</p>
+    <div class="acciones"><button class="btn pri" id="mVerPlanes" type="button">${j.motivo === "prueba_terminada" ? "Elegir un plan" : "Mejorar plan"}</button><button class="btn" type="button" data-cerrar>Ahora no</button></div>`);
+  $("#mVerPlanes").onclick = () => { cerrar(); irAPlanes(); };
 }
 const ocupado = (b, texto) => { b.disabled = true; b.dataset.t = b.textContent; b.innerHTML = `<span class="cargando"></span>${esc(texto || "Un momento…")}`; return () => { b.disabled = false; b.textContent = b.dataset.t; }; };
 
 // ---------- Entrar ----------
 let correoEnCurso = "";
-function verEntrar() { for (const s of ["#vCargando", "#vSinCuenta"]) $(s).hidden = true; $("#vEntrar").hidden = false; $("#tabs").hidden = true; $("#salir").hidden = true; for (const s of $$("section[data-v]")) s.hidden = true; }
+function verEntrar() { for (const s of ["#vCargando", "#vSinCuenta"]) $(s).hidden = true; $("#vEntrar").hidden = false; $("#tabs").hidden = true; $("#salir").hidden = true; $("#mejorar").hidden = true; for (const s of $$("section[data-v]")) s.hidden = true; }
 $("#fCorreo").addEventListener("submit", async (e) => {
   e.preventDefault(); const er = $("#eCorreo"); er.hidden = true;
   correoEnCurso = $("#correo").value.trim().toLowerCase();
   if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/.test(correoEnCurso)) { er.textContent = "Escribe un correo válido."; er.hidden = false; return; }
   const fin = ocupado($("#bCorreo"), "Enviando…");
-  const { error } = await sb.auth.signInWithOtp({ email: correoEnCurso, options: { shouldCreateUser: true, emailRedirectTo: location.origin + location.pathname } });
+  // El acceso es por aprobación: aquí NO se crean usuarios. A un correo que el equipo no aprobó no le llega ningún código.
+  const { error } = await sb.auth.signInWithOtp({ email: correoEnCurso, options: { shouldCreateUser: false, emailRedirectTo: location.origin + location.pathname } });
   fin();
-  if (error) { er.textContent = /rate|seconds|too many/i.test(error.message || "") ? "Acabamos de enviarte un código. Espera un minuto antes de pedir otro." : "No pudimos enviar el código ahora. Inténtalo en un momento o escríbenos por WhatsApp."; er.hidden = false; return; }
+  if (error) { er.textContent = /rate|seconds|too many/i.test(error.message || "") ? "Acabamos de enviarte un código. Espera un minuto antes de pedir otro." : /signups? not allowed|otp_disabled|user not found/i.test((error.message || "") + " " + (error.code || "")) ? "Ese correo todavía no tiene una cuenta. El acceso es por aprobación: solicita tu prueba gratuita y el equipo te escribe." : "No pudimos enviar el código ahora. Inténtalo en un momento o escríbenos por WhatsApp."; er.hidden = false; return; }
   $("#aCorreo").textContent = correoEnCurso; $("#fCorreo").hidden = true; $("#fCodigo").hidden = false; $("#codigo").focus();
 });
 $("#otroCorreo").onclick = () => { $("#fCodigo").hidden = true; $("#fCorreo").hidden = false; $("#codigo").value = ""; };
@@ -269,7 +298,7 @@ async function abrir() {
   try { D = await api("inicio"); }
   catch (x) {
     $("#vCargando").hidden = true;
-    if (x.status === 403 && !TOKEN) { $("#tSinCuenta").textContent = `Entraste con ${sesion?.user?.email || "tu correo"}, pero ese correo todavía no tiene una cuenta. Si te invitaron, pide que revisen cómo escribieron tu correo.`; $("#vSinCuenta").hidden = false; $("#salir").hidden = false; return; }
+    if (x.status === 403 && !TOKEN) { $("#tSinCuenta").textContent = `Entraste con ${sesion?.user?.email || "tu correo"}, pero ese correo todavía no tiene una cuenta. El acceso es por aprobación: solicita tu prueba gratuita. Si te invitaron, pide que revisen cómo escribieron tu correo.`; $("#vSinCuenta").hidden = false; $("#salir").hidden = false; return; }
     // Un enlace que no abre la cuenta (vencido, o el compartido de antes): se dice por qué y se ofrece entrar con el correo.
     const porQue = TOKEN && x.status === 403 ? x.message : null;
     if (TOKEN) { TOKEN = null; ss.set("cw-cuenta-token", null); }
@@ -278,13 +307,16 @@ async function abrir() {
     return;
   }
   $("#vCargando").hidden = true; $("#tabs").hidden = false; $("#salir").hidden = false;
+  CWIdioma.sugerir(D.cuenta.idioma);   // el idioma de la cuenta, si la persona no eligió otro antes
   pintarMarco(); await despuesDeVolver();
   ir(ss.get("cw-cuenta-vista") || (location.hash.replace("#", "") || "inicio"));
   agente();
 }
 function pintarMarco() {
   const c = D.cuenta, m = c.marca || {};
-  $("#cNombre").textContent = c.nombre; document.title = `${c.nombre} · Mi cuenta`;
+  $("#cNombre").textContent = c.nombre; document.title = `${c.nombre} · ${CWIdioma.t("Mi cuenta")}`;
+  // «Mejorar plan»: siempre a la vista para quien puede cambiar el plan (no en las cuentas a medida, que no tienen plan que mejorar).
+  $("#mejorar").hidden = !(D.plan && D.usuario.rol !== "lector"); $("#mejorar").textContent = D.plan?.prueba_vencida ? "Elegir un plan" : "Mejorar plan";
   const r = document.documentElement.style;
   if (m.colores?.principal) r.setProperty("--marca", m.colores.principal);
   if (m.colores?.acento) r.setProperty("--acento", m.colores.acento);
@@ -298,6 +330,35 @@ function pintarMarco() {
 $("#cCuentas").onchange = (e) => { CUENTA = e.target.value; ss.set("cw-cuenta-elegida", CUENTA); abrir(); };
 const fotoAsistente = () => D.cuenta.marca?.asistente_foto || CWImagenes.inicial(D.cuenta.asistente || D.cuenta.nombre, D.cuenta.marca?.colores?.principal);
 const puedeCambiar = () => D.usuario.rol !== "lector";
+$("#mejorar").onclick = () => irAPlanes();
+// Lleva a la lista de planes (pestaña «Plan y consumo»), no al principio de la pestaña.
+function irAPlanes() { ss.set("cw-cuenta-planes", "1"); ir("plan"); }
+const enPrueba = (p) => !!p && p.prueba_hasta != null;
+const nombrePlan = (p, etiqueta) => (enPrueba(p) ? "Prueba gratuita" : p?.nombre ? "Plan " + p.nombre : (etiqueta || ""));
+// Los avisos con llamado a la acción: la prueba (días que quedan o «terminó») y los límites del plan al 80 % y al 100 %
+// (créditos, espacio y canales). Salen de lo que ya trae «inicio»: no hay consultas nuevas.
+function llamados(d) {
+  const p = d.plan, out = [];
+  if (!p) return out;
+  const cta = D.usuario.rol === "lector" ? "" : `<button class="btn chico pri" type="button" data-planes>${p.prueba_vencida ? "Elegir un plan" : "Mejorar plan"}</button>`;
+  const pedido = p.plan_pedido ? `<span>Ya pediste un plan: el equipo te escribe hoy.</span>` : "";
+  if (enPrueba(p)) {
+    if (p.prueba_vencida) out.push(`<div class="c12 llamado tope" data-llamado="prueba-fin"><div class="tx"><b>Tu prueba terminó — elige un plan</b><span>Tu asistente dejó de responder y sigue escuchando. No se borró nada: todo lo tuyo está aquí.</span>${pedido}</div>${cta}</div>`);
+    else out.push(`<div class="c12 llamado prueba" data-llamado="prueba"><div class="dias-n">${Number(p.prueba_dias)}<small>${Number(p.prueba_dias) === 1 ? "día" : "días"}</small></div><div class="tx"><b>${Number(p.prueba_dias) === 1 ? "Te queda 1 día de prueba" : `Te quedan ${Number(p.prueba_dias)} días de prueba`}</b><span>Termina el ${esc(fecha(p.prueba_hasta))}. Elige un plan antes para que tu asistente no deje de responder.</span>${pedido}</div>${cta}</div>`);
+  }
+  if (p.prueba_vencida) return out;   // con la prueba terminada, lo demás sobra
+  const nivel = (pct) => (pct >= 100 ? "tope" : pct >= 80 ? "cerca" : null);
+  const c = d.consumo, a = d.almacenamiento, lim = p.limites || {};
+  const uno = (clave, n, titulo, texto) => { if (n) out.push(`<div class="c12 llamado ${n}" data-llamado="${clave}-${n === "tope" ? 100 : 80}"><div class="tx"><b>${titulo}</b><span>${texto}</span></div>${cta}</div>`); };
+  if (c && c.total != null) { const pct = Number(c.total) > 0 ? Number(c.usados) / Number(c.total) * 100 : 100, n = nivel(pct);
+    uno("creditos", n, n === "tope" ? "Usaste todos los créditos de este mes" : `Ya usaste el ${Math.floor(pct)} % de tus créditos`, n === "tope" ? `Tu asistente dejó de responder hasta el ${esc(fecha(c.reinicia))}. Con un plan más grande vuelve a responder hoy.` : `Llevas ${num(c.usados)} de ${num(c.total)}. Al llegar al 100 %, tu asistente deja de responder hasta el mes siguiente.`); }
+  if (a && a.limite_bytes != null) { const pct = Number(a.limite_bytes) > 0 ? Number(a.bytes || 0) / Number(a.limite_bytes) * 100 : 100, n = nivel(pct);
+    uno("espacio", n, n === "tope" ? "Tu espacio para archivos está lleno" : `Tus archivos ocupan el ${Math.floor(pct)} % de tu espacio`, n === "tope" ? "No puedes subir más fotos ni videos. Libera espacio o mejora tu plan." : `Llevas ${mb(a.bytes || 0)} de ${mb(a.limite_bytes)}.`); }
+  if (lim.canales != null) { const usados = (d.conexiones || []).filter((x) => ["whatsapp", "instagram"].includes(x.canal) && x.estado !== "sin_conectar" && x.estado !== "no_disponible").length, pct = Number(lim.canales) > 0 ? usados / Number(lim.canales) * 100 : 100, n = nivel(pct);
+    uno("canales", n, n === "tope" ? "Ya usas todos los canales de tu plan" : `Usas ${usados} de ${Number(lim.canales)} canales`, n === "tope" ? `Tu plan incluye ${Number(lim.canales) === 1 ? "1 canal" : Number(lim.canales) + " canales"}. Para conectar otro, mejora tu plan.` : "Te queda poco margen para conectar más canales."); }
+  return out;
+}
+document.addEventListener("click", (e) => { if (e.target.closest("[data-planes]")) { e.preventDefault(); irAPlanes(); } });
 
 function ir(v) {
   if (!$(`section[data-v="${v}"]`)) v = "inicio";
@@ -314,23 +375,28 @@ document.addEventListener("click", (e) => { const b = e.target.closest("[data-ir
 function barra(c) {
   if (!c || c.total == null) return `<p class="ayuda">Tu plan es a medida: no tiene un tope de créditos. Este mes llevas <b>${num(c?.usados)}</b>.</p>`;
   return `<div class="cifra">${num(c.usados)} <small>de ${num(c.total)} créditos este mes</small></div><div class="barra ${esc(c.nivel)}"><i style="width:${Math.min(100, c.pct || 0)}%"></i></div>
-    <p class="ayuda">${c.nivel === "agotado" ? `<b>Tu asistente dejó de responder</b>: sigue escuchando y tu panel muestra todo. Vuelve a responder el ${esc(fecha(c.reinicia))} o al subir de plan.` : `Te quedan ${num(c.restantes)}. Se reinician el ${esc(fecha(c.reinicia))}.`}</p>`;
+    <p class="ayuda">${c.nivel === "agotado" ? `<b>Tu asistente dejó de responder</b>: sigue escuchando y tu panel muestra todo. Vuelve a responder el ${esc(fecha(c.reinicia))} o al mejorar tu plan.` : `Te quedan ${num(c.restantes)}. Se reinician el ${esc(fecha(c.reinicia))}.`}</p>`;
 }
 const TXT_AVISO = { creditos_80: "Ya usaste el 80 % de tus créditos de este mes.", creditos_100: "Usaste todos los créditos del mes: tu asistente escucha pero no responde.", almacenamiento_90: "Tus archivos ocupan más del 90 % de tu espacio.",
+  prueba_por_terminar: null, prueba_terminada: null,
   cobro_proximo: (d) => `Tu plan se renueva el ${fecha(d.el)}${d.automatico ? " con tu tarjeta guardada" : ": el equipo te contacta para el pago"}.`, cobro_fallido: (d) => `No pudimos cobrar tu plan. Tienes hasta el ${fecha(d.gracia_hasta)} para ponerte al día; después tu cuenta pasa al plan gratis (no se borra nada).`,
   baja_a_gratis: "Tu cuenta pasó al plan gratis. Todo lo tuyo sigue aquí." };
 function vInicio() {
-  const c = D.cuenta, r = D.resumen || {}, av = (D.avisos || []).slice(0, 3);
+  // Los avisos de créditos, espacio y prueba ya salen como llamados (arriba): de la lista de avisos quedan los de cobros.
+  const c = D.cuenta, r = D.resumen || {}, ll = llamados(D), av = (D.avisos || []).filter((a) => TXT_AVISO[a.clave] && !(D.plan && /^(creditos_|almacenamiento_)/.test(a.clave))).slice(0, 3);
+  const mejora = D.plan && !D.plan.prueba_vencida && D.usuario.rol !== "lector" && !ll.some((x) => /data-llamado="(creditos|espacio|canales)/.test(x));
   $('section[data-v="inicio"]').innerHTML = `<div class="rejilla">
-    <div class="c12"><p class="et">${esc(D.plan?.nombre ? "Plan " + D.plan.nombre : (D.plan_etiqueta || ""))}</p><h1>Hola${primerNombre(D.usuario.nombre) ? ", " + esc(primerNombre(D.usuario.nombre)) : ""}</h1></div>
+    <div class="c12"><p class="et">${esc(nombrePlan(D.plan, D.plan_etiqueta))}</p><h1>Hola${primerNombre(D.usuario.nombre) ? `, <span data-nt>${esc(primerNombre(D.usuario.nombre))}</span>` : ""}</h1></div>
     ${D.suspendida ? `<div class="c12 aviso mal">Tu cuenta está en pausa. Escríbenos y la reactivamos.</div>` : ""}
+    ${ll.join("")}
     ${av.map((a) => `<div class="c12 aviso info">${esc(typeof TXT_AVISO[a.clave] === "function" ? TXT_AVISO[a.clave](a.datos || {}) : TXT_AVISO[a.clave] || "")} <a href="#" data-ir="plan">Ver mi plan</a></div>`).join("")}
     <div class="tarjeta c8"><h2>Tu consumo</h2>${barra(D.consumo)}<div class="acciones"><button class="btn chico" data-ir="plan">Ver el detalle</button></div></div>
-    <div class="tarjeta c4"><div class="asis"><img src="${esc(fotoAsistente())}" alt=""><div><h2 style="margin:0">${esc(c.asistente || "Tu asistente")}</h2><p class="ayuda">${D.suspendida ? "en pausa" : "atiende las 24 horas"}</p></div></div>
+    <div class="tarjeta c4"><div class="asis"><img src="${esc(fotoAsistente())}" alt=""><div><h2 style="margin:0"${c.asistente ? " data-nt" : ""}>${esc(c.asistente || "Tu asistente")}</h2><p class="ayuda">${D.suspendida ? "en pausa" : "atiende las 24 horas"}</p></div></div>
       <div class="acciones"><button class="btn chico oscuro" id="probar" type="button">Probar mi asistente</button><button class="btn chico" data-ir="ajustes">Cambiar nombre o foto</button></div></div>
     <div class="tarjeta c6"><h2>Para dejarlo listo</h2><ul class="pasos">${(D.pasos || []).map((p) => `<li class="${p.hecho ? "hecho" : ""}" ${p.hecho ? "" : `data-paso="${esc(p.pestana)}"`}><span class="ic">${p.hecho ? "✓" : ""}</span><span>${esc(p.texto)}</span></li>`).join("")}</ul></div>
     <div class="tarjeta c6"><h2>Últimos 7 días</h2><div class="kpis"><div><b>${num(r.mensajes_7d)}</b><span class="ayuda">mensajes recibidos</span></div><div><b>${num(r.casos_abiertos)}</b><span class="ayuda">casos abiertos</span></div><div><b>${num(r.graves_7d)}</b><span class="ayuda">quejas graves</span></div></div>
       <div class="acciones"><button class="btn chico pri" data-ir="panel">Abrir conversaciones</button>${puedeCambiar() ? `<button class="btn chico" id="abrirApp" type="button">Instalar la app en mi celular</button>` : ""}</div></div>
+    ${mejora ? `<div class="tarjeta c12 mejora" data-llamado="mejora"><div class="llamado" style="border:0;background:none;padding:0"><div class="tx"><b>¿Tu negocio necesita más?</b><span>Más respuestas al mes, más canales, contenido semanal y publicación en tus redes. Elige tu plan y el equipo te escribe hoy para activarlo.</span></div><button class="btn pri" type="button" data-planes>Mejorar plan</button></div></div>` : ""}
   </div>`;
   for (const li of $$(".pasos li[data-paso]")) li.onclick = () => (li.dataset.paso === "alta" ? volverAlAlta() : ir(li.dataset.paso));
   if ($("#abrirApp")) $("#abrirApp").onclick = instalarApp;
@@ -518,10 +584,11 @@ async function vPlan() {
   const c = r.consumo || {}, p = r.plan, a = r.almacenamiento || {}, dias = c.por_dia || [], max = Math.max(1, ...dias.map((d) => Number(d.creditos))), hoy = dias.length - 1;
   const peso = Object.fromEntries((r.tarifa || []).map((t) => [t.tipo, Number(t.creditos)]));
   const porCanal = Object.entries(c.por_canal || {}).sort((x, y) => y[1] - x[1]);
-  const estado = !p ? "" : p.estado === "gracia" ? `<div class="aviso mal">No pudimos cobrar tu plan. Tienes hasta el ${esc(fecha(p.gracia_hasta))}; después pasa al plan gratis (no se borra nada).</div>` : p.cancelar_al_final ? `<div class="aviso info">Tu plan termina el ${esc(fecha(p.periodo_hasta))} y pasas al plan gratis. <a href="#" id="seguir">Quiero seguir con mi plan</a></div>` : p.plan_pedido ? `<div class="aviso ok">Pediste cambiar de plan: el equipo te escribe para activarlo.</div>` : "";
+  const estado = !p ? "" : p.estado === "gracia" ? `<div class="aviso mal">No pudimos cobrar tu plan. Tienes hasta el ${esc(fecha(p.gracia_hasta))}; después pasa al plan gratis (no se borra nada).</div>` : p.cancelar_al_final ? `<div class="aviso info">Tu plan termina el ${esc(fecha(p.periodo_hasta))} y pasas al plan gratis. <a href="#" id="seguir">Quiero seguir con mi plan</a></div>` : p.plan_pedido ? `<div class="aviso ok">Pediste mejorar tu plan: el equipo te escribe hoy para activarlo.</div>` : "";
   s.innerHTML = `<div class="rejilla">
-    <div class="tarjeta c8"><p class="et">${p ? "Tu plan" : "Plan a medida"}</p><h1 style="margin:4px 0 10px">${esc(p?.nombre || r.plan_etiqueta || "A medida")}</h1>${estado}
-      ${barra(c)}${c.total != null && c.proyeccion != null && Number(c.usados) > 0 ? `<p class="ayuda">A este ritmo cierras el mes en <b>${num(c.proyeccion)}</b> créditos${c.proyeccion > c.total ? ": no te va a alcanzar. Conviene subir de plan." : "."}</p>` : ""}
+    ${llamados({ ...D, plan: p, consumo: c, almacenamiento: a }).join("")}
+    <div class="tarjeta c8"><p class="et">${p ? "Tu plan" : "Plan a medida"}</p><h1 style="margin:4px 0 10px"${enPrueba(p) || !(p?.nombre || r.plan_etiqueta) ? "" : " data-nt"}>${esc(enPrueba(p) ? "Prueba gratuita" : p?.nombre || r.plan_etiqueta || "A medida")}</h1>${estado}
+      ${barra(c)}${c.total != null && c.proyeccion != null && Number(c.usados) > 0 ? `<p class="ayuda">A este ritmo cierras el mes en <b>${num(c.proyeccion)}</b> créditos${c.proyeccion > c.total ? ": no te va a alcanzar. Conviene mejorar tu plan." : "."}</p>` : ""}
       ${p?.periodo_hasta ? `<p class="ayuda" style="margin-top:6px">Pagado hasta el ${esc(fecha(p.periodo_hasta))}${p.metodo?.ultimos4 ? ` · ${esc(p.metodo.marca || "Tarjeta")} •••• ${esc(p.metodo.ultimos4)}` : ""}.</p>` : ""}
       <h3>Este mes, día por día</h3>${dias.some((d) => Number(d.creditos) > 0) ? "" : `<p class="ayuda">Todavía no hay consumo este mes. Aquí vas a ver cuánto gasta tu asistente cada día.</p>`}<div class="dias" role="img" aria-label="Créditos por día">${dias.map((d, i) => `<i class="${i === hoy ? "hoy" : ""}" style="height:${Math.max(2, Math.round(Number(d.creditos) / max * 100))}%" title="${esc(d.dia)}: ${num(d.creditos)}"></i>`).join("")}</div></div>
     <div class="tarjeta c4"><h2>En qué se fue</h2><table class="t"><tr><th>Qué</th><th class="n">Cuántas</th><th class="n">Créditos</th></tr>
@@ -529,19 +596,21 @@ async function vPlan() {
       <h3>Por canal</h3><table class="t">${porCanal.map(([k, v]) => `<tr><td>${esc(NOMBRE_CANAL[k] || k)}</td><td class="n">${num(v)}</td></tr>`).join("") || `<tr><td class="ayuda">Todavía sin respuestas este mes.</td></tr>`}</table>
       <h3>Tus archivos</h3>${a.limite_bytes == null ? `<p class="ayuda">${mb(a.bytes || 0)} usados, sin tope.</p>` : `<div class="barra ${esc(a.nivel)}"><i style="width:${Math.min(100, a.pct || 0)}%"></i></div><p class="ayuda">${mb(a.bytes || 0)} de ${mb(a.limite_bytes)}</p>`}
       <p class="ayuda" style="margin-top:10px">1 crédito = 1 respuesta escrita de tu asistente. Una respuesta por voz gasta ${num(peso.respuesta_voz ?? 3)}, una pieza de contenido ${num(peso.pieza ?? 3)} y una tanda de ideas ${num(peso.ideas ?? 5)}. Escuchar y clasificar lo que te escriben no gasta.</p></div>
-    ${p ? `<div class="tarjeta c12"><h2>Planes</h2><p class="ayuda">${(r.planes || []).length < 2 ? `Por ahora este es el plan disponible. Si necesitas más capacidad, cuéntale al equipo y te arman uno a tu medida: <a href="https://wa.me/593969235680" target="_blank" rel="noopener">escribir al equipo</a>.` : r.pagos_modo === "vivo" ? "Puedes cambiar cuando quieras. El cambio es inmediato." : "Elige el que te sirva: el equipo te escribe para activarlo."}</p><div class="planes">${(r.planes || []).map((x) => `<div class="plan ${x.clave === p.plan ? "actual" : ""}"><b class="nombre">${esc(x.nombre)}</b>
+    ${p ? `<div class="tarjeta c12" id="planes"><h2>${enPrueba(p) ? "Elige tu plan" : "Planes"}</h2><p class="ayuda">${(r.planes || []).length < (enPrueba(p) ? 1 : 2) ? `Por ahora este es el plan disponible. Si necesitas más capacidad, cuéntale al equipo y te arman uno a tu medida: <a href="https://wa.me/593969235680" target="_blank" rel="noopener">escribir al equipo</a>.` : r.pagos_modo === "vivo" ? "Puedes cambiar cuando quieras. El cambio es inmediato." : "Elige el que te sirva: el equipo te escribe hoy para activarlo."}</p><div class="planes">${(r.planes || []).map((x) => `<div class="plan ${x.clave === p.plan ? "actual" : ""}" data-plan-tarjeta="${esc(x.clave)}"><b class="nombre" data-nt>${esc(x.nombre)}</b>
         <div class="precio">${x.gratis ? "Sin costo y sin tarjeta" : x.precio_mes_usd != null ? `US$ ${num(x.precio_mes_usd)} al mes + IVA` : "Consulta con el equipo"}</div><ul>${(x.contratable === false ? ["Respuestas, canales y espacio a tu medida", "Varias sedes y marcas en una cuenta", "Acompañamiento del equipo de Creative Whisper"] : LIMITE(x.limites || {})).map((t) => `<li>✓ ${esc(t)}</li>`).join("")}</ul>
-        ${x.clave === p.plan ? `<span class="pastilla conectado" style="margin:0">Tu plan</span>` : D.usuario.rol === "lector" ? "" : x.contratable === false ? `<a class="btn chico" href="https://wa.me/593969235680?text=${encodeURIComponent("Hola, quiero conocer el plan Empresas para " + (D.cuenta?.nombre || "mi negocio"))}" target="_blank" rel="noopener">Hablemos</a>` : `<button class="btn chico ${x.gratis ? "" : "pri"}" data-plan="${esc(x.clave)}" type="button">${x.gratis ? "Bajar a gratis" : "Subir a este plan"}</button>`}</div>`).join("")}</div><div id="planAviso"></div></div>` : ""}
+        ${x.clave === p.plan ? `<span class="pastilla conectado" style="margin:0">Tu plan</span>` : D.usuario.rol === "lector" ? "" : x.contratable === false ? `<a class="btn chico" href="https://wa.me/593969235680?text=${encodeURIComponent((CWIdioma.idioma === "en" ? "Hi, I would like to know more about the Empresas plan for " : "Hola, quiero conocer el plan Empresas para ") + (D.cuenta?.nombre || (CWIdioma.idioma === "en" ? "my business" : "mi negocio")))}" target="_blank" rel="noopener">Hablemos</a>` : p.plan_pedido === x.clave ? `<span class="pastilla pendiente" style="margin:0">Pedido: el equipo te escribe hoy</span>` : `<button class="btn chico ${x.gratis ? "" : "pri"}" data-plan="${esc(x.clave)}" type="button">${x.gratis ? "Bajar a gratis" : "Mejorar a este plan"}</button>`}</div>`).join("")}</div><div id="planAviso"></div></div>` : ""}
     <div class="tarjeta c6"><h2>Pagos y facturas</h2>${(r.pagos || []).length ? `<table class="t"><tr><th>Fecha</th><th>Periodo</th><th class="n">Total</th><th>Factura</th></tr>${r.pagos.map((g) => `<tr><td>${esc(fecha(g.confirmado || g.creado))}</td><td>${esc(fecha(g.periodo_desde))} – ${esc(fecha(g.periodo_hasta))}</td><td class="n">${g.estado === "aprobado" ? "US$ " + num(g.total_usd) : "No aprobado"}</td><td>${g.factura?.url ? `<a href="${esc(g.factura.url)}" target="_blank" rel="noopener">${esc(g.factura.numero || "Ver")}</a>` : esc(g.factura?.numero || (g.estado === "aprobado" ? "En camino" : "—"))}</td></tr>`).join("")}</table>` : `<p class="ayuda">Todavía no hay pagos.</p>`}</div>
     ${p && D.usuario.rol === "dueno" && D.usuario.via === "sesion" ? `<div class="tarjeta c6"><h2>Datos para tu factura</h2><form id="fFac" autocomplete="off"><div class="fila"><div><label for="fRazon">Razón social</label><input id="fRazon" type="text" name="cw-razon" autocomplete="off" value="${esc(p.facturacion?.razon_social || "")}"></div><div><label for="fRuc">RUC o cédula</label><input id="fRuc" type="text" name="cw-ruc" inputmode="numeric" maxlength="13" autocomplete="off" value="${esc(p.facturacion?.ruc || "")}"></div></div>
       <label for="fCorreo2">Correo para la factura</label><input id="fCorreo2" type="email" name="cw-correo-factura" autocomplete="off" value="${esc(p.facturacion?.correo || D.usuario.correo || "")}"><label for="fDir">Dirección</label><input id="fDir" type="text" name="cw-dir-factura" autocomplete="off" value="${esc(p.facturacion?.direccion || "")}">
       <div class="aviso" id="facAviso" hidden></div><div class="acciones"><button class="btn" type="submit">Guardar</button></div></form></div>` : ""}
   </div>`;
+  if (ss.get("cw-cuenta-planes")) { ss.set("cw-cuenta-planes", null); $("#planes")?.scrollIntoView({ block: "start" }); }
   if ($("#seguir")) $("#seguir").onclick = async (e) => { e.preventDefault(); try { await api("plan_seguir"); vPlan(); } catch (x) { /* queda como estaba */ } };
   for (const b of $$("[data-plan]")) b.onclick = async () => {
     const fin = ocupado(b, "Un momento…"), av = $("#planAviso");
     try { const x = await api("plan_pedir", { plan: b.dataset.plan }); if (x.url) { location.href = x.url; return; } fin();
-      av.innerHTML = `<div class="aviso ok">${x.pedido ? "¡Recibido! El equipo te escribe para activar tu plan." : x.cancelar_al_final ? `Listo: sigues con tu plan hasta el ${esc(fecha(x.hasta))} y después pasas al plan gratis. No se borra nada.` : "Ya tienes ese plan."}</div>`; }
+      if (x.pedido) { D = await api("inicio").catch(() => D); pintarMarco(); await vPlan(); $("#planAviso").innerHTML = `<div class="aviso ok" id="planPedido"><b>¡Recibido! El equipo te escribe hoy para activar tu plan.</b> Mientras tanto todo sigue funcionando.</div>`; $("#planAviso").scrollIntoView({ block: "center" }); return; }
+      av.innerHTML = `<div class="aviso ok">${x.pedido ? "¡Recibido! El equipo te escribe hoy para activar tu plan." : x.cancelar_al_final ? `Listo: sigues con tu plan hasta el ${esc(fecha(x.hasta))} y después pasas al plan gratis. No se borra nada.` : "Ya tienes ese plan."}</div>`; }
     catch (x) { fin(); av.innerHTML = `<div class="aviso mal">${esc(x.message)}</div>`; }
   };
   if ($("#fFac")) $("#fFac").onsubmit = async (e) => { e.preventDefault(); const av = $("#facAviso"); try { await api("facturacion_guardar", { razon_social: $("#fRazon").value, ruc: $("#fRuc").value, correo: $("#fCorreo2").value, direccion: $("#fDir").value }); av.className = "aviso ok"; av.textContent = "Guardado."; } catch (x) { av.className = "aviso mal"; av.textContent = x.message; } av.hidden = false; };
@@ -604,9 +673,10 @@ function aviso(sel, texto, ok) { const a = $(sel); if (!a) return; a.className =
 let agenteListo = false;
 function agente() {
   if (agenteListo) return; agenteListo = true;
-  AgenteEscucha({ api: API, accion: "agente", titulo: "Ayuda con tu cuenta", boton: "¿Te ayudo?", izquierda: true, saludo: "Hola. Te ayudo a usar tu cuenta: conectar canales, tus créditos, tus archivos o tu plan.",
-    sugerencias: ["¿Cómo conecto mi WhatsApp?", "¿Qué es un crédito?", "¿Cómo pongo el chat en mi web?"],
-    datos: () => (TOKEN ? { t: TOKEN } : CUENTA ? { cuenta: CUENTA } : {}), cabeceras: () => (sesion && !TOKEN ? { authorization: "Bearer " + sesion.access_token } : {}) });
+  const T = CWIdioma.t;
+  AgenteEscucha({ api: API, accion: "agente", idioma: CWIdioma.idioma, titulo: T("Ayuda con tu cuenta"), boton: T("¿Te ayudo?"), izquierda: true, saludo: T("Hola. Te ayudo a usar tu cuenta: conectar canales, tus créditos, tus archivos o mejorar tu plan."),
+    sugerencias: ["¿Cómo conecto mi WhatsApp?", "¿Qué es un crédito?", "¿Cómo mejoro mi plan?"].map(T),
+    datos: () => ({ idioma: CWIdioma.idioma, ...(TOKEN ? { t: TOKEN } : CUENTA ? { cuenta: CUENTA } : {}) }), cabeceras: () => (sesion && !TOKEN ? { authorization: "Bearer " + sesion.access_token } : {}) });
 }
 // El panel avisa cuando su enlace de sesión venció: se le da uno nuevo y se vuelve a abrir, sin que la persona haga nada.
 window.addEventListener("message", async (e) => {
