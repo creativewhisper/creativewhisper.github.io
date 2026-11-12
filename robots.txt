@@ -5,5 +5,7 @@ Disallow: /oficina/
 Disallow: /finanzas/
 Disallow: /cotizacion.html
 Disallow: /reporte/
+Disallow: /cuenta/
+Disallow: /alta/
 
 Sitemap: https://creativewhisper.github.io/sitemap.xml

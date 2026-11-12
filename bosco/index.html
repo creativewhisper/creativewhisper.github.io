@@ -15,20 +15,33 @@
     var base = location.origin + location.pathname.replace(/[^/]*$/, "");
     // El nombre de la app es el del asistente de la cuenta (se guarda al entrar); la primera vez, uno neutro.
     var cu = null; try { cu = JSON.parse(localStorage.getItem("app-cuenta") || "null"); } catch (x) {}
+    // Fase 5: el ícono del oso es solo del asistente «Bosco». Las demás cuentas tienen un ícono neutro (nada de la primera cuenta por defecto).
+    var ic = cu && cu.asistente === "Bosco" ? "icono" : "neutro", fondo = ic === "icono" ? "#032B21" : "#0A0908";
     var m = { id: base, name: cu && cu.asistente ? cu.asistente + " · " + (cu.nombre || "") : "Asistente", short_name: cu && cu.asistente ? cu.asistente : "Asistente", start_url: base + "?" + (t ? "t=" + t : "e=" + e), scope: base, display: "standalone",
-      orientation: "portrait", background_color: "#032B21", theme_color: "#032B21", lang: "es",
-      icons: [{ src: base + "icono-192.png", sizes: "192x192", type: "image/png", purpose: "any" }, { src: base + "icono-512.png", sizes: "512x512", type: "image/png", purpose: "any" }, { src: base + "icono-mask-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" }] };
+      orientation: "portrait", background_color: fondo, theme_color: fondo, lang: "es",
+      icons: [{ src: base + ic + "-192.png", sizes: "192x192", type: "image/png", purpose: "any" }, { src: base + ic + "-512.png", sizes: "512x512", type: "image/png", purpose: "any" }, { src: base + ic + "-mask-512.png", sizes: "512x512", type: "image/png", purpose: "maskable" }] };
     document.getElementById("manif").href = "data:application/manifest+json," + encodeURIComponent(JSON.stringify(m));
+    window.__iconosApp = function (c) {   // se vuelve a llamar cuando la cuenta ya cargó
+      var k = c && c.asistente === "Bosco" ? "icono" : "neutro", q = function (x) { return document.querySelector(x); };
+      if (q('link[rel="icon"]')) q('link[rel="icon"]').href = k + "-192.png";
+      if (q('link[rel="apple-touch-icon"]')) q('link[rel="apple-touch-icon"]').href = k + "-180.png";
+      if (q('meta[name="apple-mobile-web-app-title"]') && c && c.asistente) q('meta[name="apple-mobile-web-app-title"]').content = c.asistente;
+      if (q('meta[name="theme-color"]') && k === "neutro" && !(c && c.con_color)) q('meta[name="theme-color"]').content = "#0A0908";
+      if (c && c.asistente) { m.name = c.asistente + " · " + (c.nombre || ""); m.short_name = c.asistente; }
+      m.icons.forEach(function (i) { i.src = i.src.replace(/(icono|neutro)-/, k + "-"); });
+      document.getElementById("manif").href = "data:application/manifest+json," + encodeURIComponent(JSON.stringify(m));
+    };
+    document.addEventListener("DOMContentLoaded", function () { window.__iconosApp(cu); if (cu && cu.asistente) document.title = cu.asistente + " · " + (cu.nombre || ""); });
   } catch (x) {}
 })();
 </script>
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Bosco">
-<link rel="apple-touch-icon" href="icono-180.png">
-<link rel="icon" href="icono-192.png">
-<title>Bosco · El Bosque</title>
+<meta name="apple-mobile-web-app-title" content="Asistente">
+<link rel="apple-touch-icon" href="neutro-180.png">
+<link rel="icon" href="neutro-192.png">
+<title>Asistente</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -634,14 +647,22 @@ function aplicarMarca() {
   if (m?.colores) for (const [k, v] of Object.entries(m.colores)) if (/^#[0-9a-f]{3,8}$/i.test(v)) root.setProperty("--" + k, v);
   if (m?.logo_mascara) { root.setProperty("--logo", `url("${m.logo_mascara}")`); $("#logo").style.aspectRatio = m.logo_ratio || 3.4; }
   else { $("#logo").classList.add("sin"); $("#logo").textContent = S.cuenta?.nombre || ""; }
-  if (m?.asistente_foto) for (const id of ["#cabCara", "#tabCara", "#chatCara", "#llFoto"]) $(id).src = m.asistente_foto;
+  // Fase 5: sin foto propia, cada asistente lleva su inicial sobre el color de su marca (el oso es solo de «Bosco»). Y una cuenta
+  // sin colores propios usa una paleta neutra, no la de la primera cuenta.
+  if (!m?.colores && !esBosco()) for (const [k, v] of Object.entries(PALETA_NEUTRA)) root.setProperty("--" + k, v);
+  const cara = foto();
+  for (const id of ["#cabCara", "#tabCara", "#chatCara", "#llFoto"]) $(id).src = cara;
+  if (!esBosco()) for (const i of document.querySelectorAll('img[src$="icono-192.png"]')) i.src = cara;
   for (const id of ["#chatNom", "#llNom"]) $(id).textContent = asis();
   $("#llApp").textContent = `App de ${asis()} · ${S.cuenta?.nombre || ""}`;
   $("#chatTxt").placeholder = `Escriba a ${asis()}…`;
   document.title = `${asis()} · ${S.cuenta?.nombre || ""}`;
   $("#lnkPanel").href = S.cuenta?.panel || "#";
 }
-const foto = () => S.cuenta?.marca?.asistente_foto || "icono-192.png";
+const esBosco = () => (S.cuenta?.asistente || "") === "Bosco";
+const PALETA_NEUTRA = { g950: "#0A0908", g900: "#14120F", g800: "#1D1A16", g700: "#2A2622", g600: "#3A342D", lima: "#F5A300", lima2: "#F7B733", lima3: "#FFD7BD", menta: "#F3E9DC" };
+const inicialDe = (nombre, color) => "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><rect width="96" height="96" rx="48" fill="${/^#[0-9a-f]{6}$/i.test(color || "") ? color : "#3EA398"}"/><text x="48" y="62" font-family="Arial,Helvetica,sans-serif" font-size="44" font-weight="700" text-anchor="middle" fill="#fff">${(String(nombre || "A").trim()[0] || "A").toUpperCase().replace(/[<>&"']/g, "A")}</text></svg>`);
+const foto = () => S.cuenta?.marca?.asistente_foto || (esBosco() ? "icono-192.png" : inicialDe(S.cuenta?.asistente || S.cuenta?.nombre, S.cuenta?.marca?.colores_marca?.acento || S.cuenta?.marca?.colores?.lima3));
 
 // ---------- Navegación ----------
 function irA(tab) {
@@ -1757,6 +1778,7 @@ async function iniciar() {
   S.cuenta = ini.cuenta;
   if (Array.isArray(ini.areas) && ini.areas.length) AREA = Object.fromEntries(ini.areas.map((a) => [a.id, [a.icono || "📌", mayus(a.nombre)]]));
   try { localStorage.setItem("app-cuenta", JSON.stringify({ asistente: S.cuenta?.asistente || "", nombre: S.cuenta?.nombre || "" })); } catch (x) {}
+  try { window.__iconosApp?.({ asistente: S.cuenta?.asistente || "", nombre: S.cuenta?.nombre || "", con_color: !!S.cuenta?.marca?.colores }); } catch (x) { /* los íconos no detienen la app */ }
   personalizar(S.cuenta);
   S.disp = ini.dispositivo; S.vapid = ini.vapid; S.areaNombre = ini.area_nombre; S.areaId = ini.area;
   if (esEquipo() && S.disp) S.disp.areas = [ini.area];

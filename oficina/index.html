@@ -451,18 +451,21 @@ async function llamarAlta(cuerpo) {
   if (!r.ok) throw new Error(j.error || ("HTTP " + r.status));
   return j;
 }
-const VERTICALES = [["concesionario", "Concesionario de autos"], ["centro_comercial", "Centro comercial"], ["marca_consumo", "Marca de consumo"]];
+const VERTICALES = [["restaurante", "Restaurante o cafetería"], ["clinica", "Clínica o consultorio"], ["tienda", "Tienda o comercio"], ["servicios_profesionales", "Servicios profesionales"], ["concesionario", "Concesionario de autos"], ["centro_comercial", "Centro comercial"], ["marca_consumo", "Marca de consumo"], ["otro", "Otro tipo de negocio"]];
 const tarjetaNuevo = () => `<div class="card nuevo" style="--color:var(--bataka)">
   <div class="marca">Nuevo cliente</div>
-  <div class="sub" style="margin-top:4px">Crea la cuenta con la plantilla de su vertical y un enlace de alta que vence en 7 días. El cliente lo llena en unos 15 minutos.</div>
+  <div class="sub" style="margin-top:4px">Crea la cuenta con la plantilla de su vertical y un enlace de alta que vence en 7 días. El cliente lo llena en unos 10 minutos.</div>
   <input id="ncNombre" type="text" placeholder="Nombre del cliente (ej. Autos del Valle)" maxlength="80">
   <select id="ncVertical">${VERTICALES.map(([v, n]) => `<option value="${v}">${n}</option>`).join("")}</select>
   <input id="ncAsistente" type="text" placeholder="Nombre del asistente (opcional)" maxlength="30">
   <div class="acciones"><button class="btn pri" data-nuevo="1">Crear y sacar el enlace</button></div>
   <div id="ncEnlace"></div></div>`;
+// Fase 5: la fecha en que vence un enlace se muestra con el día de Quito (antes se tomaba el día en hora universal: un enlace
+// que vence de noche salía con la fecha del día siguiente).
+const diaQuito = (iso) => { try { return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Guayaquil" }).format(new Date(iso)); } catch (e) { return String(iso).slice(0, 10); } };
 function pintarEnlace(destino, nombre, enlace, vence) {
-  const texto = `Hola, ${nombre}. Este es el enlace para el alta de su servicio de escucha digital con Creative Whisper (toma unos 15 minutos): ${enlace}`;
-  destino.innerHTML = `<div class="enlace-alta"><b>Enlace de alta</b> · vence el ${esc(fechaCorta(String(vence).slice(0, 10)))}<br>${esc(enlace)}
+  const texto = `Hola, ${nombre}. Este es el enlace para el alta de su servicio de escucha digital con Creative Whisper (toma unos 10 minutos): ${enlace}`;
+  destino.innerHTML = `<div class="enlace-alta"><b>Enlace de alta</b> · vence el ${esc(fechaCorta(diaQuito(vence)))}<br>${esc(enlace)}
     <div class="enlaces"><button data-copiar="${esc(enlace)}">Copiar enlace</button><a href="https://wa.me/?text=${encodeURIComponent(texto)}" target="_blank" rel="noopener">Mandar por WhatsApp</a></div>
     <div class="qr" data-qr="${esc(enlace)}"></div></div>`;
   const q = destino.querySelector("[data-qr]");
@@ -472,16 +475,16 @@ function listaEstado(est) {
   if (!est?.items) return "";
   const canales = est.items.filter((i) => ["whatsapp", "instagram", "facebook", "messenger"].includes(i.clave) || i.ok === false);
   return `<div class="lista-estado">${canales.map((i) => `<span class="${i.ok === true ? "ok" : i.ok === null ? "apag" : "no"}">${esc(i.nombre)} ${i.ok === true ? "✓" : i.ok === null ? "apagado" : "pendiente: falta " + esc(i.falta)}</span>`).join(" · ")}</div>
-    ${est.alta ? `<div class="sub">Alta ${est.alta.estado === "completada" ? "completada" + (est.alta.segundos ? " en " + Math.max(1, Math.round(est.alta.segundos / 60)) + " min" : "") : est.alta.estado === "abierta" ? "abierta · el enlace vence el " + esc(fechaCorta(String(est.alta.vence).slice(0, 10))) : est.alta.estado}</div>` : ""}`;
+    ${est.alta ? `<div class="sub" data-alta-linea="${esc(est.empresa_id || "")}">Alta ${est.alta.estado === "completada" ? "completada" + (est.alta.segundos ? " en " + Math.max(1, Math.round(est.alta.segundos / 60)) + " min" : "") : est.alta.estado === "abierta" ? "abierta · el enlace vence el " + esc(fechaCorta(diaQuito(est.alta.vence))) : est.alta.estado}</div>` : ""}`;
 }
 const fechaCorta = (f) => { if (!f) return "sin fecha"; try { return new Date(f + "T12:00:00").toLocaleDateString("es-EC", { day: "numeric", month: "short", year: "numeric" }); } catch (e) { return f; } };
 async function pintarClientes() {
   const [{ cuentas }, estados] = await Promise.all([llamarPanel({ accion: "cuentas" }), llamarAlta({ accion: "estados" }).catch(() => ({ cuentas: [] }))]);
   cuentasCli = cuentas || [];
   const estadoDe = new Map((estados.cuentas || []).map((x) => [x.empresa_id, x]));
-  if (!cuentasCli.length) { $("#cuerpo").innerHTML = tarjetaNuevo() + `<div class="vacio"><b>Sin clientes todavía</b>Las cuentas de Escucha digital aparecen aquí.</div>`; return; }
+  if (!cuentasCli.length) { $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + `<div class="vacio"><b>Sin clientes todavía</b>Las cuentas de Escucha digital aparecen aquí.</div>`; return; }
   const hoy = new Date().toISOString().slice(0, 10);
-  $("#cuerpo").innerHTML = tarjetaNuevo() + cuentasCli.map((c) => {
+  $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + cuentasCli.map((c) => {
     const on = c.estado === "activa";
     const vencida = c.pagado_hasta && c.pagado_hasta < hoy;
     return `<div class="card cli" style="--color:${on ? "var(--porthos)" : "var(--torote)"}">
@@ -496,6 +499,7 @@ async function pintarClientes() {
       <label class="chk"><input type="checkbox" data-auto="${c.id}" ${c.suspension_automatica ? "checked" : ""}> Suspender sola si vence (3 días de gracia)</label>
       ${listaEstado(estadoDe.get(c.id))}
       ${c.etapa && c.etapa !== "alta" ? `<details data-contenido="${c.id}" style="margin:10px 0"><summary style="cursor:pointer;font-weight:700">Contenido y publicación</summary><div data-contenido-de="${c.id}" class="sub" style="margin-top:8px">Cargando…</div></details>` : ""}
+      <details data-plan="${c.id}" style="margin:10px 0"><summary style="cursor:pointer;font-weight:700">Plan, pagos y acceso</summary><div data-plan-de="${c.id}" class="sub" style="margin-top:8px">Cargando…</div></details>
       ${c.etapa === "alta" || estadoDe.get(c.id)?.alta ? `<div class="acciones"><button class="btn" data-enlace="${c.id}">${c.etapa === "alta" ? "Nuevo enlace de alta" : "Enlace para revisar el alta"}</button></div><div data-enlace-de="${c.id}"></div>` : ""}
       <div class="datos3"><div><b>${c.mensajes_7d}</b><span>mensajes reales 7 d</span></div><div><b>${c.casos_abiertos}</b><span>casos abiertos</span></div><div><b>${c.contactos_alerta}</b><span>reciben alertas</span></div></div>
       <div class="enlaces">
@@ -554,7 +558,11 @@ $("#cuerpo").addEventListener("click", async (e) => {
   if (en) {
     const c = cuentasCli.find((x) => x.id === en.dataset.enlace); if (!c) return;
     if (!confirm(`¿Sacar un enlace nuevo para ${c.nombre}? El anterior deja de servir (lo ya llenado se conserva).`)) return;
-    try { const r = await llamarAlta({ accion: "enlace", empresa_id: c.id }); pintarEnlace(document.querySelector(`[data-enlace-de="${c.id}"]`), c.nombre, r.enlace, r.vence); }
+    try {
+      const r = await llamarAlta({ accion: "enlace", empresa_id: c.id }); pintarEnlace(document.querySelector(`[data-enlace-de="${c.id}"]`), c.nombre, r.enlace, r.vence);
+      // Fase 5: la línea de estado de la tarjeta mostraba la fecha del enlace ANTERIOR hasta recargar la página. Ahora se pone al día aquí mismo.
+      const linea = document.querySelector(`[data-alta-linea="${c.id}"]`); if (linea) linea.textContent = "Alta abierta · el enlace vence el " + fechaCorta(diaQuito(r.vence));
+    }
     catch (x) { toast("No se pudo: " + x.message); }
     return;
   }
@@ -570,6 +578,88 @@ async function llamarFn(fn, cuerpo) {
   if (!r.ok) throw new Error(j.error || ("HTTP " + r.status));
   return j;
 }
+// ---------- Fase 5 · El servicio como producto: registro, planes, consumo con costo real y lo de cada cuenta ----------
+// Todo pasa por la función cuenta-cliente con la sesión de admin. Aquí se enciende lo que nace apagado (registro y cobros).
+const cta = (cuerpo) => llamarFn("cuenta-cliente", cuerpo);
+const usd = (n) => (n == null ? "—" : "US$ " + Number(n).toLocaleString("es-EC", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
+const tarjetaProducto = () => `<div class="card" style="--color:var(--bataka)"><div class="marca">El producto</div>
+  <div class="sub" style="margin-top:4px">Registro desde la web, cobros, planes y el consumo de cada cuenta con su costo real. Solo tú lo ves.</div>
+  <details data-producto="1" style="margin-top:8px"><summary style="cursor:pointer;font-weight:700">Abrir</summary><div id="prodCuerpo" class="sub" style="margin-top:8px">Cargando…</div></details></div>`;
+async function pintarProducto() {
+  const el = $("#prodCuerpo"); if (!el) return;
+  try {
+    const [p, c] = await Promise.all([cta({ accion: "planes" }), cta({ accion: "consumo_oficina" })]);
+    const a = p.ajustes || {}, sw = (clave, on, si, no, txt) => `<label class="chk"><input type="checkbox" data-prod-ajuste="${clave}" data-si="${si}" data-no="${no}" ${on ? "checked" : ""}> ${txt}</label>`;
+    el.innerHTML = `${sw("registro_web", a.registro_web === "abierto", "abierto", "cerrado", "Registro abierto: cualquiera crea su cuenta gratis desde la página (apagado: deja una solicitud y te llega una tarjeta)")}
+      ${sw("pagos_modo", a.pagos_modo === "vivo", "vivo", "apagado", `Cobros en línea (pasarela: ${esc(p.pasarela)}). Apagado: subir de plan es una solicitud y tú registras el pago`)}
+      ${sw("planes_precios_visibles", a.planes_precios_visibles === "si", "si", "no", "Mostrar los precios de los planes dentro de la cuenta del cliente")}
+      <div style="margin-top:6px">Botones de conexión: WhatsApp de un toque ${p.botones?.whatsapp ? "✅" : "➖ (hoy: «lo hacemos por ti»)"} · Telnyx ${p.botones?.telnyx ? "✅" : "➖ falta la clave"} · Instagram ${p.botones?.instagram ? "✅" : "➖"} · Google Drive ${p.botones?.drive ? "✅" : "➖"}</div>
+      <div style="margin-top:12px"><b>Planes</b> (lo que no tiene precio no se puede contratar; «visible» lo muestra en la cuenta del cliente; un límite vacío quiere decir «sin límite»)</div>
+      ${(p.planes || []).map((x) => `<div class="fila2" style="align-items:flex-end;flex-wrap:wrap;margin-top:10px;padding-top:10px;border-top:1px solid rgba(128,128,128,.25)" data-plan-fila="${esc(x.clave)}"><div style="flex:1 1 120px"><label>Nombre</label><input type="text" data-pf="nombre" value="${esc(x.nombre)}" maxlength="40" style="width:100%"></div>
+        <div style="flex:0 0 110px"><label>US$ al mes</label><input type="number" data-pf="precio" min="0" step="0.01" value="${x.precio_mes_usd ?? ""}" ${x.gratis ? "disabled" : ""} placeholder="sin precio"></div>
+        <div style="flex:0 0 100px"><label>Créditos</label><input type="number" data-pf="creditos_mes" min="0" value="${x.limites?.creditos_mes ?? ""}"></div><div style="flex:0 0 80px"><label>Canales</label><input type="number" data-pf="canales" min="0" value="${x.limites?.canales ?? ""}"></div>
+        <div style="flex:0 0 100px"><label>Espacio MB</label><input type="number" data-pf="almacenamiento_mb" min="0" value="${x.limites?.almacenamiento_mb ?? ""}"></div><div style="flex:0 0 100px"><label>Tope IA US$</label><input type="number" data-pf="tope_ia_usd" min="0" step="0.5" value="${x.limites?.tope_ia_usd ?? ""}"></div>
+        <div style="flex:1 1 100%;display:flex;gap:16px;align-items:center;flex-wrap:wrap"><label class="chk" style="flex:0 0 auto;margin:0"><input type="checkbox" data-pf="visible" ${x.visible ? "checked" : ""}> visible</label><label class="chk" style="flex:0 0 auto;margin:0"><input type="checkbox" data-pf="activo" ${x.activo ? "checked" : ""}> activo</label>
+        <button class="btn" style="flex:0 0 auto;padding:10px 12px;margin-left:auto" data-plan-guardar="${esc(x.clave)}" data-limites="${esc(JSON.stringify(x.limites || {}))}" data-orden="${x.orden}" data-desc="${esc(x.descripcion || "")}">Guardar</button></div></div>`).join("")}
+      <div style="margin-top:12px"><b>Consumo de ${esc(c.mes)}</b> (el costo del canal es una estimación: Telnyx ${usd(c.supuestos?.costo_telnyx_msg_usd)} por mensaje)</div>
+      <div style="overflow-x:auto"><table style="width:100%;border-collapse:collapse;font-size:13px;margin-top:6px"><tr style="text-align:left"><th>Cuenta</th><th>Plan</th><th>Créditos</th><th>Costo IA</th><th>Canal</th><th>Ingreso</th><th>Margen</th></tr>
+      ${(c.cuentas || []).map((x) => `<tr style="border-top:1px solid rgba(128,128,128,.25)"><td>${esc(x.nombre)}</td><td>${esc(x.plan || "")}${x.suscripcion === "gracia" ? " ⚠️" : ""}</td><td>${Number(x.creditos?.usados || 0)}${x.creditos?.total != null ? " / " + x.creditos.total : ""}${x.creditos?.nivel === "agotado" ? " 🔴" : x.creditos?.nivel === "cerca" ? " 🟠" : ""}</td>
+        <td>${usd(x.costo_ia_usd)}</td><td>${usd(x.costo_canal_usd)}</td><td>${usd(x.precio_mes_usd)}</td><td>${x.margen_usd == null ? "—" : usd(x.margen_usd) + (x.margen_pct != null ? ` (${x.margen_pct} %)` : "")}</td></tr>`).join("")}</table></div>`;
+  } catch (x) { el.textContent = "No se pudo cargar: " + x.message; }
+}
+async function pintarPlanCuenta(id) {
+  const el = document.querySelector(`[data-plan-de="${id}"]`); if (!el) return;
+  try {
+    const [d, p] = await Promise.all([cta({ accion: "cuenta", empresa_id: id }), cta({ accion: "planes" })]);
+    const pl = d.plan, c = d.consumo || {}, wa = (d.conexiones || []).find((x) => x.canal === "whatsapp"), pagos = (p.planes || []).filter((x) => !x.gratis);
+    el.innerHTML = `<div><b>${pl ? "Plan " + esc(pl.nombre) + (pl.estado === "gracia" ? " · en gracia hasta " + esc(pl.gracia_hasta) : pl.periodo_hasta ? " · pagado hasta " + esc(pl.periodo_hasta) : "") : "Sin plan (cuenta a medida: sin límites)"}</b>${pl?.plan_pedido ? ` · pidió el plan «${esc(pl.plan_pedido)}»` : ""}</div>
+      <div>Créditos del mes: ${Number(c.usados || 0)}${c.total != null ? " de " + c.total : ""} · Archivos: ${Math.round((d.almacenamiento?.bytes || 0) / 1048576)} MB${d.almacenamiento?.limite_mb != null ? " de " + d.almacenamiento.limite_mb : ""} · WhatsApp: ${esc(wa?.estado || "")}${wa?.detalle ? " (" + esc(wa.detalle) + ")" : ""}</div>
+      <div style="margin-top:6px">Personas: ${(d.usuarios || []).filter((u) => u.estado === "activo").map((u) => `${esc(u.correo)} (${esc(({ dueno: "dueño", admin: "administra", lector: "solo lectura" })[u.rol] || u.rol)})`).join(" · ") || "nadie entra con correo todavía"}</div>
+      <div class="fila2" style="flex-wrap:wrap;align-items:flex-end"><div style="flex:1 1 130px"><label>Registrar pago · plan</label><select data-pc="plan">${pagos.map((x) => `<option value="${esc(x.clave)}" ${pl?.plan_pedido === x.clave || pl?.plan === x.clave ? "selected" : ""}>${esc(x.nombre)}</option>`).join("")}</select></div>
+        <div style="flex:0 0 150px"><label>Pagado hasta</label><input type="date" data-pc="hasta"></div><div style="flex:0 0 110px"><label>Total US$</label><input type="number" data-pc="total" min="0" step="0.01"></div><div style="flex:0 0 100px"><label>IVA US$</label><input type="number" data-pc="iva" min="0" step="0.01"></div>
+        <button class="btn pri" style="flex:0 0 auto;padding:10px 12px" data-pc-accion="pago" data-id="${id}">Registrar pago</button></div>
+      <div class="acciones"><button class="btn" data-pc-accion="gratis" data-id="${id}">Poner el plan gratis</button><button class="btn" data-pc-accion="acceso" data-id="${id}">Enlace para abrir su cuenta</button><button class="btn" data-pc-accion="telnyx" data-id="${id}">Conectar número de Telnyx</button></div>
+      <div class="fila2" style="align-items:flex-end"><div style="flex:1"><label>Dar acceso con correo (dueño)</label><input type="email" data-pc="correo" placeholder="correo@cliente.com" autocomplete="off"></div><button class="btn" style="flex:0 0 auto;padding:10px 12px" data-pc-accion="usuario" data-id="${id}">Dar acceso</button>
+        <div style="flex:0 0 120px"><label>Créditos extra (mes)</label><input type="number" data-pc="extra" min="0"></div><button class="btn" style="flex:0 0 auto;padding:10px 12px" data-pc-accion="extra" data-id="${id}">Poner</button></div>
+      <div data-pc-res="${id}"></div>
+      ${(d.pagos || []).length ? `<div style="margin-top:8px">Pagos: ${d.pagos.slice(0, 6).map((g) => `${esc(g.periodo_desde)}→${esc(g.periodo_hasta)} ${usd(g.total_usd)} (${esc(g.estado)}${g.factura?.numero ? ", fact. " + esc(g.factura.numero) : g.estado === "aprobado" ? `, <a href="#" data-pc-accion="factura" data-id="${id}" data-pago="${g.id}">anotar factura</a>` : ""})`).join(" · ")}</div>` : ""}`;
+  } catch (x) { el.textContent = "No se pudo cargar: " + x.message; }
+}
+document.addEventListener("toggle", (e) => { const d = e.target; if (!d.dataset || !d.open) return; if (d.dataset.producto) pintarProducto(); if (d.dataset.plan) pintarPlanCuenta(d.dataset.plan); }, true);
+document.addEventListener("change", async (e) => {
+  const c = e.target.closest("[data-prod-ajuste]"); if (!c || tab !== "cli") return;
+  const clave = c.dataset.prodAjuste, valor = c.checked ? c.dataset.si : c.dataset.no;
+  if (c.checked && clave !== "planes_precios_visibles" && !confirm(clave === "registro_web" ? "¿Abrir el registro? Cualquiera podrá crear una cuenta gratis desde la página." : "¿Encender los cobros en línea? Los clientes podrán pagar su plan con tarjeta.")) { c.checked = false; return; }
+  try { const r = await cta({ accion: "ajuste", clave, valor }); toast(r.aviso || "Guardado"); } catch (x) { toast("No se pudo: " + x.message); c.checked = !c.checked; }
+});
+$("#cuerpo").addEventListener("click", async (e) => {
+  if (tab !== "cli") return;
+  const g = e.target.closest("[data-plan-guardar]");
+  if (g) {
+    const f = g.closest("[data-plan-fila]"), v = (k) => f.querySelector(`[data-pf="${k}"]`), lim = JSON.parse(g.dataset.limites || "{}");
+    for (const k of ["creditos_mes", "canales", "almacenamiento_mb", "tope_ia_usd"]) { if (v(k).value === "") delete lim[k]; else lim[k] = Number(v(k).value); }
+    try { await cta({ accion: "plan_guardar", clave: g.dataset.planGuardar, nombre: v("nombre").value, descripcion: g.dataset.desc, orden: Number(g.dataset.orden), precio_mes_usd: v("precio").value === "" ? null : Number(v("precio").value), visible: v("visible").checked, activo: v("activo").checked, limites: lim }); toast("Plan guardado"); }
+    catch (x) { toast("No se pudo: " + x.message); }
+    return;
+  }
+  const b = e.target.closest("[data-pc-accion]"); if (!b) return;
+  e.preventDefault(); e.stopPropagation();
+  const id = b.dataset.id, caja = document.querySelector(`[data-plan-de="${id}"]`), v = (k) => caja.querySelector(`[data-pc="${k}"]`)?.value ?? "", res = document.querySelector(`[data-pc-res="${id}"]`), a = b.dataset.pcAccion;
+  try {
+    if (a === "pago") { await cta({ accion: "pago_registrar", empresa_id: id, plan: v("plan"), hasta: v("hasta"), total_usd: Number(v("total")), iva_usd: Number(v("iva") || 0) }); toast("Pago registrado: el plan ya está activo"); return pintarPlanCuenta(id); }
+    if (a === "gratis") { if (!confirm("¿Pasar esta cuenta al plan gratis? No se borra nada; aplican los límites del plan gratis.")) return; await cta({ accion: "suscripcion_poner", empresa_id: id, plan: "gratis" }); toast("Plan gratis"); return pintarPlanCuenta(id); }
+    if (a === "acceso") { const r = await cta({ accion: "acceso", empresa_id: id }); res.innerHTML = `<div class="enlace-alta"><b>Enlace personal de su cuenta</b> (se muestra una sola vez)<br>${esc(r.enlace)}<div class="enlaces"><button data-copiar="${esc(r.enlace)}">Copiar enlace</button></div></div>`; return; }
+    if (a === "usuario") { await cta({ accion: "usuario_poner", empresa_id: id, correo: v("correo"), rol: "dueno" }); toast("Listo: entra con su correo en /cuenta"); return pintarPlanCuenta(id); }
+    if (a === "extra") { const r = await cta({ accion: "creditos_extra", empresa_id: id, cantidad: Number(v("extra") || 0) }); toast(`Créditos extra de ${r.mes}: ${r.creditos_extra}`); return pintarPlanCuenta(id); }
+    if (a === "factura") { const n = (prompt("Número de la factura (ej. 001-001-000000123):") || "").trim(); if (!n) return; await cta({ accion: "pago_factura", empresa_id: id, pago: Number(b.dataset.pago), numero: n }); toast("Factura anotada"); return pintarPlanCuenta(id); }
+    if (a === "telnyx") {
+      const r = await cta({ accion: "telnyx_numeros" }), libres = (r.numeros || []).filter((n) => n.libre);
+      res.innerHTML = libres.length ? `<div style="margin-top:8px"><b>Números en la cuenta de Telnyx que todavía no son de nadie</b><br>${libres.map((n) => `<button class="btn" style="margin:4px 4px 0 0;padding:8px 12px" data-pc-accion="telnyx-elegir" data-id="${id}" data-numero="${esc(n.numero)}">${esc(n.numero)}${n.nombre ? " · " + esc(n.nombre) : ""}</button>`).join("")}</div>` : `<div style="margin-top:8px">No hay números libres en Telnyx. Primero conéctalo allá: Messaging → WhatsApp → Business Accounts → Add Account, con el cliente al teléfono.</div>`;
+      return;
+    }
+    if (a === "telnyx-elegir") { if (!confirm(`¿Conectar ${b.dataset.numero} a esta cuenta? Empezará a recibir los mensajes de ese número.`)) return; const r = await cta({ accion: "conectar_telnyx", empresa_id: id, numero: b.dataset.numero }); res.innerHTML = (r.pasos || []).map((x) => `<div>${x.ok === true ? "✅" : x.ok === false ? "❌" : "➖"} ${esc(x.detalle)}</div>`).join(""); toast("Número conectado"); }
+  } catch (x) { toast("No se pudo: " + x.message); }
+});
 const DIAS_TANDA = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
 const EST_POST = { preparando: "armando imagen", necesita_pieza: "espera pieza del equipo", por_revisar: "por revisar", ajuste: "en ajuste", aprobado: "aprobado", programado: "programado", publicando: "publicando", publicado: "publicado", error: "ERROR" };
 async function pintarContenidoCuenta(id) {
@@ -719,7 +809,7 @@ async function pintarCalidad() {
 }
 // El enlace recién creado se muestra UNA vez (la base guarda solo su huella): copiar, mandar por WhatsApp o QR.
 function enlaceNuevo(destino, titulo, enlace, vence, textoWA, app) {
-  destino.innerHTML = `<div class="enlace-alta"><b>${esc(titulo)}</b> · vence el ${esc(fechaCorta(String(vence).slice(0, 10)))}<br>${esc(enlace)}
+  destino.innerHTML = `<div class="enlace-alta"><b>${esc(titulo)}</b> · vence el ${esc(fechaCorta(diaQuito(vence)))}<br>${esc(enlace)}
     <div class="enlaces"><button data-copiar="${esc(enlace)}">Copiar enlace</button>${app ? `<button data-copiar="${esc(app)}">Copiar el de la app</button>` : ""}<a href="https://wa.me/?text=${encodeURIComponent(textoWA)}" target="_blank" rel="noopener">Mandar por WhatsApp</a></div>
     <div class="qr" data-qr="${esc(enlace)}"></div><div class="sub">Guárdalo ahora: no se vuelve a mostrar.</div></div>`;
   const q = destino.querySelector("[data-qr]");

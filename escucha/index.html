@@ -559,7 +559,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
 </head>
 <body>
 <div id="vCargando" class="pantalla"><div><div class="ico">◔</div><h2>Abriendo el panel…</h2></div></div>
-<div id="vError" class="pantalla oculto"><div><div class="ico">🔒</div><h2>Enlace no válido</h2><p>Este panel se abre con el enlace privado que le compartió Creative Whisper.</p></div></div>
+<div id="vError" class="pantalla oculto"><div><div class="ico">🔒</div><h2>Enlace no válido</h2><p>Este panel se abre con el enlace privado que le compartió Creative Whisper.</p><p style="margin-top:14px"><a href="../cuenta/" style="color:inherit;font-weight:700">Entrar con mi correo</a></p></div></div>
 <div id="vSuspendida" class="pantalla oculto"><div><div class="logo" id="logoSus"></div><div class="ico">⏸</div><h2 id="susTit">Servicio en pausa</h2><p>La escucha digital de esta cuenta está suspendida. El asistente no atiende y el panel no se actualiza mientras la membresía esté en pausa. Para reactivarla, escríbanos al WhatsApp 096 923 5680.</p></div></div>
 
 <div id="vPanel" class="oculto">
@@ -869,8 +869,16 @@ async function estadoAlta() {
     $("#estadoAlta").classList.remove("oculto");
   } catch (x) { /* sin la función nueva el panel sigue igual */ }
 }
+// Fase 5: una cuenta sin foto del asistente muestra su inicial; una cuenta sin colores propios usa una paleta neutra (la verde es
+// de la primera cuenta, cuyo asistente se llama Bosco y conserva todo como está).
+const PALETA_NEUTRA = { "--g950": "#0A0908", "--g900": "#14120F", "--g800": "#1D1A16", "--g700": "#2A2622", "--g600": "#3A342D", "--lima": "#F5A300", "--lima2": "#F7B733", "--lima3": "#FFD7BD", "--menta": "#F3E9DC" };
+const inicialDe = (nombre, color) => "data:image/svg+xml;utf8," + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 96 96"><rect width="96" height="96" rx="48" fill="${/^#[0-9a-f]{6}$/i.test(color || "") ? color : "#3EA398"}"/><text x="48" y="62" font-family="Arial,Helvetica,sans-serif" font-size="44" font-weight="700" text-anchor="middle" fill="#fff">${(String(nombre || "A").trim()[0] || "A").toUpperCase().replace(/[<>&"']/g, "A")}</text></svg>`);
 function aplicarMarca(cu) {
   const m = cu?.marca;
+  if (cu && cu.asistente !== "Bosco") {
+    if (!m?.colores) for (const [k, v] of Object.entries(PALETA_NEUTRA)) document.documentElement.style.setProperty(k, v);
+    if (!m?.asistente_foto) for (const id of ["#boscoFoto", "#mCara", "#guiaCara", "#guiaCara2", "#csBosco"]) $(id).src = inicialDe(cu.asistente || cu.nombre, m?.colores_marca?.acento);
+  }
   if (!m) { for (const id of ["#logo", "#logoSus"]) { $(id).classList.add("sin"); $(id).textContent = cu?.nombre || ""; } return; }
   const root = document.documentElement.style, c = m.colores || {};
   const mapa = { g950: "--g950", g900: "--g900", g800: "--g800", g700: "--g700", g600: "--g600", lima: "--lima", lima2: "--lima2", lima3: "--lima3", menta: "--menta", crema: "--crema", papel: "--papel", tinta: "--tinta", suave: "--suave", linea: "--linea", rojo: "--rojo", ambar: "--ambar" };
@@ -2091,6 +2099,8 @@ else {
   try {
     const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ accion: "enlace", token: TOKEN }) });
     if (r.status === 404) {
+      // Fase 5: dentro de la cuenta (sesión con correo) el enlace dura 12 horas: se le pide uno nuevo a la cuenta, sin molestar a la persona.
+      if (window.parent !== window) { try { window.parent.postMessage({ cw: "panel-vencido" }, location.origin); } catch (x) {} return; }
       const g = guardado();
       if (g && g !== TOKEN) return irCon(g);
       franja("Este enlace ya no abre el panel. Pida un enlace nuevo a quien administra el panel en su empresa.");
@@ -2100,6 +2110,7 @@ else {
     e = (await r.json()).enlace;
   } catch (x) { return; }
   if (!e) return;
+  if (e.tipo === "sesion") return;   // fase 5: enlace corto de quien entró con su correo; no se guarda ni se ofrece cambiarlo
   if (e.tipo === "panel") {
     recordar(TOKEN);
     if (e.renovar) { try { const n = await llamar({ accion: "enlace_renovar" }); if (n && n.token) irCon(n.token); } catch (x) { /* se intenta la próxima vez */ } }

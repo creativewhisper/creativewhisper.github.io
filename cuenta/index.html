@@ -1,0 +1,620 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0A0908">
+<title>Mi cuenta · Creative Whisper</title>
+<link rel="icon" href="../assets/monograma-cw.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* El marco es de Creative Whisper (su paleta). Lo de adentro lleva la marca del cliente: su logo, su color y su asistente. */
+:root{
+  --naranja:#F5A300;--rojo:#E3120B;--durazno:#FFD7BD;--verde:#3EA398;--negro:#0A0908;--beige:#CDBFA6;
+  --fondo:#FBF7F2;--tarjeta:#fff;--texto:#0A0908;--suave:#6B6259;--linea:#E6DCCD;--campo:#FFFDFA;--ok:#2E8A80;--mal:#C40F09;
+  --marca:#0A0908;--acento:#F5A300;
+  --f:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif;--fd:"Big Shoulders Display","Arial Narrow",Impact,sans-serif;--fm:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --r:18px;--sombra:0 1px 2px rgba(10,9,8,.05),0 12px 32px -20px rgba(10,9,8,.4);
+}
+*,*::before,*::after{box-sizing:border-box}
+[hidden]{display:none!important}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fondo);color:var(--texto);font-family:var(--f);font-size:16px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+a{color:inherit}
+h1,h2,h3,p,ul,ol{margin:0}
+.franja{height:6px;background:linear-gradient(100deg,var(--naranja) 0 20%,var(--rojo) 20% 40%,var(--durazno) 40% 60%,var(--verde) 60% 80%,var(--beige) 80%)}
+header{background:var(--negro);color:#fff}
+.cab{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;gap:14px;align-items:center}
+.cab .cw{width:40px;height:auto;flex:none}
+.cab .quien{flex:1;min-width:0}
+.cab .quien small{display:block;font:500 11px/1.2 var(--fm);letter-spacing:.16em;text-transform:uppercase;color:var(--beige)}
+.cab .quien b{display:block;font-size:19px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.cab .logo{height:30px;aspect-ratio:3.4;background:#fff;-webkit-mask:var(--logo) left center/contain no-repeat;mask:var(--logo) left center/contain no-repeat}
+.cab select{background:#1d1a16;color:#fff;border:1px solid #3a342d;border-radius:10px;padding:7px 10px;max-width:180px}
+.cab .salir{background:none;border:1px solid #3a342d;color:#fff;border-radius:999px;padding:7px 14px;font-size:14px;cursor:pointer}
+nav.tabs{background:var(--negro);position:sticky;top:0;z-index:20;border-top:1px solid #1d1a16}
+nav.tabs div{max-width:1100px;margin:0 auto;padding:0 10px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
+nav.tabs button{flex:0 0 auto;background:none;border:0;color:#bdb3a6;padding:13px 12px;font-weight:600;font-size:15px;cursor:pointer;border-bottom:3px solid transparent}
+nav.tabs button.on{color:#fff;border-bottom-color:var(--acento)}
+nav.tabs .n{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:var(--rojo);color:#fff;font-size:11px;line-height:18px;text-align:center;margin-left:4px}
+main{max-width:1100px;margin:0 auto;padding:22px 16px 110px}
+.tarjeta{background:var(--tarjeta);border:1px solid var(--linea);border-radius:var(--r);padding:20px;box-shadow:var(--sombra)}
+.rejilla{display:grid;gap:16px;grid-template-columns:repeat(12,minmax(0,1fr))}
+.c12{grid-column:span 12}.c8{grid-column:span 8}.c6{grid-column:span 6}.c4{grid-column:span 4}
+@media (max-width:820px){.c8,.c6,.c4{grid-column:span 12}}
+h1{font:900 clamp(34px,5vw,56px)/.95 var(--fd);text-transform:uppercase;letter-spacing:.005em}
+h2{font-size:19px;font-weight:800;letter-spacing:-.01em;margin-bottom:4px}
+h3{font-size:15px;font-weight:700;margin:14px 0 4px}
+.ayuda{color:var(--suave);font-size:14px}
+.et{font:500 11px/1 var(--fm);letter-spacing:.14em;text-transform:uppercase;color:var(--suave)}
+label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
+label small{font-weight:400;color:var(--suave)}
+input[type=text],input[type=email],input[type=tel],input[type=url],select,textarea{width:100%;border:1px solid var(--linea);border-radius:12px;background:var(--campo);padding:11px 12px;font-size:16px;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--naranja);box-shadow:0 0 0 3px rgba(245,163,0,.22)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:11px 18px;font-weight:700;font-size:15px;cursor:pointer;background:#EFE7DB;color:var(--negro);text-decoration:none}
+.btn.pri{background:var(--naranja)}.btn.oscuro{background:var(--negro);color:#fff}.btn.chico{padding:7px 12px;font-size:14px;border-radius:10px}.btn.peligro{background:#FDE7E6;color:var(--mal)}
+.btn:disabled{opacity:.5;cursor:default}
+.fila{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:560px){.fila{grid-template-columns:1fr}}
+.acciones{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:14px}
+.aviso{border-radius:12px;padding:10px 12px;font-size:14px;margin-top:12px}
+.aviso.mal{background:#FDE7E6;color:var(--mal)}.aviso.ok{background:#E3F4F1;color:#1E5E57}.aviso.info{background:#FFF1E3;color:#6B4700}
+.cargando{display:inline-block;width:16px;height:16px;border:2px solid var(--beige);border-top-color:var(--negro);border-radius:50%;animation:g .8s linear infinite;vertical-align:-3px;margin-right:6px}
+@keyframes g{to{transform:rotate(360deg)}}
+/* entrar */
+.entrar{max-width:440px;margin:6vh auto 0}
+.entrar h1{margin-bottom:10px}
+#codigo{font:500 28px/1 var(--fm);letter-spacing:.4em;text-align:center}
+/* barras de consumo */
+.barra{height:14px;border-radius:9px;background:#EFE7DB;overflow:hidden;margin:10px 0 6px}
+.barra i{display:block;height:100%;width:0;background:var(--verde);border-radius:9px;transition:width .5s}
+.barra.cerca i{background:var(--naranja)}.barra.agotado i,.barra.lleno i{background:var(--rojo)}
+.cifra{font:900 44px/1 var(--fd)}.cifra small{font:500 15px/1 var(--f);color:var(--suave)}
+.kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:8px}
+.kpis div{border:1px solid var(--linea);border-radius:14px;padding:12px}
+.kpis b{display:block;font:900 32px/1 var(--fd)}
+.pasos{list-style:none;padding:0;display:grid;gap:8px;margin-top:10px}
+.pasos li{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--linea);border-radius:12px;cursor:pointer}
+.pasos li.hecho{opacity:.6;cursor:default}
+.pasos .ic{width:24px;height:24px;border-radius:50%;border:2px solid var(--beige);flex:none;display:grid;place-items:center;font-size:13px;font-weight:800}
+.pasos li.hecho .ic{background:var(--ok);border-color:var(--ok);color:#fff}
+.asis{display:flex;gap:12px;align-items:center}
+.asis img{width:56px;height:56px;border-radius:50%;object-fit:cover;background:#eee;flex:none}
+/* conexiones */
+.canal{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-top:1px solid var(--linea)}
+.canal:first-of-type{border-top:0}
+.canal .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;font-size:22px;background:#F4EEE5;flex:none}
+.canal .tx{flex:1;min-width:0}
+.pastilla{white-space:nowrap}
+@media (max-width:560px){.canal{flex-wrap:wrap;row-gap:10px}.canal .tx{flex:1 1 calc(100% - 60px)}.canal>div:last-child{flex:1 1 100%;margin-left:58px}.canal>div:last-child:empty{display:none}}
+.pastilla{display:inline-block;border-radius:999px;padding:2px 10px;font-size:12px;font-weight:700;margin-left:6px;vertical-align:2px}
+.pastilla.conectado{background:#E3F4F1;color:#1E5E57}.pastilla.pendiente{background:#FFF1E3;color:#8A5A00}.pastilla.error{background:#FDE7E6;color:var(--mal)}.pastilla.sin_conectar,.pastilla.no_disponible{background:#EFE7DB;color:var(--suave)}
+ol.guia{padding-left:20px;margin:8px 0;display:grid;gap:6px}
+code.cod{display:block;background:#14120F;color:#ECE6DB;border-radius:12px;padding:12px;font:400 13px/1.5 var(--fm);overflow-x:auto;white-space:pre-wrap;word-break:break-all;margin-top:8px}
+/* archivos */
+.archivos{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;margin-top:14px}
+.arch{position:relative;border:1px solid var(--linea);border-radius:14px;overflow:hidden;background:#F4EEE5;aspect-ratio:1}
+.arch img{width:100%;height:100%;object-fit:cover;display:block}
+.arch .vid{width:100%;height:100%;display:grid;place-items:center;font-size:34px;background:#14120F;color:#fff}
+.arch .pie{position:absolute;left:0;right:0;bottom:0;padding:18px 8px 6px;background:linear-gradient(transparent,rgba(10,9,8,.78));color:#fff;font-size:12px;display:flex;gap:6px;align-items:flex-end}
+.arch .pie span{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.arch .pie button{background:rgba(255,255,255,.18);border:0;color:#fff;border-radius:8px;padding:2px 7px;cursor:pointer;font-size:14px}
+.arch .dr{position:absolute;top:6px;left:6px;background:#fff;border-radius:6px;padding:1px 6px;font-size:11px;font-weight:700}
+/* consumo */
+.dias{display:flex;gap:3px;align-items:flex-end;height:110px;margin-top:12px}
+.dias i{flex:1;min-width:3px;background:var(--verde);border-radius:3px 3px 0 0;min-height:2px;opacity:.85}
+.dias i.hoy{background:var(--naranja);opacity:1}
+table.t{width:100%;border-collapse:collapse;font-size:14px;margin-top:8px}
+table.t td,table.t th{padding:8px 6px;border-bottom:1px solid var(--linea);text-align:left}
+table.t td.n,table.t th.n{text-align:right;font-variant-numeric:tabular-nums}
+.planes{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:10px}
+.plan{border:1.5px solid var(--linea);border-radius:16px;padding:16px}
+.plan.actual{border-color:var(--negro)}
+.plan b.nombre{font:900 30px/1 var(--fd);text-transform:uppercase;display:block}
+.plan ul{list-style:none;padding:0;margin:10px 0;display:grid;gap:4px;font-size:14px}
+.plan .precio{font-size:15px;font-weight:700;margin-top:4px}
+/* recorte de la foto */
+.recorte{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.recorte canvas{width:140px;height:140px;border-radius:50%;background:#eee;touch-action:none;cursor:grab;border:3px solid var(--linea)}
+/* diálogo */
+dialog{border:0;border-radius:20px;padding:0;max-width:min(520px,calc(100vw - 32px));width:100%;box-shadow:0 30px 80px -20px rgba(0,0,0,.6)}
+dialog::backdrop{background:rgba(10,9,8,.55)}
+dialog .in{padding:22px}
+dialog h2{font:900 32px/1 var(--fd);text-transform:uppercase;margin-bottom:8px}
+iframe.panel{width:100%;height:calc(100dvh - 150px);min-height:520px;border:1px solid var(--linea);border-radius:var(--r);background:#fff}
+</style>
+</head>
+<body>
+<div class="franja"></div>
+<header>
+  <div class="cab">
+    <img class="cw" src="../assets/monograma-cw.png" alt="Creative Whisper" width="40" height="26">
+    <div class="quien"><small>Mi cuenta</small><b id="cNombre">Escucha digital</b></div>
+    <div class="logo" id="cLogo" hidden></div>
+    <select id="cCuentas" hidden aria-label="Cambiar de cuenta"></select>
+    <button class="salir" id="salir" type="button" hidden>Salir</button>
+  </div>
+</header>
+<nav class="tabs" id="tabs" hidden><div>
+  <button data-v="inicio" class="on">Inicio</button><button data-v="panel">Conversaciones</button><button data-v="contenido">Contenido</button><button data-v="conexiones">Conexiones<span class="n" id="nCon" hidden></span></button>
+  <button data-v="archivos">Archivos</button><button data-v="plan">Plan y consumo</button><button data-v="ajustes">Ajustes</button>
+</div></nav>
+
+<main>
+  <div id="vCargando" class="tarjeta"><span class="cargando"></span>Abriendo tu cuenta…</div>
+
+  <!-- Entrar con el correo -->
+  <section id="vEntrar" class="entrar" hidden>
+    <h1>Entra a tu cuenta</h1>
+    <p class="ayuda">Escribe el correo con el que creaste tu cuenta. Te enviamos un código de 6 números: no hay contraseñas que recordar.</p>
+    <form id="fCorreo" class="tarjeta" style="margin-top:16px">
+      <label for="correo" style="margin-top:0">Tu correo</label><input id="correo" type="email" name="cw-correo-cuenta" autocomplete="email" required>
+      <div class="aviso mal" id="eCorreo" hidden></div>
+      <div class="acciones"><button class="btn pri" type="submit" id="bCorreo">Enviarme el código</button></div>
+    </form>
+    <form id="fCodigo" class="tarjeta" style="margin-top:16px" hidden>
+      <label for="codigo" style="margin-top:0">El código que llegó a <span id="aCorreo"></span></label>
+      <input id="codigo" type="text" name="cw-codigo" inputmode="numeric" maxlength="6" autocomplete="one-time-code" pattern="[0-9]{6}" required>
+      <p class="ayuda" style="margin-top:6px">Llega en menos de un minuto. Revisa también el correo no deseado. Si el correo trae un botón «Entrar», también sirve.</p>
+      <div class="aviso mal" id="eCodigo" hidden></div>
+      <div class="acciones"><button class="btn pri" type="submit" id="bCodigo">Entrar</button><button class="btn" type="button" id="otroCorreo">Usar otro correo</button></div>
+    </form>
+    <p class="ayuda" style="margin-top:16px">¿Todavía no tienes cuenta? <a href="../escucha-digital/#empezar">Empieza gratis</a>.</p>
+  </section>
+  <section id="vSinCuenta" class="entrar" hidden>
+    <h1>Este correo no tiene una cuenta</h1>
+    <p class="ayuda" id="tSinCuenta"></p>
+    <div class="acciones"><a class="btn pri" href="../escucha-digital/#empezar">Crear mi cuenta gratis</a><button class="btn" type="button" id="salir2">Probar con otro correo</button></div>
+  </section>
+
+  <section data-v="inicio" hidden></section>
+  <section data-v="panel" hidden></section>
+  <section data-v="contenido" hidden></section>
+  <section data-v="conexiones" hidden></section>
+  <section data-v="archivos" hidden></section>
+  <section data-v="plan" hidden></section>
+  <section data-v="ajustes" hidden></section>
+</main>
+<dialog id="dlg"><div class="in" id="dlgIn"></div></dialog>
+<input type="file" id="elegirArchivo" hidden multiple accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="../assets/imagenes-cw.js"></script>
+<script src="../assets/agente-escucha.js"></script>
+<script>
+"use strict";
+const SUPABASE_URL = "https://jlyrymgbykhpktabvlkl.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ap5wyI1Q4-_IO8fXJ3xBJA_RzGp89dV";   // clave pública (la misma de la oficina): no da acceso a nada por sí sola
+const API = SUPABASE_URL + "/functions/v1/cuenta-cliente";
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true, storageKey: "cw-cuenta", detectSessionInUrl: true } });
+const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const ss = { get(k) { try { return sessionStorage.getItem(k); } catch (e) { return null; } }, set(k, v) { try { v == null ? sessionStorage.removeItem(k) : sessionStorage.setItem(k, v); } catch (e) { /* sin almacenamiento */ } } };
+const num = (n) => Number(n ?? 0).toLocaleString("es-EC", { maximumFractionDigits: 1 });
+const fecha = (f) => { try { return new Date(String(f).length === 10 ? f + "T12:00:00" : f).toLocaleDateString("es-EC", { day: "numeric", month: "long", timeZone: "America/Guayaquil" }); } catch (e) { return String(f); } };
+const mb = (b) => (b >= 1048576 * 1000 ? (b / 1073741824).toFixed(1) + " GB" : b >= 1048576 ? Math.round(b / 1048576) + " MB" : Math.max(0, Math.round(b / 1024)) + " KB");
+
+// Tres maneras de entrar: la sesión (correo y código), un enlace personal (#t=…) o, viniendo del alta, su enlace de alta.
+const q = new URLSearchParams(location.search);
+let TOKEN = ((location.hash.match(/[#&]t=([a-f0-9]{16,64})/i) || [])[1]) || ss.get("cw-cuenta-token");
+if (TOKEN) { ss.set("cw-cuenta-token", TOKEN); if (/[#&]t=/.test(location.hash)) history.replaceState(null, "", location.pathname + location.search); }
+const TA = ss.get("cw-alta-token");   // solo para terminar de conectar Instagram cuando se vuelve del permiso durante el alta
+let CUENTA = ss.get("cw-cuenta-elegida"), D = null, vista = "inicio", sesion = null;
+
+async function api(accion, datos = {}, opciones = {}) {
+  const cab = { "content-type": "application/json" }, cuerpo = { accion, ...datos };
+  if (opciones.alta && TA) cuerpo.ta = TA;
+  else if (TOKEN) cuerpo.t = TOKEN;
+  else { const s = (await sb.auth.getSession()).data.session; if (s) cab.authorization = "Bearer " + s.access_token; if (CUENTA) cuerpo.cuenta = CUENTA; }
+  const r = await fetch(API, { method: "POST", headers: cab, body: JSON.stringify(cuerpo) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) { const e = Object.assign(new Error(j.error || "No se pudo completar. Inténtalo otra vez."), { status: r.status, json: j }); if (r.status === 402 && j.limite && !opciones.sinMuro) muro(j); throw e; }
+  return j;
+}
+// «Dra. Paula Rivas» → Paula (un título no es un nombre).
+function primerNombre(n) { const p = String(n || "").trim().split(/\s+/).filter((x) => !/^(dr|dra|ing|lic|lcdo|lcda|abg|arq|econ|mg|msc|phd|sr|sra|srta|don|doña)\.?$/i.test(x)); return p[0] || ""; }
+function dialogo(html) { $("#dlgIn").innerHTML = html; const d = $("#dlg"); if (!d.open) d.showModal(); return d; }
+function cerrar() { const d = $("#dlg"); if (d.open) d.close(); }
+$("#dlg").addEventListener("click", (e) => { if (e.target.closest("[data-cerrar]") || e.target === $("#dlg")) cerrar(); });
+// Muro de pago suave: explica qué pasó y ofrece ver los planes. Nunca bloquea lo demás.
+function muro(j) {
+  dialogo(`<h2>Llegaste al límite de tu plan</h2><p>${esc(j.error || "Tu plan no lo permite.")}</p><p class="ayuda" style="margin-top:8px">No se borra nada y todo lo demás sigue funcionando.</p>
+    <div class="acciones"><button class="btn pri" id="mVerPlanes" type="button">Ver planes</button><button class="btn" type="button" data-cerrar>Ahora no</button></div>`);
+  $("#mVerPlanes").onclick = () => { cerrar(); ir("plan"); };
+}
+const ocupado = (b, texto) => { b.disabled = true; b.dataset.t = b.textContent; b.innerHTML = `<span class="cargando"></span>${esc(texto || "Un momento…")}`; return () => { b.disabled = false; b.textContent = b.dataset.t; }; };
+
+// ---------- Entrar ----------
+let correoEnCurso = "";
+function verEntrar() { for (const s of ["#vCargando", "#vSinCuenta"]) $(s).hidden = true; $("#vEntrar").hidden = false; $("#tabs").hidden = true; $("#salir").hidden = true; for (const s of $$("section[data-v]")) s.hidden = true; }
+$("#fCorreo").addEventListener("submit", async (e) => {
+  e.preventDefault(); const er = $("#eCorreo"); er.hidden = true;
+  correoEnCurso = $("#correo").value.trim().toLowerCase();
+  if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/.test(correoEnCurso)) { er.textContent = "Escribe un correo válido."; er.hidden = false; return; }
+  const fin = ocupado($("#bCorreo"), "Enviando…");
+  const { error } = await sb.auth.signInWithOtp({ email: correoEnCurso, options: { shouldCreateUser: true, emailRedirectTo: location.origin + location.pathname } });
+  fin();
+  if (error) { er.textContent = /rate|seconds|too many/i.test(error.message || "") ? "Acabamos de enviarte un código. Espera un minuto antes de pedir otro." : "No pudimos enviar el código ahora. Inténtalo en un momento o escríbenos por WhatsApp."; er.hidden = false; return; }
+  $("#aCorreo").textContent = correoEnCurso; $("#fCorreo").hidden = true; $("#fCodigo").hidden = false; $("#codigo").focus();
+});
+$("#otroCorreo").onclick = () => { $("#fCodigo").hidden = true; $("#fCorreo").hidden = false; $("#codigo").value = ""; };
+$("#fCodigo").addEventListener("submit", async (e) => {
+  e.preventDefault(); const er = $("#eCodigo"); er.hidden = true;
+  const fin = ocupado($("#bCodigo"), "Entrando…");
+  const { error } = await sb.auth.verifyOtp({ email: correoEnCurso, token: $("#codigo").value.trim(), type: "email" });
+  fin();
+  if (error) { er.textContent = "Ese código no es correcto o ya venció. Pide uno nuevo."; er.hidden = false; return; }
+  await abrir();
+});
+async function salir() { TOKEN = null; ss.set("cw-cuenta-token", null); ss.set("cw-cuenta-elegida", null); CUENTA = null; try { await sb.auth.signOut(); } catch (e) { /* ya estaba fuera */ } D = null; $("#fCodigo").hidden = true; $("#fCorreo").hidden = false; verEntrar(); }
+$("#salir").onclick = salir; $("#salir2").onclick = salir;
+
+// ---------- Abrir la cuenta ----------
+async function abrir() {
+  $("#vCargando").hidden = false; $("#vEntrar").hidden = true; $("#vSinCuenta").hidden = true;
+  sesion = (await sb.auth.getSession()).data.session;
+  // Quien conecta su Instagram DURANTE el alta vuelve aquí desde Instagram: se termina la conexión con su enlace de alta y se le devuelve al alta.
+  if (TA && q.get("state")?.startsWith("ig.") && !TOKEN && !sesion) {
+    let nota = "ok";
+    if (q.get("code")) { try { await api("instagram_conectar", { codigo: q.get("code"), estado: q.get("state") }, { alta: true }); } catch (x) { nota = x.message; } } else nota = "No se dio el permiso en Instagram.";
+    ss.set("cw-alta-instagram", nota); location.replace("../alta/#a=" + TA); return;
+  }
+  if (!TOKEN && !sesion) return verEntrar();
+  try { D = await api("inicio"); }
+  catch (x) {
+    $("#vCargando").hidden = true;
+    if (x.status === 403 && !TOKEN) { $("#tSinCuenta").textContent = `Entraste con ${sesion?.user?.email || "tu correo"}, pero ese correo todavía no tiene una cuenta. Si te invitaron, pide que revisen cómo escribieron tu correo.`; $("#vSinCuenta").hidden = false; $("#salir").hidden = false; return; }
+    // Un enlace que no abre la cuenta (vencido, o el compartido de antes): se dice por qué y se ofrece entrar con el correo.
+    const porQue = TOKEN && x.status === 403 ? x.message : null;
+    if (TOKEN) { TOKEN = null; ss.set("cw-cuenta-token", null); }
+    verEntrar();
+    if (porQue) { $("#eCorreo").textContent = porQue; $("#eCorreo").hidden = false; }
+    return;
+  }
+  $("#vCargando").hidden = true; $("#tabs").hidden = false; $("#salir").hidden = false;
+  pintarMarco(); await despuesDeVolver();
+  ir(ss.get("cw-cuenta-vista") || (location.hash.replace("#", "") || "inicio"));
+  agente();
+}
+function pintarMarco() {
+  const c = D.cuenta, m = c.marca || {};
+  $("#cNombre").textContent = c.nombre; document.title = `${c.nombre} · Mi cuenta`;
+  const r = document.documentElement.style;
+  if (m.colores?.principal) r.setProperty("--marca", m.colores.principal);
+  if (m.colores?.acento) r.setProperty("--acento", m.colores.acento);
+  const lg = $("#cLogo");
+  if (m.logo) { lg.style.setProperty("--logo", `url("${String(m.logo).replace(/"/g, "%22")}")`); lg.style.aspectRatio = m.logo_ratio || 3.4; lg.hidden = false; } else lg.hidden = true;
+  const sel = $("#cCuentas");
+  if ((D.cuentas || []).length > 1) { sel.innerHTML = D.cuentas.map((x) => `<option value="${esc(x.id)}" ${x.id === c.id ? "selected" : ""}>${esc(x.nombre)}</option>`).join(""); sel.hidden = false; } else sel.hidden = true;
+  const faltan = (D.conexiones || []).filter((x) => ["whatsapp", "instagram"].includes(x.canal) && x.estado !== "conectado").length;
+  $("#nCon").hidden = !(faltan === 2); $("#nCon").textContent = "!";
+}
+$("#cCuentas").onchange = (e) => { CUENTA = e.target.value; ss.set("cw-cuenta-elegida", CUENTA); abrir(); };
+const fotoAsistente = () => D.cuenta.marca?.asistente_foto || CWImagenes.inicial(D.cuenta.asistente || D.cuenta.nombre, D.cuenta.marca?.colores?.principal);
+const puedeCambiar = () => D.usuario.rol !== "lector";
+
+function ir(v) {
+  if (!$(`section[data-v="${v}"]`)) v = "inicio";
+  vista = v; ss.set("cw-cuenta-vista", v);
+  for (const b of $$("#tabs button")) b.classList.toggle("on", b.dataset.v === v);
+  for (const s of $$("section[data-v]")) s.hidden = s.dataset.v !== (v === "contenido" ? "panel" : v);   // Contenido es una pestaña del mismo panel
+  ({ inicio: vInicio, panel: () => vPanel("panel"), contenido: () => vPanel("contenido"), conexiones: vConexiones, archivos: vArchivos, plan: vPlan, ajustes: vAjustes })[v]();
+  window.scrollTo({ top: 0 });
+}
+$("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button[data-v]"); if (b) ir(b.dataset.v); });
+document.addEventListener("click", (e) => { const b = e.target.closest("[data-ir]"); if (b) { e.preventDefault(); ir(b.dataset.ir); } });
+
+// ---------- Inicio ----------
+function barra(c) {
+  if (!c || c.total == null) return `<p class="ayuda">Tu plan es a medida: no tiene un tope de créditos. Este mes llevas <b>${num(c?.usados)}</b>.</p>`;
+  return `<div class="cifra">${num(c.usados)} <small>de ${num(c.total)} créditos este mes</small></div><div class="barra ${esc(c.nivel)}"><i style="width:${Math.min(100, c.pct || 0)}%"></i></div>
+    <p class="ayuda">${c.nivel === "agotado" ? `<b>Tu asistente dejó de responder</b>: sigue escuchando y tu panel muestra todo. Vuelve a responder el ${esc(fecha(c.reinicia))} o al subir de plan.` : `Te quedan ${num(c.restantes)}. Se reinician el ${esc(fecha(c.reinicia))}.`}</p>`;
+}
+const TXT_AVISO = { creditos_80: "Ya usaste el 80 % de tus créditos de este mes.", creditos_100: "Usaste todos los créditos del mes: tu asistente escucha pero no responde.", almacenamiento_90: "Tus archivos ocupan más del 90 % de tu espacio.",
+  cobro_proximo: (d) => `Tu plan se renueva el ${fecha(d.el)}${d.automatico ? " con tu tarjeta guardada" : ": el equipo te contacta para el pago"}.`, cobro_fallido: (d) => `No pudimos cobrar tu plan. Tienes hasta el ${fecha(d.gracia_hasta)} para ponerte al día; después tu cuenta pasa al plan gratis (no se borra nada).`,
+  baja_a_gratis: "Tu cuenta pasó al plan gratis. Todo lo tuyo sigue aquí." };
+function vInicio() {
+  const c = D.cuenta, r = D.resumen || {}, av = (D.avisos || []).slice(0, 3);
+  $('section[data-v="inicio"]').innerHTML = `<div class="rejilla">
+    <div class="c12"><p class="et">${esc(D.plan?.nombre ? "Plan " + D.plan.nombre : (D.plan_etiqueta || ""))}</p><h1>Hola${primerNombre(D.usuario.nombre) ? ", " + esc(primerNombre(D.usuario.nombre)) : ""}</h1></div>
+    ${D.suspendida ? `<div class="c12 aviso mal">Tu cuenta está en pausa. Escríbenos y la reactivamos.</div>` : ""}
+    ${av.map((a) => `<div class="c12 aviso info">${esc(typeof TXT_AVISO[a.clave] === "function" ? TXT_AVISO[a.clave](a.datos || {}) : TXT_AVISO[a.clave] || "")} <a href="#" data-ir="plan">Ver mi plan</a></div>`).join("")}
+    <div class="tarjeta c8"><h2>Tu consumo</h2>${barra(D.consumo)}<div class="acciones"><button class="btn chico" data-ir="plan">Ver el detalle</button></div></div>
+    <div class="tarjeta c4"><div class="asis"><img src="${esc(fotoAsistente())}" alt=""><div><h2 style="margin:0">${esc(c.asistente || "Tu asistente")}</h2><p class="ayuda">${D.suspendida ? "en pausa" : "atiende las 24 horas"}</p></div></div>
+      <div class="acciones"><button class="btn chico oscuro" id="probar" type="button">Probar mi asistente</button><button class="btn chico" data-ir="ajustes">Cambiar nombre o foto</button></div></div>
+    <div class="tarjeta c6"><h2>Para dejarlo listo</h2><ul class="pasos">${(D.pasos || []).map((p) => `<li class="${p.hecho ? "hecho" : ""}" ${p.hecho ? "" : `data-paso="${esc(p.pestana)}"`}><span class="ic">${p.hecho ? "✓" : ""}</span><span>${esc(p.texto)}</span></li>`).join("")}</ul></div>
+    <div class="tarjeta c6"><h2>Últimos 7 días</h2><div class="kpis"><div><b>${num(r.mensajes_7d)}</b><span class="ayuda">mensajes recibidos</span></div><div><b>${num(r.casos_abiertos)}</b><span class="ayuda">casos abiertos</span></div><div><b>${num(r.graves_7d)}</b><span class="ayuda">quejas graves</span></div></div>
+      <div class="acciones"><button class="btn chico pri" data-ir="panel">Abrir conversaciones</button>${puedeCambiar() ? `<button class="btn chico" id="abrirApp" type="button">Instalar la app en mi celular</button>` : ""}</div></div>
+  </div>`;
+  for (const li of $$(".pasos li[data-paso]")) li.onclick = () => (li.dataset.paso === "alta" ? volverAlAlta() : ir(li.dataset.paso));
+  if ($("#abrirApp")) $("#abrirApp").onclick = instalarApp;
+  $("#probar").onclick = probarAsistente;
+}
+// La app se instala con un enlace personal (se renueva solo). Se muestra una vez, con su código para escanear desde el celular.
+async function instalarApp() {
+  const fin = ocupado($("#abrirApp"), "Preparando…");
+  try {
+    const r = await api("app_enlace"), enlace = "../bosco/" + new URL(r.app).hash;
+    dialogo(`<h2>La app en tu celular</h2><p class="ayuda">Escanea este código con la cámara de tu celular y toca «Instalar». Ahí te llegan los avisos de quejas graves. Es tu enlace personal: no lo compartas.</p><div id="qrApp" style="display:grid;place-items:center;margin:14px 0"></div><div class="acciones"><a class="btn pri" href="${esc(enlace)}" target="_blank" rel="noopener" id="appAbrir">Abrirla aquí</a><button class="btn" data-cerrar type="button">Cerrar</button></div>`);
+    try { new QRCode($("#qrApp"), { text: new URL(enlace, location.href).href, width: 180, height: 180, colorDark: "#0A0908", colorLight: "#ffffff" }); } catch (e) { $("#qrApp").textContent = ""; }
+  } catch (x) { if (x.status !== 402) dialogo(`<h2>La app</h2><p>${esc(x.message)}</p><div class="acciones"><button class="btn" data-cerrar>Cerrar</button></div>`); } finally { fin(); }
+}
+async function volverAlAlta() { try { const r = await api("alta_enlace"); location.href = "../alta/" + new URL(r.alta).hash; } catch (x) { dialogo(`<h2>Tu alta</h2><p>${esc(x.message)}</p><div class="acciones"><button class="btn" data-cerrar>Cerrar</button></div>`); } }
+// El mismo chat que verán sus clientes en su web, con su marca.
+function probarAsistente() { if (window.CWChatCliente) return window.CWChatCliente.abrir(); const s = document.createElement("script"); s.src = "../asistente/cliente.js"; s.dataset.cuenta = D.cuenta.slug; s.dataset.abrir = "1"; s.dataset.api = SUPABASE_URL + "/functions/v1"; document.body.appendChild(s); }
+
+// ---------- Conversaciones y Contenido: el panel de siempre, dentro de la cuenta ----------
+function vPanel(cual) {
+  const s = $('section[data-v="panel"]');
+  if (!D.panel?.token) { s.innerHTML = `<div class="tarjeta"><h2>Todavía no disponible</h2><p class="ayuda">Termina de configurar tu cuenta para abrir esta parte.</p></div>`; return; }
+  const pestana = cual === "contenido" ? "contenido" : "resumen";
+  let f = s.querySelector("iframe");
+  const cambiar = () => { try { f.contentWindow.irA?.(pestana); } catch (e) { /* el panel todavía está cargando */ } };
+  if (!f) { s.innerHTML = `<iframe class="panel" title="Tu panel" src="../escucha/#t=${esc(D.panel.token)}${cual === "contenido" ? "&contenido" : ""}"></iframe>`; f = s.querySelector("iframe"); f.addEventListener("load", () => setTimeout(cambiar, 600)); }
+  else cambiar();
+}
+
+// ---------- Conexiones ----------
+const ICONO = { whatsapp: "💬", instagram: "📸", facebook: "📘", web: "🌐", drive: "🗂️" };
+const ESTADO = { conectado: "Conectado", pendiente: "En camino", error: "Revisar", sin_conectar: "Sin conectar", no_disponible: "Pronto" };
+async function vConexiones() {
+  const s = $('section[data-v="conexiones"]');
+  s.innerHTML = `<div class="tarjeta"><span class="cargando"></span>Revisando tus canales…</div>`;
+  let cx; try { cx = (await api("conexiones")).conexiones; D.conexiones = cx; } catch (x) { s.innerHTML = `<div class="tarjeta aviso mal">${esc(x.message)}</div>`; return; }
+  const boton = (c) => !puedeCambiar() || !c.accion ? "" : c.canal === "web" ? `<button class="btn chico" data-con="web">${c.estado === "conectado" ? "Ver el código" : "Poner el chat en mi web"}</button>`
+    : c.canal === "drive" ? (c.modo === "no_disponible" ? "" : c.estado === "conectado" ? `<button class="btn chico pri" data-con="drive-elegir">Elegir fotos y videos</button> <button class="btn chico" data-con="drive-quitar">Desconectar</button>` : `<button class="btn chico pri" data-con="drive">Conectar</button>`)
+    : `<button class="btn chico pri" data-con="${esc(c.canal)}">${c.estado === "pendiente" ? "Ver cómo va" : "Conectar"}</button>`;
+  s.innerHTML = `<div class="tarjeta"><h2>Tus canales</h2><p class="ayuda">Aquí conectas por dónde responde tu asistente y de dónde salen tus fotos. No necesitas saber de Meta.</p>
+    ${cx.map((c) => `<div class="canal" data-canal="${esc(c.canal)}"><div class="ic">${ICONO[c.canal] || "🔌"}</div><div class="tx"><b>${esc(c.nombre)}</b><span class="pastilla ${esc(c.estado)}">${ESTADO[c.estado] || esc(c.estado)}</span>
+      <p class="ayuda">${esc(c.detalle || c.nota || (c.canal === "whatsapp" ? "Tu asistente responde en tu número. Puedes seguir usando tu app de WhatsApp Business." : c.canal === "instagram" ? "Responde los comentarios de tus publicaciones." : c.canal === "web" ? "Un chat con tu marca para tu página web." : c.canal === "drive" ? "Tus fotos y videos se quedan en tu Drive: eliges cuáles usamos." : ""))}</p></div><div>${boton(c)}</div></div>`).join("")}
+    <div id="conDetalle"></div></div>`;
+  s.onclick = (e) => { const b = e.target.closest("[data-con]"); if (b) conectar(b.dataset.con, b); };
+}
+function guiaEquipo(r) {
+  return `<ol class="guia"><li><b>Agrega al equipo en tu Meta</b> (3 toques): entra a <a href="https://business.facebook.com/settings/people" target="_blank" rel="noopener">business.facebook.com → Configuración → Personas</a>, toca «Invitar personas», escribe <b>${esc(r.equipo?.correo || "el correo que te da el equipo")}</b> y elige «Control total».</li>
+    <li><b>Ten a mano el celular de ese número.</b> El mismo día hábil, el equipo te escribe por WhatsApp desde el <b style="white-space:nowrap">096 923 5680</b> y te pide el código que te llega en ese momento. Toma 5 minutos. Nadie más te lo va a pedir: si te lo piden desde otro número, no lo des.</li></ol>
+    <p class="ayuda">${r.coexistencia ? "Vas a poder seguir usando tu app de WhatsApp Business en el mismo número. " : ""}¿No tienes una cuenta de empresa en Meta? No pasa nada: el equipo la crea contigo en la misma llamada.</p>`;
+}
+async function conectar(que, b) {
+  const det = $("#conDetalle"), err = (x) => { if (x.status !== 402) det.innerHTML = `<div class="aviso mal">${esc(x.message)}</div>`; };
+  if (que === "whatsapp") {
+    const pend = D.conexiones.find((c) => c.canal === "whatsapp")?.estado === "pendiente";
+    if (pend) { try { const e = await api("whatsapp_estado"); if (e.estado === "conectado") return vConexiones(); det.innerHTML = `<div class="aviso info"><b>Tu WhatsApp está en camino.</b> ${esc(e.detalle || "")}</div>${e.asistida ? guiaEquipo({ equipo: D._equipo, coexistencia: true }) : ""}<div class="acciones"><button class="btn chico" data-con="whatsapp-nuevo">Empezar de nuevo</button></div>`; } catch (x) { err(x); } return; }
+    que = "whatsapp-nuevo";
+  }
+  if (que === "whatsapp-nuevo") {
+    dialogo(`<h2>Conectar WhatsApp</h2><p class="ayuda">Tu asistente va a responder en este número. El número sigue siendo tuyo.</p>
+      <label for="waNum">Número de WhatsApp de tu negocio</label><input id="waNum" type="tel" name="cw-wa-negocio" autocomplete="off" placeholder="0991234567">
+      <label style="display:flex;gap:10px;font-weight:500;align-items:flex-start"><input type="checkbox" id="waCoex" checked style="width:18px;height:18px;margin-top:3px;flex:none"> Quiero seguir usando mi app de WhatsApp Business en este número.</label>
+      <div class="aviso mal" id="waErr" hidden></div><div class="acciones"><button class="btn pri" id="waIr" type="button">Conectar</button><button class="btn" type="button" data-cerrar>Cancelar</button></div>`);
+    $("#waIr").onclick = async () => {
+      const fin = ocupado($("#waIr"), "Preparando…");
+      try {
+        const r = await api("whatsapp_iniciar", { numero: $("#waNum").value || undefined, coexistencia: $("#waCoex").checked });
+        cerrar(); D._equipo = r.equipo;
+        if (r.conectado) return vConexiones();
+        await vConexiones();
+        if (r.modo === "boton") { $("#conDetalle").innerHTML = `<div class="aviso info"><b>Un paso más.</b> Se abre una ventana de Meta: entra con tu Facebook, elige tu negocio y tu número. Al terminar vuelve aquí.</div><div class="acciones"><a class="btn pri" href="${esc(r.url)}" target="_blank" rel="noopener" id="waAbrir">Abrir la conexión</a><button class="btn" data-con="whatsapp">Ya terminé</button></div>`; esperarWhatsApp(); }
+        else $("#conDetalle").innerHTML = `<div class="aviso ok"><b>Listo: el equipo ya recibió tu pedido.</b> A ti te quedan dos cosas:</div>${guiaEquipo(r)}`;
+      } catch (x) { fin(); if (x.status !== 402) { $("#waErr").textContent = x.message; $("#waErr").hidden = false; } else cerrar(); }
+    };
+    return;
+  }
+  if (que === "instagram") {
+    const fin = ocupado(b, "Preparando…");
+    try { const r = await api("instagram_iniciar"); if (r.conectado) return vConexiones(); if (r.modo === "boton") { location.href = r.url; return; } await vConexiones(); $("#conDetalle").innerHTML = `<div class="aviso ok"><b>Listo: el equipo conecta tu Instagram.</b> Usa el mismo acceso a tu Meta que para WhatsApp:</div>${guiaEquipo(r)}`; }
+    catch (x) { fin(); err(x); }
+    return;
+  }
+  if (que === "web") {
+    const aj = await api("ajustes").catch(() => null), w = aj?.web || {};
+    dialogo(`<h2>El chat en tu web</h2><p class="ayuda">Escribe la dirección de tu página. Te damos una línea para pegar antes de <code>&lt;/body&gt;</code> (o se la pasas a quien maneja tu web).</p>
+      <label for="webUrl">Dirección de tu web</label><input id="webUrl" type="url" name="cw-web" autocomplete="off" placeholder="tuempresa.com" value="${esc((w.origenes || [])[0] || w.url || "")}">
+      <div class="aviso mal" id="webErr" hidden></div><div id="webCod">${(w.origenes || []).length ? `<code class="cod">${esc(w.codigo)}</code>` : ""}</div>
+      <div class="acciones"><button class="btn pri" id="webIr" type="button">Guardar y ver el código</button><button class="btn" type="button" id="webCopiar" ${(w.origenes || []).length ? "" : "hidden"}>Copiar</button><button class="btn" type="button" data-cerrar>Cerrar</button></div>`);
+    let codigo = w.codigo || "";
+    $("#webIr").onclick = async () => { try { const r = await api("web_guardar", { url: $("#webUrl").value }); codigo = r.codigo; $("#webCod").innerHTML = `<div class="aviso ok">Listo. El chat solo funciona en ${esc(r.origenes.join(" y ").replace(/https:\/\//g, ""))}.</div><code class="cod">${esc(r.codigo)}</code>`; $("#webCopiar").hidden = false; $("#webErr").hidden = true; } catch (x) { $("#webErr").textContent = x.message; $("#webErr").hidden = false; } };
+    $("#webCopiar").onclick = async () => { try { await navigator.clipboard.writeText(codigo); $("#webCopiar").textContent = "Copiado ✓"; } catch (e) { /* se copia a mano */ } };
+    return;
+  }
+  if (que === "drive") { const fin = ocupado(b, "Abriendo Google…"); try { const r = await api("drive_iniciar"); location.href = r.url; } catch (x) { fin(); err(x); } return; }
+  if (que === "drive-elegir") return elegirEnDrive(b);
+  if (que === "drive-quitar") {
+    dialogo(`<h2>Desconectar Google Drive</h2><p>Se quitan de tu cuenta las copias de lo que elegiste en Drive. Tus archivos originales no se tocan.</p><div class="acciones"><button class="btn peligro" id="drSi" type="button">Desconectar</button><button class="btn" type="button" data-cerrar>Cancelar</button></div>`);
+    $("#drSi").onclick = async () => { try { const r = await api("drive_desconectar"); cerrar(); await vConexiones(); $("#conDetalle").innerHTML = `<div class="aviso ok">Desconectado. ${esc(r.nota || "")}</div>`; } catch (x) { cerrar(); err(x); } };
+  }
+}
+let sondeo = null;
+function esperarWhatsApp() { clearInterval(sondeo); let n = 0; sondeo = setInterval(async () => { if (vista !== "conexiones" || ++n > 120) return clearInterval(sondeo); try { const e = await api("whatsapp_estado"); if (e.estado === "conectado" || e.estado === "fallo") { clearInterval(sondeo); await vConexiones(); if (e.estado === "fallo") $("#conDetalle").innerHTML = `<div class="aviso mal">${esc(e.detalle)}</div>`; } } catch (x) { /* se reintenta */ } }, 5000); }
+// Selector de Google: la persona elige qué fotos, videos o carpetas puede leer la cuenta (permiso drive.file).
+async function elegirEnDrive(b) {
+  const det = $("#conDetalle") || $("#arcAviso"), fin = b ? ocupado(b, "Abriendo tu Drive…") : () => {};
+  try {
+    const { selector: sel } = await api("drive_selector");
+    if (!window.google?.picker) { await new Promise((ok, mal) => { const s = document.createElement("script"); s.src = "https://apis.google.com/js/api.js"; s.onload = () => gapi.load("picker", ok); s.onerror = () => mal(new Error("No se pudo abrir el selector de Google.")); document.head.appendChild(s); }); }
+    const vistaDocs = new google.picker.DocsView(google.picker.ViewId.DOCS).setIncludeFolders(true).setSelectFolderEnabled(true).setMimeTypes("image/jpeg,image/png,image/webp,image/heic,video/mp4,video/quicktime,application/vnd.google-apps.folder");
+    const p = new google.picker.PickerBuilder().addView(vistaDocs).enableFeature(google.picker.Feature.MULTISELECT_ENABLED).setOAuthToken(sel.token).setLocale("es").setTitle("Elige tus fotos y videos")
+      .setCallback(async (d) => {
+        if (d.action !== google.picker.Action.PICKED) return;
+        if (det) det.innerHTML = `<div class="aviso info"><span class="cargando"></span>Trayendo lo que elegiste…</div>`;
+        try { const r = await api("drive_importar", { ids: d.docs.map((x) => x.id) }); if (det) det.innerHTML = `<div class="aviso ok">Listo: ${r.fotos} foto${r.fotos === 1 ? "" : "s"} y ${r.videos} video${r.videos === 1 ? "" : "s"}.${r.repetidos ? ` ${r.repetidos} ya estaban.` : ""}${r.carpetas_sin_acceso ? " Google no nos dejó ver dentro de una carpeta: ábrela y elige los archivos." : ""}${r.limite ? " Llegaste al máximo de archivos conectados de tu plan." : ""}</div>`; if (vista === "archivos") vArchivos(); }
+        catch (x) { if (det && x.status !== 402) det.innerHTML = `<div class="aviso mal">${esc(x.message)}</div>`; }
+      });
+    if (sel.clave) p.setDeveloperKey(sel.clave); if (sel.proyecto) p.setAppId(sel.proyecto);
+    p.build().setVisible(true);
+  } catch (x) { if (det) det.innerHTML = `<div class="aviso mal">${esc(x.message)}</div>`; } finally { fin(); }
+}
+// Al volver del permiso de Instagram o de Google, o de la página de pago.
+async function despuesDeVolver() {
+  const code = q.get("code"), state = q.get("state") || "", pago = q.get("pago");
+  if (!code && !pago && !q.get("error")) return;
+  history.replaceState(null, "", location.pathname);
+  if (pago) {
+    try { const r = await api("pago_confirmar", { ref: pago, id: q.get("id") || "", ctoken: q.get("ctoken") || undefined }); ss.set("cw-cuenta-vista", "plan"); D = await api("inicio");
+      setTimeout(() => dialogo(r.estado === "aprobado" ? `<h2>¡Pago recibido!</h2><p>Tu plan ya está activo. La factura llega a tu correo.</p><div class="acciones"><button class="btn pri" data-cerrar>Seguir</button></div>` : `<h2>El pago no se completó</h2><p>${esc(r.error || "No se cobró nada. Puedes intentarlo otra vez.")}</p><div class="acciones"><button class="btn" data-cerrar>Cerrar</button></div>`), 50);
+    } catch (x) { /* se ve el estado en Plan */ }
+    return;
+  }
+  ss.set("cw-cuenta-vista", "conexiones");
+  if (!code) return;
+  try {
+    if (state.startsWith("ig.")) await api("instagram_conectar", { codigo: code, estado: state });
+    else if (state.startsWith("gd.")) { await api("drive_conectar", { codigo: code, estado: state }); setTimeout(() => elegirEnDrive(null), 400); }
+    D = await api("inicio");
+  } catch (x) { setTimeout(() => dialogo(`<h2>No se completó la conexión</h2><p>${esc(x.message)}</p><div class="acciones"><button class="btn" data-cerrar>Cerrar</button></div>`), 50); }
+}
+
+// ---------- Archivos ----------
+async function vArchivos() {
+  const s = $('section[data-v="archivos"]');
+  s.innerHTML = `<div class="tarjeta"><span class="cargando"></span>Abriendo tus archivos…</div>`;
+  let r; try { r = await api("archivos"); } catch (x) { s.innerHTML = `<div class="tarjeta aviso mal">${esc(x.message)}</div>`; return; }
+  const a = r.almacenamiento || {}, drive = (D.conexiones || []).find((c) => c.canal === "drive");
+  s.innerHTML = `<div class="tarjeta"><h2>Tus fotos y videos</h2><p class="ayuda">Con esto se arma tu contenido. Súbelos aquí o conéctalos desde tu Drive (esos no ocupan tu espacio).</p>
+    ${a.limite_bytes == null ? `<p class="ayuda" style="margin-top:8px">Usas ${mb(a.bytes || 0)}. Tu plan no tiene tope de espacio.</p>` : `<div class="barra ${esc(a.nivel)}"><i style="width:${Math.min(100, a.pct || 0)}%"></i></div><p class="ayuda">${mb(a.bytes || 0)} de ${mb(a.limite_bytes)} usados${a.externos ? ` · ${a.externos} conectados desde tu Drive` : ""}.</p>`}
+    <div class="acciones">${puedeCambiar() ? `<button class="btn pri" id="arcSubir" type="button">Subir fotos o videos</button>` : ""}${puedeCambiar() && drive?.estado === "conectado" ? `<button class="btn" id="arcDrive" type="button">Elegir de mi Drive</button>` : puedeCambiar() && drive?.modo === "boton" ? `<button class="btn" data-ir="conexiones" type="button">Conectar mi Drive</button>` : ""}</div>
+    <div id="arcAviso"></div>
+    <div class="archivos">${r.archivos.map((f) => `<div class="arch" data-id="${f.id}">${f.tipo === "video" ? `<div class="vid">▶</div>` : f.url ? `<img src="${esc(f.url)}" alt="" loading="lazy">` : `<div class="vid">🖼️</div>`}
+      ${f.origen !== "cw" ? `<span class="dr">Drive</span>` : ""}<div class="pie"><span title="${esc(f.titulo || "")}">${esc(f.pendiente ? "Subiendo…" : f.titulo || "")}</span>${puedeCambiar() ? `<button type="button" data-borrar="${f.id}" aria-label="Quitar">×</button>` : ""}</div></div>`).join("") || `<p class="ayuda">Todavía no hay archivos.</p>`}</div></div>`;
+  if ($("#arcSubir")) $("#arcSubir").onclick = () => $("#elegirArchivo").click();
+  if ($("#arcDrive")) $("#arcDrive").onclick = (e) => elegirEnDrive(e.target);
+  s.onclick = async (e) => { const b = e.target.closest("[data-borrar]"); if (!b) return; b.disabled = true; try { await api("archivo_borrar", { id: Number(b.dataset.borrar) }); vArchivos(); } catch (x) { b.disabled = false; } };
+}
+$("#elegirArchivo").addEventListener("change", async (e) => {
+  const lista = [...e.target.files]; e.target.value = ""; if (!lista.length) return;
+  const av = $("#arcAviso"); let ok = 0, mal = [];
+  for (const [i, f] of lista.entries()) {
+    av.innerHTML = `<div class="aviso info"><span class="cargando"></span>Subiendo ${i + 1} de ${lista.length}: ${esc(f.name)}</div>`;
+    try {
+      if (f.type.startsWith("image/")) await api("archivo_subir", { nombre: f.name, datos: await CWImagenes.foto(f) });
+      else {
+        const u = await api("archivo_url", { nombre: f.name, mime: f.type, bytes: f.size });
+        const up = await sb.storage.from(u.bucket).uploadToSignedUrl(u.ruta, u.token, f, { contentType: f.type });
+        if (up.error) { await api("archivo_borrar", { id: u.id }).catch(() => {}); throw new Error("La subida se interrumpió. Inténtalo otra vez."); }
+        await api("archivo_confirmar", { id: u.id });
+      }
+      ok++;
+    } catch (x) { mal.push(`${f.name}: ${x.message}`); if (x.status === 402) break; }
+  }
+  await vArchivos();
+  $("#arcAviso").innerHTML = (ok ? `<div class="aviso ok">${ok} archivo${ok === 1 ? "" : "s"} guardado${ok === 1 ? "" : "s"}.</div>` : "") + (mal.length ? `<div class="aviso mal">${mal.map(esc).join("<br>")}</div>` : "");
+});
+
+// ---------- Plan y consumo ----------
+const NOMBRE_TIPO = { respuesta: "Respuestas escritas", respuesta_voz: "Respuestas por voz", pieza: "Piezas de contenido", ideas: "Tandas de ideas" };
+const NOMBRE_CANAL = { whatsapp: "WhatsApp", web: "Chat de tu web", instagram: "Instagram", facebook: "Facebook", messenger: "Messenger", encuesta: "Encuestas" };
+const LIMITE = (l) => [l.creditos_mes != null ? `${num(l.creditos_mes)} créditos al mes` : "Créditos sin tope", l.canales != null ? `${l.canales} canal${l.canales === 1 ? "" : "es"}` : "Todos los canales", l.almacenamiento_mb != null ? `${mb(l.almacenamiento_mb * 1048576)} para tus archivos` : "Espacio sin tope",
+  l.usuarios != null ? `${l.usuarios} persona${l.usuarios === 1 ? "" : "s"} con acceso` : null, l.tanda === false ? null : "Contenido semanal automático", l.publicar === false ? null : "Publicación en tus redes", l.voz === false ? null : "Asistente por voz"].filter(Boolean);
+async function vPlan() {
+  const s = $('section[data-v="plan"]');
+  s.innerHTML = `<div class="tarjeta"><span class="cargando"></span>Calculando tu consumo…</div>`;
+  let r; try { r = await api("plan"); } catch (x) { s.innerHTML = `<div class="tarjeta aviso mal">${esc(x.message)}</div>`; return; }
+  const c = r.consumo || {}, p = r.plan, a = r.almacenamiento || {}, dias = c.por_dia || [], max = Math.max(1, ...dias.map((d) => Number(d.creditos))), hoy = dias.length - 1;
+  const peso = Object.fromEntries((r.tarifa || []).map((t) => [t.tipo, Number(t.creditos)]));
+  const porCanal = Object.entries(c.por_canal || {}).sort((x, y) => y[1] - x[1]);
+  const estado = !p ? "" : p.estado === "gracia" ? `<div class="aviso mal">No pudimos cobrar tu plan. Tienes hasta el ${esc(fecha(p.gracia_hasta))}; después pasa al plan gratis (no se borra nada).</div>` : p.cancelar_al_final ? `<div class="aviso info">Tu plan termina el ${esc(fecha(p.periodo_hasta))} y pasas al plan gratis. <a href="#" id="seguir">Quiero seguir con mi plan</a></div>` : p.plan_pedido ? `<div class="aviso ok">Pediste cambiar de plan: el equipo te escribe para activarlo.</div>` : "";
+  s.innerHTML = `<div class="rejilla">
+    <div class="tarjeta c8"><p class="et">${p ? "Tu plan" : "Plan a medida"}</p><h1 style="margin:4px 0 10px">${esc(p?.nombre || r.plan_etiqueta || "A medida")}</h1>${estado}
+      ${barra(c)}${c.total != null && c.proyeccion != null && Number(c.usados) > 0 ? `<p class="ayuda">A este ritmo cierras el mes en <b>${num(c.proyeccion)}</b> créditos${c.proyeccion > c.total ? ": no te va a alcanzar. Conviene subir de plan." : "."}</p>` : ""}
+      ${p?.periodo_hasta ? `<p class="ayuda" style="margin-top:6px">Pagado hasta el ${esc(fecha(p.periodo_hasta))}${p.metodo?.ultimos4 ? ` · ${esc(p.metodo.marca || "Tarjeta")} •••• ${esc(p.metodo.ultimos4)}` : ""}.</p>` : ""}
+      <h3>Este mes, día por día</h3>${dias.some((d) => Number(d.creditos) > 0) ? "" : `<p class="ayuda">Todavía no hay consumo este mes. Aquí vas a ver cuánto gasta tu asistente cada día.</p>`}<div class="dias" role="img" aria-label="Créditos por día">${dias.map((d, i) => `<i class="${i === hoy ? "hoy" : ""}" style="height:${Math.max(2, Math.round(Number(d.creditos) / max * 100))}%" title="${esc(d.dia)}: ${num(d.creditos)}"></i>`).join("")}</div></div>
+    <div class="tarjeta c4"><h2>En qué se fue</h2><table class="t"><tr><th>Qué</th><th class="n">Cuántas</th><th class="n">Créditos</th></tr>
+      ${(c.por_tipo || []).map((t) => `<tr><td>${esc(NOMBRE_TIPO[t.tipo] || t.tipo)}</td><td class="n">${num(t.cantidad)}</td><td class="n">${num(t.creditos)}</td></tr>`).join("")}</table>
+      <h3>Por canal</h3><table class="t">${porCanal.map(([k, v]) => `<tr><td>${esc(NOMBRE_CANAL[k] || k)}</td><td class="n">${num(v)}</td></tr>`).join("") || `<tr><td class="ayuda">Todavía sin respuestas este mes.</td></tr>`}</table>
+      <h3>Tus archivos</h3>${a.limite_bytes == null ? `<p class="ayuda">${mb(a.bytes || 0)} usados, sin tope.</p>` : `<div class="barra ${esc(a.nivel)}"><i style="width:${Math.min(100, a.pct || 0)}%"></i></div><p class="ayuda">${mb(a.bytes || 0)} de ${mb(a.limite_bytes)}</p>`}
+      <p class="ayuda" style="margin-top:10px">1 crédito = 1 respuesta escrita de tu asistente. Una respuesta por voz gasta ${num(peso.respuesta_voz ?? 3)}, una pieza de contenido ${num(peso.pieza ?? 3)} y una tanda de ideas ${num(peso.ideas ?? 5)}. Escuchar y clasificar lo que te escriben no gasta.</p></div>
+    ${p ? `<div class="tarjeta c12"><h2>Planes</h2><p class="ayuda">${(r.planes || []).length < 2 ? `Por ahora este es el plan disponible. Si necesitas más capacidad, cuéntale al equipo y te arman uno a tu medida: <a href="https://wa.me/593969235680" target="_blank" rel="noopener">escribir al equipo</a>.` : r.pagos_modo === "vivo" ? "Puedes cambiar cuando quieras. El cambio es inmediato." : "Elige el que te sirva: el equipo te escribe para activarlo."}</p><div class="planes">${(r.planes || []).map((x) => `<div class="plan ${x.clave === p.plan ? "actual" : ""}"><b class="nombre">${esc(x.nombre)}</b>
+        <div class="precio">${x.gratis ? "Sin costo y sin tarjeta" : x.precio_mes_usd != null ? `US$ ${num(x.precio_mes_usd)} al mes + IVA` : "Consulta con el equipo"}</div><ul>${(x.contratable === false ? ["Respuestas, canales y espacio a tu medida", "Varias sedes y marcas en una cuenta", "Acompañamiento del equipo de Creative Whisper"] : LIMITE(x.limites || {})).map((t) => `<li>✓ ${esc(t)}</li>`).join("")}</ul>
+        ${x.clave === p.plan ? `<span class="pastilla conectado" style="margin:0">Tu plan</span>` : D.usuario.rol === "lector" ? "" : x.contratable === false ? `<a class="btn chico" href="https://wa.me/593969235680?text=${encodeURIComponent("Hola, quiero conocer el plan Empresas para " + (D.cuenta?.nombre || "mi negocio"))}" target="_blank" rel="noopener">Hablemos</a>` : `<button class="btn chico ${x.gratis ? "" : "pri"}" data-plan="${esc(x.clave)}" type="button">${x.gratis ? "Bajar a gratis" : "Subir a este plan"}</button>`}</div>`).join("")}</div><div id="planAviso"></div></div>` : ""}
+    <div class="tarjeta c6"><h2>Pagos y facturas</h2>${(r.pagos || []).length ? `<table class="t"><tr><th>Fecha</th><th>Periodo</th><th class="n">Total</th><th>Factura</th></tr>${r.pagos.map((g) => `<tr><td>${esc(fecha(g.confirmado || g.creado))}</td><td>${esc(fecha(g.periodo_desde))} – ${esc(fecha(g.periodo_hasta))}</td><td class="n">${g.estado === "aprobado" ? "US$ " + num(g.total_usd) : "No aprobado"}</td><td>${g.factura?.url ? `<a href="${esc(g.factura.url)}" target="_blank" rel="noopener">${esc(g.factura.numero || "Ver")}</a>` : esc(g.factura?.numero || (g.estado === "aprobado" ? "En camino" : "—"))}</td></tr>`).join("")}</table>` : `<p class="ayuda">Todavía no hay pagos.</p>`}</div>
+    ${p && D.usuario.rol === "dueno" && D.usuario.via === "sesion" ? `<div class="tarjeta c6"><h2>Datos para tu factura</h2><form id="fFac" autocomplete="off"><div class="fila"><div><label for="fRazon">Razón social</label><input id="fRazon" type="text" name="cw-razon" autocomplete="off" value="${esc(p.facturacion?.razon_social || "")}"></div><div><label for="fRuc">RUC o cédula</label><input id="fRuc" type="text" name="cw-ruc" inputmode="numeric" maxlength="13" autocomplete="off" value="${esc(p.facturacion?.ruc || "")}"></div></div>
+      <label for="fCorreo2">Correo para la factura</label><input id="fCorreo2" type="email" name="cw-correo-factura" autocomplete="off" value="${esc(p.facturacion?.correo || D.usuario.correo || "")}"><label for="fDir">Dirección</label><input id="fDir" type="text" name="cw-dir-factura" autocomplete="off" value="${esc(p.facturacion?.direccion || "")}">
+      <div class="aviso" id="facAviso" hidden></div><div class="acciones"><button class="btn" type="submit">Guardar</button></div></form></div>` : ""}
+  </div>`;
+  if ($("#seguir")) $("#seguir").onclick = async (e) => { e.preventDefault(); try { await api("plan_seguir"); vPlan(); } catch (x) { /* queda como estaba */ } };
+  for (const b of $$("[data-plan]")) b.onclick = async () => {
+    const fin = ocupado(b, "Un momento…"), av = $("#planAviso");
+    try { const x = await api("plan_pedir", { plan: b.dataset.plan }); if (x.url) { location.href = x.url; return; } fin();
+      av.innerHTML = `<div class="aviso ok">${x.pedido ? "¡Recibido! El equipo te escribe para activar tu plan." : x.cancelar_al_final ? `Listo: sigues con tu plan hasta el ${esc(fecha(x.hasta))} y después pasas al plan gratis. No se borra nada.` : "Ya tienes ese plan."}</div>`; }
+    catch (x) { fin(); av.innerHTML = `<div class="aviso mal">${esc(x.message)}</div>`; }
+  };
+  if ($("#fFac")) $("#fFac").onsubmit = async (e) => { e.preventDefault(); const av = $("#facAviso"); try { await api("facturacion_guardar", { razon_social: $("#fRazon").value, ruc: $("#fRuc").value, correo: $("#fCorreo2").value, direccion: $("#fDir").value }); av.className = "aviso ok"; av.textContent = "Guardado."; } catch (x) { av.className = "aviso mal"; av.textContent = x.message; } av.hidden = false; };
+}
+
+// ---------- Ajustes ----------
+let recorte = null;
+async function vAjustes() {
+  const s = $('section[data-v="ajustes"]');
+  s.innerHTML = `<div class="tarjeta"><span class="cargando"></span>Abriendo tus ajustes…</div>`;
+  let r; try { r = await api("ajustes"); } catch (x) { s.innerHTML = `<div class="tarjeta aviso mal">${esc(x.message)}</div>`; return; }
+  const a = r.asistente || {}, m = r.marca || {}, ro = puedeCambiar() ? "" : "disabled";
+  s.innerHTML = `<div class="rejilla">
+    <div class="tarjeta c6"><h2>Tu asistente</h2><p class="ayuda">El nombre y la foto se ven en el chat de tu web, en tu panel, en la app y en el perfil de tu WhatsApp.</p>
+      <label for="aNombre">Nombre</label><input id="aNombre" type="text" name="cw-asistente" maxlength="30" autocomplete="off" value="${esc(a.nombre)}" ${ro}>
+      <label for="aSaludo">Saludo <small>(opcional)</small></label><input id="aSaludo" type="text" name="cw-saludo" maxlength="200" autocomplete="off" value="${esc(a.saludo)}" ${ro}>
+      <label>Foto</label><div class="recorte"><canvas id="aLienzo" width="280" height="280"></canvas><div style="flex:1;min-width:180px"><input type="file" id="aFoto" accept="image/jpeg,image/png,image/webp" hidden>
+        <button class="btn chico" id="aElegir" type="button" ${ro}>Elegir una foto</button> <button class="btn chico" id="aQuitar" type="button" ${a.foto && !ro ? "" : "hidden"}>Quitar</button>
+        <label for="aZoom" id="aZoomL" hidden>Acercar</label><input type="range" id="aZoom" min="1" max="3" step="0.01" value="1" hidden><p class="ayuda" id="aAyuda" hidden>Arrastra la foto para centrar la cara.</p></div></div>
+      <div class="aviso" id="aAviso" hidden></div><div class="acciones"><button class="btn pri" id="aGuardar" type="button" ${ro}>Guardar</button></div></div>
+    <div class="tarjeta c6"><h2>Tu marca</h2><p class="ayuda">Tu logo y tus colores visten tu panel, tu app y tu chat.</p>
+      <div style="background:var(--marca);border-radius:14px;padding:16px;margin-top:10px;display:flex;align-items:center;gap:12px;color:#fff"><div id="mLogo" style="height:34px;aspect-ratio:3.4;background:var(--acento);-webkit-mask:var(--logo) left center/contain no-repeat;mask:var(--logo) left center/contain no-repeat"></div><b id="mSin" ${m.logo ? "hidden" : ""}>${esc(D.cuenta.nombre)}</b></div>
+      <input type="file" id="mArchivo" accept="image/png,image/svg+xml,image/webp,image/jpeg" hidden><div class="acciones"><button class="btn chico" id="mElegir" type="button" ${ro}>Cambiar el logo</button><span class="ayuda" id="mNota">PNG, SVG o WebP. Si pesa mucho lo achicamos solos.</span></div>
+      <div class="fila"><div><label for="mPrin">Color principal</label><input type="color" id="mPrin" value="${esc(m.colores?.principal || "#0A0908")}" style="width:100%;height:44px;border:1px solid var(--linea);border-radius:10px;padding:2px" ${ro}></div><div><label for="mAcen">Color de acento</label><input type="color" id="mAcen" value="${esc(m.colores?.acento || "#F5A300")}" style="width:100%;height:44px;border:1px solid var(--linea);border-radius:10px;padding:2px" ${ro}></div></div>
+      <div class="aviso" id="mAviso" hidden></div><div class="acciones"><button class="btn pri" id="mGuardar" type="button" ${ro}>Guardar</button></div></div>
+    <div class="tarjeta c12"><h2>Personas con acceso</h2><p class="ayuda">${r.puede_equipo ? "Cada persona entra con su correo y un código. Quien «usa el panel» ve las conversaciones y el contenido, pero no cambia conexiones, archivos, plan ni ajustes." : D.usuario.via === "enlace" ? "Entraste con un enlace personal. Para manejar quién entra, la dueña o el dueño de la cuenta entra con su correo." : "Solo la dueña o el dueño de la cuenta maneja quién entra."}</p>
+      <table class="t">${(r.equipo || []).map((u) => `<tr><td><b>${esc(u.nombre || u.correo)}</b><br><span class="ayuda">${esc(u.correo)}</span></td><td>${{ dueno: "Dueño", admin: "Administra", lector: "Usa el panel" }[u.rol] || esc(u.rol)}</td><td class="n">${r.puede_equipo && u.correo !== D.usuario.correo ? `<button class="btn chico peligro" data-quitar="${u.id}" type="button">Quitar</button>` : ""}</td></tr>`).join("")}</table>
+      ${r.puede_equipo ? `<form id="fInv" autocomplete="off"><div class="fila"><div><label for="iCorreo">Correo de la persona</label><input id="iCorreo" type="email" name="cw-invitado" autocomplete="off"></div><div><label for="iRol">Puede</label><select id="iRol"><option value="admin">Administrar la cuenta</option><option value="lector">Usar el panel y la app</option></select></div></div><div class="aviso" id="iAviso" hidden></div><div class="acciones"><button class="btn" type="submit">Dar acceso</button></div></form>` : ""}</div>
+  </div>`;
+  if (m.logo) $("#mLogo").style.setProperty("--logo", `url("${String(m.logo).replace(/"/g, "%22")}")`);
+  // Foto del asistente: vista previa redonda con acercar y arrastrar.
+  const cv = $("#aLienzo"), cx = cv.getContext("2d"); recorte = { img: null, zoom: 1, dx: 0, dy: 0, quitar: false };
+  const pintar = () => { cx.fillStyle = "#eee"; cx.fillRect(0, 0, 280, 280); const i = recorte.img; if (!i) return; const w = i.naturalWidth || i.width, h = i.naturalHeight || i.height, lado = Math.min(w, h) / recorte.zoom; cx.drawImage(i, (w - lado) / 2 + recorte.dx * (w - lado) / 2, (h - lado) / 2 + recorte.dy * (h - lado) / 2, lado, lado, 0, 0, 280, 280); };
+  const previa = new Image(); previa.onload = () => { cx.drawImage(previa, 0, 0, 280, 280); }; previa.src = a.foto || CWImagenes.inicial(a.nombre || D.cuenta.nombre, m.colores?.principal);
+  $("#aElegir").onclick = () => $("#aFoto").click();
+  $("#aFoto").onchange = async (e) => { const f = e.target.files[0]; e.target.value = ""; if (!f) return; try { recorte.img = await CWImagenes.abrir(f); recorte.zoom = 1; recorte.dx = recorte.dy = 0; recorte.quitar = false; $("#aZoom").value = 1; for (const id of ["#aZoom", "#aZoomL", "#aAyuda"]) $(id).hidden = false; pintar(); } catch (x) { aviso("#aAviso", x.message, false); } };
+  $("#aZoom").oninput = (e) => { recorte.zoom = Number(e.target.value); pintar(); };
+  let arr = null; cv.onpointerdown = (e) => { if (recorte.img) { arr = { x: e.clientX, y: e.clientY, dx: recorte.dx, dy: recorte.dy }; cv.setPointerCapture(e.pointerId); } };
+  cv.onpointermove = (e) => { if (!arr) return; const k = 2 / (140 * Math.max(0.2, recorte.zoom - 0.6)); recorte.dx = Math.max(-1, Math.min(1, arr.dx - (e.clientX - arr.x) * k)); recorte.dy = Math.max(-1, Math.min(1, arr.dy - (e.clientY - arr.y) * k)); pintar(); };
+  cv.onpointerup = () => { arr = null; };
+  $("#aQuitar").onclick = () => { recorte.img = null; recorte.quitar = true; previa.src = CWImagenes.inicial($("#aNombre").value || D.cuenta.nombre, m.colores?.principal); $("#aQuitar").hidden = true; };
+  $("#aGuardar").onclick = async () => {
+    const fin = ocupado($("#aGuardar"), "Guardando…");
+    try { const cuerpo = { nombre: $("#aNombre").value, saludo: $("#aSaludo").value }; if (recorte.img) { const f = CWImagenes.recorte(recorte.img, recorte.zoom, recorte.dx, recorte.dy); cuerpo.foto = f.grande; cuerpo.foto_chica = f.chica; } else if (recorte.quitar) cuerpo.foto = null;
+      const x = await api("asistente_guardar", cuerpo); D.cuenta.asistente = x.asistente.nombre; D.cuenta.marca = { ...(D.cuenta.marca || {}), asistente_foto: x.asistente.foto }; fin();
+      aviso("#aAviso", "Guardado." + (x.whatsapp?.ok === true ? " " + x.whatsapp.detalle : x.whatsapp?.ok === false ? " " + x.whatsapp.detalle : ""), x.whatsapp?.ok !== false); if (x.asistente.foto) $("#aQuitar").hidden = false; }
+    catch (x) { fin(); if (x.status !== 402) aviso("#aAviso", x.message, false); }
+  };
+  let logoNuevo = null;
+  $("#mElegir").onclick = () => $("#mArchivo").click();
+  $("#mArchivo").onchange = async (e) => { const f = e.target.files[0]; e.target.value = ""; if (!f) return; try { const l = await CWImagenes.logo(f); logoNuevo = l.datos; $("#mLogo").style.setProperty("--logo", `url("${l.datos}")`); $("#mSin").hidden = true; $("#mNota").textContent = l.achicado ? `Lo achicamos solos: de ${mb(l.antes)} a ${mb(l.bytes)}.` : "Listo para guardar."; } catch (x) { aviso("#mAviso", x.message, false); } };
+  for (const [id, v] of [["#mPrin", "--marca"], ["#mAcen", "--acento"]]) $(id).oninput = (e) => document.documentElement.style.setProperty(v, e.target.value);
+  $("#mGuardar").onclick = async () => { const fin = ocupado($("#mGuardar"), "Guardando…"); try { const x = await api("marca_guardar", { ...(logoNuevo ? { logo: logoNuevo } : {}), colores: { principal: $("#mPrin").value, acento: $("#mAcen").value } }); D.cuenta.marca = { ...(D.cuenta.marca || {}), logo: x.marca.logo, colores: x.marca.colores }; fin(); pintarMarco(); aviso("#mAviso", "Guardado. Tu panel y tu app ya usan tu marca.", true); } catch (x) { fin(); aviso("#mAviso", x.message, false); } };
+  if ($("#fInv")) $("#fInv").onsubmit = async (e) => { e.preventDefault(); try { await api("usuario_invitar", { correo: $("#iCorreo").value, rol: $("#iRol").value }); vAjustes(); } catch (x) { if (x.status !== 402) aviso("#iAviso", x.message, false); } };
+  s.onclick = async (e) => { const b = e.target.closest("[data-quitar]"); if (!b) return; b.disabled = true; try { await api("usuario_retirar", { id: Number(b.dataset.quitar) }); vAjustes(); } catch (x) { b.disabled = false; } };
+}
+function aviso(sel, texto, ok) { const a = $(sel); if (!a) return; a.className = "aviso " + (ok ? "ok" : "mal"); a.textContent = texto; a.hidden = false; }
+
+// ---------- Agente de la cuenta ----------
+let agenteListo = false;
+function agente() {
+  if (agenteListo) return; agenteListo = true;
+  AgenteEscucha({ api: API, accion: "agente", titulo: "Ayuda con tu cuenta", boton: "¿Te ayudo?", izquierda: true, saludo: "Hola. Te ayudo a usar tu cuenta: conectar canales, tus créditos, tus archivos o tu plan.",
+    sugerencias: ["¿Cómo conecto mi WhatsApp?", "¿Qué es un crédito?", "¿Cómo pongo el chat en mi web?"],
+    datos: () => (TOKEN ? { t: TOKEN } : CUENTA ? { cuenta: CUENTA } : {}), cabeceras: () => (sesion && !TOKEN ? { authorization: "Bearer " + sesion.access_token } : {}) });
+}
+// El panel avisa cuando su enlace de sesión venció: se le da uno nuevo y se vuelve a abrir, sin que la persona haga nada.
+window.addEventListener("message", async (e) => {
+  if (e.origin !== location.origin || e.data?.cw !== "panel-vencido" || TOKEN) return;
+  try { const n = await api("panel_token"); D.panel = n; const f = $('section[data-v="panel"] iframe'); if (f) f.src = `../escucha/#t=${n.token}`; } catch (x) { /* si la sesión también venció, al cambiar de pestaña se pide entrar */ }
+});
+sb.auth.onAuthStateChange((_e, s) => { sesion = s; });
+abrir();
+</script>
+</body>
+</html>

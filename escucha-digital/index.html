@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0908">
+<title>Escucha digital — Creative Whisper</title>
+<link rel="icon" href="../assets/monograma-cw.png">
+<meta name="description" content="Un asistente que responde a tus clientes por WhatsApp, Instagram y tu web, un panel en vivo con lo que dicen y contenido hecho con lo que preguntan. Para cualquier negocio. Empieza gratis, sin tarjeta.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Creative Whisper">
+<meta property="og:title" content="Escucha digital — Creative Whisper">
+<meta property="og:description" content="Responde al instante, mira lo que dice tu gente y conviértelo en contenido. Empieza gratis, sin tarjeta.">
+<meta property="og:locale" content="es_EC">
+<meta property="og:url" content="https://creativewhisper.github.io/escucha-digital/">
+<meta property="og:image" content="https://creativewhisper.github.io/assets/og-cw-paleta.png">
+<link rel="canonical" href="https://creativewhisper.github.io/escucha-digital/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+:root{--ac:var(--teal);--ae:var(--teal-e);--at:var(--ink)}
+.ph{min-height:auto;padding-bottom:clamp(60px,9vw,120px)}
+.ph h1{max-width:17ch}
+.ph .lede{max-width:52ch}
+.ph-stats dd{font-size:clamp(34px,3.6vw,60px)}
+.ph-stats dd small{font:500 13px/1.2 var(--f-sans);color:var(--mute);align-self:flex-end;margin:0 0 .5em .5em;text-transform:none}
+/* En el celular las franjas quedan como una banda arriba y el texto empieza debajo (aquí no hay foto de portada que las separe). */
+@media (max-width:900px){
+  .ph-strips{height:calc(var(--header) + 132px);right:-30vw;-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
+  .ph-in{padding-top:calc(var(--header) + 150px)}
+  .ph-stats{gap:18px 28px}
+}
+/* tres tramos: escucha, panel, contenido */
+.tramos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0 calc(var(--gutter) * -1)}
+.tramo{position:relative;padding:clamp(28px,4vw,56px) clamp(22px,3.4vw,48px) clamp(34px,4.4vw,64px);background:var(--c);color:var(--fg,var(--ink));clip-path:polygon(7% 0,100% 0,93% 100%,0 100%);margin-right:-3%}
+.tramo:last-child{margin-right:0}
+.tramo .label{opacity:.8}
+.tramo h3{font:900 clamp(40px,4.6vw,76px)/.9 var(--f-display);text-transform:uppercase;margin:14px 0 14px}
+.tramo p{font-size:clamp(15px,1.15vw,17px);max-width:30ch;margin-left:6%}
+.tramo ul{list-style:none;margin:16px 0 0 6%;display:grid;gap:6px;font-size:14px;font-weight:500}
+.tramo li{padding-top:6px;border-top:1.5px solid color-mix(in srgb,currentColor 26%,transparent)}
+.tramo .label,.tramo h3{margin-left:6%}
+@media (max-width:900px){.tramos{grid-template-columns:1fr;margin:0}.tramo{clip-path:polygon(0 0,100% 3%,100% 100%,0 97%);margin:0 0 -1px;padding:48px 24px}.tramo p,.tramo ul,.tramo .label,.tramo h3{margin-left:0}}
+/* para cualquier negocio */
+.negocios{display:flex;flex-wrap:wrap;gap:10px}
+.negocios span{border:1px solid var(--line-2);border-radius:999px;padding:10px 18px;font-size:15px}
+.negocios span:nth-child(5n+1){border-color:var(--orange)}.negocios span:nth-child(5n+2){border-color:var(--red)}.negocios span:nth-child(5n+3){border-color:var(--peach)}.negocios span:nth-child(5n+4){border-color:var(--teal)}.negocios span:nth-child(5n){border-color:var(--beige)}
+/* dos columnas de texto con lista */
+.duo{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(20px,3vw,40px)}
+.caja{border:1px solid var(--line);border-radius:22px;padding:clamp(22px,2.6vw,36px);background:var(--ink-2)}
+.caja h3{font:800 clamp(28px,2.6vw,40px)/1 var(--f-display);text-transform:uppercase;margin-bottom:12px}
+.caja p{color:#CFC7BA}
+.caja ol,.caja ul{margin:14px 0 0 0;padding-left:20px;color:#CFC7BA;display:grid;gap:8px}
+.caja .label{color:var(--kc,var(--teal));display:block;margin-bottom:12px}
+@media (max-width:900px){.duo{grid-template-columns:1fr}}
+/* plan gratis */
+.gratis{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:center}
+.gratis h2{font-size:clamp(44px,5.4vw,92px)}
+.incluye{list-style:none;display:grid;gap:0;margin-top:8px}
+.incluye li{display:flex;justify-content:space-between;gap:16px;padding:14px 0;border-top:1px solid var(--line);font-size:clamp(16px,1.25vw,19px)}
+.incluye li:last-child{border-bottom:1px solid var(--line)}
+.incluye b{font:800 clamp(22px,2vw,30px)/1 var(--f-display);letter-spacing:.01em}
+@media (max-width:900px){.gratis{grid-template-columns:1fr}}
+/* formulario */
+.alta{position:relative;overflow:hidden;border-top:1px solid var(--line)}
+.alta .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,6vw,96px);padding-top:clamp(70px,9vw,130px);padding-bottom:clamp(70px,9vw,130px);position:relative;z-index:2}
+.alta h2{font-size:clamp(60px,8vw,150px)}
+/* Las franjas van detrás del formulario (a la derecha): el título queda limpio sobre el fondo oscuro. */
+.alta .franjas{position:absolute;top:0;bottom:0;right:-4vw;width:52vw;pointer-events:none}
+.alta .franjas i{position:absolute;top:-6%;bottom:-6%;width:7vw;right:calc(var(--k) * 9.6vw);transform:skewX(-11deg);background:var(--c);box-shadow:-12px 0 0 var(--e,var(--c))}
+.alta .texto{position:relative}
+.alta .texto p{margin-top:18px;max-width:38ch;color:#CFC7BA}
+form.reg{position:relative;color-scheme:light;background:var(--bone);color:var(--ink);border-radius:26px;padding:clamp(22px,3vw,40px);display:grid;gap:14px;box-shadow:0 30px 80px -30px rgba(0,0,0,.8)}
+form.reg label{display:grid;gap:6px;font-size:14px;font-weight:600}
+form.reg label small{font-weight:400;color:#6B6259}
+form.reg label .rot{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px}
+form.reg input[type=text],form.reg input[type=email],form.reg input[type=tel],form.reg select{width:100%;border:1.5px solid #CDBFA6;border-radius:12px;background:#fff;color:var(--ink);padding:13px 14px;font:inherit;font-size:16px;outline:none}
+form.reg input:focus,form.reg select:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(245,163,0,.4)}
+form.reg .fila{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
+form.reg .acepta{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:14px}
+form.reg .acepta input{width:18px;height:18px;margin-top:2px;accent-color:var(--ink);flex:none}
+form.reg .btn{justify-content:center;background:var(--ink);color:var(--bone);min-height:56px;font-size:16px;border:0}
+form.reg .btn:hover{background:var(--red)}
+form.reg .btn[disabled]{opacity:.6;cursor:default}
+form.reg .nota{font-size:13px;color:#6B6259;margin:0}
+form.reg .trampa{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.aviso-reg{border-radius:14px;padding:14px 16px;font-size:15px}
+.aviso-reg.ok{background:#DDF1EE;color:#14433E}.aviso-reg.mal{background:#FBDAD8;color:#8E0B07}
+@media (max-width:900px){.alta .wrap{grid-template-columns:1fr}.alta .franjas{display:none}form.reg .fila{grid-template-columns:1fr}}
+.faq{padding:clamp(80px,10vw,150px) 0}
+/* Titulares con tilde (TAMBIÉN, BOTÓN, PRUÉBALO): un poco más de aire entre líneas que el .84 de la portada. */
+main h2.display{line-height:.9}
+.gratis .label,.faq .label{margin-bottom:12px}
+footer{padding-bottom:110px}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="top is-solid" id="top">
+  <div class="wrap">
+    <a class="brand" href="../es/" aria-label="Creative Whisper, inicio"><img src="../assets/monograma-cw.png" alt="" width="40" height="26"><span>CREATIVE WHISPER</span></a>
+    <nav class="nav" id="menu" aria-label="Principal">
+      <a href="../servicios.html">Servicios</a>
+      <a href="./" aria-current="page">Escucha digital</a>
+      <a href="../es/#trabajo">Trabajo</a>
+      <a href="../datos.html">Datos</a>
+      <a href="../cuenta/">Mi cuenta</a>
+    </nav>
+    <button class="menu-btn" id="btnMenu" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
+    <a class="btn btn--solid" href="#empezar">Empezar gratis</a>
+  </div>
+</header>
+
+<main id="contenido">
+  <section class="ph">
+    <div class="ph-strips" aria-hidden="true">
+      <i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--beige);--e:var(--beige)"></i>
+    </div>
+    <div class="wrap ph-in">
+      <p class="label"><i></i>Escucha digital</p>
+      <h1>Tu negocio responde al instante. Y tú ves lo que dice tu gente.</h1>
+      <p class="lede">Un asistente que atiende a tus clientes por WhatsApp, Instagram y tu web con la información de tu negocio, un panel en vivo con lo que preguntan y de qué se quejan, y contenido para tus redes hecho con eso.</p>
+      <div class="ctas">
+        <a class="btn btn--solid" href="#empezar" id="ctaEmpezar">Empezar gratis</a>
+        <a class="btn btn--ghost" href="../cuenta/">Ya tengo cuenta</a>
+      </div>
+      <dl class="ph-stats">
+        <div><dt>Canales</dt><dd>3<small>WhatsApp, Instagram y tu web</small></dd></div>
+        <div><dt>Para empezar</dt><dd style="--sc:var(--orange)">0<small>tarjetas</small></dd></div>
+        <div><dt>Tu parte</dt><dd style="--sc:var(--teal)">10<small>minutos</small></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec line" id="como">
+    <div class="wrap">
+      <div class="shead">
+        <div><p class="label"><i></i>Cómo funciona</p><h2 class="display">Escucha, panel, contenido</h2></div>
+        <p>Lo que tus clientes te escriben hoy se pierde en el chat. Aquí se responde, se ordena y se convierte en ideas para vender mejor.</p>
+      </div>
+      <div class="tramos">
+        <article class="tramo" style="--c:var(--orange)">
+          <p class="label">01 · Escucha</p><h3>Responde</h3>
+          <p>Tu asistente contesta en segundos, a cualquier hora, con lo que sabe de tu negocio. Lo que no sabe, lo pasa a tu equipo.</p>
+          <ul><li>WhatsApp, Instagram y el chat de tu web</li><li>Con el nombre y la foto que tú elijas</li><li>Puedes seguir usando tu app de WhatsApp Business</li></ul>
+        </article>
+        <article class="tramo" style="--c:var(--teal)">
+          <p class="label">02 · Panel</p><h3>Entiende</h3>
+          <p>Cada mensaje queda clasificado: de qué tema es, con qué ánimo llega y si es una queja grave.</p>
+          <ul><li>Panel en vivo desde el computador o el celular</li><li>Aviso al celular cuando algo es grave</li><li>Las preguntas que más se repiten</li></ul>
+        </article>
+        <article class="tramo" style="--c:var(--peach)">
+          <p class="label">03 · Contenido</p><h3>Publica</h3>
+          <p>Con lo que la gente pregunta se arman piezas para tus redes, con tus fotos y tus colores. Nada sale sin que tú lo apruebes.</p>
+          <ul><li>Ideas a partir de conversaciones reales</li><li>Tus fotos y videos, desde tu Drive o subidos</li><li>Tú apruebas cada pieza</li></ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec line">
+    <div class="wrap">
+      <div class="shead">
+        <div><p class="label" style="--sc:var(--orange)"><i></i>Para cualquier negocio</p><h2 class="display">El tuyo también</h2></div>
+        <p>El asistente arranca con preguntas, temas y límites pensados para tu tipo de negocio, y aprende lo demás de tu web. Tú revisas lo que sabe antes de que hable con nadie.</p>
+      </div>
+      <div class="negocios" id="negocios"><span>Restaurantes y cafeterías</span><span>Clínicas y consultorios</span><span>Tiendas y comercios</span><span>Servicios profesionales</span><span>Concesionarios</span><span>Centros comerciales</span><span>Y cualquier otro</span></div>
+    </div>
+  </section>
+
+  <section class="sec line">
+    <div class="wrap">
+      <div class="shead">
+        <div><p class="label" style="--sc:var(--red)"><i></i>Sin tecnicismos</p><h2 class="display">Conectar es un botón</h2></div>
+        <p>No necesitas saber de Meta ni de programación. Nadie te va a pedir crear aplicaciones ni copiar claves.</p>
+      </div>
+      <div class="duo">
+        <div class="caja" style="--kc:var(--orange)">
+          <span class="label">WhatsApp e Instagram</span><h3>Lo conectas tú o lo hacemos por ti</h3>
+          <p>Tocas «Conectar» en tu cuenta. Si prefieres, el equipo lo deja listo contigo en una llamada corta: tú solo confirmas un código que llega a tu celular.</p>
+          <ul><li>Tu número sigue siendo tuyo y a nombre de tu empresa.</li><li>Puedes seguir respondiendo desde tu app de WhatsApp Business: cuando alguien de tu equipo contesta, el asistente se hace a un lado.</li></ul>
+        </div>
+        <div class="caja" style="--kc:var(--teal)">
+          <span class="label">Tus fotos y videos</span><h3>Se quedan donde están</h3>
+          <p>Conecta tu Google Drive y elige qué carpetas o archivos podemos usar para tu contenido. Solo vemos lo que tú eliges, y solo para leerlo.</p>
+          <ul><li>O súbelos a tu cuenta: tienes espacio gratis para empezar.</li><li>Puedes quitar el acceso cuando quieras.</li></ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec line" id="plan">
+    <div class="wrap gratis">
+      <div>
+        <p class="label" style="color:var(--orange)">Plan gratis</p>
+        <h2 class="display">Pruébalo con clientes de verdad</h2>
+        <p style="color:var(--mute);margin-top:18px;max-width:44ch">Creas tu cuenta sin tarjeta. Cuando llegas al límite del mes, el asistente deja de responder pero sigue escuchando: no pierdes ningún mensaje ni se borra nada. <span id="gMas">Si necesitas más capacidad, lo conversas con el equipo.</span></p>
+      </div>
+      <ul class="incluye" id="incluye">
+        <li><span>Respuestas del asistente al mes</span><b id="gCreditos">—</b></li>
+        <li><span>Canales conectados</span><b id="gCanales">—</b></li>
+        <li><span>Espacio para tus fotos y videos</span><b id="gEspacio">—</b></li>
+        <li><span>Panel en vivo y avisos de quejas graves</span><b>Sí</b></li>
+        <li><span>Tarjeta para empezar</span><b>No</b></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="alta" id="empezar">
+    <div class="franjas" aria-hidden="true"><i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--beige);--e:var(--beige)"></i></div>
+    <div class="wrap">
+      <div class="texto">
+        <h2 class="display">Empieza hoy</h2>
+        <p id="textoEmpezar">Deja tus datos y en unos minutos tu asistente ya sabe de tu negocio: lee tu web, toma tu logo y tus colores, y tú lo revisas.</p>
+      </div>
+      <form class="reg" id="registro" novalidate>
+        <label><span class="rot">Nombre de tu negocio</span><input type="text" id="rNegocio" name="cw-negocio" maxlength="80" autocomplete="organization" required></label>
+        <label><span class="rot">Tipo de negocio</span><select id="rVertical" name="cw-tipo"><option value="restaurante">Restaurante o cafetería</option><option value="clinica">Clínica o consultorio</option><option value="tienda">Tienda o comercio</option><option value="servicios_profesionales">Servicios profesionales</option><option value="otro" selected>Otro tipo de negocio</option></select></label>
+        <div class="fila">
+          <label><span class="rot">Tu nombre</span><input type="text" id="rNombre" name="cw-persona" maxlength="80" autocomplete="name"></label>
+          <label><span class="rot">Tu WhatsApp <small>(opcional)</small></span><input type="tel" id="rWhatsapp" name="cw-whatsapp" maxlength="20" autocomplete="tel" placeholder="0991234567"></label>
+        </div>
+        <label><span class="rot">Tu correo <small>(con él vas a entrar a tu cuenta)</small></span><input type="email" id="rCorreo" name="cw-correo" maxlength="120" autocomplete="email" required></label>
+        <div class="trampa" aria-hidden="true"><label>Sitio web<input type="text" id="rSitio" name="sitio" tabindex="-1" autocomplete="off"></label></div>
+        <label class="acepta"><input type="checkbox" id="rAcepta"> <span>Acepto el <a href="../privacidad.html" target="_blank" rel="noopener">aviso de privacidad</a> de Creative Whisper.</span></label>
+        <div class="aviso-reg mal" id="rError" hidden></div>
+        <button class="btn" type="submit" id="rEnviar">Crear mi cuenta gratis</button>
+        <p class="nota" id="rNota">Sin tarjeta. Puedes dejarlo cuando quieras.</p>
+        <div class="aviso-reg ok" id="rListo" hidden></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="wrap">
+      <div><p class="label">Preguntas</p><h2 class="display">Lo que nos preguntan</h2></div>
+      <div>
+        <details><summary>¿Necesito saber de Meta o de programación?</summary><p>No. WhatsApp e Instagram se conectan con un botón o los conecta el equipo contigo. Nadie te va a pedir crear aplicaciones ni copiar claves.</p></details>
+        <details><summary>¿Puedo seguir usando mi WhatsApp de siempre?</summary><p>Sí. Tu número sigue siendo tuyo y puedes seguir escribiendo desde tu app de WhatsApp Business. Si alguien de tu equipo responde un chat, el asistente no interrumpe esa conversación.</p></details>
+        <details><summary>¿Qué pasa cuando se acaba lo que incluye el plan gratis?</summary><p>El asistente deja de responder hasta el mes siguiente, pero sigue escuchando: tu panel muestra todo lo que te escriben. Te avisamos antes de llegar. No se borra nada y no se te cobra nada.</p></details>
+        <details><summary>¿El asistente puede decir cosas que no quiero?</summary><p>Tú decides lo que nunca debe decir (precios que cambian, promesas, temas delicados). No inventa: si no sabe, lo pasa a tu equipo. Y le avisa a cada persona que conversa con un asistente virtual.</p></details>
+        <details><summary>¿De quién son los datos de mis clientes?</summary><p>De tu empresa. Creative Whisper los trata solo para darte el servicio, con un acuerdo de tratamiento de datos que aceptas al crear la cuenta. Tus clientes pueden pedir ver, corregir o borrar sus datos.</p></details>
+        <details><summary>¿Cuánto cuesta después?</summary><p id="faqCosto">Empiezas gratis y sin tarjeta. Si necesitas más capacidad, lo conversas con el equipo y te arman un plan a tu medida.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Creative Whisper · Quito, Ecuador</span>
+    <nav aria-label="Secundaria"><a href="../es/">Inicio</a><a href="../servicios.html">Servicios</a><a href="../cuenta/">Mi cuenta</a><a href="../privacidad.html">Privacidad</a></nav>
+  </div>
+</footer>
+
+<script src="../assets/agente-escucha.js"></script>
+<script>
+"use strict";
+const API = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/cuenta-cliente";
+const $ = (s) => document.querySelector(s);
+async function api(cuerpo) {
+  const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(cuerpo) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || "No se pudo completar. Inténtalo otra vez en un momento.");
+  return j;
+}
+$("#btnMenu").onclick = () => { const a = $("#menu").classList.toggle("open"); $("#btnMenu").setAttribute("aria-expanded", a); };
+
+// Lo que incluye el plan gratis sale de la base (lo decide el equipo): aquí no hay números escritos a mano.
+let registroAbierto = false;
+(async () => {
+  try {
+    const p = await api({ accion: "publico" });
+    registroAbierto = p.registro === "abierto";
+    const g = (p.planes || []).find((x) => x.gratis), l = g?.limites || {};
+    const n = (v) => (v == null ? "Sin límite" : Number(v).toLocaleString("es-EC"));
+    $("#gCreditos").textContent = n(l.creditos_mes); $("#gCanales").textContent = n(l.canales);
+    $("#gEspacio").textContent = l.almacenamiento_mb == null ? "Sin límite" : l.almacenamiento_mb >= 1000 ? `${(l.almacenamiento_mb / 1000).toLocaleString("es-EC")} GB` : `${l.almacenamiento_mb} MB`;
+    // Solo se habla de «planes dentro de tu cuenta» si el equipo ya publicó alguno de pago.
+    if ((p.planes || []).some((x) => !x.gratis)) { $("#gMas").textContent = "Los planes con más capacidad los ves dentro de tu cuenta."; $("#faqCosto").textContent = "Empiezas gratis y sin tarjeta. Los planes con más capacidad los ves dentro de tu cuenta, en «Plan y consumo», o los conversas con el equipo."; }
+    const sel = $("#rVertical"), elegido = sel.value;
+    if (p.verticales?.length) { sel.textContent = ""; for (const v of p.verticales) { const o = document.createElement("option"); o.value = v.clave; o.textContent = v.nombre; sel.appendChild(o); } sel.value = p.verticales.some((v) => v.clave === elegido) ? elegido : p.verticales[p.verticales.length - 1].clave; }
+    if (!registroAbierto) { $("#rEnviar").textContent = "Quiero empezar"; $("#rNota").textContent = "El equipo te escribe para activar tu cuenta. Sin tarjeta."; $("#textoEmpezar").textContent = "Deja tus datos y el equipo te envía el enlace para crear tu cuenta. En unos minutos tu asistente ya sabe de tu negocio."; }
+  } catch (e) { $("#incluye").querySelectorAll("b")[0].textContent = "…"; }
+})();
+
+$("#registro").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const err = $("#rError"), b = $("#rEnviar"); err.hidden = true;
+  const mostrar = (t) => { err.textContent = t; err.hidden = false; };
+  if ($("#rNegocio").value.trim().length < 2) return mostrar("Escribe el nombre de tu negocio.");
+  if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test($("#rCorreo").value.trim())) return mostrar("Escribe un correo válido: con él vas a entrar a tu cuenta.");
+  if (!$("#rAcepta").checked) return mostrar("Para crear la cuenta hay que aceptar el aviso de privacidad.");
+  b.disabled = true; const antes = b.textContent; b.textContent = "Creando tu cuenta…";
+  try {
+    const r = await api({ accion: "registro", negocio: $("#rNegocio").value, vertical: $("#rVertical").value, nombre: $("#rNombre").value, correo: $("#rCorreo").value, whatsapp: $("#rWhatsapp").value || undefined, acepta: true, sitio: $("#rSitio").value || undefined });
+    const ok = $("#rListo"); ok.hidden = false; b.hidden = true; $("#rNota").hidden = true;
+    if (r.modo === "abierto" && /^https:\/\/[^/]+\/alta\/#a=[a-f0-9]{64}$/.test(r.alta || "")) {
+      ok.textContent = "¡Cuenta creada! Te llevamos a configurar tu asistente…";
+      // El enlace de alta es de esta misma web: se abre con una dirección relativa (así también sirve en las pruebas locales).
+      location.href = "../alta/" + new URL(r.alta).hash;
+    } else if (r.modo === "existente") {
+      ok.textContent = "Ese correo ya tiene una cuenta. Entra con tu correo: "; const a = document.createElement("a"); a.href = "../cuenta/"; a.textContent = "abrir mi cuenta"; ok.appendChild(a);
+    } else ok.textContent = "¡Recibido! El equipo te escribe para activar tu cuenta.";
+  } catch (x) { mostrar(x.message); b.disabled = false; b.textContent = antes; }
+});
+
+AgenteEscucha({ api: API, accion: "agente_publico", titulo: "Escucha digital", boton: "¿Dudas? Pregúntame",
+  saludo: "Hola. Soy el asistente de Escucha digital. Te cuento cómo funciona y cómo empezar con tu negocio.",
+  sugerencias: ["¿Cómo empiezo?", "¿Necesito saber de Meta?", "¿Puedo seguir usando mi WhatsApp?", "¿Sirve para mi tipo de negocio?"] });
+</script>
+</body>
+</html>
