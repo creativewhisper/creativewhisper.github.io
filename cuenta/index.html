@@ -378,7 +378,7 @@ async function vConexiones() {
 }
 function guiaEquipo(r) {
   return `<ol class="guia"><li><b>Agrega al equipo en tu Meta</b> (3 toques): entra a <a href="https://business.facebook.com/settings/people" target="_blank" rel="noopener">business.facebook.com → Configuración → Personas</a>, toca «Invitar personas», escribe <b>${esc(r.equipo?.correo || "el correo que te da el equipo")}</b> y elige «Control total».</li>
-    <li><b>Ten a mano el celular de ese número.</b> El equipo te escribe por WhatsApp desde el <b style="white-space:nowrap">096 923 5680</b> y te pide el código que te llega en ese momento. Toma 5 minutos. Nadie más te lo va a pedir: si te lo piden desde otro número, no lo des.</li></ol>
+    <li><b>Ten a mano el celular de ese número.</b> El mismo día hábil, el equipo te escribe por WhatsApp desde el <b style="white-space:nowrap">096 923 5680</b> y te pide el código que te llega en ese momento. Toma 5 minutos. Nadie más te lo va a pedir: si te lo piden desde otro número, no lo des.</li></ol>
     <p class="ayuda">${r.coexistencia ? "Vas a poder seguir usando tu app de WhatsApp Business en el mismo número. " : ""}¿No tienes una cuenta de empresa en Meta? No pasa nada: el equipo la crea contigo en la misma llamada.</p>`;
 }
 async function conectar(que, b) {

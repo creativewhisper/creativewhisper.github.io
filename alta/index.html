@@ -528,7 +528,7 @@ function guiaEquipo(coex) {
   const correo = canales.equipo?.correo;
   return `<div class="aviso ok" style="margin-top:10px"><b>Listo: el equipo ya recibió tu pedido.</b> A ti te quedan dos cosas sencillas:</div>
     <ol class="guia"><li><b>Agrega al equipo en tu Meta</b> (3 toques): abre <a href="https://business.facebook.com/settings/people" target="_blank" rel="noopener">business.facebook.com → Configuración → Personas</a>, toca «Invitar personas», escribe <b>${esc(correo || "el correo que te dará el equipo")}</b> y elige «Control total».</li>
-    <li><b>Ten a mano el celular de ese número.</b> El equipo te escribe por WhatsApp desde el <b style="white-space:nowrap">096 923 5680</b> y te pide el código que te llega en ese momento. Toma 5 minutos. Nadie más te lo va a pedir: si te lo piden desde otro número, no lo des.</li></ol>
+    <li><b>Ten a mano el celular de ese número.</b> El mismo día hábil, el equipo te escribe por WhatsApp desde el <b style="white-space:nowrap">096 923 5680</b> y te pide el código que te llega en ese momento. Toma 5 minutos. Nadie más te lo va a pedir: si te lo piden desde otro número, no lo des.</li></ol>
     <p class="ayuda" style="margin:0">${coex ? "Vas a poder seguir usando tu app de WhatsApp Business en el mismo número. " : ""}¿No tienes una cuenta de empresa en Meta? El equipo la crea contigo en la misma llamada.</p>`;
 }
 function pintarCanales() {
