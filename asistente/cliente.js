@@ -1,6 +1,6 @@
 /* Chat del asistente para la web de un cliente de «Escucha digital» (Creative Whisper).
    Se pega en la web del cliente con UNA línea (la da su cuenta, en Conexiones → Chat en tu web):
-     <script src="https://creativewhisper.github.io/asistente/cliente.js" data-cuenta="mi-negocio" async></script>
+     <script src="https://creativewhisper.net/asistente/cliente.js" data-cuenta="mi-negocio" async></script>
    Lleva la marca del cliente: el nombre y la foto de su asistente y su color. No carga nada más de terceros, no lee la
    página donde está y solo responde en las webs que el cliente autorizó en su cuenta. Todo lo que llega se pinta como texto. */
 (function () {
@@ -56,7 +56,7 @@
     lista = el("div", "m"); sug = el("div", "s");
     var f = el("form", "f"); campo = el("input"); campo.type = "text"; campo.maxLength = 1000; campo.placeholder = "Escribe tu mensaje"; campo.setAttribute("aria-label", "Tu mensaje"); campo.autocomplete = "off";
     var env = el("button", null, "Enviar"); env.type = "submit"; f.appendChild(campo); f.appendChild(env);
-    var n = el("div", "n", "Asistente virtual. "); var a = el("a", null, "Creative Whisper"); a.href = "https://creativewhisper.github.io/escucha-digital/"; a.target = "_blank"; a.rel = "noopener"; n.appendChild(a);
+    var n = el("div", "n", "Asistente virtual. "); var a = el("a", null, "Creative Whisper"); a.href = "https://creativewhisper.net/escucha-digital/"; a.target = "_blank"; a.rel = "noopener"; n.appendChild(a);
     p.appendChild(h); p.appendChild(lista); p.appendChild(sug); p.appendChild(f); p.appendChild(n);
     raiz.appendChild(css); raiz.appendChild(b); raiz.appendChild(p);
     cuerpo = { b: b, p: p };

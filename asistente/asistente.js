@@ -5,7 +5,7 @@
 
    Uso en cada web (antes de cerrar </body>):
      <script>window.CW_ASISTENTE = { sitio: "torote", tema: {...}, textos: {...}, ... };</script>
-     <script src="https://creativewhisper.github.io/asistente/asistente.js" defer></script>
+     <script src="https://creativewhisper.net/asistente/asistente.js" defer></script>
 
    Opciones de CW_ASISTENTE:
      sitio       id de la web en la tabla asistentes_web (cw, torote, jabones, bataka)

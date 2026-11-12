@@ -11,7 +11,7 @@ Cómo se usa
 3. Arrastra el .html de la propuesta (o pégalo).
 4. "Generar clave segura" y luego "Cifrar y descargar".
 5. Sube el .json descargado a esta carpeta en el repositorio.
-6. Manda al cliente el enlace https://creativewhisper.github.io/cotizacion.html
+6. Manda al cliente el enlace https://creativewhisper.net/cotizacion.html
    y su clave.
 
 Qué NO hace falta
