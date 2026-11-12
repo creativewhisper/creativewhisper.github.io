@@ -234,6 +234,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
       </div>
       <label for="tokenSu">Token del usuario del sistema</label><input id="tokenSu" type="password" autocomplete="off">
       <div class="fila">
+        <div><label for="wabaId">Cuenta de WhatsApp <small>(solo si el alta te lo pide: el «WhatsApp Business Account ID»)</small></label><input id="wabaId" inputmode="numeric" maxlength="25" autocomplete="off"></div>
         <div><label for="pin">PIN de verificación en dos pasos <small>(solo si tu número ya tiene uno)</small></label><input id="pin" type="password" inputmode="numeric" maxlength="6" autocomplete="off"></div>
         <div><label for="igToken">Token de Instagram <small>(solo si no está vinculada a una página)</small></label><input id="igToken" type="password" autocomplete="off"></div>
       </div>
@@ -424,7 +425,7 @@ $("#guardarWeb").onclick = async () => {
 $("#conectar").onclick = async () => {
   const b = $("#conectar"); b.disabled = true; error("canales", ""); b.innerHTML = `<span class="cargando"></span>Conectando…`;
   const elegido = $('#numeros input[name="numero"]:checked')?.value;
-  const cuerpo = { accion: "conectar", app_id: $("#appId").value.trim(), app_secret: $("#appSecret").value.trim(), token: $("#tokenSu").value.trim(), pin: $("#pin").value.trim(), ig_token: $("#igToken").value.trim(), phone_number_id: elegido || undefined };
+  const cuerpo = { accion: "conectar", app_id: $("#appId").value.trim(), app_secret: $("#appSecret").value.trim(), token: $("#tokenSu").value.trim(), pin: $("#pin").value.trim(), ig_token: $("#igToken").value.trim(), waba_id: $("#wabaId").value.trim() || undefined, phone_number_id: elegido || undefined };
   try {
     const r = await api(cuerpo);
     if (r._status === 409 && r.elegir) {
