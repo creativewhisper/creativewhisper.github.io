@@ -53,7 +53,7 @@
     contexto: function () { var en = /^en/i.test(document.documentElement.lang || ""); return "página " + (document.title || location.pathname).slice(0, 80) + (en ? " · el visitante está en la versión en inglés: responde en inglés" : ""); }
   };
   var s = document.createElement("script");
-  s.src = "https://creativewhisper.github.io/asistente/asistente.js";
+  s.src = "https://creativewhisper.net/asistente/asistente.js";
   s.defer = true;
   document.head.appendChild(s);
 })();

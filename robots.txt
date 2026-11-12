@@ -8,4 +8,4 @@ Disallow: /reporte/
 Disallow: /cuenta/
 Disallow: /alta/
 
-Sitemap: https://creativewhisper.github.io/sitemap.xml
+Sitemap: https://creativewhisper.net/sitemap.xml
