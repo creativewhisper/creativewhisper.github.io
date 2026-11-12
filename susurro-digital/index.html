@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0908">
+<title>Susurro digital — Publicidad basada en datos · Creative Whisper</title>
+<link rel="icon" href="../assets/favicon-cw.png" type="image/png">
+<meta name="description" content="Publicidad basada en datos: escucha a tus clientes y convierte lo que dicen en contenido que vende. Prueba gratuita por invitación, sin tarjeta.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Creative Whisper">
+<meta property="og:title" content="Susurro digital — Publicidad basada en datos · Creative Whisper">
+<meta property="og:description" content="Escucha a tus clientes y convierte lo que dicen en contenido que vende. Solicita tu prueba gratuita.">
+<meta property="og:locale" content="es_EC">
+<meta property="og:url" content="https://creativewhisper.net/susurro-digital/">
+<meta property="og:image" content="https://creativewhisper.net/assets/og-cw-logo.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="canonical" href="https://creativewhisper.net/susurro-digital/">
+<link rel="alternate" hreflang="es" href="https://creativewhisper.net/susurro-digital/">
+<link rel="alternate" hreflang="en" href="https://creativewhisper.net/digital-whisper/">
+<link rel="alternate" hreflang="x-default" href="https://creativewhisper.net/digital-whisper/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/site.css">
+<style>
+.lang-sw{display:inline-flex;align-items:center;justify-content:center;height:34px;min-width:44px;padding:0 10px;border-radius:999px;border:1px solid rgba(236,230,219,.28);color:inherit;font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.14em;text-decoration:none;opacity:.85;transition:opacity .2s,border-color .2s;flex:none}.lang-sw:hover{opacity:1;border-color:rgba(236,230,219,.6)}.lang-sw b{font-weight:600;opacity:.45;margin:0 .35em}
+:root{--ac:var(--teal);--ae:var(--teal-e);--at:var(--ink)}
+.ph{min-height:auto;padding-bottom:clamp(60px,9vw,120px)}
+.ph h1{max-width:16ch}
+.ph .lede{max-width:34ch;font-size:clamp(19px,1.7vw,26px)}
+.ph-stats dd{font-size:clamp(34px,3.6vw,60px)}
+.ph-stats dd small{font:500 13px/1.2 var(--f-sans);color:var(--mute);align-self:flex-end;margin:0 0 .5em .5em;text-transform:none}
+/* En el celular las franjas quedan como una banda arriba y el texto empieza debajo (aquí no hay foto de portada que las separe). */
+@media (max-width:900px){
+  .ph-strips{height:calc(var(--header) + 132px);right:-30vw;-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
+  .ph-in{padding-top:calc(var(--header) + 150px)}
+  .ph-stats{gap:18px 28px}
+  .top .btn{display:none}
+}
+/* tres resultados */
+.tramos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0 calc(var(--gutter) * -1)}
+.tramo{position:relative;padding:clamp(28px,4vw,56px) clamp(22px,3.4vw,48px) clamp(34px,4.4vw,64px);background:var(--c);color:var(--fg,var(--ink));clip-path:polygon(7% 0,100% 0,93% 100%,0 100%);margin-right:-3%}
+.tramo:last-child{margin-right:0}
+.tramo .label{opacity:.8}
+.tramo h3{font:900 clamp(40px,4.6vw,76px)/.9 var(--f-display);text-transform:uppercase;margin:14px 0 14px}
+.tramo p{font-size:clamp(16px,1.25vw,19px);max-width:28ch;margin-left:6%}
+.tramo .label,.tramo h3{margin-left:6%}
+@media (max-width:900px){.tramos{grid-template-columns:1fr;margin:0}.tramo{clip-path:polygon(0 0,100% 3%,100% 100%,0 97%);margin:0 0 -1px;padding:48px 24px}.tramo p,.tramo .label,.tramo h3{margin-left:0}}
+/* para cualquier negocio */
+.negocios{display:flex;flex-wrap:wrap;gap:10px}
+.negocios span{border:1px solid var(--line-2);border-radius:999px;padding:10px 18px;font-size:15px}
+.negocios span:nth-child(5n+1){border-color:var(--orange)}.negocios span:nth-child(5n+2){border-color:var(--red)}.negocios span:nth-child(5n+3){border-color:var(--peach)}.negocios span:nth-child(5n+4){border-color:var(--teal)}.negocios span:nth-child(5n){border-color:var(--beige)}
+/* la prueba, por invitación */
+.invita{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:center}
+.invita h2{font-size:clamp(44px,5.4vw,92px)}
+.invita .label{margin-bottom:12px;color:var(--orange)}
+.invita p.txt{color:var(--mute);margin-top:18px;max-width:44ch}
+.invita p.txt b{color:var(--bone);font-weight:600}
+.pasos3{list-style:none;display:grid;gap:0;counter-reset:p}
+.pasos3 li{counter-increment:p;display:grid;grid-template-columns:auto 1fr;gap:4px 18px;padding:18px 0;border-top:1px solid var(--line)}
+.pasos3 li:last-child{border-bottom:1px solid var(--line)}
+.pasos3 li::before{content:"0" counter(p);grid-row:1 / span 2;font:500 13px/1 var(--f-mono);letter-spacing:.12em;color:var(--orange);padding-top:9px}
+.pasos3 b{font:800 clamp(24px,2.2vw,34px)/1 var(--f-display);text-transform:uppercase;letter-spacing:.01em}
+.pasos3 span{color:#CFC7BA;font-size:clamp(15px,1.15vw,17px)}
+@media (max-width:900px){.invita{grid-template-columns:1fr}}
+/* formulario */
+.alta{position:relative;overflow:hidden;border-top:1px solid var(--line)}
+.alta .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,6vw,96px);padding-top:clamp(70px,9vw,130px);padding-bottom:clamp(70px,9vw,130px);position:relative;z-index:2}
+.alta h2{font-size:clamp(56px,7.4vw,136px)}
+/* Las franjas van detrás del formulario (a la derecha): el título queda limpio sobre el fondo oscuro. */
+.alta .franjas{position:absolute;top:0;bottom:0;right:-4vw;width:52vw;pointer-events:none}
+.alta .franjas i{position:absolute;top:-6%;bottom:-6%;width:7vw;right:calc(var(--k) * 9.6vw);transform:skewX(-11deg);background:var(--c);box-shadow:-12px 0 0 var(--e,var(--c))}
+.alta .texto{position:relative}
+.alta .texto p{margin-top:18px;max-width:38ch;color:#CFC7BA}
+form.reg{position:relative;color-scheme:light;background:var(--bone);color:var(--ink);border-radius:26px;padding:clamp(22px,3vw,40px);display:grid;gap:14px;box-shadow:0 30px 80px -30px rgba(0,0,0,.8)}
+form.reg label{display:grid;gap:6px;font-size:14px;font-weight:600}
+form.reg label small{font-weight:400;color:#6B6259}
+form.reg label .rot{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px}
+form.reg input[type=text],form.reg input[type=email],form.reg input[type=tel],form.reg select{width:100%;border:1.5px solid #CDBFA6;border-radius:12px;background:#fff;color:var(--ink);padding:13px 14px;font:inherit;font-size:16px;outline:none}
+form.reg input:focus,form.reg select:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(245,163,0,.4)}
+form.reg .fila{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
+form.reg .acepta{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:14px}
+form.reg .acepta input{width:18px;height:18px;margin-top:2px;accent-color:var(--ink);flex:none}
+form.reg .btn{justify-content:center;background:var(--ink);color:var(--bone);min-height:56px;font-size:16px;border:0}
+form.reg .btn:hover{background:var(--red)}
+form.reg .btn[disabled]{opacity:.6;cursor:default}
+form.reg .nota{font-size:13px;color:#6B6259;margin:0}
+form.reg .trampa{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+.aviso-reg{border-radius:14px;padding:14px 16px;font-size:15px}
+.aviso-reg.ok{background:#DDF1EE;color:#14433E}.aviso-reg.mal{background:#FBDAD8;color:#8E0B07}
+@media (max-width:900px){.alta .wrap{grid-template-columns:1fr}.alta .franjas{display:none}form.reg .fila{grid-template-columns:1fr}}
+.faq{padding:clamp(80px,10vw,150px) 0}
+/* Titulares con tilde (TAMBIÉN, PRUÉBALO): un poco más de aire entre líneas que el .84 de la portada. */
+main h2.display{line-height:.9}
+.faq .label{margin-bottom:12px}
+footer{padding-bottom:110px}
+</style>
+</head>
+<body>
+<a class="skip" href="#contenido">Saltar al contenido</a>
+<header class="top is-solid" id="top">
+  <div class="wrap">
+    <a class="brand" href="../es/" aria-label="Creative Whisper, inicio"><img src="../assets/monograma-cw.png" alt="" width="40" height="27"><span>CREATIVE WHISPER</span></a>
+    <nav class="nav" id="menu" aria-label="Principal">
+      <a href="../servicios.html">Servicios</a>
+      <a href="./" aria-current="page">Susurro digital</a>
+      <a href="../es/#trabajo">Trabajo</a>
+      <a href="../datos.html">Datos</a>
+      <a href="../cuenta/">Mi cuenta</a>
+    </nav>
+    <a class="lang-sw" href="/digital-whisper/" hreflang="en" lang="en" data-set-lang="en" aria-label="Read this page in English">ES <b>/</b> EN</a>
+    <button class="menu-btn" id="btnMenu" type="button" aria-expanded="false" aria-controls="menu">Menú</button>
+    <a class="btn btn--solid" href="#solicitar">Solicitar prueba gratuita</a>
+  </div>
+</header>
+
+<main id="contenido">
+  <section class="ph">
+    <div class="ph-strips" aria-hidden="true">
+      <i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--beige);--e:var(--beige)"></i>
+    </div>
+    <div class="wrap ph-in">
+      <p class="label"><i></i>Susurro digital</p>
+      <h1>Publicidad basada en datos</h1>
+      <p class="lede">Escucha a tus clientes y convierte lo que dicen en contenido que vende.</p>
+      <div class="ctas">
+        <a class="btn btn--solid" href="#solicitar" id="ctaSolicitar">Solicitar prueba gratuita</a>
+        <a class="btn btn--ghost" href="../cuenta/">Ya tengo cuenta</a>
+      </div>
+      <dl class="ph-stats">
+        <div><dt>Prueba gratuita</dt><dd><span id="sDias">14</span><small>días</small></dd></div>
+        <div><dt>Para empezar</dt><dd style="--sc:var(--orange)">0<small>tarjetas</small></dd></div>
+        <div><dt>Tus clientes, atendidos</dt><dd style="--sc:var(--teal)">24/7<small>todos los días</small></dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="sec line" id="que">
+    <div class="wrap">
+      <div class="shead">
+        <div><p class="label"><i></i>Lo que ganas</p><h2 class="display">Menos intuición, más ventas</h2></div>
+        <p>Tus clientes ya te dicen qué quieren comprar. Susurro digital lo escucha, lo ordena y lo convierte en publicidad que les habla de eso.</p>
+      </div>
+      <div class="tramos">
+        <article class="tramo" style="--c:var(--orange)"><p class="label">01</p><h3>Respondes</h3><p>Cada persona que te escribe recibe respuesta en segundos, a cualquier hora. Ninguna venta se enfría esperando.</p></article>
+        <article class="tramo" style="--c:var(--teal)"><p class="label">02</p><h3>Entiendes</h3><p>Sabes qué te piden, qué les molesta y qué preguntan más. Decides con datos de tus propios clientes, no con corazonadas.</p></article>
+        <article class="tramo" style="--c:var(--peach)"><p class="label">03</p><h3>Vendes</h3><p>Tu contenido y tus anuncios salen de lo que tu gente de verdad quiere saber. Nada se publica sin que tú lo apruebes.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec line">
+    <div class="wrap">
+      <div class="shead">
+        <div><p class="label" style="--sc:var(--orange)"><i></i>Para cualquier negocio</p><h2 class="display">El tuyo también</h2></div>
+        <p>Funciona igual para un consultorio que para un restaurante o una tienda: se adapta a lo que vendes y a cómo le hablas a tu gente.</p>
+      </div>
+      <div class="negocios" id="negocios"><span>Restaurantes y cafeterías</span><span>Clínicas y consultorios</span><span>Tiendas y comercios</span><span>Servicios profesionales</span><span>Concesionarios</span><span>Centros comerciales</span><span>Y cualquier otro</span></div>
+    </div>
+  </section>
+
+  <section class="sec line" id="prueba">
+    <div class="wrap invita">
+      <div>
+        <p class="label">Prueba gratuita, por invitación</p>
+        <h2 class="display">Pruébalo con tus clientes de verdad</h2>
+        <p class="txt">Revisamos cada solicitud. Si tu negocio encaja, el equipo te activa una prueba de <b id="gDias">14</b> días y te acompaña a dejarla lista. Sin tarjeta y sin compromiso.</p>
+      </div>
+      <ol class="pasos3"><li><b>Solicitas</b><span>Un formulario de un minuto.</span></li><li><b>Te aprobamos</b><span>El equipo te escribe por WhatsApp o por correo.</span></li><li><b>Lo pruebas</b><span>Con tu negocio y tus clientes, acompañado por el equipo.</span></li></ol>
+    </div>
+  </section>
+
+  <section class="alta" id="solicitar">
+    <div class="franjas" aria-hidden="true"><i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--beige);--e:var(--beige)"></i></div>
+    <div class="wrap">
+      <div class="texto">
+        <h2 class="display">Solicita tu prueba</h2>
+        <p>Cuéntanos quién eres. Te respondemos por WhatsApp o por correo.</p>
+      </div>
+      <form class="reg" id="solicitud" novalidate>
+        <div class="fila">
+          <label><span class="rot">Tu nombre</span><input type="text" id="rNombre" name="cw-persona" maxlength="80" autocomplete="name" required></label>
+          <label><span class="rot">Nombre de tu negocio</span><input type="text" id="rNegocio" name="cw-negocio" maxlength="80" autocomplete="organization" required></label>
+        </div>
+        <div class="fila">
+          <label><span class="rot">Tu WhatsApp</span><input type="tel" id="rWhatsapp" name="cw-whatsapp" maxlength="20" autocomplete="tel" placeholder="0991234567" required></label>
+          <label><span class="rot">Tipo de negocio</span><select id="rVertical" name="cw-tipo"><option value="restaurante">Restaurante o cafetería</option><option value="clinica">Clínica o consultorio</option><option value="tienda">Tienda o comercio</option><option value="servicios_profesionales">Servicios profesionales</option><option value="otro" selected>Otro tipo de negocio</option></select></label>
+        </div>
+        <label><span class="rot">Tu correo <small>(con él vas a entrar a tu cuenta)</small></span><input type="email" id="rCorreo" name="cw-correo" maxlength="120" autocomplete="email" required></label>
+        <div class="trampa" aria-hidden="true"><label>Sitio web<input type="text" id="rSitio" name="sitio" tabindex="-1" autocomplete="off"></label></div>
+        <label class="acepta"><input type="checkbox" id="rAcepta"> <span>Acepto el <a href="../privacidad.html" target="_blank" rel="noopener">aviso de privacidad</a> de Creative Whisper.</span></label>
+        <div class="aviso-reg mal" id="rError" role="alert" hidden></div>
+        <button class="btn" type="submit" id="rEnviar">Solicitar prueba gratuita</button>
+        <p class="nota" id="rNota">Sin tarjeta. Solo usamos tus datos para responder a esta solicitud.</p>
+        <div class="aviso-reg ok" id="rListo" role="status" hidden></div>
+      </form>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="wrap">
+      <div><p class="label">Preguntas</p><h2 class="display">Lo que nos preguntan</h2></div>
+      <div>
+        <details><summary>¿Por qué hay que solicitar la prueba?</summary><p>Porque acompañamos cada prueba de cerca y trabajamos con un número limitado de negocios a la vez. Revisamos tu solicitud y te respondemos por WhatsApp o por correo.</p></details>
+        <details><summary>¿Cuánto cuesta?</summary><p>La prueba es gratuita y no pide tarjeta. Si quieres seguir, eliges un plan dentro de tu cuenta; el equipo te ayuda a escoger.</p></details>
+        <details><summary>¿Qué pasa cuando termina la prueba?</summary><p>Eliges un plan y todo sigue igual. Si no, el servicio se detiene, pero no se borra nada: lo tuyo te espera.</p></details>
+        <details><summary>¿Sirve para mi tipo de negocio?</summary><p>Sí. Se adapta a lo que vendes y a cómo le hablas a tus clientes, sea un restaurante, un consultorio, una tienda o una empresa de servicios.</p></details>
+        <details><summary>¿De quién son los datos de mis clientes?</summary><p>De tu empresa. Creative Whisper los trata solo para darte el servicio, con un acuerdo de tratamiento de datos. Tus clientes pueden pedir ver, corregir o borrar sus datos.</p></details>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© 2026 Creative Whisper · Quito, Ecuador</span>
+    <nav aria-label="Secundaria"><a href="../es/">Inicio</a><a href="../servicios.html">Servicios</a><a href="../cuenta/">Mi cuenta</a><a href="../privacidad.html">Privacidad</a></nav>
+  </div>
+</footer>
+
+<script src="../assets/lang.js" defer></script>
+<script src="../assets/agente-escucha.js"></script>
+<script>
+"use strict";
+// Página pública de Susurro digital. Solo hace dos cosas con el servidor: preguntar los tipos de negocio y los días de prueba, y dejar
+// una solicitud. No crea cuentas: cada solicitud la aprueba el equipo. Aquí no hay planes, límites ni precios.
+const API = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/cuenta-cliente";
+const IDIOMA = "es";
+const TXT = {"e_nombre": "Escribe tu nombre.", "e_negocio": "Escribe el nombre de tu negocio.", "e_wa": "Escribe tu WhatsApp (ejemplo: 0991234567).", "e_correo": "Escribe un correo válido: con él vas a entrar a tu cuenta.", "e_acepta": "Para enviar la solicitud hay que aceptar el aviso de privacidad.", "e_red": "No se pudo enviar. Inténtalo otra vez en un momento.", "f_enviando": "Enviando…", "f_listo": "¡Recibido! Revisamos tu solicitud y te escribimos por WhatsApp o por correo.", "f_listo2": "¿Ya tienes una cuenta? ", "f_listo_l": "Entra aquí", "ag_boton": "¿Dudas? Pregúntame", "ag_saludo": "Hola. Soy el asistente de Susurro digital. Te cuento qué puede hacer por tu negocio y cómo pedir tu prueba gratuita.", "ag_sug": ["¿Qué gano con esto?", "¿Sirve para mi negocio?", "¿Cómo pido la prueba?"]};
+const $ = (s) => document.querySelector(s);
+async function api(cuerpo) {
+  const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(cuerpo) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || TXT.e_red);
+  return j;
+}
+$("#btnMenu").onclick = () => { const a = $("#menu").classList.toggle("open"); $("#btnMenu").setAttribute("aria-expanded", a); };
+
+// Los días de la prueba los decide el equipo: salen del servidor. Los nombres de los tipos de negocio van escritos aquí, en el idioma de la página.
+(async () => {
+  try {
+    const p = await api({ accion: "publico" });
+    if (Number(p.prueba_dias) > 0) for (const id of ["#sDias", "#gDias"]) $(id).textContent = String(p.prueba_dias);
+  } catch (e) { /* la página funciona igual con los valores escritos */ }
+})();
+
+$("#solicitud").addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const err = $("#rError"), b = $("#rEnviar"); err.hidden = true;
+  const mostrar = (t, campo) => { err.textContent = t; err.hidden = false; if (campo) $(campo).focus(); };
+  if ($("#rNombre").value.trim().length < 2) return mostrar(TXT.e_nombre, "#rNombre");
+  if ($("#rNegocio").value.trim().length < 2) return mostrar(TXT.e_negocio, "#rNegocio");
+  if ($("#rWhatsapp").value.replace(/\D/g, "").length < 8) return mostrar(TXT.e_wa, "#rWhatsapp");
+  if (!/^[^@\s]+@[^@\s]+\.[a-z]{2,}$/i.test($("#rCorreo").value.trim())) return mostrar(TXT.e_correo, "#rCorreo");
+  if (!$("#rAcepta").checked) return mostrar(TXT.e_acepta);
+  b.disabled = true; const antes = b.textContent; b.textContent = TXT.f_enviando;
+  try {
+    // Se envía con el nombre de acción de siempre («registro») para que también la entienda la función anterior si hay que
+    // volver atrás; «solicitud: true» le dice a la nueva que valide el formulario completo. Ninguna de las dos crea una cuenta.
+    await api({ accion: "registro", solicitud: true, nombre: $("#rNombre").value, negocio: $("#rNegocio").value, whatsapp: $("#rWhatsapp").value, correo: $("#rCorreo").value, vertical: $("#rVertical").value, idioma: IDIOMA, acepta: true, sitio: $("#rSitio").value || undefined });
+    const ok = $("#rListo"); ok.textContent = TXT.f_listo + " " + TXT.f_listo2; const a = document.createElement("a"); a.href = "../cuenta/"; a.textContent = TXT.f_listo_l; ok.appendChild(a);
+    ok.hidden = false; b.hidden = true; $("#rNota").hidden = true;
+  } catch (x) { mostrar(x.message); b.disabled = false; b.textContent = antes; }
+});
+
+AgenteEscucha({ api: API, accion: "agente_publico", idioma: IDIOMA, titulo: "Susurro digital", boton: TXT.ag_boton, saludo: TXT.ag_saludo, sugerencias: TXT.ag_sug, datos: () => ({ idioma: IDIOMA }) });
+</script>
+</body>
+</html>

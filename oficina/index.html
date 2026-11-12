@@ -245,7 +245,7 @@ async function cargarPara() {
 function pintarPara() {
   const tarjetas = pend.map((t) => {
     const k = t.tarjeta?.tipo === "decision" ? t.tarjeta : null, m = marcaDe(t);
-    const esIG = !!k?.ig, esPago = !!k?.pago, esEnvio = !!k?.envio, esRotulo = !!k?.rotulo, esAjuste = !!k?.ajuste, pide = !esIG && !esPago && !esEnvio && !esRotulo && !esAjuste && (/^(Te necesito:|Para avanzar #)/.test(t.asunto) || k?.recomendacion === "hacer");
+    const esIG = !!k?.ig, esPago = !!k?.pago, esEnvio = !!k?.envio, esRotulo = !!k?.rotulo, esAjuste = !!k?.ajuste, esSol = !!k?.solicitud, pide = !esIG && !esPago && !esEnvio && !esRotulo && !esAjuste && !esSol && (/^(Te necesito:|Para avanzar #)/.test(t.asunto) || k?.recomendacion === "hacer");
     const sub = [k?.por_que, k?.costo].filter(Boolean).join(" · ");
     return `<div class="card" data-id="${t.id}" style="--color:${m.color}">
       <div class="marca">${esc(m.nombre)}${k?.urgencia === "hoy" ? `<span class="hoy">Hoy</span>` : ""}</div>
@@ -256,8 +256,9 @@ function pintarPara() {
       ${esAjuste && k.ajuste.imagen ? `<a class="comprobante" href="${esc(k.ajuste.imagen)}" target="_blank" rel="noopener"><img src="${esc(k.ajuste.imagen)}" alt="Imagen a ajustar" loading="lazy"></a>` : ""}
       ${esAjuste ? `<label class="btn aj-archivo">📤 ${k.ajuste.pieza ? (k.ajuste.video ? "Elegir las imágenes o el video de la pieza" : "Elegir las imágenes de la pieza") : "Elegir la imagen corregida"}<input type="file" accept="image/*${k.ajuste.video ? ",video/mp4,video/quicktime" : ""}" ${k.ajuste.pieza ? "multiple " : ""}hidden></label><span class="aj-nom"></span>` : ""}
       ${esPago && k.imagen ? `<a class="comprobante" href="${esc(k.imagen)}" target="_blank" rel="noopener"><img src="${esc(k.imagen)}" alt="Comprobante de pago" loading="lazy" onerror="this.parentNode.textContent='Abrir el comprobante (PDF)'"></a>` : ""}
-      <textarea class="com" rows="1" ${esEnvio ? 'inputmode="numeric" ' : ""}placeholder="${esAjuste ? "Nota para el cliente (opcional): qué se cambió" : esIG ? "Escribe otra respuesta o deja vacío para enviar la de arriba" : esEnvio ? "Número de guía de Servientrega" : esPago ? "Si no llegó, explica por qué (se lo enviamos al cliente)" : pide ? "Escribe aquí lo que te piden" : "Comentario (opcional)"}"></textarea>
-      <div class="acciones">${esAjuste ? `<button class="btn pri" data-aj="subir">Enviar al cliente</button>${k.ajuste.pieza ? "" : `<button class="btn" data-aj="listo">Ya está, sin imagen nueva</button>`}` : esPago ? `<button class="btn pri" data-dec="aprobado" data-vacio="Pago correcto" data-lleno="Pago correcto">Pago correcto</button><button class="btn" data-dec="rechazado">No llegó</button>`
+      ${esSol ? solicitudDatos(k.solicitud) : ""}
+      <textarea class="com" rows="1" ${esSol ? "hidden " : ""}${esEnvio ? 'inputmode="numeric" ' : ""}placeholder="${esAjuste ? "Nota para el cliente (opcional): qué se cambió" : esIG ? "Escribe otra respuesta o deja vacío para enviar la de arriba" : esEnvio ? "Número de guía de Servientrega" : esPago ? "Si no llegó, explica por qué (se lo enviamos al cliente)" : pide ? "Escribe aquí lo que te piden" : "Comentario (opcional)"}"></textarea>
+      <div class="acciones">${esSol ? solicitudBotones(k.solicitud.id) : esAjuste ? `<button class="btn pri" data-aj="subir">Enviar al cliente</button>${k.ajuste.pieza ? "" : `<button class="btn" data-aj="listo">Ya está, sin imagen nueva</button>`}` : esPago ? `<button class="btn pri" data-dec="aprobado" data-vacio="Pago correcto" data-lleno="Pago correcto">Pago correcto</button><button class="btn" data-dec="rechazado">No llegó</button>`
         : esEnvio ? `<button class="btn pri" data-dec="aprobado" data-vacio="Enviar guía al cliente" data-lleno="Enviar guía al cliente">Enviar guía al cliente</button>`
         : esRotulo ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo entregué" data-lleno="Ya lo entregué">Ya lo entregué</button>`
         : esIG ? `<button class="btn pri" data-dec="aprobado" data-vacio="Enviar" data-lleno="Enviar la mía">Enviar</button><button class="btn" data-dec="rechazado">No responder</button>` : pide ? `<button class="btn pri" data-dec="aprobado" data-vacio="Ya lo hice" data-lleno="Enviar">Ya lo hice</button><button class="btn" data-dec="rechazado">Luego</button>`
@@ -273,7 +274,39 @@ function pintarPara() {
   $("#cuerpo").innerHTML = (tarjetas || `<div class="vacio"><b>Nada pendiente</b>El equipo no necesita nada de ti ahora.</div>`)
     + (terminado ? `<div class="seccion">Terminado esta semana</div>${terminado}` : "");
 }
-// Ajuste de un post de un cliente (Escucha digital): la versión corregida vuelve a su panel para revisión.
+// ---------- Fase 6 · Solicitudes de prueba gratuita: nadie entra a Susurro digital sin que Matías apruebe ----------
+// «Aprobar» crea la cuenta con su prueba y le envía su entrada por correo; «Rechazar» no le envía nada. Lo hace la función
+// cuenta-cliente con la sesión de admin; aquí solo están los botones. La misma lista está en Clientes → El producto.
+let diasPruebaDefecto = 14;
+const IDIOMA_SOL = { es: "español", en: "inglés" };
+const solicitudDatos = (s) => `<div class="sub" style="margin-top:6px" data-sol-datos="${s.id}"><b>${esc(s.nombre || "Sin nombre")}</b> · ${esc(s.vertical || "")} · ${esc(IDIOMA_SOL[s.idioma] || "español")}<br>${s.whatsapp ? `<a href="https://wa.me/${esc(String(s.whatsapp).replace(/\D/g, ""))}" target="_blank" rel="noopener">${esc(s.whatsapp)}</a> · ` : ""}${esc(s.correo)}${s.nota ? `<br><span class="etq nec">${esc(s.nota)}</span>` : ""}</div>`;
+const solicitudBotones = (id) => `<label style="display:flex;align-items:center;gap:6px;font-size:13px;margin:0">Días de prueba <input type="number" min="1" max="90" value="${diasPruebaDefecto}" data-sol-dias="${id}" style="width:64px;padding:8px;border-radius:10px"></label>
+  <button class="btn pri" data-sol="aprobar" data-id="${id}">Aprobar prueba</button><button class="btn" data-sol="rechazar" data-id="${id}">Rechazar</button>`;
+async function decidirSolicitud(boton) {
+  const id = Number(boton.dataset.id), aprobar = boton.dataset.sol === "aprobar", caja = boton.closest(".card") || boton.closest("[data-sol-fila]");
+  if (!aprobar && !confirm("¿Rechazar esta solicitud? No se le envía nada a la persona.")) return;
+  const dias = Number(caja.querySelector(`[data-sol-dias="${id}"]`)?.value || diasPruebaDefecto);
+  caja.querySelectorAll("button").forEach((b) => (b.disabled = true));
+  try {
+    const r = await cta({ accion: "solicitud_decidir", id, decision: aprobar ? "aprobar" : "rechazar", dias });
+    const cont = caja.querySelector(".acciones") || caja;
+    if (!aprobar) { toast("Solicitud rechazada"); }
+    else {
+      toast(r.acceso === "correo" ? "Aprobada: le llegó el correo con su código" : "Aprobada: el correo no salió, envíale su enlace");
+      cont.outerHTML = `<div class="enlace-alta" data-sol-hecho="${id}"><b>${r.acceso === "correo" ? `✅ Cuenta creada con ${r.dias} días de prueba. Le llegó un correo con su código de entrada.` : `✅ Cuenta creada con ${r.dias} días de prueba. ⚠️ El correo no salió: envíale este mensaje con su enlace personal.`}</b>
+        <div style="margin-top:6px;white-space:pre-wrap;word-break:normal;overflow-wrap:anywhere">${esc(r.mensaje)}</div>
+        <div class="enlaces">${r.whatsapp ? `<a href="${esc(r.whatsapp)}" target="_blank" rel="noopener">Avisarle por WhatsApp</a>` : ""}<button data-copiar="${esc(r.mensaje)}">Copiar mensaje</button><button data-sol-listo="${id}">Listo</button></div></div>`;
+      return;   // la tarjeta se queda hasta tocar «Listo», para que dé tiempo de avisarle
+    }
+    solicitudFuera(id);
+  } catch (x) { toast("No se pudo: " + x.message); caja.querySelectorAll("button").forEach((b) => (b.disabled = false)); }
+}
+function solicitudFuera(id) {
+  const t = pend.find((x) => x.tarjeta?.solicitud?.id === id);
+  if (t) { pend = pend.filter((x) => x !== t); if (tab === "para") pintarPara(); contador(); }
+  if (tab === "cli" && $("#prodCuerpo")) pintarProducto();
+}
+// Ajuste de un post de un cliente (Susurro digital): la versión corregida vuelve a su panel para revisión.
 function reducirImagen(file) {
   return new Promise((ok, mal) => {
     const img = new Image(), url = URL.createObjectURL(file);
@@ -464,7 +497,7 @@ const tarjetaNuevo = () => `<div class="card nuevo" style="--color:var(--bataka)
 // que vence de noche salía con la fecha del día siguiente).
 const diaQuito = (iso) => { try { return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Guayaquil" }).format(new Date(iso)); } catch (e) { return String(iso).slice(0, 10); } };
 function pintarEnlace(destino, nombre, enlace, vence) {
-  const texto = `Hola, ${nombre}. Este es el enlace para el alta de su servicio de escucha digital con Creative Whisper (toma unos 10 minutos): ${enlace}`;
+  const texto = `Hola, ${nombre}. Este es el enlace para el alta de su servicio Susurro digital con Creative Whisper (toma unos 10 minutos): ${enlace}`;
   destino.innerHTML = `<div class="enlace-alta"><b>Enlace de alta</b> · vence el ${esc(fechaCorta(diaQuito(vence)))}<br>${esc(enlace)}
     <div class="enlaces"><button data-copiar="${esc(enlace)}">Copiar enlace</button><a href="https://wa.me/?text=${encodeURIComponent(texto)}" target="_blank" rel="noopener">Mandar por WhatsApp</a></div>
     <div class="qr" data-qr="${esc(enlace)}"></div></div>`;
@@ -482,14 +515,14 @@ async function pintarClientes() {
   const [{ cuentas }, estados] = await Promise.all([llamarPanel({ accion: "cuentas" }), llamarAlta({ accion: "estados" }).catch(() => ({ cuentas: [] }))]);
   cuentasCli = cuentas || [];
   const estadoDe = new Map((estados.cuentas || []).map((x) => [x.empresa_id, x]));
-  if (!cuentasCli.length) { $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + `<div class="vacio"><b>Sin clientes todavía</b>Las cuentas de Escucha digital aparecen aquí.</div>`; return; }
+  if (!cuentasCli.length) { $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + `<div class="vacio"><b>Sin clientes todavía</b>Las cuentas de Susurro digital aparecen aquí.</div>`; return; }
   const hoy = new Date().toISOString().slice(0, 10);
   $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + cuentasCli.map((c) => {
     const on = c.estado === "activa";
     const vencida = c.pagado_hasta && c.pagado_hasta < hoy;
     return `<div class="card cli" style="--color:${on ? "var(--porthos)" : "var(--torote)"}">
       <div class="cab2"><b>${esc(c.nombre)}</b><span class="estado ${on ? "on" : "off"}">${on ? "Activa" : "Suspendida"}</span></div>
-      <div class="sub">${esc(c.plan || "Escucha digital")}${c.vertical ? " · " + esc(String(c.vertical).replace(/_/g, " ")) : ""}${c.asistente ? " · asistente " + esc(c.asistente) : ""}${c.modo_demo ? " · modo demo" : ""}</div>
+      <div class="sub">${esc(c.plan || "Susurro digital")}${c.vertical ? " · " + esc(String(c.vertical).replace(/_/g, " ")) : ""}${c.asistente ? " · asistente " + esc(c.asistente) : ""}${c.modo_demo ? " · modo demo" : ""}</div>
       ${c.etapa ? `<div class="fila2"><label>Etapa de la cuenta</label><select data-etapa="${c.id}" style="flex:1;padding:10px;border-radius:10px">${[["alta", "Alta (se está configurando)"], ["prueba", "Prueba"], ["activa", "Activa (cliente en servicio)"]].map(([v, n]) => `<option value="${v}" ${c.etapa === v ? "selected" : ""}>${n}</option>`).join("")}</select></div>` : ""}
       <button class="interruptor ${on ? "on" : ""}" data-sw="${c.id}" data-on="${on ? 1 : 0}"><span class="pista"></span><span class="tx">
         <b>${on ? "Membresía activa" : "Membresía suspendida"}</b>
@@ -583,15 +616,22 @@ async function llamarFn(fn, cuerpo) {
 const cta = (cuerpo) => llamarFn("cuenta-cliente", cuerpo);
 const usd = (n) => (n == null ? "—" : "US$ " + Number(n).toLocaleString("es-EC", { minimumFractionDigits: 2, maximumFractionDigits: 2 }));
 const tarjetaProducto = () => `<div class="card" style="--color:var(--bataka)"><div class="marca">El producto</div>
-  <div class="sub" style="margin-top:4px">Registro desde la web, cobros, planes y el consumo de cada cuenta con su costo real. Solo tú lo ves.</div>
+  <div class="sub" style="margin-top:4px">Solicitudes de prueba, cobros, planes y el consumo de cada cuenta con su costo real. Solo tú lo ves.</div>
   <details data-producto="1" style="margin-top:8px"><summary style="cursor:pointer;font-weight:700">Abrir</summary><div id="prodCuerpo" class="sub" style="margin-top:8px">Cargando…</div></details></div>`;
 async function pintarProducto() {
   const el = $("#prodCuerpo"); if (!el) return;
   try {
-    const [p, c] = await Promise.all([cta({ accion: "planes" }), cta({ accion: "consumo_oficina" })]);
+    const [p, c, so] = await Promise.all([cta({ accion: "planes" }), cta({ accion: "consumo_oficina" }), cta({ accion: "solicitudes" }).catch(() => null)]);
+    if (so?.prueba_dias) diasPruebaDefecto = Number(so.prueba_dias);
+    const pendientes = (so?.solicitudes || []).filter((x) => x.estado === "pendiente"), decididas = (so?.solicitudes || []).filter((x) => x.estado !== "pendiente").slice(0, 8);
     const a = p.ajustes || {}, sw = (clave, on, si, no, txt) => `<label class="chk"><input type="checkbox" data-prod-ajuste="${clave}" data-si="${si}" data-no="${no}" ${on ? "checked" : ""}> ${txt}</label>`;
-    el.innerHTML = `${sw("registro_web", a.registro_web === "abierto", "abierto", "cerrado", "Registro abierto: cualquiera crea su cuenta gratis desde la página (apagado: deja una solicitud y te llega una tarjeta)")}
-      ${sw("pagos_modo", a.pagos_modo === "vivo", "vivo", "apagado", `Cobros en línea (pasarela: ${esc(p.pasarela)}). Apagado: subir de plan es una solicitud y tú registras el pago`)}
+    el.innerHTML = `<div><b>Acceso: solo con tu aprobación.</b> La página pública solo deja «Solicitar una prueba gratuita»; nadie crea una cuenta por su lado ni recibe un código si no lo aprobaste.</div>
+      <div class="fila2" style="align-items:flex-end;margin-top:8px"><div style="flex:0 0 200px"><label>Días de prueba por defecto</label><input type="number" min="1" max="90" id="prodDias" value="${esc(a.prueba_dias || diasPruebaDefecto)}"></div><button class="btn" style="flex:0 0 auto;padding:10px 12px" id="prodDiasGuardar">Guardar</button></div>
+      <div style="margin-top:12px"><b>Solicitudes pendientes${pendientes.length ? ` (${pendientes.length})` : ""}</b>${so ? "" : " — todavía no disponible (falta desplegar la función nueva)"}</div>
+      ${pendientes.map((x) => `<div data-sol-fila="${x.id}" style="margin-top:8px;padding-top:8px;border-top:1px solid rgba(128,128,128,.25)"><b>${esc(x.negocio)}</b> <span class="sub">· ${esc(hora(x.creado))}</span>${solicitudDatos(x)}<div class="acciones">${solicitudBotones(x.id)}</div></div>`).join("") || (so ? `<div class="sub">Ninguna por ahora.</div>` : "")}
+      ${decididas.length ? `<details style="margin-top:8px"><summary style="cursor:pointer">Últimas decididas</summary>${decididas.map((x) => `<div style="margin-top:4px">${x.estado === "aprobada" ? "✅" : "✖️"} ${esc(x.negocio)} · ${esc(x.correo)} · ${esc(x.estado)}${x.dias_prueba ? ` (${x.dias_prueba} días${x.acceso === "enlace" ? ", entrada por enlace" : ""})` : ""}${x.decidido ? " · " + esc(hora(x.decidido)) : ""}</div>`).join("")}</details>` : ""}
+      <div style="margin-top:12px"></div>
+      ${sw("pagos_modo", a.pagos_modo === "vivo", "vivo", "apagado", `Cobros en línea (pasarela: ${esc(p.pasarela)}). Apagado: «Mejorar plan» te deja una tarjeta, al cliente le dice «El equipo te escribe hoy» y tú registras el pago`)}
       ${sw("planes_precios_visibles", a.planes_precios_visibles === "si", "si", "no", "Mostrar los precios de los planes dentro de la cuenta del cliente")}
       <div style="margin-top:6px">Botones de conexión: WhatsApp de un toque ${p.botones?.whatsapp ? "✅" : "➖ (hoy: «lo hacemos por ti»)"} · Telnyx ${p.botones?.telnyx ? "✅" : "➖ falta la clave"} · Instagram ${p.botones?.instagram ? "✅" : "➖"} · Google Drive ${p.botones?.drive ? "✅" : "➖"}</div>
       <div style="margin-top:12px"><b>Planes</b> (lo que no tiene precio no se puede contratar; «visible» lo muestra en la cuenta del cliente; un límite vacío quiere decir «sin límite»)</div>
@@ -612,12 +652,14 @@ async function pintarPlanCuenta(id) {
   try {
     const [d, p] = await Promise.all([cta({ accion: "cuenta", empresa_id: id }), cta({ accion: "planes" })]);
     const pl = d.plan, c = d.consumo || {}, wa = (d.conexiones || []).find((x) => x.canal === "whatsapp"), pagos = (p.planes || []).filter((x) => !x.gratis);
-    el.innerHTML = `<div><b>${pl ? "Plan " + esc(pl.nombre) + (pl.estado === "gracia" ? " · en gracia hasta " + esc(pl.gracia_hasta) : pl.periodo_hasta ? " · pagado hasta " + esc(pl.periodo_hasta) : "") : "Sin plan (cuenta a medida: sin límites)"}</b>${pl?.plan_pedido ? ` · pidió el plan «${esc(pl.plan_pedido)}»` : ""}</div>
+    const prueba = pl?.prueba_hasta != null ? (pl.prueba_vencida ? "Prueba gratuita · TERMINÓ el " + esc(String(pl.prueba_hasta).slice(0, 10)) : `Prueba gratuita · le quedan ${pl.prueba_dias} día${pl.prueba_dias === 1 ? "" : "s"} (hasta el ${esc(String(pl.prueba_hasta).slice(0, 10))})`) : "";
+    el.innerHTML = `<div><b>${prueba ? prueba : pl ? "Plan " + esc(pl.nombre) + (pl.estado === "gracia" ? " · en gracia hasta " + esc(pl.gracia_hasta) : pl.periodo_hasta ? " · pagado hasta " + esc(pl.periodo_hasta) : "") : "Sin plan (cuenta a medida: sin límites)"}</b>${pl?.plan_pedido ? ` · pidió el plan «${esc(pl.plan_pedido)}»` : ""}</div>
       <div>Créditos del mes: ${Number(c.usados || 0)}${c.total != null ? " de " + c.total : ""} · Archivos: ${Math.round((d.almacenamiento?.bytes || 0) / 1048576)} MB${d.almacenamiento?.limite_mb != null ? " de " + d.almacenamiento.limite_mb : ""} · WhatsApp: ${esc(wa?.estado || "")}${wa?.detalle ? " (" + esc(wa.detalle) + ")" : ""}</div>
       <div style="margin-top:6px">Personas: ${(d.usuarios || []).filter((u) => u.estado === "activo").map((u) => `${esc(u.correo)} (${esc(({ dueno: "dueño", admin: "administra", lector: "solo lectura" })[u.rol] || u.rol)})`).join(" · ") || "nadie entra con correo todavía"}</div>
       <div class="fila2" style="flex-wrap:wrap;align-items:flex-end"><div style="flex:1 1 130px"><label>Registrar pago · plan</label><select data-pc="plan">${pagos.map((x) => `<option value="${esc(x.clave)}" ${pl?.plan_pedido === x.clave || pl?.plan === x.clave ? "selected" : ""}>${esc(x.nombre)}</option>`).join("")}</select></div>
         <div style="flex:0 0 150px"><label>Pagado hasta</label><input type="date" data-pc="hasta"></div><div style="flex:0 0 110px"><label>Total US$</label><input type="number" data-pc="total" min="0" step="0.01"></div><div style="flex:0 0 100px"><label>IVA US$</label><input type="number" data-pc="iva" min="0" step="0.01"></div>
         <button class="btn pri" style="flex:0 0 auto;padding:10px 12px" data-pc-accion="pago" data-id="${id}">Registrar pago</button></div>
+      ${pl?.gratis ? `<div class="fila2" style="align-items:flex-end"><div style="flex:0 0 200px"><label>Días de prueba desde hoy</label><input type="number" data-pc="dias" min="0" max="365" value="${pl.prueba_hasta != null && !pl.prueba_vencida ? pl.prueba_dias : diasPruebaDefecto}"></div><button class="btn" style="flex:0 0 auto;padding:10px 12px" data-pc-accion="prueba" data-id="${id}">${pl.prueba_hasta != null ? "Cambiar la prueba" : "Poner prueba con vencimiento"}</button>${pl.prueba_hasta != null ? `<button class="btn" style="flex:0 0 auto;padding:10px 12px" data-pc-accion="prueba-quitar" data-id="${id}">Quitar el vencimiento</button>` : ""}</div>` : ""}
       <div class="acciones"><button class="btn" data-pc-accion="gratis" data-id="${id}">Poner el plan gratis</button><button class="btn" data-pc-accion="acceso" data-id="${id}">Enlace para abrir su cuenta</button><button class="btn" data-pc-accion="telnyx" data-id="${id}">Conectar número de Telnyx</button></div>
       <div class="fila2" style="align-items:flex-end"><div style="flex:1"><label>Dar acceso con correo (dueño)</label><input type="email" data-pc="correo" placeholder="correo@cliente.com" autocomplete="off"></div><button class="btn" style="flex:0 0 auto;padding:10px 12px" data-pc-accion="usuario" data-id="${id}">Dar acceso</button>
         <div style="flex:0 0 120px"><label>Créditos extra (mes)</label><input type="number" data-pc="extra" min="0"></div><button class="btn" style="flex:0 0 auto;padding:10px 12px" data-pc-accion="extra" data-id="${id}">Poner</button></div>
@@ -629,11 +671,12 @@ document.addEventListener("toggle", (e) => { const d = e.target; if (!d.dataset 
 document.addEventListener("change", async (e) => {
   const c = e.target.closest("[data-prod-ajuste]"); if (!c || tab !== "cli") return;
   const clave = c.dataset.prodAjuste, valor = c.checked ? c.dataset.si : c.dataset.no;
-  if (c.checked && clave !== "planes_precios_visibles" && !confirm(clave === "registro_web" ? "¿Abrir el registro? Cualquiera podrá crear una cuenta gratis desde la página." : "¿Encender los cobros en línea? Los clientes podrán pagar su plan con tarjeta.")) { c.checked = false; return; }
+  if (c.checked && clave !== "planes_precios_visibles" && !confirm("¿Encender los cobros en línea? Los clientes podrán pagar su plan con tarjeta.")) { c.checked = false; return; }
   try { const r = await cta({ accion: "ajuste", clave, valor }); toast(r.aviso || "Guardado"); } catch (x) { toast("No se pudo: " + x.message); c.checked = !c.checked; }
 });
 $("#cuerpo").addEventListener("click", async (e) => {
   if (tab !== "cli") return;
+  if (e.target.closest("#prodDiasGuardar")) { try { await cta({ accion: "ajuste", clave: "prueba_dias", valor: String(Math.round(Number($("#prodDias").value))) }); diasPruebaDefecto = Math.round(Number($("#prodDias").value)); toast("Guardado: las próximas pruebas duran " + diasPruebaDefecto + " días"); } catch (x) { toast("No se pudo: " + x.message); } return; }
   const g = e.target.closest("[data-plan-guardar]");
   if (g) {
     const f = g.closest("[data-plan-fila]"), v = (k) => f.querySelector(`[data-pf="${k}"]`), lim = JSON.parse(g.dataset.limites || "{}");
@@ -648,6 +691,8 @@ $("#cuerpo").addEventListener("click", async (e) => {
   try {
     if (a === "pago") { await cta({ accion: "pago_registrar", empresa_id: id, plan: v("plan"), hasta: v("hasta"), total_usd: Number(v("total")), iva_usd: Number(v("iva") || 0) }); toast("Pago registrado: el plan ya está activo"); return pintarPlanCuenta(id); }
     if (a === "gratis") { if (!confirm("¿Pasar esta cuenta al plan gratis? No se borra nada; aplican los límites del plan gratis.")) return; await cta({ accion: "suscripcion_poner", empresa_id: id, plan: "gratis" }); toast("Plan gratis"); return pintarPlanCuenta(id); }
+    if (a === "prueba") { const r = await cta({ accion: "prueba_poner", empresa_id: id, dias: Math.round(Number(v("dias"))) }); toast(r.plan?.prueba_vencida ? "La prueba quedó terminada" : `Prueba: le quedan ${r.plan?.prueba_dias} días`); return pintarPlanCuenta(id); }
+    if (a === "prueba-quitar") { if (!confirm("¿Quitar el vencimiento? La cuenta queda en el plan gratis sin fecha de fin.")) return; await cta({ accion: "prueba_poner", empresa_id: id, quitar: true }); toast("Sin vencimiento: plan gratis permanente"); return pintarPlanCuenta(id); }
     if (a === "acceso") { const r = await cta({ accion: "acceso", empresa_id: id }); res.innerHTML = `<div class="enlace-alta"><b>Enlace personal de su cuenta</b> (se muestra una sola vez)<br>${esc(r.enlace)}<div class="enlaces"><button data-copiar="${esc(r.enlace)}">Copiar enlace</button></div></div>`; return; }
     if (a === "usuario") { await cta({ accion: "usuario_poner", empresa_id: id, correo: v("correo"), rol: "dueno" }); toast("Listo: entra con su correo en /cuenta"); return pintarPlanCuenta(id); }
     if (a === "extra") { const r = await cta({ accion: "creditos_extra", empresa_id: id, cantidad: Number(v("extra") || 0) }); toast(`Créditos extra de ${r.mes}: ${r.creditos_extra}`); return pintarPlanCuenta(id); }
@@ -922,6 +967,9 @@ $("#txt").addEventListener("input", ajustarTxt);
 $("#atajos").addEventListener("click", (e) => { const b = e.target.closest("button[data-atajo]"); if (b) enviar(b.dataset.atajo); });
 $("#cuerpo").addEventListener("change", (e) => { const i = e.target.closest(".aj-archivo input"); if (i) i.closest(".card").querySelector(".aj-nom").textContent = i.files?.[0] ? "📎 " + i.files[0].name : ""; });
 $("#cuerpo").addEventListener("click", async (e) => {
+  const so = e.target.closest("button[data-sol]"); if (so) return decidirSolicitud(so);
+  const sl = e.target.closest("button[data-sol-listo]"); if (sl) return solicitudFuera(Number(sl.dataset.solListo));
+  const cs = tab !== "cli" && e.target.closest("[data-sol-hecho] [data-copiar]"); if (cs) { try { await navigator.clipboard.writeText(cs.dataset.copiar); toast("Mensaje copiado"); } catch (x) { toast("No se pudo copiar: selecciónalo a mano"); } return; }
   const b = e.target.closest("button[data-dec]"); if (b) return decidir(b);
   const aj = e.target.closest("button[data-aj]"); if (aj) return ajustarPost(aj);
   const f = e.target.closest("button[data-tel]"); if (f) { waChat = f.dataset.tel; return irA("wa"); }
