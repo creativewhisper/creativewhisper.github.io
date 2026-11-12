@@ -36,7 +36,8 @@ header{background:var(--negro);color:#fff}
 .barra{height:6px;border-radius:9px;background:#2a2622;overflow:hidden}
 .barra i{display:block;height:100%;width:0;background:var(--naranja);transition:width .3s}
 .pasos{display:flex;gap:6px;margin-top:10px;overflow-x:auto;scrollbar-width:none}
-.pasos button{flex:0 0 auto;border:0;border-radius:999px;padding:5px 11px;font-size:13px;font-weight:600;background:#211d1a;color:#bdb3a6;cursor:pointer}
+.pasos{gap:5px}
+.pasos button{flex:0 0 auto;border:0;border-radius:999px;padding:5px 10px;font-size:12.5px;font-weight:600;background:#211d1a;color:#bdb3a6;cursor:pointer}
 .pasos button.activo{background:var(--naranja);color:var(--negro)}
 .pasos button.hecho{background:#1f3b38;color:#bfe8e2}
 main{max-width:760px;margin:0 auto;padding:20px 16px 120px}
@@ -46,7 +47,8 @@ h3{margin:18px 0 6px;font-size:16px;font-weight:700}
 .ayuda{color:var(--suave);font-size:14px;margin:0 0 14px}
 label{display:block;font-size:14px;font-weight:600;margin:12px 0 4px}
 label small{font-weight:400;color:var(--suave)}
-input[type=text],input[type=email],input[type=tel],input[type=url],input[type=password],select,textarea{width:100%;border:1px solid var(--linea);border-radius:12px;background:var(--campo);padding:11px 12px;font-size:16px;outline:none}
+/* Todos los campos de texto, tengan o no el atributo type (así ninguno se queda sin estilo, como le pasó a «Cuenta de WhatsApp»). */
+input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=color]):not([type=range]),select,textarea{width:100%;border:1px solid var(--linea);border-radius:12px;background:var(--campo);padding:11px 12px;font-size:16px;outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--naranja);box-shadow:0 0 0 3px rgba(245,163,0,.22)}
 textarea{min-height:110px;resize:vertical}
 .fila{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -94,10 +96,18 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
 .check{display:flex;gap:10px;align-items:flex-start;font-weight:500;margin-top:12px}
 .check input{margin-top:4px;width:18px;height:18px;accent-color:var(--naranja);flex:none}
 .qr{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:12px}
-.qr div{border:1px solid var(--linea);border-radius:14px;padding:14px;text-align:center;background:#fff}
+.qr>div{border:1px solid var(--linea);border-radius:14px;padding:14px;text-align:center;background:#fff}
 .qr canvas,.qr img{margin:8px auto;display:block}
 .cargando{display:inline-block;width:16px;height:16px;border:2px solid var(--beige);border-top-color:var(--negro);border-radius:50%;animation:g .8s linear infinite;vertical-align:-3px;margin-right:6px}
 @keyframes g{to{transform:rotate(360deg)}}
+/* Foto del asistente y canales (fase 5) */
+.recorte{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-top:10px}
+.recorte canvas{width:150px;height:150px;border-radius:50%;background:#eee;touch-action:none;cursor:grab;border:3px solid var(--linea);flex:none}
+.recorte input[type=range]{width:100%;accent-color:var(--naranja)}
+.canal{border:1px solid var(--linea);border-radius:14px;padding:14px;margin-top:12px}
+.canal h3{margin:0 0 2px;display:flex;align-items:center;gap:8px}
+.canal .est{font-size:12px;font-weight:700;border-radius:999px;padding:2px 10px;background:#EFE7DB;color:var(--suave)}
+.canal .est.ok{background:#E3F4F1;color:#1E5E57}.canal .est.camino{background:#FFF1E3;color:#8A5A00}
 /* Agente conversacional */
 #abrirChat{position:fixed;right:16px;bottom:calc(16px + env(safe-area-inset-bottom,0px));border:0;border-radius:999px;padding:13px 18px;background:var(--negro);color:#fff;font-weight:700;box-shadow:0 10px 30px -10px rgba(0,0,0,.5);cursor:pointer;z-index:5}
 #abrirChat::before{content:"";display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--naranja);margin-right:8px;vertical-align:1px}
@@ -129,16 +139,15 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
   <!-- 0. Bienvenida -->
   <section class="tarjeta oculto" data-paso="inicio">
     <h2>Hola, <span class="nombreEmpresa"></span> 👋</h2>
-    <p class="ayuda">En unos 15 minutos dejamos listo tu asistente: atiende a tus clientes por WhatsApp, Instagram y la web, te muestra en un panel en vivo lo que dicen y te avisa al celular las quejas graves.</p>
+    <p class="ayuda">En unos 10 minutos dejamos listo tu asistente: atiende a tus clientes por WhatsApp, Instagram y tu web, te muestra en un panel en vivo lo que dicen y te avisa al celular las quejas graves.</p>
     <h3>Vas a necesitar</h3>
     <ul class="lista-meta">
-      <li>📄 El RUC, las sedes y sus horarios.</li>
-      <li>🌐 La dirección de tu web (de ahí armamos solos la información del asistente, tu logo, tus colores y tus fotos; tú lo revisas).</li>
-      <li>📱 El WhatsApp de quienes recibirán las alertas.</li>
-      <li>🔑 Acceso de administrador al portafolio comercial de Meta de la empresa (para la parte de canales; si no lo tienes ahora, la terminamos juntos en una sesión corta).</li>
+      <li>🌐 La dirección de tu web (de ahí sacamos solos la información del asistente, tu logo, tus colores, tus fotos y hasta tu horario; tú lo revisas).</li>
+      <li>📍 La dirección y el horario de tu local<span id="pideRuc">, y tu RUC</span>.</li>
+      <li>📱 El WhatsApp de quien recibirá las alertas.</li>
     </ul>
-    <p class="ayuda" style="margin-top:12px">Puedes dejarlo a medias: lo que guardas queda guardado y vuelves con el mismo enlace. Si tienes dudas, abre «¿Dudas?» abajo a la derecha.</p>
-    <div class="acciones"><span></span><button class="btn pri" data-ir="empresa" id="empezar">Empezar</button></div>
+    <p class="ayuda" style="margin-top:12px">No necesitas saber de Meta ni de programación: WhatsApp e Instagram se conectan con un botón o los conectamos por ti. Puedes dejarlo a medias: lo que guardas queda guardado y vuelves con el mismo enlace. Si tienes dudas, abre «¿Dudas?» abajo a la derecha.</p>
+    <div class="acciones"><span></span><button class="btn pri" data-ir="web" id="empezar">Empezar</button></div>
   </section>
 
   <!-- 1. Empresa -->
@@ -146,20 +155,35 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
     <h2>Tu empresa</h2>
     <p class="ayuda">Esto lo usa el asistente para responder bien y lo usamos para el acuerdo de datos.</p>
     <div class="fila">
-      <div><label for="razon">Razón social</label><input id="razon" type="text" autocomplete="organization"></div>
-      <div><label for="ruc">RUC</label><input id="ruc" type="text" inputmode="numeric" maxlength="13" placeholder="13 dígitos"></div>
+      <div><label for="razon">Razón social <small>(o el nombre de tu negocio)</small></label><input id="razon" type="text" name="cw-razon-social" autocomplete="organization"></div>
+      <div><label for="ruc">RUC <small id="rucOpcional" class="oculto">(opcional por ahora)</small></label><input id="ruc" type="text" name="cw-ruc" inputmode="numeric" maxlength="13" placeholder="13 dígitos" autocomplete="off"></div>
     </div>
     <div class="fila">
-      <div><label for="telefono">Teléfono de atención <small>(opcional)</small></label><input id="telefono" type="tel"></div>
-      <div><label for="correoPriv">Correo para temas de datos personales</label><input id="correoPriv" type="email" placeholder="servicio@tuempresa.com"></div>
+      <div><label for="telefono">Teléfono de atención <small>(opcional)</small></label><input id="telefono" type="tel" name="cw-telefono-negocio" autocomplete="off"></div>
+      <div><label for="correoPriv">Correo para temas de datos personales</label><input id="correoPriv" type="email" name="cw-correo-datos" autocomplete="off" placeholder="servicio@tuempresa.com"></div>
     </div>
-    <label for="nombreAsistente">Nombre del asistente <small>(opcional: por ejemplo «Vale»)</small></label><input id="nombreAsistente" type="text" maxlength="30">
     <h3>Sedes y horarios</h3>
     <div id="sedes"></div>
     <button class="btn chico" id="masSede" type="button">+ Otra sede</button>
-    <label for="horarioGeneral">Horario de atención general <small>(opcional)</small></label><input id="horarioGeneral" type="text" placeholder="Lunes a sábado de 9:00 a 19:00">
+    <label for="horarioGeneral">Horario de atención general <small>(opcional)</small></label><input id="horarioGeneral" type="text" name="cw-horario" autocomplete="off" placeholder="Lunes a sábado de 9:00 a 19:00">
     <div class="aviso mal oculto" data-error="empresa"></div>
-    <div class="acciones"><button class="btn" data-ir="inicio">Atrás</button><button class="btn pri" data-guardar="empresa">Guardar y seguir</button></div>
+    <div class="acciones"><button class="btn" data-ir="web">Atrás</button><button class="btn pri" data-guardar="empresa">Guardar y seguir</button></div>
+  </section>
+
+  <!-- Tu asistente: nombre y foto (fase 5) -->
+  <section class="tarjeta oculto" data-paso="asistente">
+    <h2>Tu asistente</h2>
+    <p class="ayuda">Ponle nombre y cara. La misma foto se ve en el chat de tu web, en tu panel, en la app y en el perfil de tu WhatsApp.</p>
+    <label for="nombreAsistente">Nombre del asistente <small>(por ejemplo «Vale» o «Lu»)</small></label><input id="nombreAsistente" type="text" name="cw-nombre-asistente" maxlength="30" autocomplete="off">
+    <label>Foto <small>(opcional: una persona de tu equipo, tu mascota de marca o tu logo)</small></label>
+    <div class="recorte">
+      <canvas id="fotoLienzo" width="300" height="300" aria-label="Vista previa de la foto del asistente"></canvas>
+      <div style="flex:1;min-width:200px"><input type="file" id="fotoArchivo" accept="image/jpeg,image/png,image/webp" class="oculto">
+        <button class="btn chico oscuro" id="fotoElegir" type="button">Elegir una foto</button>
+        <div id="fotoAjuste" class="oculto"><label for="fotoZoom">Acercar</label><input type="range" id="fotoZoom" min="1" max="3" step="0.01" value="1"><p class="ayuda" style="margin:6px 0 0">Arrastra la foto para centrarla. La recortamos y la achicamos solos.</p></div></div>
+    </div>
+    <div class="aviso mal oculto" data-error="asistente"></div>
+    <div class="acciones"><button class="btn" data-ir="empresa">Atrás</button><button class="btn pri" id="guardarAsistente" type="button">Guardar y seguir</button></div>
   </section>
 
   <!-- 2. Web -->
@@ -167,7 +191,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
     <h2>Tu web</h2>
     <p class="ayuda">Escribe la dirección de tu web. Leemos sus páginas y armamos la información del asistente, tu logo, tus colores y tus fotos. Sirve cualquier web. Después lo revisas y corriges.</p>
     <div class="fila" style="grid-template-columns:1fr auto;align-items:end">
-      <div><label for="url">Dirección de la web</label><input id="url" type="url" placeholder="tuempresa.com.ec" inputmode="url"></div>
+      <div><label for="url">Dirección de la web</label><input id="url" type="text" name="cw-web" placeholder="tuempresa.com.ec" inputmode="url" autocomplete="off" autocapitalize="off"></div>
       <button class="btn oscuro" id="leerWeb" type="button">Leer mi web</button>
     </div>
     <p class="ayuda" style="margin-top:8px"><a href="#" id="sinWeb">No tengo web: escribo la información</a></p>
@@ -180,7 +204,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
       <div id="bloqueMarca">
         <h3>Logo</h3>
         <div class="galeria" id="logos"></div>
-        <label for="subirLogo">O sube tu logo <small>(PNG, SVG o WebP, menos de 300 KB, ideal con fondo transparente)</small></label><input id="subirLogo" type="file" accept="image/png,image/svg+xml,image/webp">
+        <label for="subirLogo">O sube tu logo <small>(PNG, SVG, WebP o JPG, ideal con fondo transparente; si pesa mucho lo achicamos solos)</small></label><input id="subirLogo" type="file" accept="image/png,image/svg+xml,image/webp,image/jpeg"><p class="ayuda oculto" id="logoNota" style="margin:6px 0 0"></p>
         <h3>Colores</h3>
         <div class="colores"><label style="margin:0">Principal <input type="color" id="colPrincipal" value="#0A0908"></label><label style="margin:0">Acento <input type="color" id="colAcento" value="#F5A300"></label></div>
         <div class="muestra" id="muestra"><div class="logo sin" id="muestraLogo"></div><div><b class="nombreEmpresa"></b><span>Así se verá tu panel</span></div></div>
@@ -189,7 +213,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
         <div class="galeria fotos" id="fotos"></div>
       </div>
     </div>
-    <div class="acciones"><button class="btn" data-ir="empresa">Atrás</button><button class="btn pri oculto" id="guardarWeb">Guardar y seguir</button></div>
+    <div class="acciones"><button class="btn" data-ir="inicio">Atrás</button><button class="btn pri oculto" id="guardarWeb">Guardar y seguir</button></div>
   </section>
 
   <!-- 3. Alertas -->
@@ -199,7 +223,7 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
     <div id="personas"></div>
     <button class="btn chico" id="masPersona" type="button">+ Otra persona</button>
     <div class="aviso mal oculto" data-error="alertas"></div>
-    <div class="acciones"><button class="btn" data-ir="web">Atrás</button><button class="btn pri" data-guardar="alertas">Guardar y seguir</button></div>
+    <div class="acciones"><button class="btn" data-ir="asistente">Atrás</button><button class="btn pri" data-guardar="alertas">Guardar y seguir</button></div>
   </section>
 
   <!-- 4. Límites -->
@@ -213,30 +237,37 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
     <div class="acciones"><button class="btn" data-ir="alertas">Atrás</button><button class="btn pri" data-guardar="limites">Guardar y seguir</button></div>
   </section>
 
-  <!-- 5. Canales -->
+  <!-- 5. Canales (fase 5: con un botón o «lo hacemos por ti») -->
   <section class="tarjeta oculto" data-paso="canales">
-    <h2>Tus canales de Meta</h2>
-    <p class="ayuda">WhatsApp e Instagram se conectan dentro de la cuenta de Meta de tu empresa: todo queda a nombre de tu empresa. Primero, que esté listo esto:</p>
-    <ul class="lista-meta" id="listaMeta">
-      <li><input type="checkbox" id="lm_portafolio"><label for="lm_portafolio" style="margin:0;font-weight:500"><b>Portafolio comercial</b> de la empresa en Meta (business.facebook.com), con tu usuario como administrador.</label></li>
-      <li><input type="checkbox" id="lm_admin_cw"><label for="lm_admin_cw" style="margin:0;font-weight:500"><b>Creative Whisper como administrador.</b> Configuración del negocio → Usuarios → Socios → Agregar → con el identificador del portafolio de Creative Whisper <b id="idCw">(te lo pasa el equipo)</b> → acceso total a la app, la cuenta de WhatsApp, la página y la cuenta de Instagram.</label></li>
-      <li><input type="checkbox" id="lm_numero"><label for="lm_numero" style="margin:0;font-weight:500"><b>Número de WhatsApp</b> para el asistente. Si hoy lo usas en la app de WhatsApp Business, al conectarlo deja de funcionar en la app (lo usará el asistente).</label></li>
-      <li><input type="checkbox" id="lm_tarjeta"><label for="lm_tarjeta" style="margin:0;font-weight:500"><b>Tarjeta de crédito</b> en la cuenta de WhatsApp (WhatsApp Manager → Configuración de pago). Meta cobra los mensajes a tu empresa.</label></li>
-      <li><input type="checkbox" id="lm_instagram_pro"><label for="lm_instagram_pro" style="margin:0;font-weight:500"><b>Instagram profesional</b> (de empresa o creador).</label></li>
-      <li><input type="checkbox" id="lm_pagina"><label for="lm_pagina" style="margin:0;font-weight:500"><b>Página de Facebook</b> vinculada a esa cuenta de Instagram.</label></li>
-    </ul>
-    <h3>¿Ya tienes el acceso de la app?</h3>
-    <p class="ayuda">Si tu equipo ya creó la app y el usuario del sistema (guía de conexión), pega aquí los datos. Se guardan cifrados y nadie los vuelve a ver. Si no, sigue: lo terminamos contigo en una sesión corta.</p>
-    <details id="detalleConectar"><summary style="cursor:pointer;font-weight:700">Conectar ahora</summary>
-      <div class="fila">
-        <div><label for="appId">Identificador de la app</label><input id="appId" type="text" inputmode="numeric" autocomplete="off"></div>
-        <div><label for="appSecret">Clave secreta de la app</label><input id="appSecret" type="password" autocomplete="off"></div>
+    <h2>Conecta tus canales</h2>
+    <p class="ayuda">Elige por dónde responde tu asistente. No necesitas saber de Meta: o lo conectas con un botón, o lo conectamos por ti. Si prefieres, déjalo para después: lo haces desde tu cuenta cuando quieras.</p>
+    <div class="canal" id="canalWa">
+      <h3>💬 WhatsApp <span class="est" id="waEst">Sin conectar</span></h3>
+      <p class="ayuda" style="margin:0">Tu asistente responde en el número de tu negocio. El número sigue siendo tuyo.</p>
+      <div id="waForm">
+        <label for="waNumero">Número de WhatsApp de tu negocio</label><input id="waNumero" type="tel" name="cw-wa-negocio" autocomplete="off" placeholder="0991234567">
+        <label class="check"><input type="checkbox" id="waCoex" checked> Quiero seguir usando mi app de WhatsApp Business en este número.</label>
+        <div class="acciones" style="margin-top:10px;justify-content:flex-start"><button class="btn oscuro" id="waConectar" type="button">Conectar WhatsApp</button></div>
       </div>
-      <label for="tokenSu">Token del usuario del sistema</label><input id="tokenSu" type="password" autocomplete="off">
+      <div id="waDetalle"></div>
+    </div>
+    <div class="canal" id="canalIg">
+      <h3>📸 Instagram <span class="est" id="igEst">Sin conectar</span></h3>
+      <p class="ayuda" style="margin:0">Responde los comentarios de tus publicaciones. Tu cuenta tiene que ser profesional (de empresa o creador).</p>
+      <div class="acciones" style="margin-top:10px;justify-content:flex-start" id="igForm"><button class="btn oscuro" id="igConectar" type="button">Conectar Instagram</button></div>
+      <div id="igDetalle"></div>
+    </div>
+    <details id="detalleConectar" style="margin-top:16px"><summary style="cursor:pointer;font-weight:600;color:var(--suave)">Opción avanzada: ya tengo los accesos de mi app de Meta</summary>
+      <p class="ayuda" style="margin-top:8px">Solo si tu equipo técnico ya creó la app y el usuario del sistema. Se guardan cifrados y nadie los vuelve a ver.</p>
       <div class="fila">
-        <div><label for="wabaId">Cuenta de WhatsApp <small>(solo si el alta te lo pide: el «WhatsApp Business Account ID»)</small></label><input id="wabaId" inputmode="numeric" maxlength="25" autocomplete="off"></div>
-        <div><label for="pin">PIN de verificación en dos pasos <small>(solo si tu número ya tiene uno)</small></label><input id="pin" type="password" inputmode="numeric" maxlength="6" autocomplete="off"></div>
-        <div><label for="igToken">Token de Instagram <small>(solo si no está vinculada a una página)</small></label><input id="igToken" type="password" autocomplete="off"></div>
+        <div><label for="appId">Identificador de la app</label><input id="appId" type="text" name="cw-meta-app" inputmode="numeric" autocomplete="off"></div>
+        <div><label for="appSecret">Clave secreta de la app</label><input id="appSecret" type="password" name="cw-meta-clave-app" autocomplete="new-password" data-lpignore="true" data-1p-ignore></div>
+      </div>
+      <label for="tokenSu">Token del usuario del sistema</label><input id="tokenSu" type="password" name="cw-meta-token" autocomplete="new-password" data-lpignore="true" data-1p-ignore>
+      <div class="fila">
+        <div><label for="wabaId">Cuenta de WhatsApp <small>(solo si el alta te lo pide: el «WhatsApp Business Account ID»)</small></label><input id="wabaId" type="text" name="cw-meta-cuenta-wa" inputmode="numeric" maxlength="25" autocomplete="off"></div>
+        <div><label for="pin">PIN de verificación en dos pasos <small>(solo si tu número ya tiene uno)</small></label><input id="pin" type="password" name="cw-meta-pin" inputmode="numeric" maxlength="6" autocomplete="new-password" data-lpignore="true" data-1p-ignore></div>
+        <div><label for="igToken">Token de Instagram <small>(solo si no está vinculada a una página)</small></label><input id="igToken" type="password" name="cw-meta-token-ig" autocomplete="new-password" data-lpignore="true" data-1p-ignore></div>
       </div>
       <div id="elegirNumero" class="oculto"><label>¿Qué número conectamos?</label><div id="numeros"></div></div>
       <div class="acciones"><span></span><button class="btn oscuro" id="conectar" type="button">Conectar</button></div>
@@ -252,10 +283,10 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
     <p class="ayuda">Tu empresa es la responsable de los datos de sus clientes y Creative Whisper los trata por encargo suyo, solo para darte el servicio.</p>
     <div id="docsLegales"></div>
     <div class="fila">
-      <div><label for="acNombre">Tu nombre</label><input id="acNombre" type="text" autocomplete="name"></div>
-      <div><label for="acCargo">Tu cargo</label><input id="acCargo" type="text" autocomplete="organization-title"></div>
+      <div><label for="acNombre">Tu nombre</label><input id="acNombre" type="text" name="cw-acepta-nombre" autocomplete="name"></div>
+      <div><label for="acCargo">Tu cargo</label><input id="acCargo" type="text" name="cw-acepta-cargo" autocomplete="organization-title" placeholder="Dueña, gerente…"></div>
     </div>
-    <label for="acCorreo">Tu correo</label><input id="acCorreo" type="email" autocomplete="email">
+    <label for="acCorreo">Tu correo <small>(con él entras a tu cuenta)</small></label><input id="acCorreo" type="email" name="cw-acepta-correo" autocomplete="email">
     <label class="check"><input type="checkbox" id="acTerminos"> Acepto las condiciones del servicio en nombre de la empresa.</label>
     <label class="check"><input type="checkbox" id="acAcuerdo"> Acepto el acuerdo de tratamiento de datos (la empresa es responsable y Creative Whisper es encargado).</label>
     <div class="aviso mal oculto" data-error="aceptacion"></div>
@@ -265,11 +296,12 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
   <!-- 7. Listo -->
   <section class="tarjeta oculto" data-paso="listo">
     <h2 id="tituloListo">Revisa y termina</h2>
-    <p class="ayuda" id="ayudaListo">Esto es lo que ya está listo y lo que falta. Puedes terminar aunque falten los canales: los conectamos contigo en la sesión de conexión.</p>
+    <p class="ayuda" id="ayudaListo">Esto es lo que ya está listo y lo que falta. Puedes terminar aunque falten los canales: los conectas después desde tu cuenta.</p>
     <ul class="estado" id="estadoLista"></ul>
     <div class="aviso mal oculto" data-error="listo"></div>
     <div id="final" class="oculto">
       <div class="aviso ok" id="finalTxt"></div>
+      <div class="acciones" style="justify-content:flex-start"><a class="btn pri" id="linkCuenta" href="../cuenta/">Entrar a mi cuenta</a><span class="ayuda" id="comoEntrar" style="margin:0"></span></div>
       <div class="qr">
         <div><b>Tu panel en vivo</b><div id="qrPanel"></div><a id="linkPanel" target="_blank" rel="noopener">Abrir el panel</a></div>
         <div><b>La app para tu celular</b><div id="qrApp"></div><a id="linkApp" target="_blank" rel="noopener">Abrir la app</a></div>
@@ -285,16 +317,19 @@ ol.guia{padding-left:20px;margin:6px 0} ol.guia li{margin:6px 0}
 <button id="abrirChat" type="button">¿Dudas?</button>
 <div id="chat" class="oculto" role="dialog" aria-label="Asistente del alta">
   <div class="ch"><b>Asistente del alta</b><button type="button" id="cerrarChat" aria-label="Cerrar">×</button></div>
-  <div id="msgs"><div class="m ag">Hola. Te ayudo con cualquier paso del alta: cómo encontrar el RUC, cómo agregar a Creative Whisper en Meta o qué poner en cada campo. No pegues aquí claves ni tokens.</div></div>
+  <div id="msgs"><div class="m ag">Hola. Te ayudo con cualquier paso del alta: qué poner en cada campo, cómo conectar tu WhatsApp o qué hace tu asistente. No pegues aquí claves ni códigos.</div></div>
   <form id="formChat"><input id="txtChat" type="text" placeholder="Escribe tu pregunta…" autocomplete="off" maxlength="1500"><button class="btn pri chico" type="submit">Enviar</button></form>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="../assets/imagenes-cw.js"></script>
 <script>
 "use strict";
 const API = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/alta-cliente";
-const ID_PORTAFOLIO_CW = "4593505000865662";   // identificador del portafolio comercial de Creative Whisper en Meta (se completa antes de publicar)
-const PASOS = [["inicio", "Inicio"], ["empresa", "Empresa"], ["web", "Web"], ["alertas", "Alertas"], ["limites", "Límites"], ["canales", "Canales"], ["aceptacion", "Aceptación"], ["listo", "Listo"]];
+
+const API_CUENTA = API.replace(/alta-cliente$/, "cuenta-cliente");   // nombre y foto del asistente, y conexión de canales (fase 5)
+// Fase 5: primero la web (de ahí salen el teléfono, la dirección y el horario para no escribirlos dos veces), luego la empresa y el asistente.
+const PASOS = [["inicio", "Inicio"], ["web", "Web"], ["empresa", "Empresa"], ["asistente", "Asistente"], ["alertas", "Alertas"], ["limites", "Límites"], ["canales", "Canales"], ["aceptacion", "Aceptación"], ["listo", "Listo"]];
 const $ = (s) => document.querySelector(s), $$ = (s) => [...document.querySelectorAll(s)];
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
 const T = ((location.hash + location.search).match(/[#&?]a=([a-f0-9]{64})/) || [])[1] || "";
@@ -307,14 +342,23 @@ async function api(cuerpo) {
   if (!r.ok && r.status !== 409) throw Object.assign(new Error(j.error || "No se pudo completar. Inténtalo otra vez."), { status: r.status, json: j });
   return Object.assign(j, { _status: r.status });
 }
+async function apiCuenta(accion, datos = {}) {
+  const r = await fetch(API_CUENTA, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ accion, ta: T, ...datos }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(j.error || "No se pudo completar. Inténtalo otra vez."), { status: r.status, json: j });
+  return j;
+}
 function error(paso, txt) { const d = $(`[data-error="${paso}"]`); if (!d) return; d.textContent = txt || ""; d.classList.toggle("oculto", !txt); }
 function marcarGuardado() { $("#guardado").textContent = "Guardado ✓"; setTimeout(() => ($("#guardado").textContent = ""), 2500); }
 
 // ---------- Navegación ----------
-function hechos() { const p = S?.pasos || {}; return { inicio: true, empresa: !!p.empresa, web: !!p.web, alertas: !!p.alertas, limites: !!p.limites, canales: !!p.canales_listos, aceptacion: !!p.aceptacion, listo: S?.estado_alta === "completada" }; }
+function hechos() { const p = S?.pasos || {}; return { inicio: true, web: !!p.web, empresa: !!p.empresa, asistente: !!S?.asistente_listo, alertas: !!p.alertas, limites: !!p.limites, canales: !!p.canales_listos, aceptacion: !!p.aceptacion, listo: S?.estado_alta === "completada" }; }
 function pintarNav() {
   const h = hechos();
   $("#navPasos").innerHTML = PASOS.map(([k, n], i) => `<button type="button" data-ir="${k}" class="${k === pasoActual ? "activo" : h[k] && k !== "inicio" ? "hecho" : ""}">${i ? i + ". " : ""}${n}</button>`).join("");
+  // El paso actual siempre queda a la vista (en el celular la fila se desliza).
+  const nav = $("#navPasos"), act = nav.querySelector(".activo");
+  if (act) nav.scrollLeft += act.getBoundingClientRect().left - nav.getBoundingClientRect().left - (nav.clientWidth - act.offsetWidth) / 2;
   const n = Object.entries(h).filter(([k, v]) => v && k !== "inicio").length;
   $("#barra").style.width = Math.round((n / (PASOS.length - 1)) * 100) + "%";
 }
@@ -323,6 +367,10 @@ function ir(paso) {
   for (const s of $$("section[data-paso]")) s.classList.toggle("oculto", s.dataset.paso !== paso);
   pintarNav();
   if (paso === "listo") pintarEstado();
+  if (paso === "empresa") prellenarEmpresa();
+  if (paso === "alertas" || paso === "aceptacion" || paso === "canales") prellenarPersona();
+  if (paso === "asistente") pintarFoto();
+  if (paso === "canales") pintarCanales();
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
 document.addEventListener("click", (e) => { const b = e.target.closest("[data-ir]"); if (b) { e.preventDefault(); ir(b.dataset.ir); } });
@@ -330,8 +378,8 @@ document.addEventListener("click", (e) => { const b = e.target.closest("[data-ir
 // ---------- Empresa ----------
 function sedeHtml(s = {}) {
   return `<div class="grupo sede"><button class="btn chico quitar" type="button" title="Quitar">×</button>
-    <div class="fila"><div><label>Nombre de la sede</label><input type="text" class="sNombre" value="${esc(s.nombre)}" placeholder="Matriz"></div><div><label>Dirección</label><input type="text" class="sDir" value="${esc(s.direccion)}"></div></div>
-    <label>Horario</label><input type="text" class="sHor" value="${esc(s.horario)}" placeholder="Lunes a viernes 8:30-18:30; sábados 9:00-14:00"></div>`;
+    <div class="fila"><div><label>Nombre de la sede</label><input type="text" class="sNombre" name="cw-sede-nombre" autocomplete="off" value="${esc(s.nombre)}" placeholder="Matriz"></div><div><label>Dirección</label><input type="text" class="sDir" name="cw-sede-direccion" autocomplete="off" value="${esc(s.direccion)}"></div></div>
+    <label>Horario</label><input type="text" class="sHor" name="cw-sede-horario" autocomplete="off" value="${esc(s.horario)}" placeholder="Lunes a viernes 8:30-18:30; sábados 9:00-14:00"></div>`;
 }
 function agregar(cont, html) { cont.insertAdjacentHTML("beforeend", html); }
 $("#masSede").onclick = () => agregar($("#sedes"), sedeHtml());
@@ -342,8 +390,8 @@ function personaHtml(p = {}) {
   const areas = [["todas", "Todas las áreas"], ...(S?.areas || []).map((a) => [a.id, a.nombre])];
   const sel = (p.areas || ["todas"])[0];
   return `<div class="grupo persona"><button class="btn chico quitar" type="button" title="Quitar">×</button>
-    <div class="fila"><div><label>Nombre</label><input type="text" class="pNombre" value="${esc(p.nombre)}"></div><div><label>Cargo <small>(opcional)</small></label><input type="text" class="pCargo" value="${esc(p.cargo)}"></div></div>
-    <div class="fila"><div><label>WhatsApp</label><input type="tel" class="pWa" value="${esc(p.whatsapp)}" placeholder="0991234567"></div><div><label>Área</label><select class="pArea">${areas.map(([v, n]) => `<option value="${esc(v)}" ${v === sel ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></div></div></div>`;
+    <div class="fila"><div><label>Nombre</label><input type="text" class="pNombre" name="cw-alerta-nombre" autocomplete="off" value="${esc(p.nombre)}"></div><div><label>Cargo <small>(opcional)</small></label><input type="text" class="pCargo" name="cw-alerta-cargo" autocomplete="off" value="${esc(p.cargo)}"></div></div>
+    <div class="fila"><div><label>WhatsApp</label><input type="tel" class="pWa" name="cw-alerta-whatsapp" autocomplete="off" value="${esc(p.whatsapp)}" placeholder="0991234567"></div><div><label>Área</label><select class="pArea">${areas.map(([v, n]) => `<option value="${esc(v)}" ${v === sel ? "selected" : ""}>${esc(n)}</option>`).join("")}</select></div></div></div>`;
 }
 $("#masPersona").onclick = () => agregar($("#personas"), personaHtml());
 $("#personas").addEventListener("click", (e) => { if (e.target.closest(".quitar") && $$("#personas .persona").length > 1) e.target.closest(".persona").remove(); });
@@ -354,10 +402,10 @@ function datosDe(paso) {
     sedes: $$("#sedes .sede").map((g) => ({ nombre: g.querySelector(".sNombre").value, direccion: g.querySelector(".sDir").value, horario: g.querySelector(".sHor").value })) };
   if (paso === "alertas") return { personas: $$("#personas .persona").map((g) => ({ nombre: g.querySelector(".pNombre").value, cargo: g.querySelector(".pCargo").value, whatsapp: g.querySelector(".pWa").value, areas: [g.querySelector(".pArea").value] })) };
   if (paso === "limites") return { nunca_decir: $("#nunca").value, temas: $$("#sugerencias .chip.si").map((c) => c.dataset.v) };
-  if (paso === "canales_listos") return Object.fromEntries(["portafolio", "admin_cw", "numero", "tarjeta", "instagram_pro", "pagina"].map((k) => [k, $("#lm_" + k).checked]));
+  if (paso === "canales_listos") return { whatsapp: canales.whatsapp, instagram: canales.instagram, coexistencia: $("#waCoex").checked };
   if (paso === "aceptacion") return { nombre: $("#acNombre").value, cargo: $("#acCargo").value, correo: $("#acCorreo").value, terminos: $("#acTerminos").checked, acuerdo: $("#acAcuerdo").checked };
 }
-const SIGUIENTE = { empresa: "web", alertas: "limites", limites: "canales", canales_listos: "aceptacion", aceptacion: "listo" };
+const SIGUIENTE = { empresa: "asistente", alertas: "limites", limites: "canales", canales_listos: "aceptacion", aceptacion: "listo" };
 document.addEventListener("click", async (e) => {
   const b = e.target.closest("[data-guardar]"); if (!b) return;
   const paso = b.dataset.guardar, err = paso === "canales_listos" ? "canales" : paso;
@@ -392,17 +440,21 @@ function muestra() {
 }
 for (const id of ["#colPrincipal", "#colAcento"]) $(id).addEventListener("input", muestra);
 $("#logos").addEventListener("change", (e) => { logoSubido = e.target.value === "subido" ? ($("#logoPropio img")?.src || null) : null; muestra(); });
-$("#subirLogo").addEventListener("change", (e) => {
+$("#subirLogo").addEventListener("change", async (e) => {
   const f = e.target.files?.[0]; if (!f) return;
-  if (f.size > 300_000) { error("web", "El logo debe pesar menos de 300 KB."); return; }
-  const r = new FileReader(); r.onload = () => {
-    logoSubido = String(r.result);
+  e.target.value = "";   // así se puede volver a elegir el mismo archivo
+  error("web", "");
+  try {
+    // Fase 5: un logo pesado ya no se rechaza: se achica aquí mismo, en el navegador, antes de enviarlo.
+    const l = await CWImagenes.logo(f, 290_000);
+    logoSubido = l.datos;
+    const kb = (n) => (n >= 1048576 ? (n / 1048576).toFixed(1) + " MB" : Math.round(n / 1024) + " KB");
+    $("#logoNota").textContent = l.achicado ? `Tu logo pesaba ${kb(l.antes)}: lo achicamos a ${kb(l.bytes)} sin que pierda calidad a la vista.` : "Logo listo."; $("#logoNota").classList.remove("oculto");
     $("#logos .ayuda")?.remove(); $("#logoPropio")?.remove();
-    const l = document.createElement("label"); l.id = "logoPropio"; l.title = "Tu logo";
-    l.innerHTML = `<input type="radio" name="logo" value="subido" checked><img alt="Tu logo"><span class="etq-subido">Tu logo</span>`;
-    l.querySelector("img").src = logoSubido; $("#logos").prepend(l); muestra();
-    e.target.value = "";   // así se puede volver a elegir el mismo archivo
-  }; r.readAsDataURL(f);
+    const el = document.createElement("label"); el.id = "logoPropio"; el.title = "Tu logo";
+    el.innerHTML = `<input type="radio" name="logo" value="subido" checked><img alt="Tu logo"><span class="etq-subido">Tu logo</span>`;
+    el.querySelector("img").src = logoSubido; $("#logos").prepend(el); muestra();
+  } catch (x) { error("web", x.message); }
 });
 $("#leerWeb").onclick = async () => {
   const b = $("#leerWeb"); b.disabled = true; error("web", ""); b.innerHTML = `<span class="cargando"></span>Leyendo…`;
@@ -417,11 +469,109 @@ $("#guardarWeb").onclick = async () => {
     const r = await api({ accion: "revisar_web", base: $("#base").value, logo: logoSubido || $('#logos input[name="logo"]:checked')?.value || null,
       colores: $("#bloqueMarca").classList.contains("oculto") ? {} : { principal: $("#colPrincipal").value, acento: $("#colAcento").value }, fotos });
     if (r.avisos?.length) error("web", r.avisos.join(" "));
-    S.pasos = { ...(S.pasos || {}), web: new Date().toISOString() }; marcarGuardado(); ir("alertas");
+    S.pasos = { ...(S.pasos || {}), web: new Date().toISOString() }; marcarGuardado(); ir("empresa");
   } catch (x) { error("web", x.message); } finally { b.disabled = false; }
 };
 
-// ---------- Canales: conectar ----------
+// ---------- Fase 5 · Lo que ya sabemos no se vuelve a pedir ----------
+// Del registro (nombre, correo, WhatsApp) y de la web (teléfono, correo, dirección y horario). Solo llena campos vacíos.
+const poner = (sel, v) => { const el = typeof sel === "string" ? $(sel) : sel; if (el && !el.value && v) el.value = v; };
+const HORARIO_ES = (h) => String(h || "").replace(/\bMo\b/g, "Lun").replace(/\bTu\b/g, "Mar").replace(/\bWe\b/g, "Mié").replace(/\bTh\b/g, "Jue").replace(/\bFr\b/g, "Vie").replace(/\bSa\b/g, "Sáb").replace(/\bSu\b/g, "Dom");
+function prellenarEmpresa() {
+  const w = S.web?.datos || {}, r = S.registro || {};
+  poner("#razon", S.empresa?.nombre); poner("#telefono", (w.telefonos || [])[0]); poner("#correoPriv", r.correo || (w.correos || [])[0]);
+  const sede = $("#sedes .sede");
+  if (sede) { poner(sede.querySelector(".sNombre"), "Matriz"); poner(sede.querySelector(".sDir"), w.direccion); poner(sede.querySelector(".sHor"), HORARIO_ES((w.horarios || []).join("; "))); }
+  $("#rucOpcional").classList.toggle("oculto", !S.ruc_opcional);
+}
+function prellenarPersona() {
+  const r = S.registro || {}, w = S.web?.datos || {};
+  const p = $("#personas .persona"); if (p) { poner(p.querySelector(".pNombre"), r.nombre); poner(p.querySelector(".pWa"), r.whatsapp); }
+  poner("#acNombre", r.nombre); poner("#acCorreo", r.correo); poner("#waNumero", r.whatsapp || (w.telefonos || []).find((t) => /^\+5939/.test(t)));
+}
+
+// ---------- Fase 5 · Tu asistente: nombre y foto (se recorta y se achica aquí, en el navegador) ----------
+const foto = { img: null, zoom: 1, dx: 0, dy: 0, guardada: null };
+function pintarFoto() {
+  const cv = $("#fotoLienzo"), x = cv.getContext("2d"); x.fillStyle = "#eee"; x.fillRect(0, 0, 300, 300);
+  const i = foto.img;
+  if (i) { const w = i.naturalWidth || i.width, h = i.naturalHeight || i.height, lado = Math.min(w, h) / foto.zoom; x.drawImage(i, (w - lado) / 2 + foto.dx * (w - lado) / 2, (h - lado) / 2 + foto.dy * (h - lado) / 2, lado, lado, 0, 0, 300, 300); return; }
+  const previa = new Image(); previa.onload = () => x.drawImage(previa, 0, 0, 300, 300);
+  previa.src = foto.guardada || CWImagenes.inicial($("#nombreAsistente").value || S?.empresa?.nombre, $("#colPrincipal").value);
+}
+$("#fotoElegir").onclick = () => $("#fotoArchivo").click();
+$("#fotoArchivo").addEventListener("change", async (e) => {
+  const f = e.target.files?.[0]; e.target.value = ""; if (!f) return; error("asistente", "");
+  try { foto.img = await CWImagenes.abrir(f); foto.zoom = 1; foto.dx = foto.dy = 0; $("#fotoZoom").value = 1; $("#fotoAjuste").classList.remove("oculto"); pintarFoto(); } catch (x) { error("asistente", x.message); }
+});
+$("#fotoZoom").addEventListener("input", (e) => { foto.zoom = Number(e.target.value); pintarFoto(); });
+{ let arr = null; const cv = $("#fotoLienzo");
+  cv.addEventListener("pointerdown", (e) => { if (foto.img) { arr = { x: e.clientX, y: e.clientY, dx: foto.dx, dy: foto.dy }; cv.setPointerCapture(e.pointerId); } });
+  cv.addEventListener("pointermove", (e) => { if (!arr) return; const k = 2 / (150 * Math.max(0.2, foto.zoom - 0.6)); foto.dx = Math.max(-1, Math.min(1, arr.dx - (e.clientX - arr.x) * k)); foto.dy = Math.max(-1, Math.min(1, arr.dy - (e.clientY - arr.y) * k)); pintarFoto(); });
+  cv.addEventListener("pointerup", () => { arr = null; }); }
+$("#nombreAsistente").addEventListener("input", () => { if (!foto.img && !foto.guardada) pintarFoto(); });
+$("#guardarAsistente").onclick = async () => {
+  const b = $("#guardarAsistente"); b.disabled = true; error("asistente", "");
+  try {
+    const cuerpo = { nombre: $("#nombreAsistente").value.trim() || "Asistente" };
+    if (foto.img) { const f = CWImagenes.recorte(foto.img, foto.zoom, foto.dx, foto.dy); cuerpo.foto = f.grande; cuerpo.foto_chica = f.chica; }
+    const r = await apiCuenta("asistente_guardar", cuerpo);
+    foto.guardada = r.asistente?.foto || foto.guardada; foto.img = null; $("#fotoAjuste").classList.add("oculto");
+    $("#nombreAsistente").value = r.asistente?.nombre || cuerpo.nombre; S.asistente_listo = true; marcarGuardado(); ir("alertas");
+  } catch (x) { error("asistente", x.message); } finally { b.disabled = false; }
+};
+
+// ---------- Fase 5 · Canales con un botón o «lo hacemos por ti» ----------
+const canales = { whatsapp: null, instagram: null, equipo: null };
+const ETIQUETA = { conectado: ["Conectado", "ok"], boton: ["Falta un paso", "camino"], asistida: ["En camino: lo conecta el equipo", "camino"], despues: ["Después", ""] };
+function guiaEquipo(coex) {
+  const correo = canales.equipo?.correo;
+  return `<div class="aviso ok" style="margin-top:10px"><b>Listo: el equipo ya recibió tu pedido.</b> A ti te quedan dos cosas sencillas:</div>
+    <ol class="guia"><li><b>Agrega al equipo en tu Meta</b> (3 toques): abre <a href="https://business.facebook.com/settings/people" target="_blank" rel="noopener">business.facebook.com → Configuración → Personas</a>, toca «Invitar personas», escribe <b>${esc(correo || "el correo que te dará el equipo")}</b> y elige «Control total».</li>
+    <li><b>Ten a mano el celular de ese número.</b> El equipo te escribe por WhatsApp desde el <b style="white-space:nowrap">096 923 5680</b> y te pide el código que te llega en ese momento. Toma 5 minutos. Nadie más te lo va a pedir: si te lo piden desde otro número, no lo des.</li></ol>
+    <p class="ayuda" style="margin:0">${coex ? "Vas a poder seguir usando tu app de WhatsApp Business en el mismo número. " : ""}¿No tienes una cuenta de empresa en Meta? El equipo la crea contigo en la misma llamada.</p>`;
+}
+function pintarCanales() {
+  for (const [k, id] of [["whatsapp", "#waEst"], ["instagram", "#igEst"]]) { const [t, c] = ETIQUETA[canales[k]] || ["Sin conectar", ""]; $(id).textContent = t; $(id).className = "est " + c; }
+  $("#waForm").classList.toggle("oculto", canales.whatsapp === "conectado" || canales.whatsapp === "asistida");
+  $("#igForm").classList.toggle("oculto", canales.instagram === "conectado" || canales.instagram === "asistida");
+}
+async function leerCanales() {
+  try {
+    const r = await apiCuenta("conexiones");
+    for (const c of r.conexiones || []) if (c.canal === "whatsapp" || c.canal === "instagram") { if (c.estado === "conectado") canales[c.canal] = "conectado"; else if (c.estado === "pendiente" && !canales[c.canal]) canales[c.canal] = /equipo/.test(c.detalle || "") ? "asistida" : "boton"; }
+  } catch (x) { /* se ve al conectar */ }
+  pintarCanales();
+}
+let sondeoWa = null;
+$("#waConectar").onclick = async () => {
+  const b = $("#waConectar"); b.disabled = true; error("canales", ""); b.innerHTML = `<span class="cargando"></span>Preparando…`;
+  try {
+    const r = await apiCuenta("whatsapp_iniciar", { numero: $("#waNumero").value || undefined, coexistencia: $("#waCoex").checked });
+    canales.equipo = r.equipo || canales.equipo;
+    if (r.conectado) canales.whatsapp = "conectado";
+    else if (r.modo === "boton") {
+      canales.whatsapp = "boton";
+      $("#waDetalle").innerHTML = `<div class="aviso info" style="margin-top:10px"><b>Un paso más.</b> Se abre una ventana de Meta: entra con tu Facebook, elige tu negocio y tu número. Al terminar, vuelve a esta página.</div><div class="acciones" style="justify-content:flex-start"><a class="btn pri" href="${esc(r.url)}" target="_blank" rel="noopener" id="waAbrir">Abrir la conexión</a></div>`;
+      clearInterval(sondeoWa); let n = 0;
+      sondeoWa = setInterval(async () => { if (++n > 120) return clearInterval(sondeoWa); try { const e = await apiCuenta("whatsapp_estado"); if (e.estado === "conectado") { clearInterval(sondeoWa); canales.whatsapp = "conectado"; $("#waDetalle").innerHTML = `<div class="aviso ok" style="margin-top:10px">¡WhatsApp conectado!</div>`; pintarCanales(); } else if (e.estado === "fallo") { clearInterval(sondeoWa); canales.whatsapp = null; $("#waDetalle").innerHTML = `<div class="aviso mal" style="margin-top:10px">${esc(e.detalle)}</div>`; pintarCanales(); } } catch (x) { /* se reintenta */ } }, 4000);
+    } else { canales.whatsapp = "asistida"; $("#waDetalle").innerHTML = guiaEquipo(r.coexistencia); }
+    pintarCanales();
+  } catch (x) { error("canales", x.status === 402 ? "Tu plan incluye un canal. Puedes conectar el otro al subir de plan, desde tu cuenta." : x.message); } finally { b.disabled = false; b.textContent = "Conectar WhatsApp"; }
+};
+$("#igConectar").onclick = async () => {
+  const b = $("#igConectar"); b.disabled = true; error("canales", "");
+  try {
+    const r = await apiCuenta("instagram_iniciar");
+    canales.equipo = r.equipo || canales.equipo;
+    if (r.conectado) canales.instagram = "conectado";
+    else if (r.modo === "boton") { ss.set("cw-alta-token", T); ss.set("alta-paso", "canales"); location.href = r.url; return; }   // vuelve a tu cuenta y de ahí a este paso
+    else { canales.instagram = "asistida"; $("#igDetalle").innerHTML = canales.whatsapp === "asistida" ? `<div class="aviso ok" style="margin-top:10px">Listo: el equipo conecta tu Instagram en la misma llamada.</div>` : guiaEquipo(false); }
+    pintarCanales();
+  } catch (x) { error("canales", x.status === 402 ? "Tu plan incluye un canal. Puedes conectar el otro al subir de plan, desde tu cuenta." : x.message); } finally { b.disabled = false; }
+};
+
+// ---------- Canales: conectar (opción avanzada, con los accesos de la app de Meta del cliente) ----------
 $("#conectar").onclick = async () => {
   const b = $("#conectar"); b.disabled = true; error("canales", ""); b.innerHTML = `<span class="cargando"></span>Conectando…`;
   const elegido = $('#numeros input[name="numero"]:checked')?.value;
@@ -461,10 +611,12 @@ function pintarEstado() {
   const items = S?.estado?.items || [];
   $("#estadoLista").innerHTML = items.map((i) => `<li><span class="ic ${i.ok === true ? "ok" : i.ok === null ? "apag" : "no"}">${i.ok === true ? "✓" : i.ok === null ? "–" : "!"}</span><span><b>${esc(i.nombre)}</b>${i.ok === true ? (i.detalle ? " · " + esc(i.detalle) : "") : i.ok === null ? " · " + esc(i.detalle) : " · falta " + esc(i.falta)}</span></li>`).join("");
 }
-function qr(id, texto) { const d = $(id); d.innerHTML = ""; try { new QRCode(d, { text: texto, width: 160, height: 160, colorDark: "#0A0908", colorLight: "#ffffff" }); } catch (e) { d.textContent = ""; } }
+function qr(id, texto) { const d = $(id); d.innerHTML = ""; d.hidden = false; try { new QRCode(d, { text: texto, width: 160, height: 160, colorDark: "#0A0908", colorLight: "#ffffff" }); } catch (e) { d.hidden = true; } }
 function pintarFinal(r) {
   $("#final").classList.remove("oculto"); $("#terminar").classList.add("oculto"); $("#atrasListo").classList.add("oculto");
-  $("#tituloListo").textContent = "¡Listo! Tu servicio está en prueba"; $("#ayudaListo").textContent = "Abre tu panel y la app desde el celular con estos códigos. El equipo revisa todo y te avisa cuando pasa a activo.";
+  $("#tituloListo").textContent = "¡Listo! Tu asistente ya está funcionando"; $("#ayudaListo").textContent = "Desde tu cuenta ves todo: lo que dice tu gente, tus canales, tus archivos y tu plan. Con estos códigos abres el panel y la app desde el celular.";
+  if (r.cuenta) $("#linkCuenta").href = "../cuenta/" + new URL(r.cuenta).hash;
+  $("#comoEntrar").textContent = r.correo ? `Después entras cuando quieras con tu correo (${r.correo}): te llega un código, sin contraseñas.` : "";
   const min = r.segundos ? Math.max(1, Math.round(r.segundos / 60)) : null;
   $("#finalTxt").textContent = min ? `Completaste el alta en ${min} minuto${min === 1 ? "" : "s"}.` : "Alta completada.";
   $("#linkPanel").href = r.panel; $("#linkApp").href = r.app; qr("#qrPanel", r.panel); qr("#qrApp", r.app);
@@ -497,13 +649,13 @@ function llenar() {
   $("#titulo").textContent = `Alta de ${S.empresa.nombre}`; $("#subtitulo").textContent = `Escucha digital · ${S.empresa.vertical_nombre || ""}`.replace(/ · $/, "");
   $("#razon").value = e.razon_social || ""; $("#ruc").value = e.ruc || ""; $("#telefono").value = e.telefono || ""; $("#correoPriv").value = e.correo_privacidad || "";
   $("#nombreAsistente").value = e.asistente || S.empresa.asistente || ""; $("#horarioGeneral").value = e.horario_general || "";
+  $("#pideRuc").classList.toggle("oculto", !!S.ruc_opcional);
+  const cl = d.canales_listos || {}; if (cl.whatsapp) canales.whatsapp = cl.whatsapp; if (cl.instagram) canales.instagram = cl.instagram; if (cl.coexistencia === false) $("#waCoex").checked = false;
   $("#sedes").innerHTML = (e.sedes?.length ? e.sedes : [{}]).map(sedeHtml).join("");
   $("#personas").innerHTML = (d.alertas?.personas?.length ? d.alertas.personas : [{}]).map(personaHtml).join("");
   const lim = d.limites || {};
   $("#sugerencias").innerHTML = [...new Set([...(S.sugerencias_limites || []), ...(lim.temas || [])])].map((s) => `<button type="button" class="chip ${(lim.temas || []).includes(s) ? "si" : ""}" data-v="${esc(s)}">${esc(s)}</button>`).join("");
   $("#nunca").value = lim.nunca_decir || "";
-  for (const [k, v] of Object.entries(d.canales_listos || {})) { const c = $("#lm_" + k); if (c) c.checked = !!v; }
-  if (ID_PORTAFOLIO_CW) $("#idCw").textContent = ID_PORTAFOLIO_CW;
   const ac = d.aceptacion || {}; $("#acNombre").value = ac.nombre || ""; $("#acCargo").value = ac.cargo || ""; $("#acCorreo").value = ac.correo || "";
   if (S.web) { $("#url").value = S.web.url || ""; pintarRevision(S.web); }
   pintarLegal();
@@ -519,6 +671,9 @@ setInterval(() => { const m = Math.floor((Date.now() - inicio) / 60000); $("#tie
   $("#vCargando").classList.add("oculto");
   llenar();
   if (S.estado_alta === "completada") { ir("listo"); pintarFinal({ panel: S.panel, app: S.app, resultado: {} }); $("#finalTxt").textContent = "Esta alta ya está completada."; return; }
+  // Fase 5: el nombre y la foto que ya tenga el asistente, y cómo van los canales (también al volver del permiso de Instagram).
+  apiCuenta("ajustes").then((a) => { if (a.asistente?.foto) { foto.guardada = a.asistente.foto; S.asistente_listo = true; pintarNav(); } if (a.asistente?.nombre && !$("#nombreAsistente").value) $("#nombreAsistente").value = a.asistente.nombre; }).catch(() => {});
+  leerCanales().then(() => { const n = ss.get("cw-alta-instagram"); if (n) { ss.set("cw-alta-instagram", ""); $("#igDetalle").innerHTML = n === "ok" ? `<div class="aviso ok" style="margin-top:10px">¡Instagram conectado!</div>` : `<div class="aviso mal" style="margin-top:10px">${esc(n)}</div>`; } });
   const guardado = ss.get("alta-paso");
   ir(guardado && PASOS.some(([k]) => k === guardado) ? guardado : "inicio");
 })();
