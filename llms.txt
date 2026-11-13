@@ -11,7 +11,7 @@ Projects are quoted individually according to their scope. Contact: hola@creativ
 ## Main pages
 
 - [Home](https://creativewhisper.net/): what Creative Whisper does and how it works
-- [Services](https://creativewhisper.net/services.html): 19 services in four areas, including DropAgent (sells, collects and delivers on WhatsApp): data, production, digital marketing and automation
+- [Services](https://creativewhisper.net/services.html): 20 services in four areas, including DropAgent (sells, collects and delivers on WhatsApp): data, production, digital marketing and automation
 - [Digital Whisper](https://creativewhisper.net/digital-whisper/): data-driven advertising based on customer conversations
 - [Data](https://creativewhisper.net/data.html): how data and conversation analysis shape each campaign
 - [Portfolio](https://creativewhisper.net/portfolio.html): photography and video work by brand
@@ -20,7 +20,7 @@ Projects are quoted individually according to their scope. Contact: hola@creativ
 
 - Data: data analysis and dashboards; conversation analysis
 - Production: brand video; vertical content (Reels, TikTok); testimonials and case studies; B2B corporate video; short films and branded content; event coverage; product photography; actors and creators; dubbing, voice-over and ADR
-- Digital marketing: Meta Ads campaigns; Instagram design; websites with WhatsApp ordering; interactive website design
+- Digital marketing: Meta Ads campaigns; Instagram design; websites with WhatsApp ordering; interactive website design; AI assistant visibility (making a business readable and recommendable by ChatGPT, Gemini, Perplexity and Claude: structured data, llms.txt, Google/Bing/directory profiles, reviews and monthly tracking)
 - Automation: WhatsApp automation with AI; live AI assistant for websites; AI community manager for Instagram
 
 ## En español
