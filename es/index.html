@@ -12,7 +12,7 @@
 <title>Creative Whisper — Agencia de marketing en Quito</title>
 <link rel="icon" href="../assets/favicon-cw.png" type="image/png">
 <meta name="description" content="Creative Whisper es una agencia de marketing en Quito: análisis de datos, producción audiovisual, marketing digital y atención automatizada por WhatsApp en un solo equipo.">
-<script type="application/ld+json">{"@context":"https://schema.org","@type":"ProfessionalService","name":"Creative Whisper","url":"https://creativewhisper.net/","description":"Agencia de marketing en Quito: análisis de datos, producción audiovisual, marketing digital y atención automatizada por WhatsApp.","image":"https://creativewhisper.net/assets/monograma-cw.png","telephone":"+593969235680","address":{"@type":"PostalAddress","addressLocality":"Quito","addressCountry":"EC"},"areaServed":"Ecuador"}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"WebSite","@id":"https://creativewhisper.net/#website","url":"https://creativewhisper.net/","name":"Creative Whisper","publisher":{"@id":"https://creativewhisper.net/#organization"},"inLanguage":["en","es"]},{"@type":["ProfessionalService","Organization"],"@id":"https://creativewhisper.net/#organization","name":"Creative Whisper","url":"https://creativewhisper.net/","logo":"https://creativewhisper.net/assets/logo-cw.png","image":"https://creativewhisper.net/assets/monograma-cw.png","description":"Creative Whisper es una agencia de marketing basada en datos en Quito, Ecuador. Un solo equipo hace análisis de datos y de conversaciones, producción de video y fotografía, marketing digital (Meta Ads, Instagram, páginas web interactivas) y asistentes con inteligencia artificial que atienden a los clientes por WhatsApp, Instagram y el sitio web.","slogan":"Datos, producción audiovisual y marketing digital en un solo equipo.","telephone":"+593969235680","address":{"@type":"PostalAddress","addressLocality":"Quito","addressRegion":"Pichincha","addressCountry":"EC"},"areaServed":[{"@type":"City","name":"Quito"},{"@type":"Country","name":"Ecuador"}],"availableLanguage":["es","en"],"knowsAbout":["Marketing basado en datos","Análisis de conversaciones con clientes","Análisis de sentimiento","Producción audiovisual","Fotografía de producto","Fotografía automotriz","Meta Ads","Automatización de WhatsApp Business","Asistentes con inteligencia artificial","Diseño web interactivo"],"sameAs":["https://www.instagram.com/creative.whisper.productions"],"contactPoint":{"@type":"ContactPoint","contactType":"sales","telephone":"+593969235680","availableLanguage":["es","en"],"url":"https://wa.me/593969235680"}}]}</script>
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Creative Whisper">
 <meta property="og:title" content="Creative Whisper — Agencia de marketing en Quito">
@@ -185,6 +185,7 @@ h1,h2,h3,p,dl,dd{margin:0}
    ========================================================= */
 .statement{position:relative;height:100vh;height:100svh;display:flex;align-items:center}
 .statement .label{display:block;color:var(--beige);margin-bottom:30px}
+.st-text b{font-weight:inherit}
 .st-text{font-weight:500;font-size:clamp(30px,4.3vw,72px);line-height:1.12;letter-spacing:-.03em;max-width:21ch}
 .js .st-text .w{opacity:.14}
 .st-text .key{position:relative;display:inline-block;isolation:isolate;padding:0 .1em}
@@ -481,7 +482,7 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 <section class="statement" id="enfoque" data-scene="Enfoque">
   <div class="wrap">
     <span class="label">Cómo trabajamos</span>
-    <p class="st-text js-words">Cada proyecto empieza por los [datos|orange|ink] de tu empresa. Con ellos decidimos a quién hablarle y qué contar. Después lo [producimos|red|bone], lo [publicamos|peach|ink] y [atendemos|teal|ink] a cada cliente que responde.</p>
+    <p class="st-text js-words">Cada proyecto empieza por los <b data-c="orange" data-fg="ink">datos</b> de tu empresa. Con ellos decidimos a quién hablarle y qué contar. Después lo <b data-c="red" data-fg="bone">producimos</b>, lo <b data-c="peach" data-fg="ink">publicamos</b> y <b data-c="teal" data-fg="ink">atendemos</b> a cada cliente que responde.</p>
   </div>
 </section>
 
@@ -841,11 +842,17 @@ dialog.reel button{position:absolute;top:-44px;right:0;background:none;border:0;
 
   // texto del enfoque: palabras sueltas y palabras clave con color
   const st = $('.js-words');
-  st.innerHTML = st.textContent.trim().split(/\s+/).map(w => {
-    const m = w.match(/^\[(.+?)\|(\w+)\|(\w+)\](.*)$/);
-    if (!m) return `<span class="w">${w}</span>`;
-    return `<span class="w key" style="--c:var(--${m[2]})" data-fg="--${m[3]}"><i class="hl"></i>${m[1]}</span>${m[4] ? `<span class="w">${m[4]}</span>` : ''}`;
-  }).join(' ');
+  const paintWords = st => {
+    // el HTML trae el texto limpio (lo leen buscadores e IAs); las palabras clave van en <b data-c data-fg>
+    const esc = s => s.replace(/&/g, '&amp;').replace(/</g, '&lt;');
+    let html = '';
+    st.childNodes.forEach(n => {
+      if (n.nodeType === 3) n.textContent.split(/(\s+)/).forEach(p => { if (p) html += /^\s+$/.test(p) ? ' ' : `<span class="w">${esc(p)}</span>`; });
+      else if (n.dataset && n.dataset.c) html += `<span class="w key" style="--c:var(--${n.dataset.c})" data-fg="--${n.dataset.fg}"><i class="hl"></i>${esc(n.textContent)}</span>`;
+    });
+    return html.trim();
+  };
+  st.innerHTML = paintWords(st);
 
   // rodillos de las cifras
   const odos = $$('.odo').flatMap(el => {
