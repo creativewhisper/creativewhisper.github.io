@@ -1,4 +1,4 @@
-/* Agente conversacional de las páginas del servicio «Susurro digital» / «Digital Whisper» (la página pública, el alta y la cuenta).
+/* Agente conversacional de las páginas del servicio «Digital Whisper» (antes «Susurro digital») (la página pública, el alta y la cuenta).
    Uso:  AgenteEscucha({ api, accion, idioma: "es" | "en", datos: () => ({...}), cabeceras: () => ({...}), titulo, saludo, sugerencias: [], boton })
    Habla con la función cuenta-cliente (acciones agente_publico y agente) o con alta-cliente (asistente). Todo lo que llega se pinta como texto, nunca como HTML.
    Fase 7 (opcionales; sin ellos se comporta como siempre):

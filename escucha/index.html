@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="robots" content="noindex, nofollow">
 <meta name="theme-color" content="#032B21">
-<title>Susurro digital · Panel de gerencia</title>
+<title>Digital Whisper · Panel de gerencia</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -572,14 +572,14 @@ button{cursor:pointer;background:none;border:0;padding:0}
 <body>
 <div id="vCargando" class="pantalla"><div><div class="ico">◔</div><h2>Abriendo el panel…</h2></div></div>
 <div id="vError" class="pantalla oculto"><div><div class="ico">🔒</div><h2>Enlace no válido</h2><p>Este panel se abre con el enlace privado que le compartió Creative Whisper.</p><p style="margin-top:14px"><a href="../cuenta/" style="color:inherit;font-weight:700">Entrar con mi correo</a></p></div></div>
-<div id="vSuspendida" class="pantalla oculto"><div><div class="logo" id="logoSus"></div><div class="ico">⏸</div><h2 id="susTit">Servicio en pausa</h2><p>El servicio Susurro digital de esta cuenta está suspendido. El asistente no atiende y el panel no se actualiza mientras la membresía esté en pausa. Para reactivarla, escríbanos al WhatsApp 096 923 5680.</p></div></div>
+<div id="vSuspendida" class="pantalla oculto"><div><div class="logo" id="logoSus"></div><div class="ico">⏸</div><h2 id="susTit">Servicio en pausa</h2><p>El servicio Digital Whisper de esta cuenta está suspendido. El asistente no atiende y el panel no se actualiza mientras la membresía esté en pausa. Para reactivarla, escríbanos al WhatsApp 096 923 5680.</p></div></div>
 
 <div id="vPanel" class="oculto">
   <header class="top"><div class="top-in">
     <div class="logo" id="logo" role="img" aria-label="Logo"></div>
     <div class="sep"></div>
     <div class="tit">
-      <h1>Susurro digital · Panel de gerencia</h1>
+      <h1>Digital Whisper · Panel de gerencia</h1>
       <div class="sub"><span class="vivo"><i></i>En vivo</span><span id="actualizado">—</span><span id="nombreCuenta"></span></div>
     </div>
     <div class="bosco" id="boscoChip"><img id="boscoFoto" alt=""><div><b id="boscoNom">Asistente</b><span id="boscoEst">atiende las 24 horas</span></div></div>
@@ -714,7 +714,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
       </div>
     </section>
 
-    <div class="pie-pag"><span>Susurro digital · Creative Whisper</span><span>WhatsApp · web · voz · Instagram · Facebook · TikTok</span></div>
+    <div class="pie-pag"><span>Digital Whisper · Creative Whisper</span><span>WhatsApp · web · voz · Instagram · Facebook · TikTok</span></div>
   </main>
 </div>
 
@@ -1012,7 +1012,7 @@ function avisarNuevos(antes) {
 // ---------- Pintar ----------
 function pintar(nuevosM = new Set()) {
   const cu = S.cuenta || {};
-  document.title = `${cu.nombre || "Susurro digital"} · Panel de gerencia`;
+  document.title = `${cu.nombre || "Digital Whisper"} · Panel de gerencia`;
   $("#nombreCuenta").textContent = cu.nombre ? "· " + cu.nombre : "";
   $("#nomAsis").textContent = cu.asistente || "el asistente";
   $("#boscoNom").textContent = cu.asistente ? `${cu.asistente} · asistente` : "Asistente";

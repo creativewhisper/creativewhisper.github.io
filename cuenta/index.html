@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#0A0908">
-<title>Mi cuenta · Susurro digital</title>
+<title>Mi cuenta · Digital Whisper</title>
 <link rel="icon" href="../assets/favicon-cw.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -168,7 +168,7 @@ iframe.panel{width:100%;height:calc(100dvh - 150px);min-height:520px;border:1px 
 <header>
   <div class="cab">
     <img class="cw" src="../assets/monograma-cw.png" alt="Creative Whisper" width="40" height="27">
-    <div class="quien"><small>Mi cuenta</small><b id="cNombre" data-nt>Susurro digital</b></div>
+    <div class="quien"><small>Mi cuenta</small><b id="cNombre" data-nt>Digital Whisper</b></div>
     <div class="logo" id="cLogo" hidden></div>
     <select id="cCuentas" hidden aria-label="Cambiar de cuenta" data-nt></select>
     <button class="mejorar" id="mejorar" type="button" hidden>Mejorar plan</button>
@@ -438,7 +438,7 @@ const TC = {
     quedan: (n) => `Te quedan ${n} créditos este mes.`, sinTope: "Tu plan no tiene tope de créditos.", corto: (f) => `No te alcanza para tu próxima tanda: faltan ${f} créditos. Si no cambias nada, saldrá con lo que alcance (primero se quitan reels, después historias).`, extra: "Pedir créditos extra", proxima: (f) => `Tu próxima tanda se arma el ${f}.`, guardar: "Guardar", guardado: "Guardado.", max: (n) => `hasta ${n}`,
     muestra: "Tu muestra de contenido", muestraTx: "Tres publicaciones hechas con lo que te escribieron tus clientes. Puedes descargarlas; no se publican.", cinta: "Esto es lo que recibirías cada semana", descargar: "Descargar", copiar: "Copiar texto", copiado: "Copiado",
     prueba: "Durante tu prueba recibes una muestra de 3 publicaciones hechas con lo que te escriben tus clientes. Con un plan, tu contenido llega cada semana: publicaciones, historias diarias y, en los planes mayores, reels con voz.", pronto: "Tu muestra llega hacia el día 5 de tu prueba.", sinTanda: "Tu plan no incluye el contenido semanal.",
-    extraMsg: (e) => `Hola. Soy de ${e}. Quiero créditos extra para mi contenido de este mes en Susurro digital.`, abajo: "Abajo ves tu contenido para revisarlo y aprobarlo." },
+    extraMsg: (e) => `Hola. Soy de ${e}. Quiero créditos extra para mi contenido de este mes en Digital Whisper.`, abajo: "Abajo ves tu contenido para revisarlo y aprobarlo." },
   en: { titulo: "Your content, every week", ayuda: "You choose how much. Each piece uses credits from your plan and nothing is published without your approval.", posts: "Posts per week", postsTx: "Posts and carousels with your photos.", hist: "Stories per day", histTx: "Vertical, Monday to Sunday. You approve them all in one tap.", reels: "Reels with voice-over per week", reelsTx: "Vertical video with your photos, voice and captions.",
     noPlan: "Not included in your plan.", mejorar: "Upgrade", voz: "Voice for your reels", vozCasa: "The house voice", gasto: (c, m) => `This setup uses ${c} credits per week (about ${m} per month).`, detalle: (p, h, r, t) => `${p} × ${t.pieza} + ${h} stories × ${t.historia} + ${r} reels × ${t.reel_voz}`,
     quedan: (n) => `You have ${n} credits left this month.`, sinTope: "Your plan has no credit cap.", corto: (f) => `Not enough for your next batch: you are ${f} credits short. If you change nothing, it will go out with what fits (reels are dropped first, then stories).`, extra: "Ask for extra credits", proxima: (f) => `Your next batch is prepared on ${f}.`, guardar: "Save", guardado: "Saved.", max: (n) => `up to ${n}`,
@@ -501,6 +501,18 @@ function vPanel(cual) {
 // ---------- Conexiones ----------
 const ICONO = { whatsapp: "💬", instagram: "📸", facebook: "📘", web: "🌐", drive: "🗂️" };
 const ESTADO = { conectado: "Conectado", pendiente: "En camino", error: "Revisar", sin_conectar: "Sin conectar", no_disponible: "Pronto" };
+// DropAgent (servicio 20 de Creative Whisper): vende, cobra y entrega por WhatsApp. Se activa con el equipo: el botón abre
+// WhatsApp con el pedido escrito. Si algún día cuenta-cliente lo devuelve como canal propio («dropagent»), esta tarjeta no se muestra.
+const DA = {
+  es: { p: "Opcional", d: "Tu asistente también vende por WhatsApp: muestra opciones con botones, recibe la ubicación del cliente, cotiza el envío al instante y recibe el comprobante de pago. Tu equipo solo confirma el pago y despacha.", wa: " Primero conecta tu WhatsApp.", v: "Ver el demo", a: "Quiero activarlo", m: (e) => `Hola. Soy de ${e}. Quiero activar DropAgent en mi WhatsApp de Digital Whisper.`, vid: "../assets/servicios/cw-07-dropagent-es.mp4" },
+  en: { p: "Optional", d: "Your assistant also sells on WhatsApp: it shows options as buttons, gets the customer's location, quotes delivery instantly and receives the payment receipt. Your team just confirms the payment and ships.", wa: " Connect your WhatsApp first.", v: "Watch the demo", a: "I want it", m: (e) => `Hi. I'm from ${e}. I would like to turn on DropAgent on my Digital Whisper WhatsApp.`, vid: "../assets/servicios/cw-07-dropagent-en.mp4" } };
+function tarjetaDropAgent(cx) {
+  if ((cx || []).some((c) => c.canal === "dropagent")) return "";
+  const L = DA[CWIdioma.idioma === "en" ? "en" : "es"], wa = (cx || []).find((c) => c.canal === "whatsapp");
+  const activar = puedeCambiar() ? `<a class="btn chico pri" target="_blank" rel="noopener" href="https://wa.me/593969235680?text=${encodeURIComponent(L.m(D.cuenta.nombre))}">${esc(L.a)}</a>` : "";
+  return `<div class="canal" data-canal="dropagent" data-nt><div class="ic">🛵</div><div class="tx"><b>DropAgent</b><span class="pastilla sin_conectar">${esc(L.p)}</span>
+    <p class="ayuda">${esc(L.d)}${wa?.estado === "conectado" ? "" : esc(L.wa)}</p></div><div><a class="btn chico" target="_blank" rel="noopener" href="${L.vid}">${esc(L.v)}</a> ${activar}</div></div>`;
+}
 async function vConexiones() {
   const s = $('section[data-v="conexiones"]');
   s.innerHTML = `<div class="tarjeta"><span class="cargando"></span>Revisando tus canales…</div>`;
@@ -510,7 +522,7 @@ async function vConexiones() {
     : `<button class="btn chico pri" data-con="${esc(c.canal)}">${c.estado === "pendiente" ? "Ver cómo va" : "Conectar"}</button>`;
   s.innerHTML = `<div class="tarjeta"><h2>Tus canales</h2><p class="ayuda">Aquí conectas por dónde responde tu asistente y de dónde salen tus fotos. No necesitas saber de Meta.</p>
     ${cx.map((c) => `<div class="canal" data-canal="${esc(c.canal)}"><div class="ic">${ICONO[c.canal] || "🔌"}</div><div class="tx"><b>${esc(c.nombre)}</b><span class="pastilla ${esc(c.estado)}">${ESTADO[c.estado] || esc(c.estado)}</span>
-      <p class="ayuda">${esc(c.detalle || c.nota || (c.canal === "whatsapp" ? "Tu asistente responde en tu número. Puedes seguir usando tu app de WhatsApp Business." : c.canal === "instagram" ? "Responde los comentarios de tus publicaciones." : c.canal === "web" ? "Un chat con tu marca para tu página web." : c.canal === "drive" ? "Tus fotos y videos se quedan en tu Drive: eliges cuáles usamos." : ""))}</p></div><div>${boton(c)}</div></div>`).join("")}
+      <p class="ayuda">${esc(c.detalle || c.nota || (c.canal === "whatsapp" ? "Tu asistente responde en tu número. Puedes seguir usando tu app de WhatsApp Business." : c.canal === "instagram" ? "Responde los comentarios de tus publicaciones." : c.canal === "web" ? "Un chat con tu marca para tu página web." : c.canal === "drive" ? "Tus fotos y videos se quedan en tu Drive: eliges cuáles usamos." : ""))}</p></div><div>${boton(c)}</div></div>`).join("")}${tarjetaDropAgent(cx)}
     <div id="conDetalle"></div></div>`;
   s.onclick = (e) => { const b = e.target.closest("[data-con]"); if (b) conectar(b.dataset.con, b); };
 }

@@ -1,4 +1,4 @@
-/* Chat del asistente para la web de un cliente de «Susurro digital» (Creative Whisper).
+/* Chat del asistente para la web de un cliente de «Digital Whisper» (Creative Whisper).
    Se pega en la web del cliente con UNA línea (la da su cuenta, en Conexiones → Chat en tu web):
      <script src="https://creativewhisper.net/asistente/cliente.js" data-cuenta="mi-negocio" async></script>
    Lleva la marca del cliente: el nombre y la foto de su asistente y su color. No carga nada más de terceros, no lee la
