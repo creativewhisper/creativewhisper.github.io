@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0908">
+<title>API para tu IA · Digital Whisper · Creative Whisper</title>
+<meta name="description" content="Conecta Claude, ChatGPT u otro agente a tu cuenta de Digital Whisper: conector MCP con OAuth o clave de API. Tú eliges los permisos.">
+<link rel="icon" href="../assets/favicon-cw.png" type="image/png">
+<link rel="canonical" href="https://creativewhisper.net/api/">
+<meta property="og:title" content="API para tu IA · Digital Whisper">
+<meta property="og:description" content="Conecta Claude, ChatGPT u otro agente a tu cuenta. Tú eliges los permisos, uno por uno.">
+<meta property="og:url" content="https://creativewhisper.net/api/">
+<meta property="og:image" content="https://creativewhisper.net/assets/og-cw-logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@800;900&family=Hanken+Grotesk:wght@400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Documentación pública de la API de IA de Digital Whisper (fase 8). Paleta de Creative Whisper. */
+:root{--naranja:#F5A300;--rojo:#E3120B;--durazno:#FFD7BD;--verde:#3EA398;--negro:#0A0908;--beige:#CDBFA6;--fondo:#FBF7F2;--linea:#E6DCCD;--suave:#6B645A;
+  --f:"Hanken Grotesk",system-ui,sans-serif;--fd:"Big Shoulders Display",var(--f);--fm:"IBM Plex Mono",ui-monospace,monospace}
+*{box-sizing:border-box;margin:0}html{scroll-behavior:smooth}
+body{font-family:var(--f);background:var(--fondo);color:var(--negro);line-height:1.55;font-size:16.5px;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+.franja{height:6px;background:linear-gradient(100deg,var(--naranja) 0 20%,var(--rojo) 20% 40%,var(--durazno) 40% 60%,var(--verde) 60% 80%,var(--beige) 80%)}
+header{background:var(--negro);color:#FBF7F2}
+.cab{max-width:1040px;margin:0 auto;padding:14px 20px;display:flex;align-items:center;gap:14px;justify-content:space-between}
+.cab .marca{font:900 22px/1 var(--fd);text-transform:uppercase;letter-spacing:.02em;text-decoration:none}.cab .marca small{display:block;font:500 10.5px/1.3 var(--fm);letter-spacing:.16em;color:var(--beige)}
+.cab nav{display:flex;gap:8px;align-items:center}
+.cab .btn,.cab button{border:1px solid rgba(236,230,219,.3);background:transparent;color:inherit;border-radius:999px;padding:8px 14px;font:600 13.5px var(--f);cursor:pointer;text-decoration:none;white-space:nowrap}
+.cab .btn.pri{background:var(--naranja);border-color:var(--naranja);color:var(--negro);font-weight:800}
+.hero{background:var(--negro);color:#FBF7F2;padding:34px 20px 54px}.hero>div{max-width:1040px;margin:0 auto}
+.hero .k{display:inline-block;background:var(--verde);color:var(--negro);border-radius:999px;padding:4px 14px;font-weight:800;font-size:13px;margin-bottom:14px}
+.hero h1{font:900 clamp(40px,7vw,78px)/.95 var(--fd);text-transform:uppercase;letter-spacing:.005em;max-width:16ch}
+.hero p{max-width:60ch;margin-top:16px;font-size:18px;color:#E9E1D5}
+.hero .acc{display:flex;gap:10px;flex-wrap:wrap;margin-top:22px}
+.btn2{display:inline-flex;align-items:center;gap:8px;border-radius:12px;padding:12px 18px;font-weight:800;font-size:15px;text-decoration:none;background:var(--naranja);color:var(--negro);border:0;cursor:pointer}.btn2.cl{background:transparent;border:1px solid rgba(236,230,219,.35);color:#FBF7F2}
+main{max-width:1040px;margin:-26px auto 0;padding:0 20px 90px}
+section{background:#fff;border:1px solid var(--linea);border-radius:18px;padding:24px;margin-bottom:16px;box-shadow:0 18px 40px -30px rgba(10,9,8,.35)}
+h2{font:900 34px/1 var(--fd);text-transform:uppercase;margin-bottom:10px}h3{font-size:17.5px;font-weight:800;margin:18px 0 6px}
+p{margin:8px 0}ol,ul{padding-left:22px;margin:8px 0}li{margin:5px 0}
+.dos{display:grid;grid-template-columns:1fr 1fr;gap:14px}@media (max-width:760px){.dos{grid-template-columns:1fr}section{padding:18px}}
+.caja{border:1px solid var(--linea);border-radius:14px;padding:16px;background:var(--fondo)}.caja h3{margin-top:0}
+.nota{border-radius:12px;padding:11px 14px;background:#E3F4F1;color:#1E5E57;font-size:15px;margin:12px 0}.nota.av{background:#FFF1E3;color:#6B4700}
+code{font-family:var(--fm);font-size:.88em;background:#F1EADF;border-radius:6px;padding:1px 6px;overflow-wrap:anywhere}
+pre{background:var(--negro);color:#F3ECE0;border-radius:14px;padding:14px 16px;overflow-x:auto;font:13.5px/1.55 var(--fm);margin:10px 0;position:relative}pre code{background:none;padding:0;color:inherit;font-size:1em}
+pre .c{color:#9C9285}pre .k{color:var(--naranja)}
+.copiar{position:absolute;right:8px;top:8px;border:0;border-radius:8px;background:#2a2622;color:#FBF7F2;font:600 12px var(--f);padding:5px 10px;cursor:pointer}
+.tabla{width:100%;border-collapse:collapse;font-size:15px;margin-top:8px}.tabla th{text-align:left;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--suave);padding:8px 10px;border-bottom:2px solid var(--linea)}
+.tabla td{padding:10px;border-bottom:1px solid var(--linea);vertical-align:top}.tabla td:first-child{white-space:nowrap}.tabla .e{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:var(--durazno);color:#6B2A00;border-radius:999px;padding:1px 8px;margin-left:6px}
+.desliza{overflow-x:auto}
+footer{max-width:1040px;margin:0 auto;padding:0 20px 60px;color:var(--suave);font-size:14px}
+</style>
+</head>
+<body>
+<div class="franja"></div>
+<header><div class="cab">
+  <a class="marca" href="../digital-whisper/" id="marca" data-nt>Digital Whisper<small>CREATIVE WHISPER · API</small></a>
+  <nav><button id="idioma" type="button" aria-label="Cambiar idioma / Change language">ES / EN</button><a class="btn pri" href="../cuenta/#ia" id="irCuenta" data-nt>Mi cuenta</a></nav>
+</div></header>
+<div id="pagina" data-nt></div>
+<script src="../assets/agente-escucha.js"></script>
+<script src="../assets/idioma.js"></script>
+<script>
+"use strict";
+// La dirección de la API. Cuando haya dominio propio (api.creativewhisper.net), se cambia solo esta línea.
+const API_IA = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/api-cliente";
+const FN_CUENTA = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/cuenta-cliente";
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const PERMISOS = [["panel:leer", 0], ["contenido:leer", 0], ["contenido:aprobar", 1], ["contenido:pedir_cambios", 1], ["casos:gestionar", 1], ["creditos:leer", 0], ["cantidades:cambiar", 1]];
+const HERR = [["cuenta_estado", "—"], ["panel_resumen", "panel:leer"], ["panel_conversaciones", "panel:leer"], ["casos_listar", "panel:leer"], ["casos_actualizar", "casos:gestionar"], ["contenido_listar", "contenido:leer"], ["contenido_aprobar", "contenido:aprobar"],
+  ["contenido_pedir_cambio", "contenido:pedir_cambios"], ["creditos_ver", "creditos:leer"], ["cantidades_ver", "creditos:leer"], ["cantidades_cambiar", "cantidades:cambiar"]];
+const T = {
+ es: { marca: "Digital Whisper", cuenta: "Mi cuenta", k: "Para quien ya tiene una cuenta", h1: "Conecta tu IA a tu cuenta", lede: "Claude, ChatGPT u otro agente pueden leer tu panel, revisar tu contenido y gestionar tus casos. Tú eliges qué puede hacer cada conexión, permiso por permiso, y lo quitas cuando quieras.",
+  b1: "Abrir «Conexiones de IA»", b2: "No tengo cuenta: solicitar la prueba", publica: "../digital-whisper/#solicitar",
+  quien: "Quién puede usarla", quienTx: "Cualquier cuenta con un plan vigente o con la prueba gratuita vigente. Una prueba terminada o una cuenta sin plan no entra: la respuesta es <code>403</code> hasta elegir un plan. Lo que hace una IA gasta lo mismo que si lo hicieras tú: cada pieza de contenido usa créditos con la tarifa de siempre.",
+  caminos: "Dos maneras de conectar", c1: "Con un conector (recomendado)", c1Tx: "Para Claude, ChatGPT y cualquier aplicación que hable MCP. No copias ninguna clave: entras a tu cuenta con tu correo y marcas los permisos.", c2: "Con una clave de API", c2Tx: "Para tus propios programas y automatizaciones. La creas en tu cuenta, con nombre, permisos y vencimiento, y se muestra una sola vez.",
+  dir: "La dirección del conector", dirTx: "Es la misma para todas las cuentas. También la ves, lista para copiar, en tu cuenta → Conexiones de IA.", copiar: "Copiar", copiado: "Copiado ✓",
+  claude: "En Claude", claudeP: ["Abre <b>Ajustes → Conectores</b> y elige <b>Agregar conector personalizado</b>.", "Ponle un nombre (por ejemplo, «Digital Whisper») y pega la dirección del conector.", "Toca <b>Conectar</b>. Se abre tu cuenta: entra con tu correo y el código que te llega.", "Marca qué le permites y toca <b>Permitir</b>. Vuelves a Claude ya conectado."],
+  gpt: "En ChatGPT", gptP: ["Abre <b>Ajustes → Conectores</b> y crea un conector nuevo (en algunos planes hay que activar antes el modo de desarrollador).", "Pega la dirección del conector y elige autenticación <b>OAuth</b>.", "Se abre tu cuenta: entra con tu correo, marca los permisos y toca <b>Permitir</b>."],
+  notaMenus: "Los nombres de los menús de cada IA cambian con el tiempo. Lo que no cambia: buscar «conectores» o «MCP», pegar la dirección y elegir OAuth.",
+  otros: "En otras aplicaciones (MCP)", otrosTx: "El servidor es MCP por HTTP («streamable»). La autorización es OAuth 2.1 con PKCE y registro dinámico de clientes: la aplicación se registra sola, no hay que pedir credenciales a nadie.",
+  permisos: "Los permisos", permisosTx: "Cada conexión tiene los suyos. Se marcan al conectar y se cambian o se revocan en tu cuenta. Los que cambian cosas nunca vienen marcados: los marcas tú.", pNombre: "Permiso", pQue: "Qué permite", cambia: "cambia cosas",
+  p: { "panel:leer": "Leer el resumen del panel, el sentimiento, las conversaciones y los casos. Sin teléfonos ni datos de contacto.", "contenido:leer": "Ver publicaciones, historias y reels: texto, fecha, estado y por qué se proponen.",
+   "contenido:aprobar": "Aprobar piezas para que se publiquen en su fecha. Recibes un aviso la primera vez que una IA aprueba algo.", "contenido:pedir_cambios": "Pedir un ajuste en una pieza: vuelve a corrección con el comentario.",
+   "casos:gestionar": "Marcar un caso en proceso o resuelto y dejar una nota. No le escribe a tus clientes.", "creditos:leer": "Ver los créditos del mes y las cantidades pedidas por semana. Sin precios.", "cantidades:cambiar": "Cambiar cuántas publicaciones, historias y reels quieres por semana, dentro del máximo de tu plan." },
+  herr: "Las herramientas", herrTx: "Son las mismas por MCP y por REST, con el mismo nombre. Una conexión solo ve las de sus permisos.", hNombre: "Herramienta", hPerm: "Permiso",
+  rest: "Con una clave de API (REST)", restTx: "Cada herramienta es un <code>POST</code> a <code>/v1/&lt;herramienta&gt;</code> con un cuerpo JSON. La clave va en la cabecera <code>Authorization</code>.",
+  r1: "Qué puede hacer mi clave", r2: "Leer el resumen de los últimos 7 días", r3: "Aprobar dos piezas (necesita «contenido:aprobar»)", tuClave: "TU_CLAVE",
+  seg: "Lo que siempre se cumple", segL: ["<b>Nada se publica sin aprobación.</b> Una IA solo aprueba si le diste ese permiso, y cada pieza queda aprobada en su versión.", "<b>Todo cambio queda en el registro</b> de tu cuenta: qué conexión, qué hizo y cuándo. Los intentos sin permiso también.",
+   "<b>Sin datos de más.</b> Ninguna respuesta trae teléfonos, datos de contacto de tus clientes, claves ni costos.", "<b>Límite de uso:</b> 60 pedidos por minuto por conexión. Al pasarlo, la respuesta es <code>429</code> con la espera en <code>Retry-After</code>.",
+   "<b>Las claves se muestran una sola vez</b> y vencen. Los accesos de un conector duran una hora y se renuevan solos.", "<b>Revocar es inmediato:</b> en tu cuenta → Conexiones de IA → Revocar."],
+  nunca: "Nunca pegues una clave en un chat, ni en el de esta página. Si se te escapó, revócala y crea otra.",
+  err: "Respuestas de error", eCod: "Código", eQue: "Qué significa", e: [["401", "Falta la clave o el acceso, o ya no vale (venció o se revocó)."], ["403", "La conexión no tiene ese permiso (<code>sin_permiso</code>), o la cuenta no tiene un plan vigente."], ["402", "La cantidad pedida no cabe en el plan."], ["404", "La herramienta o la pieza no existe en esa cuenta."], ["429", "Se pasó el límite de pedidos por minuto."], ["503", "La API está en pausa."]],
+  pie: "Digital Whisper es un servicio de Creative Whisper. ¿Dudas? Pregúntale al asistente de esta página.",
+  ag: { titulo: "Ayuda con la API", boton: "¿Dudas con la API?", saludo: "Hola. Te ayudo a conectar tu IA a tu cuenta o a usar la API. Nunca pegues claves aquí.", sug: ["¿Cómo conecto Claude?", "¿Qué permisos hay?", "¿Quién puede usar la API?"], clave: "Por seguridad no envié lo que pegaste: parece una clave. Revócala en tu cuenta, en Conexiones de IA, y crea otra." } },
+ en: { marca: "Digital Whisper", cuenta: "My account", k: "For those who already have an account", h1: "Connect your AI to your account", lede: "Claude, ChatGPT or another agent can read your dashboard, review your content and manage your cases. You choose what each connection may do, permission by permission, and remove it whenever you like.",
+  b1: "Open “AI connections”", b2: "No account yet: request a free trial", publica: "../digital-whisper/#solicitar",
+  quien: "Who can use it", quienTx: "Any account with an active plan or an active free trial. An ended trial or an account without a plan cannot: the answer is <code>403</code> until a plan is chosen. What an AI does costs the same as if you did it: each content piece uses credits at the usual rate.",
+  caminos: "Two ways to connect", c1: "With a connector (recommended)", c1Tx: "For Claude, ChatGPT and any app that speaks MCP. You copy no keys: you sign in to your account with your email and tick the permissions.", c2: "With an API key", c2Tx: "For your own programs and automations. You create it in your account, with a name, permissions and an expiry date, and it is shown only once.",
+  dir: "The connector address", dirTx: "It is the same for every account. You will also find it, ready to copy, in your account → AI connections.", copiar: "Copy", copiado: "Copied ✓",
+  claude: "In Claude", claudeP: ["Open <b>Settings → Connectors</b> and choose <b>Add custom connector</b>.", "Give it a name (for example, “Digital Whisper”) and paste the connector address.", "Tap <b>Connect</b>. Your account opens: sign in with your email and the code you receive.", "Tick what you allow and tap <b>Allow</b>. You are back in Claude, connected."],
+  gpt: "In ChatGPT", gptP: ["Open <b>Settings → Connectors</b> and create a new connector (on some plans you first need to turn on developer mode).", "Paste the connector address and choose <b>OAuth</b> authentication.", "Your account opens: sign in with your email, tick the permissions and tap <b>Allow</b>."],
+  notaMenus: "Each AI's menu names change over time. What does not change: look for “connectors” or “MCP”, paste the address and choose OAuth.",
+  otros: "In other apps (MCP)", otrosTx: "The server speaks MCP over HTTP (“streamable”). Authorization is OAuth 2.1 with PKCE and dynamic client registration: the app registers itself, there are no credentials to request.",
+  permisos: "Permissions", permisosTx: "Each connection has its own. You tick them when connecting and change or revoke them in your account. The ones that make changes are never pre-ticked: you tick them.", pNombre: "Permission", pQue: "What it allows", cambia: "makes changes",
+  p: { "panel:leer": "Read the dashboard summary, sentiment, conversations and cases. No phone numbers or contact details.", "contenido:leer": "See posts, stories and reels: text, date, status and why they are proposed.",
+   "contenido:aprobar": "Approve pieces so they are published on their date. You are notified the first time an AI approves something.", "contenido:pedir_cambios": "Request a change on a piece: it goes back for correction with the comment.",
+   "casos:gestionar": "Mark a case in progress or resolved and leave a note. It does not message your customers.", "creditos:leer": "See this month's credits and the weekly quantities. No prices.", "cantidades:cambiar": "Change how many posts, stories and reels you want per week, within your plan's maximum." },
+  herr: "The tools", herrTx: "They are the same over MCP and REST, with the same names. A connection only sees the ones its permissions cover.", hNombre: "Tool", hPerm: "Permission",
+  rest: "With an API key (REST)", restTx: "Each tool is a <code>POST</code> to <code>/v1/&lt;tool&gt;</code> with a JSON body. The key goes in the <code>Authorization</code> header.",
+  r1: "What my key can do", r2: "Read the last 7 days' summary", r3: "Approve two pieces (needs “contenido:aprobar”)", tuClave: "YOUR_KEY",
+  seg: "What always holds", segL: ["<b>Nothing is published without approval.</b> An AI only approves if you gave it that permission, and each piece is approved in its version.", "<b>Every change is logged</b> in your account: which connection, what it did and when. Attempts without permission too.",
+   "<b>No extra data.</b> No answer carries phone numbers, your customers' contact details, keys or costs.", "<b>Rate limit:</b> 60 requests per minute per connection. Beyond it, the answer is <code>429</code> with the wait in <code>Retry-After</code>.",
+   "<b>Keys are shown only once</b> and expire. A connector's access lasts one hour and renews itself.", "<b>Revoking is immediate:</b> in your account → AI connections → Revoke."],
+  nunca: "Never paste a key into a chat, including the one on this page. If one slipped out, revoke it and create another.",
+  err: "Error responses", eCod: "Code", eQue: "What it means", e: [["401", "The key or access is missing, or no longer valid (expired or revoked)."], ["403", "The connection lacks that permission (<code>sin_permiso</code>), or the account has no active plan."], ["402", "The requested quantity does not fit the plan."], ["404", "The tool or the piece does not exist in that account."], ["429", "The per-minute request limit was exceeded."], ["503", "The API is paused."]],
+  pie: "Digital Whisper is a service by Creative Whisper. Questions? Ask the assistant on this page.",
+  ag: { titulo: "Help with the API", boton: "API questions?", saludo: "Hi. I can help you connect your AI to your account or use the API. Never paste keys here.", sug: ["How do I connect Claude?", "What permissions are there?", "Who can use the API?"], clave: "For your security I did not send what you pasted: it looks like a key. Revoke it in your account, under AI connections, and create another." } },
+};
+const L = () => T[CWIdioma.idioma === "en" ? "en" : "es"];
+const bloque = (codigo) => `<pre><button class="copiar" type="button" data-copiar>${esc(L().copiar)}</button><code>${codigo}</code></pre>`;
+function pintar() {
+  const l = L(), mcp = API_IA + "/mcp", k = l.tuClave;
+  document.documentElement.lang = CWIdioma.idioma === "en" ? "en" : "es"; document.title = (CWIdioma.idioma === "en" ? "API for your AI · Digital Whisper" : "API para tu IA · Digital Whisper") + " · Creative Whisper";
+  document.getElementById("marca").innerHTML = `${esc(l.marca)}<small>CREATIVE WHISPER · API</small>`; document.getElementById("marca").href = CWIdioma.idioma === "en" ? "../digital-whisper/" : "../digital-whisper/"; document.getElementById("irCuenta").textContent = l.cuenta;
+  document.getElementById("pagina").innerHTML = `<div class="hero"><div><span class="k">${esc(l.k)}</span><h1>${esc(l.h1)}</h1><p>${esc(l.lede)}</p>
+    <div class="acc"><a class="btn2" href="../cuenta/#ia">${esc(l.b1)}</a><a class="btn2 cl" href="${l.publica}">${esc(l.b2)}</a></div></div></div>
+  <main>
+  <section id="quien"><h2>${esc(l.quien)}</h2><p>${l.quienTx}</p></section>
+  <section id="conectar"><h2>${esc(l.caminos)}</h2><div class="dos"><div class="caja"><h3>🔌 ${esc(l.c1)}</h3><p>${esc(l.c1Tx)}</p></div><div class="caja"><h3>🔑 ${esc(l.c2)}</h3><p>${esc(l.c2Tx)}</p></div></div>
+    <h3>${esc(l.dir)}</h3><p>${esc(l.dirTx)}</p>${bloque(esc(mcp))}
+    <div class="dos"><div><h3>${esc(l.claude)}</h3><ol>${l.claudeP.map((x) => `<li>${x}</li>`).join("")}</ol></div><div><h3>${esc(l.gpt)}</h3><ol>${l.gptP.map((x) => `<li>${x}</li>`).join("")}</ol></div></div>
+    <div class="nota av">${esc(l.notaMenus)}</div>
+    <h3>${esc(l.otros)}</h3><p>${esc(l.otrosTx)}</p>${bloque(`<span class="c"># ${CWIdioma.idioma === "en" ? "discovery" : "descubrimiento"}</span>\nGET ${esc(API_IA)}/.well-known/oauth-protected-resource\nGET ${esc(API_IA)}/.well-known/oauth-authorization-server\n<span class="c"># MCP</span>\nPOST ${esc(mcp)}`)}</section>
+  <section id="permisos"><h2>${esc(l.permisos)}</h2><p>${esc(l.permisosTx)}</p><div class="desliza"><table class="tabla"><tr><th>${esc(l.pNombre)}</th><th>${esc(l.pQue)}</th></tr>
+    ${PERMISOS.map(([p, c]) => `<tr><td><code>${p}</code>${c ? `<span class="e">${esc(l.cambia)}</span>` : ""}</td><td>${esc(l.p[p])}</td></tr>`).join("")}</table></div></section>
+  <section id="herramientas"><h2>${esc(l.herr)}</h2><p>${esc(l.herrTx)}</p><div class="desliza"><table class="tabla"><tr><th>${esc(l.hNombre)}</th><th>${esc(l.hPerm)}</th></tr>
+    ${HERR.map(([h, p]) => `<tr><td><code>${h}</code></td><td>${p === "—" ? "—" : `<code>${p}</code>`}</td></tr>`).join("")}</table></div></section>
+  <section id="rest"><h2>${esc(l.rest)}</h2><p>${l.restTx}</p>
+    <h3>${esc(l.r1)}</h3>${bloque(`curl ${esc(API_IA)}/v1/herramientas \\\n  -H <span class="k">"Authorization: Bearer ${k}"</span>`)}
+    <h3>${esc(l.r2)}</h3>${bloque(`curl -X POST ${esc(API_IA)}/v1/panel_resumen \\\n  -H <span class="k">"Authorization: Bearer ${k}"</span> \\\n  -H "Content-Type: application/json" \\\n  -d '{"dias": 7}'`)}
+    <h3>${esc(l.r3)}</h3>${bloque(`curl -X POST ${esc(API_IA)}/v1/contenido_aprobar \\\n  -H <span class="k">"Authorization: Bearer ${k}"</span> \\\n  -H "Content-Type: application/json" \\\n  -d '{"ids": [41, 42]}'`)}
+    <div class="nota av">${esc(l.nunca)}</div></section>
+  <section id="seguridad"><h2>${esc(l.seg)}</h2><ul>${l.segL.map((x) => `<li>${x}</li>`).join("")}</ul>
+    <h3>${esc(l.err)}</h3><div class="desliza"><table class="tabla"><tr><th>${esc(l.eCod)}</th><th>${esc(l.eQue)}</th></tr>${l.e.map(([c, q]) => `<tr><td><code>${c}</code></td><td>${q}</td></tr>`).join("")}</table></div></section>
+  </main><footer>${esc(l.pie)}</footer>`;
+}
+document.addEventListener("click", async (e) => { const b = e.target.closest("[data-copiar]"); if (!b) return; const t = b.parentElement.querySelector("code").innerText; try { await navigator.clipboard.writeText(t); } catch (x) { /* se copia a mano */ } b.textContent = L().copiado; });
+CWIdioma.boton(document.getElementById("idioma")); CWIdioma.alCambiar(pintar); pintar();
+// El asistente de la página (el mismo de las demás páginas públicas), con lo que esta página documenta. Una clave pegada no se envía.
+{ const a = L().ag; AgenteEscucha({ api: FN_CUENTA, accion: "agente_publico", idioma: CWIdioma.idioma, titulo: a.titulo, boton: a.boton, saludo: a.saludo, sugerencias: a.sug,
+    filtro: (texto) => (/\bsd[kaor]_[a-f0-9]{20,}|[A-Za-z0-9_-]{60,}/.test(texto) ? L().ag.clave : null), datos: () => ({ idioma: CWIdioma.idioma, pagina: "api" }) }); }
+</script>
+</body>
+</html>
