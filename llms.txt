@@ -11,7 +11,7 @@ Projects are quoted individually according to their scope. Contact: hola@creativ
 ## Main pages
 
 - [Home](https://creativewhisper.net/): what Creative Whisper does and how it works
-- [Services](https://creativewhisper.net/services.html): 18 services in four areas: data, production, digital marketing and automation
+- [Services](https://creativewhisper.net/services.html): 19 services in four areas, including DropAgent (sells, collects and delivers on WhatsApp): data, production, digital marketing and automation
 - [Digital Whisper](https://creativewhisper.net/digital-whisper/): data-driven advertising based on customer conversations
 - [Data](https://creativewhisper.net/data.html): how data and conversation analysis shape each campaign
 - [Portfolio](https://creativewhisper.net/portfolio.html): photography and video work by brand
