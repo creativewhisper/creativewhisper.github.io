@@ -5,7 +5,7 @@
   var T = function (s) { return CWIdioma.t(s); };
   CWIdioma.registrar({
     exactos: {
-      "Alta de tu servicio": "Setting up your service", "Susurro digital · Creative Whisper": "Digital Whisper · Creative Whisper", "Abriendo tu alta…": "Opening your setup…", "No pudimos abrir el enlace": "We could not open the link",
+      "Alta de tu servicio": "Setting up your service", "Opcional": "Optional", "Ver el demo": "Watch the demo", "Además de responder, tu asistente puede vender por WhatsApp: muestra opciones con botones, recibe la ubicación del cliente, cotiza el envío al instante y recibe el comprobante de pago. Se activa después, desde tu cuenta, en Conexiones.": "Besides answering, your assistant can sell on WhatsApp: it shows options as buttons, gets the customer's location, quotes delivery instantly and receives the payment receipt. You turn it on later from your account, under Connections.", "Digital Whisper · Creative Whisper": "Digital Whisper · Creative Whisper", "Abriendo tu alta…": "Opening your setup…", "No pudimos abrir el enlace": "We could not open the link",
       "Inicio": "Start", "Web": "Website", "Empresa": "Business", "Asistente": "Assistant", "Alertas": "Alerts", "Límites": "Limits", "Canales": "Channels", "Aceptación": "Agreement", "Listo": "Done",
       "1. Web": "1. Website", "2. Empresa": "2. Business", "3. Asistente": "3. Assistant", "4. Alertas": "4. Alerts", "5. Límites": "5. Limits", "6. Canales": "6. Channels", "7. Aceptación": "7. Agreement", "8. Listo": "8. Done",
       "Hola,": "Hi,", "👋": "👋",
@@ -87,7 +87,7 @@
     },
     patrones: [
       [/^Alta de (.+)$/, "Setting up $1"],
-      [/^Susurro digital · (.+)$/, function (_m, v) { return "Digital Whisper · " + T(v); }],
+      [/^Digital Whisper · (.+)$/, function (_m, v) { return "Digital Whisper · " + T(v); }],
       [/^(\d+) min en esta visita$/, "$1 min on this visit"],
       [/^Leímos (\d+) páginas? de (.+)\.$/, function (_m, n, d) { return "We read " + n + (n === "1" ? " page" : " pages") + " of " + d + "."; }],
       [/^Tu logo pesaba (.+): lo achicamos a (.+) sin que pierda calidad a la vista\.$/, "Your logo was $1: we shrank it to $2 with no visible loss of quality."],

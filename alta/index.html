@@ -162,7 +162,7 @@ a.btn{text-decoration:none;display:inline-block}
 <body>
 <div class="franja"></div>
 <header>
-  <div class="cab"><img src="../assets/favicon-cw.png" alt=""><div style="flex:1;min-width:0"><h1 id="titulo">Alta de tu servicio</h1><p id="subtitulo">Susurro digital · Creative Whisper</p></div><button class="idioma" id="idioma" type="button"></button></div>
+  <div class="cab"><img src="../assets/favicon-cw.png" alt=""><div style="flex:1;min-width:0"><h1 id="titulo">Alta de tu servicio</h1><p id="subtitulo">Digital Whisper · Creative Whisper</p></div><button class="idioma" id="idioma" type="button"></button></div>
   <div class="progreso"><div class="barra"><i id="barra"></i></div><div class="pasos" id="navPasos"></div></div>
 </header>
 
@@ -296,6 +296,11 @@ a.btn{text-decoration:none;display:inline-block}
       <div id="igDetalle"></div>
     </div>
     </details>
+    <div class="canal" id="canalDa" style="margin-top:16px">
+      <h3>🛵 DropAgent <span class="est">Opcional</span></h3>
+      <p class="ayuda" style="margin:0">Además de responder, tu asistente puede vender por WhatsApp: muestra opciones con botones, recibe la ubicación del cliente, cotiza el envío al instante y recibe el comprobante de pago. Se activa después, desde tu cuenta, en Conexiones.</p>
+      <div class="acciones" style="margin-top:10px;justify-content:flex-start"><a class="btn" id="daDemo" href="../assets/servicios/cw-07-dropagent-es.mp4" target="_blank" rel="noopener">Ver el demo</a></div>
+    </div>
     <div class="aviso mal oculto" data-error="canales"></div>
     <div class="acciones"><button class="btn" data-ir="limites">Atrás</button><button class="btn pri" data-guardar="canales_listos">Guardar y seguir</button></div>
   </section>
@@ -573,6 +578,7 @@ function guiaEquipo(coex) {
     <p class="ayuda" style="margin:0">${coex ? "Vas a poder seguir usando tu app de WhatsApp Business en el mismo número. " : ""}¿No tienes una cuenta de empresa en Meta? El equipo la crea contigo en la misma llamada.</p>`;
 }
 function pintarCanales() {
+  { const d = $("#daDemo"); if (d && window.CWIdioma?.idioma === "en") d.href = "../assets/servicios/cw-07-dropagent-en.mp4"; }
   for (const [k, id] of [["whatsapp", "#waEst"], ["instagram", "#igEst"]]) { const [t, c] = ETIQUETA[canales[k]] || ["Sin conectar", ""]; $(id).textContent = t; $(id).className = "est " + c; }
   $("#waForm").classList.toggle("oculto", canales.whatsapp === "conectado" || canales.whatsapp === "asistida");
   $("#igForm").classList.toggle("oculto", canales.instagram === "conectado" || canales.instagram === "asistida");
@@ -691,7 +697,7 @@ function crearAyudante() {
 
 // ---------- Videos (fases 7 y 7b): el de bienvenida al inicio y uno por conexión (tu web, WhatsApp, Instagram, Facebook) ----------
 // Póster liviano; el archivo del video solo se baja cuando la persona lo toca (preload="none"). Van sin voz y con subtítulos.
-const VIDEOS = { bienvenida: ["Así funciona Susurro digital (1 min)", "El servicio trabajando y lo que vas a hacer en el alta.", "This is how Digital Whisper works (1 min)", "The service at work and what you will do during setup."],
+const VIDEOS = { bienvenida: ["Así funciona Digital Whisper (1 min)", "El servicio trabajando y lo que vas a hacer en el alta.", "This is how Digital Whisper works (1 min)", "The service at work and what you will do during setup."],
   web: ["Tu web: cómo funciona y qué haces", "El chat en tu página y los pasos, en menos de un minuto.", "Your website: how it works and what you do", "The chat on your site and the steps, in under a minute."],
   whatsapp: ["WhatsApp: cómo funciona y los pasos", "Tu asistente respondiendo y lo que haces en Meta.", "WhatsApp: how it works and the steps", "Your assistant answering and what you do in Meta."],
   instagram: ["Instagram: cómo funciona y los pasos", "Comentarios respondidos y contenido publicado.", "Instagram: how it works and the steps", "Comments answered and content published."],
@@ -710,7 +716,7 @@ CWIdioma.alCambiar(() => { pintarVideos(); guia?.pintar(); });
 function llenar() {
   const d = S.datos || {}, e = d.empresa || {};
   for (const el of $$(".nombreEmpresa")) el.textContent = S.empresa.nombre;
-  $("#titulo").textContent = `Alta de ${S.empresa.nombre}`; $("#subtitulo").textContent = `Susurro digital · ${S.empresa.vertical_nombre || ""}`.replace(/ · $/, "");
+  $("#titulo").textContent = `Alta de ${S.empresa.nombre}`; $("#subtitulo").textContent = `Digital Whisper · ${S.empresa.vertical_nombre || ""}`.replace(/ · $/, "");
   $("#razon").value = e.razon_social || ""; $("#ruc").value = e.ruc || ""; $("#telefono").value = e.telefono || ""; $("#correoPriv").value = e.correo_privacidad || "";
   $("#nombreAsistente").value = e.asistente || S.empresa.asistente || ""; $("#horarioGeneral").value = e.horario_general || "";
   $("#pideRuc").classList.toggle("oculto", !!S.ruc_opcional);

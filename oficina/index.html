@@ -274,7 +274,7 @@ function pintarPara() {
   $("#cuerpo").innerHTML = (tarjetas || `<div class="vacio"><b>Nada pendiente</b>El equipo no necesita nada de ti ahora.</div>`)
     + (terminado ? `<div class="seccion">Terminado esta semana</div>${terminado}` : "");
 }
-// ---------- Fase 6 · Solicitudes de prueba gratuita: nadie entra a Susurro digital sin que Matías apruebe ----------
+// ---------- Fase 6 · Solicitudes de prueba gratuita: nadie entra a Digital Whisper sin que Matías apruebe ----------
 // «Aprobar» crea la cuenta con su prueba y le envía su entrada por correo; «Rechazar» no le envía nada. Lo hace la función
 // cuenta-cliente con la sesión de admin; aquí solo están los botones. La misma lista está en Clientes → El producto.
 let diasPruebaDefecto = 14;
@@ -306,7 +306,7 @@ function solicitudFuera(id) {
   if (t) { pend = pend.filter((x) => x !== t); if (tab === "para") pintarPara(); contador(); }
   if (tab === "cli" && $("#prodCuerpo")) pintarProducto();
 }
-// Ajuste de un post de un cliente (Susurro digital): la versión corregida vuelve a su panel para revisión.
+// Ajuste de un post de un cliente (Digital Whisper): la versión corregida vuelve a su panel para revisión.
 function reducirImagen(file) {
   return new Promise((ok, mal) => {
     const img = new Image(), url = URL.createObjectURL(file);
@@ -497,7 +497,7 @@ const tarjetaNuevo = () => `<div class="card nuevo" style="--color:var(--bataka)
 // que vence de noche salía con la fecha del día siguiente).
 const diaQuito = (iso) => { try { return new Intl.DateTimeFormat("en-CA", { timeZone: "America/Guayaquil" }).format(new Date(iso)); } catch (e) { return String(iso).slice(0, 10); } };
 function pintarEnlace(destino, nombre, enlace, vence) {
-  const texto = `Hola, ${nombre}. Este es el enlace para el alta de su servicio Susurro digital con Creative Whisper (toma unos 10 minutos): ${enlace}`;
+  const texto = `Hola, ${nombre}. Este es el enlace para el alta de su servicio Digital Whisper con Creative Whisper (toma unos 10 minutos): ${enlace}`;
   destino.innerHTML = `<div class="enlace-alta"><b>Enlace de alta</b> · vence el ${esc(fechaCorta(diaQuito(vence)))}<br>${esc(enlace)}
     <div class="enlaces"><button data-copiar="${esc(enlace)}">Copiar enlace</button><a href="https://wa.me/?text=${encodeURIComponent(texto)}" target="_blank" rel="noopener">Mandar por WhatsApp</a></div>
     <div class="qr" data-qr="${esc(enlace)}"></div></div>`;
@@ -515,14 +515,14 @@ async function pintarClientes() {
   const [{ cuentas }, estados] = await Promise.all([llamarPanel({ accion: "cuentas" }), llamarAlta({ accion: "estados" }).catch(() => ({ cuentas: [] }))]);
   cuentasCli = cuentas || [];
   const estadoDe = new Map((estados.cuentas || []).map((x) => [x.empresa_id, x]));
-  if (!cuentasCli.length) { $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + `<div class="vacio"><b>Sin clientes todavía</b>Las cuentas de Susurro digital aparecen aquí.</div>`; return; }
+  if (!cuentasCli.length) { $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + `<div class="vacio"><b>Sin clientes todavía</b>Las cuentas de Digital Whisper aparecen aquí.</div>`; return; }
   const hoy = new Date().toISOString().slice(0, 10);
   $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + cuentasCli.map((c) => {
     const on = c.estado === "activa";
     const vencida = c.pagado_hasta && c.pagado_hasta < hoy;
     return `<div class="card cli" style="--color:${on ? "var(--porthos)" : "var(--torote)"}">
       <div class="cab2"><b>${esc(c.nombre)}</b><span class="estado ${on ? "on" : "off"}">${on ? "Activa" : "Suspendida"}</span></div>
-      <div class="sub">${esc(c.plan || "Susurro digital")}${c.vertical ? " · " + esc(String(c.vertical).replace(/_/g, " ")) : ""}${c.asistente ? " · asistente " + esc(c.asistente) : ""}${c.modo_demo ? " · modo demo" : ""}</div>
+      <div class="sub">${esc(c.plan || "Digital Whisper")}${c.vertical ? " · " + esc(String(c.vertical).replace(/_/g, " ")) : ""}${c.asistente ? " · asistente " + esc(c.asistente) : ""}${c.modo_demo ? " · modo demo" : ""}</div>
       ${c.etapa ? `<div class="fila2"><label>Etapa de la cuenta</label><select data-etapa="${c.id}" style="flex:1;padding:10px;border-radius:10px">${[["alta", "Alta (se está configurando)"], ["prueba", "Prueba"], ["activa", "Activa (cliente en servicio)"]].map(([v, n]) => `<option value="${v}" ${c.etapa === v ? "selected" : ""}>${n}</option>`).join("")}</select></div>` : ""}
       <button class="interruptor ${on ? "on" : ""}" data-sw="${c.id}" data-on="${on ? 1 : 0}"><span class="pista"></span><span class="tx">
         <b>${on ? "Membresía activa" : "Membresía suspendida"}</b>
