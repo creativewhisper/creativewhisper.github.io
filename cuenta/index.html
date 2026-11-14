@@ -282,7 +282,9 @@ async function api(accion, datos = {}, opciones = {}) {
 function primerNombre(n) { const p = String(n || "").trim().split(/\s+/).filter((x) => !/^(dr|dra|ing|lic|lcdo|lcda|abg|arq|econ|mg|msc|phd|sr|sra|srta|don|doña)\.?$/i.test(x)); return p[0] || ""; }
 function dialogo(html) { $("#dlgIn").innerHTML = html; const d = $("#dlg"); if (!d.open) d.showModal(); return d; }
 function cerrar() { const d = $("#dlg"); if (d.open) d.close(); }
-$("#dlg").addEventListener("click", (e) => { if (e.target.closest("[data-cerrar]") || e.target === $("#dlg")) cerrar(); });
+// Fase 9: la ventana segura (#canalSeguro) NO se cierra al tocar fuera ni con Esc: solo con «Cerrar». Y mientras siga vigente se puede reabrir.
+$("#dlg").addEventListener("click", (e) => { if (e.target.closest("[data-cerrar]") || (e.target === $("#dlg") && !$("#canalSeguro"))) cerrar(); });
+$("#dlg").addEventListener("cancel", (e) => { if ($("#canalSeguro")) e.preventDefault(); });
 // Muro de pago suave: explica qué pasó y ofrece ver los planes. Nunca bloquea lo demás.
 function muro(j) {
   dialogo(`<h2>${j.motivo === "prueba_terminada" ? "Tu prueba terminó" : "Llegaste al límite de tu plan"}</h2><p>${esc(j.error || "Tu plan no lo permite.")}</p><p class="ayuda" style="margin-top:8px">No se borra nada y todo lo demás sigue funcionando.</p>
@@ -537,29 +539,35 @@ function tarjetaDropAgent(cx) {
 async function vConexiones() {
   const s = $('section[data-v="conexiones"]');
   s.innerHTML = `<div class="tarjeta"><span class="cargando"></span>Revisando tus canales…</div>`;
-  let cx, lectura = null; try { const r = await api("conexiones"); cx = r.conexiones; lectura = r.lectura_web || null; D.conexiones = cx; } catch (x) { s.innerHTML = `<div class="tarjeta aviso mal">${esc(x.message)}</div>`; return; }
+  let cx, lectura = null, ventana = null; try { const r = await api("conexiones"); cx = r.conexiones; lectura = r.lectura_web || null; ventana = r.ventana_segura || null; D.conexiones = cx; } catch (x) { s.innerHTML = `<div class="tarjeta aviso mal">${esc(x.message)}</div>`; return; }
   const boton = (c) => !puedeCambiar() || !c.accion ? "" : c.canal === "web" ? `<button class="btn chico" data-con="web">${c.estado === "conectado" ? "Ver el código" : "Poner el chat en mi web"}</button>`
     : c.canal === "drive" ? (c.modo === "no_disponible" ? "" : c.estado === "conectado" ? `<button class="btn chico pri" data-con="drive-elegir">Elegir fotos y videos</button> <button class="btn chico" data-con="drive-quitar">Desconectar</button>` : `<button class="btn chico pri" data-con="drive">Conectar</button>`)
     : `<button class="btn chico pri" data-con="${esc(c.canal)}">${c.estado === "pendiente" ? "Ver cómo va" : "Conectar"}</button>`;
   s.innerHTML = `<div class="tarjeta"><h2>Tus canales</h2><p class="ayuda">Aquí conectas por dónde responde tu asistente y de dónde salen tus fotos. No necesitas saber de Meta.</p>
     ${cx.map((c) => `<div class="canal" data-canal="${esc(c.canal)}"><div class="ic">${ICONO[c.canal] || "🔌"}</div><div class="tx"><b>${esc(c.nombre)}</b><span class="pastilla ${esc(c.estado)}">${ESTADO[c.estado] || esc(c.estado)}</span>
       <p class="ayuda">${esc(c.detalle || c.nota || (c.canal === "whatsapp" ? "Tu asistente responde en tu número. Puedes seguir usando tu app de WhatsApp Business." : c.canal === "instagram" ? "Responde los comentarios de tus publicaciones." : c.canal === "web" ? "Un chat con tu marca para tu página web." : c.canal === "drive" ? "Tus fotos y videos se quedan en tu Drive: eliges cuáles usamos." : ""))}</p></div><div>${boton(c)}</div></div>`).join("")}${tarjetaDropAgent(cx)}
-    <div id="conDetalle"></div></div>${tarjetaLectura(lectura)}${tarjetaIACanales()}`;
+    <div id="conDetalle"></div></div>${tarjetaVentana(ventana)}${tarjetaLectura(lectura)}${tarjetaIACanales()}`;
   if (lectura) $("#lwTexto").value = lectura.base;
-  s.onclick = (e) => { const b = e.target.closest("[data-con]"); if (b) return conectar(b.dataset.con, b); const l = e.target.closest("[data-lw]"); if (l && lectura) decidirLectura(lectura.id, l.dataset.lw === "usar", l); };
+  s.onclick = (e) => { const b = e.target.closest("[data-con]"); if (b) return conectar(b.dataset.con, b); const l = e.target.closest("[data-lw]"); if (l && lectura) decidirLectura(lectura.id, l.dataset.lw === "usar", l); if (e.target.closest("[data-reabrir]")) reabrirCanal(); };
 }
 // ---------- Fase 8b · Lo que una IA conectada deja para que lo termine la persona ----------
 const TCN = {
   es: { lwT: "Tu IA leyó tu web: revísala", lwTx: "«{c}» leyó {u} ({n} páginas). Esto es lo que aprendería tu asistente. Corrige lo que haga falta. Nada cambia hasta que toques «Usar este texto».", lwUsar: "Usar este texto", lwNo: "Descartar", lwOk: "Listo: tu asistente ya usa este texto.", lwDesc: "Descartada. No cambió nada.", lwSolo: "Solo quien administra la cuenta puede decidir.",
     iaT: "¿Te ayuda tu IA a conectar?", iaTx: "Si usas Claude, ChatGPT u otro asistente, conéctalo a tu cuenta y dale permiso para ayudar con los canales: te dice qué falta, te lleva paso a paso y te manda un enlace seguro. La clave la pegas tú; la IA nunca la ve.", iaBtn: "Abrir «Conexiones de IA»",
     t: "Pega tus datos de Meta", pidio: "Abriste el enlace seguro que pidió «{c}». Estos campos están protegidos: lo que pegues se guarda cifrado y nadie lo vuelve a ver. Tu IA no los recibe.", app: "Identificador de la app", sec: "Clave secreta de la app", tok: "Clave de acceso (Meta la llama «token»)", mas: "Solo si te lo piden", waba: "Identificador de tu cuenta de WhatsApp", pin: "PIN de verificación en dos pasos (si tu número ya tiene uno)",
-    conectar: "Conectar", conectando: "Revisando con Meta…", cerrar: "Cerrar", vence: "Esta ventana se cierra sola en 15 minutos.", elige: "Hay varios números: elige cuál conectar.", listo: "¡Conectado! Vuelve a tu IA y dile que revise: va a ver el resultado.", falta: "Todavía falta algo. Corrige y vuelve a intentar:", nunca: "🔒 Nunca pegues estas claves en un chat ni se las des a nadie.",
+    reT: "Tu ventana segura sigue abierta", reTx: "Tienes hasta las {h} para pegar tus datos de Meta. Puedes reabrirla las veces que necesites.", reBtn: "Reabrir la ventana segura",
+    aqui: "Ábrelo aquí ↗", appAyuda: "Solo números. Si ya lo conocemos, viene escrito.", igNota: "Esta clave empieza con IGAA (inicio de sesión de Instagram): no hacen falta el identificador ni la clave secreta de la app.", eaaNota: "Esta clave empieza con EAA: hacen falta también el identificador y la clave secreta de la app.", noClave: "Eso no parece una clave de acceso de Meta: empiezan con EAA o con IGAA y son largas.",
+    dSec: "Configuración de la app → Básica → Clave secreta → «Mostrar»", dTokIg: "Caso de uso de Instagram → Configuración de la API → «Generate token»", dTokSu: "Configuración del negocio → Usuarios del sistema → «Generate token»", dExp: "Comprobar una clave en el Explorador de la API Graph",
+    conectar: "Conectar", conectando: "Revisando con Meta…", cerrar: "Cerrar", vence: "Esta ventana sigue abierta hasta las {h}: solo se cierra con «Cerrar», y puedes reabrirla desde Conexiones.", elige: "Hay varios números: elige cuál conectar.", listo: "¡Conectado! Vuelve a tu IA y dile que revise: va a ver el resultado.", falta: "Todavía falta algo. Corrige y vuelve a intentar:", nunca: "🔒 Nunca pegues estas claves en un chat ni se las des a nadie.",
     botonT: "Conecta con un botón", botonTx: "Abriste el enlace seguro que pidió «{c}». Toca el canal que quieres conectar y sigue los pasos de Meta. No hace falta ninguna clave.", botonWa: "Conectar WhatsApp", botonIg: "Conectar Instagram",
     mal: { usado: "Este enlace ya se usó. Pídele otro a tu IA.", vencido: "Este enlace venció (duran 15 minutos). Pídele otro a tu IA.", otra_cuenta: "Este enlace es de otra cuenta. Entra con la cuenta para la que se pidió.", no_existe: "Este enlace no es válido. Pídele otro a tu IA.", cerrado: "Esta ventana ya se cerró. Pídele otro enlace seguro a tu IA.", sesion: "Para abrir un enlace seguro entra con tu correo (no con un enlace)." }, malT: "No se pudo abrir el enlace seguro" },
   en: { lwT: "Your AI read your website: review it", lwTx: "“{c}” read {u} ({n} pages). This is what your assistant would learn. Fix anything you need. Nothing changes until you tap “Use this text”.", lwUsar: "Use this text", lwNo: "Discard", lwOk: "Done: your assistant now uses this text.", lwDesc: "Discarded. Nothing changed.", lwSolo: "Only an account admin can decide.",
     iaT: "Want your AI to help you connect?", iaTx: "If you use Claude, ChatGPT or another assistant, connect it to your account and let it help with channels: it tells you what is missing, walks you through each step and sends you a secure link. You paste the key; the AI never sees it.", iaBtn: "Open “AI connections”",
+    reT: "Your secure window is still open", reTx: "You have until {h} to paste your Meta details. You can reopen it as many times as you need.", reBtn: "Reopen the secure window",
+    aqui: "Open it here ↗", appAyuda: "Digits only. If we already know it, it is filled in for you.", igNota: "This key starts with IGAA (Instagram login): the App ID and the App secret are not needed.", eaaNota: "This key starts with EAA: we also need the App ID and the App secret.", noClave: "That does not look like a Meta access key: they start with EAA or IGAA and are long.",
+    dSec: "App settings → Basic → App secret → Show", dTokIg: "Instagram use case → API setup → Generate token", dTokSu: "Business settings → System users → Generate token", dExp: "Check a key in the Graph API Explorer",
     t: "Paste your Meta details", pidio: "You opened the secure link requested by “{c}”. These fields are protected: what you paste is stored encrypted and nobody sees it again. Your AI does not receive it.", app: "App ID", sec: "App secret", tok: "Access key (Meta calls it a “token”)", mas: "Only if asked", waba: "Your WhatsApp account ID", pin: "Two-step verification PIN (if your number already has one)",
-    conectar: "Connect", conectando: "Checking with Meta…", cerrar: "Close", vence: "This window closes by itself in 15 minutes.", elige: "There are several numbers: choose which one to connect.", listo: "Connected! Go back to your AI and ask it to check: it will see the result.", falta: "Something is still missing. Fix it and try again:", nunca: "🔒 Never paste these keys in a chat or give them to anyone.",
+    conectar: "Connect", conectando: "Checking with Meta…", cerrar: "Close", vence: "This window stays open until {h}: it only closes with “Close”, and you can reopen it from Connections.", elige: "There are several numbers: choose which one to connect.", listo: "Connected! Go back to your AI and ask it to check: it will see the result.", falta: "Something is still missing. Fix it and try again:", nunca: "🔒 Never paste these keys in a chat or give them to anyone.",
     botonT: "Connect with a button", botonTx: "You opened the secure link requested by “{c}”. Tap the channel you want to connect and follow Meta's steps. No key is needed.", botonWa: "Connect WhatsApp", botonIg: "Connect Instagram",
     mal: { usado: "This link was already used. Ask your AI for another one.", vencido: "This link expired (they last 15 minutes). Ask your AI for another one.", otra_cuenta: "This link belongs to another account. Sign in to the account it was requested for.", no_existe: "This link is not valid. Ask your AI for another one.", cerrado: "This window already closed. Ask your AI for another secure link.", sesion: "To open a secure link, sign in with your email (not with a link)." }, malT: "The secure link could not be opened" },
 };
@@ -585,17 +593,46 @@ async function abrirCanal() {
   ir("conexiones");
   if (r.modo === "boton") { dialogo(`<div data-nt><h2>${esc(L.botonT)}</h2><p class="ayuda">${esc(L.botonTx.replace("{c}", r.pedido_por))}</p><div class="acciones"><button class="btn pri" type="button" data-cerrar data-boton="whatsapp">${esc(L.botonWa)}</button><button class="btn pri" type="button" data-cerrar data-boton="instagram">${esc(L.botonIg)}</button><button class="btn" type="button" data-cerrar>${esc(L.cerrar)}</button></div></div>`);
     for (const b of $$("#dlgIn [data-boton]")) b.addEventListener("click", () => setTimeout(() => conectar(b.dataset.boton, b), 50)); return; }
-  const campo = (id, et, o = {}) => `<label for="${id}">${esc(et)}</label><input id="${id}" type="${o.secreto ? "password" : "text"}" name="cw-meta-${id}" ${o.num ? 'inputmode="numeric"' : ""} maxlength="${o.max || 40}" autocomplete="${o.secreto ? "new-password" : "off"}" data-lpignore="true" data-1p-ignore spellcheck="false">`;
+  ventanaCanal(r);
+}
+// Fase 9 · Se cerró la ventana sin terminar: mientras siga vigente, se reabre (el servidor entrega un pase nuevo; el anterior deja de servir).
+function tarjetaVentana(v) { if (!v || !sesion || !puedeCambiar()) return ""; const L = LC(); return `<div class="tarjeta" id="ventanaSegura" data-nt style="margin-top:16px;border-color:#F5A300"><h2>🔒 ${esc(L.reT)}</h2><p class="ayuda">${esc(L.reTx.replace("{h}", horaCorta(v.vence)))}</p><div class="acciones"><button class="btn pri" type="button" data-reabrir>${esc(L.reBtn)}</button></div></div>`; }
+const horaCorta = (iso) => { try { return new Date(iso).toLocaleTimeString(CWIdioma.idioma === "en" ? "en-US" : "es-EC", { hour: "2-digit", minute: "2-digit", hour12: false }); } catch { return ""; } };
+async function reabrirCanal() {
+  const L = LC();
+  try { ventanaCanal(await api("canal_ventana")); }
+  catch (x) { dialogo(`<div data-nt><h2>${esc(L.malT)}</h2><div class="aviso mal">${esc(L.mal[x.json?.motivo] || x.message)}</div><div class="acciones"><button class="btn" type="button" data-cerrar>${esc(L.cerrar)}</button></div></div>`); vConexiones(); }
+}
+// Los enlaces «Ábrelo aquí»: la pantalla exacta de Meta donde está cada dato. El identificador de la app es TEXTO (nunca se convierte a número).
+function enlacesMeta(app) {
+  const id = /^\d{5,25}$/.test(String(app || "")) ? String(app) : "", dev = "https://developers.facebook.com/apps/";
+  return { app: id ? `${dev}${id}/settings/basic/` : dev, sec: id ? `${dev}${id}/settings/basic/` : dev, ig: id ? `${dev}${id}/use_cases/customize/API-Setup/?use_case_enum=INSTAGRAM_BUSINESS&selected_tab=API-Setup&product_route=instagram-business` : dev,
+    su: "https://business.facebook.com/latest/settings/system_users", exp: id ? `https://developers.facebook.com/tools/explorer/${id}/` : "https://developers.facebook.com/tools/explorer/" };
+}
+function ventanaCanal(r) {
+  const L = LC();
+  const aqui = (k) => `<a class="aqui" data-aqui="${k}" href="#" target="_blank" rel="noopener noreferrer" style="font-weight:600;white-space:nowrap">${esc(L.aqui)}</a>`;
+  const campo = (id, et, o = {}) => `<div data-campo="${id}"><label for="${id}" style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap"><span>${esc(et)}</span>${o.aqui || ""}</label><input id="${id}" type="${o.secreto ? "password" : "text"}" name="cw-meta-${id}" ${o.num ? 'inputmode="numeric" pattern="[0-9]*"' : ""} maxlength="${o.max || 40}" autocomplete="${o.secreto ? "new-password" : "off"}" data-lpignore="true" data-1p-ignore spellcheck="false">${o.ayuda ? `<span class="ayuda" style="display:block;margin:2px 0 0">${esc(o.ayuda)}</span>` : ""}</div>`;
   dialogo(`<div data-nt id="canalSeguro"><h2>${esc(L.t)}</h2><p class="ayuda">${esc(L.pidio.replace("{c}", r.pedido_por))}</p>
-    <form id="csForm" autocomplete="off">${campo("csApp", L.app, { num: 1, max: 25 })}${campo("csSec", L.sec, { secreto: 1, max: 32 })}${campo("csTok", L.tok, { secreto: 1, max: 1000 })}
-      <details style="margin-top:10px"><summary>${esc(L.mas)}</summary>${campo("csWaba", L.waba, { num: 1, max: 25 })}${campo("csPin", L.pin, { secreto: 1, num: 1, max: 6 })}</details>
-      <div id="csElegir"></div><div id="csRes"></div><p class="ayuda" style="margin-top:10px">${esc(L.nunca)} ${esc(L.vence)}</p>
+    <form id="csForm" autocomplete="off">${campo("csTok", L.tok, { secreto: 1, max: 1000, aqui: `<span>IGAA ${aqui("ig")} · EAA ${aqui("su")}</span>`, ayuda: `IGAA: ${L.dTokIg} · EAA: ${L.dTokSu}` })}<div id="csTipo" class="aviso info" style="margin-top:8px" hidden></div>
+      ${campo("csApp", L.app, { num: 1, max: 25, aqui: aqui("app"), ayuda: L.appAyuda })}${campo("csSec", L.sec, { secreto: 1, max: 32, aqui: aqui("sec"), ayuda: L.dSec })}
+      <details style="margin-top:10px"><summary>${esc(L.mas)}</summary>${campo("csWaba", L.waba, { num: 1, max: 25 })}${campo("csPin", L.pin, { secreto: 1, num: 1, max: 6 })}<p class="ayuda" style="margin-top:8px">${esc(L.dExp)} ${aqui("exp")}</p></details>
+      <div id="csElegir"></div><div id="csRes"></div><p class="ayuda" style="margin-top:10px">${esc(L.nunca)} ${esc(L.vence.replace("{h}", horaCorta(r.vence)))}</p>
       <div class="acciones"><button class="btn pri" type="submit" id="csIr">${esc(L.conectar)}</button><button class="btn" type="button" data-cerrar>${esc(L.cerrar)}</button></div></form></div>`);
+  // El identificador de la app, si se conoce, viene escrito (como texto: un identificador largo pasado a número pierde sus últimos dígitos).
+  if (typeof r.app_id === "string" && /^\d{5,25}$/.test(r.app_id)) $("#csApp").value = r.app_id;
+  const enlaces = () => { const u = enlacesMeta($("#csApp").value.trim()); for (const a of $$("#canalSeguro [data-aqui]")) a.href = u[a.dataset.aqui]; };
+  // Según cómo empieza la clave se pide solo lo necesario: IGAA no usa identificador ni clave secreta de app; EAA sí.
+  const tipo = () => { const t = $("#csTok").value.trim(), ig = /^IG/.test(t), n = $("#csTipo");
+    for (const id of ["csApp", "csSec"]) $(`#canalSeguro [data-campo="${id}"]`).hidden = ig;
+    n.hidden = !t; n.className = "aviso " + (!t || ig || /^EAA/.test(t) ? "info" : "mal"); n.textContent = !t ? "" : ig ? L.igNota : /^EAA/.test(t) ? L.eaaNota : L.noClave; };
+  $("#csApp").addEventListener("input", enlaces); $("#csTok").addEventListener("input", tipo); enlaces(); tipo();
   const pase = r.pase;
   $("#csForm").addEventListener("submit", async (e) => {
     e.preventDefault(); const fin = ocupado($("#csIr"), L.conectando), res = $("#csRes"), num = $('#csElegir input[name="csNum"]:checked')?.value;
     try {
-      const x = await api("canal_conectar", { pase, app_id: $("#csApp").value.trim(), app_secret: $("#csSec").value.trim(), ...(/^IG/.test($("#csTok").value.trim()) ? { ig_token: $("#csTok").value.trim() } : { token: $("#csTok").value.trim() }), waba_id: $("#csWaba").value.trim(), pin: $("#csPin").value.trim(), ...(num ? { phone_number_id: num } : {}) });
+      const tok = $("#csTok").value.trim(), esIg = /^IG/.test(tok);
+      const x = await api("canal_conectar", { pase, ...(esIg ? { ig_token: tok } : { token: tok, app_id: $("#csApp").value.trim(), app_secret: $("#csSec").value.trim() }), waba_id: $("#csWaba").value.trim(), pin: $("#csPin").value.trim(), ...(num ? { phone_number_id: num } : {}) });
       fin();
       const pasos = (x.pasos || []).map((p) => `<li>${p.ok === true ? "✅" : p.ok === false ? "❌" : "ℹ️"} ${esc(p.detalle)}</li>`).join("");
       if (x.elegir) $("#csElegir").innerHTML = `<p class="ayuda" style="margin-top:10px"><b>${esc(L.elige)}</b></p>${x.elegir.map((n, i) => `<label style="display:flex;gap:8px;font-weight:400"><input type="radio" name="csNum" value="${esc(n.id)}" ${i ? "" : "checked"}> ${esc("•••• " + String(n.numero || "").slice(-4))} ${esc(n.nombre || "")}</label>`).join("")}`;
@@ -720,7 +757,7 @@ $("#elegirArchivo").addEventListener("change", async (e) => {
   for (const [i, f] of lista.entries()) {
     av.innerHTML = `<div class="aviso info"><span class="cargando"></span>Subiendo ${i + 1} de ${lista.length}: ${esc(f.name)}</div>`;
     try {
-      if (f.type.startsWith("image/")) await api("archivo_subir", { nombre: f.name, datos: await CWImagenes.foto(f) });
+      if (f.type.startsWith("image/")) { const a = await CWImagenes.archivo(f); await api("archivo_subir", { nombre: f.name, datos: a.datos, tipo: a.tipo }); }   // fase 9: un PNG con transparencia se sube tal cual, como «producto recortado»
       else {
         const u = await api("archivo_url", { nombre: f.name, mime: f.type, bytes: f.size });
         const up = await sb.storage.from(u.bucket).uploadToSignedUrl(u.ruta, u.token, f, { contentType: f.type });
@@ -854,7 +891,8 @@ const TI = {
       "casos:gestionar": ["Gestionar casos", "Marcarlos en proceso o resueltos y dejar notas. No les escribe a tus clientes."], "creditos:leer": ["Ver créditos y cantidades", "Cuánto llevas usado y cuántas piezas tienes pedidas. Sin precios."],
       "cantidades:cambiar": ["Cambiar las cantidades por semana", "Dentro del máximo de tu plan. Cada pieza gasta créditos."],
       "canales:leer": ["Ver qué canales están conectados y la guía", "Qué falta en WhatsApp, Instagram, Facebook y tu web, y el paso en que vas. Sin claves ni teléfonos completos."],
-      "canales:conectar": ["Ayudar a conectar canales", "Lee tu web y la deja para que la revises, y te manda un enlace seguro para que TÚ pegues tu clave. Nunca recibe la clave."] },
+      "canales:conectar": ["Ayudar a conectar canales", "Lee tu web y la deja para que la revises, y te manda un enlace seguro para que TÚ pegues tu clave. Nunca recibe la clave."],
+      "tiktok:publicar": ["Llevar lo aprobado a TikTok", "Ve las publicaciones que ya aprobaste (imágenes y texto) para programarlas en tu TikTok Studio, y anota cuáles quedaron programadas. No aprueba nada ni recibe tu clave de TikTok."] },
     canalesTx: "También puede ayudarte a conectar WhatsApp, Instagram y tu web: te guía paso a paso y te manda un enlace seguro. La clave la pegas tú; la IA nunca la ve." },
   en: { titulo: "Connect your AI to your account", intro: "Claude, ChatGPT or another agent can read your dashboard, review your content or manage your cases for you. You choose what each connection may do, permission by permission, and you can change or remove it whenever you like.",
     conector: "With a connector (Claude, ChatGPT)", conectorTx: "No keys to copy. Add this address in your AI, sign in with your email and tick the permissions.", copiar: "Copy", copiado: "Copied ✓",
@@ -873,10 +911,11 @@ const TI = {
       "casos:gestionar": ["Manage cases", "Mark them in progress or resolved and leave notes. It does not message your customers."], "creditos:leer": ["See credits and quantities", "How much you have used and how many pieces you ordered. No prices."],
       "cantidades:cambiar": ["Change weekly quantities", "Within your plan's maximum. Each piece uses credits."],
       "canales:leer": ["See which channels are connected and the guide", "What is missing in WhatsApp, Instagram, Facebook and your website, and the step you are on. No keys or full phone numbers."],
-      "canales:conectar": ["Help connect channels", "Reads your website and leaves it for you to review, and sends you a secure link so YOU paste your key. It never receives the key."] },
+      "canales:conectar": ["Help connect channels", "Reads your website and leaves it for you to review, and sends you a secure link so YOU paste your key. It never receives the key."],
+      "tiktok:publicar": ["Take approved posts to TikTok", "It sees the posts you already approved (images and caption) to schedule them in your TikTok Studio, and records which ones were scheduled. It approves nothing and never receives your TikTok password."] },
     canalesTx: "It can also help you connect WhatsApp, Instagram and your website: it guides you step by step and sends you a secure link. You paste the key; the AI never sees it." },
 };
-const IA_ESCRIBE = ["contenido:aprobar", "contenido:pedir_cambios", "casos:gestionar", "cantidades:cambiar", "canales:conectar"];
+const IA_ESCRIBE = ["contenido:aprobar", "contenido:pedir_cambios", "casos:gestionar", "cantidades:cambiar", "canales:conectar", "tiktok:publicar"];
 const LI = () => TI[CWIdioma.idioma === "en" ? "en" : "es"];
 let IA = null;
 async function apiIA(accion, datos = {}) {

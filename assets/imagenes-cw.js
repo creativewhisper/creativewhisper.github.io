@@ -22,6 +22,15 @@
     }
     throw new Error("No pudimos achicar esa imagen. Prueba con otra.");
   }
+  // ¿Tiene zonas transparentes? Se mira una versión chica (64 px): alcanza con que el 1 % de los puntos no sea opaco.
+  function transparente(img) {
+    try {
+      var c = lienzo(64, 64), x = c.getContext("2d"); x.clearRect(0, 0, 64, 64); x.drawImage(img, 0, 0, 64, 64);
+      var d = x.getImageData(0, 0, 64, 64).data, n = 0;
+      for (var i = 3; i < d.length; i += 4) if (d[i] < 250) n++;
+      return n > 40;
+    } catch (e) { return false; }
+  }
   window.CWImagenes = {
     pesa: pesa,
     // Logo: si ya es liviano se usa tal cual (un SVG nunca se toca); si pesa más de 300 KB se achica solo (PNG con transparencia; si no cabe, WebP).
@@ -36,6 +45,21 @@
     },
     // Foto para el contenido: JPG de 2000 px como mucho y menos de 1,5 MB.
     foto: async function (archivo) { var r = exportar(await imagen(await leer(archivo)), 2000, ["image/jpeg"], 1500000, "#ffffff"); return r.datos; },
+    // Fase 9 · Cualquier imagen para «Archivos»: un PNG o WebP CON transparencia (un producto recortado) se sube TAL CUAL, sin convertir
+    // (pasarlo a JPG le pondría fondo blanco); solo si pesa más de 4,5 MB se achica, y sigue siendo PNG. Lo demás va como foto (JPG).
+    archivo: async function (archivo) {
+      var datos = await leer(archivo);
+      if (/^data:image\/(png|webp)/.test(datos)) {
+        var img = await imagen(datos);
+        if (transparente(img)) {
+          if (archivo.size <= 4500000) return { datos: datos, tipo: "recorte", original: true };
+          var r = exportar(img, 2400, ["image/png", "image/webp"], 4500000);
+          return { datos: r.datos, tipo: "recorte", original: false };
+        }
+      }
+      return { datos: (exportar(await imagen(datos), 2000, ["image/jpeg"], 1500000, "#ffffff")).datos, tipo: "foto", original: false };
+    },
+    transparente: function (img) { return transparente(img); },
     abrir: async function (archivo) { return imagen(await leer(archivo)); },
     // Foto del asistente: recorte cuadrado con acercamiento (zoom ≥ 1) y posición (dx, dy entre -1 y 1). Devuelve la de 640 px
     // (perfil de WhatsApp) y la de 192 px (chat, panel y app).
