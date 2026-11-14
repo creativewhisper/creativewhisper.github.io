@@ -688,7 +688,7 @@ function crearAyudante() {
   ayudante = AgenteEscucha({ api: API, accion: "asistente", idioma: CWIdioma.idioma, fijo: true,
     titulo: en ? "Setup assistant" : "Asistente del alta", boton: en ? "Questions? Ask me" : "¿Dudas? Pregúntame",
     saludo: en ? "Hi. I'm here the whole time. Ask me about any step: what to put in each field, how to connect your WhatsApp, or what your assistant does. You can also talk to me. Never paste keys or codes here." : "Hola. Estoy aquí todo el tiempo. Pregúntame por cualquier paso: qué poner en cada campo, cómo conectar tu WhatsApp o qué hace tu asistente. También puedes hablarme. No pegues aquí claves ni códigos.",
-    sugerencias: en ? ["What do I need to have ready?", "How long does it take?", "Is anything published without my approval?"] : ["¿Qué necesito tener listo?", "¿Cuánto tiempo toma?", "¿Se publica algo sin mi aprobación?"],
+    sugerencias: en ? ["What do I need to have ready?", "How long does it take?", "Can my AI help me connect?", "Is anything published without my approval?"] : ["¿Qué necesito tener listo?", "¿Cuánto tiempo toma?", "¿Me puede ayudar mi IA a conectar?", "¿Se publica algo sin mi aprobación?"],
     nota: en ? "Automated assistant. Never type passwords, access keys or codes here." : "Asistente automático. No escribas aquí contraseñas, claves de acceso ni códigos.",
     datos: () => ({ t: T, paso: pasoActual, paso_conexion: pasoActual === "canales" && guia?.estado().modo === "guiada" ? guia.estado().paso : null }),
     filtro: (texto) => (RE_CLAVE.test(texto) ? AVISO_CLAVE() : null),
