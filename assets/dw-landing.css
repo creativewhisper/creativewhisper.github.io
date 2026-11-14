@@ -103,17 +103,24 @@ html,body{overflow-x:clip}
 .skip{position:absolute;left:-999px;top:8px;background:var(--negro);color:#fff;padding:8px 12px;z-index:200}.skip:focus{left:8px}
 @media (max-width:620px){.l-top{position:static}.hero h1{font-size:clamp(40px,12vw,64px)}}
 /* La familia Whisper (mascotas de Creative Whisper) */
-.familia{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;margin-top:28px;align-items:end}
+.familia{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;margin-top:28px;align-items:start}
 .bicho{margin:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
-.bicho img{height:170px;width:auto;max-width:100%;object-fit:contain;transform-origin:50% 100%;animation:bicho-flota 3.6s ease-in-out infinite}
-.b-ruby img{animation-delay:-.7s}.b-pia img{animation-delay:-1.4s}.b-teo img{animation-delay:-2.1s}.b-ari img{animation-delay:-2.8s}
-.bicho:hover img{animation:bicho-salta .55s cubic-bezier(.3,1.6,.5,1) 1}
+.bicho img{height:170px;width:auto;max-width:100%;object-fit:contain;transform-origin:50% 100%}
+.b-tiko img{animation:bc-salta 1.6s cubic-bezier(.3,.7,.4,1) infinite}
+.b-ruby img{animation:bc-enojo 2.8s ease-in-out infinite}
+.b-pia img{transform-origin:50% 80%;animation:bc-duda 3.2s ease-in-out infinite}
+.b-teo img{animation:bc-late 1.8s ease-in-out infinite}
+.b-ari img{animation:bc-respira 4.5s ease-in-out infinite}
+.bicho:hover img{animation-duration:.8s}
 .bicho figcaption{display:flex;flex-direction:column;gap:4px}
 .bicho b{font:800 26px/1 var(--f-d);text-transform:uppercase;letter-spacing:.01em}
 .bicho .dice{font-weight:600;font-size:15px}
 .bicho .ayuda{font-size:14px;margin:0}
 .fam-pie{margin-top:26px;text-align:center}
-@keyframes bicho-flota{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(-2deg)}}
-@keyframes bicho-salta{0%{transform:scale(1,1)}35%{transform:scale(1.08,.9)}70%{transform:translateY(-14px) scale(.96,1.05)}100%{transform:none}}
 @media (max-width:860px){.familia{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 14px}.bicho:last-child{grid-column:1/-1}.bicho img{height:120px}}
-@media (prefers-reduced-motion:reduce){.bicho img,.bicho:hover img{animation:none}}
+@keyframes bc-salta{0%,100%{transform:translateY(0) scale(1,1)}12%{transform:translateY(0) scale(1.08,.92)}40%{transform:translateY(-22px) scale(.96,1.05) rotate(-3deg)}62%{transform:translateY(0) scale(1.05,.95)}75%{transform:none}}
+@keyframes bc-enojo{0%,55%,100%{transform:none}60%{transform:translateX(-4px) rotate(-2deg)}64%{transform:translateX(4px) rotate(2deg)}68%{transform:translateX(-4px) rotate(-2deg)}72%{transform:translateX(4px) rotate(2deg)}76%{transform:translateX(-2px)}80%{transform:none}}
+@keyframes bc-duda{0%,100%{transform:rotate(0)}25%{transform:rotate(-8deg)}50%{transform:rotate(0)}75%{transform:rotate(6deg)}}
+@keyframes bc-late{0%,100%{transform:scale(1)}15%{transform:scale(1.07)}30%{transform:scale(.98)}45%{transform:scale(1.05)}60%{transform:scale(1)}}
+@keyframes bc-respira{0%,100%{transform:scale(1,1) translateY(0)}50%{transform:scale(1.03,.97) translateY(2px)}}
+@media (prefers-reduced-motion:reduce){.bicho img{animation:none!important}}
