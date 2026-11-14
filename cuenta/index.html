@@ -606,7 +606,7 @@ async function reabrirCanal() {
 // Los enlaces «Ábrelo aquí»: la pantalla exacta de Meta donde está cada dato. El identificador de la app es TEXTO (nunca se convierte a número).
 function enlacesMeta(app) {
   const id = /^\d{5,25}$/.test(String(app || "")) ? String(app) : "", dev = "https://developers.facebook.com/apps/";
-  return { app: id ? `${dev}${id}/settings/basic/` : dev, sec: id ? `${dev}${id}/settings/basic/` : dev, ig: id ? `${dev}${id}/use_cases/customize/?use_case_enum=INSTAGRAM_BUSINESS&selected_tab=API-Setup` : dev,
+  return { app: id ? `${dev}${id}/settings/basic/` : dev, sec: id ? `${dev}${id}/settings/basic/` : dev, ig: id ? `${dev}${id}/use_cases/customize/API-Setup/?use_case_enum=INSTAGRAM_BUSINESS&selected_tab=API-Setup&product_route=instagram-business` : dev,
     su: "https://business.facebook.com/latest/settings/system_users", exp: id ? `https://developers.facebook.com/tools/explorer/${id}/` : "https://developers.facebook.com/tools/explorer/" };
 }
 function ventanaCanal(r) {
