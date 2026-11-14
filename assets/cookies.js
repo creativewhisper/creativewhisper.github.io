@@ -6,7 +6,7 @@
    - Vista previa del aviso sin píxel: agregar ?cookies=prueba a la dirección. */
 (function () {
   "use strict";
-  var PIXEL = ""; // número del píxel de Meta (Administrador de eventos). No es secreto.
+  var PIXEL = "1701308774844671"; // número del píxel de Meta (Administrador de eventos). No es secreto.
   var CLAVE = "cw-cookies";
   var en = (document.documentElement.lang || "").toLowerCase().indexOf("en") === 0;
   var T = en ? {
