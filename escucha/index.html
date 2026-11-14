@@ -441,6 +441,11 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .cs-hist-tira{display:flex;gap:8px;overflow-x:auto;padding:10px 0 4px;scrollbar-width:thin}
 .cs-hist-tira button{flex:none;width:74px;border:0;background:none;padding:0;cursor:pointer;text-align:center;font-size:11px;color:#6B6259}
 .cs-hist-tira img{width:74px;height:131px;object-fit:cover;border-radius:10px;border:2px solid #E3DDD2;display:block;background:#eee}
+.cs-hist-tira .cs-sep{flex:none;width:1px;background:#E3DDD2;margin:0 4px}
+.cs-plazo{background:#FFF4E0;border:1px solid #F5A300;border-radius:12px;padding:10px 14px;font-size:13.5px;margin:0 0 10px}.cs-plazo.fin{background:#F3EEE4;border-color:#CDBFA6}
+.cs-dias,.cs-cod{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:#6B6259;margin:0 0 10px}.cs-dias .btn{padding:6px 10px;font-size:12.5px}
+.cs-cod input{border:1px solid #D9D2C5;border-radius:10px;padding:8px 10px;font:inherit;font-size:13.5px;min-width:0}.cs-cod #csCodT{flex:1 1 180px}
+.cs-k{font:600 11.5px/1 ui-monospace,Menlo,monospace;background:#0A0908;color:#fff;border-radius:6px;padding:4px 6px;margin-right:8px;vertical-align:middle}
 .cs-hist-tira .ok img{border-color:#3EA398}.cs-hist-tira .aj img{border-color:#F5A300}
 .cs-hist details{margin-top:6px}.cs-hist summary{cursor:pointer;font-size:13px;font-weight:600;color:#6B6259}
 .cs-reel{display:block;width:min(240px,100%);aspect-ratio:9/16;border-radius:12px;background:#000;margin-top:8px}
@@ -675,6 +680,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
             <button class="btn btn-verde" id="btnAprobar" disabled>Aprobar seleccionados</button>
             <span class="cs-cuenta" id="csCuenta"></span>
           </div>
+          <div id="csSemana"></div>
           <div id="csLista"></div>
         </div>
       </div>
@@ -1695,7 +1701,7 @@ $("#tContenido").addEventListener("click", (e) => {
 // ---------- Contenido de la semana: revisión, Instagram de vista previa, repositorio y producción ----------
 const CW_MODO = /[#&]cw=1\b/.test(location.hash);
 const DIAS_L = ["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"];
-const ESTADO_P = { por_revisar: ["Por revisar", "pend"], aprobado: ["Aprobado", "ok"], ajuste: ["En ajuste", "aj"], programado: ["Programado", "ok"], publicado: ["Publicado", "ok"],
+const ESTADO_P = { por_revisar: ["Por revisar", "pend"], aprobado: ["Aprobado", "ok"], ajuste: ["En ajuste", "aj"], programado: ["Programado", "ok"], publicado: ["Publicado", "ok"], en_reserva: ["Reserva", "ok"],
   necesita_pieza: ["En producción", "aj"], publicando: ["Publicando…", "ok"], error: ["No se pudo publicar", "aj"] };
 // Fase 3: quién aprueba (el enlace del panel es compartido: el nombre se pide una vez y queda en este navegador).
 const CLAVE_QUIEN = "cw_quien_" + String(location.hash).slice(3, 11);
@@ -1771,7 +1777,7 @@ function senalTxt(s) {
 async function cargarPosts(silencio) {
   try {
     const d = await llamar({ accion: "posts", v: 3 });
-    CS.posts = d.posts || []; if (!silencio) cargarReporteSemanal(); CS.redes = !!d.redes_conectadas; CS.producciones = d.producciones || []; CS.cargado = true;
+    CS.posts = d.posts || []; CS.cierre = d.cierre || null; if (!silencio) cargarReporteSemanal(); CS.redes = !!d.redes_conectadas; CS.producciones = d.producciones || []; CS.cargado = true;
     // Fase 7 · lo que armó la tanda automática (o la tanda de muestra de una prueba) se ve sin tocar «Generar contenido».
     if (CS.posts.some((p) => p.origen === "tanda" || p.origen === "prueba")) CS.visible = true;
     for (const id of [...CS.sel]) { const p = CS.posts.find((x) => x.id === id); if (!p || !["por_revisar", "ajuste"].includes(p.estado)) CS.sel.delete(id); }
@@ -1803,7 +1809,23 @@ function pintarCS() {
     const escribiendo = $$(".cs-form-aj:not(.oculto) textarea").some((t) => t.value.trim() || t === document.activeElement);
     if (!escribiendo) $("#csLista").innerHTML = bloqueHistorias() + CS.posts.filter((p) => !esDiaria(p)).map(filaPost).join("");
   }
+  const sem = $("#csSemana"); if (sem && !(sem.contains(document.activeElement) && document.activeElement.tagName !== "BUTTON")) sem.innerHTML = vis ? bloqueSemana() : "";
   pintarTel();
+}
+// Fase 9 · La semana de un vistazo: el plazo para aprobar (y qué pasa si nadie aprueba), aprobar un día entero de un toque, y pedir
+// un cambio escribiendo el código de la pieza (lun-1 = primera publicación del lunes; S-mar-2 = segunda historia del martes).
+const diaQ = (iso) => new Date(new Date(iso).getTime() - Q).toISOString().slice(0, 10);
+function bloqueSemana() {
+  const c = CS.cierre, pend = CS.posts.filter((p) => ["por_revisar", "ajuste"].includes(p.estado) && !p.prueba && p.programar_en);
+  const cuando = (iso) => new Date(iso).toLocaleDateString("es-EC", { weekday: "long", timeZone: "America/Guayaquil" }) + " a las " + new Date(iso).toLocaleTimeString("es-EC", { hour: "2-digit", minute: "2-digit", hour12: false, timeZone: "America/Guayaquil" });
+  let plazo = "";
+  if (c?.activo && c.cerrado) plazo = `<div class="cs-plazo fin">⏱️ El plazo de esta semana ya pasó. ${c.cerrado.reservas_programadas ? `Como no había publicaciones aprobadas, programamos <b>${c.cerrado.reservas_programadas} reserva${c.cerrado.reservas_programadas === 1 ? "" : "s"}</b> (una por día a las ${esc(c.hora_reserva)}).` : c.cerrado.sin_aprobar ? `Quedaron <b>${c.cerrado.sin_aprobar}</b> piezas sin aprobar: esas no se publican.` : "Todo quedó aprobado."} Todavía puede aprobar lo que falta.</div>`;
+  else if (c?.activo && c.plazo) plazo = `<div class="cs-plazo">⏱️ Tiene hasta el <b>${esc(cuando(c.plazo))}</b> para aprobar. ${c.con_reservas ? (c.reservas ? `Si no se aprueba ninguna publicación, sale una <b>reserva</b> por día a las ${esc(c.hora_reserva)} (${c.reservas} guardada${c.reservas === 1 ? "" : "s"}).` : `Guarde algunas publicaciones como <b>reserva</b>: salen (una por día) solo si nadie aprueba a tiempo.`) : "Lo que no se apruebe no se publica."}</div>`;
+  const dias = new Map(); for (const p of pend) { const d = diaQ(p.programar_en); dias.set(d, (dias.get(d) || 0) + 1); }
+  const tira = [...dias.entries()].sort().map(([d, n]) => `<button class="btn btn-claro" data-cs="aprobar-dia" data-dia="${d}" title="Aprobar las ${n} piezas de ese día">✓ ${esc(new Date(d + "T12:00:00Z").toLocaleDateString("es-EC", { weekday: "short", day: "numeric", timeZone: "UTC" }))} · ${n}</button>`).join("");
+  const conCodigo = CS.posts.some((p) => p.codigo);
+  return `${plazo}${tira ? `<div class="cs-dias"><span>Aprobar un día entero:</span>${tira}</div>` : ""}
+    ${conCodigo && pend.length ? `<form class="cs-cod" id="csCod"><span>Pedir un cambio por código:</span><input id="csCodK" placeholder="lun-1" maxlength="10" size="7" autocomplete="off" autocapitalize="none" spellcheck="false"><input id="csCodT" placeholder="¿Qué le cambiamos?" maxlength="800"><button class="btn btn-claro" type="submit">Enviar</button></form>` : ""}`;
 }
 // Fase 7 · las historias diarias de la semana van juntas: se ven todas en una tira, se aprueban de un toque («todas las de la
 // semana») y, quien quiera, las abre una por una para ajustar o aprobar solo algunas. Cada una se aprueba en SU versión.
@@ -1814,7 +1836,7 @@ function bloqueHistorias() {
   const dia = (p) => new Date(p.programar_en).toLocaleDateString("es-EC", { weekday: "short", timeZone: "America/Guayaquil" });
   return `<div class="cs-hist" id="csHist"><div class="cs-hist-cab"><div><b>📱 Historias de la semana: ${hs.length}</b><span>${pend.length ? `${pend.length} por revisar` : "todas revisadas"}${ok ? ` · ${ok} aprobadas` : ""} · se publican solas en Instagram, cada una en su día</span></div>
     ${pend.length ? `<button class="btn btn-verde" data-cs="aprobar-historias" data-lote="${esc(lote)}">Aprobar las ${pend.length} historias</button>` : ""}</div>
-    <div class="cs-hist-tira">${hs.map((p) => `<button type="button" class="${(ESTADO_P[p.estado] || ["", ""])[1]}" data-cs="ver" data-id="${p.id}" title="${esc(p.titulo)}"><img src="${esc(p.slides[0] || "")}" alt="" loading="lazy">${esc(dia(p))}</button>`).join("")}</div>
+    <div class="cs-hist-tira">${hs.map((p, i) => `${i && dia(p) !== dia(hs[i - 1]) ? `<i class="cs-sep"></i>` : ""}<button type="button" class="${(ESTADO_P[p.estado] || ["", ""])[1]}" data-cs="ver" data-id="${p.id}" title="${esc(p.titulo)}"><img src="${esc(p.slides[0] || "")}" alt="" loading="lazy">${esc(p.codigo || dia(p))}</button>`).join("")}</div>
     <details${CS.histAbierto ? " open" : ""} id="csHistDet"><summary>Revisarlas una por una (ajustar o aprobar solo algunas)</summary>${hs.map(filaPost).join("")}</details></div>`;
 }
 function filaPost(p) {
@@ -1827,7 +1849,7 @@ function filaPost(p) {
     ${puede ? `<label class="cs-chk"><input type="checkbox" data-sel="${p.id}" ${sel ? "checked" : ""}></label>` : `<span class="cs-chk ok">✓</span>`}
     <img class="cs-min ${esHist(p) ? "h" : ""}" src="${esc(p.slides[0] || "")}" alt="" loading="lazy" data-cs="ver" data-id="${p.id}">
     <div class="cs-info">
-      <div class="cs-t"><b>${esc(p.titulo)}</b><span class="tag ${cl}">${et}</span></div>
+      <div class="cs-t">${p.codigo ? `<code class="cs-k" title="El código de esta pieza: úselo para pedir cambios">${esc(p.codigo)}</code>` : ""}<b>${esc(p.titulo)}</b><span class="tag ${cl}">${et}</span></div>
       <div class="cs-m">${esc(p.formato)}${p.slides.length > 1 ? ` · ${p.slides.length} láminas` : ""} · ${esc(fechaPost(p.programar_en))}</div>
       ${sen ? `<div class="cs-sen">${esc(sen)}</div>` : ""}<div class="cs-pq">${esc(p.por_que || "")}</div>
       ${p.nota_cw && p.estado !== "aprobado" ? `<div class="cs-nota">💡 Antes de publicar: ${esc(p.nota_cw)}</div>` : ""}
@@ -1835,6 +1857,8 @@ function filaPost(p) {
       <div class="cs-acc"><button class="btn btn-claro" data-cs="ver" data-id="${p.id}">👁 Ver</button>
         ${puede && !sel ? `<button class="btn btn-claro" data-cs="ajustar" data-id="${p.id}">✏️ Ajustar</button>` : ""}
         ${puede && sel ? `<span class="cs-hint">Se aprobará con «Aprobar seleccionados»</span>` : ""}
+        ${puede && !sel && p.clase !== "historia" && p.clase !== "reel" && CS.cierre?.activo && CS.cierre.con_reservas ? `<button class="btn btn-claro" data-cs="reserva" data-id="${p.id}" title="Queda aprobada y sin fecha: sale solo si llega el plazo y nadie aprobó la semana">🛟 Guardar como reserva</button>` : ""}
+        ${p.estado === "en_reserva" ? `<button class="btn btn-claro" data-cs="quitar-reserva" data-id="${p.id}">Quitar de las reservas</button>` : ""}
         <button class="btn btn-claro" data-cs="copiar" data-id="${p.id}">Copiar texto</button></div>
       <div class="cs-form-aj oculto" id="aj${p.id}"><textarea rows="3" maxlength="800" placeholder="¿Qué le cambiamos? Ej.: usar otra foto, cambiar el título, quitar el precio…"></textarea>
         <div>${p.slides.length > 1 ? `<select>${p.slides.map((_, i) => `<option value="${i}">Lámina ${i + 1}</option>`).join("")}</select>` : ""}<button class="btn btn-verde" data-cs="enviar-aj" data-id="${p.id}">Enviar a Creative Whisper</button><button class="lnk" data-cs="cancelar-aj" data-id="${p.id}">Cancelar</button></div></div>
@@ -1905,7 +1929,7 @@ async function generarDemo() {
 function toastTxt(t) { const d = document.createElement("div"); d.className = "toast ok"; d.innerHTML = `<b>${esc(t)}</b>`; $("#toasts").appendChild(d); setTimeout(() => d.remove(), 5000); }
 async function revisar(cuerpo, ok) {
   try {
-    const aprueba = !!(cuerpo.aprobar || cuerpo.aprobar_historias);
+    const aprueba = !!(cuerpo.aprobar || cuerpo.aprobar_historias || cuerpo.aprobar_dia || cuerpo.reserva?.guardar);
     const firma = { desde: "panel", quien: quienAprueba(aprueba) };
     if (aprueba && !firma.quien) { toastTxt("Escriba su nombre para aprobar."); return; }
     const r = await llamar({ accion: "revisar_posts", v: 3, ...firma, ...cuerpo });
@@ -1968,6 +1992,19 @@ $("#btnGenerarDemo").addEventListener("click", generarDemo);
 $("#chkTodos").addEventListener("change", (e) => { const pend = CS.posts.filter((p) => ["por_revisar", "ajuste"].includes(p.estado) && !p.prueba); CS.sel = new Set(e.target.checked ? pend.map((p) => p.id) : []); pintarCS(); });
 document.addEventListener("click", (e) => { const b = e.target.closest('[data-cs="aprobar-historias"]'); if (b) revisar({ aprobar_historias: b.dataset.lote }, "✅ Historias de la semana aprobadas: cada una sale en su día"); });
 document.addEventListener("toggle", (e) => { if (e.target.id === "csHistDet") CS.histAbierto = e.target.open; }, true);
+// Fase 9 · aprobar un día, reservas y cambio por código.
+document.addEventListener("click", (e) => {
+  const d = e.target.closest('[data-cs="aprobar-dia"]'); if (d) return revisar({ aprobar_dia: d.dataset.dia }, "✅ Día aprobado: cada pieza sale a su hora");
+  const r = e.target.closest('[data-cs="reserva"]'); if (r) return revisar({ reserva: { id: Number(r.dataset.id), guardar: true } }, "🛟 Guardada como reserva: sale solo si nadie aprueba a tiempo");
+  const q = e.target.closest('[data-cs="quitar-reserva"]'); if (q) return revisar({ reserva: { id: Number(q.dataset.id), guardar: false } }, "Vuelve a la lista por revisar");
+});
+document.addEventListener("submit", (e) => {
+  if (e.target.id !== "csCod") return; e.preventDefault();
+  const k = $("#csCodK").value.trim(), t = $("#csCodT").value.trim();
+  if (!/^(S-|R-)?(lun|mar|mie|jue|vie|sab|dom)-\d{1,2}$/i.test(k)) return toastTxt("Escriba el código como aparece en la pieza: lun-1, S-mar-2…");
+  if (t.length < 3) return toastTxt("Cuéntenos qué hay que cambiar.");
+  $("#csCodK").value = ""; $("#csCodT").value = ""; revisar({ ajustar: { codigo: k, comentario: t } }, `✏️ Cambio pedido para ${k}`);
+});
 $("#btnAprobar").addEventListener("click", () => { const ids = [...CS.sel]; CS.sel.clear(); revisar({ aprobar: ids }, `✅ ${ids.length} aprobado${ids.length === 1 ? "" : "s"}: se programan en sus fechas`); });
 $("#tContenido").addEventListener("change", (e) => { const c = e.target.closest("[data-sel]"); if (!c) return; const id = Number(c.dataset.sel); c.checked ? CS.sel.add(id) : CS.sel.delete(id); pintarCS(); });
 $("#tContenido").addEventListener("click", (e) => {
