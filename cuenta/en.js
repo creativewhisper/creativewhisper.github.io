@@ -121,7 +121,8 @@
       "Correo de la persona": "The person’s email", "Puede": "Can", "Administrar la cuenta": "Manage the account", "Usar el panel y la app": "Use the dashboard and the app", "Dar acceso": "Give access",
       // Agente de ayuda
       "Ayuda con tu cuenta": "Help with your account", "¿Te ayudo?": "Need a hand?", "Hola. Te ayudo a usar tu cuenta: conectar canales, tus créditos, tus archivos o mejorar tu plan.": "Hi. I can help you use your account: connecting channels, your credits, your files or upgrading your plan.",
-      "¿Cómo conecto mi WhatsApp?": "How do I connect my WhatsApp?", "¿Qué es un crédito?": "What is a credit?", "¿Cómo mejoro mi plan?": "How do I upgrade my plan?",
+      "¿Cómo conecto mi WhatsApp?": "How do I connect my WhatsApp?", "¿Mi IA me ayuda a conectar?": "Can my AI help me connect?",
+      "Por seguridad no envié lo que pegaste: parece una clave de Meta. Genera otra en Meta y pégala solo en los campos protegidos (con el enlace seguro que te da tu IA, o en tu alta).": "For your security I did not send what you pasted: it looks like a Meta key. Generate a new one in Meta and paste it only in the protected fields (through the secure link your AI gives you, or in your setup).", "¿Qué es un crédito?": "What is a credit?", "¿Cómo mejoro mi plan?": "How do I upgrade my plan?",
       // Lo que responde el servidor
       "Inicia sesión": "Please sign in", "Este correo todavía no tiene una cuenta.": "This email does not have an account yet.", "Enlace no válido": "Invalid link", "Enlace no válido o vencido": "Invalid or expired link",
       "Ese es el enlace compartido de antes: abre el panel, pero no la cuenta. Entra con tu correo o pídele al equipo tu enlace personal.": "That is the old shared link: it opens the dashboard, but not the account. Sign in with your email or ask the team for your personal link.",
