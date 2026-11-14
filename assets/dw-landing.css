@@ -102,3 +102,18 @@ html,body{overflow-x:clip}
 .aviso-reg{border-radius:12px;padding:12px 14px;font-size:14.5px}.aviso-reg.mal{background:#FDE8EA;color:#A3121F}.aviso-reg.ok{background:#E6F4F2;color:var(--verde-o)}.aviso-reg a{font-weight:700;margin-left:6px}
 .skip{position:absolute;left:-999px;top:8px;background:var(--negro);color:#fff;padding:8px 12px;z-index:200}.skip:focus{left:8px}
 @media (max-width:620px){.l-top{position:static}.hero h1{font-size:clamp(40px,12vw,64px)}}
+/* La familia Whisper (mascotas de Creative Whisper) */
+.familia{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:18px;margin-top:28px;align-items:end}
+.bicho{margin:0;display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px}
+.bicho img{height:170px;width:auto;max-width:100%;object-fit:contain;transform-origin:50% 100%;animation:bicho-flota 3.6s ease-in-out infinite}
+.b-ruby img{animation-delay:-.7s}.b-pia img{animation-delay:-1.4s}.b-teo img{animation-delay:-2.1s}.b-ari img{animation-delay:-2.8s}
+.bicho:hover img{animation:bicho-salta .55s cubic-bezier(.3,1.6,.5,1) 1}
+.bicho figcaption{display:flex;flex-direction:column;gap:4px}
+.bicho b{font:800 26px/1 var(--f-d);text-transform:uppercase;letter-spacing:.01em}
+.bicho .dice{font-weight:600;font-size:15px}
+.bicho .ayuda{font-size:14px;margin:0}
+.fam-pie{margin-top:26px;text-align:center}
+@keyframes bicho-flota{0%,100%{transform:translateY(0) rotate(0)}50%{transform:translateY(-8px) rotate(-2deg)}}
+@keyframes bicho-salta{0%{transform:scale(1,1)}35%{transform:scale(1.08,.9)}70%{transform:translateY(-14px) scale(.96,1.05)}100%{transform:none}}
+@media (max-width:860px){.familia{grid-template-columns:repeat(2,minmax(0,1fr));gap:26px 14px}.bicho:last-child{grid-column:1/-1}.bicho img{height:120px}}
+@media (prefers-reduced-motion:reduce){.bicho img,.bicho:hover img{animation:none}}
