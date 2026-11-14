@@ -679,7 +679,7 @@ $("#terminar").onclick = async () => {
 
 // ---------- Agente del alta (fase 7): siempre a la mano. En computadora, abierto al lado; en celular, una burbuja que se expande. ----------
 // Sabe en qué paso está la persona. Una clave pegada aquí se descarta en la página (no se envía) y, por si acaso, también en el servidor.
-const RE_CLAVE = /\b(?:EAA|IGAA|IGQV)[A-Za-z0-9_-]{10,}|\b[a-f0-9]{32}\b|[A-Za-z0-9_-]{60,}/;
+const RE_CLAVE = /\bsd[kaor]_[a-f0-9]{20,}|\b(?:EAA|IGAA|IGQV)[A-Za-z0-9_-]{10,}|\b[a-f0-9]{32}\b|[A-Za-z0-9_-]{60,}/;
 const AVISO_CLAVE = () => CWIdioma.idioma === "en" ? "For your security I did not send that: it looks like an access key. Paste it only in the protected fields of step 6 of the connection guide." : "Por seguridad no envié eso: parece una clave. Pégala solo en los campos protegidos del paso 6 de la guía de conexión.";
 let ayudante = null, guia = null;
 function crearAyudante() {

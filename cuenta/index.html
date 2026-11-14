@@ -122,6 +122,19 @@ table.t td.n,table.t th.n{text-align:right;font-variant-numeric:tabular-nums}
 .cab .mejorar:hover{background:#FFB61F}
 .entrar-idioma{display:flex;justify-content:flex-end;max-width:440px;margin:0 auto}
 @media (max-width:640px){.cab{flex-wrap:wrap;row-gap:10px}.cab .quien{flex:1 1 55%}.cab .logo{display:none}}
+/* Fase 8 · Conexiones de IA y la pantalla de permisos */
+.ia-dos{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}@media (max-width:760px){.ia-dos{grid-template-columns:1fr}}
+.ia-url{display:flex;gap:8px;align-items:stretch;margin:10px 0}.ia-url code{flex:1;min-width:0;background:var(--negro);color:#FBF7F2;border-radius:10px;padding:10px 12px;font-size:13.5px;overflow-wrap:anywhere}
+.ia-pasos{margin:8px 0 0;padding-left:20px;font-size:14.5px}.ia-pasos li{margin:5px 0}
+.ia-perm{display:flex;flex-direction:column;gap:2px;margin:10px 0}.ia-perm label{display:flex;gap:10px;align-items:flex-start;padding:9px 10px;border-radius:10px;cursor:pointer;font-weight:400;margin:0}.ia-perm label:hover{background:#F6F0E7}
+.ia-perm input{width:20px;height:20px;margin-top:2px;accent-color:var(--verde);flex:none}.ia-perm b{display:block;font-weight:700;font-size:15px}.ia-perm small{display:block;color:var(--suave);font-size:13.5px;line-height:1.35}
+.ia-perm .esc b::after{content:attr(data-e);margin-left:8px;font-size:11px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;background:var(--durazno);color:#6B2A00;border-radius:999px;padding:1px 8px;vertical-align:1px;white-space:nowrap;display:inline-block}
+html.cw-permiso .ae-b,html.cw-permiso .ae-p{display:none!important}html.cw-permiso.ae-lado body{padding-left:0!important;margin-left:0!important}
+.ia-con{border:1px solid var(--linea);border-radius:14px;padding:14px;margin-top:12px;background:#fff}.ia-con.off{opacity:.62}.ia-con h3{font-size:16px;font-weight:800;margin:0;display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.ia-con .meta{color:var(--suave);font-size:13px;margin-top:4px}.ia-reg{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:10px}.ia-reg td{padding:7px 8px;border-top:1px solid var(--linea);vertical-align:top}.ia-reg td:first-child{white-space:nowrap;color:var(--suave)}
+.ia-reg .no{color:var(--mal);font-weight:700}.ia-clave{display:block;background:var(--negro);color:#F5A300;border-radius:12px;padding:14px;font-size:14px;overflow-wrap:anywhere;margin:12px 0;user-select:all}
+.permiso{max-width:620px;margin:0 auto}.permiso .quien{display:flex;gap:14px;align-items:center;margin-bottom:6px}.permiso .quien .ic{width:54px;height:54px;border-radius:16px;background:var(--negro);color:var(--naranja);display:grid;place-items:center;font-size:26px;flex:none}
+.permiso h1{font-size:22px;line-height:1.2;font-weight:800;letter-spacing:-.01em}.permiso .acciones .btn{flex:1}
 /* avisos con llamado a la acción: la prueba y los límites del plan */
 /* Fase 7 · Contenido: cantidades por semana, créditos y la muestra de la prueba */
 .pz{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:12px}
@@ -178,7 +191,7 @@ iframe.panel{width:100%;height:calc(100dvh - 150px);min-height:520px;border:1px 
 </header>
 <nav class="tabs" id="tabs" hidden><div>
   <button data-v="inicio" class="on">Inicio</button><button data-v="panel">Conversaciones</button><button data-v="contenido">Contenido</button><button data-v="conexiones">Conexiones<span class="n" id="nCon" hidden></span></button>
-  <button data-v="archivos">Archivos</button><button data-v="plan">Plan y consumo</button><button data-v="ajustes">Ajustes</button>
+  <button data-v="archivos">Archivos</button><button data-v="plan">Plan y consumo</button><button data-v="ajustes">Ajustes</button><button data-v="ia">Conexiones de IA</button>
 </div></nav>
 
 <main>
@@ -215,6 +228,8 @@ iframe.panel{width:100%;height:calc(100dvh - 150px);min-height:520px;border:1px 
   <section data-v="archivos" hidden></section>
   <section data-v="plan" hidden></section>
   <section data-v="ajustes" hidden></section>
+  <section data-v="ia" hidden data-nt></section>
+  <section data-v="permiso" hidden data-nt></section>
 </main>
 <dialog id="dlg"><div class="in" id="dlgIn"></div></dialog>
 <input type="file" id="elegirArchivo" hidden multiple accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm">
@@ -239,7 +254,7 @@ const fecha = (f) => { try { return new Date(String(f).length === 10 ? f + "T12:
 // Idioma: el botón de la cabecera cambia entre español e inglés sin salir de la página; la vista abierta se vuelve a pintar.
 CWIdioma.boton($("#idioma"));
 const enlacesPublica = () => { for (const a of $$("[data-publica]")) a.href = CWIdioma.idioma === "en" ? "../digital-whisper/#solicitar" : "../susurro-digital/#solicitar"; };
-CWIdioma.alCambiar(() => { enlacesPublica(); if (D) { pintarMarco(); ir(vista); } });
+CWIdioma.alCambiar(() => { enlacesPublica(); if (D) { pintarMarco(); if (vista !== "permiso") ir(vista); } });
 enlacesPublica();
 const mb = (b) => (b >= 1048576 * 1000 ? (b / 1073741824).toFixed(1) + " GB" : b >= 1048576 ? Math.round(b / 1048576) + " MB" : Math.max(0, Math.round(b / 1024)) + " KB");
 
@@ -322,9 +337,10 @@ async function abrir() {
     return;
   }
   $("#vCargando").hidden = true; $("#tabs").hidden = false; $("#salir").hidden = false;
+  if (IA_PIDE) setTimeout(() => verPermiso(), 0);   // una IA pidió conectarse: primero la pantalla de permisos
   CWIdioma.sugerir(D.cuenta.idioma);   // el idioma de la cuenta, si la persona no eligió otro antes
   pintarMarco(); await despuesDeVolver();
-  ir(ss.get("cw-cuenta-vista") || (location.hash.replace("#", "") || "inicio"));
+  { const h = location.hash.replace("#", ""); ir((/^[a-z]+$/.test(h) && h !== "permiso" && $(`section[data-v="${h}"]`) ? h : null) || ss.get("cw-cuenta-vista") || "inicio"); }   // …/cuenta/#ia abre esa pestaña
   agente();
 }
 function pintarMarco() {
@@ -381,7 +397,7 @@ function ir(v) {
   for (const b of $$("#tabs button")) b.classList.toggle("on", b.dataset.v === v);
   // Contenido: arriba, lo que la cuenta elige (cuántas piezas y cuánto gastan) y su muestra; debajo, el panel de siempre para ver y aprobar.
   for (const s of $$("section[data-v]")) s.hidden = !(s.dataset.v === v || (v === "contenido" && s.dataset.v === "panel"));
-  ({ inicio: vInicio, panel: () => vPanel("panel"), contenido: () => { vContenido(); vPanel("contenido"); }, conexiones: vConexiones, archivos: vArchivos, plan: vPlan, ajustes: vAjustes })[v]();
+  ({ inicio: vInicio, panel: () => vPanel("panel"), contenido: () => { vContenido(); vPanel("contenido"); }, conexiones: vConexiones, archivos: vArchivos, plan: vPlan, ajustes: vAjustes, ia: vIA, permiso: () => {} })[v]();
   window.scrollTo({ top: 0 });
 }
 $("#tabs").addEventListener("click", (e) => { const b = e.target.closest("button[data-v]"); if (b) ir(b.dataset.v); });
@@ -396,7 +412,8 @@ function barra(c) {
 const TXT_AVISO = { creditos_80: "Ya usaste el 80 % de tus créditos de este mes.", creditos_100: "Usaste todos los créditos del mes: tu asistente escucha pero no responde.", almacenamiento_90: "Tus archivos ocupan más del 90 % de tu espacio.",
   prueba_por_terminar: null, prueba_terminada: null,
   cobro_proximo: (d) => `Tu plan se renueva el ${fecha(d.el)}${d.automatico ? " con tu tarjeta guardada" : ": el equipo te contacta para el pago"}.`, cobro_fallido: (d) => `No pudimos cobrar tu plan. Tienes hasta el ${fecha(d.gracia_hasta)} para ponerte al día; después tu cuenta pasa al plan gratis (no se borra nada).`,
-  baja_a_gratis: "Tu cuenta pasó al plan gratis. Todo lo tuyo sigue aquí." };
+  baja_a_gratis: "Tu cuenta pasó al plan gratis. Todo lo tuyo sigue aquí.",
+  ia_aprobo: (d) => `Una IA conectada («${d.conexion}») aprobó contenido por primera vez. Puedes revisarlo o quitarle el permiso en Conexiones de IA.` };
 function vInicio() {
   // Los avisos de créditos, espacio y prueba ya salen como llamados (arriba): de la lista de avisos quedan los de cobros.
   const c = D.cuenta, r = D.resumen || {}, ll = llamados(D), av = (D.avisos || []).filter((a) => TXT_AVISO[a.clave] && !(D.plan && /^(creditos_|almacenamiento_)/.test(a.clave))).slice(0, 3);
@@ -753,13 +770,146 @@ async function vAjustes() {
 }
 function aviso(sel, texto, ok) { const a = $(sel); if (!a) return; a.className = "aviso " + (ok ? "ok" : "mal"); a.textContent = texto; a.hidden = false; }
 
+// ---------- Fase 8 · Conexiones de IA: el conector (MCP con OAuth), las claves de API, los permisos y el registro ----------
+// Todo esto habla con la función api-cliente usando la SESIÓN de la persona (correo y código), nunca una clave. Los textos van
+// en los dos idiomas aquí mismo (los bloques llevan data-nt: no pasan por el diccionario y se vuelven a pintar al cambiar de idioma).
+const API_IA = SUPABASE_URL + "/functions/v1/api-cliente";
+const IA_PIDE = /^[a-f0-9]{32}$/.test(q.get("ia") || "") ? q.get("ia") : null;
+const TI = {
+  es: { titulo: "Conecta tu IA a tu cuenta", intro: "Claude, ChatGPT u otro agente pueden leer tu panel, revisar tu contenido o gestionar tus casos por ti. Tú eliges qué puede hacer cada conexión, permiso por permiso, y lo cambias o lo quitas cuando quieras.",
+    conector: "Con un conector (Claude, ChatGPT)", conectorTx: "Sin copiar claves. Agregas esta dirección en tu IA, entras con tu correo y marcas los permisos.", copiar: "Copiar", copiado: "Copiado ✓",
+    pasos: ["Copia la dirección.", "En tu IA, abre los conectores y agrega uno personalizado con esa dirección.", "Se abre tu cuenta: entra con tu correo y marca qué puede hacer."], guia: "Ver la guía con ejemplos",
+    clave: "Con una clave de API (si programas)", claveTx: "Para tus propios programas. La clave se muestra una sola vez.", nombre: "Nombre de la clave", nombrePh: "Mi tablero de ventas", vence: "Vence en", dias: "días", crear: "Crear la clave",
+    tus: "Tus conexiones", ninguna: "Todavía no hay ninguna conexión.", tipo: { oauth: "Conector", clave: "Clave de API" }, estado: { activa: "Activa", revocada: "Revocada", vencida: "Vencida" },
+    creada: "Creada por", el: "el", venceEl: "vence el", ultimo: "último uso", nunca: "sin uso todavía", guardar: "Guardar permisos", revocar: "Revocar", seguro: "¿Revocar esta conexión? Deja de funcionar al instante y no se puede deshacer.",
+    guardado: "Permisos guardados.", registro: "Registro de lo que hicieron", registroTx: "Cada cambio que hace una IA y cada cambio a las conexiones. Lo que solo leyó no aparece.", sinRegistro: "Todavía no hay nada en el registro.", negado: "Sin permiso",
+    lista: "Tu clave está lista", listaTx: "Cópiala ahora: no la vamos a mostrar otra vez. Guárdala como una contraseña y nunca la pegues en un chat.", entendido: "Ya la guardé",
+    noAdmite: { sin_plan: "Conectar una IA es para cuentas con un plan vigente.", prueba_terminada: "Tu prueba gratuita terminó. Elige un plan para conectar una IA.", cuenta_inactiva: "Tu cuenta está en pausa." }, verPlanes: "Ver los planes",
+    lector: "Puedes ver las conexiones, pero solo quien administra la cuenta las cambia.", conCorreo: "Para ver y cambiar las conexiones de IA entra con tu correo (no con un enlace).", limite: "Cada conexión puede hacer hasta {n} pedidos por minuto.",
+    pide: "quiere conectarse a", pideTx: "Marca lo que le permites. Puedes cambiarlo o quitarlo cuando quieras en «Conexiones de IA».", como: "Nombre de esta conexión", vuelve: "Al responder, vuelves a", permitir: "Permitir", negar: "No permitir", loPidio: "lo pidió",
+    yaNoVale: "Este pedido de conexión ya no vale. Vuelve a tu IA y conéctala otra vez.", irCuenta: "Ir a mi cuenta", conectando: "Listo. Volviendo a tu IA…", escribe: "cambia cosas",
+    p: { "panel:leer": ["Leer tu panel", "Resumen, sentimiento, conversaciones y casos. Sin teléfonos ni datos de contacto."], "contenido:leer": ["Ver tu contenido", "Publicaciones, historias y reels: el texto, la fecha y el estado."],
+      "contenido:aprobar": ["Aprobar contenido", "Lo que apruebe se publica en su fecha. Te avisamos la primera vez que lo haga."], "contenido:pedir_cambios": ["Pedir cambios en el contenido", "La pieza vuelve a corrección con su comentario."],
+      "casos:gestionar": ["Gestionar casos", "Marcarlos en proceso o resueltos y dejar notas. No les escribe a tus clientes."], "creditos:leer": ["Ver créditos y cantidades", "Cuánto llevas usado y cuántas piezas tienes pedidas. Sin precios."],
+      "cantidades:cambiar": ["Cambiar las cantidades por semana", "Dentro del máximo de tu plan. Cada pieza gasta créditos."] } },
+  en: { titulo: "Connect your AI to your account", intro: "Claude, ChatGPT or another agent can read your dashboard, review your content or manage your cases for you. You choose what each connection may do, permission by permission, and you can change or remove it whenever you like.",
+    conector: "With a connector (Claude, ChatGPT)", conectorTx: "No keys to copy. Add this address in your AI, sign in with your email and tick the permissions.", copiar: "Copy", copiado: "Copied ✓",
+    pasos: ["Copy the address.", "In your AI, open connectors and add a custom one with that address.", "Your account opens: sign in with your email and tick what it may do."], guia: "See the guide with examples",
+    clave: "With an API key (if you code)", claveTx: "For your own programs. The key is shown only once.", nombre: "Key name", nombrePh: "My sales dashboard", vence: "Expires in", dias: "days", crear: "Create the key",
+    tus: "Your connections", ninguna: "There are no connections yet.", tipo: { oauth: "Connector", clave: "API key" }, estado: { activa: "Active", revocada: "Revoked", vencida: "Expired" },
+    creada: "Created by", el: "on", venceEl: "expires on", ultimo: "last used", nunca: "not used yet", guardar: "Save permissions", revocar: "Revoke", seguro: "Revoke this connection? It stops working at once and cannot be undone.",
+    guardado: "Permissions saved.", registro: "Log of what they did", registroTx: "Every change an AI makes and every change to the connections. Reads are not listed.", sinRegistro: "Nothing in the log yet.", negado: "No permission",
+    lista: "Your key is ready", listaTx: "Copy it now: we will not show it again. Keep it like a password and never paste it into a chat.", entendido: "I saved it",
+    noAdmite: { sin_plan: "Connecting an AI is for accounts with an active plan.", prueba_terminada: "Your free trial has ended. Choose a plan to connect an AI.", cuenta_inactiva: "Your account is paused." }, verPlanes: "See the plans",
+    lector: "You can see the connections, but only an account admin can change them.", conCorreo: "To see and change AI connections, sign in with your email (not with a link).", limite: "Each connection can make up to {n} requests per minute.",
+    pide: "wants to connect to", pideTx: "Tick what you allow. You can change or remove it at any time under “AI connections”.", como: "Name of this connection", vuelve: "After you answer, you go back to", permitir: "Allow", negar: "Don't allow", loPidio: "requested",
+    yaNoVale: "This connection request is no longer valid. Go back to your AI and connect it again.", irCuenta: "Go to my account", conectando: "Done. Going back to your AI…", escribe: "makes changes",
+    p: { "panel:leer": ["Read your dashboard", "Summary, sentiment, conversations and cases. No phone numbers or contact details."], "contenido:leer": ["See your content", "Posts, stories and reels: text, date and status."],
+      "contenido:aprobar": ["Approve content", "What it approves is published on its date. We notify you the first time it does."], "contenido:pedir_cambios": ["Request content changes", "The piece goes back for correction with its comment."],
+      "casos:gestionar": ["Manage cases", "Mark them in progress or resolved and leave notes. It does not message your customers."], "creditos:leer": ["See credits and quantities", "How much you have used and how many pieces you ordered. No prices."],
+      "cantidades:cambiar": ["Change weekly quantities", "Within your plan's maximum. Each piece uses credits."] } },
+};
+const IA_ESCRIBE = ["contenido:aprobar", "contenido:pedir_cambios", "casos:gestionar", "cantidades:cambiar"];
+const LI = () => TI[CWIdioma.idioma === "en" ? "en" : "es"];
+let IA = null;
+async function apiIA(accion, datos = {}) {
+  const s = (await sb.auth.getSession()).data.session;
+  if (!s) throw Object.assign(new Error(LI().conCorreo), { status: 401 });
+  const r = await fetch(API_IA, { method: "POST", headers: { "content-type": "application/json", authorization: "Bearer " + s.access_token }, body: JSON.stringify({ accion, idioma: CWIdioma.idioma, ...(CUENTA ? { cuenta: CUENTA } : {}), ...datos }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(j.error || "No se pudo completar. Inténtalo otra vez."), { status: r.status, json: j });
+  return j;
+}
+// La clave se ve una sola vez: al cerrar ese diálogo se borra de la página.
+$("#dlg").addEventListener("close", () => { if ($("#iaClave")) $("#dlgIn").innerHTML = ""; });
+const casillas = (L, permisos, marcados, o = {}) => `<div class="ia-perm">${permisos.map((p) => `<label class="${IA_ESCRIBE.includes(p) ? "esc" : ""}"><input type="checkbox" value="${esc(p)}" ${marcados.includes(p) ? "checked" : ""} ${o.fijo ? "disabled" : ""}><span><b data-e="${esc(L.escribe)}">${esc(L.p[p]?.[0] ?? p)}${(o.pedidos || []).includes(p) ? ` <small style="display:inline;font-weight:600;color:var(--verde)">· ${esc(L.loPidio)}</small>` : ""}</b><small>${esc(L.p[p]?.[1] ?? "")}</small></span></label>`).join("")}</div>`;
+const marcadas = (raiz) => [...raiz.querySelectorAll(".ia-perm input:checked")].map((i) => i.value);
+async function vIA() {
+  const s = $('section[data-v="ia"]'), L = LI();
+  if (TOKEN && !sesion) { s.innerHTML = `<div class="tarjeta"><h2>${esc(L.titulo)}</h2><div class="aviso info">${esc(L.conCorreo)}</div></div>`; return; }
+  if (!IA) s.innerHTML = `<div class="tarjeta"><span class="cargando"></span></div>`;
+  try { IA = await apiIA("ia_inicio"); } catch (x) { s.innerHTML = `<div class="tarjeta"><h2>${esc(L.titulo)}</h2><div class="aviso mal">${esc(x.message)}</div></div>`; return; }
+  pintarIA();
+}
+function pintarIA(nota = "") {
+  const s = $('section[data-v="ia"]'), L = LI(), r = IA, puede = r.puede_cambiar && r.admite?.ok;
+  const f = (x) => (x ? fecha(x) : "");
+  s.innerHTML = `<div class="tarjeta"><h2>${esc(L.titulo)}</h2><p class="ayuda">${esc(L.intro)}</p>
+    ${!r.admite?.ok ? `<div class="aviso info">${esc(L.noAdmite[r.admite?.motivo] || L.noAdmite.sin_plan)} ${r.puede_cambiar ? `<button class="btn chico pri" data-planes type="button" style="margin-left:6px">${esc(L.verPlanes)}</button>` : ""}</div>` : !r.puede_cambiar ? `<div class="aviso info">${esc(L.lector)}</div>` : ""}
+    ${puede ? `<div class="ia-dos">
+      <div class="ia-con" style="margin:0"><h3>🔌 ${esc(L.conector)}</h3><p class="ayuda">${esc(L.conectorTx)}</p><div class="ia-url"><code id="iaUrl">${esc(r.mcp)}</code><button class="btn chico oscuro" type="button" data-copia-ia="${esc(r.mcp)}">${esc(L.copiar)}</button></div>
+        <ol class="ia-pasos">${L.pasos.map((x) => `<li>${esc(x)}</li>`).join("")}</ol><p class="ayuda" style="margin-top:8px"><a href="../api/" target="_blank" rel="noopener">${esc(L.guia)} ↗</a></p></div>
+      <div class="ia-con" style="margin:0"><h3>🔑 ${esc(L.clave)}</h3><p class="ayuda">${esc(L.claveTx)}</p><form id="iaForm" autocomplete="off">
+        <label for="iaNombre">${esc(L.nombre)}</label><input id="iaNombre" type="text" name="cw-ia-nombre" maxlength="80" placeholder="${esc(L.nombrePh)}" autocomplete="off">
+        ${casillas(L, r.permisos, ["panel:leer"])}
+        <label for="iaDias">${esc(L.vence)}</label><select id="iaDias"><option value="30">30 ${esc(L.dias)}</option><option value="90" selected>90 ${esc(L.dias)}</option><option value="180">180 ${esc(L.dias)}</option><option value="365">365 ${esc(L.dias)}</option></select>
+        <div class="aviso mal" id="iaErr" hidden></div><div class="acciones"><button class="btn pri" type="submit">${esc(L.crear)}</button></div></form></div></div>` : ""}
+    <p class="ayuda" style="margin-top:12px">${esc(L.limite.replace("{n}", r.limite_por_minuto))}</p></div>
+  <div class="tarjeta" style="margin-top:14px"><h2>${esc(L.tus)}</h2>${nota ? `<div class="aviso ok" id="iaNota">${esc(nota)}</div>` : ""}
+    ${r.conexiones.length ? r.conexiones.map((c) => `<div class="ia-con ${c.estado === "activa" ? "" : "off"}" data-con="${c.id}"><h3>${esc(c.nombre)} <span class="pastilla ${c.estado === "activa" ? "conectado" : "error"}">${esc(L.estado[c.estado])}</span><span class="pastilla pendiente">${esc(L.tipo[c.tipo])}</span></h3>
+      <div class="meta">${c.prefijo ? `<code>${esc(c.prefijo)}</code> · ` : ""}${esc(L.creada)} ${esc(c.creada_por)} ${esc(L.el)} ${esc(f(c.creado))}${c.vence ? ` · ${esc(L.venceEl)} ${esc(f(c.vence))}` : ""} · ${c.ultimo_uso ? `${esc(L.ultimo)} ${esc(f(c.ultimo_uso))}` : esc(L.nunca)}</div>
+      ${casillas(L, r.permisos, c.permisos, { fijo: !(puede && c.estado === "activa") })}
+      ${puede && c.estado === "activa" ? `<div class="acciones" style="margin-top:4px"><button class="btn chico" type="button" data-ia-guardar="${c.id}">${esc(L.guardar)}</button><button class="btn chico peligro" type="button" data-ia-revocar="${c.id}">${esc(L.revocar)}</button></div>` : ""}</div>`).join("") : `<p class="ayuda">${esc(L.ninguna)}</p>`}</div>
+  <div class="tarjeta" style="margin-top:14px"><h2>${esc(L.registro)}</h2><p class="ayuda">${esc(L.registroTx)}</p>
+    ${r.registro.length ? `<table class="ia-reg">${r.registro.map((x) => `<tr><td>${esc(new Date(x.creado).toLocaleString(CWIdioma.loc(), { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }))}</td><td><b>${esc(x.conexion)}</b></td><td>${x.ok ? "" : `<span class="no">${esc(L.negado)} · </span>`}${esc(x.resumen)}</td></tr>`).join("")}</table>` : `<p class="ayuda">${esc(L.sinRegistro)}</p>`}</div>`;
+  const form = $("#iaForm");
+  if (form) form.onsubmit = async (e) => {
+    e.preventDefault(); const b = form.querySelector("button[type=submit]"); b.disabled = true; $("#iaErr").hidden = true;
+    try { const x = await apiIA("ia_clave_crear", { nombre: $("#iaNombre").value, permisos: marcadas(form), dias: Number($("#iaDias").value) });
+      dialogo(`<h2>${esc(L.lista)}</h2><p class="ayuda">${esc(L.listaTx)}</p><code class="ia-clave" id="iaClave">${esc(x.clave)}</code><div class="acciones"><button class="btn pri" type="button" data-copia-ia="${esc(x.clave)}">${esc(L.copiar)}</button><button class="btn" type="button" data-cerrar>${esc(L.entendido)}</button></div>`);
+      IA = await apiIA("ia_inicio"); pintarIA();
+    } catch (x) { $("#iaErr").textContent = x.message; $("#iaErr").hidden = false; b.disabled = false; }
+  };
+}
+document.addEventListener("click", async (e) => {
+  const L = LI(), c = e.target.closest("[data-copia-ia]");
+  if (c) { try { await navigator.clipboard.writeText(c.dataset.copiaIa); } catch (x) { /* se copia a mano */ } c.textContent = L.copiado; return; }
+  const g = e.target.closest("[data-ia-guardar]"), v = e.target.closest("[data-ia-revocar]");
+  if (!g && !v) return;
+  const b = g || v, caja = b.closest("[data-con]"); b.disabled = true;
+  try {
+    if (v) { if (!confirm(L.seguro)) { b.disabled = false; return; } await apiIA("ia_revocar", { id: Number(v.dataset.iaRevocar) }); IA = await apiIA("ia_inicio"); pintarIA(); }
+    else { await apiIA("ia_permisos", { id: Number(g.dataset.iaGuardar), permisos: marcadas(caja) }); IA = await apiIA("ia_inicio"); pintarIA(L.guardado); }
+  } catch (x) { b.disabled = false; alert(x.message); }
+});
+// La pantalla de permisos: llega aquí quien está conectando su IA (…/cuenta/?ia=<pedido>). Sin decidir, no se ve nada más.
+async function verPermiso() {
+  const L = LI(), s = $('section[data-v="permiso"]');
+  $("#tabs").hidden = true; for (const x of $$("section[data-v]")) x.hidden = x !== s; vista = "permiso";
+  document.documentElement.classList.add("cw-permiso");   // en esta pantalla solo se decide: sin pestañas y sin el chat encima de los botones
+  const fin = (t) => { s.innerHTML = `<div class="tarjeta permiso"><h2>${esc(L.titulo)}</h2><div class="aviso info">${esc(t)}</div><div class="acciones"><a class="btn pri" href="./">${esc(L.irCuenta)}</a></div></div>`; };
+  if (TOKEN && !sesion) return fin(L.conCorreo);
+  s.innerHTML = `<div class="tarjeta permiso"><span class="cargando"></span></div>`;
+  let r; try { r = await apiIA("ia_solicitud", { id: IA_PIDE }); } catch (x) { return fin(x.status === 410 ? L.yaNoVale : x.message); }
+  const pedidos = r.solicitud.permisos_pedidos || [], lectura = r.permisos.filter((p) => !IA_ESCRIBE.includes(p));
+  const marcados = pedidos.length ? pedidos.filter((p) => lectura.includes(p)) : ["panel:leer", "contenido:leer"];   // lo que cambia cosas nunca viene marcado: lo marca la persona
+  const noPuede = !r.admite?.ok ? (L.noAdmite[r.admite?.motivo] || L.noAdmite.sin_plan) : !r.puede_cambiar ? L.lector : null;
+  s.innerHTML = `<div class="tarjeta permiso"><div class="quien"><span class="ic">🔌</span><div><h1>«${esc(r.solicitud.aplicacion)}» ${esc(L.pide)} ${esc(r.cuenta.nombre)}</h1></div></div>
+    <p class="ayuda">${esc(L.pideTx)}</p>
+    ${noPuede ? `<div class="aviso info">${esc(noPuede)}</div>` : `${casillas(L, r.permisos, marcados.length ? marcados : ["panel:leer"], { pedidos })}
+      <label for="pmNombre">${esc(L.como)}</label><input id="pmNombre" type="text" maxlength="80" name="cw-ia-conexion" autocomplete="off" value="${esc(r.solicitud.aplicacion)}">`}
+    <div class="aviso mal" id="pmErr" hidden></div>
+    <p class="ayuda" style="margin-top:12px">${esc(L.vuelve)} <b>${esc(r.solicitud.vuelve_a)}</b>.</p>
+    <div class="acciones">${noPuede ? "" : `<button class="btn pri" type="button" id="pmSi">${esc(L.permitir)}</button>`}<button class="btn" type="button" id="pmNo">${esc(L.negar)}</button></div></div>`;
+  const decidir = async (aprobar) => {
+    for (const b of s.querySelectorAll("button")) b.disabled = true; $("#pmErr").hidden = true;
+    try { const x = await apiIA("ia_decidir", { id: IA_PIDE, aprobar, ...(aprobar ? { permisos: marcadas(s), nombre: $("#pmNombre").value } : {}) });
+      s.innerHTML = `<div class="tarjeta permiso"><h2>${esc(L.conectando)}</h2><span class="cargando"></span></div>`; location.href = x.redirigir;
+    } catch (x) { if (x.status === 410) return fin(L.yaNoVale); for (const b of s.querySelectorAll("button")) b.disabled = false; $("#pmErr").textContent = x.message; $("#pmErr").hidden = false; }
+  };
+  if ($("#pmSi")) $("#pmSi").onclick = () => decidir(true);
+  $("#pmNo").onclick = () => decidir(false);
+}
+CWIdioma.alCambiar(() => { if (vista === "permiso" && IA_PIDE) verPermiso(); });
+
 // ---------- Agente de la cuenta ----------
 let agenteListo = false;
 function agente() {
   if (agenteListo) return; agenteListo = true;
   const T = CWIdioma.t;
   AgenteEscucha({ api: API, accion: "agente", idioma: CWIdioma.idioma, titulo: T("Ayuda con tu cuenta"), boton: T("¿Te ayudo?"), izquierda: true, fijo: true, saludo: T("Hola. Te ayudo a usar tu cuenta: conectar canales, tus créditos, tus archivos o mejorar tu plan."),
-    sugerencias: ["¿Cómo conecto mi WhatsApp?", "¿Qué es un crédito?", "¿Cómo mejoro mi plan?"].map(T),
+    sugerencias: ["¿Cómo conecto mi WhatsApp?", "¿Cómo conecto mi IA?", "¿Qué es un crédito?"].map(T),
+    filtro: (texto) => (/\bsd[kaor]_[a-f0-9]{20,}/.test(texto) ? T("Por seguridad no envié lo que pegaste: parece una clave de la API. Revócala en Conexiones de IA y crea otra; las claves nunca se comparten en un chat.") : null),
     datos: () => ({ idioma: CWIdioma.idioma, ...(TOKEN ? { t: TOKEN } : CUENTA ? { cuenta: CUENTA } : {}) }), cabeceras: () => (sesion && !TOKEN ? { authorization: "Bearer " + sesion.access_token } : {}) });
 }
 // El panel avisa cuando su enlace de sesión venció: se le da uno nuevo y se vuelve a abrir, sin que la persona haga nada.

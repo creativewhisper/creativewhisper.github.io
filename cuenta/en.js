@@ -8,7 +8,8 @@
       // Marco
       "Mi cuenta": "My account", "Mejorar plan": "Upgrade", "Elegir un plan": "Choose a plan", "Salir": "Sign out", "Cambiar de cuenta": "Switch account",
       "Historias diarias": "Daily stories", "Reels con voz": "Reels with voice-over",
-      "Inicio": "Home", "Conversaciones": "Conversations", "Contenido": "Content", "Conexiones": "Connections", "Archivos": "Files", "Plan y consumo": "Plan & usage", "Ajustes": "Settings",
+      "Inicio": "Home", "Conversaciones": "Conversations", "Contenido": "Content", "Conexiones": "Connections", "Archivos": "Files", "Plan y consumo": "Plan & usage", "Ajustes": "Settings", "Conexiones de IA": "AI connections", "¿Cómo conecto mi IA?": "How do I connect my AI?",
+      "Por seguridad no envié lo que pegaste: parece una clave de la API. Revócala en Conexiones de IA y crea otra; las claves nunca se comparten en un chat.": "For your security I did not send what you pasted: it looks like an API key. Revoke it under AI connections and create a new one; keys are never shared in a chat.",
       "Abriendo tu cuenta…": "Opening your account…", "Un momento…": "One moment…", "Cerrar": "Close", "Cancelar": "Cancel", "Guardar": "Save", "Guardado.": "Saved.", "Guardando…": "Saving…", "Preparando…": "Getting it ready…",
       "No se pudo completar. Inténtalo otra vez.": "Something went wrong. Please try again.",
       // Entrar
@@ -147,6 +148,7 @@
       "Cuenta no encontrada": "Account not found", "No disponible": "Not available", "No autorizado": "Not authorized",
     },
     patrones: [
+      [/^Una IA conectada \(«(.+)»\) aprobó contenido por primera vez\. Puedes revisarlo o quitarle el permiso en Conexiones de IA\.$/, "A connected AI (“$1”) approved content for the first time. You can review it or remove its permission under AI connections."],
       [/^(.+) · Mi cuenta$/, "$1 · My account"],
       [/^Plan (.+)$/, "$1 plan"],
       [/^✓ (.+)$/, function (_m, a) { return "✓ " + T(a); }],

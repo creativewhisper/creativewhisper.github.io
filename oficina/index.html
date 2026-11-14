@@ -305,6 +305,7 @@ function solicitudFuera(id) {
   const t = pend.find((x) => x.tarjeta?.solicitud?.id === id);
   if (t) { pend = pend.filter((x) => x !== t); if (tab === "para") pintarPara(); contador(); }
   if (tab === "cli" && $("#prodCuerpo")) pintarProducto();
+  if (tab === "cli" && $("#iaCuerpo") && $("details[data-ia]")?.open) pintarIA();
 }
 // Ajuste de un post de un cliente (Digital Whisper): la versión corregida vuelve a su panel para revisión.
 function reducirImagen(file) {
@@ -515,9 +516,9 @@ async function pintarClientes() {
   const [{ cuentas }, estados] = await Promise.all([llamarPanel({ accion: "cuentas" }), llamarAlta({ accion: "estados" }).catch(() => ({ cuentas: [] }))]);
   cuentasCli = cuentas || [];
   const estadoDe = new Map((estados.cuentas || []).map((x) => [x.empresa_id, x]));
-  if (!cuentasCli.length) { $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + `<div class="vacio"><b>Sin clientes todavía</b>Las cuentas de Digital Whisper aparecen aquí.</div>`; return; }
+  if (!cuentasCli.length) { $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + tarjetaIA() + `<div class="vacio"><b>Sin clientes todavía</b>Las cuentas de Digital Whisper aparecen aquí.</div>`; return; }
   const hoy = new Date().toISOString().slice(0, 10);
-  $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + cuentasCli.map((c) => {
+  $("#cuerpo").innerHTML = tarjetaNuevo() + tarjetaProducto() + tarjetaIA() + cuentasCli.map((c) => {
     const on = c.estado === "activa";
     const vencida = c.pagado_hasta && c.pagado_hasta < hoy;
     return `<div class="card cli" style="--color:${on ? "var(--porthos)" : "var(--torote)"}">
@@ -618,6 +619,36 @@ const usd = (n) => (n == null ? "—" : "US$ " + Number(n).toLocaleString("es-EC
 const tarjetaProducto = () => `<div class="card" style="--color:var(--bataka)"><div class="marca">El producto</div>
   <div class="sub" style="margin-top:4px">Solicitudes de prueba, cobros, planes y el consumo de cada cuenta con su costo real. Solo tú lo ves.</div>
   <details data-producto="1" style="margin-top:8px"><summary style="cursor:pointer;font-weight:700">Abrir</summary><div id="prodCuerpo" class="sub" style="margin-top:8px">Cargando…</div></details></div>`;
+// ---------- Fase 8 · Conexiones de IA: qué IAs tiene conectadas cada cuenta, con qué permisos, y el registro de lo que hicieron ----------
+// Habla con la función api-cliente con la sesión de admin. Desde aquí se revoca una conexión, se apaga la API entera o se cambia el límite.
+const ia = (cuerpo) => llamarFn("api-cliente", cuerpo);
+const tarjetaIA = () => `<div class="card" style="--color:var(--torote)"><div class="marca">Conexiones de IA</div>
+  <div class="sub" style="margin-top:4px">Las IAs (Claude, ChatGPT, claves de API) conectadas a cada cuenta, sus permisos y el registro de lo que hicieron.</div>
+  <details data-ia="1" style="margin-top:8px"><summary style="cursor:pointer;font-weight:700">Abrir</summary><div id="iaCuerpo" class="sub" style="margin-top:8px">Cargando…</div></details></div>`;
+async function pintarIA() {
+  const el = $("#iaCuerpo"); if (!el) return;
+  try {
+    const r = await ia({ accion: "ia_oficina" }), cuando = (f) => (f ? new Date(f).toLocaleString("es-EC", { day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }) : "—");
+    const activas = r.conexiones.filter((c) => c.estado === "activa");
+    el.innerHTML = `<p><b>${activas.length}</b> conexiones activas de ${r.conexiones.length} · ${r.aplicaciones_registradas} aplicaciones registradas · conector: <code>${esc(r.mcp)}</code></p>
+      <p style="margin:8px 0">La API está <b id="iaEstado">${r.api_encendida ? "encendida" : "APAGADA"}</b> · límite: <input id="iaLimite" type="number" min="5" max="600" value="${r.limite_por_minuto}" style="width:80px"> pedidos por minuto por conexión
+        <button class="btn" data-ia-limite type="button">Guardar límite</button> <button class="btn" data-ia-encender="${r.api_encendida ? "0" : "1"}" type="button">${r.api_encendida ? "Apagar la API" : "Encender la API"}</button></p>
+      <table class="tabla" style="width:100%;font-size:13px"><tr><th align="left">Cuenta</th><th align="left">Conexión</th><th align="left">Permisos</th><th align="left">Último uso</th><th></th></tr>
+      ${r.conexiones.map((c) => `<tr style="${c.estado === "activa" ? "" : "opacity:.55"}"><td>${esc(c.cuenta || "—")}</td><td><b>${esc(c.nombre)}</b><br><small>${c.tipo === "clave" ? "clave " + esc(c.prefijo || "") : "conector"} · ${esc(c.estado)} · ${esc(c.creada_por)}</small></td><td><small>${esc(c.permisos.join(", "))}</small></td><td><small>${cuando(c.ultimo_uso)}</small></td><td>${c.estado === "activa" ? `<button class="btn" data-ia-revocar="${c.id}" type="button">Revocar</button>` : ""}</td></tr>`).join("") || `<tr><td colspan="5">Ninguna cuenta ha conectado una IA todavía.</td></tr>`}</table>
+      <details style="margin-top:10px"><summary style="cursor:pointer;font-weight:700">Registro (${r.registro.length} más recientes)</summary><table class="tabla" style="width:100%;font-size:13px;margin-top:6px">
+      ${r.registro.map((x) => `<tr><td style="white-space:nowrap"><small>${cuando(x.creado)}</small></td><td><small>${esc(x.cuenta || "—")}</small></td><td><b>${esc(x.conexion)}</b> <small>(${esc(x.via)})</small></td><td>${x.ok ? "" : "<b style='color:var(--alerta,#E3120B)'>Sin permiso · </b>"}${esc(x.resumen)}</td></tr>`).join("") || "<tr><td>Nada todavía.</td></tr>"}</table></details>`;
+  } catch (x) { el.textContent = "No se pudo cargar: " + x.message; }
+}
+document.addEventListener("click", async (e) => {
+  const rv = e.target.closest("[data-ia-revocar]"), en = e.target.closest("[data-ia-encender]"), li = e.target.closest("[data-ia-limite]");
+  if (!rv && !en && !li) return;
+  try {
+    if (rv) { if (!confirm("¿Revocar esta conexión? La IA de esa cuenta deja de entrar al instante.")) return; await ia({ accion: "ia_oficina_revocar", id: Number(rv.dataset.iaRevocar) }); }
+    if (en) { if (en.dataset.iaEncender === "0" && !confirm("¿Apagar la API de IA para TODAS las cuentas? Las conexiones no se borran; solo dejan de responder hasta encenderla.")) return; await ia({ accion: "ia_oficina_ajuste", encendida: en.dataset.iaEncender === "1" }); }
+    if (li) await ia({ accion: "ia_oficina_ajuste", limite: Number($("#iaLimite").value) });
+    pintarIA();
+  } catch (x) { alert(x.message); }
+});
 async function pintarProducto() {
   const el = $("#prodCuerpo"); if (!el) return;
   try {
@@ -675,7 +706,7 @@ async function pintarPlanCuenta(id) {
       ${(d.pagos || []).length ? `<div style="margin-top:8px">Pagos: ${d.pagos.slice(0, 6).map((g) => `${esc(g.periodo_desde)}→${esc(g.periodo_hasta)} ${usd(g.total_usd)} (${esc(g.estado)}${g.factura?.numero ? ", fact. " + esc(g.factura.numero) : g.estado === "aprobado" ? `, <a href="#" data-pc-accion="factura" data-id="${id}" data-pago="${g.id}">anotar factura</a>` : ""})`).join(" · ")}</div>` : ""}`;
   } catch (x) { el.textContent = "No se pudo cargar: " + x.message; }
 }
-document.addEventListener("toggle", (e) => { const d = e.target; if (!d.dataset || !d.open) return; if (d.dataset.producto) pintarProducto(); if (d.dataset.plan) pintarPlanCuenta(d.dataset.plan); }, true);
+document.addEventListener("toggle", (e) => { const d = e.target; if (!d.dataset || !d.open) return; if (d.dataset.ia) pintarIA(); if (d.dataset.producto) pintarProducto(); if (d.dataset.plan) pintarPlanCuenta(d.dataset.plan); }, true);
 document.addEventListener("change", async (e) => {
   const c = e.target.closest("[data-prod-ajuste]"); if (!c || tab !== "cli") return;
   const clave = c.dataset.prodAjuste, valor = c.checked ? c.dataset.si : c.dataset.no;
