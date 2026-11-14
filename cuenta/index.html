@@ -191,7 +191,7 @@ iframe.panel{width:100%;height:calc(100dvh - 150px);min-height:520px;border:1px 
 </header>
 <nav class="tabs" id="tabs" hidden><div>
   <button data-v="inicio" class="on">Inicio</button><button data-v="panel">Conversaciones</button><button data-v="contenido">Contenido</button><button data-v="conexiones">Conexiones<span class="n" id="nCon" hidden></span></button>
-  <button data-v="archivos">Archivos</button><button data-v="plan">Plan y consumo</button><button data-v="ajustes">Ajustes</button><button data-v="ia">Conexiones de IA</button>
+  <button data-v="archivos">Archivos</button><button data-v="plan">Plan y consumo</button><button data-v="ajustes">Ajustes</button><button data-v="ia">Conexiones de IA</button><a class="tab-panel" href="../panel/" style="align-self:center;margin-left:8px;padding:8px 14px;border-radius:999px;background:#F5A300;color:#0A0908;font-weight:600;text-decoration:none;white-space:nowrap" data-nt>✨ <span data-panel-nuevo>Panel nuevo</span></a>
 </div></nav>
 
 <main>
@@ -340,6 +340,12 @@ async function abrir() {
     verEntrar();
     if (porQue) { $("#eCorreo").textContent = porQue; $("#eCorreo").hidden = false; }
     return;
+  }
+  // Fase 10 · quien viene del panel nuevo: si solo venía a entrar, vuelve enseguida; si venía a conectar algo, se le deja un botón para volver.
+  if (q.get("volver") === "panel") ss.set("cw-volver", "panel");
+  if (ss.get("cw-volver") === "panel" && !IA_PIDE && !CANAL) {
+    if (!location.hash && !q.get("code") && !q.get("pago")) { ss.set("cw-volver", null); location.replace("../panel/"); return; }
+    if (!$("#volverPanel")) { const v = document.createElement("a"); v.id = "volverPanel"; v.href = "../panel/"; v.className = "btn pri"; v.style.cssText = "position:fixed;right:16px;bottom:16px;z-index:60;box-shadow:0 10px 24px -10px rgba(0,0,0,.5)"; v.textContent = CWIdioma.idioma === "en" ? "← Back to my dashboard" : "← Volver a mi panel"; v.addEventListener("click", () => ss.set("cw-volver", null)); document.body.appendChild(v); }
   }
   $("#vCargando").hidden = true; $("#tabs").hidden = false; $("#salir").hidden = false;
   if (IA_PIDE) setTimeout(() => verPermiso(), 0);   // una IA pidió conectarse: primero la pantalla de permisos
@@ -541,7 +547,7 @@ async function vConexiones() {
   s.innerHTML = `<div class="tarjeta"><span class="cargando"></span>Revisando tus canales…</div>`;
   let cx, lectura = null, ventana = null; try { const r = await api("conexiones"); cx = r.conexiones; lectura = r.lectura_web || null; ventana = r.ventana_segura || null; D.conexiones = cx; } catch (x) { s.innerHTML = `<div class="tarjeta aviso mal">${esc(x.message)}</div>`; return; }
   const boton = (c) => !puedeCambiar() || !c.accion ? "" : c.canal === "web" ? `<button class="btn chico" data-con="web">${c.estado === "conectado" ? "Ver el código" : "Poner el chat en mi web"}</button>`
-    : c.canal === "drive" ? (c.modo === "no_disponible" ? "" : c.estado === "conectado" ? `<button class="btn chico pri" data-con="drive-elegir">Elegir fotos y videos</button> <button class="btn chico" data-con="drive-quitar">Desconectar</button>` : `<button class="btn chico pri" data-con="drive">Conectar</button>`)
+    : c.canal === "drive" ? (c.modo === "no_disponible" ? "" : c.estado === "conectado" ? `<button class="btn chico pri" data-con="drive-elegir">Elegir fotos, videos o una carpeta</button> ${/carpeta «/.test(c.detalle || "") ? `<button class="btn chico" data-con="drive-sinc">Traer lo nuevo de la carpeta</button> ` : ""}<button class="btn chico" data-con="drive-quitar">Desconectar</button>` : `<button class="btn chico pri" data-con="drive">Conectar</button>`)
     : `<button class="btn chico pri" data-con="${esc(c.canal)}">${c.estado === "pendiente" ? "Ver cómo va" : "Conectar"}</button>`;
   s.innerHTML = `<div class="tarjeta"><h2>Tus canales</h2><p class="ayuda">Aquí conectas por dónde responde tu asistente y de dónde salen tus fotos. No necesitas saber de Meta.</p>
     ${cx.map((c) => `<div class="canal" data-canal="${esc(c.canal)}"><div class="ic">${ICONO[c.canal] || "🔌"}</div><div class="tx"><b>${esc(c.nombre)}</b><span class="pastilla ${esc(c.estado)}">${ESTADO[c.estado] || esc(c.estado)}</span>
@@ -690,6 +696,7 @@ async function conectar(que, b) {
   }
   if (que === "drive") { const fin = ocupado(b, "Abriendo Google…"); try { const r = await api("drive_iniciar"); location.href = r.url; } catch (x) { fin(); err(x); } return; }
   if (que === "drive-elegir") return elegirEnDrive(b);
+  if (que === "drive-sinc") { const det = $("#conDetalle"), fin = ocupado(b, "Revisando tu carpeta…"); try { const r = await api("drive_sincronizar"); det.innerHTML = `<div class="aviso ${r.aviso ? "info" : "ok"}">${esc(r.aviso || `Listo: ${r.fotos} foto${r.fotos === 1 ? "" : "s"} y ${r.videos} video${r.videos === 1 ? "" : "s"} nuevos.${r.repetidos ? ` ${r.repetidos} ya estaban.` : ""}`)}</div>`; } catch (x) { det.innerHTML = `<div class="aviso mal">${esc(x.message)}</div>`; } finally { fin(); } return; }
   if (que === "drive-quitar") {
     dialogo(`<h2>Desconectar Google Drive</h2><p>Se quitan de tu cuenta las copias de lo que elegiste en Drive. Tus archivos originales no se tocan.</p><div class="acciones"><button class="btn peligro" id="drSi" type="button">Desconectar</button><button class="btn" type="button" data-cerrar>Cancelar</button></div>`);
     $("#drSi").onclick = async () => { try { const r = await api("drive_desconectar"); cerrar(); await vConexiones(); $("#conDetalle").innerHTML = `<div class="aviso ok">Desconectado. ${esc(r.nota || "")}</div>`; } catch (x) { cerrar(); err(x); } };
@@ -708,7 +715,8 @@ async function elegirEnDrive(b) {
       .setCallback(async (d) => {
         if (d.action !== google.picker.Action.PICKED) return;
         if (det) det.innerHTML = `<div class="aviso info"><span class="cargando"></span>Trayendo lo que elegiste…</div>`;
-        try { const r = await api("drive_importar", { ids: d.docs.map((x) => x.id) }); if (det) det.innerHTML = `<div class="aviso ok">Listo: ${r.fotos} foto${r.fotos === 1 ? "" : "s"} y ${r.videos} video${r.videos === 1 ? "" : "s"}.${r.repetidos ? ` ${r.repetidos} ya estaban.` : ""}${r.carpetas_sin_acceso ? " Google no nos dejó ver dentro de una carpeta: ábrela y elige los archivos." : ""}${r.limite ? " Llegaste al máximo de archivos conectados de tu plan." : ""}</div>`; if (vista === "archivos") vArchivos(); }
+        try { const unaCarpeta = d.docs.length === 1 && (d.docs[0].type === "folder" || d.docs[0].mimeType === "application/vnd.google-apps.folder");   // fase 10: una carpeta sola queda «conectada»
+          const r = unaCarpeta ? await api("drive_carpeta", { id: d.docs[0].id }) : await api("drive_importar", { ids: d.docs.map((x) => x.id) }); if (det) det.innerHTML = `<div class="aviso ok">Listo: ${r.fotos} foto${r.fotos === 1 ? "" : "s"} y ${r.videos} video${r.videos === 1 ? "" : "s"}.${r.repetidos ? ` ${r.repetidos} ya estaban.` : ""}${r.carpetas_sin_acceso ? " Google no nos dejó ver dentro de una carpeta: ábrela y elige los archivos." : ""}${r.limite ? " Llegaste al máximo de archivos conectados de tu plan." : ""}</div>`; if (vista === "archivos") vArchivos(); }
         catch (x) { if (det && x.status !== 402) det.innerHTML = `<div class="aviso mal">${esc(x.message)}</div>`; }
       });
     if (sel.clave) p.setDeveloperKey(sel.clave); if (sel.proyecto) p.setAppId(sel.proyecto);
