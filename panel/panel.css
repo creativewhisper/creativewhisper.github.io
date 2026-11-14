@@ -156,3 +156,4 @@ html,body{overflow-x:clip}
 @media (max-width:860px){.arr-pie{padding-right:16px}.barra-ap{bottom:70px}:root{--ae-sube:140px}body:has(.arr){--ae-sube:74px}}
 @media (max-width:560px){.cabeza #cuentaNombre{display:none}.cabeza{gap:8px}}
 .barra-ap .btn:not(.pri){color:var(--negro)}
+.btn:focus-visible,a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,[tabindex]:focus-visible{outline:3px solid var(--naranja,#F5A300);outline-offset:2px}
