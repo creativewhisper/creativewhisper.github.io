@@ -595,7 +595,7 @@ async function abrirCanal() {
   $("#csForm").addEventListener("submit", async (e) => {
     e.preventDefault(); const fin = ocupado($("#csIr"), L.conectando), res = $("#csRes"), num = $('#csElegir input[name="csNum"]:checked')?.value;
     try {
-      const x = await api("canal_conectar", { pase, app_id: $("#csApp").value.trim(), app_secret: $("#csSec").value.trim(), token: $("#csTok").value.trim(), waba_id: $("#csWaba").value.trim(), pin: $("#csPin").value.trim(), ...(num ? { phone_number_id: num } : {}) });
+      const x = await api("canal_conectar", { pase, app_id: $("#csApp").value.trim(), app_secret: $("#csSec").value.trim(), ...(/^IG/.test($("#csTok").value.trim()) ? { ig_token: $("#csTok").value.trim() } : { token: $("#csTok").value.trim() }), waba_id: $("#csWaba").value.trim(), pin: $("#csPin").value.trim(), ...(num ? { phone_number_id: num } : {}) });
       fin();
       const pasos = (x.pasos || []).map((p) => `<li>${p.ok === true ? "✅" : p.ok === false ? "❌" : "ℹ️"} ${esc(p.detalle)}</li>`).join("");
       if (x.elegir) $("#csElegir").innerHTML = `<p class="ayuda" style="margin-top:10px"><b>${esc(L.elige)}</b></p>${x.elegir.map((n, i) => `<label style="display:flex;gap:8px;font-weight:400"><input type="radio" name="csNum" value="${esc(n.id)}" ${i ? "" : "checked"}> ${esc("•••• " + String(n.numero || "").slice(-4))} ${esc(n.nombre || "")}</label>`).join("")}`;
