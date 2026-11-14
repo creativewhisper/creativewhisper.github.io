@@ -4,14 +4,14 @@
 <meta charset="utf-8">
 <script>/* idioma: inglés por defecto; navegador en español -> versión en español (salvo elección manual) */(function(){try{var s=localStorage.getItem("cw-lang");if(s==="en")return;var l=(navigator.languages&&navigator.languages[0])||navigator.language||"";if(s==="es"||/^es\b/i.test(l))location.replace("/susurro-digital/"+location.search+location.hash);}catch(e){}})();</script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0A0908">
-<title>Digital Whisper — Data-driven advertising · Creative Whisper</title>
+<meta name="theme-color" content="#FFFFFF">
+<title>Digital Whisper — Your business answers and posts by itself</title>
 <link rel="icon" href="../assets/favicon-cw.png" type="image/png">
-<meta name="description" content="Data-driven advertising: listen to your customers and turn what they say into content that sells. Free trial by invitation, no card required.">
+<meta name="description" content="Serves your customers on WhatsApp and Instagram and prepares your week&#x27;s content in your brand. Nothing is published without your approval. Request a free trial.">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Creative Whisper">
-<meta property="og:title" content="Digital Whisper — Data-driven advertising · Creative Whisper">
-<meta property="og:description" content="Listen to your customers and turn what they say into content that sells. Request your free trial.">
+<meta property="og:title" content="Digital Whisper — Your business answers and posts by itself">
+<meta property="og:description" content="Serves your customers on WhatsApp and Instagram and prepares your week&#x27;s content in your brand. Nothing is published without your approval. Request a free trial.">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://creativewhisper.net/digital-whisper/">
 <meta property="og:image" content="https://creativewhisper.net/assets/og-cw-logo.png">
@@ -22,165 +22,46 @@
 <link rel="alternate" hreflang="x-default" href="https://creativewhisper.net/digital-whisper/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="../assets/site.css">
-<style>
-.lang-sw{display:inline-flex;align-items:center;justify-content:center;height:34px;min-width:44px;padding:0 10px;border-radius:999px;border:1px solid rgba(236,230,219,.28);color:inherit;font:500 12px/1 "IBM Plex Mono",ui-monospace,monospace;letter-spacing:.14em;text-decoration:none;opacity:.85;transition:opacity .2s,border-color .2s;flex:none}.lang-sw:hover{opacity:1;border-color:rgba(236,230,219,.6)}.lang-sw b{font-weight:600;opacity:.45;margin:0 .35em}
-:root{--ac:var(--teal);--ae:var(--teal-e);--at:var(--ink)}
-.ph{min-height:auto;padding-bottom:clamp(60px,9vw,120px)}
-.ph h1{max-width:16ch}
-.ph .lede{max-width:34ch;font-size:clamp(19px,1.7vw,26px)}
-.ph-stats dd{font-size:clamp(34px,3.6vw,60px)}
-.ph-stats dd small{font:500 13px/1.2 var(--f-sans);color:var(--mute);align-self:flex-end;margin:0 0 .5em .5em;text-transform:none}
-/* En el celular las franjas quedan como una banda arriba y el texto empieza debajo (aquí no hay foto de portada que las separe). */
-@media (max-width:900px){
-  .ph-strips{height:calc(var(--header) + 132px);right:-30vw;-webkit-mask-image:linear-gradient(#000 60%,transparent);mask-image:linear-gradient(#000 60%,transparent)}
-  .ph-in{padding-top:calc(var(--header) + 150px)}
-  .ph-stats{gap:18px 28px}
-  .top .btn{display:none}
-}
-/* tres resultados */
-.tramos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin:0 calc(var(--gutter) * -1)}
-.tramo{position:relative;padding:clamp(28px,4vw,56px) clamp(22px,3.4vw,48px) clamp(34px,4.4vw,64px);background:var(--c);color:var(--fg,var(--ink));clip-path:polygon(7% 0,100% 0,93% 100%,0 100%);margin-right:-3%}
-.tramo:last-child{margin-right:0}
-.tramo .label{opacity:.8}
-.tramo h3{font:900 clamp(40px,4.6vw,76px)/.9 var(--f-display);text-transform:uppercase;margin:14px 0 14px}
-.tramo p{font-size:clamp(16px,1.25vw,19px);max-width:28ch;margin-left:6%}
-.tramo .label,.tramo h3{margin-left:6%}
-@media (max-width:900px){.tramos{grid-template-columns:1fr;margin:0}.tramo{clip-path:polygon(0 0,100% 3%,100% 100%,0 97%);margin:0 0 -1px;padding:48px 24px}.tramo p,.tramo .label,.tramo h3{margin-left:0}}
-/* para cualquier negocio */
-.negocios{display:flex;flex-wrap:wrap;gap:10px}
-.negocios span{border:1px solid var(--line-2);border-radius:999px;padding:10px 18px;font-size:15px}
-.negocios span:nth-child(5n+1){border-color:var(--orange)}.negocios span:nth-child(5n+2){border-color:var(--red)}.negocios span:nth-child(5n+3){border-color:var(--peach)}.negocios span:nth-child(5n+4){border-color:var(--teal)}.negocios span:nth-child(5n){border-color:var(--beige)}
-/* la prueba, por invitación */
-.invita{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,5vw,80px);align-items:center}
-.invita h2{font-size:clamp(44px,5.4vw,92px)}
-.invita .label{margin-bottom:12px;color:var(--orange)}
-.invita p.txt{color:var(--mute);margin-top:18px;max-width:44ch}
-.invita p.txt b{color:var(--bone);font-weight:600}
-.pasos3{list-style:none;display:grid;gap:0;counter-reset:p}
-.pasos3 li{counter-increment:p;display:grid;grid-template-columns:auto 1fr;gap:4px 18px;padding:18px 0;border-top:1px solid var(--line)}
-.pasos3 li:last-child{border-bottom:1px solid var(--line)}
-.pasos3 li::before{content:"0" counter(p);grid-row:1 / span 2;font:500 13px/1 var(--f-mono);letter-spacing:.12em;color:var(--orange);padding-top:9px}
-.pasos3 b{font:800 clamp(24px,2.2vw,34px)/1 var(--f-display);text-transform:uppercase;letter-spacing:.01em}
-.pasos3 span{color:#CFC7BA;font-size:clamp(15px,1.15vw,17px)}
-@media (max-width:900px){.invita{grid-template-columns:1fr}}
-/* formulario */
-.alta{position:relative;overflow:hidden;border-top:1px solid var(--line)}
-.alta .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(28px,6vw,96px);padding-top:clamp(70px,9vw,130px);padding-bottom:clamp(70px,9vw,130px);position:relative;z-index:2}
-.alta h2{font-size:clamp(56px,7.4vw,136px)}
-/* Las franjas van detrás del formulario (a la derecha): el título queda limpio sobre el fondo oscuro. */
-.alta .franjas{position:absolute;top:0;bottom:0;right:-4vw;width:52vw;pointer-events:none}
-.alta .franjas i{position:absolute;top:-6%;bottom:-6%;width:7vw;right:calc(var(--k) * 9.6vw);transform:skewX(-11deg);background:var(--c);box-shadow:-12px 0 0 var(--e,var(--c))}
-.alta .texto{position:relative}
-.alta .texto p{margin-top:18px;max-width:38ch;color:#CFC7BA}
-form.reg{position:relative;color-scheme:light;background:var(--bone);color:var(--ink);border-radius:26px;padding:clamp(22px,3vw,40px);display:grid;gap:14px;box-shadow:0 30px 80px -30px rgba(0,0,0,.8)}
-form.reg label{display:grid;gap:6px;font-size:14px;font-weight:600}
-form.reg label small{font-weight:400;color:#6B6259}
-form.reg label .rot{display:flex;flex-wrap:wrap;align-items:baseline;gap:2px 8px}
-form.reg input[type=text],form.reg input[type=email],form.reg input[type=tel],form.reg select{width:100%;border:1.5px solid #CDBFA6;border-radius:12px;background:#fff;color:var(--ink);padding:13px 14px;font:inherit;font-size:16px;outline:none}
-form.reg input:focus,form.reg select:focus{border-color:var(--ink);box-shadow:0 0 0 3px rgba(245,163,0,.4)}
-form.reg .fila{display:grid;grid-template-columns:1fr 1fr;gap:12px;align-items:end}
-form.reg .acepta{display:flex;gap:10px;align-items:flex-start;font-weight:400;font-size:14px}
-form.reg .acepta input{width:18px;height:18px;margin-top:2px;accent-color:var(--ink);flex:none}
-form.reg .btn{justify-content:center;background:var(--ink);color:var(--bone);min-height:56px;font-size:16px;border:0}
-form.reg .btn:hover{background:var(--red)}
-form.reg .btn[disabled]{opacity:.6;cursor:default}
-form.reg .nota{font-size:13px;color:#6B6259;margin:0}
-form.reg .trampa{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
-.aviso-reg{border-radius:14px;padding:14px 16px;font-size:15px}
-.aviso-reg.ok{background:#DDF1EE;color:#14433E}.aviso-reg.mal{background:#FBDAD8;color:#8E0B07}
-@media (max-width:900px){.alta .wrap{grid-template-columns:1fr}.alta .franjas{display:none}form.reg .fila{grid-template-columns:1fr}}
-.faq{padding:clamp(80px,10vw,150px) 0}
-/* Titulares con tilde (TAMBIÉN, PRUÉBALO): un poco más de aire entre líneas que el .84 de la portada. */
-main h2.display{line-height:.9}
-.faq .label{margin-bottom:12px}
-footer{padding-bottom:110px}
-</style>
-<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["ProfessionalService","Organization"],"@id":"https://creativewhisper.net/#organization","name":"Creative Whisper","url":"https://creativewhisper.net/","logo":"https://creativewhisper.net/assets/logo-cw.png","image":"https://creativewhisper.net/assets/monograma-cw.png","description":"Creative Whisper is a data-driven marketing agency in Quito, Ecuador. One team handles data and conversation analysis, video and photo production, digital marketing (Meta Ads, Instagram, interactive websites) and AI assistants that answer customers on WhatsApp, Instagram and websites.","slogan":"Data, video production and digital marketing in one team.","telephone":"+593969235680","address":{"@type":"PostalAddress","addressLocality":"Quito","addressRegion":"Pichincha","addressCountry":"EC"},"areaServed":[{"@type":"City","name":"Quito"},{"@type":"Country","name":"Ecuador"}],"availableLanguage":["es","en"],"knowsAbout":["Data-driven marketing","Customer conversation analysis","Sentiment analysis","Video production","Product photography","Automotive photography","Meta Ads","WhatsApp Business automation","AI chat assistants","Interactive web design"],"sameAs":["https://www.instagram.com/creative.whisper.productions"],"contactPoint":{"@type":"ContactPoint","contactType":"sales","telephone":"+593969235680","availableLanguage":["es","en"],"url":"https://wa.me/593969235680","email":"hola@creativewhisper.net"},"email":"hola@creativewhisper.net"},{"@type":"Service","@id":"https://creativewhisper.net/digital-whisper/#service","name":"Digital Whisper","alternateName":"Susurro digital","serviceType":"Data-driven advertising","description":"Creative Whisper's customer-listening service: it gathers what customers say in a business's WhatsApp, Instagram and website conversations, shows it in a dashboard with sentiment and urgent complaints, and turns it into the brand's next social media content. Free trial by invitation.","url":"https://creativewhisper.net/digital-whisper/","provider":{"@id":"https://creativewhisper.net/#organization"},"areaServed":{"@type":"Country","name":"Ecuador"},"inLanguage":"en"}]}</script>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Hanken+Grotesk:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="../assets/dw-landing.css">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":["ProfessionalService","Organization"],"@id":"https://creativewhisper.net/#organization","name":"Creative Whisper","url":"https://creativewhisper.net/","logo":"https://creativewhisper.net/assets/logo-cw.png","image":"https://creativewhisper.net/assets/monograma-cw.png","description":"Creative Whisper is a data-driven marketing agency in Quito, Ecuador. One team handles data and conversation analysis, video and photo production, digital marketing (Meta Ads, Instagram, interactive websites) and AI assistants that answer customers on WhatsApp, Instagram and websites.","slogan":"Data, video production and digital marketing in one team.","telephone":"+593969235680","address":{"@type":"PostalAddress","addressLocality":"Quito","addressRegion":"Pichincha","addressCountry":"EC"},"areaServed":[{"@type":"City","name":"Quito"},{"@type":"Country","name":"Ecuador"}],"availableLanguage":["es","en"],"knowsAbout":["Data-driven marketing","Customer conversation analysis","Sentiment analysis","Video production","Product photography","Automotive photography","Meta Ads","WhatsApp Business automation","AI chat assistants","Interactive web design"],"sameAs":["https://www.instagram.com/creative.whisper.productions"],"contactPoint":{"@type":"ContactPoint","contactType":"sales","telephone":"+593969235680","availableLanguage":["es","en"],"url":"https://wa.me/593969235680","email":"hola@creativewhisper.net"},"email":"hola@creativewhisper.net"},{"@type":"Service","@id":"https://creativewhisper.net/digital-whisper/#service","name":"Digital Whisper","alternateName":"Susurro digital","serviceType":"Data-driven advertising","description":"Creative Whisper's customer-listening service: it gathers what customers say in a business's WhatsApp, Instagram and website conversations, shows it in a dashboard with sentiment and urgent complaints, and turns it into the brand's next social media content. Free trial by invitation.","url":"https://creativewhisper.net/digital-whisper/","provider":{"@id":"https://creativewhisper.net/#organization"},"areaServed":{"@type":"Country","name":"Ecuador"},"inLanguage":"en"},{"@type":"WebPage","@id":"https://creativewhisper.net/digital-whisper/#webpage","url":"https://creativewhisper.net/digital-whisper/","name":"Digital Whisper — Your business answers and posts by itself","description":"Serves your customers on WhatsApp and Instagram and prepares your week's content in your brand. Nothing is published without your approval. Request a free trial.","inLanguage":"en","isPartOf":{"@id":"https://creativewhisper.net/#website"},"about":{"@id":"https://creativewhisper.net/#organization"}},{"@type":"FAQPage","@id":"https://creativewhisper.net/digital-whisper/#faq","inLanguage":"en","mainEntity":[{"@type":"Question","name":"Do you publish anything without my approval?","acceptedAnswer":{"@type":"Answer","text":"No. Every piece waits for your approval. If you want, you can save backups you already approved so your account does not go quiet on a week you could not review."}},{"@type":"Question","name":"Do I need to know Meta or coding?","acceptedAnswer":{"@type":"Answer","text":"No. Onboarding walks you through, with direct links to every screen. If you use Claude or ChatGPT, your AI guides you."}},{"@type":"Question","name":"Who sees my access keys?","acceptedAnswer":{"@type":"Answer","text":"Nobody. You paste them in a protected window, they are stored encrypted and never shown again. The assistant never asks for them in chat."}},{"@type":"Question","name":"Does the assistant make up prices or promotions?","acceptedAnswer":{"@type":"Answer","text":"No. It only uses what is in your information. A price, percentage or date that is not there is removed before it reaches the image."}},{"@type":"Question","name":"Can I keep using my WhatsApp Business app?","acceptedAnswer":{"@type":"Answer","text":"Yes, on the same number."}},{"@type":"Question","name":"Does it work if I already have a posting routine?","acceptedAnswer":{"@type":"Answer","text":"Yes. You paste how you publish today (how many pieces, which days, what times, your rules) and we set up your week the same way for you to review."}},{"@type":"Question","name":"Which languages does it work in?","acceptedAnswer":{"@type":"Answer","text":"Spanish and English, in the dashboard and the assistant."}},{"@type":"Question","name":"How long is the trial and what happens after?","acceptedAnswer":{"@type":"Answer","text":"The trial is free, with no card, and has an end date. When it ends you choose a plan; nothing is deleted."}},{"@type":"Question","name":"How much does it cost?","acceptedAnswer":{"@type":"Answer","text":"Try it free with your real customers first. Plans are discussed based on what you need."}}]}]}</script>
 </head>
 <body>
 <a class="skip" href="#contenido">Skip to content</a>
-<header class="top is-solid" id="top">
-  <div class="wrap">
-    <a class="brand" href="../" aria-label="Creative Whisper, home"><img src="../assets/monograma-cw.png" alt="" width="40" height="27"><span>CREATIVE WHISPER</span></a>
-    <nav class="nav" id="menu" aria-label="Main">
-      <a href="../services.html">Services</a>
-      <a href="./" aria-current="page">Digital Whisper</a>
-      <a href="../index.html#trabajo">Work</a>
-      <a href="../data.html">Data</a>
-      <a href="../cuenta/">My account</a>
-    </nav>
-    <a class="lang-sw" href="/susurro-digital/" hreflang="es" lang="es" data-set-lang="es" aria-label="Ver esta página en español">EN <b>/</b> ES</a>
-    <button class="menu-btn" id="btnMenu" type="button" aria-expanded="false" aria-controls="menu">Menu</button>
-    <a class="btn btn--solid" href="#solicitar">Request a free trial</a>
-  </div>
-</header>
-
+<div class="franja" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+<header class="l-top"><a class="logo" href="../" style="text-decoration:none">Digital Whisper<small>by Creative Whisper</small></a>
+  <nav aria-label="Sections"><a href="#como">How it works</a><a href="#incluye">What you get</a><a href="#planes">Plans</a><a href="#faq">FAQ</a><a class="lang-l" href="/susurro-digital/" hreflang="es" lang="es" data-set-lang="es">ES</a><a class="btn pri chico" href="#solicitar">Request your free trial</a></nav></header>
 <main id="contenido">
-  <section class="ph">
-    <div class="ph-strips" aria-hidden="true">
-      <i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--beige);--e:var(--beige)"></i>
-    </div>
-    <div class="wrap ph-in">
-      <p class="label"><i></i>Digital Whisper</p>
-      <h1>Data-driven advertising</h1>
-      <p class="lede">Listen to your customers and turn what they say into content that sells.</p>
-      <div class="ctas">
-        <a class="btn btn--solid" href="#solicitar" id="ctaSolicitar">Request a free trial</a>
-        <a class="btn btn--ghost" href="../cuenta/">I already have an account</a>
-      </div>
-      <dl class="ph-stats">
-        <div><dt>Free trial</dt><dd><span id="sDias">14</span><small>days</small></dd></div>
-        <div><dt>To get started</dt><dd style="--sc:var(--orange)">0<small>cards</small></dd></div>
-        <div><dt>Your customers, looked after</dt><dd style="--sc:var(--teal)">24/7<small>every day</small></dd></div>
-      </dl>
-    </div>
-  </section>
-
-  <section class="sec line" id="que">
-    <div class="wrap">
-      <div class="shead">
-        <div><p class="label"><i></i>What you get</p><h2 class="display">Less guesswork, more sales</h2></div>
-        <p>Your customers are already telling you what they want to buy. Digital Whisper listens, makes sense of it and turns it into advertising that speaks to exactly that.</p>
-      </div>
-      <div class="tramos">
-        <article class="tramo" style="--c:var(--orange)"><p class="label">01</p><h3>You answer</h3><p>Everyone who messages you gets a reply in seconds, at any hour. No sale goes cold while someone waits.</p></article>
-        <article class="tramo" style="--c:var(--teal)"><p class="label">02</p><h3>You understand</h3><p>You know what people ask for, what bothers them and what comes up most. You decide with your own customers’ data, not on a hunch.</p></article>
-        <article class="tramo" style="--c:var(--peach)"><p class="label">03</p><h3>You sell</h3><p>Your content and your ads come from what people actually want to know. Nothing goes out until you approve it.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec line">
-    <div class="wrap">
-      <div class="shead">
-        <div><p class="label" style="--sc:var(--orange)"><i></i>For any business</p><h2 class="display">Yours too</h2></div>
-        <p>It works just as well for a clinic as for a restaurant or a shop: it adapts to what you sell and to how you talk to your customers.</p>
-      </div>
-      <div class="negocios" id="negocios"><span>Restaurants and cafés</span><span>Clinics and practices</span><span>Shops and retail</span><span>Professional services</span><span>Car dealerships</span><span>Shopping malls</span><span>And any other</span></div>
-    </div>
-  </section>
-
-  <section class="sec line" id="prueba">
-    <div class="wrap invita">
-      <div>
-        <p class="label">Free trial, by invitation</p>
-        <h2 class="display">Try it with your real customers</h2>
-        <p class="txt">We review every request. If your business is a good fit, the team switches on a <b id="gDias">14</b>-day trial and helps you get it ready. No card, no commitment.</p>
-      </div>
-      <ol class="pasos3"><li><b>You ask</b><span>A one-minute form.</span></li><li><b>We approve</b><span>The team gets back to you on WhatsApp or by email.</span></li><li><b>You try it</b><span>With your own business and customers, with the team alongside.</span></li></ol>
-    </div>
-  </section>
-
-  <section class="alta" id="solicitar">
-    <div class="franjas" aria-hidden="true"><i style="--k:0;--c:var(--orange);--e:var(--orange)"></i><i style="--k:1;--c:var(--red);--e:var(--red-e)"></i><i style="--k:2;--c:var(--peach);--e:var(--peach-e)"></i><i style="--k:3;--c:var(--teal);--e:var(--teal-e)"></i><i style="--k:4;--c:var(--beige);--e:var(--beige)"></i></div>
-    <div class="wrap">
-      <div class="texto">
-        <h2 class="display">Request your trial</h2>
-        <p>Tell us who you are. We will get back to you on WhatsApp or by email.</p>
-      </div>
-      <form class="reg" id="solicitud" novalidate>
+<section class="l-sec" style="padding-top:0"><div class="l-in hero">
+  <div><span class="mono">Customer care and content for your business</span><h1 style="margin-top:14px">Your business answers and posts <em>by itself</em>. You approve.</h1><p class="lede">Digital Whisper serves your customers on WhatsApp and Instagram, listens to what they ask and turns it into your week&#x27;s content, in your brand.</p>
+    <div class="cta"><a class="btn pri" href="#solicitar">Request your free trial</a><a class="btn" href="#como">See how it works →</a></div>
+    <div class="conf"><span class="pill ok">✓ Nothing is published without your approval</span><span class="pill">🔒 Encrypted keys</span><span class="pill">ES · EN</span></div></div>
+  <div class="mock" role="img" aria-label="Illustration of the dashboard with sample data."><div class="mbar"><i></i><i></i><i></i><span style="margin-left:8px">Your dashboard · this week</span></div>
+    <div class="mcu"><div class="cif"><div><b>21</b><span>posts to approve</span></div><div><b>33</b><span>stories ready</span></div><div><b>3</b><span>open cases</span></div></div>
+      <div class="fila">🗓️ <span>Your week is ready to review</span><span class="btn pri chico">Review</span></div><div class="mini"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="fila">💬 <span>“Do you deliver today?” · answered on WhatsApp</span><span class="pill ok">ok</span></div><p class="ayuda" style="margin:0;font-size:12px">Illustration of the dashboard with sample data.</p></div></div>
+</div></section>
+<section class="l-sec" style="background:var(--papel)"><div class="l-in dos">
+  <div class="prob"><span class="mono">The problem</span><h2 style="margin-top:10px">Answering and posting eats your day</h2><ul><li>Unanswered messages when the business is busy.</li><li>The same questions, again and again.</li><li>Weeks without posting because nobody had time.</li><li>Complaints that stay in a chat and nobody solves.</li></ul></div>
+  <div class="prob si"><span class="mono">The promise</span><h2 style="margin-top:10px">You decide. The rest runs itself.</h2><ul><li>An assistant that answers with your information, any time.</li><li>Every complaint becomes a case that reaches whoever solves it.</li><li>The week&#x27;s content ready to approve in one tap.</li><li>What your customers ask guides what you post.</li></ul></div></div></section>
+<section class="l-sec" id="como"><div class="l-in"><span class="mono">How it works</span><h2 style="margin-top:10px">Three steps. The first is pasting your website.</h2><div class="pasos"><article class="paso"><div class="vid"><img src="../alta/video/bienvenida-en-h.jpg" alt="" loading="lazy" width="1280" height="720"><button type="button" data-video="../alta/video/bienvenida-en-h.mp4" aria-label="Watch the video: Paste your website"><span aria-hidden="true">▶</span></button></div><div class="tx"><div class="n" aria-hidden="true">01</div><h3>Paste your website</h3><p style="font-size:15px;color:#3A342D;margin:0">We read your site and build your brand: logo, colours, tone and products. No website? Tell us in two minutes.</p></div></article><article class="paso"><div class="vid"><img src="../alta/video/conexion-web-en-h.jpg" alt="" loading="lazy" width="1280" height="720"><button type="button" data-video="../alta/video/conexion-web-en-h.mp4" aria-label="Watch the video: See your first pieces"><span aria-hidden="true">▶</span></button></div><div class="tx"><div class="n" aria-hidden="true">02</div><h3>See your first pieces</h3><p style="font-size:15px;color:#3A342D;margin:0">Before connecting anything you see pieces in your brand and a sample conversation from your assistant.</p></div></article><article class="paso"><div class="vid"><img src="../alta/video/conexion-instagram-en-h.jpg" alt="" loading="lazy" width="1280" height="720"><button type="button" data-video="../alta/video/conexion-instagram-en-h.mp4" aria-label="Watch the video: Connect and approve"><span aria-hidden="true">▶</span></button></div><div class="tx"><div class="n" aria-hidden="true">03</div><h3>Connect and approve</h3><p style="font-size:15px;color:#3A342D;margin:0">You connect Instagram or WhatsApp with a step-by-step guide and approve your week. From there it runs itself.</p></div></article></div></div></section>
+<section class="l-sec" id="incluye" style="background:var(--papel)"><div class="l-in"><span class="mono">What you get</span><h2 style="margin-top:10px">Everything in one place</h2>
+  <div class="bento"><div class="g a"><h3>Assistant on WhatsApp and Instagram</h3><p>It answers with your business information, in your tone. What it does not know goes to a person.</p></div><div class="g n"><h3>Listening and cases</h3><p>Every complaint and special request becomes a case with area and priority. Nothing gets lost in a chat.</p></div><div class="x b"><h3>Weekly content in your brand</h3><p>Posts, carousels and stories with your colours, fonts and product. You approve; they publish themselves.</p></div><div class=""><h3>Reels with voice</h3><p>Vertical videos with voice-over, made with your photos.</p></div><div class=""><h3>Reports</h3><p>What they ask, what they complain about and what worked, every week.</p></div><div class="a"><h3>Connect your AI</h3><p>Claude or ChatGPT can see your dashboard, approve and help connect channels, with the permissions you grant.</p></div><div class=""><h3>App for your team</h3><p>Cases and alerts reach the phone of whoever solves them.</p></div></div></div></section>
+<section class="l-sec negro"><div class="l-in"><span class="mono">A day with Digital Whisper</span><h2 style="margin-top:10px">While you run your business</h2>
+  <div class="dia"><div><time>08:30</time><b>The first story goes out</b><p>You approved it on Sunday. It publishes itself, on time.</p></div><div><time>10:12</time><b>A customer asks about an order</b><p>The assistant answers with your information. A detail is missing, so it opens a case and notifies your team.</p></div><div><time>13:00</time><b>Midday post</b><p>Your product, your colours, your copy.</p></div><div><time>17:40</time><b>A complaint</b><p>It is logged with priority and reaches the area that solves it. You see it in the dashboard.</p></div><div><time>21:00</time><b>The summary</b><p>What people asked today and what is worth posting next week.</p></div></div></div></section>
+<section class="l-sec"><div class="l-in"><span class="mono">By industry</span><h2 style="margin-top:10px">Made for your kind of business</h2>
+  <div class="sect" role="tablist"><button type="button" role="tab" aria-selected="true" aria-controls="sx0" class="on" data-sect="0">Restaurants</button><button type="button" role="tab" aria-selected="false" aria-controls="sx1" class="" data-sect="1">Shops and brands</button><button type="button" role="tab" aria-selected="false" aria-controls="sx2" class="" data-sect="2">Dealerships</button><button type="button" role="tab" aria-selected="false" aria-controls="sx3" class="" data-sect="3">Health and services</button></div>
+  <div class="sectx" id="sx0" role="tabpanel" ><div class="tarjeta"><h3 style="font-size:24px">Answers bookings and the menu</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">On WhatsApp and Instagram, any time, with your hours and dishes.</p></div><div class="tarjeta"><h3 style="font-size:24px">Hears what people ask for</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">Which dishes are asked about most and what people complain about, weekly.</p></div><div class="tarjeta"><h3 style="font-size:24px">Posts the dish of the day</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">Pieces with your photos, ready to approve.</p></div></div><div class="sectx" id="sx1" role="tabpanel" hidden><div class="tarjeta"><h3 style="font-size:24px">Prices and stock without waiting</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">The assistant answers from your catalogue; what it does not know goes to your team.</p></div><div class="tarjeta"><h3 style="font-size:24px">Your product, front and centre</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">Templates with your product cut-out, your colours and your fonts.</p></div><div class="tarjeta"><h3 style="font-size:24px">Promos that go out on time</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">You approve on Sunday; the week publishes itself.</p></div></div><div class="sectx" id="sx2" role="tabpanel" hidden><div class="tarjeta"><h3 style="font-size:24px">Every enquiry, a case</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">With area, priority and a notice to the right person.</p></div><div class="tarjeta"><h3 style="font-size:24px">Appointments and test drives</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">The assistant takes the details and notifies the adviser.</p></div><div class="tarjeta"><h3 style="font-size:24px">Content that answers questions</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">What people asked most this week becomes a post.</p></div></div><div class="sectx" id="sx3" role="tabpanel" hidden><div class="tarjeta"><h3 style="font-size:24px">Hours, branches and requirements</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">Clear answers, never promising what is not in your information.</p></div><div class="tarjeta"><h3 style="font-size:24px">Complaints handled</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">Every complaint is logged and reaches the right area.</p></div><div class="tarjeta"><h3 style="font-size:24px">Reports to decide with</h3><p class="ayuda" style="font-size:15px;margin:8px 0 0">What people ask and how it changes month to month.</p></div></div></div></section>
+<section class="l-sec" id="planes" style="background:var(--papel)"><div class="l-in"><span class="mono">Plans</span><h2 style="margin-top:10px">Start free. Grow when you want.</h2>
+  <div class="planes"><div class="plan"><h3>Essential</h3><p class="ayuda" style="margin:0;color:#3A342D">To start answering and posting consistently.</p><ul><li>Assistant on your channels</li><li>Weekly posts</li><li>One story a day</li><li>Cases and reports</li></ul><a class="btn" href="#solicitar">Request your free trial</a></div><div class="plan dest"><h3>Complete</h3><p class="ayuda" style="margin:0;color:#3A342D">For brands that post every day.</p><ul><li>Everything in Essential</li><li>More posts and up to 3 stories a day</li><li>Reels with voice</li><li>Connect your AI</li></ul><a class="btn osc" href="#solicitar">Request your free trial</a></div><div class="plan"><h3>Business</h3><p class="ayuda" style="margin:0;color:#3A342D">For teams, several branches or high volume.</p><ul><li>Everything in Complete</li><li>Up to 3 posts a day</li><li>More stories at weekends</li><li>Team support</li></ul><a class="btn" href="#solicitar">Request your free trial</a></div></div>
+  <p class="ayuda" style="margin-top:12px">Plans are discussed after the trial, based on what you need.</p></div></section>
+<section class="l-sec"><div class="l-in"><span class="mono">Security and trust</span><h2 style="margin-top:10px">Your account, your rules</h2>
+  <div class="seg"><div><b>You approve</b><span class="ayuda">Nothing goes out without your approval, and who approved each piece is logged.</span></div><div><b>Encrypted keys</b><span class="ayuda">You paste them in a protected window. Nobody sees them again; the assistant never asks for them.</span></div><div><b>Only your information</b><span class="ayuda">The assistant does not make up prices, promotions or dates.</span></div><div><b>Your data, separate</b><span class="ayuda">Every account is isolated from the rest. You can ask for deletion.</span></div></div></div></section>
+<!-- Casos de clientes: bloque reservado. Se muestra (quitando «hidden») cuando haya un caso real con resultados y permiso del cliente. Nada inventado. -->
+<section class="l-sec" id="casos" style="background:var(--papel)" hidden><div class="l-in"><span class="mono">Customer stories</span><h2 style="margin-top:10px">Brands already using it</h2><div id="casosLista"></div></div></section>
+<section class="l-sec" id="faq"><div class="l-in dos"><div class="faq"><span class="mono">Frequently asked</span><h2 style="margin:10px 0 18px">What people ask us</h2><details><summary>Do you publish anything without my approval?</summary><p>No. Every piece waits for your approval. If you want, you can save backups you already approved so your account does not go quiet on a week you could not review.</p></details><details><summary>Do I need to know Meta or coding?</summary><p>No. Onboarding walks you through, with direct links to every screen. If you use Claude or ChatGPT, your AI guides you.</p></details><details><summary>Who sees my access keys?</summary><p>Nobody. You paste them in a protected window, they are stored encrypted and never shown again. The assistant never asks for them in chat.</p></details><details><summary>Does the assistant make up prices or promotions?</summary><p>No. It only uses what is in your information. A price, percentage or date that is not there is removed before it reaches the image.</p></details><details><summary>Can I keep using my WhatsApp Business app?</summary><p>Yes, on the same number.</p></details><details><summary>Does it work if I already have a posting routine?</summary><p>Yes. You paste how you publish today (how many pieces, which days, what times, your rules) and we set up your week the same way for you to review.</p></details><details><summary>Which languages does it work in?</summary><p>Spanish and English, in the dashboard and the assistant.</p></details><details><summary>How long is the trial and what happens after?</summary><p>The trial is free, with no card, and has an end date. When it ends you choose a plan; nothing is deleted.</p></details><details><summary>How much does it cost?</summary><p>Try it free with your real customers first. Plans are discussed based on what you need.</p></details></div>
+  <div id="solicitar"><div class="tarjeta" style="border:1.5px solid var(--negro);box-shadow:8px 8px 0 var(--naranja)"><h2 style="font-size:40px">Request your free trial</h2><p class="ayuda">With your real customers. No card. Access is by approval: we reply by email.</p>
+<form class="reg" id="solicitud" novalidate>
         <div class="fila">
           <label><span class="rot">Your name</span><input type="text" id="rNombre" name="cw-persona" maxlength="80" autocomplete="name" required></label>
           <label><span class="rot">Your business name</span><input type="text" id="rNegocio" name="cw-negocio" maxlength="80" autocomplete="organization" required></label>
@@ -197,30 +78,10 @@ footer{padding-bottom:110px}
         <p class="nota" id="rNota">No card required. We only use your details to answer this request.</p>
         <div class="aviso-reg ok" id="rListo" role="status" hidden></div>
       </form>
-    </div>
-  </section>
-
-  <section class="faq">
-    <div class="wrap">
-      <div><p class="label">Questions</p><h2 class="display">What people ask us</h2></div>
-      <div>
-        <details><summary>Why do I have to request the trial?</summary><p>Because we stay close to every trial and work with a limited number of businesses at a time. We review your request and get back to you on WhatsApp or by email.</p></details>
-        <details><summary>How much does it cost?</summary><p>The trial is free and does not ask for a card. If you want to continue, you choose a plan inside your account; the team helps you pick.</p></details>
-        <details><summary>What happens when the trial ends?</summary><p>You choose a plan and everything carries on. If you do not, the service pauses, but nothing is deleted: your work is still there.</p></details>
-        <details><summary>Will it work for my kind of business?</summary><p>Yes. It adapts to what you sell and to how you talk to your customers, whether you run a restaurant, a clinic, a shop or a services firm.</p></details>
-        <details><summary>Who owns my customers’ data?</summary><p>Your company does. Creative Whisper only processes it to provide the service, under a data processing agreement. Your customers can ask to see, correct or delete their data.</p></details>
-      </div>
-    </div>
-  </section>
+  </div></div></div></section>
 </main>
-
-<footer>
-  <div class="wrap">
-    <span>© 2026 Creative Whisper · Quito, Ecuador</span>
-    <nav aria-label="Secondary"><a href="../">Home</a><a href="../services.html">Services</a><a href="../cuenta/">My account</a><a href="../privacy.html">Privacy</a></nav>
-  </div>
-</footer>
-
+<footer class="pie negro"><div class="l-in"><div><div style="font:800 30px/1 var(--f-d);text-transform:uppercase">Digital Whisper</div><span class="mono">Creative Whisper · Quito, Ecuador</span></div><div class="mono"><a href="../privacy.html">Privacy</a> · <a href="../">Creative Whisper</a> · <a href="/susurro-digital/" hreflang="es" data-set-lang="es">ES</a></div></div></footer>
+<div class="franja" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
 <script src="../assets/lang.js" defer></script>
 <script src="../assets/agente-escucha.js"></script>
 <script>
@@ -237,13 +98,12 @@ async function api(cuerpo) {
   if (!r.ok) throw new Error(j.error || TXT.e_red);
   return j;
 }
-$("#btnMenu").onclick = () => { const a = $("#menu").classList.toggle("open"); $("#btnMenu").setAttribute("aria-expanded", a); };
 
 // Los días de la prueba los decide el equipo: salen del servidor. Los nombres de los tipos de negocio van escritos aquí, en el idioma de la página.
 (async () => {
   try {
     const p = await api({ accion: "publico" });
-    if (Number(p.prueba_dias) > 0) for (const id of ["#sDias", "#gDias"]) $(id).textContent = String(p.prueba_dias);
+    if (Number(p.prueba_dias) > 0) for (const x of document.querySelectorAll("[data-dias]")) x.textContent = String(p.prueba_dias);
   } catch (e) { /* la página funciona igual con los valores escritos */ }
 })();
 
@@ -267,6 +127,11 @@ $("#solicitud").addEventListener("submit", async (e) => {
 });
 
 AgenteEscucha({ api: API, accion: "agente_publico", idioma: IDIOMA, titulo: "Digital Whisper", boton: TXT.ag_boton, saludo: TXT.ag_saludo, sugerencias: TXT.ag_sug, datos: () => ({ idioma: IDIOMA }) });
+</script>
+<script>
+// Sectores (pestañas) y videos cortos: el video se carga solo cuando la persona lo pide.
+for (const b of document.querySelectorAll("[data-sect]")) b.addEventListener("click", () => { for (const x of document.querySelectorAll("[data-sect]")) { const on = x === b; x.classList.toggle("on", on); x.setAttribute("aria-selected", on); document.getElementById("sx" + x.dataset.sect).hidden = !on; } });
+for (const b of document.querySelectorAll("[data-video]")) b.addEventListener("click", () => { const v = document.createElement("video"); v.src = b.dataset.video; v.controls = true; v.autoplay = true; v.playsInline = true; b.parentElement.replaceChildren(v); });
 </script>
 </body>
 </html>
