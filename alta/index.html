@@ -6,7 +6,7 @@
 <meta name="robots" content="noindex, nofollow">
 <meta name="referrer" content="no-referrer">
 <meta name="theme-color" content="#0A0908">
-<title>Alta · Creative Whisper</title>
+<title>Alta · Digital Whisper</title>
 <link rel="icon" href="../assets/favicon-cw.png" type="image/png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -168,7 +168,7 @@ a.btn{text-decoration:none;display:inline-block}
 
 <main>
   <div id="vCargando" class="tarjeta"><span class="cargando"></span>Abriendo tu alta…</div>
-  <div id="vError" class="tarjeta oculto"><h2>No pudimos abrir el enlace</h2><p class="ayuda" id="errorTxt"></p></div>
+  <div id="vError" class="tarjeta oculto"><h2>No pudimos abrir el enlace</h2><p class="ayuda" id="errorTxt"></p><p class="ayuda">¿Ya tienes cuenta? <a href="../cuenta/">Entra con tu correo</a> y sigue tu alta desde ahí.</p></div>
 
   <!-- 0. Bienvenida -->
   <section class="tarjeta oculto" data-paso="inicio">
@@ -213,7 +213,7 @@ a.btn{text-decoration:none;display:inline-block}
     <label>Foto <small>(opcional: una persona de tu equipo, tu mascota de marca o tu logo)</small></label>
     <div class="recorte">
       <canvas id="fotoLienzo" width="300" height="300" aria-label="Vista previa de la foto del asistente"></canvas>
-      <div style="flex:1;min-width:200px"><input type="file" id="fotoArchivo" accept="image/jpeg,image/png,image/webp" class="oculto">
+      <div style="flex:1;min-width:200px"><input type="file" id="fotoArchivo" aria-label="Elegir una foto" accept="image/jpeg,image/png,image/webp" class="oculto">
         <button class="btn chico oscuro" id="fotoElegir" type="button">Elegir una foto</button>
         <div id="fotoAjuste" class="oculto"><label for="fotoZoom">Acercar</label><input type="range" id="fotoZoom" min="1" max="3" step="0.01" value="1"><p class="ayuda" style="margin:6px 0 0">Arrastra la foto para centrarla. La recortamos y la achicamos solos.</p></div></div>
     </div>
@@ -236,7 +236,7 @@ a.btn{text-decoration:none;display:inline-block}
       <div class="aviso info" id="leido"></div>
       <h3>Lo que sabrá el asistente</h3>
       <p class="ayuda">Corrige lo que haga falta. Lo marcado con [revisar] conviene confirmarlo. No pongas precios ni promociones que puedan cambiar sin avisarnos.</p>
-      <textarea id="base" style="min-height:260px"></textarea>
+      <textarea id="base" aria-label="Lo que sabrá el asistente" style="min-height:260px"></textarea>
       <div id="bloqueMarca">
         <h3>Logo</h3>
         <div class="galeria" id="logos"></div>
@@ -362,7 +362,7 @@ a.btn{text-decoration:none;display:inline-block}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="../assets/imagenes-cw.js"></script>
 <script src="../assets/idioma.js"></script>
-<script src="en.js"></script>
+<script src="en.js?v=111"></script>
 <script src="../assets/agente-escucha.js"></script>
 <script src="guia.js"></script>
 <script>
@@ -735,6 +735,7 @@ const inicio = Date.now();
 setInterval(() => { const m = Math.floor((Date.now() - inicio) / 60000); $("#tiempo").textContent = m ? `${m} min en esta visita` : ""; }, 15000);
 
 (async () => {
+  { const tit = () => { document.title = CWIdioma.idioma === "en" ? "Setup · Digital Whisper" : "Alta · Digital Whisper"; }; tit(); CWIdioma.alCambiar(tit); }
   if (!T) { $("#vCargando").classList.add("oculto"); $("#vError").classList.remove("oculto"); $("#errorTxt").textContent = "Falta el código del enlace. Ábrelo tal como te llegó."; return; }
   try { S = await api({ accion: "abrir" }); }
   catch (x) { $("#vCargando").classList.add("oculto"); $("#vError").classList.remove("oculto"); $("#errorTxt").textContent = x.message; $("#pie").classList.add("oculto"); return; }

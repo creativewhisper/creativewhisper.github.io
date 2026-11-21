@@ -1,0 +1,41 @@
+name: Pruebas de la web
+# En cada PR se prueba la copia del PR servida en local. Después de cada cambio en main, y cada mañana, se prueba
+# lo que está publicado en creativewhisper.net. No envía formularios ni publica nada. No usa secretos.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "23 12 * * *"   # 07:23 de Quito
+  workflow_dispatch:
+    inputs:
+      agentes:
+        description: "Preguntar a los agentes (gasta unas respuestas de IA)"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency: { group: "pruebas-${{ github.ref }}", cancel-in-progress: true }
+jobs:
+  pruebas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    defaults: { run: { working-directory: pruebas } }
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: 22 }
+      - run: npm install --no-audit --no-fund
+      - run: npx playwright install --with-deps chromium
+      - name: Esperar a que GitHub Pages publique
+        if: github.event_name == 'push'
+        run: sleep 150
+      - name: Pruebas (PR: copia local · lo demás: la web publicada)
+        env:
+          BASE: ${{ github.event_name == 'pull_request' && '' || 'https://creativewhisper.net' }}
+          CON_AGENTES: ${{ inputs.agentes && '1' || '' }}
+          CI: "1"
+        run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with: { name: informe-pruebas, path: "pruebas/informe\npruebas/resultados", retention-days: 7 }

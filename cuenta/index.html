@@ -41,6 +41,7 @@ nav.tabs{background:var(--negro);position:sticky;top:0;z-index:20;border-top:1px
 nav.tabs div{max-width:1100px;margin:0 auto;padding:0 10px;display:flex;gap:2px;overflow-x:auto;scrollbar-width:none}
 nav.tabs button{flex:0 0 auto;background:none;border:0;color:#bdb3a6;padding:13px 12px;font-weight:600;font-size:15px;cursor:pointer;border-bottom:3px solid transparent}
 nav.tabs button.on{color:#fff;border-bottom-color:var(--acento)}
+@media (min-width:900px){nav.tabs div{flex-wrap:wrap;overflow:visible}}
 nav.tabs .n{display:inline-block;min-width:18px;padding:0 5px;border-radius:9px;background:var(--rojo);color:#fff;font-size:11px;line-height:18px;text-align:center;margin-left:4px}
 main{max-width:1100px;margin:0 auto;padding:22px 16px 110px}
 .tarjeta{background:var(--tarjeta);border:1px solid var(--linea);border-radius:var(--r);padding:20px;box-shadow:var(--sombra)}
@@ -232,14 +233,14 @@ iframe.panel{width:100%;height:calc(100dvh - 150px);min-height:520px;border:1px 
   <section data-v="permiso" hidden data-nt></section>
 </main>
 <dialog id="dlg"><div class="in" id="dlgIn"></div></dialog>
-<input type="file" id="elegirArchivo" hidden multiple accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm">
+<input type="file" id="elegirArchivo" aria-label="Elegir fotos o videos" hidden multiple accept="image/jpeg,image/png,image/webp,video/mp4,video/quicktime,video/webm">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <script src="../assets/imagenes-cw.js"></script>
-<script src="../assets/agente-escucha.js"></script>
+<script src="../assets/agente-escucha.js?v=111"></script>
 <script src="../assets/idioma.js"></script>
-<script src="en.js"></script>
+<script src="en.js?v=111"></script>
 <script>
 "use strict";
 const SUPABASE_URL = "https://jlyrymgbykhpktabvlkl.supabase.co";
@@ -294,8 +295,14 @@ function muro(j) {
 const ocupado = (b, texto) => { b.disabled = true; b.dataset.t = b.textContent; b.innerHTML = `<span class="cargando"></span>${esc(texto || "Un momento…")}`; return () => { b.disabled = false; b.textContent = b.dataset.t; }; };
 
 // ---------- Entrar ----------
+// El título de la pestaña del navegador, en el idioma elegido (antes quedaba en español en la versión en inglés).
+const tituloEntrada = () => { if (!D) document.title = `${CWIdioma.t("Mi cuenta")} · Digital Whisper`; };
+CWIdioma.alCambiar(tituloEntrada);
 let correoEnCurso = "";
-function verEntrar() { for (const s of ["#vCargando", "#vSinCuenta"]) $(s).hidden = true; $("#vEntrar").hidden = false; $("#tabs").hidden = true; $("#salir").hidden = true; $("#mejorar").hidden = true; for (const s of $$("section[data-v]")) s.hidden = true; }
+let agentePublico = null, yaEntro = false;
+function verEntrar() { tituloEntrada();
+  if (!agentePublico && !yaEntro) { const T = CWIdioma.t; agentePublico = AgenteEscucha({ api: API, accion: "agente_publico", idioma: CWIdioma.idioma, titulo: "Digital Whisper", boton: T("¿Dudas? Pregúntame"), saludo: T("Hola. Si no te llega el código o todavía no tienes cuenta, te ayudo."), sugerencias: ["No me llega el código", "¿Cómo pido la prueba gratuita?"].map(T), datos: () => ({ idioma: CWIdioma.idioma }) }); }
+  for (const s of ["#vCargando", "#vSinCuenta"]) $(s).hidden = true; $("#vEntrar").hidden = false; $("#tabs").hidden = true; $("#salir").hidden = true; $("#mejorar").hidden = true; for (const s of $$("section[data-v]")) s.hidden = true; }
 $("#fCorreo").addEventListener("submit", async (e) => {
   e.preventDefault(); const er = $("#eCorreo"); er.hidden = true;
   correoEnCurso = $("#correo").value.trim().toLowerCase();
@@ -433,6 +440,7 @@ function vInicio() {
   $('section[data-v="inicio"]').innerHTML = `<div class="rejilla">
     <div class="c12"><p class="et">${esc(nombrePlan(D.plan, D.plan_etiqueta))}</p><h1>Hola${primerNombre(D.usuario.nombre) ? `, <span data-nt>${esc(primerNombre(D.usuario.nombre))}</span>` : ""}</h1></div>
     ${D.suspendida ? `<div class="c12 aviso mal">Tu cuenta está en pausa. Escríbenos y la reactivamos.</div>` : ""}
+    ${D.alta?.pendiente && D.usuario.rol !== "lector" ? `<div class="c12 llamado cerca" data-llamado="alta"><div class="tx"><b>Termina tu alta</b><span>Son unos 10 minutos: los datos de tu negocio y las condiciones del servicio. Hasta entonces tu asistente no empieza.</span></div>${D.usuario.rol === "dueno" && D.usuario.via === "sesion" ? `<button class="btn chico pri" type="button" data-ir-alta>Ir a mi alta</button>` : `<span class="ayuda">El alta la termina la persona dueña de la cuenta, entrando con su correo.</span>`}</div>` : ""}
     ${ll.join("")}
     ${av.map((a) => `<div class="c12 aviso info">${esc(typeof TXT_AVISO[a.clave] === "function" ? TXT_AVISO[a.clave](a.datos || {}) : TXT_AVISO[a.clave] || "")} <a href="#" data-ir="plan">Ver mi plan</a></div>`).join("")}
     <div class="tarjeta c8"><h2>Tu consumo</h2>${barra(D.consumo)}<div class="acciones"><button class="btn chico" data-ir="plan">Ver el detalle</button></div></div>
@@ -443,6 +451,7 @@ function vInicio() {
       <div class="acciones"><button class="btn chico pri" data-ir="panel">Abrir conversaciones</button>${puedeCambiar() ? `<button class="btn chico" id="abrirApp" type="button">Instalar la app en mi celular</button>` : ""}</div></div>
     ${mejora ? `<div class="tarjeta c12 mejora" data-llamado="mejora"><div class="llamado" style="border:0;background:none;padding:0"><div class="tx"><b>¿Tu negocio necesita más?</b><span>Más respuestas al mes, más canales, contenido semanal y publicación en tus redes. Elige tu plan y el equipo te escribe hoy para activarlo.</span></div><button class="btn pri" type="button" data-planes>Mejorar plan</button></div></div>` : ""}
   </div>`;
+  for (const b of $$("[data-ir-alta]")) b.onclick = () => volverAlAlta();
   for (const li of $$(".pasos li[data-paso]")) li.onclick = () => (li.dataset.paso === "alta" ? volverAlAlta() : ir(li.dataset.paso));
   if ($("#abrirApp")) $("#abrirApp").onclick = instalarApp;
   $("#probar").onclick = probarAsistente;
@@ -1020,6 +1029,7 @@ CWIdioma.alCambiar(() => { if (vista === "permiso" && IA_PIDE) verPermiso(); });
 let agenteListo = false;
 function agente() {
   if (agenteListo) return; agenteListo = true;
+  yaEntro = true; if (agentePublico) { if (agentePublico.quitar) agentePublico.quitar(); agentePublico = null; }
   const T = CWIdioma.t;
   AgenteEscucha({ api: API, accion: "agente", idioma: CWIdioma.idioma, titulo: T("Ayuda con tu cuenta"), boton: T("¿Te ayudo?"), izquierda: true, fijo: true, saludo: T("Hola. Te ayudo a usar tu cuenta: conectar canales, tus créditos, tus archivos o mejorar tu plan."),
     sugerencias: ["¿Cómo conecto mi WhatsApp?", "¿Mi IA me ayuda a conectar?", "¿Cómo conecto mi IA?", "¿Qué es un crédito?"].map(T),

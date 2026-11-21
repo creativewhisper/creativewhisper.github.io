@@ -1,0 +1,15 @@
+{
+  "name": "pruebas-creativewhisper",
+  "private": true,
+  "type": "module",
+  "description": "Pruebas automáticas de creativewhisper.net (Playwright). Ver LEEME.md.",
+  "scripts": {
+    "test": "playwright test",
+    "vivo": "BASE=https://creativewhisper.net playwright test",
+    "agentes": "BASE=https://creativewhisper.net CON_AGENTES=1 playwright test agentes"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "axe-core": "4.10.2"
+  }
+}

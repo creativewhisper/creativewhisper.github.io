@@ -52,7 +52,19 @@
     caja.querySelector(".si").onclick = function () { guardar(true); cerrar(); cargarPixel(); };
     caja.querySelector(".no").onclick = function () { guardar(false); cerrar(); };
     caja.appendChild(css); document.body.appendChild(caja);
+    esquivar(); var n = 0, tic = setInterval(function () { esquivar(); if (++n > 24 || !caja) clearInterval(tic); }, 500);   // el asistente puede aparecer después
   }
+  // El aviso no tapa el botón del asistente: si caen en el mismo sitio (sobre todo en el celular), el aviso sube.
+  function esquivar() {
+    if (!caja) return; caja.style.bottom = "";
+    var r = caja.getBoundingClientRect(), bs = [].slice.call(document.querySelectorAll(".ae-b"));
+    var h = document.getElementById("cw-asistente"), f = h && (h.shadowRoot || h).querySelector(".fab"); if (f) bs.push(f);   // el asistente de la web vive en un shadow DOM
+    for (var i = 0; i < bs.length; i++) {
+      var b = bs[i].getBoundingClientRect();
+      if (b.width && r.left < b.right && b.left < r.right && r.top < b.bottom && b.top < r.bottom) { caja.style.bottom = Math.round(window.innerHeight - b.top + 12) + "px"; break; }
+    }
+  }
+  window.addEventListener("resize", esquivar);
 
   function iniciar() {
     document.addEventListener("click", function (e) { var t = e.target.closest && e.target.closest("[data-cookies]"); if (t) { e.preventDefault(); abrir(); } });
