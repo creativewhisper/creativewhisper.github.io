@@ -882,6 +882,56 @@ async function vAjustes() {
   $("#mGuardar").onclick = async () => { const fin = ocupado($("#mGuardar"), "Guardando…"); try { const x = await api("marca_guardar", { ...(logoNuevo ? { logo: logoNuevo } : {}), colores: { principal: $("#mPrin").value, acento: $("#mAcen").value } }); D.cuenta.marca = { ...(D.cuenta.marca || {}), logo: x.marca.logo, colores: x.marca.colores }; fin(); pintarMarco(); aviso("#mAviso", "Guardado. Tu panel y tu app ya usan tu marca.", true); } catch (x) { fin(); aviso("#mAviso", x.message, false); } };
   if ($("#fInv")) $("#fInv").onsubmit = async (e) => { e.preventDefault(); try { await api("usuario_invitar", { correo: $("#iCorreo").value, rol: $("#iRol").value }); vAjustes(); } catch (x) { if (x.status !== 402) aviso("#iAviso", x.message, false); } };
   s.onclick = async (e) => { const b = e.target.closest("[data-quitar]"); if (!b) return; b.disabled = true; try { await api("usuario_retirar", { id: Number(b.dataset.quitar) }); vAjustes(); } catch (x) { b.disabled = false; } };
+  s.querySelector(".rejilla").insertAdjacentHTML("beforeend", `<div class="tarjeta c12" id="privTarjeta"><h2>Tu política de privacidad</h2><div id="privCuerpo"><span class="cargando"></span></div></div>`);
+  vPrivacidad();
+}
+// Fase 11.6b · La política de privacidad de la cuenta: la empresa completa sus datos, lee el borrador y lo aprueba (es la responsable).
+// El texto de la política se pinta con textContent (data-nt: no se traduce; es el texto legal tal cual).
+async function vPrivacidad() {
+  const c = $("#privCuerpo"); if (!c) return;
+  let r; try { r = await api("privacidad"); } catch (x) { c.innerHTML = `<div class="aviso mal">${esc(x.message)}</div>`; return; }
+  if (r.gestionada) { c.innerHTML = `<p class="ayuda">La política de privacidad de esta marca la gestiona Creative Whisper.</p>`; return; }
+  const k = r.campos || {}, b = r.borrador, pub = r.publicada, ed = r.puede_editar ? "" : "disabled";
+  const campo = (id, et, v, extra = "") => `<div><label for="pv_${id}">${et}</label><input id="pv_${id}" type="text" autocomplete="off" value="${esc(v)}" ${ed} ${extra}></div>`;
+  c.innerHTML = `<p class="ayuda">Tu asistente atiende a tus clientes por encargo tuyo: tú eres responsable de sus datos. Esta es tu política de privacidad, armada con tus datos y lo que tienes encendido. Te recomendamos que la revise tu abogado antes de aprobarla.</p>
+    ${pub ? `<div class="aviso ok">Publicada: versión ${pub.version}. <a href="${esc(r.url)}" target="_blank" rel="noopener">Verla</a>${pub.revision_legal ? "" : " · Dice «borrador para revisión de abogado» hasta que tu abogado la revise."}</div>` : `<div class="aviso info">Todavía no tienes una política publicada.</div>`}
+    <div class="fila">${campo("razon_social", "Razón social", k.razon_social)}${campo("ruc", "RUC", k.ruc, 'inputmode="numeric" maxlength="13"')}</div>
+    <div class="fila">${campo("direccion", "Dirección", k.direccion)}${campo("telefono", "Teléfono", k.telefono)}</div>
+    <div class="fila">${campo("correo_privacidad", "Correo para temas de datos", k.correo_privacidad, 'inputmode="email"')}<div><label for="pv_edad">Tus canales son para</label><select id="pv_edad" ${ed}><option value="15" ${k.edad_minima === 18 ? "" : "selected"}>Mayores de 15 años</option><option value="18" ${k.edad_minima === 18 ? "selected" : ""}>Solo mayores de 18</option></select></div></div>
+    <label class="chk"><input type="checkbox" id="pv_en" ${k.en ? "checked" : ""} ${ed}> También en inglés</label>
+    <div class="aviso" id="pvAviso" hidden></div>
+    <div class="acciones">${r.puede_editar ? `<button class="btn" id="pvGuardar" type="button">${b || pub ? "Guardar y actualizar el borrador" : "Preparar mi política"}</button>` : ""}${b ? `<button class="btn pri" id="pvLeer" type="button">Leer el borrador (versión ${b.version})</button>` : ""}</div>
+    ${b && (b.faltan || []).length ? `<p class="ayuda">Para aprobarla falta: ${esc(b.faltan.map((f) => ({ razon_social: "razón social", ruc: "RUC", direccion: "dirección", telefono: "teléfono", correo_privacidad: "correo para temas de datos" })[f] || f).join(", "))}.</p>` : ""}`;
+  const guardar = $("#pvGuardar");
+  if (guardar) guardar.onclick = async () => {
+    const fin = ocupado(guardar, "Guardando…");
+    try { await api("privacidad_datos", { campos: { razon_social: $("#pv_razon_social").value, ruc: $("#pv_ruc").value, direccion: $("#pv_direccion").value, telefono: $("#pv_telefono").value, correo_privacidad: $("#pv_correo_privacidad").value, edad_minima: Number($("#pv_edad").value), en: $("#pv_en").checked } }); fin(); vPrivacidad(); }
+    catch (x) { fin(); aviso("#pvAviso", x.message, false); }
+  };
+  if ($("#pvLeer")) $("#pvLeer").onclick = () => leerPolitica(r);
+}
+function leerPolitica(r) {
+  const b = r.borrador;
+  dialogo(`<h2>Borrador de tu política</h2><p class="ayuda">Borrador para revisión de abogado. ${esc((b.avisos || []).slice(1).join(" "))}</p><div id="pvTexto" data-nt style="max-height:50vh;overflow:auto;border:1px solid var(--linea);border-radius:12px;padding:12px 16px;margin:10px 0"></div>
+    ${r.puede_aprobar && !(b.faltan || []).length ? `<div class="fila"><div><label for="pvNombre">Tu nombre</label><input id="pvNombre" type="text" autocomplete="name"></div><div><label for="pvCargo">Tu cargo</label><input id="pvCargo" type="text" autocomplete="organization-title"></div></div>
+      <label class="chk"><input type="checkbox" id="pvSi"> Revisé esta política y la apruebo como responsable de los datos de mis clientes.</label><div class="aviso" id="pvAvisoDlg" hidden></div>
+      <div class="acciones"><button class="btn pri" id="pvAprobar" type="button" disabled>Aprobar y publicar</button><button class="btn" type="button" data-cerrar>Cerrar</button></div>`
+      : `<p class="ayuda">${(b.faltan || []).length ? "Completa tus datos para poder aprobarla." : "La aprueba quien es dueño de la cuenta, entrando con su correo."}</p><div class="acciones"><button class="btn" type="button" data-cerrar>Cerrar</button></div>`}`);
+  const caja = $("#pvTexto");
+  const segs = (el, s) => { for (const [t, n] of s || []) { const x = document.createElement(n ? "strong" : "span"); x.textContent = t; el.appendChild(x); } return el; };
+  const bloques = (b.bloques || []).concat(b.en ? [{ t: "hr" }, { t: "h1", s: [["English version", false]] }].concat(b.en.bloques || []) : []);
+  for (const k of bloques) {
+    if (k.t === "tabla") { const t = document.createElement("table"); t.className = "t"; for (const f of k.filas || []) { const tr = document.createElement("tr"); for (const cel of f) tr.appendChild(segs(document.createElement("td"), cel)); t.appendChild(tr); } caja.appendChild(t); }
+    else if (k.t === "hr") caja.appendChild(document.createElement("hr"));
+    else caja.appendChild(segs(document.createElement(k.t === "h1" ? "h3" : k.t === "h2" ? "h4" : k.t === "p" ? "p" : "div"), (k.t.startsWith("li") || k.t === "ol" ? [["• ", false]] : []).concat(k.s || [])));
+  }
+  const si = $("#pvSi"), ap = $("#pvAprobar");
+  if (si) si.onchange = () => { ap.disabled = !si.checked; };
+  if (ap) ap.onclick = async () => {
+    const fin = ocupado(ap, "Publicando…");
+    try { const x = await api("privacidad_aprobar", { id: b.id, huella: b.huella, huella_en: b.en ? b.en.huella : null, nombre: $("#pvNombre").value, cargo: $("#pvCargo").value }); fin(); $("#dlg").close(); vPrivacidad(); dialogo(`<h2>Política publicada</h2><p>Ya está en <a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.url.replace("https://", ""))}</a>. Tu asistente manda ese enlace en su primera respuesta.</p><div class="acciones"><button class="btn pri" type="button" data-cerrar>Listo</button></div>`); }
+    catch (x) { fin(); aviso("#pvAvisoDlg", x.message, false); }
+  };
 }
 function aviso(sel, texto, ok) { const a = $(sel); if (!a) return; a.className = "aviso " + (ok ? "ok" : "mal"); a.textContent = texto; a.hidden = false; }
 

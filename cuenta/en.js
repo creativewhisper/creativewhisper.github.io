@@ -13,6 +13,17 @@
       "Por seguridad no envié lo que pegaste: parece una clave de la API. Revócala en Conexiones de IA y crea otra; las claves nunca se comparten en un chat.": "For your security I did not send what you pasted: it looks like an API key. Revoke it under AI connections and create a new one; keys are never shared in a chat.",
       "Abriendo tu cuenta…": "Opening your account…", "Un momento…": "One moment…", "Cerrar": "Close", "Cancelar": "Cancel", "Guardar": "Save", "Guardado.": "Saved.", "Guardando…": "Saving…", "Preparando…": "Getting it ready…",
       "No se pudo completar. Inténtalo otra vez.": "Something went wrong. Please try again.",
+      // Privacidad (fase 11.6b)
+      "Tu política de privacidad": "Your privacy policy", "La política de privacidad de esta marca la gestiona Creative Whisper.": "This brand's privacy policy is managed by Creative Whisper.",
+      "Tu asistente atiende a tus clientes por encargo tuyo: tú eres responsable de sus datos. Esta es tu política de privacidad, armada con tus datos y lo que tienes encendido. Te recomendamos que la revise tu abogado antes de aprobarla.": "Your assistant serves your customers on your behalf: you are responsible for their data. This is your privacy policy, built from your details and what you have switched on. We recommend your lawyer reviews it before you approve it.",
+      "Todavía no tienes una política publicada.": "You do not have a published policy yet.", "Verla": "View it",
+      " · Dice «borrador para revisión de abogado» hasta que tu abogado la revise.": " · It says “draft for legal review” until your lawyer reviews it.",
+      "Razón social": "Legal name", "RUC": "Tax ID (RUC)", "Dirección": "Address", "Teléfono": "Phone", "Correo para temas de datos": "Email for data requests",
+      "Tus canales son para": "Your channels are for", "Mayores de 15 años": "People aged 15 and over", "Solo mayores de 18": "Adults only (18+)", "También en inglés": "Also in English",
+      "Guardar y actualizar el borrador": "Save and update the draft", "Preparar mi política": "Prepare my policy", "Borrador de tu política": "Your policy draft",
+      "Tu nombre": "Your name", "Tu cargo": "Your job title", "Revisé esta política y la apruebo como responsable de los datos de mis clientes.": "I have reviewed this policy and approve it as the party responsible for my customers' data.",
+      "Aprobar y publicar": "Approve and publish", "Publicando…": "Publishing…", "Completa tus datos para poder aprobarla.": "Complete your details to approve it.",
+      "La aprueba quien es dueño de la cuenta, entrando con su correo.": "The account owner approves it, signed in with their email.", "Política publicada": "Policy published", "Listo": "Done",
       // Entrar
       "Entra a tu cuenta": "Sign in to your account",
       "Escribe el correo de tu cuenta. Te enviamos un código de 6 números: no hay contraseñas que recordar.": "Enter your account email. We will send you a 6-digit code: no passwords to remember.",
@@ -150,6 +161,8 @@
       "Cuenta no encontrada": "Account not found", "No disponible": "Not available", "No autorizado": "Not authorized",
     },
     patrones: [
+      [/^Publicada: versión (\d+)\.$/, "Published: version $1."], [/^Leer el borrador \(versión (\d+)\)$/, "Read the draft (version $1)"], [/^Para aprobarla falta: (.+)\.$/, "To approve it you still need: $1."],
+      [/^Borrador para revisión de abogado\. (.*)$/, "Draft for legal review. $1"], [/^Ya está en (.+)\. Tu asistente manda ese enlace en su primera respuesta\.$/, "It is now at $1. Your assistant sends that link in its first reply."],
       [/^Una IA conectada \(«(.+)»\) aprobó contenido por primera vez\. Puedes revisarlo o quitarle el permiso en Conexiones de IA\.$/, "A connected AI (“$1”) approved content for the first time. You can review it or remove its permission under AI connections."],
       [/^(.+) · Mi cuenta$/, "$1 · My account"],
       [/^Plan (.+)$/, "$1 plan"],
