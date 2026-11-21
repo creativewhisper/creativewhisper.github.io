@@ -22,8 +22,8 @@ jobs:
     timeout-minutes: 30
     defaults: { run: { working-directory: pruebas } }
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262   # v4 (fijada por SHA en la 11.5)
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020   # v4 (fijada por SHA en la 11.5)
         with: { node-version: 22 }
       - run: npm install --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
@@ -39,7 +39,7 @@ jobs:
           if [ "$EVENTO" != "pull_request" ]; then export BASE=https://creativewhisper.net; fi
           echo "Se prueba: ${BASE:-la copia local de este PR}"
           npx playwright test
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02   # v4 (fijada por SHA en la 11.5)
         if: failure()
         with:
           name: informe-pruebas
