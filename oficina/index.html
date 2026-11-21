@@ -866,7 +866,8 @@ function pintarSaludCuenta(id, c, u, en) {
       <div class="acciones"><button class="btn" data-salud-accion="reporte" data-id="${id}">Armar ahora el del mes pasado</button></div></div>
     <div class="salud-sec"><h4>Privacidad de esta cuenta</h4><div data-plazos="${id}">Plazos: cargando…</div>
       <div class="acciones"><button class="btn" data-salud-accion="exportar" data-id="${id}">Exportar sus datos</button></div><div data-export="${id}"></div>
-      <div class="fila2"><input class="salud-in" maxlength="80" placeholder="Teléfono, @usuario o sesión de la persona" data-persona="${id}"><button class="btn" style="flex:0 0 auto" data-salud-accion="borrar" data-id="${id}">Borrar a esta persona</button></div><div data-borrar="${id}"></div></div>`;
+      <div class="fila2"><input class="salud-in" maxlength="120" placeholder="Teléfono, @usuario o sesión de la persona" data-persona="${id}"><button class="btn" style="flex:0 0 auto" data-p6="persona-exportar" data-id="${id}">Exportar</button><button class="btn" style="flex:0 0 auto" data-salud-accion="borrar" data-id="${id}">Borrar a esta persona</button></div><div data-borrar="${id}"></div>
+      ${bloquePriv(id)}</div>`;
   llamarOp({ accion: "conservacion_plazos", empresa_id: id }).then((r) => { const d = document.querySelector(`[data-plazos="${id}"]`); if (d) d.textContent = `Plazos: mensajes ${r.plazos.mensajes_meses} meses · fotos y ubicaciones ${r.plazos.medios_dias} días · voz ${r.plazos.voz_dias} días · casos ${r.plazos.casos_meses} meses desde que se cierran · registros técnicos ${r.tecnicos_dias} días.`; }).catch(() => {});
 }
 async function cargarSaludCuenta(id) {
@@ -884,7 +885,9 @@ async function pintarPrivacidad() {
     const r = await llamarOp({ accion: "conservacion_modo" }), u = r.ultima;
     el.innerHTML = `Modo: <b style="color:var(--texto)">${r.modo === "aplicar" ? "borra lo vencido todos los días" : "simulación (cuenta, no borra)"}</b>.
       ${u ? `Última corrida: ${esc(fechaHora(u.corrido))} (${esc(u.modo)}): ${u.totales?.mensajes ?? 0} mensajes, ${u.totales?.casos ?? 0} casos, ${u.totales?.fotos_y_ubicaciones ?? 0} fotos y ubicaciones, ${u.tecnicos?.eventos ?? 0} registros técnicos${u.modo === "simular" ? " se borrarían" : " borrados"}.` : "Todavía no corrió."}
-      <div class="acciones"><button class="btn" data-salud-accion="simular">Ver qué se borraría hoy</button><button class="btn" data-salud-accion="modo" data-modo="${r.modo === "aplicar" ? "simular" : "aplicar"}">${r.modo === "aplicar" ? "Volver a simulación" : "Empezar a borrar lo vencido"}</button></div>`;
+      <div class="acciones"><button class="btn" data-salud-accion="simular">Ver qué se borraría hoy</button><button class="btn" data-salud-accion="modo" data-modo="${r.modo === "aplicar" ? "simular" : "aplicar"}">${r.modo === "aplicar" ? "Volver a simulación" : "Empezar a borrar lo vencido"}</button></div>
+      <div id="privTablas"></div><div id="priv6b" style="margin-top:10px">Cargando políticas y pedidos…</div>`;
+    pintarPriv6b();
   } catch (x) { el.textContent = "No se pudo cargar: " + x.message; }
 }
 async function pintarCalidad() {
@@ -926,6 +929,92 @@ document.addEventListener("toggle", (e) => {
   if ("priv" in d.dataset) pintarPrivacidad();
   if ("calidad" in d.dataset) pintarCalidad();
 }, true);
+
+// ---------- Privacidad · fase 11.6b ----------
+const BLOQUES_PRIV = [["mensajes", "Mensajes (todos los canales)"], ["canal:whatsapp", "Solo WhatsApp"], ["canal:web", "Solo chat de la web"], ["canal:instagram", "Solo Instagram"], ["canal:facebook", "Solo Facebook"], ["escucha", "Escucha y examen sellado"], ["personas", "Todo lo de personas (fin del servicio)"]];
+function bloquePriv(id) {
+  return `<div class="fila2" style="margin-top:8px;flex-wrap:wrap"><select class="salud-in" data-bloque="${id}">${BLOQUES_PRIV.map(([v, t]) => `<option value="${v}">${esc(t)}</option>`).join("")}</select>
+    <input class="salud-in" type="date" data-desde="${id}" title="Desde (vacío: desde el inicio)"><input class="salud-in" type="date" data-hasta="${id}" title="Hasta (vacío: hasta hoy)"></div>
+    <div class="acciones"><button class="btn" data-p6="bloque-contar" data-id="${id}">Contar el bloque</button><button class="btn" data-p6="bloque-exportar" data-id="${id}">Exportar el bloque</button><button class="btn" data-p6="bloque-borrar" data-id="${id}">Borrar el bloque</button></div><div data-bloque-res="${id}" class="sub"></div>`;
+}
+const resumenConteo = (c) => Object.entries(c || {}).filter(([k, v]) => typeof v === "number" && v > 0).map(([k, v]) => `${k.replace(/_/g, " ")}: ${v}`).join(" · ") || "nada";
+async function borrarPersona(id, ident, d) {
+  const v = await llamarOp({ accion: "priv_persona", empresa_id: id, identificador: ident, modo: "contar" });
+  const r = resumenConteo(v.conteo);
+  if (r === "nada") { d.textContent = "No se encontró nada de esa persona en esta cuenta."; return; }
+  if (!confirm(`Se va a borrar: ${r}. Los pedidos se conservan (obligación tributaria). No se puede deshacer. ¿Borrar?`)) return;
+  await llamarOp({ accion: "priv_persona", empresa_id: id, identificador: ident, modo: "borrar" });
+  d.textContent = "Borrado: " + r + ". Quedó la constancia (sin guardar quién era).";
+}
+function pintarTablasPriv(r) {
+  const el = $("#privTablas"); if (!el || !r?.por_tabla) return;
+  el.innerHTML = `<div style="margin-top:8px"><b>Por tabla (hoy, ${r.aplicado ? "aplicado" : "simulación"}):</b> ${esc(resumenConteo(r.por_tabla))}. Registros técnicos: ${r.tecnicos?.eventos ?? 0} eventos.</div>`;
+}
+async function pintarPriv6b() {
+  const el = $("#priv6b"); if (!el) return;
+  try {
+    const [p, s, es] = await Promise.all([llamarOp({ accion: "priv_politicas" }), llamarOp({ accion: "priv_solicitudes" }), llamarOp({ accion: "esclusa_estado" })]);
+    const modo = (p.modos || []).find((m) => m.clave === "compuerta_modo")?.valor || "avisar";
+    const propia = (p.cuentas || []).find((c) => c.propia);
+    const fila = (c) => {
+      const v = c.versiones || [], pub = v.find((x) => x.estado === "publicada" && x.idioma === "es"), bor = v.find((x) => x.estado === "borrador" && x.idioma === "es");
+      const borEn = bor ? v.find((x) => x.estado === "borrador" && x.idioma === "en" && x.version === bor.version) : null;
+      return `<div class="salud-sec"><h4>${esc(c.nombre)} <span class="sub">· /privacidad/${esc(c.cuenta)}${c.propia ? " · marca propia" : c.prueba ? " · prueba" : " · cliente"}</span></h4>
+        <div>${pub ? `Publicada v${pub.version}${pub.revision_legal ? " (revisada por abogado)" : " (borrador legal)"} · <a href="https://creativewhisper.net/privacidad/${esc(c.cuenta)}" target="_blank" rel="noopener">ver</a>` : "Sin política publicada."}${bor ? ` · Borrador v${bor.version}${bor.faltan?.length ? ` (faltan: ${esc(bor.faltan.join(", "))})` : " (listo para aprobar)"}` : ""}</div>
+        ${c.propia ? `<div class="fila2" style="flex-wrap:wrap;margin-top:6px">${["razon_social:Razón social", "ruc:RUC", "direccion:Dirección", "telefono:Teléfono", "correo_privacidad:Correo de privacidad"].map((x) => { const [k, t] = x.split(":"); return `<input class="salud-in" placeholder="${t}" data-pc="${esc(c.cuenta)}" data-k="${k}">`; }).join("")}</div>` : ""}
+        <div class="acciones"><button class="btn" data-p6="pol-generar" data-cuenta="${esc(c.cuenta)}">${c.propia ? "Guardar datos y generar borrador" : "Generar borrador"}</button>
+          ${bor ? `<button class="btn" data-p6="pol-ver" data-pid="${bor.id}">Leer borrador</button>` : ""}
+          ${bor && c.propia && !bor.faltan?.length ? `<button class="btn" data-p6="pol-aprobar" data-pid="${bor.id}" data-huella="${esc(bor.huella)}" data-huella-en="${esc(borEn?.huella || "")}">Aprobar como responsable</button>` : ""}
+          ${pub && !pub.revision_legal ? `<button class="btn" data-p6="pol-legal" data-pid="${pub.id}">Ya la revisó el abogado</button>` : ""}</div><div data-pol-res="${esc(c.cuenta)}" class="sub"></div></div>`;
+    };
+    el.innerHTML = `<div style="margin-top:6px"><b>Compuerta «sin política, sin bot»:</b> ${modo === "bloquear" ? "BLOQUEA (sin política publicada el asistente no responde)" : "solo avisa (los asistentes siguen atendiendo)"}.
+        <button class="btn" data-p6="compuerta" data-modo="${modo === "bloquear" ? "avisar" : "bloquear"}">${modo === "bloquear" ? "Volver a solo avisar" : "Pasar a bloquear"}</button></div>
+      <div style="margin-top:6px"><b>Pedidos de personas pendientes:</b> ${(s.solicitudes || []).length ? (s.solicitudes || []).map((x) => `<div class="fila2"><span>${esc(x.cuenta || "")} · ${esc(x.tipo)} · ${esc(x.canal || "")} · ${esc(x.contacto || "")} · ${esc(fechaHora(x.creado))}</span><button class="btn" style="flex:0 0 auto" data-p6="sol-cerrar" data-sid="${x.id}">Atendido</button><button class="btn" style="flex:0 0 auto" data-p6="sol-descartar" data-sid="${x.id}">Descartar</button></div>`).join("") : "ninguno."}</div>
+      ${propia ? `<div style="margin-top:6px"><b>Una persona de las marcas propias</b> (WhatsApp, Instagram, Messenger)<div class="fila2"><input class="salud-in" maxlength="120" placeholder="+593…, ig:uinky:123… o fb:fb_torote:123…" data-persona="${propia.empresa_id}"><button class="btn" style="flex:0 0 auto" data-p6="persona-exportar" data-id="${propia.empresa_id}">Exportar</button><button class="btn" style="flex:0 0 auto" data-p6="persona-borrar" data-id="${propia.empresa_id}">Borrar</button></div><div data-borrar="${propia.empresa_id}" class="sub"></div>
+        <div class="fila2"><select class="salud-in" data-marca-que="${propia.empresa_id}"><option value="oposicion">Se opuso</option><option value="sin_ventas">No quiere mensajes de venta</option><option value="menor18">Menor de 18</option><option value="menor15">Menor de 15</option><option value="sin_audios">Sin audios</option><option value="quitar_menor">Quitar: menor</option><option value="quitar_oposicion">Quitar: oposición</option><option value="quitar_sin_ventas">Quitar: sin ventas</option><option value="quitar_sin_audios">Quitar: sin audios</option></select><button class="btn" style="flex:0 0 auto" data-p6="marca" data-id="${propia.empresa_id}">Marcar</button></div></div>` : ""}
+      <div style="margin-top:6px"><b>Esclusa (aprendizaje de industria):</b> ${es.esclusa?.encendida ? "ENCENDIDA" : "cerrada: nada sube"} · candidatos: ${esc(resumenConteo(es.candidatos))}</div>
+      <div style="margin-top:10px"><b>Políticas de privacidad</b> (borradores para revisión de abogado)</div>${(p.cuentas || []).map(fila).join("")}`;
+  } catch (x) { el.textContent = "No se pudo cargar: " + x.message; }
+}
+$("#cuerpo").addEventListener("click", async (e) => {
+  const b = e.target.closest("[data-p6]"); if (!b || tab !== "cli") return;
+  e.stopPropagation(); const a = b.dataset.p6, id = b.dataset.id; b.disabled = true;
+  try {
+    const ident = id ? (document.querySelector(`[data-persona="${id}"]`)?.value || "").trim() : "";
+    if (a === "persona-exportar") { if (ident.length < 6) { toast("Escribe el teléfono, el usuario o la sesión"); return; } const r = await llamarOp({ accion: "priv_persona", empresa_id: id, identificador: ident, modo: "exportar" }); document.querySelector(`[data-borrar="${id}"]`).innerHTML = `${esc(resumenConteo(r.conteo))}. <a href="${url(r.url)}" target="_blank" rel="noopener">Descargar (vence en ${r.vence_en_dias} días)</a>`; }
+    if (a === "persona-borrar") { if (ident.length < 6) { toast("Escribe el teléfono, el usuario o la sesión"); return; } await borrarPersona(id, ident, document.querySelector(`[data-borrar="${id}"]`)); }
+    if (a === "marca") { if (ident.length < 6) { toast("Escribe el teléfono, el usuario o la sesión"); return; } const r = await llamarOp({ accion: "priv_marca", empresa_id: id, identificador: ident, que: document.querySelector(`[data-marca-que="${id}"]`).value }); toast("Marca guardada: " + JSON.stringify({ menor: r.estado.menor, oposicion: r.estado.oposicion, sin_ventas: r.estado.sin_ventas, sin_audios: r.estado.sin_audios })); }
+    if (a.startsWith("bloque-")) {
+      const modo = a.slice(7), bloque = document.querySelector(`[data-bloque="${id}"]`).value, desde = document.querySelector(`[data-desde="${id}"]`).value || null, hasta = document.querySelector(`[data-hasta="${id}"]`).value || null, d = document.querySelector(`[data-bloque-res="${id}"]`);
+      if (modo === "borrar") {
+        const c = await llamarOp({ accion: "priv_bloque", empresa_id: id, bloque, desde, hasta, modo: "contar" });
+        let confirmar = null;
+        if (bloque === "personas" || (!desde && !hasta)) { confirmar = prompt(`Se borra ${bloque === "personas" ? "TODO lo de personas" : "el bloque completo, sin fechas,"} de esta cuenta (${resumenConteo(c.conteo)}). Escribe el nombre corto de la cuenta (el de su dirección) para confirmar:`); if (!confirmar) return; }
+        else if (!confirm(`Se va a borrar: ${resumenConteo(c.conteo)}. No se puede deshacer. ¿Borrar?`)) return;
+        const r = await llamarOp({ accion: "priv_bloque", empresa_id: id, bloque, desde, hasta, modo: "borrar", confirmar }); d.textContent = "Borrado: " + resumenConteo(r.conteo) + ". Quedó la constancia.";
+      } else { const r = await llamarOp({ accion: "priv_bloque", empresa_id: id, bloque, desde, hasta, modo }); d.innerHTML = esc(resumenConteo(r.conteo)) + (r.url ? ` · <a href="${url(r.url)}" target="_blank" rel="noopener">Descargar (vence en ${r.vence_en_dias} días)</a>` : ""); }
+    }
+    if (a === "compuerta") { if (b.dataset.modo !== "bloquear" || confirm("Con «bloquear», toda cuenta sin política publicada deja de responder a sus clientes (hoy: Bataká, TOROTE, ÜINKY/PORTHOS, Creative Whisper y El Bosque). ¿Seguro?")) { await llamarOp({ accion: "priv_compuerta", modo: b.dataset.modo }); await pintarPriv6b(); } }
+    if (a === "sol-cerrar" || a === "sol-descartar") { await llamarOp({ accion: "priv_solicitud_cerrar", id: Number(b.dataset.sid), estado: a === "sol-cerrar" ? "atendida" : "descartada" }); await pintarPriv6b(); }
+    if (a === "pol-generar") {
+      const cuenta = b.dataset.cuenta, campos = {};
+      document.querySelectorAll(`[data-pc="${cuenta}"]`).forEach((i) => { if (i.value.trim()) campos[i.dataset.k] = i.value.trim(); });
+      const r = await llamarOp({ accion: "priv_politica_generar", cuenta, ...(Object.keys(campos).length ? { campos } : {}) });
+      toast(`Borrador v${r.version} listo${r.faltan?.length ? ` (faltan: ${r.faltan.join(", ")})` : ""}`); await pintarPriv6b();
+    }
+    if (a === "pol-ver") {
+      const r = await llamarOp({ accion: "priv_politica_ver", id: Number(b.dataset.pid) }), d = document.querySelector(`[data-pol-res="${r.cuenta}"]`);
+      d.textContent = ""; const pre = document.createElement("pre"); pre.style.whiteSpace = "pre-wrap"; pre.style.maxHeight = "50vh"; pre.style.overflow = "auto"; pre.textContent = (r.avisos || []).join("\n") + "\n\n" + r.texto_md; d.appendChild(pre);
+    }
+    if (a === "pol-aprobar") {
+      const nombre = prompt("Tu nombre completo (como responsable de los datos de la marca):"); if (!nombre) return; const cargo = prompt("Tu cargo:", "Propietario"); if (!cargo) return;
+      if (!confirm("Apruebas esta política como responsable y se publica ahora en creativewhisper.net/privacidad/… (dirá «borrador para revisión de abogado» hasta que lo marques). ¿Aprobar?")) return;
+      const r = await llamarOp({ accion: "priv_politica_aprobar", id: Number(b.dataset.pid), huella: b.dataset.huella, huella_en: b.dataset.huellaEn || null, nombre, cargo }); toast("Publicada: " + r.url); await pintarPriv6b();
+    }
+    if (a === "pol-legal") { if (confirm("¿El abogado ya revisó esta versión? La página dejará de decir «borrador para revisión de abogado».")) { await llamarOp({ accion: "priv_politica_revision_legal", id: Number(b.dataset.pid) }); await pintarPriv6b(); } }
+  } catch (x) { toast("No se pudo: " + x.message); }
+  finally { b.disabled = false; }
+}, true);
 $("#cuerpo").addEventListener("click", async (e) => {
   const b = e.target.closest("[data-salud-accion]"); if (!b || tab !== "cli") return;
   e.stopPropagation(); const a = b.dataset.saludAccion, id = b.dataset.id; b.disabled = true;
@@ -948,12 +1037,10 @@ $("#cuerpo").addEventListener("click", async (e) => {
     if (a === "borrar") {
       const ident = document.querySelector(`[data-persona="${id}"]`).value.trim(), d = document.querySelector(`[data-borrar="${id}"]`);
       if (ident.length < 4) { toast("Escribe el teléfono, el usuario o la sesión"); b.disabled = false; return; }
-      const v = await llamarOp({ accion: "borrar_persona", empresa_id: id, identificador: ident });
-      const resumen = `${v.mensajes} mensajes, ${v.conversaciones} conversaciones, ${v.interesados} registros de interesado, ${v.opiniones} opiniones; ${v.casos_sin_datos} casos quedan sin sus datos y se borran ${v.fotos} fotos`;
-      if (!v.sesiones && !v.contactos_de_alertas) d.textContent = "No se encontró nada de esa persona en esta cuenta.";
-      else if (confirm(`Se va a borrar: ${resumen}. No se puede deshacer. ¿Borrar?`)) { await llamarOp({ accion: "borrar_persona", empresa_id: id, identificador: ident, aplicar: true }); d.textContent = "Borrado: " + resumen + ". Quedó la constancia."; }
+      // 11.6b: alcanza también la escucha, el examen sellado, las copias del espejo y los eventos crudos.
+      await borrarPersona(id, ident, d);
     }
-    if (a === "simular") { const r = await llamarOp({ accion: "conservacion", simular: true }); toast(`Hoy se borrarían ${r.totales.mensajes} mensajes y ${r.totales.casos} casos`); await pintarPrivacidad(); }
+    if (a === "simular") { const r = await llamarOp({ accion: "conservacion", simular: true }); toast(`Hoy se borrarían ${r.totales.mensajes} mensajes y ${r.totales.casos} casos`); await pintarPrivacidad(); pintarTablasPriv(r); }
     if (a === "modo") { if (b.dataset.modo !== "aplicar" || confirm("Desde mañana se borra todos los días lo que pasó su plazo de conservación. No se puede deshacer. ¿Empezar?")) { await llamarOp({ accion: "conservacion_modo", modo: b.dataset.modo }); await pintarPrivacidad(); } }
     if (a === "muestra") { const r = await llamarCal({ accion: "muestra" }); toast(`Muestra: ${r.total} mensajes (${r.agregados} nuevos; faltan ${r.faltan} para 300)`); await pintarCalidad(); }
     if (a === "reclasificar") { const r = await llamarCal({ accion: "reclasificar", limite: 40 }); toast(`${r.reclasificados} reclasificados; faltan ${r.faltan}`); await pintarCalidad(); }

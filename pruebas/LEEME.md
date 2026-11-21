@@ -12,6 +12,7 @@ No envían formularios, no aceptan nada real y no usan claves.
 | `idioma.spec.mjs` | El botón ES/EN lleva a la página equivalente y no rebota. En cuenta, panel, alta y API no quedan textos en español en la versión en inglés. |
 | `dw.spec.mjs` | Digital Whisper: las 5 mascotas se dibujan y se mueven, el formulario avisa lo que falta sin enviar nada, y la página no tiene precios ni nombres de proveedores. |
 | `cliente.spec.mjs` | Cuenta, panel y alta sin haber entrado: dicen qué hacer, tienen ayuda y no dejan errores. |
+| `privacidad-cuenta.spec.mjs` | Fase 11.6b: `/privacidad/{cuenta}` (la política de cada empresa, que en GitHub Pages pasa por `404.html`) se pinta como texto sin HTML de afuera, con el aviso de borrador legal, las versiones y el inglés. La respuesta de la base se simula en la prueba. |
 | `agentes.spec.mjs` | Cada página interactiva tiene su agente y se abre. Con `CON_AGENTES=1` le hace una pregunta a cada tipo de agente (gasta respuestas de IA). |
 
 ## Cómo correrlas
