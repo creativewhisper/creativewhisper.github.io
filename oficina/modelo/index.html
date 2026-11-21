@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0A0908">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<title>Modelo de escucha · Oficina CW</title>
+<link rel="icon" href="../../assets/favicon-cw.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<style>
+/* Panel PRIVADO del modelo de escucha (modo espectador). Paleta de Creative Whisper, igual que la oficina. */
+:root{color-scheme:dark;--naranja:#F5A300;--rojo:#E3120B;--durazno:#FFD7BD;--verde:#3EA398;--cw-2:#CDBFA6;
+  --fondo:#0A0908;--tarjeta:#151311;--tarjeta-2:#1E1B18;--texto:#F3EEE6;--suave:#A39A8E;--linea:rgba(243,238,230,.12);
+  --f:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif}
+*,*::before,*::after{box-sizing:border-box}
+body{margin:0;background:var(--fondo);color:var(--texto);font-family:var(--f);font-size:16px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:var(--cw-2)}
+.oculto{display:none!important}
+.franja{height:8px;background:linear-gradient(100deg,var(--naranja) 0 25%,var(--rojo) 25% 50%,var(--durazno) 50% 75%,var(--verde) 75% 100%)}
+.app{max-width:980px;margin:0 auto;padding:14px 16px 120px}
+header{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:10px}
+header h1{font-size:22px;margin:0;flex:1;min-width:220px}
+.pastilla{font-size:12px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;border-radius:999px;padding:4px 10px;background:var(--tarjeta-2);color:var(--suave)}
+.pastilla.on{background:var(--verde);color:#fff}.pastilla.off{background:#3a2a28;color:var(--durazno)}
+.aviso{background:var(--tarjeta-2);border-left:5px solid var(--naranja);border-radius:12px;padding:10px 12px;font-size:14px;margin:8px 0}
+.aviso.sim{border-left-color:var(--rojo);background:#2a1513;font-weight:600}
+nav{display:flex;gap:6px;flex-wrap:wrap;margin:12px 0}
+nav button{background:var(--tarjeta);border:0;border-radius:12px;padding:10px 14px;font-weight:700;color:var(--suave)}
+nav button.activo{background:var(--cw-2);color:#0A0908}
+.rejilla{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.card{background:var(--tarjeta);border-radius:16px;padding:14px}
+.card h2{font-size:15px;margin:0 0 8px;letter-spacing:.02em}
+.card h2 small{color:var(--suave);font-weight:500;margin-left:6px}
+.num{font-size:30px;font-weight:800;line-height:1.1}.num small{font-size:14px;font-weight:600;color:var(--suave);margin-left:4px}
+.eti{font-size:12px;color:var(--suave);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.masc{border-top:5px solid var(--c,#555)}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:6px 8px;border-bottom:1px solid var(--linea);vertical-align:top}
+th{color:var(--suave);font-weight:700;font-size:12px;letter-spacing:.04em;text-transform:uppercase}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums}
+.scroll{overflow-x:auto}
+.fila{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.btn{background:var(--tarjeta-2);border:1px solid var(--linea);border-radius:10px;padding:8px 12px;font-weight:700;font-size:14px}
+.btn.pri{background:var(--naranja);color:#0A0908;border-color:var(--naranja)}.btn.sel{background:var(--verde);border-color:var(--verde);color:#fff}
+input[type=text],input[type=email],input[type=password],select{background:var(--tarjeta-2);border:1px solid var(--linea);border-radius:10px;padding:9px 10px;min-width:0}
+.nota{font-size:13px;color:var(--suave);margin:6px 0 0}
+.barra{height:10px;border-radius:9px;background:var(--tarjeta-2);overflow:hidden;display:flex}.barra i{display:block;height:100%}
+pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:var(--tarjeta-2);border-radius:10px;padding:8px;margin:6px 0 0;max-height:220px;overflow:auto}
+.login{max-width:360px;margin:60px auto;display:grid;gap:10px}
+.chatbtn{position:fixed;right:16px;bottom:16px;background:var(--verde);color:#fff;border:0;border-radius:999px;padding:13px 18px;font-weight:800;box-shadow:0 10px 30px -10px #000}
+.hoja{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:flex-end;justify-content:center;z-index:5}
+.hoja .caja{background:var(--tarjeta);width:100%;max-width:560px;border-radius:18px 18px 0 0;padding:14px;max-height:80dvh;display:flex;flex-direction:column}
+.chat{overflow:auto;flex:1;display:flex;flex-direction:column;gap:8px;min-height:120px;padding:6px 0}
+.burbuja{padding:9px 12px;border-radius:14px;max-width:88%;white-space:pre-wrap;font-size:15px}
+.burbuja.yo{align-self:flex-end;background:var(--cw-2);color:#0A0908}.burbuja.el{align-self:flex-start;background:var(--tarjeta-2)}
+.escribir{display:flex;gap:8px}.escribir input{flex:1}
+</style>
+</head>
+<body>
+<div class="franja"></div>
+<div id="vLogin" class="login oculto">
+  <h1 style="margin:0">Modelo de escucha</h1>
+  <p class="nota">Panel privado de la oficina. Entra con tu cuenta de la oficina.</p>
+  <input id="lEmail" type="email" placeholder="Correo" autocomplete="username">
+  <input id="lClave" type="password" placeholder="Contraseña" autocomplete="current-password">
+  <button class="btn pri" id="lEntrar">Entrar</button>
+  <div class="nota" id="lAviso"></div>
+</div>
+<div id="vApp" class="app oculto">
+  <header>
+    <h1>Modelo de escucha <small style="font-size:14px;color:var(--suave);font-weight:600">modo espectador</small></h1>
+    <span class="pastilla" id="pEstado">…</span>
+    <button class="btn" id="btnRecargar">Actualizar</button>
+    <a class="btn" href="../" style="text-decoration:none">← Oficina</a>
+  </header>
+  <div class="aviso">Privado y en aprendizaje. El modelo solo lee: no contesta a nadie. Los números de las marcas vienen de canales de Meta (carril ámbar): sirven para las marcas, no para ningún índice entre empresas.</div>
+  <nav id="tabs">
+    <button data-t="real" class="activo">Marcas</button><button data-t="examen">Examen y calificadores</button><button data-t="modelo">Modelo y costo</button><button data-t="sim">Simulación</button>
+  </nav>
+  <div id="cuerpo"><div class="card">Cargando…</div></div>
+</div>
+<button class="chatbtn oculto" id="btnChat">¿Qué significa esto?</button>
+<div class="hoja oculto" id="hoja" role="dialog" aria-label="Asistente del panel">
+  <div class="caja">
+    <div class="fila" style="justify-content:space-between;margin:0"><b>Asistente del panel</b><button class="btn" id="hojaCerrar">Cerrar</button></div>
+    <div class="nota">Explica los números de este panel. No ve los mensajes de los clientes.</div>
+    <div class="chat" id="chat"></div>
+    <div class="escribir"><input type="text" id="pregunta" maxlength="300" placeholder="Pregunta, por ejemplo: ¿por qué dice «parcial»?"><button class="btn pri" id="btnPreguntar">Enviar</button></div>
+  </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
+<script>
+"use strict";
+const SUPABASE_URL = "https://jlyrymgbykhpktabvlkl.supabase.co";
+const SUPABASE_KEY = "sb_publishable_ap5wyI1Q4-_IO8fXJ3xBJA_RzGp89dV"; // clave pública; los datos los protege el inicio de sesión
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { persistSession: true, autoRefreshToken: true, storageKey: "cw-oficina-movil" } });
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+const n1 = (x) => (x === null || x === undefined ? "—" : Number(x).toLocaleString("es-EC", { maximumFractionDigits: 1 }));
+const usd = (x) => (x === null || x === undefined ? "—" : "US$ " + Number(x).toLocaleString("es-EC", { minimumFractionDigits: 2, maximumFractionDigits: 4 }));
+const fecha = (iso) => { try { return new Date(iso).toLocaleString("es-EC", { timeZone: "America/Guayaquil", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }); } catch (e) { return ""; } };
+const MASC = { ruby: ["Ruby · quejas", "#E3120B"], tiko: ["Tiko · compra", "#F5A300"], pia: ["Pía · dudas", "#3EA398"], teo: ["Teo · lo que aman", "#FFD7BD"], ari: ["Ari · sin señal", "#CDBFA6"] };
+const ESTADO = { parcial: "Parcial", orientativo: "Orientativo", oficial: "Oficial", no_alcanza: "No alcanza" };
+let tab = "real", P = null, S = null, marca = "total", charla = [];
+
+async function fn(cuerpo) {
+  const { data } = await sb.auth.getSession();
+  const r = await fetch(SUPABASE_URL + "/functions/v1/escucha-espectador", { method: "POST", headers: { "content-type": "application/json", apikey: SUPABASE_KEY, authorization: "Bearer " + (data?.session?.access_token ?? "") }, body: JSON.stringify(cuerpo) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || ("HTTP " + r.status));
+  return j;
+}
+const tarjeta = (titulo, num, pie) => `<div class="card"><div class="eti">${esc(titulo)}</div><div class="num">${num}</div>${pie ? `<div class="nota">${pie}</div>` : ""}</div>`;
+const razon = (o) => (o && o.n ? `${o.cumplido} de ${o.n}` : "—");
+
+function vistaReal() {
+  const b = marca === "total" ? P.total : P.por_marca[marca];
+  const ind = (P.indices || []).filter((i) => (marca === "total" ? !i.marca : i.marca === marca))[0];
+  const k = b.kpis; const totalM = Object.values(b.mascotas).reduce((a, x) => a + x, 0) || 1;
+  const parte = (nombre, p, extra) => `<tr><td>${nombre}</td><td class="n"><b>${n1(p?.valor)}</b></td><td class="n">${p?.margen == null ? "—" : "±" + n1(p.margen)}</td><td>${extra}</td></tr>`;
+  let h = `<div class="fila">${["total", ...Object.keys(P.por_marca)].map((m) => `<button class="btn ${m === marca ? "sel" : ""}" data-marca="${esc(m)}">${m === "total" ? "Todas" : esc(m)}</button>`).join("")}</div>
+  <div class="rejilla" style="margin-top:10px">${tarjeta("Personas", b.personas, "que escribieron")}${tarjeta("Mensajes leídos", b.mensajes, `${b.por_regla} sin usar IA`)}${tarjeta("Episodios", b.episodios, "necesidades, de principio a fin")}${tarjeta("Opinaron de algo", k.opinan, "personas, según el clasificador")}</div>
+  <div class="card" style="margin-top:10px"><h2>Personas por mascota <small>cada persona cuenta una vez, por su señal más importante</small></h2>
+    <div class="barra">${Object.entries(b.mascotas).map(([m, v]) => `<i style="width:${(100 * v) / totalM}%;background:${MASC[m][1]}" title="${esc(MASC[m][0])}: ${v}"></i>`).join("")}</div>
+    <div class="rejilla" style="margin-top:10px">${Object.entries(b.mascotas).map(([m, v]) => `<div class="card masc" style="--c:${MASC[m][1]};background:var(--tarjeta-2)"><div class="eti">${esc(MASC[m][0])}</div><div class="num">${v}</div></div>`).join("")}</div></div>
+  <div class="card" style="margin-top:10px"><h2>Índice de Valor Percibido <small>IVP-1 · privado</small></h2>`;
+  if (ind) {
+    h += `<div class="fila"><div class="num">${n1(ind.ivp)}<small>${ind.margen == null ? "" : "±" + n1(ind.margen)}</small></div><span class="pastilla off">${esc(ESTADO[ind.estado] || ind.estado)}</span><span class="nota">calculado ${fecha(ind.calculado)}</span></div>
+    <div class="aviso">${esc(ind.desgloses?.aviso || "")} Con ${ind.desgloses?.personas ?? "?"} personas no alcanza para un número oficial (pide entre 600 y 1.000 por trimestre).</div>
+    <div class="scroll"><table><tr><th>Parte</th><th class="n">Valor</th><th class="n">Margen</th><th>De dónde sale</th></tr>
+    ${parte("Lo dicho", ind.partes.dicho, `${ind.partes.dicho.opinaron_segun_clasificador} de ${ind.partes.dicho.personas} personas opinaron. ${ind.partes.dicho.corregido ? `Corregido con ${ind.partes.dicho.calificadas} personas calificadas.` : "<b>Sin corregir:</b> falta la muestra que califican personas."}`)}
+    ${parte("Lo vivido", ind.partes.vivido, `Hechos contados en ${ind.partes.vivido.personas} personas: ` + Object.entries(ind.partes.vivido.hechos || {}).filter(([, v]) => v.aplica).map(([kk, v]) => `${kk.replace(/_/g, " ")} ${n1(v.cumplido)} %`).join(" · "))}
+    ${parte("Lo declarado", ind.partes.declarado, esc(ind.partes.declarado.aviso || `${ind.partes.declarado.respuestas} respuestas`))}</table></div>
+    <div class="scroll" style="margin-top:8px"><table><tr><th>Dimensión</th><th class="n">Personas a favor</th><th class="n">Personas en contra</th></tr>${Object.entries(ind.desgloses?.dimensiones || {}).map(([d, v]) => `<tr><td>${esc(d)}</td><td class="n">${v.favor}</td><td class="n">${v.contra}</td></tr>`).join("")}</table></div>`;
+  } else h += `<p class="nota">Todavía no se calculó.</p>`;
+  h += `<div class="fila"><button class="btn" id="btnIndice">Calcular ahora</button></div></div>
+  <div class="card" style="margin-top:10px"><h2>Lo que les pasó <small>hechos contados, no opiniones</small></h2><div class="scroll"><table>
+    <tr><td>Primera respuesta por WhatsApp (mediana)</td><td class="n">${k.primera_respuesta_min_mediana == null ? "—" : n1(k.primera_respuesta_min_mediana) + " min"}</td></tr>
+    <tr><td>Respondidos a tiempo (WhatsApp, 15 min)</td><td class="n">${razon(k.a_tiempo)}</td></tr>
+    <tr><td>No tuvieron que insistir</td><td class="n">${razon(k.sin_insistir)}</td></tr>
+    <tr><td>Su último mensaje tuvo respuesta</td><td class="n">${razon(k.respondidos)}</td></tr>
+    <tr><td>Con intención clara de compra (pidió precio o quiso cerrar)</td><td class="n">${k.compra_fuerte.episodios} episodios · ${k.compra_fuerte.atendidos_a_tiempo} a tiempo</td></tr>
+    <tr><td>De esos, con resultado anotado</td><td class="n">${k.compra_fuerte.con_resultado} · ${k.compra_fuerte.vendidos} vendidos</td></tr>
+    <tr><td>Con dudas</td><td class="n">${k.dudas.episodios} episodios · ${k.dudas.respondidas} respondidas</td></tr>
+    <tr><td>Personas con queja <span class="nota">(${esc(k.quejas.aviso)})</span></td><td class="n">${k.quejas.personas} · ${k.quejas.graves} graves</td></tr></table></div></div>
+  <div class="rejilla" style="margin-top:10px"><div class="card"><h2>Canales</h2>${Object.entries(b.canales).map(([c, v]) => `<div>${esc(c)}: <b>${v}</b></div>`).join("")}</div>
+    <div class="card"><h2>Carril</h2>${Object.entries(b.carriles).map(([c, v]) => `<div>${esc(c)}: <b>${v}</b></div>`).join("")}<p class="nota">Ámbar = Meta: solo para la empresa dueña.</p></div>
+    <div class="card"><h2>Horario</h2>${Object.entries(b.franjas).map(([c, v]) => `<div>${esc(c)}: <b>${v}</b></div>`).join("")}</div></div>
+  <div class="card" style="margin-top:10px"><h2>¿Se vendió? <small>episodios con intención clara de compra</small></h2><p class="nota">Sin este dato el índice no se puede probar contra ventas. Se identifica por la fecha y los últimos 4 dígitos.</p><div class="scroll"><table><tr><th>Último mensaje</th><th>Marca</th><th>Canal</th><th>Termina en</th><th>Resultado</th></tr>
+    ${(P.ventas || []).filter((v) => marca === "total" || v.marca === marca).map((v) => `<tr><td>${fecha(v.fin)}</td><td>${esc(v.marca)}</td><td>${esc(v.canal)}</td><td>${esc(v.termina_en)}</td><td>${["vendido", "no_vendido", "sin_dato"].map((r) => `<button class="btn ${v.resultado === r ? "sel" : ""}" data-venta="${v.id}" data-res="${r}">${r === "vendido" ? "Se vendió" : r === "no_vendido" ? "No se vendió" : "No sé"}</button>`).join(" ")}</td></tr>`).join("") || `<tr><td colspan="5">Ninguno todavía.</td></tr>`}</table></div></div>`;
+  return h;
+}
+function vistaExamen() {
+  const e = P.examen || {};
+  return `<div class="rejilla">${tarjeta("Ronda de práctica", e.practica ?? 0, "mensajes para afinar el manual")}${tarjeta("Examen sellado", `${e.examen ?? 0}<small>de ${e.meta ?? 300}</small>`, "mensajes reales que el modelo no ve mientras se mejora")}${tarjeta("Con dos calificadores", e.examen_con_dos ?? 0, "hacen falta 30 para un primer examen")}${tarjeta("Por revisar datos personales", e.por_revisar_pii ?? 0, "no se muestran hasta taparlos")}</div>
+  <div class="aviso">El examen lo califican dos personas por separado, sin ver lo que leyó el modelo. Nadie más lee esos mensajes: de aquí solo salen conteos y la nota final.</div>
+  <div class="card" style="margin-top:10px"><h2>Quiénes califican</h2><div class="scroll"><table><tr><th>Nombre</th><th>Rol</th><th class="n">Práctica</th><th class="n">Examen</th><th class="n">Personas</th><th class="n">Segundos por mensaje</th><th class="n">Segundos por persona</th><th></th></tr>
+    ${(e.calificadores || []).map((q) => `<tr><td>${esc(q.nombre)}${q.activo ? "" : " (inactivo)"}</td><td>${esc(q.rol)}</td><td class="n">${q.practica}</td><td class="n">${q.examen}</td><td class="n">${q.personas}</td><td class="n">${n1(q.mediana_seg_mensaje)}</td><td class="n">${n1(q.mediana_seg_persona)}</td><td>${q.activo ? `<button class="btn" data-baja="${q.id}">Dar de baja</button>` : ""}</td></tr>`).join("") || `<tr><td colspan="8">Todavía no hay nadie. Crea un enlace para cada persona.</td></tr>`}</table></div>
+    <div class="fila"><input type="text" id="cNombre" placeholder="Nombre de quien califica" maxlength="60"><select id="cRol"><option value="cw">De Creative Whisper</option><option value="empresa">De la marca</option></select><button class="btn pri" id="btnEnlace">Crear su enlace</button></div>
+    <div id="enlaceNuevo"></div><p class="nota">El enlace se muestra una sola vez. Pásaselo solo a esa persona, con la guía de una página.</p></div>
+  <div class="card" style="margin-top:10px"><h2>Preparar</h2><div class="fila"><button class="btn" id="btnArmar">Completar práctica y examen con lo nuevo</button><button class="btn" id="btnTapar">Tapar datos personales pendientes</button><button class="btn" id="btnPorConfirmar">Ver lo que espera tu decisión</button></div>
+    <div class="fila"><input type="text" id="mPeriodo" placeholder="Mes, por ejemplo 2026-11" maxlength="7" style="width:210px"><button class="btn" id="btnPersonas">Sortear personas de ese mes para calificar</button></div><div id="prepRes" class="nota"></div><div id="porConfirmar"></div></div>
+  <div class="card" style="margin-top:10px"><h2>Constancia de usos</h2><div class="scroll"><table><tr><th>Cuándo</th><th>Quién</th><th>Qué</th><th class="n">Cuántos</th></tr>${(e.usos || []).map((u) => `<tr><td>${fecha(u.cuando)}</td><td>${esc(u.quien)}</td><td>${esc(u.accion)}${u.variante ? " · variante " + u.variante : ""}</td><td class="n">${u.n ?? ""}</td></tr>`).join("")}</table></div></div>`;
+}
+const filaEval = (e) => { const m = e.metricas || {}; return `<tr><td>${fecha(e.creado)}</td><td>${e.variante_id ?? ""}</td><td>${esc(e.conjunto)}${e.particion ? " · " + esc(e.particion) : ""}</td><td>${esc(e.referencia)}</td><td class="n">${e.n}</td><td class="n">${n1(m.puntaje)}</td><td class="n">${n1(m.tono?.p)} ±${n1(m.tono?.margen)}</td><td class="n">${n1(m.compra?.f1)}</td><td class="n">${n1(m.duda?.f1)}</td><td class="n">${n1(m.queja?.f1)}</td><td class="n">${n1(m.aspectos?.sin_area?.f1)}</td><td class="n">${n1(m.mascota?.p)}</td></tr>`; };
+const cabEval = `<tr><th>Cuándo</th><th>Variante</th><th>Conjunto</th><th>Contra</th><th class="n">n</th><th class="n">Puntaje</th><th class="n">Tono</th><th class="n">Compra F1</th><th class="n">Duda F1</th><th class="n">Queja F1</th><th class="n">Aspectos F1</th><th class="n">Mascota</th></tr>`;
+function vistaModelo() {
+  const c = P.costo;
+  return `<div class="rejilla">${tarjeta("Gasto de hoy leyendo", usd(c.hoy.leer), `tope ${usd(c.tope_diario_usd)}`)}${tarjeta("Gasto de hoy en mediciones", usd(c.hoy.trabajos), `tope ${usd(c.tope_trabajos_usd)}`)}${tarjeta("Por conversación", usd(c.usd_por_conversacion), `${c.episodios_con_modelo} conversaciones reales`)}${tarjeta("Por mensaje", usd(c.usd_por_mensaje), `${c.mensajes_con_modelo} mensajes con IA`)}</div>
+  <div class="card" style="margin-top:10px"><h2>Interruptor</h2><div class="fila"><span class="pastilla ${P.encendido ? "on" : "off"}">${P.encendido ? "Encendido" : "Apagado"}</span><button class="btn" id="btnInterruptor">${P.encendido ? "Apagar" : "Encender"}</button><span class="nota">Apagado no lee nada ni gasta nada. No afecta a los bots.</span></div></div>
+  <div class="card" style="margin-top:10px"><h2>Versiones de las instrucciones</h2><div class="scroll"><table><tr><th>#</th><th>Nombre</th><th>Modelo</th><th>Origen</th><th>Estado</th><th>Qué cambia</th></tr>${(P.variantes || []).map((v) => `<tr><td>${v.id}</td><td>${esc(v.nombre)}</td><td>${esc(v.modelo)}</td><td>${esc(v.origen)}</td><td>${v.id === P.variante_activa ? "<b>activa</b>" : esc(v.estado)}</td><td>${esc(v.nota || "")}</td></tr>`).join("")}</table></div></div>
+  <div class="card" style="margin-top:10px"><h2>Mediciones sobre lo real</h2><div class="aviso">«automatico» = la referencia es otro modelo, no personas: mide cuánto coinciden dos modelos. La nota que vale es la del examen con personas.</div><div class="scroll"><table>${cabEval}${(P.evaluaciones || []).map(filaEval).join("") || `<tr><td colspan="12">Ninguna todavía.</td></tr>`}</table></div><div class="fila"><button class="btn" id="btnMedir">Medir ahora contra el calificador automático</button></div></div>
+  <div class="card" style="margin-top:10px"><h2>Trabajos</h2><div class="scroll"><table><tr><th>#</th><th>Tipo</th><th>Estado</th><th>Actualizado</th><th>Detalle</th></tr>${(P.trabajos || []).map((t) => `<tr><td>${t.id}</td><td>${esc(t.tipo)}</td><td>${esc(t.estado)}</td><td>${fecha(t.actualizado)}</td><td><pre>${esc(JSON.stringify(t.resultado ?? t.progreso ?? {}).slice(0, 700))}</pre></td></tr>`).join("")}</table></div></div>
+  <div class="card" style="margin-top:10px"><h2>Gasto por tarea <small>desde el inicio</small></h2><div class="scroll"><table><tr><th>Tarea</th><th class="n">Llamadas</th><th class="n">USD</th></tr>${Object.entries(c.por_funcion || {}).map(([f, v]) => `<tr><td>${esc(f)}</td><td class="n">${v.llamadas}</td><td class="n">${usd(v.usd)}</td></tr>`).join("")}<tr><td><b>Total</b></td><td></td><td class="n"><b>${usd(c.total_usd)}</b></td></tr></table></div></div>`;
+}
+function vistaSim() {
+  if (!S) return `<div class="card">Cargando la simulación…</div>`;
+  const lista = (o) => Object.entries(o || {}).sort((a, b) => b[1] - a[1]).map(([k, v]) => `${esc(k)}: <b>${v}</b>`).join(" · ");
+  return `<div class="aviso sim">SIMULACIÓN. ${esc(S.aviso)}</div>
+  <div class="rejilla">${tarjeta("Casas", S.empresas.length, "una de ejemplo y las demás inventadas")}${tarjeta("Clientes ficticios", S.clientes)}${tarjeta("Episodios", S.episodios)}${tarjeta("Mensajes de clientes", S.mensajes_cliente)}</div>
+  <div class="card" style="margin-top:10px"><h2>Cómo está repartida</h2><p>Partición: ${lista(S.por_particion)}</p><p>Generador: ${lista(S.por_generador)}</p><p>Canal: ${lista(S.por_canal)}</p><p>Tema: ${lista(S.por_tema)}</p></div>
+  <div class="card" style="margin-top:10px"><h2>Mediciones en la base ficticia</h2><div class="scroll"><table>${cabEval}${(S.evaluaciones || []).map(filaEval).join("") || `<tr><td colspan="12">Ninguna todavía.</td></tr>`}</table></div></div>
+  <div class="card" style="margin-top:10px"><h2>Índice simulado por casa <small>para probar el cálculo y el margen</small></h2><div class="scroll"><table><tr><th>Casa</th><th class="n">Personas</th><th class="n">IVP</th><th>Estado</th><th class="n">Lo dicho: solo clasificador</th><th class="n">Corregido</th><th class="n">Verdad de la base</th></tr>
+    ${(S.indices || []).map((i) => `<tr><td>${esc(i.empresa)}</td><td class="n">${i.desgloses?.personas ?? ""}</td><td class="n">${n1(i.ivp)} ±${n1(i.margen)}</td><td>${esc(ESTADO[i.estado] || i.estado)}</td><td class="n">${n1(i.desgloses?.dicho_solo_clasificador)}</td><td class="n">${n1(i.desgloses?.dicho_corregido)} ±${n1(i.desgloses?.dicho_margen)}</td><td class="n">${n1(i.desgloses?.dicho_verdad)}</td></tr>`).join("") || `<tr><td colspan="7">Todavía no se calculó.</td></tr>`}</table></div></div>`;
+}
+function pintar() {
+  if (!P) return;
+  $("#pEstado").textContent = P.encendido ? "Encendido" : "Apagado"; $("#pEstado").className = "pastilla " + (P.encendido ? "on" : "off");
+  $("#cuerpo").innerHTML = tab === "real" ? vistaReal() : tab === "examen" ? vistaExamen() : tab === "modelo" ? vistaModelo() : vistaSim();
+}
+async function cargar() {
+  try { P = await fn({ accion: "panel" }); pintar(); if (tab === "sim" && !S) { S = await fn({ accion: "panel_sim" }); pintar(); } }
+  catch (e) { $("#cuerpo").innerHTML = `<div class="card">No pude cargar: ${esc(e.message)}</div>`; }
+}
+$("#tabs").addEventListener("click", async (e) => { const b = e.target.closest("button[data-t]"); if (!b) return; tab = b.dataset.t; document.querySelectorAll("#tabs button").forEach((x) => x.classList.toggle("activo", x === b)); pintar(); if (tab === "sim" && !S) { try { S = await fn({ accion: "panel_sim" }); } catch (x) { /* se ve vacío */ } pintar(); } });
+$("#btnRecargar").addEventListener("click", () => { S = null; cargar(); });
+$("#cuerpo").addEventListener("click", async (e) => {
+  const t = e.target; const hacer = async (cuerpo, msg) => { try { const r = await fn(cuerpo); if (msg) alert(typeof msg === "function" ? msg(r) : msg); await cargar(); return r; } catch (x) { alert("No se pudo: " + x.message); } };
+  const m = t.closest("[data-marca]"); if (m) { marca = m.dataset.marca; pintar(); return; }
+  const v = t.closest("[data-venta]"); if (v) { await hacer({ accion: "episodio_resultado", id: Number(v.dataset.venta), resultado: v.dataset.res }); return; }
+  const bj = t.closest("[data-baja]"); if (bj) { if (confirm("¿Dar de baja a esta persona? Su enlace deja de abrir.")) await hacer({ accion: "calificador_baja", id: Number(bj.dataset.baja) }); return; }
+  if (t.id === "btnIndice") await hacer({ accion: "indice", ambito: "real" });
+  if (t.id === "btnMedir") await hacer({ accion: "medir_real" }, (r) => (r.error ? r.error : `Medido en ${r.n} mensajes. Recuerda: la referencia es automática, no personas.`));
+  if (t.id === "btnInterruptor") { if (confirm(P.encendido ? "¿Apagar el modo espectador?" : "¿Encender el modo espectador? Leerá los mensajes nuevos con el tope de gasto diario.")) await hacer({ accion: "config_poner", clave: "encendido", valor: !P.encendido }); }
+  if (t.id === "btnArmar") { const r = await hacer({ accion: "examen_armar" }); if (r) $("#prepRes").textContent = `Práctica: ${r.estado.practica}. Examen: ${r.estado.examen}.`; }
+  if (t.id === "btnTapar") { const r = await hacer({ accion: "examen_tapar" }); if (r) $("#prepRes").textContent = r.motivo || `Tapados: ${r.tapados}. Esperan tu decisión: ${r.por_confirmar}.`; }
+  if (t.id === "btnPorConfirmar") {
+    try {
+      const r = await fn({ accion: "examen_pii_pendientes" }); const items = r.items || [];
+      $("#porConfirmar").innerHTML = items.length ? `<div class="aviso">Mira si queda un nombre, un teléfono u otro dato de una persona. «Retirar» lo saca para siempre; «Devolver» lo muestra tal cual a quien califica. No copies estos textos.</div>` +
+        items.map((x) => `<div class="card" style="margin-top:8px"><p class="nota">${esc(x.motivo || "")}</p>${(x.contexto || []).map((m) => `<p class="nota">${esc(m.de)}: ${esc(m.texto)}</p>`).join("")}${x.texto ? `<p><b>${esc(x.texto)}</b></p>` : ""}<div class="fila"><button class="btn" data-pii="${x.id}" data-retirar="1">Retirar</button><button class="btn" data-pii="${x.id}" data-retirar="0">Devolver</button></div></div>`).join("")
+        : `<p class="nota">Nada espera tu decisión.</p>`;
+    } catch (x) { $("#porConfirmar").textContent = "No se pudo cargar: " + x.message; }
+  }
+  const pii = t.closest("[data-pii]"); if (pii) { try { await fn({ accion: "examen_pii_decidir", id: Number(pii.dataset.pii), retirar: pii.dataset.retirar === "1" }); pii.closest(".card").remove(); } catch (x) { alert("No se pudo: " + x.message); } return; }
+  if (t.id === "btnPersonas") { const r = await hacer({ accion: "muestra_personas", periodo: $("#mPeriodo").value.trim(), n: 200 }); if (r) $("#prepRes").textContent = r.error || `Personas agregadas: ${r.agregadas} de ${r.personas_del_mes} del mes.`; }
+  if (t.id === "btnEnlace") {
+    const nombre = $("#cNombre").value.trim(); if (nombre.length < 2) { alert("Escribe el nombre."); return; }
+    try { const r = await fn({ accion: "enlace_calificador", nombre, rol: $("#cRol").value }); await cargar(); $("#enlaceNuevo").innerHTML = `<div class="aviso">Enlace de ${esc(r.nombre)} (cópialo ahora; no se vuelve a mostrar):<pre>${esc(r.enlace)}</pre></div>`; } catch (x) { alert("No se pudo: " + x.message); }
+  }
+});
+// Asistente del panel: explica los números. No ve mensajes de clientes.
+function burbuja(de, t) { const d = document.createElement("div"); d.className = "burbuja " + de; d.textContent = t; $("#chat").appendChild(d); $("#chat").scrollTop = 1e6; return d; }
+async function preguntar() {
+  const p = $("#pregunta").value.trim(); if (!p) return; $("#pregunta").value = ""; burbuja("yo", p); const el = burbuja("el", "…");
+  try { const r = await fn({ accion: "explicar", pregunta: p, historial: charla.slice(-6) }); el.textContent = r.texto; charla.push({ de: "yo", texto: p }, { de: "agente", texto: r.texto }); } catch (e) { el.textContent = "No pude responder ahora."; }
+}
+$("#btnChat").addEventListener("click", () => { $("#hoja").classList.remove("oculto"); if (!$("#chat").children.length) burbuja("el", "Pregúntame por cualquier número o palabra de este panel."); $("#pregunta").focus(); });
+$("#hojaCerrar").addEventListener("click", () => $("#hoja").classList.add("oculto"));
+$("#btnPreguntar").addEventListener("click", preguntar);
+$("#pregunta").addEventListener("keydown", (e) => { if (e.key === "Enter") preguntar(); });
+
+async function entrar() {
+  const { data } = await sb.auth.getSession();
+  if (!data?.session) { $("#vLogin").classList.remove("oculto"); $("#vApp").classList.add("oculto"); return; }
+  const { data: admin } = await sb.rpc("es_admin");
+  if (admin !== true) { $("#lAviso").textContent = "Esta cuenta no tiene acceso."; await sb.auth.signOut(); $("#vLogin").classList.remove("oculto"); return; }
+  $("#vLogin").classList.add("oculto"); $("#vApp").classList.remove("oculto"); $("#btnChat").classList.remove("oculto");
+  cargar();
+}
+$("#lEntrar").addEventListener("click", async () => {
+  $("#lAviso").textContent = "";
+  const { error } = await sb.auth.signInWithPassword({ email: $("#lEmail").value.trim(), password: $("#lClave").value });
+  if (error) { $("#lAviso").textContent = "No pude entrar: " + error.message; return; }
+  entrar();
+});
+$("#lClave").addEventListener("keydown", (e) => { if (e.key === "Enter") $("#lEntrar").click(); });
+entrar();
+</script>
+</body>
+</html>

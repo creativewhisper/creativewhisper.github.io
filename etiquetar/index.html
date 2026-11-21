@@ -113,6 +113,8 @@ main{flex:1;width:100%;max-width:640px;margin:0 auto;padding:14px 14px calc(96px
 </div>
 <script>
 "use strict";
+// Fase 11.4: los enlaces nuevos (#c=…) son de la página ampliada (ejes nuevos y calificación por persona).
+if (/c=[a-f0-9]{32,64}/i.test(location.hash) && !/e=[a-f0-9]{32,64}/i.test(location.hash)) location.replace("v2/" + location.hash);
 const API = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/calidad-cliente";
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
