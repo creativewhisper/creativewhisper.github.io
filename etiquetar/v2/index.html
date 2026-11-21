@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta name="theme-color" content="#0A0908">
+<title>Calificar mensajes · Creative Whisper</title>
+<link rel="icon" href="../../assets/favicon-cw.png" type="image/png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Hanken+Grotesk:wght@400;500;600;700;800&display=swap">
+<style>
+/* Paleta de Creative Whisper. Página interna: la usan las personas que califican la muestra y el examen del modelo de escucha. */
+:root{
+  --naranja:#F5A300;--rojo:#E3120B;--durazno:#FFD7BD;--verde:#3EA398;--negro:#0A0908;--beige:#CDBFA6;
+  --fondo:#FBF7F2;--tarjeta:#FFFFFF;--texto:#0A0908;--suave:#6B6259;--linea:#E6DCCD;
+  --f:"Hanken Grotesk","Helvetica Neue",Arial,system-ui,sans-serif;--safe-b:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fondo);color:var(--texto);font-family:var(--f);font-size:17px;line-height:1.45;-webkit-font-smoothing:antialiased;min-height:100dvh;display:flex;flex-direction:column}
+button,input,textarea{font:inherit;color:inherit}
+.oculto{display:none!important}
+.franja{height:5px;background:linear-gradient(100deg,var(--naranja) 0 25%,var(--rojo) 25% 50%,var(--durazno) 50% 75%,var(--verde) 75% 100%)}
+header{background:var(--negro);color:#fff;padding:12px 16px}
+header .fila{display:flex;justify-content:space-between;align-items:baseline;gap:10px;max-width:640px;margin:0 auto}
+header b{font-size:16px;font-weight:800}
+header span{color:var(--beige);font-size:14px;white-space:nowrap}
+.barra{height:6px;border-radius:9px;background:#2a2622;overflow:hidden;max-width:640px;margin:8px auto 0}
+.barra i{display:block;height:100%;width:0;background:var(--naranja);transition:width .25s}
+main{flex:1;width:100%;max-width:640px;margin:0 auto;padding:14px 14px calc(150px + var(--safe-b))}
+.etapa{display:inline-block;font-size:12px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;background:var(--durazno);border-radius:999px;padding:3px 10px;margin-bottom:8px}
+.msj{background:var(--tarjeta);border:1px solid var(--linea);border-radius:18px;padding:14px 16px;box-shadow:0 10px 30px -22px rgba(10,9,8,.4)}
+.msj .de{font-size:13px;color:var(--suave);font-weight:600;margin-bottom:6px}
+.msj p.principal{margin:0;font-size:20px;line-height:1.35;font-weight:600;white-space:pre-wrap;overflow-wrap:anywhere}
+.hilo{display:flex;flex-direction:column;gap:6px;margin-bottom:10px}
+.hilo div{font-size:14px;border-radius:12px;padding:7px 10px;max-width:92%;white-space:pre-wrap;overflow-wrap:anywhere}
+.hilo .cli{align-self:flex-start;background:#F3ECE1}.hilo .emp{align-self:flex-end;background:#EEF5F4;color:var(--suave)}
+.hilo small{display:block;font-size:11px;color:var(--suave)}
+.hilo.grande .cli{font-size:17px;font-weight:600;background:var(--tarjeta);border:1px solid var(--linea)}
+.paso{margin-top:16px}
+.paso h2{font-size:15px;margin:0 0 8px;font-weight:800}
+.paso h2 small{font-weight:600;color:var(--suave);font-size:13px;margin-left:6px}
+/* Todas las opciones tienen el mismo color: el color no debe empujar hacia ninguna. */
+.ops{display:grid;gap:8px}
+.ops.tres{grid-template-columns:repeat(3,1fr)}.ops.dos{grid-template-columns:repeat(2,1fr)}.ops.cuatro{grid-template-columns:repeat(4,1fr)}
+@media(max-width:420px){.ops.cuatro{grid-template-columns:repeat(2,1fr)}}
+.op{border:2px solid var(--linea);background:var(--tarjeta);border-radius:14px;padding:12px 6px;min-height:54px;font-weight:700;cursor:pointer;text-align:center;line-height:1.2;touch-action:manipulation}
+.op small{display:block;font-weight:500;font-size:12px;color:var(--suave);margin-top:3px}
+.op.sel{border-color:var(--negro);background:var(--negro);color:#fff}.op.sel small{color:var(--beige)}
+.op .signo{display:block;font-size:12px;font-weight:800;margin-top:3px;min-height:15px}
+.sub{margin-top:10px;padding:10px;border:1px dashed var(--linea);border-radius:14px}
+.sub h3{font-size:14px;margin:0 0 8px}
+.extras{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.chip{border:1px solid var(--linea);background:transparent;border-radius:999px;padding:9px 13px;font-size:14px;font-weight:600;cursor:pointer}
+.chip.on{background:var(--durazno);border-color:var(--durazno)}
+.nota{font-size:13px;color:var(--suave);margin:10px 2px 0}
+.def{margin-top:16px;border-top:1px solid var(--linea);padding-top:10px;font-size:14px;color:var(--suave)}
+.def summary{cursor:pointer;font-weight:700;color:var(--texto)}.def dt{font-weight:700;color:var(--texto);margin-top:6px}.def dd{margin:0}
+.pie{position:fixed;left:0;right:0;bottom:0;background:var(--negro);padding:10px 14px calc(10px + var(--safe-b));display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.pie button{border:0;border-radius:12px;padding:13px 14px;font-weight:800;cursor:pointer}
+.pie .guardar{background:var(--naranja);color:var(--negro);flex:1 1 100%;max-width:612px}.pie .guardar:disabled{opacity:.4}
+.pie .ayuda{background:var(--verde);color:#fff;flex:1;max-width:400px}.pie .atras{background:#2a2622;color:#fff}
+.aviso{background:var(--tarjeta);border:1px solid var(--linea);border-radius:18px;padding:22px 18px;text-align:center}
+.aviso h1{font-size:22px;margin:0 0 6px}
+.hoja{position:fixed;inset:0;background:rgba(10,9,8,.5);display:flex;align-items:flex-end;z-index:5}
+.hoja .caja{background:var(--fondo);width:100%;max-width:640px;margin:0 auto;border-radius:20px 20px 0 0;padding:14px 14px calc(12px + var(--safe-b));max-height:82dvh;display:flex;flex-direction:column}
+.hoja .cab{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.hoja .cab b{font-size:17px}.hoja .cab button{border:0;background:transparent;font-size:26px;line-height:1;padding:4px 8px;cursor:pointer}
+.hoja .subt{font-size:13px;color:var(--suave);margin:2px 0 8px}
+.chat{overflow:auto;flex:1;display:flex;flex-direction:column;gap:8px;padding:4px 0 8px;min-height:90px}
+.burbuja{padding:10px 12px;border-radius:14px;max-width:88%;white-space:pre-wrap;font-size:15px}
+.burbuja.yo{align-self:flex-end;background:var(--negro);color:#fff}.burbuja.el{align-self:flex-start;background:var(--tarjeta);border:1px solid var(--linea)}
+.atajos{display:flex;gap:6px;overflow-x:auto;padding-bottom:8px;scrollbar-width:none}
+.atajos button{flex:0 0 auto;border:1px solid var(--linea);background:var(--tarjeta);border-radius:999px;padding:7px 11px;font-size:13px;font-weight:600;cursor:pointer}
+.escribir{display:flex;gap:8px}
+.escribir textarea{flex:1;border:1px solid var(--linea);border-radius:12px;padding:10px;resize:none;background:#fff;min-height:44px}
+.escribir button{border:0;border-radius:12px;background:var(--naranja);font-weight:800;padding:0 16px;cursor:pointer}
+.toast{position:fixed;left:50%;bottom:calc(140px + var(--safe-b));transform:translateX(-50%);background:var(--negro);color:#fff;padding:9px 14px;border-radius:999px;font-size:14px;z-index:9}
+</style>
+</head>
+<body>
+<div class="franja"></div>
+<header>
+  <div class="fila"><b id="quien">Calificar mensajes</b><span id="cuenta"></span></div>
+  <div class="barra"><i id="barra"></i></div>
+</header>
+<main>
+  <div id="vCarga" class="aviso"><h1>Cargando…</h1></div>
+  <div id="vError" class="aviso oculto"><h1>Este enlace no abre</h1><p id="errorTxt">Pide un enlace nuevo para calificar.</p></div>
+  <div id="vFin" class="aviso oculto"><h1>¡Listo! No queda ninguno</h1><p>Calificaste todo lo que había. Ya puedes cerrar esta página. Gracias.</p></div>
+  <div id="vTrabajo" class="oculto">
+    <span class="etapa" id="etapa"></span>
+    <div class="msj"><div class="de" id="de"></div><div class="hilo" id="hilo"></div><p class="principal" id="texto"></p></div>
+
+    <!-- Un mensaje -->
+    <div id="fMensaje">
+      <div class="paso"><h2>1 · ¿Cómo lo dice? <small>el tono, no lo que pide</small></h2><div class="ops tres" id="opsTono"></div>
+        <div class="sub oculto" id="subInt"><h3>¿Qué tan fuerte?</h3><div class="ops tres" id="opsInt"></div></div></div>
+      <div class="paso"><h2>2 · ¿Qué busca? <small>puede ser más de una</small></h2><div class="ops dos" id="opsQue"></div>
+        <div class="sub oculto" id="subFuerza"><h3>Compra: ¿qué tan cerca está?</h3><div class="ops tres" id="opsFuerza"></div></div>
+        <div class="sub oculto" id="subGrav"><h3>Queja: ¿qué tan grave?</h3><div class="ops tres" id="opsGrav"></div>
+          <div class="extras"><button class="chip" data-chip="riesgo">Hay peligro para alguien</button><button class="chip" data-chip="amenaza_publica">Amenaza con hacerlo público o legal</button></div></div></div>
+      <div class="paso"><h2>3 · ¿Opina de algo? <small>toca: a favor → en contra → nada</small></h2><div class="ops cuatro" id="opsDim"></div>
+        <div class="extras"><button class="chip" id="chipNoOpina">No opina de nada</button></div></div>
+      <div class="extras"><button class="chip" data-chip="ironia">Lo dice con ironía</button></div>
+    </div>
+
+    <!-- Todo lo que dijo una persona en el mes -->
+    <div id="fPersona" class="oculto">
+      <div class="paso"><h2>1 · ¿De qué opinó esta persona? <small>toca: a favor → en contra → las dos → nada</small></h2><div class="ops cuatro" id="opsDimP"></div>
+        <div class="extras"><button class="chip" id="chipNoOpinaP">No opinó de nada</button></div></div>
+      <div class="paso"><h2>2 · ¿Se quejó de algo?</h2><div class="ops tres" id="opsQuejaP"></div></div>
+      <div class="paso"><h2>3 · ¿Quiso comprar?</h2><div class="ops cuatro" id="opsCompraP"></div></div>
+      <div class="paso"><h2>4 · ¿Le resolvieron lo que necesitaba?</h2><div class="ops tres" id="opsResP"></div></div>
+    </div>
+
+    <div class="extras">
+      <button class="chip" id="chipDuda" aria-pressed="false">Tengo duda</button>
+      <button class="chip" id="chipDato">Tiene un nombre o un dato personal</button>
+    </div>
+    <p class="nota">Califica lo que dice el mensaje, no lo que crees que un sistema respondería. Nadie más ve tu respuesta mientras calificas.</p>
+    <details class="def"><summary>Ver las definiciones</summary><dl id="defs"></dl></details>
+  </div>
+</main>
+<div class="pie oculto" id="pie">
+  <button class="guardar" id="btnGuardar" disabled>Guardar y seguir</button>
+  <button class="atras" id="btnAtras" aria-label="Deshacer el anterior">↩ Anterior</button>
+  <button class="ayuda" id="btnAyuda">¿Dudas? Pregúntale al ayudante</button>
+</div>
+<div class="hoja oculto" id="hoja" role="dialog" aria-label="Ayudante">
+  <div class="caja">
+    <div class="cab"><b>Ayudante para calificar</b><button id="hojaCerrar" aria-label="Cerrar">×</button></div>
+    <div class="subt">No sabe qué leyó el sistema y no elige por ti: te explica en qué fijarte.</div>
+    <div class="chat" id="chat"></div>
+    <div class="atajos" id="atajos"></div>
+    <div class="escribir"><textarea id="pregunta" rows="1" maxlength="400" placeholder="Escribe tu duda…"></textarea><button id="btnPreguntar">Enviar</button></div>
+  </div>
+</div>
+<script>
+"use strict";
+const API = "https://jlyrymgbykhpktabvlkl.supabase.co/functions/v1/escucha-espectador";
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+function toast(t) { const d = document.createElement("div"); d.className = "toast"; d.textContent = t; document.body.appendChild(d); setTimeout(() => d.remove(), 2400); }
+function guardarLocal(k, v) { try { localStorage.setItem(k, v); } catch (e) { /* sin almacenamiento */ } }
+function leerLocal(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+
+// El enlace llega en #c=…; se guarda en el celular y se quita de la barra de direcciones.
+let TOKEN = (location.hash.match(/c=([a-f0-9]{32,64})/i) || [])[1] || leerLocal("cw-calificar");
+if (TOKEN) { guardarLocal("cw-calificar", TOKEN); if (location.hash) history.replaceState(null, "", location.pathname); }
+
+async function api(cuerpo) {
+  const r = await fetch(API, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ c: TOKEN, ...cuerpo }) });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw Object.assign(new Error(j.error || ("HTTP " + r.status)), { status: r.status });
+  return j;
+}
+
+let DEF = null, cola = [], actual = null, sel = {}, t0 = 0, pausa = 0, tPausa = 0, anterior = null, historial = [], guardando = false, hechos = 0, total = 0;
+const SIG = { favor: "＋ a favor", contra: "− en contra", ambas: "＋ y −" };
+
+function pintarProgreso() { $("#cuenta").textContent = `${hechos} de ${total}`; $("#barra").style.width = (total ? Math.round((hechos / total) * 100) : 0) + "%"; }
+function botones(dest, lista, campo, multi) {
+  $(dest).innerHTML = lista.map((o) => `<button class="op" data-campo="${campo}" data-valor="${esc(o.id)}"${multi ? ' data-multi="1"' : ""}>${esc(o.nombre)}<small>${esc(o.ayuda || "")}</small>${campo.startsWith("dim") ? '<span class="signo"></span>' : ""}</button>`).join("");
+}
+function nuevoSel() { return { tono: null, intensidad: 1, que: new Set(), nada: false, fuerza: null, gravedad: null, chips: new Set(), dims: {}, noOpina: false, duda: false, usoAyuda: false, quejaP: null, compraP: null, resP: null }; }
+function completo() {
+  if (!actual) return false;
+  if (actual.conjunto === "persona") return (sel.noOpina || Object.keys(sel.dims).length > 0) && sel.quejaP !== null && sel.compraP !== null && sel.resP !== null;
+  if (!sel.tono) return false;
+  if (!sel.nada && sel.que.size === 0) return false;
+  if (sel.que.has("compra") && !sel.fuerza) return false;
+  if (sel.que.has("queja") && !sel.gravedad) return false;
+  return sel.noOpina || Object.keys(sel.dims).length > 0;
+}
+function marcar() {
+  document.querySelectorAll(".op").forEach((b) => {
+    const c = b.dataset.campo, v = b.dataset.valor; let on = false;
+    if (c === "tono") on = sel.tono === v; else if (c === "int") on = String(sel.intensidad) === v; else if (c === "que") on = v === "nada" ? sel.nada : sel.que.has(v);
+    else if (c === "fuerza") on = String(sel.fuerza) === v; else if (c === "grav") on = sel.gravedad === v; else if (c === "quejaP") on = sel.quejaP === v; else if (c === "compraP") on = String(sel.compraP) === v; else if (c === "resP") on = sel.resP === v;
+    else if (c === "dim" || c === "dimP") { on = !!sel.dims[v]; const s = b.querySelector(".signo"); if (s) s.textContent = sel.dims[v] ? SIG[sel.dims[v]] : ""; }
+    b.classList.toggle("sel", on);
+  });
+  $("#subInt").classList.toggle("oculto", !sel.tono || sel.tono === "neutral");
+  $("#subFuerza").classList.toggle("oculto", !sel.que.has("compra")); $("#subGrav").classList.toggle("oculto", !sel.que.has("queja"));
+  document.querySelectorAll("[data-chip]").forEach((b) => b.classList.toggle("on", sel.chips.has(b.dataset.chip)));
+  $("#chipNoOpina").classList.toggle("on", sel.noOpina); $("#chipNoOpinaP").classList.toggle("on", sel.noOpina);
+  $("#chipDuda").classList.toggle("on", sel.duda); $("#chipDuda").setAttribute("aria-pressed", String(sel.duda));
+  $("#btnGuardar").disabled = !completo();
+}
+function mostrar() {
+  actual = cola.shift() || null; sel = nuevoSel(); historial = []; t0 = Date.now(); pausa = 0;
+  if (!actual) { $("#vTrabajo").classList.add("oculto"); $("#pie").classList.add("oculto"); $("#vFin").classList.remove("oculto"); return; }
+  const persona = actual.conjunto === "persona";
+  $("#etapa").textContent = actual.etapa; $("#btnAyuda").classList.toggle("oculto", actual.ayudante === false); $("#fMensaje").classList.toggle("oculto", persona); $("#fPersona").classList.toggle("oculto", !persona);
+  $("#de").textContent = persona ? `Todo lo que escribió una persona este mes · ${actual.canal} a ${actual.negocio}` : `${actual.canal} a ${actual.negocio}` + (actual.contexto.length ? " · arriba, lo anterior de la conversación" : "");
+  $("#hilo").className = "hilo" + (persona ? " grande" : "");
+  $("#hilo").innerHTML = (actual.contexto || []).map((m) => `<div class="${m.de === "empresa" ? "emp" : "cli"}">${m.cuando ? `<small>${esc(m.cuando)}</small>` : ""}${esc(m.texto)}</div>`).join("");
+  $("#texto").textContent = persona ? "" : actual.texto; $("#texto").classList.toggle("oculto", persona);
+  marcar(); window.scrollTo({ top: 0 });
+}
+async function traer() {
+  const r = await api({ accion: "siguiente", n: 8 });
+  const ya = new Set([...(actual ? [actual.id] : []), ...cola.map((m) => m.id)]);
+  cola.push(...(r.items || []).filter((m) => !ya.has(m.id)));
+}
+function etiquetas() {
+  if (actual.conjunto === "persona") return { dimensiones: sel.dims, queja: sel.quejaP !== "no", grave: sel.quejaP === "grave", compra: Number(sel.compraP), duda: false, resuelto: sel.resP };
+  return { tono: sel.tono, intensidad: sel.tono === "neutral" ? 0 : sel.intensidad, compra: sel.que.has("compra"), duda: sel.que.has("duda"), queja: sel.que.has("queja"), fuerza_compra: sel.que.has("compra") ? Number(sel.fuerza) : 0,
+    gravedad: sel.que.has("queja") ? sel.gravedad : "ninguna", riesgo: sel.que.has("queja") && sel.chips.has("riesgo"), amenaza_publica: sel.que.has("queja") && sel.chips.has("amenaza_publica"), ironia: sel.chips.has("ironia"),
+    aspectos: Object.entries(sel.dims).map(([dimension, signo]) => ({ dimension, signo })) };
+}
+async function guardar() {
+  if (guardando || !actual || !completo()) return; guardando = true; $("#btnGuardar").disabled = true;
+  const m = actual;
+  try {
+    // El cronómetro: del momento en que se muestra al momento de guardar, sin contar el rato con la página oculta.
+    const r = await api({ accion: "calificar", id: m.id, tipo: m.conjunto, etiquetas: etiquetas(), duda: sel.duda, uso_ayuda: sel.usoAyuda, ms: Math.max(0, Date.now() - t0 - pausa) });
+    hechos = r.progreso.hechos; total = r.progreso.total; pintarProgreso(); anterior = m;
+    if (cola.length < 3) await traer().catch(() => {});
+    mostrar();
+  } catch (e) { toast("No se guardó: " + e.message); }
+  guardando = false; marcar();
+}
+document.addEventListener("visibilitychange", () => { if (document.hidden) tPausa = Date.now(); else if (tPausa) { pausa += Date.now() - tPausa; tPausa = 0; } });
+document.addEventListener("click", (e) => {
+  const b = e.target.closest(".op");
+  if (b) {
+    const c = b.dataset.campo, v = b.dataset.valor;
+    if (c === "tono") sel.tono = v; else if (c === "int") sel.intensidad = Number(v);
+    else if (c === "que") { if (v === "nada") { sel.nada = !sel.nada; if (sel.nada) sel.que.clear(); } else { sel.nada = false; sel.que.has(v) ? sel.que.delete(v) : sel.que.add(v); } if (!sel.que.has("queja")) { sel.chips.delete("riesgo"); sel.chips.delete("amenaza_publica"); } }
+    else if (c === "fuerza") sel.fuerza = Number(v); else if (c === "grav") sel.gravedad = v; else if (c === "quejaP") sel.quejaP = v; else if (c === "compraP") sel.compraP = Number(v); else if (c === "resP") sel.resP = v;
+    else if (c === "dim") { sel.noOpina = false; const a = sel.dims[v]; if (!a) sel.dims[v] = "favor"; else if (a === "favor") sel.dims[v] = "contra"; else delete sel.dims[v]; }
+    else if (c === "dimP") { sel.noOpina = false; const a = sel.dims[v]; if (!a) sel.dims[v] = "favor"; else if (a === "favor") sel.dims[v] = "contra"; else if (a === "contra") sel.dims[v] = "ambas"; else delete sel.dims[v]; }
+    marcar(); return;
+  }
+  const ch = e.target.closest("[data-chip]"); if (ch) { const k = ch.dataset.chip; sel.chips.has(k) ? sel.chips.delete(k) : sel.chips.add(k); marcar(); }
+});
+for (const id of ["#chipNoOpina", "#chipNoOpinaP"]) $(id).addEventListener("click", () => { sel.noOpina = !sel.noOpina; if (sel.noOpina) sel.dims = {}; marcar(); });
+$("#chipDuda").addEventListener("click", () => { sel.duda = !sel.duda; marcar(); });
+$("#btnGuardar").addEventListener("click", guardar);
+$("#chipDato").addEventListener("click", async () => {
+  if (!actual || !confirm("¿Tiene un nombre o un dato personal? Se retira de la muestra para todos.")) return;
+  try { await api({ accion: "dato_personal", id: actual.id }); if (!cola.length) await traer(); mostrar(); toast("Retirado. Gracias."); } catch (e) { toast("No se pudo: " + e.message); }
+});
+$("#btnAtras").addEventListener("click", async () => {
+  if (!anterior) { toast("No hay uno anterior en esta sesión"); return; }
+  try { await api({ accion: "deshacer", id: anterior.id }); hechos = Math.max(0, hechos - 1); pintarProgreso(); if (actual) cola.unshift(actual); cola.unshift(anterior); anterior = null; mostrar(); } catch (e) { toast("No se pudo: " + e.message); }
+});
+
+// ---------- Ayudante: explica en qué fijarse, no elige ----------
+function burbuja(de, t) { const d = document.createElement("div"); d.className = "burbuja " + (de === "yo" ? "yo" : "el"); d.textContent = t; $("#chat").appendChild(d); $("#chat").scrollTop = 1e6; return d; }
+async function preguntar(texto) {
+  const p = (texto || $("#pregunta").value).trim(); if (!p || !actual) return;
+  $("#pregunta").value = ""; burbuja("yo", p); const espera = burbuja("el", "…"); sel.usoAyuda = true;
+  try { const r = await api({ accion: "ayuda", id: actual.id, pregunta: p, historial }); espera.textContent = r.texto; historial.push({ de: "yo", texto: p }, { de: "agente", texto: r.texto }); }
+  catch (e) { espera.textContent = "No pude responder ahora. Si sigues con la duda, marca «Tengo duda» y elige lo más cercano."; }
+}
+$("#btnAyuda").addEventListener("click", () => {
+  $("#hoja").classList.remove("oculto"); $("#chat").innerHTML = "";
+  burbuja("el", "Cuéntame qué te hace dudar. Te digo en qué fijarte para cada opción; la decisión es tuya.");
+  for (const h of historial) burbuja(h.de === "yo" ? "yo" : "el", h.texto);
+  $("#pregunta").focus();
+});
+$("#hojaCerrar").addEventListener("click", () => $("#hoja").classList.add("oculto"));
+$("#hoja").addEventListener("click", (e) => { if (e.target === $("#hoja")) $("#hoja").classList.add("oculto"); });
+$("#btnPreguntar").addEventListener("click", () => preguntar());
+$("#pregunta").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); preguntar(); } });
+$("#atajos").innerHTML = ["¿Tono o intención?", "¿Es duda o es queja?", "¿Esto cuenta como opinión?", "¿Cuándo una queja es grave?", "No se entiende"].map((t) => `<button>${esc(t)}</button>`).join("");
+$("#atajos").addEventListener("click", (e) => { const b = e.target.closest("button"); if (b) preguntar(b.textContent); });
+
+(async () => {
+  if (!TOKEN) { $("#vCarga").classList.add("oculto"); $("#vError").classList.remove("oculto"); $("#errorTxt").textContent = "Abre esta página desde tu enlace para calificar."; return; }
+  try {
+    const i = await api({ accion: "inicio" });
+    DEF = i.definiciones; $("#quien").textContent = "Hola, " + i.nombre; hechos = i.progreso.hechos; total = i.progreso.total; pintarProgreso();
+    botones("#opsTono", DEF.tono, "tono");
+    botones("#opsInt", [{ id: 1, nombre: "Leve" }, { id: 2, nombre: "Marcada" }, { id: 3, nombre: "Muy fuerte", ayuda: "Mayúsculas, insultos, ultimátum" }], "int");
+    botones("#opsQue", [...DEF.intencion, { id: "nada", nombre: "Nada de eso", ayuda: "Saludo, «ok», «gracias», un elogio sin más" }], "que", true);
+    botones("#opsFuerza", DEF.fuerza, "fuerza"); botones("#opsGrav", DEF.gravedad, "grav");
+    botones("#opsDim", DEF.dimensiones, "dim"); botones("#opsDimP", DEF.dimensiones, "dimP");
+    botones("#opsQuejaP", [{ id: "no", nombre: "No" }, { id: "si", nombre: "Sí" }, { id: "grave", nombre: "Sí, grave", ayuda: "Peligro, dinero perdido, amenaza" }], "quejaP");
+    botones("#opsCompraP", [{ id: 0, nombre: "No" }, ...DEF.fuerza], "compraP");
+    botones("#opsResP", [{ id: "si", nombre: "Sí" }, { id: "no", nombre: "No" }, { id: "no_aplica", nombre: "No se sabe" }], "resP");
+    $("#defs").innerHTML = [["Tono", DEF.tono], ["Qué busca", DEF.intencion], ["Compra", DEF.fuerza], ["Gravedad", DEF.gravedad], ["De qué opina", DEF.dimensiones]].map(([t, l]) => `<dt>${esc(t)}</dt>` + l.map((d) => `<dd><b>${esc(d.nombre)}:</b> ${esc(d.ayuda)}</dd>`).join("")).join("") +
+      "<dt>Reglas</dt>" + DEF.reglas.map((r) => `<dd>· ${esc(r)}</dd>`).join("");
+    await traer();
+    $("#vCarga").classList.add("oculto"); $("#vTrabajo").classList.remove("oculto"); $("#pie").classList.remove("oculto");
+    mostrar();
+  } catch (e) {
+    $("#vCarga").classList.add("oculto"); $("#vError").classList.remove("oculto");
+    $("#errorTxt").textContent = e.status === 404 ? "Este enlace para calificar no es válido o ya venció. Pide uno nuevo." : "No se pudo cargar: " + e.message;
+  }
+})();
+</script>
+</body>
+</html>
