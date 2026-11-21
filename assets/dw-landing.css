@@ -24,7 +24,7 @@ h1,h2,h3{font-family:var(--f-d);font-weight:800;letter-spacing:.005em;line-heigh
 .btn.fantasma{border-color:var(--linea)}
 .btn[disabled]{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
 .pill{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;font:500 11.5px/1 var(--f-m);letter-spacing:.08em;text-transform:uppercase;background:var(--papel);border:1px solid var(--linea);white-space:nowrap}
-.pill.ok{background:#E6F4F2;border-color:#BFE1DC;color:var(--verde-o)}.pill.pend{background:#FFF4E0;border-color:#F8D58C;color:#8A5A00}.pill.mal{background:#FDE8EA;border-color:#F5B8BF;color:#A3121F}.pill.osc{background:var(--negro);color:#fff;border-color:var(--negro)}
+.pill.ok{background:#E6F4F2;border-color:#BFE1DC;color:#236B62}.pill.pend{background:#FFF4E0;border-color:#F8D58C;color:#8A5A00}.pill.mal{background:#FDE8EA;border-color:#F5B8BF;color:#A3121F}.pill.osc{background:var(--negro);color:#fff;border-color:var(--negro)}
 .tarjeta{background:#fff;border:1px solid var(--linea);border-radius:var(--r);padding:22px;box-shadow:var(--sombra)}
 .ayuda{color:var(--gris);font-size:14px}
 .entra{animation:entra .45s cubic-bezier(.2,.7,.2,1) both}

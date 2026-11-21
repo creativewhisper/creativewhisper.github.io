@@ -134,7 +134,7 @@ const T = {
   ag: { titulo: "Help with the API", boton: "API questions?", saludo: "Hi. I can help you connect your AI to your account or use the API. Never paste keys here.", sug: ["How do I connect Claude?", "What permissions are there?", "Who can use the API?"], clave: "For your security I did not send what you pasted: it looks like a key. Revoke it in your account, under AI connections, and create another." } },
 };
 const L = () => T[CWIdioma.idioma === "en" ? "en" : "es"];
-const bloque = (codigo) => `<pre><button class="copiar" type="button" data-copiar>${esc(L().copiar)}</button><code>${codigo}</code></pre>`;
+const bloque = (codigo) => `<pre tabindex="0"><button class="copiar" type="button" data-copiar>${esc(L().copiar)}</button><code>${codigo}</code></pre>`;
 function pintar() {
   const l = L(), mcp = API_IA + "/mcp", k = l.tuClave;
   document.documentElement.lang = CWIdioma.idioma === "en" ? "en" : "es"; document.title = (CWIdioma.idioma === "en" ? "API for your AI · Digital Whisper" : "API para tu IA · Digital Whisper") + " · Creative Whisper";
@@ -148,9 +148,9 @@ function pintar() {
     <div class="dos"><div><h3>${esc(l.claude)}</h3><ol>${l.claudeP.map((x) => `<li>${x}</li>`).join("")}</ol></div><div><h3>${esc(l.gpt)}</h3><ol>${l.gptP.map((x) => `<li>${x}</li>`).join("")}</ol></div></div>
     <div class="nota av">${esc(l.notaMenus)}</div>
     <h3>${esc(l.otros)}</h3><p>${esc(l.otrosTx)}</p>${bloque(`<span class="c"># ${CWIdioma.idioma === "en" ? "discovery" : "descubrimiento"}</span>\nGET ${esc(API_IA)}/.well-known/oauth-protected-resource\nGET ${esc(API_IA)}/.well-known/oauth-authorization-server\n<span class="c"># MCP</span>\nPOST ${esc(mcp)}`)}</section>
-  <section id="permisos"><h2>${esc(l.permisos)}</h2><p>${esc(l.permisosTx)}</p><div class="desliza"><table class="tabla"><tr><th>${esc(l.pNombre)}</th><th>${esc(l.pQue)}</th></tr>
+  <section id="permisos"><h2>${esc(l.permisos)}</h2><p>${esc(l.permisosTx)}</p><div class="desliza" tabindex="0"><table class="tabla"><tr><th>${esc(l.pNombre)}</th><th>${esc(l.pQue)}</th></tr>
     ${PERMISOS.map(([p, c]) => `<tr><td><code>${p}</code>${c ? `<span class="e">${esc(l.cambia)}</span>` : ""}</td><td>${esc(l.p[p])}</td></tr>`).join("")}</table></div></section>
-  <section id="herramientas"><h2>${esc(l.herr)}</h2><p>${esc(l.herrTx)}</p><div class="desliza"><table class="tabla"><tr><th>${esc(l.hNombre)}</th><th>${esc(l.hPerm)}</th></tr>
+  <section id="herramientas"><h2>${esc(l.herr)}</h2><p>${esc(l.herrTx)}</p><div class="desliza" tabindex="0"><table class="tabla"><tr><th>${esc(l.hNombre)}</th><th>${esc(l.hPerm)}</th></tr>
     ${HERR.map(([h, p]) => `<tr><td><code>${h}</code></td><td>${p === "—" ? "—" : `<code>${p}</code>`}</td></tr>`).join("")}</table></div></section>
   <section id="canales"><h2>${esc(l.can)}</h2><p>${l.canTx}</p><ol>${l.canP.map((x) => `<li>${x}</li>`).join("")}</ol><div class="nota av">${l.canNota}</div></section>
   <section id="rest"><h2>${esc(l.rest)}</h2><p>${l.restTx}</p>
@@ -161,7 +161,7 @@ function pintar() {
     <h3>${esc(l.r5)}</h3>${bloque(`curl -X POST ${esc(API_IA)}/v1/canales_enlace_seguro \\\n  -H <span class="k">"Authorization: Bearer ${k}"</span> \\\n  -H "Content-Type: application/json" \\\n  -d '{"canal": "meta"}'`)}
     <div class="nota av">${esc(l.nunca)}</div></section>
   <section id="seguridad"><h2>${esc(l.seg)}</h2><ul>${l.segL.map((x) => `<li>${x}</li>`).join("")}</ul>
-    <h3>${esc(l.err)}</h3><div class="desliza"><table class="tabla"><tr><th>${esc(l.eCod)}</th><th>${esc(l.eQue)}</th></tr>${l.e.map(([c, q]) => `<tr><td><code>${c}</code></td><td>${q}</td></tr>`).join("")}</table></div></section>
+    <h3>${esc(l.err)}</h3><div class="desliza" tabindex="0"><table class="tabla"><tr><th>${esc(l.eCod)}</th><th>${esc(l.eQue)}</th></tr>${l.e.map(([c, q]) => `<tr><td><code>${c}</code></td><td>${q}</td></tr>`).join("")}</table></div></section>
   </main><footer>${esc(l.pie)}</footer>`;
 }
 document.addEventListener("click", async (e) => { const b = e.target.closest("[data-copiar]"); if (!b) return; const t = b.parentElement.querySelector("code").innerText; try { await navigator.clipboard.writeText(t); } catch (x) { /* se copia a mano */ } b.textContent = L().copiado; });

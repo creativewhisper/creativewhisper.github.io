@@ -7,7 +7,7 @@
      filtro(texto)     si devuelve un texto, el mensaje NO se envía ni se guarda y se muestra ese aviso (para claves pegadas por error).
      voz: { pedir }    agrega «Hablar con el agente»: pide el micrófono con un aviso claro, conversa por voz (ElevenLabs) y, si se
                        niega el permiso o la voz no está disponible, sigue por escrito. pedir() devuelve { token | signed_url, instrucciones, saludo, idioma } o { error }.
-   Devuelve { abrir, preguntar, decir(texto), cerrar }. */
+   Devuelve { abrir, preguntar, decir(texto), cerrar, quitar }. */
 (function () {
   "use strict";
   window.AgenteEscucha = function (o) {
@@ -107,6 +107,8 @@
     if (FIJO) { window.addEventListener("resize", lado); if (ancho() && guarda.get() !== "si") abrir(true, true); }
     f.onsubmit = function (ev) { ev.preventDefault(); var v = i.value; i.value = ""; enviar(v); };
     document.addEventListener("keydown", function (ev) { if (ev.key === "Escape" && abierto && !(FIJO && ancho())) abrir(false); });
-    return { abrir: function () { abrir(true); }, cerrar: function () { abrir(false); }, preguntar: function (q) { abrir(true); enviar(q); }, decir: function (t) { if (!m.childNodes.length) { burbuja("el", o.saludo || L.saludo); } burbuja("el", String(t)); }, hablar: hablar };
+    return { abrir: function () { abrir(true); }, cerrar: function () { abrir(false); }, preguntar: function (q) { abrir(true); enviar(q); }, decir: function (t) { if (!m.childNodes.length) { burbuja("el", o.saludo || L.saludo); } burbuja("el", String(t)); }, hablar: hablar,
+      // quitar(): retira este agente de la página (para cambiarlo por otro, por ejemplo al entrar a la cuenta).
+      quitar: function () { try { abrir(false); } catch (e) {} b.remove(); p.remove(); css.remove(); } };
   };
 })();

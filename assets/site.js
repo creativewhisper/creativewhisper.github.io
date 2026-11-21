@@ -57,7 +57,8 @@ window.cwSite = function ({ end = '#contacto', autoplay = true, speed = .6, init
   });
 
   // letras sueltas de la palabra grande de la portada y del cierre
-  $$('.js-letters').forEach(el => { el.setAttribute('aria-label', el.textContent.trim()); el.innerHTML = [...el.textContent.trim()].map(c => `<span aria-hidden="true">${c === ' ' ? '&nbsp;' : c}</span>`).join(''); });
+  // La palabra completa queda para los lectores de pantalla en un texto oculto a la vista (un aria-label en un <p> no es válido).
+  $$('.js-letters').forEach(el => { const tx = el.textContent.trim(), sr = document.createElement('b'); sr.textContent = tx; sr.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;font-weight:inherit'; el.innerHTML = [...tx].map(c => `<span aria-hidden="true">${c === ' ' ? '&nbsp;' : c}</span>`).join(''); el.prepend(sr); });
 
   const k = { $, $$, pad, root, vw, vh, cssVar, reduce, finePointer, lenis: null, gsap: window.gsap, ScrollTrigger: window.ScrollTrigger, static: false };
 

@@ -6,7 +6,8 @@
   CWIdioma.registrar({
     exactos: {
       // Marco
-      "Mi cuenta": "My account", "Mejorar plan": "Upgrade", "Elegir un plan": "Choose a plan", "Salir": "Sign out", "Cambiar de cuenta": "Switch account",
+      "Mi cuenta": "My account", "Termina tu alta": "Finish your setup", "Ir a mi alta": "Go to my setup", "Foto de la web": "Website photo", "El alta la termina la persona dueña de la cuenta, entrando con su correo.": "Setup is finished by the account owner, signing in with their email.", "Son unos 10 minutos: los datos de tu negocio y las condiciones del servicio. Hasta entonces tu asistente no empieza.": "It takes about 10 minutes: your business details and the service terms. Until then your assistant does not start.",
+      "¿Dudas? Pregúntame": "Questions? Ask me", "Hola. Si no te llega el código o todavía no tienes cuenta, te ayudo.": "Hi. If your code does not arrive or you do not have an account yet, I can help.", "No me llega el código": "My code does not arrive", "¿Cómo pido la prueba gratuita?": "How do I request the free trial?", "Elegir fotos o videos": "Choose photos or videos", "Mejorar plan": "Upgrade", "Elegir un plan": "Choose a plan", "Salir": "Sign out", "Cambiar de cuenta": "Switch account",
       "Historias diarias": "Daily stories", "Reels con voz": "Reels with voice-over",
       "Inicio": "Home", "Conversaciones": "Conversations", "Contenido": "Content", "Conexiones": "Connections", "Archivos": "Files", "Plan y consumo": "Plan & usage", "Ajustes": "Settings", "Conexiones de IA": "AI connections", "¿Cómo conecto mi IA?": "How do I connect my AI?",
       "Por seguridad no envié lo que pegaste: parece una clave de la API. Revócala en Conexiones de IA y crea otra; las claves nunca se comparten en un chat.": "For your security I did not send what you pasted: it looks like an API key. Revoke it under AI connections and create a new one; keys are never shared in a chat.",

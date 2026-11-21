@@ -40,7 +40,10 @@ const diaQ = (iso) => new Date(new Date(iso).getTime() - Q).toISOString().slice(
 const horaQ = (iso) => new Date(new Date(iso).getTime() - Q).toISOString().slice(11, 16);
 const DIAS = () => t(["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"], ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]);
 const diaCorto = (f) => { const d = new Date(f + "T12:00:00Z"); return `${DIAS()[(d.getUTCDay() + 6) % 7]} ${d.getUTCDate()}`; };
-const rango = (lote) => { const a = new Date(lote + "T12:00:00Z"), b = new Date(a.getTime() + 6 * 864e5), m = b.toLocaleDateString(EN() ? "en-US" : "es-EC", { month: "long", timeZone: "UTC" }); return t(`Semana del ${a.getUTCDate()} al ${b.getUTCDate()} de ${m}`, `Week of ${a.getUTCDate()}–${b.getUTCDate()} ${m}`); };
+const rango = (lote) => { const a = new Date(lote + "T12:00:00Z"), b = new Date(a.getTime() + 6 * 864e5), mes = (d) => d.toLocaleDateString(EN() ? "en-US" : "es-EC", { month: "long", timeZone: "UTC" }), m = mes(b);
+  // Una semana que cruza de mes nombra los dos («del 30 de noviembre al 6 de diciembre»).
+  if (a.getUTCMonth() !== b.getUTCMonth()) return t(`Semana del ${a.getUTCDate()} de ${mes(a)} al ${b.getUTCDate()} de ${m}`, `Week of ${a.getUTCDate()} ${mes(a)} – ${b.getUTCDate()} ${m}`);
+  return t(`Semana del ${a.getUTCDate()} al ${b.getUTCDate()} de ${m}`, `Week of ${a.getUTCDate()}–${b.getUTCDate()} ${m}`); };
 function pintarMedidor() { let m = $("#medidor"); if (!/[?&]medir=1/.test(location.search)) return; if (!m) { m = document.createElement("div"); m.id = "medidor"; m.style.cssText = "position:fixed;left:8px;bottom:8px;z-index:95;background:#0A0908;color:#FFD7BD;font:500 11px/1.4 ui-monospace,monospace;padding:6px 10px;border-radius:10px;max-width:70vw"; document.body.appendChild(m); }
   m.textContent = `${MED.clics} toques · ${MED.campos} campos · ${MED.inicio ? Math.round((Date.now() - MED.inicio) / 1000) : 0} s` + Object.entries(MED.hitos).map(([k, v]) => ` · ${k}: ${v.seg}s/${v.clics}t`).join(""); }
 
@@ -63,12 +66,17 @@ const clase = (p) => (OKP(p) ? "ok" : p.estado === "ajuste" ? "aj" : p.estado ==
 const NAV = () => [["inicio", "🏠", t("Inicio", "Home")], ["aprobar", "✅", t("Aprobar", "Approve")], ["semana", "🗓️", t("Tu semana", "Your week")], ["marca", "🎨", t("Tu marca", "Your brand")], ["canales", "🔌", t("Canales", "Channels")], ["flujo", "📋", t("Trae tu flujo", "Bring your workflow")], ["estado", "📡", t("Estado", "Status")]];
 function marco(v, cu) {
   const n = (D.posts || []).filter(PEND).length, c = D.inicio?.cuenta || {};
-  return `<div class="app"><aside class="lado"><div class="marca"><i>${esc((c.nombre || "·").slice(0, 1).toUpperCase())}</i><div><b>${esc(c.nombre || "")}</b><div class="mono" style="font-size:10px">${esc(D.inicio?.plan?.nombre || D.inicio?.plan_etiqueta || "")}</div></div></div>
+  return `<div class="app"><aside class="lado"><div class="marca"><i>${esc((c.nombre || "·").slice(0, 1).toUpperCase())}</i><div><b>${esc(c.nombre || "")}</b><div class="mono" style="font-size:10px">${esc(planNombre())}</div></div></div>
     ${NAV().map((x) => `<a href="#/${x[0]}" class="${v === x[0] ? "on" : ""}"><span>${x[1]}</span>${x[2]}${x[0] === "aprobar" && n ? `<span class="cnt">${n}</span>` : ""}</a>`).join("")}
     <div class="abajo"><span class="pill ok">✓ ${t("Nada sale sin tu aprobación", "Nothing goes out unapproved")}</span><span class="pill">🔒 ${t("Claves cifradas", "Encrypted keys")}</span></div></aside>
     <main class="cont" id="cont">${cu}</main>
     <nav class="movil-nav">${NAV().slice(0, 5).map((x) => `<a href="#/${x[0]}" class="${v === x[0] ? "on" : ""}"><em>${x[1]}</em>${x[2]}</a>`).join("")}</nav></div>`;
 }
+const enPrueba = () => !!(D.inicio?.plan?.gratis && D.inicio?.plan?.prueba_hasta && !D.inicio?.plan?.prueba_vencida);
+const planNombre = () => (enPrueba() ? t("Prueba gratuita", "Free trial") : D.inicio?.plan?.nombre || D.inicio?.plan_etiqueta || "");
+// Un plan sin contenido semanal (la prueba gratuita): en vez de ofrecer ritmos de «0 publicaciones», se explica qué incluye.
+const sinSemana = () => { const mx = D.semana?.max || {}; return !!D.semana && !(mx.posts_semana > 0) && !(mx.historias_dia > 0) && !(mx.reels_semana > 0); };
+const avisoSinSemana = () => `<div class="aviso" role="note"><b>${enPrueba() ? t("Tu prueba incluye una muestra de 3 publicaciones.", "Your trial includes a sample of 3 posts.") : t("Tu plan no incluye contenido semanal.", "Your plan does not include weekly content.")}</b> ${t("Con un plan eliges cuántas publicaciones e historias quieres cada semana.", "With a plan you choose how many posts and stories you want each week.")} <a href="../cuenta/#plan">${t("Ver planes", "See plans")}</a></div>`;
 const cargandoV = (v) => marco(v, `<div class="vacio"><span class="cargando"></span>${t("Cargando…", "Loading…")}</div>`);
 const fallo = (v, x) => marco(v, `<div class="aviso mal" role="alert">${esc(x.message)}</div><button class="btn" type="button" onclick="location.reload()">${t("Reintentar", "Try again")}</button>`);
 
@@ -123,7 +131,8 @@ function vArranque(n) {
     if (!ok) sig = t("Lo hago después", "I'll do it later");
   } else {
     const mx = D.semana?.max || {}, o = [["recomendada", t("Recomendada", "Recommended"), t(`${Math.min(7, mx.posts_semana ?? 7)} publicaciones y ${Math.min(1, mx.historias_dia ?? 1)} historia al día.`, `${Math.min(7, mx.posts_semana ?? 7)} posts and ${Math.min(1, mx.historias_dia ?? 1)} story a day.`)], ["intensa", t("Lo máximo de mi plan", "My plan's maximum"), t(`${mx.posts_semana ?? "—"} publicaciones y hasta ${mx.historias_finde ?? mx.historias_dia ?? "—"} historias el fin de semana.`, `${mx.posts_semana ?? "—"} posts and up to ${mx.historias_finde ?? mx.historias_dia ?? "—"} stories at weekends.`)], ["mia", t("Traer mi rutina", "Bring my routine"), t("Pega cómo publicas hoy y la armamos igual.", "Paste how you publish today and we set it up the same.")]];
-    cu = `<span class="mono">${t("Paso 6 de 6", "Step 6 of 6")}</span><h1>${t("Tu semana y cómo apruebas", "Your week and how you approve")}</h1><p class="lede">${t("Elige un ritmo. Cada semana armamos tus piezas; tienes hasta el domingo a las 22:00 para aprobar y te avisamos 3 horas antes.", "Pick a rhythm. Every week we prepare your pieces; you have until Sunday 10 pm to approve and we remind you 3 hours before.")}</p>
+    if (sinSemana()) cu = `<span class="mono">${t("Paso 6 de 6", "Step 6 of 6")}</span><h1>${t("Tu semana y cómo apruebas", "Your week and how you approve")}</h1><p class="lede">${t("Cada pieza espera tu aprobación: nada se publica sin que la apruebes.", "Every piece waits for your approval: nothing is published until you approve it.")}</p>${avisoSinSemana()}`;
+    else cu = `<span class="mono">${t("Paso 6 de 6", "Step 6 of 6")}</span><h1>${t("Tu semana y cómo apruebas", "Your week and how you approve")}</h1><p class="lede">${t("Elige un ritmo. Cada semana armamos tus piezas; tienes hasta el domingo a las 22:00 para aprobar y te avisamos 3 horas antes.", "Pick a rhythm. Every week we prepare your pieces; you have until Sunday 10 pm to approve and we remind you 3 hours before.")}</p>
       <div class="opc">${o.map((x) => `<button type="button" data-sem="${x[0]}" class="${arrTmp.sem === x[0] ? "on" : ""}" aria-pressed="${arrTmp.sem === x[0]}"><b>${x[1]}</b><span>${x[2]}</span></button>`).join("")}</div>
       <div class="tarjeta" style="margin-top:14px"><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer"><input type="checkbox" id="aRes6" ${arrTmp.reservas ? "checked" : ""} style="margin-top:4px;width:20px;height:20px"> <span><b>${t("Usar reservas", "Use backups")}</b><br><span class="ayuda">${t("Si un domingo no alcanzas a aprobar, sale una publicación de reserva por día a las 19:00. Las reservas las eliges tú, una por una. Si no marcas esto, lo que no apruebes simplemente no se publica.", "If you miss a Sunday, one backup post goes out per day at 7 pm. You choose the backups, one by one. If you leave this off, what you do not approve is simply not published.")}</span></span></label></div><div id="mMsg"></div>`;
     sig = t("Entrar a mi panel", "Go to my dashboard");
@@ -218,7 +227,7 @@ function vSemana() {
   const horas = (k, todas) => `<div class="chips">${[...new Set([...todas, ...s[k]])].sort().map((h) => `<button type="button" data-hora="${k}" data-h="${h}" class="${s[k].includes(h) ? "on" : ""}" aria-pressed="${s[k].includes(h)}" ${ed}>${h}</button>`).join("")}</div>`;
   const num = (k, et, max, nota) => `<div class="grupo"><label for="n-${k}">${et} <span class="mono">${t("máx.", "max")} ${max}</span></label><div style="display:flex;gap:10px;align-items:center"><input id="n-${k}" type="range" min="0" max="${max}" value="${Math.min(s[k], max)}" data-num="${k}" style="flex:1" ${ed} ${max ? "" : "disabled"}><b style="font:800 30px/1 var(--f-d);min-width:38px;text-align:right" id="v-${k}">${Math.min(s[k], max)}</b></div>${nota ? `<span class="ayuda">${nota}</span>` : ""}</div>`;
   const DS = t(["domingo", "lunes", "martes", "miércoles", "jueves", "viernes", "sábado"], ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]);
-  return marco("semana", `<div class="cab"><div><span class="mono">${t(`Se arma cada ${DS[D.semana.tanda.dia]} a las ${String(D.semana.tanda.hora).padStart(2, "0")}:00`, `Prepared every ${DS[D.semana.tanda.dia]} at ${String(D.semana.tanda.hora).padStart(2, "0")}:00`)}</span><h1>${t("Tu semana", "Your week")}</h1></div><div class="der"><a class="btn" href="#/flujo">${t("Traer mi rutina actual", "Bring my current routine")}</a>${ed ? "" : `<button class="btn pri" type="button" id="semGuardar">${t("Guardar", "Save")}</button>`}</div></div>
+  return marco("semana", `<div class="cab"><div><span class="mono">${t(`Se arma cada ${DS[D.semana.tanda.dia]} a las ${String(D.semana.tanda.hora).padStart(2, "0")}:00`, `Prepared every ${DS[D.semana.tanda.dia]} at ${String(D.semana.tanda.hora).padStart(2, "0")}:00`)}</span><h1>${t("Tu semana", "Your week")}</h1></div><div class="der"><a class="btn" href="#/flujo">${t("Traer mi rutina actual", "Bring my current routine")}</a>${ed ? "" : `<button class="btn pri" type="button" id="semGuardar">${t("Guardar", "Save")}</button>`}</div></div>${sinSemana() ? avisoSinSemana() : ""}
     ${ed ? `<div class="aviso info">${t("Tu acceso es de solo lectura: puedes ver, pero no cambiar.", "Your access is read-only: you can see but not change.")}</div>` : ""}<div id="semMsg"></div>
     <div class="cont2"><div style="display:grid;gap:14px">
       <div class="tarjeta"><h3 style="font-size:24px">${t("Cuánto", "How much")}</h3>${num("posts", t("Publicaciones por semana", "Posts per week"), mx.posts_semana ?? 0, "")}${num("hd", t("Historias al día (lunes a jueves)", "Stories a day (Mon–Thu)"), mx.historias_dia ?? 0, "")}${num("hf", t("Historias al día (viernes a domingo)", "Stories a day (Fri–Sun)"), mx.historias_finde ?? mx.historias_dia ?? 0, (mx.historias_finde ?? 0) > (mx.historias_dia ?? 0) ? t(`Tu plan permite hasta ${mx.historias_finde} el fin de semana.`, `Your plan allows up to ${mx.historias_finde} at weekends.`) : "")}${num("reels", t("Reels con voz por semana", "Voice reels per week"), mx.reels_semana ?? 0, (mx.reels_semana ?? 0) ? "" : t("Los reels con voz vienen en los planes mayores.", "Voice reels come with the larger plans."))}</div>
@@ -347,10 +356,21 @@ function vEstado() {
 }
 
 // ============================== Enrutador ==============================
+const vEntrar = () => `<div class="vacio" style="margin:60px auto;max-width:520px"><h1 style="font-size:40px;color:var(--negro)">${t("Entra a tu cuenta", "Sign in to your account")}</h1><p>${t("Para ver tu panel entra con tu correo. Te traemos de vuelta aquí.", "To see your dashboard, sign in with your email. We bring you back here.")}</p><a class="btn pri" href="../cuenta/?volver=panel">${t("Entrar", "Sign in")}</a></div>`;
+// Fase 11.1 · Una cuenta que todavía no terminó su alta (datos del negocio y condiciones) no puede armar piezas ni leer su web
+// desde aquí: en vez de dejarla chocar en el paso 1, se le dice qué falta y se la lleva.
+const vAlta = () => `<div class="vacio" style="margin:60px auto;max-width:560px"><span class="mono">${t("Antes de empezar", "Before you start")}</span><h1 style="font-size:40px;color:var(--negro);margin-top:8px">${t("Termina tu alta", "Finish your setup")}</h1><p>${t("Son unos 10 minutos: los datos de tu negocio y las condiciones del servicio. Después armamos tus primeras piezas aquí.", "It takes about 10 minutes: your business details and the service terms. Then we prepare your first pieces here.")}</p><div id="altaMsg"></div>${D.inicio?.usuario?.rol === "dueno" && D.inicio?.usuario?.via === "sesion" ? `<button class="btn pri" type="button" id="irAlta">${t("Ir a mi alta", "Go to my setup")}</button>` : `<p class="ayuda">${t("El alta la termina la persona dueña de la cuenta, entrando con su correo.", "Setup is finished by the account owner, signing in with their email.")}</p>`} <a class="btn" href="../cuenta/">${t("Volver a mi cuenta", "Back to my account")}</a></div>`;
 async function pintar() {
   const r = location.hash || "#/", app = $("#app"), ma = r.match(/^#\/arranque\/(\d|ia)/), v = (r.match(/^#\/(\w+)/) || [])[1] || "";
   try {
+    if (!listo) return;   // todavía no se sabe si hay sesión: el arranque de abajo vuelve a pintar
+    if (!TOKEN && !sesion) { app.innerHTML = vEntrar(); return; }
     if (!D.inicio) { D.inicio = await api("inicio"); D.cx = D.inicio.conexiones; $("#cuentaNombre").textContent = D.inicio.cuenta.nombre; }
+    if (D.inicio.cuenta?.etapa === "alta") {
+      app.innerHTML = vAlta(); app.dataset.v = "alta"; PANTALLA = "alta";
+      if ($("#irAlta")) $("#irAlta").onclick = async (e) => { const fin = ocupado(e.currentTarget, t("Abriendo…", "Opening…")); try { const x = await api("alta_enlace"); location.href = "../alta/" + new URL(x.alta).hash; } catch (err) { fin(); $("#altaMsg").innerHTML = `<div class="aviso mal" role="alert">${esc(err.message)}</div>`; } };
+      return;
+    }
     if (!D.arr) D.arr = await api("arranque");
     if (!ma && !["inicio", "aprobar", "semana", "marca", "canales", "flujo", "estado"].includes(v)) return ir(!D.arr.terminado && puede() && !(D.arr.pasos || []).every((p) => p.hecho) ? `#/arranque/${D.arr.paso}` : "#/inicio");
     if (ma) {
@@ -375,11 +395,11 @@ async function pintar() {
     }
     app.dataset.v = ma ? "arranque" : v; PANTALLA = ma ? "arranque" : v; pintarMedidor();
   } catch (x) {
-    if (x.status === 401) { app.innerHTML = `<div class="vacio" style="margin:60px auto;max-width:520px"><h1 style="font-size:40px;color:var(--negro)">${t("Entra a tu cuenta", "Sign in to your account")}</h1><p>${t("Para ver tu panel entra con tu correo. Te traemos de vuelta aquí.", "To see your dashboard, sign in with your email. We bring you back here.")}</p><a class="btn pri" href="../cuenta/?volver=panel">${t("Entrar", "Sign in")}</a></div>`; return; }
+    if (x.status === 401) { app.innerHTML = vEntrar(); return; }
     app.innerHTML = fallo(v, x);
   }
 }
-let PANTALLA = "inicio";
+let PANTALLA = "inicio", listo = false;
 
 function enlazarArranque(n) {
   const A = D.arr, msg = (tx, c = "mal") => { const m = $("#mMsg") || $("#aRes"); if (m) m.innerHTML = `<div class="aviso ${c}" role="alert">${esc(tx)}</div>`; };
@@ -412,8 +432,10 @@ function enlazarArranque(n) {
   if (n === 4) sig.onclick = () => ir("#/arranque/5");
   if (n === 5) sig.onclick = () => ir("#/arranque/6");
   if (n === 6) {
-    $$("[data-sem]").forEach((b) => (b.onclick = () => { arrTmp.sem = b.dataset.sem; arrTmp.reservas = $("#aRes6").checked; pintar(); }));
-    sig.onclick = async () => { const fin = ocupado(sig, ""), mx = D.semana.max || {}, res = $("#aRes6").checked;
+    $$("[data-sem]").forEach((b) => (b.onclick = () => { arrTmp.sem = b.dataset.sem; arrTmp.reservas = !!$("#aRes6")?.checked; pintar(); }));
+    sig.onclick = async () => { const fin = ocupado(sig, ""), mx = D.semana.max || {}, res = !!$("#aRes6")?.checked;
+      // Sin contenido semanal en el plan no hay ritmo que guardar: se cierra el arranque y se entra al panel.
+      if (sinSemana()) { try { D.arr = await api("arranque_guardar", { terminado: true, semana: true, paso: 6 }); hito("panel"); ir("#/inicio"); } catch (x) { fin(); msg(x.message); } return; }
       try { const cant = arrTmp.sem === "intensa" ? { posts_semana: mx.posts_semana ?? 0, historias_dia: mx.historias_dia ?? 0, historias_finde: mx.historias_finde ?? mx.historias_dia ?? 0 } : arrTmp.sem === "recomendada" ? { posts_semana: Math.min(7, mx.posts_semana ?? 7), historias_dia: Math.min(1, mx.historias_dia ?? 1), historias_finde: Math.min(1, mx.historias_dia ?? 1) } : null;
         D.semana = await api("semana_guardar", { ...(cant ? { cantidades: cant } : {}), cierre: { activo: true, reservas: res } }); SM = semDe(D.semana);
         D.arr = await api("arranque_guardar", { terminado: true, semana: true, paso: 6 }); hito("panel"); ir(arrTmp.sem === "mia" ? "#/flujo" : "#/inicio"); } catch (x) { fin(); msg(x.message); } };
@@ -495,9 +517,12 @@ CWIdioma.alCambiar(() => { cabecera(); pintar(); }); cabecera();
 // El asistente, en todas las pantallas: sabe en cuál está la persona. No recibe claves.
 sb.auth.onAuthStateChange((_e, s) => { sesion = s; });
 (async () => {
-  sesion = (await sb.auth.getSession()).data.session;
-  AgenteEscucha({ api: API, accion: "agente", idioma: CWIdioma.idioma, titulo: t("Asistente", "Assistant"), boton: t("¿Te ayudo?", "Need help?"), saludo: t("Hola. Estoy en cada pantalla para ayudarte con lo que estés haciendo.", "Hi. I'm on every screen to help with whatever you're doing."),
-    sugerencias: [t("¿Qué hago ahora?", "What do I do next?"), t("¿Cómo pido un cambio en una pieza?", "How do I request a change to a piece?"), t("¿Qué es una reserva?", "What is a backup?")],
+  sesion = (await sb.auth.getSession()).data.session; listo = true;
+  $("#elegir")?.setAttribute("aria-label", t("Elegir imágenes o un .zip", "Choose images or a .zip")); $("#elegirCarpeta")?.setAttribute("aria-label", t("Elegir una carpeta", "Choose a folder"));
+  const dentro = !!(TOKEN || sesion);
+  AgenteEscucha({ api: API, accion: dentro ? "agente" : "agente_publico", idioma: CWIdioma.idioma, titulo: t("Asistente", "Assistant"), boton: t("¿Te ayudo?", "Need help?"),
+    saludo: dentro ? t("Hola. Estoy en cada pantalla para ayudarte con lo que estés haciendo.", "Hi. I'm on every screen to help with whatever you're doing.") : t("Hola. Para ver tu panel entra con tu correo. Si tienes dudas sobre Digital Whisper, pregúntame.", "Hi. To see your dashboard, sign in with your email. If you have questions about Digital Whisper, ask me."),
+    sugerencias: dentro ? [t("¿Qué hago ahora?", "What do I do next?"), t("¿Cómo pido un cambio en una pieza?", "How do I request a change to a piece?"), t("¿Qué es una reserva?", "What is a backup?")] : [t("¿Cómo entro a mi cuenta?", "How do I sign in?"), t("¿Cómo pido la prueba?", "How do I request the trial?")],
     filtro: (texto) => (/\b(?:EAA|IGAA|IGQV)[A-Za-z0-9_-]{10,}|\bsd[kaor]_[a-f0-9]{20,}/.test(texto) ? t("Por seguridad no envié lo que pegaste: parece una clave. Las claves se pegan solo en la ventana protegida de Conexiones.", "For your security I did not send what you pasted: it looks like a key. Keys are pasted only in the protected window under Connections.") : null),
     datos: () => ({ idioma: CWIdioma.idioma, pantalla: PANTALLA, ...(TOKEN ? { t: TOKEN } : CUENTA ? { cuenta: CUENTA } : {}) }), cabeceras: () => (sesion && !TOKEN ? { authorization: "Bearer " + sesion.access_token } : {}) });
   pintar();
