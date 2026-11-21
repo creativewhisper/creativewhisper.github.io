@@ -1362,7 +1362,7 @@ async function cargarEquipo(nuevo) {
   for (const b of $$("[data-usar]", $("#equipoLista"))) b.onclick = () => { if (!b.dataset.seguro) { b.dataset.seguro = "1"; b.textContent = "¿Seguro? Toque otra vez"; return; } pasarAEquipo(b.dataset.usar, S.disp?.nombre || ""); };
 }
 let qrLib = null;
-function cargarQr() { return qrLib || (qrLib = new Promise((ok, mal) => { const sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"; sc.onload = () => ok(window.qrcode); sc.onerror = mal; document.head.appendChild(sc); })); }
+function cargarQr() { return qrLib || (qrLib = new Promise((ok, mal) => { const sc = document.createElement("script"); sc.src = "https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"; sc.integrity = "sha512-ZDSPMa/JM1D+7kdg2x3BsruQ6T/JpJo3jWDWkCZsP+5yVyp1KfESqLI+7RqB5k24F7p2cV7i2YHh/890y6P6Sw=="; sc.crossOrigin = "anonymous"; sc.onload = () => ok(window.qrcode); sc.onerror = mal; document.head.appendChild(sc); })); }
 async function invitar(area) {
   const a = (S.equipo || []).find((x) => x.area === area); if (!a?.enlace) return;
   const txt = `Hola 👋 Esta es la app de ${asis()} para ${a.nombre} de ${S.cuenta?.nombre || ""}. Instálela y active las llamadas: cuando la gerencia apruebe algo de su área, ${asis()} le llama.\n${a.enlace}`;

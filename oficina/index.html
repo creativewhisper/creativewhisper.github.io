@@ -2,6 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net https://cdnjs.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: blob: https:; media-src 'self' blob: https:; connect-src 'self' https://jlyrymgbykhpktabvlkl.supabase.co wss://jlyrymgbykhpktabvlkl.supabase.co; frame-src 'none'; object-src 'none'; base-uri 'none'; form-action 'self'">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#0A0908">
 <meta name="robots" content="noindex, nofollow">
@@ -181,8 +182,8 @@ details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer
   </nav>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js" integrity="sha384-rwykjmWNwVxboyFmvK9OXN0wj9hnMHA2aAHtits54DuACyCq0M2PrSNxhRb+hvXT" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous"></script>
 <script>
 "use strict";
 const SUPABASE_URL = "https://jlyrymgbykhpktabvlkl.supabase.co";
@@ -211,6 +212,8 @@ function marcaDe(t) {
 
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
+// Fase 11.5: los enlaces que vienen de datos (tarjetas, IA, clientes) solo pueden ser https (nada de javascript: ni data:).
+const url = (u) => /^https:\/\//i.test(String(u ?? "").trim()) ? esc(String(u).trim()) : "#";
 const sinMarcas = (x) => String(x ?? "").replace(/\n*\[(auto|ig):[^\]]+\]/g, "");
 const hora = (iso) => { try { return new Date(iso).toLocaleString("es-EC", { timeZone: "America/Guayaquil", day: "numeric", month: "short", hour: "2-digit", minute: "2-digit" }); } catch (e) { return ""; } };
 const formato = (t) => esc(t).replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>").replace(/^#{1,3}\s*(.+)$/gm, "<b>$1</b>");
@@ -252,10 +255,10 @@ function pintarPara() {
       <div class="tit">${esc(k?.resumen || t.asunto)}</div>
       ${sub ? `<div class="sub">${esc(sub)}</div>` : ""}${k?.paso ? `<div class="paso">👉 ${esc(k.paso)}</div>` : ""}
       ${esIG ? `<div class="propuesta"><span>Respuesta lista:</span> ${esc(k.propuesta)}</div>` : ""}
-      ${k?.enlace ? `<a class="btn enlace" href="${esc(k.enlace)}" target="_blank" rel="noopener">📄 ${esRotulo ? "Abrir rótulo para imprimir" : "Abrir documento"}</a>` : ""}
-      ${esAjuste && k.ajuste.imagen ? `<a class="comprobante" href="${esc(k.ajuste.imagen)}" target="_blank" rel="noopener"><img src="${esc(k.ajuste.imagen)}" alt="Imagen a ajustar" loading="lazy"></a>` : ""}
+      ${k?.enlace ? `<a class="btn enlace" href="${url(k.enlace)}" target="_blank" rel="noopener">📄 ${esRotulo ? "Abrir rótulo para imprimir" : "Abrir documento"}</a>` : ""}
+      ${esAjuste && k.ajuste.imagen ? `<a class="comprobante" href="${url(k.ajuste.imagen)}" target="_blank" rel="noopener"><img src="${url(k.ajuste.imagen)}" alt="Imagen a ajustar" loading="lazy"></a>` : ""}
       ${esAjuste ? `<label class="btn aj-archivo">📤 ${k.ajuste.pieza ? (k.ajuste.video ? "Elegir las imágenes o el video de la pieza" : "Elegir las imágenes de la pieza") : "Elegir la imagen corregida"}<input type="file" accept="image/*${k.ajuste.video ? ",video/mp4,video/quicktime" : ""}" ${k.ajuste.pieza ? "multiple " : ""}hidden></label><span class="aj-nom"></span>` : ""}
-      ${esPago && k.imagen ? `<a class="comprobante" href="${esc(k.imagen)}" target="_blank" rel="noopener"><img src="${esc(k.imagen)}" alt="Comprobante de pago" loading="lazy" onerror="this.parentNode.textContent='Abrir el comprobante (PDF)'"></a>` : ""}
+      ${esPago && k.imagen ? `<a class="comprobante" href="${url(k.imagen)}" target="_blank" rel="noopener"><img src="${url(k.imagen)}" alt="Comprobante de pago" loading="lazy" onerror="this.parentNode.textContent='Abrir el comprobante (PDF)'"></a>` : ""}
       ${esSol ? solicitudDatos(k.solicitud) : ""}
       <textarea class="com" rows="1" ${esSol ? "hidden " : ""}${esEnvio ? 'inputmode="numeric" ' : ""}placeholder="${esAjuste ? "Nota para el cliente (opcional): qué se cambió" : esIG ? "Escribe otra respuesta o deja vacío para enviar la de arriba" : esEnvio ? "Número de guía de Servientrega" : esPago ? "Si no llegó, explica por qué (se lo enviamos al cliente)" : pide ? "Escribe aquí lo que te piden" : "Comentario (opcional)"}"></textarea>
       <div class="acciones">${esSol ? solicitudBotones(k.solicitud.id) : esAjuste ? `<button class="btn pri" data-aj="subir">Enviar al cliente</button>${k.ajuste.pieza ? "" : `<button class="btn" data-aj="listo">Ya está, sin imagen nueva</button>`}` : esPago ? `<button class="btn pri" data-dec="aprobado" data-vacio="Pago correcto" data-lleno="Pago correcto">Pago correcto</button><button class="btn" data-dec="rechazado">No llegó</button>`
@@ -295,7 +298,7 @@ async function decidirSolicitud(boton) {
       toast(r.acceso === "correo" ? "Aprobada: le llegó el correo con su código" : "Aprobada: el correo no salió, envíale su enlace");
       cont.outerHTML = `<div class="enlace-alta" data-sol-hecho="${id}"><b>${r.acceso === "correo" ? `✅ Cuenta creada con ${r.dias} días de prueba. Le llegó un correo con su código de entrada.` : `✅ Cuenta creada con ${r.dias} días de prueba. ⚠️ El correo no salió: envíale este mensaje con su enlace personal.`}</b>
         <div style="margin-top:6px;white-space:pre-wrap;word-break:normal;overflow-wrap:anywhere">${esc(r.mensaje)}</div>
-        <div class="enlaces">${r.whatsapp ? `<a href="${esc(r.whatsapp)}" target="_blank" rel="noopener">Avisarle por WhatsApp</a>` : ""}<button data-copiar="${esc(r.mensaje)}">Copiar mensaje</button><button data-sol-listo="${id}">Listo</button></div></div>`;
+        <div class="enlaces">${r.whatsapp ? `<a href="${url(r.whatsapp)}" target="_blank" rel="noopener">Avisarle por WhatsApp</a>` : ""}<button data-copiar="${esc(r.mensaje)}">Copiar mensaje</button><button data-sol-listo="${id}">Listo</button></div></div>`;
       return;   // la tarjeta se queda hasta tocar «Listo», para que dé tiempo de avisarle
     }
     solicitudFuera(id);
@@ -537,11 +540,11 @@ async function pintarClientes() {
       ${c.etapa === "alta" || estadoDe.get(c.id)?.alta ? `<div class="acciones"><button class="btn" data-enlace="${c.id}">${c.etapa === "alta" ? "Nuevo enlace de alta" : "Enlace para revisar el alta"}</button></div><div data-enlace-de="${c.id}"></div>` : ""}
       <div class="datos3"><div><b>${c.mensajes_7d}</b><span>mensajes reales 7 d</span></div><div><b>${c.casos_abiertos}</b><span>casos abiertos</span></div><div><b>${c.contactos_alerta}</b><span>reciben alertas</span></div></div>
       <div class="enlaces">
-        <a href="${esc(c.panel)}" target="_blank" rel="noopener">Panel en vivo</a>
-        ${c.web ? `<a href="${esc(c.web)}" target="_blank" rel="noopener">Web con IA</a>` : ""}
-        ${c.wa_demo ? `<a href="${esc(c.wa_demo)}" target="_blank" rel="noopener">WhatsApp (demo)</a>` : ""}
-        ${c.wa_visitante ? `<a href="${esc(c.wa_visitante)}" target="_blank" rel="noopener">Probar WhatsApp</a>` : ""}
-        ${c.wa_alertas ? `<a href="${esc(c.wa_alertas)}" target="_blank" rel="noopener">Activar alertas</a>` : ""}
+        <a href="${url(c.panel)}" target="_blank" rel="noopener">Panel en vivo</a>
+        ${c.web ? `<a href="${url(c.web)}" target="_blank" rel="noopener">Web con IA</a>` : ""}
+        ${c.wa_demo ? `<a href="${url(c.wa_demo)}" target="_blank" rel="noopener">WhatsApp (demo)</a>` : ""}
+        ${c.wa_visitante ? `<a href="${url(c.wa_visitante)}" target="_blank" rel="noopener">Probar WhatsApp</a>` : ""}
+        ${c.wa_alertas ? `<a href="${url(c.wa_alertas)}" target="_blank" rel="noopener">Activar alertas</a>` : ""}
       </div>
       ${c.modo_demo ? `<details><summary>Preparar la demo</summary>
         <div class="sub" style="margin-top:6px">Histórico de ejemplo: ${c.historico_demo} mensajes. «Borrar pruebas» deja solo el ejemplo; «Nuevo histórico» lo vuelve a generar hasta hoy (borra también las pruebas).</div>
@@ -940,7 +943,7 @@ $("#cuerpo").addEventListener("click", async (e) => {
     if (a === "exportar") {
       const d = document.querySelector(`[data-export="${id}"]`); d.textContent = "Armando los archivos…";
       const r = await llamarOp({ accion: "exportar", empresa_id: id });
-      d.innerHTML = `${r.filas} filas en ${r.archivos.filter((x) => x.filas).length} archivos. Los enlaces vencen en ${r.vence_en_dias} días.<br>` + [`<a href="${esc(r.leeme)}" target="_blank" rel="noopener">LEEME</a>`, ...r.archivos.filter((x) => x.url).map((x) => `<a href="${esc(x.url)}" target="_blank" rel="noopener">${esc(x.tabla)} (${x.filas})</a>`)].join(" · ");
+      d.innerHTML = `${r.filas} filas en ${r.archivos.filter((x) => x.filas).length} archivos. Los enlaces vencen en ${r.vence_en_dias} días.<br>` + [`<a href="${url(r.leeme)}" target="_blank" rel="noopener">LEEME</a>`, ...r.archivos.filter((x) => x.url).map((x) => `<a href="${url(x.url)}" target="_blank" rel="noopener">${esc(x.tabla)} (${x.filas})</a>`)].join(" · ");
     }
     if (a === "borrar") {
       const ident = document.querySelector(`[data-persona="${id}"]`).value.trim(), d = document.querySelector(`[data-borrar="${id}"]`);
