@@ -32,10 +32,13 @@ jobs:
         run: sleep 150
       - name: "Pruebas (en un PR, la copia local; si no, la web publicada)"
         env:
-          BASE: ${{ github.event_name == 'pull_request' && '' || 'https://creativewhisper.net' }}
+          EVENTO: ${{ github.event_name }}
           CON_AGENTES: ${{ inputs.agentes && '1' || '' }}
           CI: "1"
-        run: npx playwright test
+        run: |
+          if [ "$EVENTO" != "pull_request" ]; then export BASE=https://creativewhisper.net; fi
+          echo "Se prueba: ${BASE:-la copia local de este PR}"
+          npx playwright test
       - uses: actions/upload-artifact@v4
         if: failure()
         with:
