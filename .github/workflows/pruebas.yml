@@ -25,6 +25,8 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262   # v4 (fijada por SHA en la 11.5)
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020   # v4 (fijada por SHA en la 11.5)
         with: { node-version: 22 }
+      - name: Pruebas del generador de las políticas (Fase 11.6c)
+        run: node --test ../.github/politicas/generar.test.mjs
       - run: npm install --no-audit --no-fund
       - run: npx playwright install --with-deps chromium
       - name: Esperar a que GitHub Pages publique

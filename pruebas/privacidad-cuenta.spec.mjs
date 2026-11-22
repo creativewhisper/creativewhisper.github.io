@@ -20,7 +20,7 @@ async function preparar(page, respuesta) {
   const fallos = [];
   page.on('pageerror', (e) => fallos.push(String(e)));
   page.on('dialog', (d) => { fallos.push('diálogo: ' + d.message()); d.dismiss(); });
-  await page.route(/\/privacidad\/[a-z0-9-]+(\/v\d+)?\/?(\?.*)?$/, (r) => r.fulfill({ status: 404, contentType: 'text/html; charset=utf-8', body: PAGINA404 }));
+  await page.route(/\/privacidad\/[a-z0-9-]+(\/(v\d+(-en)?|en))?\/?(\?.*)?$/, (r) => r.fulfill({ status: 404, contentType: 'text/html; charset=utf-8', body: PAGINA404 }));
   await page.route(/\/no-existe-de-verdad$/, (r) => r.fulfill({ status: 404, contentType: 'text/html; charset=utf-8', body: PAGINA404 }));
   await page.route('**/rest/v1/rpc/politica_publica', (r) => r.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(respuesta) }));
   return fallos;
@@ -62,5 +62,15 @@ test('una versión anterior avisa y enlaza a la vigente', async ({ page }) => {
   await page.goto('/privacidad/demo/v1');
   await expect(page.locator('.aviso')).toHaveCount(1);
   await expect(page.locator('.aviso a')).toHaveAttribute('href', '/privacidad/demo');
+  expect(fallos).toEqual([]);
+});
+
+test('las direcciones en inglés de las páginas estáticas (/en, /v{n}-en) también caen bien en el respaldo', async ({ page }) => {
+  const fallos = await preparar(page, { existe: false });
+  for (const r of ['/privacidad/sin-politica/en', '/privacidad/sin-politica/v2-en']) {
+    await page.goto(r);
+    await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+    await expect(page.locator('#pagina p')).toHaveText('This company has no published privacy policy yet.');
+  }
   expect(fallos).toEqual([]);
 });

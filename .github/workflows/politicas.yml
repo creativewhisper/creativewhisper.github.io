@@ -1,0 +1,149 @@
+name: Políticas de privacidad
+# Fase 11.6c · «camino A»: creativewhisper.net/privacidad/{cuenta} como páginas estáticas (estado HTTP 200).
+# Cada 15 minutos lee de la base SOLO lo público (politicas_publicadas y politica_publica, con la clave publicable) y
+# reescribe privacidad/. Si algo cambió (se publicó, se versionó o se retiró una política):
+#   1. «generar» (solo lectura): genera y corre las pruebas de la web sobre esa copia. Sin credenciales de escritura.
+#   2. «publicar» (escritura): toma SOLO privacidad/ de lo generado, lo sube a la rama fija politicas/auto, abre o reusa
+#      su PR, deja en el commit el check de las pruebas y lo fusiona. Después comprueba en vivo que cada página dé 200.
+# Si algo falla queda UN solo PR abierto (el de politicas/auto), que la siguiente corrida actualiza. Sin cambios no hace
+# nada. Nunca escribe fuera de privacidad/. No usa secretos.
+# Ojo: GitHub apaga las tareas programadas de un repo público tras 60 días sin actividad; se reactiva en Actions.
+on:
+  schedule:
+    - cron: "7,22,37,52 * * * *"
+  workflow_dispatch:
+    inputs:
+      permitir_vacio:
+        description: "Permitir borrar TODAS las páginas si la base dice que no hay ninguna política publicada"
+        type: boolean
+        default: false
+permissions:
+  contents: read
+concurrency: { group: politicas, cancel-in-progress: false }
+jobs:
+  generar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    outputs:
+      hay: ${{ steps.cambio.outputs.hay }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262   # v4 (la misma fijada en pruebas.yml)
+        with: { ref: main, persist-credentials: false }
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020   # v4 (la misma fijada en pruebas.yml)
+        with: { node-version: 22 }
+      - name: Pruebas del generador
+        run: node --test .github/politicas/generar.test.mjs
+      - name: Generar las páginas desde la base
+        env:
+          VACIO: ${{ inputs.permitir_vacio && '--permitir-vacio' || '' }}
+        run: node .github/politicas/generar.mjs $VACIO
+      - name: ¿Cambió algo?
+        id: cambio
+        run: |
+          set -euo pipefail
+          if [ -n "$(git status --porcelain --untracked-files=all -- . ':(exclude)privacidad')" ]; then
+            echo "::error::El generador tocó algo fuera de privacidad/. No se publica."; git status --porcelain; exit 1
+          fi
+          if [ -z "$(git status --porcelain --untracked-files=all -- privacidad)" ]; then
+            echo "Sin cambios."; echo "hay=0" >> "$GITHUB_OUTPUT"
+          else
+            git status --porcelain --untracked-files=all -- privacidad; echo "hay=1" >> "$GITHUB_OUTPUT"
+          fi
+      # Se empaqueta y se sube ANTES de npm y Playwright (código de terceros). «publicar» solo corre si las pruebas pasan y lo vuelve a validar.
+      - name: Empaquetar privacidad/
+        if: steps.cambio.outputs.hay == '1'
+        run: mkdir -p privacidad && tar -cf "$RUNNER_TEMP/politicas.tar" privacidad
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02   # v4.6.2 (la misma fijada en pruebas.yml)
+        if: steps.cambio.outputs.hay == '1'
+        with:
+          name: politicas
+          path: ${{ runner.temp }}/politicas.tar
+          retention-days: 3
+          if-no-files-found: error
+      - name: Pruebas de la web sobre esta copia
+        if: steps.cambio.outputs.hay == '1'
+        working-directory: pruebas
+        env: { CI: "1" }
+        run: |
+          npm ci --no-audit --no-fund
+          npx playwright install --with-deps chromium
+          npx playwright test
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02   # v4.6.2
+        if: failure() && steps.cambio.outputs.hay == '1'
+        with:
+          name: informe-pruebas-politicas
+          retention-days: 7
+          path: |
+            pruebas/informe
+            pruebas/resultados
+
+  publicar:
+    needs: generar
+    if: needs.generar.outputs.hay == '1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    permissions:
+      contents: write
+      pull-requests: write
+      statuses: write
+    env:
+      GH_TOKEN: ${{ github.token }}
+      REPO: ${{ github.repository }}
+      DUENO: ${{ github.repository_owner }}
+      RUN: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      RAMA: politicas/auto
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262   # v4
+        with: { ref: main }
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020   # v4
+        with: { node-version: 22 }
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093   # v4.3.0
+        with:
+          name: politicas
+          path: ${{ runner.temp }}/politicas
+      - name: Poner privacidad/ tal como salió de las pruebas
+        run: |
+          set -euo pipefail
+          T="$RUNNER_TEMP/politicas/politicas.tar"
+          # Solo archivos y carpetas comunes bajo privacidad/ (sin enlaces, sin rutas con «..»).
+          if tar -tvf "$T" | grep -Ev '^[-d]' | grep -q .; then echo "::error::El paquete trae algo que no es archivo ni carpeta."; exit 1; fi
+          if tar -tf "$T" | grep -Ev '^privacidad(/|$)' | grep -q .; then echo "::error::El paquete trae algo fuera de privacidad/."; exit 1; fi
+          if tar -tf "$T" | grep -q '\.\.'; then echo "::error::El paquete trae una ruta con «..»."; exit 1; fi
+          rm -rf privacidad && tar -xf "$T"
+          if [ -n "$(git status --porcelain --untracked-files=all -- . ':(exclude)privacidad')" ]; then echo "::error::Cambió algo fuera de privacidad/."; exit 1; fi
+          node .github/politicas/generar.mjs --validar
+          git status --porcelain --untracked-files=all -- privacidad
+      - name: Publicar por PR (con las pruebas en verde)
+        run: |
+          set -euo pipefail
+          if [ -z "$(git status --porcelain --untracked-files=all -- privacidad)" ]; then echo "main ya tiene estas páginas."; exit 0; fi
+          CAMBIOS="$(git status --porcelain --untracked-files=all -- privacidad | sed 's/^/    /')"
+          git config user.name "politicas-bot"; git config user.email "politicas-bot@users.noreply.github.com"
+          git switch -C "$RAMA"
+          git add -A -- privacidad
+          git commit -q -m "Políticas de privacidad: páginas estáticas al día (generadas desde politica_publica)"
+          git push -q --force origin "$RAMA"
+          SHA="$(git rev-parse HEAD)"
+          CUERPO="$(printf 'Generado por la Action «Políticas de privacidad» (Fase 11.6c). Solo cambia privacidad/.\n\nLas pruebas de la web corrieron en verde sobre esta misma copia: %s\n\nArchivos:\n```\n%s\n```\n' "$RUN" "$CAMBIOS")"
+          N="$(gh api "repos/$REPO/pulls?state=open&head=$DUENO:$RAMA&base=main" --jq '.[0].number // empty')"
+          if [ -z "$N" ]; then
+            N="$(gh api "repos/$REPO/pulls" -f title="Políticas de privacidad: páginas al día" -f head="$RAMA" -f base=main -f body="$CUERPO" --jq .number)" || {
+              echo "::error::No se pudo abrir el PR. Revisa Settings → Actions → General → «Allow GitHub Actions to create and approve pull requests»."; exit 1; }
+          else
+            gh api -X PATCH "repos/$REPO/pulls/$N" -f body="$CUERPO" > /dev/null
+          fi
+          gh api "repos/$REPO/statuses/$SHA" -f state=success -f context="Pruebas de la web (políticas)" -f description="Playwright y generador en verde sobre esta copia" -f target_url="$RUN" > /dev/null
+          for i in 1 2 3 4; do   # GitHub puede tardar unos segundos en saber si el PR se puede fusionar
+            if gh api -X PUT "repos/$REPO/pulls/$N/merge" -f merge_method=squash -f sha="$SHA" > /dev/null; then break; fi
+            if [ "$i" = 4 ]; then echo "::error::No se pudo fusionar el PR #$N."; exit 1; fi
+            sleep 10
+          done
+          gh api -X DELETE "repos/$REPO/git/refs/heads/$RAMA" > /dev/null || true
+          echo "PR #$N fusionado."
+      - name: Comprobar en vivo (estado 200 y versión)
+        run: |
+          for i in 1 2 3 4 5 6 7 8; do
+            sleep 60
+            if node .github/politicas/generar.mjs --comprobar; then exit 0; fi
+          done
+          echo "::error::GitHub Pages todavía no muestra las páginas nuevas con estado 200."; exit 1
