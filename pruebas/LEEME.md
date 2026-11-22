@@ -13,6 +13,7 @@ No envían formularios, no aceptan nada real y no usan claves.
 | `dw.spec.mjs` | Digital Whisper: las 5 mascotas se dibujan y se mueven, el formulario avisa lo que falta sin enviar nada, y la página no tiene precios ni nombres de proveedores. |
 | `cliente.spec.mjs` | Cuenta, panel y alta sin haber entrado: dicen qué hacer, tienen ayuda y no dejan errores. |
 | `privacidad-cuenta.spec.mjs` | Fase 11.6b: `/privacidad/{cuenta}` (la política de cada empresa, que en GitHub Pages pasa por `404.html`) se pinta como texto sin HTML de afuera, con el aviso de borrador legal, las versiones y el inglés. La respuesta de la base se simula en la prueba. |
+| `politicas-estaticas.spec.mjs` | Fase 11.6c: las páginas estáticas de `/privacidad/{cuenta}` (las escribe `.github/politicas/generar.mjs`, que tiene sus propias pruebas en `generar.test.mjs`) responden 200, no piden nada a la base, no tienen scripts en línea y sus enlaces a versiones e inglés existen. `/privacidad` (la política de CW) sigue igual. |
 | `agentes.spec.mjs` | Cada página interactiva tiene su agente y se abre. Con `CON_AGENTES=1` le hace una pregunta a cada tipo de agente (gasta respuestas de IA). |
 
 ## Cómo correrlas

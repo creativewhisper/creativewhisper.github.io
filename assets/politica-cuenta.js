@@ -1,11 +1,14 @@
 // Fase 11.6b · creativewhisper.net/privacidad/{cuenta}[/v{n}][?lang=en]: la política de privacidad de cada empresa que usa
-// Digital Whisper. GitHub Pages no arma páginas por cuenta: esta dirección cae en 404.html, que la pide a la base
-// (politica_publica: solo lo publicado) y la pinta con textContent, sin HTML que venga de afuera.
+// Digital Whisper. Desde la 11.6c la dirección normal es una página ESTÁTICA (privacidad/{cuenta}.html, estado 200) que
+// escribe la Action «Políticas de privacidad» (.github/politicas/generar.mjs). Esto queda de respaldo: lo que todavía no
+// tiene página (los minutos entre aprobar y la siguiente corrida, o una dirección con «/» final o «?lang=en» en una ruta
+// sin página) cae en 404.html, que la pide a la base (politica_publica: solo lo publicado) y la pinta con textContent.
 (function () {
-  var m = location.pathname.match(/^\/privacidad\/([a-z0-9][a-z0-9-]{1,39})\/?(?:v(\d{1,4})\/?)?$/);
+  // También las direcciones de las páginas estáticas en inglés (/en, /v{n}-en), por si todavía no existen.
+  var m = location.pathname.match(/^\/privacidad\/([a-z0-9][a-z0-9-]{1,39})\/?(?:v(\d{1,4})(-en)?\/?|(en)\/?)?$/);
   if (!m) return;
   var cuenta = m[1], version = m[2] ? Number(m[2]) : null;
-  var en = /[?&]lang=en\b/.test(location.search);
+  var en = /[?&]lang=en\b/.test(location.search) || !!m[3] || !!m[4];
   var T = en ? { cargando: "Loading the privacy policy…", nohay: "This company has no published privacy policy yet.", error: "The policy could not be loaded. Try again in a moment.",
       borrador: "Draft for legal review: this policy has not yet been reviewed by the company's lawyer.", vieja: "This is a previous version. ", verVigente: "See the current one",
       version: "Version", desde: "effective from", hasta: "until", versiones: "Versions of this policy", otro: "Versión en español", titulo: "Privacy policy" }
