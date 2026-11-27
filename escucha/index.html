@@ -995,6 +995,7 @@ function marcas(r) {
   caja.innerHTML = `<div class="caja" style="margin-bottom:14px"><h2><span class="ic">🏁</span>Por marca <span class="d">índice de sentimiento · toque una marca para filtrar</span></h2>${filas.join("") || `<div class="vacio">Sin datos con estos filtros</div>`}</div>`;
 }
 // Interesados, origen y pruebas de manejo (verticales con ventas). Sin nombres ni teléfonos.
+const INTERES_TXT = { cotizacion: "cotización", informacion: "información", reunion: "reunión", parte_de_pago: "auto en parte de pago" };
 function pintarInteresados(r) {
   const caja = $("#intBox"); if (!caja) return;
   if (!S.cuenta?.config?.modulos?.interesados) { caja.innerHTML = ""; return; }
@@ -1005,7 +1006,7 @@ function pintarInteresados(r) {
   caja.innerHTML = `<div class="caja" style="margin-top:12px"><div class="et">🛒 Interesados: ${fmt(xs.length)} · con el asesor: ${fmt(xs.filter((x) => x.estado === "con_asesor").length)} · pruebas de manejo: ${fmt(xs.filter((x) => x.prueba).length)}</div>
     <div style="margin:8px 0"><small>De dónde llegan</small><br>${fichas(por((x) => x.origen || "Sin dato")) || "—"}</div>
     <div style="margin:8px 0"><small>Qué buscan</small><br>${fichas(por((x) => x.modelo || "Sin modelo")) || "—"}</div>
-    ${xs.slice(0, 8).map((x) => `<div style="display:flex;gap:8px;justify-content:space-between;border-top:1px solid var(--linea);padding:6px 0"><span>${esc(x.modelo || "Sin modelo")}${x.version ? " " + esc(x.version) : ""} <small>· ${esc(String(x.interes || "interés").replace(/_/g, " "))}${x.prueba ? " · prueba de manejo" : ""}</small></span><small>${esc(EST[x.estado] || x.estado)}${x.origen ? " · " + esc(x.origen) : ""}</small></div>`).join("")}</div>`;
+    ${xs.slice(0, 8).map((x) => `<div style="display:flex;gap:8px;justify-content:space-between;border-top:1px solid var(--linea);padding:6px 0"><span>${esc(x.modelo || "Sin modelo")}${x.version ? " " + esc(x.version) : ""} <small>· ${esc(INTERES_TXT[x.interes] || String(x.interes || "interés").replace(/_/g, " "))}${x.prueba ? " · prueba de manejo" : ""}</small></span><small>${esc(EST[x.estado] || x.estado)}${x.origen ? " · " + esc(x.origen) : ""}</small></div>`).join("")}</div>`;
 }
 
 let pidiendoCompleto = false;
