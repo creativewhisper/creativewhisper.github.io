@@ -1268,10 +1268,12 @@ function destacados(r) {
 }
 function filaMsg(x, nuevo) {
   const ca = CANAL[x.c] || { n: x.c, c: "#888", i: "•" };
-  // El caso al que llevó este mensaje: el primero de la conversación que se abrió después (o hasta 1 min antes).
-  // Si no hay, el más cercano de la conversación, solo para poder abrirlo con un toque.
+  // El caso al que llevó este mensaje: el primero de la conversación que se abrió después (hasta 5 min);
+  // si no hay, el que se abrió justo antes (hasta 1 min: el mensaje lo completó, p. ej. con la placa).
+  // Si tampoco, el más cercano de la conversación, solo para poder abrirlo con un toque.
   const deZ = [...S.casos.values()].filter((c) => c.z === x.z && Math.abs(c._ts - x._ts) < 6 * 3600e3);
-  const siguiente = deZ.filter((c) => c._ts >= x._ts - 6e4 && c._ts - x._ts < 3e5).sort((p, q) => p._ts - q._ts)[0];
+  const siguiente = deZ.filter((c) => c._ts >= x._ts - 2e3 && c._ts - x._ts < 3e5).sort((p, q) => p._ts - q._ts)[0]
+    || deZ.filter((c) => c._ts < x._ts && x._ts - c._ts < 6e4).sort((p, q) => q._ts - p._ts)[0];
   const caso = siguiente || deZ.sort((p, q) => Math.abs(p._ts - x._ts) - Math.abs(q._ts - x._ts))[0];
   const origen = !!siguiente;
   const marca = MZ.size ? (x.b || marcaDe(x.z, x._ts)) : null;
