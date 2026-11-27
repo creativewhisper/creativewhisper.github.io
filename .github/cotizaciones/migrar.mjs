@@ -14,7 +14,7 @@ if (resolve(lista).startsWith(resolve('.'))) { console.error('El archivo de clav
 const salida = join(dirname(resolve(lista)), 'claves-nuevas-cotizaciones.txt');
 let n = 0;
 for (const linea of readFileSync(lista, 'utf8').split(/\r?\n/)) {
-  const vieja = (linea.match(/CW[\sA-Z0-9-]{6,}/i) || [linea])[0].trim();
+  const vieja = (linea.match(/CW(?:-[A-Z0-9]+)+/i) || [linea.trim()])[0]; // una clave por línea
   if (normaliza(vieja).length < 6) continue;
   const v1 = `cotizaciones/${await idV1(vieja)}.json`;
   if (!existsSync(v1)) { console.log(`· sin archivo para una clave (${normaliza(vieja).slice(0, 4)}…)`); continue; }

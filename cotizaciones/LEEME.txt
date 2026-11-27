@@ -14,8 +14,11 @@ Desde el 27-nov-2026 (fase 11.5b): formato v2
 - Contenido v2: PBKDF2-SHA256 de 600 000 iteraciones (antes 310 000), sal aleatoria, AES-GCM.
 - Las de antes (v1) siguen abriendo igual. Para pasarlas a v2 con claves nuevas:
   node .github/cotizaciones/migrar.mjs <ruta FUERA del repo a tu archivo de claves viejas>
-  Deja las claves nuevas en claves-nuevas-cotizaciones.txt junto a ese archivo. Los v1 no se borran hasta que tú lo decidas.
-- _cotizador.html (en tu PC) todavía escribe v1: úsalo solo hasta pasarte a cifrar.mjs.
+  El archivo lleva SOLO la clave en cada línea. Córrelo UNA vez (cada corrida crea claves nuevas).
+  Deja las claves nuevas en claves-nuevas-cotizaciones.txt junto a ese archivo. Los v1 no se borran solos.
+- OJO: borrar un v1 NO lo protege. Sigue en el historial público de git. Lo que protege una cotización vieja
+  es mandarle al cliente su clave nueva (la v1 se puede borrar después, para que nadie la use por error).
+- _cotizador.html (en tu PC) escribe v1: no lo uses más. Las nuevas, con cifrar.mjs.
 
 Cómo se usaba (v1)
 ------------------
