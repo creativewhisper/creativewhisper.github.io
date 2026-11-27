@@ -822,10 +822,11 @@ function rangos() {
 // Cuentas con varias marcas: conversación → [[hora, marca], …]. Un caso o un interesado toma la marca de lo último
 // que el cliente escribió antes de que se abriera (la misma conversación puede pasar de un BMW a DIOR).
 const MZ = new Map();
+const SIN_MARCA = "General"; // preguntas que no nombran ninguna marca (horarios, direcciones)
 function anotarMarca(z, ts, b) { let l = MZ.get(z); if (!l) MZ.set(z, (l = [])); l.push([ts, b]); l._o = false; }
 function marcaDe(z, ts) {
   const l = MZ.get(z);
-  if (!l || !l.length) return "Sin marca";
+  if (!l || !l.length) return SIN_MARCA;
   if (!l._o) { l.sort((p, q) => p[0] - q[0]); l._o = true; }
   let r = l[0][1];
   for (const [t, b] of l) { if (t <= ts + 2000) r = b; else break; }
@@ -979,7 +980,7 @@ function marcas(r) {
   const cs = casosF("marca", r, true).filter((c) => (c.tipo || "queja") === "queja");
   const qx = cs.reduce((o, c) => { const k = marcaDe(c.z, c._ts); o[k] = (o[k] || 0) + 1; return o; }, {});
   const prom = (l) => { const p = l.filter((x) => x.p != null).map((x) => x.p); return p.length ? p.reduce((a, b) => a + b, 0) / p.length : null; };
-  const filas = Object.entries(act).filter(([k]) => k !== "Sin marca" || act[k].length > 3).sort((a, b) => b[1].length - a[1].length).map(([k, l]) => {
+  const filas = Object.entries(act).filter(([k]) => k !== SIN_MARCA || act[k].length > 3).sort((a, b) => (a[0] === SIN_MARCA) - (b[0] === SIN_MARCA) || b[1].length - a[1].length).map(([k, l]) => {
     const i = prom(l), ip = prom(prev[k] || []), dv = i != null && ip != null ? Math.round(i - ip) : null;
     const pos = l.filter((x) => x.s === "positivo").length, neg = l.filter((x) => x.s === "negativo").length, n = l.length;
     const on = F.marca.has(k), apag = F.marca.size && !on;
@@ -988,7 +989,7 @@ function marcas(r) {
       <b>${esc(k)}</b>
       <span class="ind num" style="color:${col}">${i != null ? Math.round(i) : "—"}<small>/100</small>${dv ? `<em class="${dv > 0 ? "sube" : "baja"}">${dv > 0 ? "▲" : "▼"} ${Math.abs(dv)}</em>` : ""}</span>
       <div class="bb"><i style="width:${pos / n * 100}%;background:var(--pos)"></i><i style="width:${(n - pos - neg) / n * 100}%;background:var(--neu)"></i><i style="width:${neg / n * 100}%;background:var(--neg)"></i></div>
-      <span class="num">${fmt(n)}<small> conv.</small></span><span class="num">${fmt(l.filter((x) => x.ic).length)}<small> compra</small></span><span class="num">${fmt(qx[k] || 0)}<small> quejas</small></span></div>`;
+      <span class="num">${fmt(new Set(l.map((x) => x.z)).size)}<small> conv.</small></span><span class="num">${fmt(l.filter((x) => x.ic).length)}<small> compra</small></span><span class="num">${fmt(qx[k] || 0)}<small> quejas</small></span></div>`;
   });
   caja.innerHTML = `<div class="caja" style="margin-bottom:14px"><h2><span class="ic">🏁</span>Por marca <span class="d">índice de sentimiento · toque una marca para filtrar</span></h2>${filas.join("") || `<div class="vacio">Sin datos con estos filtros</div>`}</div>`;
 }
