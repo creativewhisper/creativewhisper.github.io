@@ -995,6 +995,7 @@ function marcas(r) {
   caja.innerHTML = `<div class="caja" style="margin-bottom:14px"><h2><span class="ic">🏁</span>Por marca <span class="d">índice de sentimiento · toque una marca para filtrar</span></h2>${filas.join("") || `<div class="vacio">Sin datos con estos filtros</div>`}</div>`;
 }
 // Interesados, origen y pruebas de manejo (verticales con ventas). Sin nombres ni teléfonos.
+const INTERES_TXT = { cotizacion: "cotización", informacion: "información", reunion: "reunión", parte_de_pago: "auto en parte de pago" };
 function pintarInteresados(r) {
   const caja = $("#intBox"); if (!caja) return;
   if (!S.cuenta?.config?.modulos?.interesados) { caja.innerHTML = ""; return; }
@@ -1005,7 +1006,7 @@ function pintarInteresados(r) {
   caja.innerHTML = `<div class="caja" style="margin-top:12px"><div class="et">🛒 Interesados: ${fmt(xs.length)} · con el asesor: ${fmt(xs.filter((x) => x.estado === "con_asesor").length)} · pruebas de manejo: ${fmt(xs.filter((x) => x.prueba).length)}</div>
     <div style="margin:8px 0"><small>De dónde llegan</small><br>${fichas(por((x) => x.origen || "Sin dato")) || "—"}</div>
     <div style="margin:8px 0"><small>Qué buscan</small><br>${fichas(por((x) => x.modelo || "Sin modelo")) || "—"}</div>
-    ${xs.slice(0, 8).map((x) => `<div style="display:flex;gap:8px;justify-content:space-between;border-top:1px solid var(--linea);padding:6px 0"><span>${esc(x.modelo || "Sin modelo")}${x.version ? " " + esc(x.version) : ""} <small>· ${esc(String(x.interes || "interés").replace(/_/g, " "))}${x.prueba ? " · prueba de manejo" : ""}</small></span><small>${esc(EST[x.estado] || x.estado)}${x.origen ? " · " + esc(x.origen) : ""}</small></div>`).join("")}</div>`;
+    ${xs.slice(0, 8).map((x) => `<div style="display:flex;gap:8px;justify-content:space-between;border-top:1px solid var(--linea);padding:6px 0"><span>${esc(x.modelo || "Sin modelo")}${x.version ? " " + esc(x.version) : ""} <small>· ${esc(INTERES_TXT[x.interes] || String(x.interes || "interés").replace(/_/g, " "))}${x.prueba ? " · prueba de manejo" : ""}</small></span><small>${esc(EST[x.estado] || x.estado)}${x.origen ? " · " + esc(x.origen) : ""}</small></div>`).join("")}</div>`;
 }
 
 let pidiendoCompleto = false;
@@ -1129,9 +1130,9 @@ function kpis(r) {
     { et: "💚 Índice de sentimiento", v: ind ?? "—", s: "/100", d: delta(ind, indP, " pts"), med: ind },
     { et: "💬 Conversaciones", v: fmt(conv), d: delta(conv, convP, "%"), sub: `${fmt(m.length)} mensajes`, ir: "conv" },
     { et: "📣 Quejas recibidas", v: fmt(cp.length), d: delta(cp.length, cpP.length, "%", true), ir: "casos" },
-    { et: "🔴 Casos sin resolver", v: fmt(abiertos.length), d: { t: altas ? `${altas} de prioridad alta` : "ninguno de prioridad alta", c: altas ? "baja" : "sube" }, sub: conAsesor ? `${fmt(abiertos.length - conAsesor)} quejas · ${fmt(conAsesor)} con el asesor` : "", alerta: altas > 0, ir: "abiertos" },
+    { et: "🔴 Casos sin resolver", v: fmt(abiertos.length), d: { t: altas ? `${altas} de prioridad alta` : "ninguno de prioridad alta", c: altas ? "baja" : "sube" }, sub: conAsesor ? `${fmt(abiertos.length - conAsesor)} ${abiertos.length - conAsesor === 1 ? "queja" : "quejas"} · ${fmt(conAsesor)} con el asesor` : "", alerta: altas > 0, ir: "abiertos" },
     { et: "⏱️ Tiempo de resolución", v: mediana != null ? durTxt(mediana) : "—", d: { t: res.length ? `mediana de ${res.length} casos resueltos` : "sin casos resueltos en el periodo", c: "" } },
-    { et: "⭐ Opinión de la visita", v: op != null ? op.toFixed(1).replace(".", ",") : "—", s: "/5", d: delta(op != null ? op * 10 : null, opP != null ? opP * 10 : null, ""), sub: S.cuenta?.config?.modulos && !S.cuenta.config.modulos.sorteo ? `${fmt(ops.length)} opiniones` : `${fmt(ops.length)} opiniones · ${fmt(so)} al sorteo`, est: op },
+    { et: "⭐ Opinión de la visita", v: op != null ? op.toFixed(1).replace(".", ",") : "—", s: "/5", d: delta(op != null ? op * 10 : null, opP != null ? opP * 10 : null, ""), sub: (S.cuenta?.config?.modulos && !S.cuenta.config.modulos.sorteo ? `${fmt(ops.length)} opiniones` : `${fmt(ops.length)} opiniones · ${fmt(so)} al sorteo`) + (F.marca?.size ? " · todas las marcas" : ""), est: op },
   ];
   // La opinión se compara en décimas (×10): se muestra como ▲ 2 = 0,2 puntos.
   if (t[5].d.t) t[5].d.t = t[5].d.t.replace(/(\d+)/, (n) => (Number(n) / 10).toFixed(1).replace(".", ","));
@@ -1268,10 +1269,12 @@ function destacados(r) {
 }
 function filaMsg(x, nuevo) {
   const ca = CANAL[x.c] || { n: x.c, c: "#888", i: "•" };
-  // El caso al que llevó este mensaje: el primero de la conversación que se abrió después (o hasta 1 min antes).
-  // Si no hay, el más cercano de la conversación, solo para poder abrirlo con un toque.
+  // El caso al que llevó este mensaje: el primero de la conversación que se abrió después (hasta 5 min);
+  // si no hay, el que se abrió justo antes (hasta 1 min: el mensaje lo completó, p. ej. con la placa).
+  // Si tampoco, el más cercano de la conversación, solo para poder abrirlo con un toque.
   const deZ = [...S.casos.values()].filter((c) => c.z === x.z && Math.abs(c._ts - x._ts) < 6 * 3600e3);
-  const siguiente = deZ.filter((c) => c._ts >= x._ts - 6e4 && c._ts - x._ts < 3e5).sort((p, q) => p._ts - q._ts)[0];
+  const siguiente = deZ.filter((c) => c._ts >= x._ts - 2e3 && c._ts - x._ts < 3e5).sort((p, q) => p._ts - q._ts)[0]
+    || deZ.filter((c) => c._ts < x._ts && x._ts - c._ts < 6e4).sort((p, q) => q._ts - p._ts)[0];
   const caso = siguiente || deZ.sort((p, q) => Math.abs(p._ts - x._ts) - Math.abs(q._ts - x._ts))[0];
   const origen = !!siguiente;
   const marca = MZ.size ? (x.b || marcaDe(x.z, x._ts)) : null;
