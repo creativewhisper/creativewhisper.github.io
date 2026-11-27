@@ -819,8 +819,19 @@ function rangos() {
   const span = S.dias * 864e5;
   return { a: now - span, b: now + 6e4, pa: now - 2 * span, pb: now - span };
 }
-const MZ = new Map(); // conversación → marca (cuentas con varias marcas)
-function prepM(m) { if (m.b) MZ.set(m.z, m.b); m._ts = Date.parse(m.t); m._dia = diaDe(m._ts); m._h = horaDe(m._ts); m._dow = dowDe(m._ts); m._x = norm(m.x); m.k = m.k || null; return m; }
+// Cuentas con varias marcas: conversación → [[hora, marca], …]. Un caso o un interesado toma la marca de lo último
+// que el cliente escribió antes de que se abriera (la misma conversación puede pasar de un BMW a DIOR).
+const MZ = new Map();
+function anotarMarca(z, ts, b) { let l = MZ.get(z); if (!l) MZ.set(z, (l = [])); l.push([ts, b]); l._o = false; }
+function marcaDe(z, ts) {
+  const l = MZ.get(z);
+  if (!l || !l.length) return "Sin marca";
+  if (!l._o) { l.sort((p, q) => p[0] - q[0]); l._o = true; }
+  let r = l[0][1];
+  for (const [t, b] of l) { if (t <= ts + 2000) r = b; else break; }
+  return r;
+}
+function prepM(m) { m._ts = Date.parse(m.t); if (m.b) anotarMarca(m.z, m._ts, m.b); m._dia = diaDe(m._ts); m._h = horaDe(m._ts); m._dow = dowDe(m._ts); m._x = norm(m.x); m.k = m.k || null; return m; }
 function prepC(c) { c._ts = Date.parse(c.creado); c._dia = diaDe(c._ts); c._h = horaDe(c._ts); c._dow = dowDe(c._ts); c._tema = temaCaso(c.tema); c._x = norm([c.codigo, c.resumen, c.zona, c.nota, c.detalle, c.tema].join(" ")); return c; }
 function prepT(o) { o._ts = Date.parse(o.t); return o; }
 
@@ -833,7 +844,7 @@ function zCasos() { // sesiones con casos que pasan los filtros de casos (para c
 }
 function pasaM(m, a, b, ex, zs) {
   if (m._ts < a || m._ts >= b) return false;
-  if (ex !== "marca" && F.marca.size && !F.marca.has(m.b || MZ.get(m.z) || "Sin marca")) return false;
+  if (ex !== "marca" && F.marca.size && !F.marca.has(m.b || marcaDe(m.z, m._ts))) return false;
   if (ex !== "canal" && F.canal.size && !F.canal.has(m.c)) return false;
   if (ex !== "tipo" && F.tipo.size && !F.tipo.has(m.k || "otro")) return false;
   if (ex !== "sent" && F.sent.size && !F.sent.has(m.s || "neutral")) return false;
@@ -848,7 +859,7 @@ function pasaM(m, a, b, ex, zs) {
 function pasaC(c, a, b, ex, soloPeriodo) {
   const enP = c._ts >= a && c._ts < b;
   if (soloPeriodo ? !enP : (!enP && c.estado === "resuelto" && !(c.resuelto_en && Date.parse(c.resuelto_en) >= a))) return false;
-  if (ex !== "marca" && F.marca.size && !F.marca.has(MZ.get(c.z) || "Sin marca")) return false;
+  if (ex !== "marca" && F.marca.size && !F.marca.has(marcaDe(c.z, c._ts))) return false;
   if (ex !== "canal" && F.canal.size && !F.canal.has(c.canal)) return false;
   if (ex !== "area" && F.area.size && !F.area.has(c.area)) return false;
   if (ex !== "prio" && F.prio.size && !F.prio.has(c.prioridad)) return false;
@@ -963,10 +974,10 @@ function marcas(r) {
   const hay = [...S.msgs.values()].some((m) => m.b);
   $("#fbMarca").classList.toggle("oculto", !hay);
   if (!hay) { caja.innerHTML = ""; return; }
-  const agrupar = (lista) => lista.reduce((o, x) => { const k = x.b || MZ.get(x.z) || "Sin marca"; (o[k] ??= []).push(x); return o; }, {});
+  const agrupar = (lista) => lista.reduce((o, x) => { const k = x.b || marcaDe(x.z, x._ts); (o[k] ??= []).push(x); return o; }, {});
   const act = agrupar(msgsF("marca", r)), prev = agrupar(msgsF("marca", r, true));
   const cs = casosF("marca", r, true).filter((c) => (c.tipo || "queja") === "queja");
-  const qx = cs.reduce((o, c) => { const k = MZ.get(c.z) || "Sin marca"; o[k] = (o[k] || 0) + 1; return o; }, {});
+  const qx = cs.reduce((o, c) => { const k = marcaDe(c.z, c._ts); o[k] = (o[k] || 0) + 1; return o; }, {});
   const prom = (l) => { const p = l.filter((x) => x.p != null).map((x) => x.p); return p.length ? p.reduce((a, b) => a + b, 0) / p.length : null; };
   const filas = Object.entries(act).filter(([k]) => k !== "Sin marca" || act[k].length > 3).sort((a, b) => b[1].length - a[1].length).map(([k, l]) => {
     const i = prom(l), ip = prom(prev[k] || []), dv = i != null && ip != null ? Math.round(i - ip) : null;
@@ -985,7 +996,7 @@ function marcas(r) {
 function pintarInteresados(r) {
   const caja = $("#intBox"); if (!caja) return;
   if (!S.cuenta?.config?.modulos?.interesados) { caja.innerHTML = ""; return; }
-  const xs = [...(S.ints || new Map()).values()].filter((o) => o._ts >= r.a && o._ts < r.b && (S.demo || !o.d) && (!F.marca.size || F.marca.has(MZ.get(o.z) || "Sin marca"))).sort((a, b) => b._ts - a._ts);
+  const xs = [...(S.ints || new Map()).values()].filter((o) => o._ts >= r.a && o._ts < r.b && (S.demo || !o.d) && (!F.marca.size || F.marca.has(marcaDe(o.z, o._ts)))).sort((a, b) => b._ts - a._ts);
   const por = (f) => Object.entries(xs.reduce((o, x) => ((o[f(x)] = (o[f(x)] || 0) + 1), o), {})).sort((a, b) => b[1] - a[1]);
   const fichas = (l) => l.slice(0, 6).map(([k, n]) => `<span style="display:inline-block;border:1px solid var(--linea);border-radius:999px;padding:2px 10px;margin:2px">${esc(k)} · <b>${n}</b></span>`).join("");
   const EST = { nuevo: "Nuevo", con_asesor: "Con el asesor", contactado: "Contactado", cerrado: "Cerrado", descartado: "Descartado" };
@@ -1527,7 +1538,7 @@ function opcionesDe(dim) {
     const base = dim === "area" ? Object.keys(AREA) : dim === "prio" ? Object.keys(PRIO) : Object.keys(ESTADO);
     return { lista: base.map((k) => [k, cuenta[k] || 0]), unidad: "casos" };
   }
-  for (const m of msgsF(dim, r)) { const v = dim === "marca" ? (m.b || MZ.get(m.z) || "Sin marca") : dim === "canal" ? m.c : dim === "tipo" ? (m.k || "otro") : dim === "sent" ? (m.s || "neutral") : (m.m || "saludo u otro"); cuenta[v] = (cuenta[v] || 0) + 1; }
+  for (const m of msgsF(dim, r)) { const v = dim === "marca" ? (m.b || marcaDe(m.z, m._ts)) : dim === "canal" ? m.c : dim === "tipo" ? (m.k || "otro") : dim === "sent" ? (m.s || "neutral") : (m.m || "saludo u otro"); cuenta[v] = (cuenta[v] || 0) + 1; }
   let base = dim === "canal" ? Object.keys(CANAL).filter((k) => cuenta[k] || F.canal.has(k)) : dim === "tipo" ? Object.keys(TIPO) : dim === "sent" ? Object.keys(SENT) : Object.keys(cuenta).sort((a, b) => cuenta[b] - cuenta[a]);
   return { lista: base.map((k) => [k, cuenta[k] || 0]), unidad: "mensajes" };
 }
@@ -1562,6 +1573,7 @@ document.addEventListener("pointermove", (e) => {
   tip.style.left = x + "px"; tip.style.top = y + "px";
 });
 document.addEventListener("pointerdown", (e) => { if (!e.target.closest?.("[data-tip]")) tip.classList.remove("on"); });
+window.addEventListener("scroll", () => tip.classList.remove("on"), { passive: true });
 
 $("#btnReporte").addEventListener("click", async () => {
   const b = $("#btnReporte"); b.disabled = true; b.textContent = "Escribiendo…";
