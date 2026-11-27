@@ -1130,9 +1130,9 @@ function kpis(r) {
     { et: "💚 Índice de sentimiento", v: ind ?? "—", s: "/100", d: delta(ind, indP, " pts"), med: ind },
     { et: "💬 Conversaciones", v: fmt(conv), d: delta(conv, convP, "%"), sub: `${fmt(m.length)} mensajes`, ir: "conv" },
     { et: "📣 Quejas recibidas", v: fmt(cp.length), d: delta(cp.length, cpP.length, "%", true), ir: "casos" },
-    { et: "🔴 Casos sin resolver", v: fmt(abiertos.length), d: { t: altas ? `${altas} de prioridad alta` : "ninguno de prioridad alta", c: altas ? "baja" : "sube" }, sub: conAsesor ? `${fmt(abiertos.length - conAsesor)} quejas · ${fmt(conAsesor)} con el asesor` : "", alerta: altas > 0, ir: "abiertos" },
+    { et: "🔴 Casos sin resolver", v: fmt(abiertos.length), d: { t: altas ? `${altas} de prioridad alta` : "ninguno de prioridad alta", c: altas ? "baja" : "sube" }, sub: conAsesor ? `${fmt(abiertos.length - conAsesor)} ${abiertos.length - conAsesor === 1 ? "queja" : "quejas"} · ${fmt(conAsesor)} con el asesor` : "", alerta: altas > 0, ir: "abiertos" },
     { et: "⏱️ Tiempo de resolución", v: mediana != null ? durTxt(mediana) : "—", d: { t: res.length ? `mediana de ${res.length} casos resueltos` : "sin casos resueltos en el periodo", c: "" } },
-    { et: "⭐ Opinión de la visita", v: op != null ? op.toFixed(1).replace(".", ",") : "—", s: "/5", d: delta(op != null ? op * 10 : null, opP != null ? opP * 10 : null, ""), sub: S.cuenta?.config?.modulos && !S.cuenta.config.modulos.sorteo ? `${fmt(ops.length)} opiniones` : `${fmt(ops.length)} opiniones · ${fmt(so)} al sorteo`, est: op },
+    { et: "⭐ Opinión de la visita", v: op != null ? op.toFixed(1).replace(".", ",") : "—", s: "/5", d: delta(op != null ? op * 10 : null, opP != null ? opP * 10 : null, ""), sub: (S.cuenta?.config?.modulos && !S.cuenta.config.modulos.sorteo ? `${fmt(ops.length)} opiniones` : `${fmt(ops.length)} opiniones · ${fmt(so)} al sorteo`) + (F.marca?.size ? " · todas las marcas" : ""), est: op },
   ];
   // La opinión se compara en décimas (×10): se muestra como ▲ 2 = 0,2 puntos.
   if (t[5].d.t) t[5].d.t = t[5].d.t.replace(/(\d+)/, (n) => (Number(n) / 10).toFixed(1).replace(".", ","));
