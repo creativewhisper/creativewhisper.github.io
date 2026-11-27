@@ -210,6 +210,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .tag.felicitacion{background:var(--menta);color:var(--g700)}
 .tag.sugerencia{background:#FFF0D6;color:#8C5A0B}
 .tag.interes{background:#E3F0FA;color:#245A86}
+.tag.marca{background:#1C1A17;color:#fff;letter-spacing:.02em}
 .tag.ejemplo{background:transparent;border:1px dashed var(--lima3);color:var(--suave);font-weight:700}
 .tag.alta{background:var(--rojo);color:#fff}
 .tag.media{background:var(--ambar);color:#3B2600}
@@ -1267,11 +1268,16 @@ function destacados(r) {
 }
 function filaMsg(x, nuevo) {
   const ca = CANAL[x.c] || { n: x.c, c: "#888", i: "•" };
-  const caso = [...S.casos.values()].find((c) => c.z === x.z && Math.abs(c._ts - x._ts) < 6 * 3600e3);
-  const origen = caso && (x.k === "queja" || (x._ts <= caso._ts + 6e4 && x._ts >= caso._ts - 3e5));
+  // El caso al que llevó este mensaje: el primero de la conversación que se abrió después (o hasta 1 min antes).
+  // Si no hay, el más cercano de la conversación, solo para poder abrirlo con un toque.
+  const deZ = [...S.casos.values()].filter((c) => c.z === x.z && Math.abs(c._ts - x._ts) < 6 * 3600e3);
+  const siguiente = deZ.filter((c) => c._ts >= x._ts - 6e4 && c._ts - x._ts < 3e5).sort((p, q) => p._ts - q._ts)[0];
+  const caso = siguiente || deZ.sort((p, q) => Math.abs(p._ts - x._ts) - Math.abs(q._ts - x._ts))[0];
+  const origen = !!siguiente;
+  const marca = MZ.size ? (x.b || marcaDe(x.z, x._ts)) : null;
   return `<div class="msg${caso ? " click" : ""}${nuevo ? " nuevo" : ""}" ${caso ? `data-caso="${caso.id}"` : ""}><div class="cn" style="background:${ca.c}">${ca.i}</div><div>
     <div class="t">${esc(x.x)}</div>
-    <div class="m"><span class="sd" style="background:${SENT_C[x.s] || "var(--neu)"}"></span>${x.k ? `<span class="tag ${x.k}">${esc(TIPO[x.k] || x.k)}</span>` : `<span class="tag">analizando…</span>`}${x.m && x.m !== "saludo u otro" ? `<span>${esc(cap(x.m))}</span>` : ""}<span>${x.w && x.w.startsWith(ca.n) ? esc(x.w) : `${esc(ca.n)}${x.w ? " · " + esc(x.w) : ""}`}</span><span>${esc(hace(x._ts))}</span>${origen ? `<span class="tag ${caso.prioridad}">${esc(caso.codigo)}</span>` : ""}${x.d ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div></div></div>`;
+    <div class="m"><span class="sd" style="background:${SENT_C[x.s] || "var(--neu)"}"></span>${x.k ? `<span class="tag ${x.k}">${esc(TIPO[x.k] || x.k)}</span>` : `<span class="tag">analizando…</span>`}${x.m && x.m !== "saludo u otro" ? `<span>${esc(cap(x.m))}</span>` : ""}<span>${x.w && x.w.startsWith(ca.n) ? esc(x.w) : `${esc(ca.n)}${x.w ? " · " + esc(x.w) : ""}`}</span><span>${esc(hace(x._ts))}</span>${marca && marca !== SIN_MARCA ? `<span class="tag marca">${esc(marca)}</span>` : ""}${origen ? `<span class="tag ${caso.prioridad}">${esc(caso.codigo)}</span>` : ""}${x.d ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div></div></div>`;
 }
 function ahora(r, nuevos) {
   const m = msgsF(null, r).sort((a, b) => b._ts - a._ts);
@@ -1293,7 +1299,7 @@ function tarjeta(c) {
   return `<div class="tarjeta ${c.prioridad}${nuevosCasos.has(c.id) ? " nuevo" : ""}" data-caso="${c.id}">
     <div class="ar">${ar.i} ${esc(ar.n)} · <span class="tag ${c.prioridad}">${esc(PRIO[c.prioridad])}</span>${c.tipo === "traspaso" ? `<span class="tag ejemplo" style="margin-left:6px">🛒 paso al asesor</span>` : ""}<span class="cod">${esc(c.codigo)}</span></div>
     <div class="r">${esc(c.resumen || "(sin resumen)")}</div>
-    <div class="m">${c.zona ? `<span>📍 ${esc(c.zona)}</span>` : ""}<span>${esc(CANAL[c.canal]?.n ?? c.canal)}</span><span>${esc(t)}</span>${chipVerif(c)}${c.app?.piloto ? `<span>🤖 decidió ${esc(S.cuenta?.asistente || "el asistente")}</span>` : ""}${c.avisados ? `<span>📲 avisado</span>` : ""}${c.demo ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div>
+    <div class="m">${MZ.size && marcaDe(c.z, c._ts) !== SIN_MARCA ? `<span class="tag marca">${esc(marcaDe(c.z, c._ts))}</span>` : ""}${c.zona ? `<span>📍 ${esc(c.zona)}</span>` : ""}<span>${esc(CANAL[c.canal]?.n ?? c.canal)}</span><span>${esc(t)}</span>${chipVerif(c)}${c.app?.piloto ? `<span>🤖 decidió ${esc(S.cuenta?.asistente || "el asistente")}</span>` : ""}${c.avisados ? `<span>📲 avisado</span>` : ""}${c.demo ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div>
     ${acc ? `<div class="acc">${acc}</div>` : ""}</div>`;
 }
 function tablero(r) {
