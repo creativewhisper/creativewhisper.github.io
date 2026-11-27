@@ -183,6 +183,7 @@ details{margin-top:8px} summary{color:var(--suave);font-size:13px;cursor:pointer
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js" integrity="sha384-rwykjmWNwVxboyFmvK9OXN0wj9hnMHA2aAHtits54DuACyCq0M2PrSNxhRb+hvXT" crossorigin="anonymous"></script>
+<script src="../assets/mfa.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js" integrity="sha512-CNgIRecGo7nphbeZ04Sc13ka07paqdeTu0WR1IM4kNcpmBAUSHSQX0FslNhTDadL4O5SAGapGt4FodqL8My0mA==" crossorigin="anonymous"></script>
 <script>
 "use strict";
@@ -817,7 +818,8 @@ function tarjetaSalud() {
     <div id="guardiaRes" class="sub" style="white-space:pre-wrap"></div>
     <details style="margin-top:10px"><summary style="cursor:pointer;font-weight:700">Trabajos programados</summary><div id="saludCrons" class="sub"></div></details>
     <details style="margin-top:10px" data-priv><summary style="cursor:pointer;font-weight:700">Privacidad: borrado por plazo de conservación</summary><div id="privRes" class="sub" style="margin-top:6px">Cargando…</div></details>
-    <details style="margin-top:10px" data-calidad><summary style="cursor:pointer;font-weight:700">Validación del sentimiento</summary><div id="calRes" class="sub" style="margin-top:6px">Cargando…</div></details></div>`;
+    <details style="margin-top:10px" data-calidad><summary style="cursor:pointer;font-weight:700">Validación del sentimiento</summary><div id="calRes" class="sub" style="margin-top:6px">Cargando…</div></details>
+    <details style="margin-top:10px" data-mfa><summary style="cursor:pointer;font-weight:700">Segundo factor de la oficina</summary><div id="mfaRes" class="sub" style="margin-top:6px">Cargando…</div></details></div>`;
 }
 function pintarSaludTodo() {
   const s = saludTodo; if (!s || !$("#saludCard")) return;
@@ -1079,6 +1081,8 @@ async function irA(t) {
 async function entrar() {
   const { data } = await sb.auth.getSession();
   if (!data?.session) { $("#vLogin").classList.remove("oculto"); $("#vApp").classList.add("oculto"); return; }
+  // Fase 11.5b: si activaste el segundo factor, la oficina pide el código de tu app antes de abrir.
+  if (!(await cwMfa.asegurar(sb))) { $("#vLogin").classList.remove("oculto"); $("#vApp").classList.add("oculto"); return; }
   const { data: admin } = await sb.rpc("es_admin");
   if (admin !== true) { $("#lAviso").textContent = "Esta cuenta no tiene acceso a la oficina."; await sb.auth.signOut(); $("#vLogin").classList.remove("oculto"); return; }
   $("#vLogin").classList.add("oculto"); $("#vApp").classList.remove("oculto");
@@ -1093,6 +1097,8 @@ $("#lEntrar").addEventListener("click", async () => {
   entrar();
 });
 $("#lClave").addEventListener("keydown", (e) => { if (e.key === "Enter") $("#lEntrar").click(); });
+// Fase 11.5b: Salud → «Segundo factor de la oficina» (lo activa Matías con su app autenticadora).
+document.addEventListener("toggle", (e) => { const d = e.target; if (d instanceof HTMLDetailsElement && d.matches("[data-mfa]") && d.open) cwMfa.panel(sb, d.querySelector("#mfaRes")); }, true);
 document.querySelector("nav").addEventListener("click", (e) => { const b = e.target.closest("button[data-tab]"); if (b) irA(b.dataset.tab); });
 $("#filaAgentes").addEventListener("click", (e) => { const b = e.target.closest("button[data-ag]"); if (!b) return; agente = b.dataset.ag; guardar("cw-agente", agente); pintarChat(); });
 $("#btnRecargar").addEventListener("click", () => irA(tab));
