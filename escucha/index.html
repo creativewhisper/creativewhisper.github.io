@@ -985,7 +985,7 @@ function marcas(r) {
 function pintarInteresados(r) {
   const caja = $("#intBox"); if (!caja) return;
   if (!S.cuenta?.config?.modulos?.interesados) { caja.innerHTML = ""; return; }
-  const xs = [...(S.ints || new Map()).values()].filter((o) => o._ts >= r.a && o._ts < r.b && (S.demo || !o.d)).sort((a, b) => b._ts - a._ts);
+  const xs = [...(S.ints || new Map()).values()].filter((o) => o._ts >= r.a && o._ts < r.b && (S.demo || !o.d) && (!F.marca.size || F.marca.has(MZ.get(o.z) || "Sin marca"))).sort((a, b) => b._ts - a._ts);
   const por = (f) => Object.entries(xs.reduce((o, x) => ((o[f(x)] = (o[f(x)] || 0) + 1), o), {})).sort((a, b) => b[1] - a[1]);
   const fichas = (l) => l.slice(0, 6).map(([k, n]) => `<span style="display:inline-block;border:1px solid var(--linea);border-radius:999px;padding:2px 10px;margin:2px">${esc(k)} · <b>${n}</b></span>`).join("");
   const EST = { nuevo: "Nuevo", con_asesor: "Con el asesor", contactado: "Contactado", cerrado: "Cerrado", descartado: "Descartado" };
