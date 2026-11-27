@@ -156,6 +156,12 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .ley i{width:11px;height:11px;border-radius:3px;display:inline-block}
 .fila-b{display:grid;grid-template-columns:minmax(0,165px) minmax(0,1fr) 46px;gap:10px;align-items:center;padding:6px 6px;border-radius:10px;cursor:pointer;font-size:13.5px}
 .fila-b:hover{background:var(--crema)}
+.fila-m{display:grid;grid-template-columns:minmax(0,130px) 92px minmax(0,1fr) 78px 82px 74px;gap:10px;align-items:center;padding:8px 6px;border-radius:10px;cursor:pointer;font-size:13.5px;border-top:1px solid var(--linea)}
+.fila-m:first-of-type{border-top:0}.fila-m:hover{background:var(--crema)}.fila-m.on{background:var(--menta)}.fila-m.apagada{opacity:.45}
+.fila-m .ind{font-size:20px;font-weight:800}.fila-m .ind small,.fila-m .num small{font-size:11px;font-weight:600;color:var(--suave)}.fila-m .ind em{font-style:normal;font-size:11.5px;margin-left:6px}
+.fila-m .ind em.sube{color:var(--pos)}.fila-m .ind em.baja{color:var(--neg)}
+.fila-m .bb{display:flex;height:10px;border-radius:6px;overflow:hidden;background:var(--crema)}.fila-m .bb i{display:block;height:100%}
+@media (max-width:760px){.fila-m{grid-template-columns:minmax(0,1fr) 84px;row-gap:4px}.fila-m .bb{grid-column:1/-1}.fila-m>span.num{font-size:12.5px}}
 .fila-b.on{background:var(--menta)}
 .fila-b.apagada{opacity:.4}
 .fila-b .nm{display:flex;align-items:center;gap:8px;font-weight:700;line-height:1.25;min-width:0;overflow-wrap:break-word} /* nombres largos («Mantenimiento y limpieza») bajan de línea en vez de cortarse */
@@ -204,6 +210,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
 .tag.felicitacion{background:var(--menta);color:var(--g700)}
 .tag.sugerencia{background:#FFF0D6;color:#8C5A0B}
 .tag.interes{background:#E3F0FA;color:#245A86}
+.tag.marca{background:#1C1A17;color:#fff;letter-spacing:.02em}
 .tag.ejemplo{background:transparent;border:1px dashed var(--lima3);color:var(--suave);font-weight:700}
 .tag.alta{background:var(--rojo);color:#fff}
 .tag.media{background:var(--ambar);color:#3B2600}
@@ -599,6 +606,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
   <div class="filtros">
     <div class="filtros-in" id="barra">
       <div class="seg" id="periodo"><button data-d="1">Hoy</button><button data-d="7" class="on">7 días</button><button data-d="28">28 días</button></div>
+      <button class="fb oculto" data-dim="marca" id="fbMarca">Marca</button>
       <button class="fb" data-dim="canal">Canal</button>
       <button class="fb" data-dim="tipo">Tipo</button>
       <button class="fb" data-dim="sent">Sentimiento</button>
@@ -624,6 +632,7 @@ button{cursor:pointer;background:none;border:0;padding:0}
     <section id="tResumen">
       <div id="piloto"></div>
       <div class="rejilla k6" id="kpis"></div>
+      <div id="marcasBox"></div>
       <div id="intBox"></div>
       <div class="rejilla c3" style="margin-top:14px">
         <div class="caja graf"><h2><span class="ic">📈</span>Conversaciones y sentimiento <span class="d" id="serieD"></span></h2><div id="serie"></div>
@@ -764,8 +773,8 @@ const PRIO = { alta: "Alta", media: "Media", baja: "Baja" };
 const ESTADO = { abierto: "Abierto", en_proceso: "En proceso", resuelto: "Resuelto" };
 const DIAS = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
 const HORAS = Array.from({ length: 13 }, (_, i) => 9 + i);
-const DIM = { canal: "Canal", tipo: "Tipo", sent: "Sentimiento", tema: "Tema", area: "Área", prio: "Prioridad", estado: "Estado" };
-const ETIQ = { canal: (v) => CANAL[v]?.n ?? v, tipo: (v) => TIPO[v] ?? v, sent: (v) => SENT[v] ?? v, tema: (v) => cap(v), area: (v) => AREA[v]?.n ?? v, prio: (v) => PRIO[v] ?? v, estado: (v) => ESTADO[v] ?? v };
+const DIM = { marca: "Marca", canal: "Canal", tipo: "Tipo", sent: "Sentimiento", tema: "Tema", area: "Área", prio: "Prioridad", estado: "Estado" };
+const ETIQ = { marca: (v) => v, canal: (v) => CANAL[v]?.n ?? v, tipo: (v) => TIPO[v] ?? v, sent: (v) => SENT[v] ?? v, tema: (v) => cap(v), area: (v) => AREA[v]?.n ?? v, prio: (v) => PRIO[v] ?? v, estado: (v) => ESTADO[v] ?? v };
 const cap = (s) => (s ? s[0].toUpperCase() + s.slice(1) : s);
 // Formato de WhatsApp en la conversación: *negrita*, _cursiva_ y enlaces acortados.
 const formatoWA = (t) => esc(t).replace(/(^|[\s(¡¿])\*([^*\n]+?)\*(?=[\s.,!?:;)]|$)/g, "$1<b>$2</b>").replace(/(^|[\s(¡¿])_([^_\n]+?)_(?=[\s.,!?:;)]|$)/g, "$1<i>$2</i>")
@@ -802,7 +811,7 @@ function temaCaso(t) {
 
 // ---------- Estado ----------
 const S = { dias: 7, demo: true, msgs: new Map(), casos: new Map(), ops: new Map(), sorteo: new Map(), cuenta: null, cargado: false, ultimaSync: 0 };
-const F = { canal: new Set(), tipo: new Set(), sent: new Set(), tema: new Set(), area: new Set(), prio: new Set(), estado: new Set(), pregunta: null, dia: null, dow: null, hora: null, q: "" };
+const F = { marca: new Set(), canal: new Set(), tipo: new Set(), sent: new Set(), tema: new Set(), area: new Set(), prio: new Set(), estado: new Set(), pregunta: null, dia: null, dow: null, hora: null, q: "" };
 let tab = "resumen", modoCalor = "todo", verConv = 60, colMovil = "abierto", casoAbierto = null, ocupado = false;
 
 function rangos() {
@@ -811,7 +820,20 @@ function rangos() {
   const span = S.dias * 864e5;
   return { a: now - span, b: now + 6e4, pa: now - 2 * span, pb: now - span };
 }
-function prepM(m) { m._ts = Date.parse(m.t); m._dia = diaDe(m._ts); m._h = horaDe(m._ts); m._dow = dowDe(m._ts); m._x = norm(m.x); m.k = m.k || null; return m; }
+// Cuentas con varias marcas: conversación → [[hora, marca], …]. Un caso o un interesado toma la marca de lo último
+// que el cliente escribió antes de que se abriera (la misma conversación puede pasar de un BMW a DIOR).
+const MZ = new Map();
+const SIN_MARCA = "General"; // preguntas que no nombran ninguna marca (horarios, direcciones)
+function anotarMarca(z, ts, b) { let l = MZ.get(z); if (!l) MZ.set(z, (l = [])); l.push([ts, b]); l._o = false; }
+function marcaDe(z, ts) {
+  const l = MZ.get(z);
+  if (!l || !l.length) return SIN_MARCA;
+  if (!l._o) { l.sort((p, q) => p[0] - q[0]); l._o = true; }
+  let r = l[0][1];
+  for (const [t, b] of l) { if (t <= ts + 2000) r = b; else break; }
+  return r;
+}
+function prepM(m) { m._ts = Date.parse(m.t); if (m.b) anotarMarca(m.z, m._ts, m.b); m._dia = diaDe(m._ts); m._h = horaDe(m._ts); m._dow = dowDe(m._ts); m._x = norm(m.x); m.k = m.k || null; return m; }
 function prepC(c) { c._ts = Date.parse(c.creado); c._dia = diaDe(c._ts); c._h = horaDe(c._ts); c._dow = dowDe(c._ts); c._tema = temaCaso(c.tema); c._x = norm([c.codigo, c.resumen, c.zona, c.nota, c.detalle, c.tema].join(" ")); return c; }
 function prepT(o) { o._ts = Date.parse(o.t); return o; }
 
@@ -824,6 +846,7 @@ function zCasos() { // sesiones con casos que pasan los filtros de casos (para c
 }
 function pasaM(m, a, b, ex, zs) {
   if (m._ts < a || m._ts >= b) return false;
+  if (ex !== "marca" && F.marca.size && !F.marca.has(m.b || marcaDe(m.z, m._ts))) return false;
   if (ex !== "canal" && F.canal.size && !F.canal.has(m.c)) return false;
   if (ex !== "tipo" && F.tipo.size && !F.tipo.has(m.k || "otro")) return false;
   if (ex !== "sent" && F.sent.size && !F.sent.has(m.s || "neutral")) return false;
@@ -838,6 +861,7 @@ function pasaM(m, a, b, ex, zs) {
 function pasaC(c, a, b, ex, soloPeriodo) {
   const enP = c._ts >= a && c._ts < b;
   if (soloPeriodo ? !enP : (!enP && c.estado === "resuelto" && !(c.resuelto_en && Date.parse(c.resuelto_en) >= a))) return false;
+  if (ex !== "marca" && F.marca.size && !F.marca.has(marcaDe(c.z, c._ts))) return false;
   if (ex !== "canal" && F.canal.size && !F.canal.has(c.canal)) return false;
   if (ex !== "area" && F.area.size && !F.area.has(c.area)) return false;
   if (ex !== "prio" && F.prio.size && !F.prio.has(c.prioridad)) return false;
@@ -945,11 +969,36 @@ function aplicarConfig(cu) {
   if (cf && Array.isArray(cf.areas) && cf.areas.length) AREA = Object.fromEntries(cf.areas.map((a) => [a.id, { n: mayus(a.nombre_app || a.nombre), i: a.icono || "•" }]));
   personalizar(cu);
 }
+// Cuentas con varias marcas (cli_mensajes.marca): índice de sentimiento, conversaciones, quejas e intención de compra de
+// cada marca, comparado con el periodo anterior. Tocar una fila filtra todo el panel por esa marca.
+function marcas(r) {
+  const caja = $("#marcasBox");
+  const hay = [...S.msgs.values()].some((m) => m.b);
+  $("#fbMarca").classList.toggle("oculto", !hay);
+  if (!hay) { caja.innerHTML = ""; return; }
+  const agrupar = (lista) => lista.reduce((o, x) => { const k = x.b || marcaDe(x.z, x._ts); (o[k] ??= []).push(x); return o; }, {});
+  const act = agrupar(msgsF("marca", r)), prev = agrupar(msgsF("marca", r, true));
+  const cs = casosF("marca", r, true).filter((c) => (c.tipo || "queja") === "queja");
+  const qx = cs.reduce((o, c) => { const k = marcaDe(c.z, c._ts); o[k] = (o[k] || 0) + 1; return o; }, {});
+  const prom = (l) => { const p = l.filter((x) => x.p != null).map((x) => x.p); return p.length ? p.reduce((a, b) => a + b, 0) / p.length : null; };
+  const filas = Object.entries(act).filter(([k]) => k !== SIN_MARCA || act[k].length > 3).sort((a, b) => (a[0] === SIN_MARCA) - (b[0] === SIN_MARCA) || b[1].length - a[1].length).map(([k, l]) => {
+    const i = prom(l), ip = prom(prev[k] || []), dv = i != null && ip != null ? Math.round(i - ip) : null;
+    const pos = l.filter((x) => x.s === "positivo").length, neg = l.filter((x) => x.s === "negativo").length, n = l.length;
+    const on = F.marca.has(k), apag = F.marca.size && !on;
+    const col = i == null ? "var(--suave)" : i >= 62 ? "var(--pos)" : i <= 45 ? "var(--neg)" : "var(--ambar)";
+    return `<div class="fila-m${on ? " on" : ""}${apag ? " apagada" : ""}" data-dim="marca" data-v="${esc(k)}" data-tip="${esc(`${k}: ${pos} positivos · ${neg} negativos · ${l.filter((x) => x.ic).length} con intención de compra`)}">
+      <b>${esc(k)}</b>
+      <span class="ind num" style="color:${col}">${i != null ? Math.round(i) : "—"}<small>/100</small>${dv ? `<em class="${dv > 0 ? "sube" : "baja"}">${dv > 0 ? "▲" : "▼"} ${Math.abs(dv)}</em>` : ""}</span>
+      <div class="bb"><i style="width:${pos / n * 100}%;background:var(--pos)"></i><i style="width:${(n - pos - neg) / n * 100}%;background:var(--neu)"></i><i style="width:${neg / n * 100}%;background:var(--neg)"></i></div>
+      <span class="num">${fmt(new Set(l.map((x) => x.z)).size)}<small> conv.</small></span><span class="num">${fmt(l.filter((x) => x.ic).length)}<small> compra</small></span><span class="num">${fmt(qx[k] || 0)}<small> quejas</small></span></div>`;
+  });
+  caja.innerHTML = `<div class="caja" style="margin-bottom:14px"><h2><span class="ic">🏁</span>Por marca <span class="d">índice de sentimiento · toque una marca para filtrar</span></h2>${filas.join("") || `<div class="vacio">Sin datos con estos filtros</div>`}</div>`;
+}
 // Interesados, origen y pruebas de manejo (verticales con ventas). Sin nombres ni teléfonos.
 function pintarInteresados(r) {
   const caja = $("#intBox"); if (!caja) return;
   if (!S.cuenta?.config?.modulos?.interesados) { caja.innerHTML = ""; return; }
-  const xs = [...(S.ints || new Map()).values()].filter((o) => o._ts >= r.a && o._ts < r.b && (S.demo || !o.d)).sort((a, b) => b._ts - a._ts);
+  const xs = [...(S.ints || new Map()).values()].filter((o) => o._ts >= r.a && o._ts < r.b && (S.demo || !o.d) && (!F.marca.size || F.marca.has(marcaDe(o.z, o._ts)))).sort((a, b) => b._ts - a._ts);
   const por = (f) => Object.entries(xs.reduce((o, x) => ((o[f(x)] = (o[f(x)] || 0) + 1), o), {})).sort((a, b) => b[1] - a[1]);
   const fichas = (l) => l.slice(0, 6).map(([k, n]) => `<span style="display:inline-block;border:1px solid var(--linea);border-radius:999px;padding:2px 10px;margin:2px">${esc(k)} · <b>${n}</b></span>`).join("");
   const EST = { nuevo: "Nuevo", con_asesor: "Con el asesor", contactado: "Contactado", cerrado: "Cerrado", descartado: "Descartado" };
@@ -1030,7 +1079,7 @@ function pintar(nuevosM = new Set()) {
   const abiertos = [...S.casos.values()].filter((c) => c.estado !== "resuelto" && pasaC(c, r.a, r.b, null));
   $("#bCasos").textContent = abiertos.length; $("#bCasos").classList.toggle("cero", !abiertos.length);
   $("#bConv").textContent = fmt(msgsF(null, r).length);
-  if (tab === "resumen") { kpis(r); serie(r); dona(r); canales(r); temas(r); areas(r); calor(r); preguntas(r); destacados(r); ahora(r, nuevosM); }
+  if (tab === "resumen") { marcas(r); kpis(r); serie(r); dona(r); canales(r); temas(r); areas(r); calor(r); preguntas(r); destacados(r); ahora(r, nuevosM); }
   if (tab === "casos") tablero(r);
   if (tab === "conv") conversaciones(r, nuevosM);
   if (tab === "contenido") $("#genBase").textContent = baseTxt();
@@ -1065,8 +1114,10 @@ function kpis(r) {
   const m = msgsF(null, r), mp = msgsF(null, r, true);
   const ind = indiceDe(m), indP = indiceDe(mp);
   const conv = new Set(m.map((x) => x.z)).size, convP = new Set(mp.map((x) => x.z)).size;
-  const cp = casosF(null, r, true), cpP = casosF(null, r, true, true);
+  const esQ = (c) => (c.tipo || "queja") === "queja";
+  const cp = casosF(null, r, true).filter(esQ), cpP = casosF(null, r, true, true).filter(esQ);
   const abiertos = casosF(null, r).filter((c) => c.estado !== "resuelto"), altas = abiertos.filter((c) => c.prioridad === "alta").length;
+  const conAsesor = abiertos.filter((c) => !esQ(c)).length;
   const res = casosF(null, r).filter((c) => c.resuelto_en && Date.parse(c.resuelto_en) >= r.a).map((c) => (Date.parse(c.resuelto_en) - c._ts) / 6e4).sort((a, b) => a - b);
   const mediana = res.length ? res[Math.floor(res.length / 2)] : null;
   const canalOk = (o) => !F.canal.size || F.canal.has(o.c);
@@ -1078,7 +1129,7 @@ function kpis(r) {
     { et: "💚 Índice de sentimiento", v: ind ?? "—", s: "/100", d: delta(ind, indP, " pts"), med: ind },
     { et: "💬 Conversaciones", v: fmt(conv), d: delta(conv, convP, "%"), sub: `${fmt(m.length)} mensajes`, ir: "conv" },
     { et: "📣 Quejas recibidas", v: fmt(cp.length), d: delta(cp.length, cpP.length, "%", true), ir: "casos" },
-    { et: "🔴 Casos sin resolver", v: fmt(abiertos.length), d: { t: altas ? `${altas} de prioridad alta` : "ninguno de prioridad alta", c: altas ? "baja" : "sube" }, alerta: altas > 0, ir: "abiertos" },
+    { et: "🔴 Casos sin resolver", v: fmt(abiertos.length), d: { t: altas ? `${altas} de prioridad alta` : "ninguno de prioridad alta", c: altas ? "baja" : "sube" }, sub: conAsesor ? `${fmt(abiertos.length - conAsesor)} quejas · ${fmt(conAsesor)} con el asesor` : "", alerta: altas > 0, ir: "abiertos" },
     { et: "⏱️ Tiempo de resolución", v: mediana != null ? durTxt(mediana) : "—", d: { t: res.length ? `mediana de ${res.length} casos resueltos` : "sin casos resueltos en el periodo", c: "" } },
     { et: "⭐ Opinión de la visita", v: op != null ? op.toFixed(1).replace(".", ",") : "—", s: "/5", d: delta(op != null ? op * 10 : null, opP != null ? opP * 10 : null, ""), sub: S.cuenta?.config?.modulos && !S.cuenta.config.modulos.sorteo ? `${fmt(ops.length)} opiniones` : `${fmt(ops.length)} opiniones · ${fmt(so)} al sorteo`, est: op },
   ];
@@ -1179,7 +1230,7 @@ function temas(r) {
   $("#temas").innerHTML = filas(lista, "tema", 0, (x, max) => { const w = x.n / max * 100; return `<i style="width:${x.pos / x.n * w}%;background:var(--pos)"></i><i style="width:${(x.n - x.pos - x.neg) / x.n * w}%;background:var(--neu)"></i><i style="width:${x.neg / x.n * w}%;background:var(--neg)"></i>`; });
 }
 function areas(r) {
-  const cs = casosF("area", r), a = {};
+  const cs = casosF("area", r).filter((c) => (c.tipo || "queja") === "queja"), a = {};
   for (const k of Object.keys(AREA)) a[k] = { abierto: 0, en_proceso: 0, resuelto: 0, n: 0 };
   for (const c of cs) { const x = a[c.area] ??= { abierto: 0, en_proceso: 0, resuelto: 0, n: 0 }; x[c.estado]++; x.n++; }
   const lista = Object.entries(a).sort((x, y) => y[1].n - x[1].n).map(([k, v]) => ({ k, nom: AREA[k]?.n ?? k, ico: `<span>${AREA[k]?.i || "•"}</span>`, ...v, tip: `${AREA[k]?.n ?? k}: ${v.abierto} abiertas · ${v.en_proceso} en proceso · ${v.resuelto} resueltas` }));
@@ -1217,11 +1268,16 @@ function destacados(r) {
 }
 function filaMsg(x, nuevo) {
   const ca = CANAL[x.c] || { n: x.c, c: "#888", i: "•" };
-  const caso = [...S.casos.values()].find((c) => c.z === x.z && Math.abs(c._ts - x._ts) < 6 * 3600e3);
-  const origen = caso && (x.k === "queja" || (x._ts <= caso._ts + 6e4 && x._ts >= caso._ts - 3e5));
+  // El caso al que llevó este mensaje: el primero de la conversación que se abrió después (o hasta 1 min antes).
+  // Si no hay, el más cercano de la conversación, solo para poder abrirlo con un toque.
+  const deZ = [...S.casos.values()].filter((c) => c.z === x.z && Math.abs(c._ts - x._ts) < 6 * 3600e3);
+  const siguiente = deZ.filter((c) => c._ts >= x._ts - 6e4 && c._ts - x._ts < 3e5).sort((p, q) => p._ts - q._ts)[0];
+  const caso = siguiente || deZ.sort((p, q) => Math.abs(p._ts - x._ts) - Math.abs(q._ts - x._ts))[0];
+  const origen = !!siguiente;
+  const marca = MZ.size ? (x.b || marcaDe(x.z, x._ts)) : null;
   return `<div class="msg${caso ? " click" : ""}${nuevo ? " nuevo" : ""}" ${caso ? `data-caso="${caso.id}"` : ""}><div class="cn" style="background:${ca.c}">${ca.i}</div><div>
     <div class="t">${esc(x.x)}</div>
-    <div class="m"><span class="sd" style="background:${SENT_C[x.s] || "var(--neu)"}"></span>${x.k ? `<span class="tag ${x.k}">${esc(TIPO[x.k] || x.k)}</span>` : `<span class="tag">analizando…</span>`}${x.m && x.m !== "saludo u otro" ? `<span>${esc(cap(x.m))}</span>` : ""}<span>${x.w && x.w.startsWith(ca.n) ? esc(x.w) : `${esc(ca.n)}${x.w ? " · " + esc(x.w) : ""}`}</span><span>${esc(hace(x._ts))}</span>${origen ? `<span class="tag ${caso.prioridad}">${esc(caso.codigo)}</span>` : ""}${x.d ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div></div></div>`;
+    <div class="m"><span class="sd" style="background:${SENT_C[x.s] || "var(--neu)"}"></span>${x.k ? `<span class="tag ${x.k}">${esc(TIPO[x.k] || x.k)}</span>` : `<span class="tag">analizando…</span>`}${x.m && x.m !== "saludo u otro" ? `<span>${esc(cap(x.m))}</span>` : ""}<span>${x.w && x.w.startsWith(ca.n) ? esc(x.w) : `${esc(ca.n)}${x.w ? " · " + esc(x.w) : ""}`}</span><span>${esc(hace(x._ts))}</span>${marca && marca !== SIN_MARCA ? `<span class="tag marca">${esc(marca)}</span>` : ""}${origen ? `<span class="tag ${caso.prioridad}">${esc(caso.codigo)}</span>` : ""}${x.d ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div></div></div>`;
 }
 function ahora(r, nuevos) {
   const m = msgsF(null, r).sort((a, b) => b._ts - a._ts);
@@ -1241,9 +1297,9 @@ function tarjeta(c) {
   const acc = c.estado === "abierto" ? `<button class="btn btn-lima" data-accion="aprobar" data-id="${c.id}">✅ Aprobar</button><button class="btn btn-claro" data-accion="decidir" data-id="${c.id}">❌ No enviar a nadie</button>`
     : c.estado === "en_proceso" ? `<button class="btn btn-verde" data-accion="resuelto" data-id="${c.id}">Marcar resuelto</button>` : "";
   return `<div class="tarjeta ${c.prioridad}${nuevosCasos.has(c.id) ? " nuevo" : ""}" data-caso="${c.id}">
-    <div class="ar">${ar.i} ${esc(ar.n)} · <span class="tag ${c.prioridad}">${esc(PRIO[c.prioridad])}</span><span class="cod">${esc(c.codigo)}</span></div>
+    <div class="ar">${ar.i} ${esc(ar.n)} · <span class="tag ${c.prioridad}">${esc(PRIO[c.prioridad])}</span>${c.tipo === "traspaso" ? `<span class="tag ejemplo" style="margin-left:6px">🛒 paso al asesor</span>` : ""}<span class="cod">${esc(c.codigo)}</span></div>
     <div class="r">${esc(c.resumen || "(sin resumen)")}</div>
-    <div class="m">${c.zona ? `<span>📍 ${esc(c.zona)}</span>` : ""}<span>${esc(CANAL[c.canal]?.n ?? c.canal)}</span><span>${esc(t)}</span>${chipVerif(c)}${c.app?.piloto ? `<span>🤖 decidió ${esc(S.cuenta?.asistente || "el asistente")}</span>` : ""}${c.avisados ? `<span>📲 avisado</span>` : ""}${c.demo ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div>
+    <div class="m">${MZ.size && marcaDe(c.z, c._ts) !== SIN_MARCA ? `<span class="tag marca">${esc(marcaDe(c.z, c._ts))}</span>` : ""}${c.zona ? `<span>📍 ${esc(c.zona)}</span>` : ""}<span>${esc(CANAL[c.canal]?.n ?? c.canal)}</span><span>${esc(t)}</span>${chipVerif(c)}${c.app?.piloto ? `<span>🤖 decidió ${esc(S.cuenta?.asistente || "el asistente")}</span>` : ""}${c.avisados ? `<span>📲 avisado</span>` : ""}${c.demo ? `<span class="tag ejemplo">ejemplo</span>` : ""}</div>
     ${acc ? `<div class="acc">${acc}</div>` : ""}</div>`;
 }
 function tablero(r) {
@@ -1459,7 +1515,7 @@ document.addEventListener("click", (e) => {
   const fb = t.closest(".fb[data-dim]");
   if (fb) { abrirPop(fb); return; }
   if (!t.closest("#pop")) cerrarPop();
-  const fila = t.closest(".fila-b[data-dim]");
+  const fila = t.closest(".fila-b[data-dim], .fila-m[data-dim]");
   if (fila) { alternar(fila.dataset.dim, fila.dataset.v); return; }
   const se = t.closest("[data-sent]");
   if (se) { alternar("sent", se.dataset.sent); return; }
@@ -1489,7 +1545,7 @@ function opcionesDe(dim) {
     const base = dim === "area" ? Object.keys(AREA) : dim === "prio" ? Object.keys(PRIO) : Object.keys(ESTADO);
     return { lista: base.map((k) => [k, cuenta[k] || 0]), unidad: "casos" };
   }
-  for (const m of msgsF(dim, r)) { const v = dim === "canal" ? m.c : dim === "tipo" ? (m.k || "otro") : dim === "sent" ? (m.s || "neutral") : (m.m || "saludo u otro"); cuenta[v] = (cuenta[v] || 0) + 1; }
+  for (const m of msgsF(dim, r)) { const v = dim === "marca" ? (m.b || marcaDe(m.z, m._ts)) : dim === "canal" ? m.c : dim === "tipo" ? (m.k || "otro") : dim === "sent" ? (m.s || "neutral") : (m.m || "saludo u otro"); cuenta[v] = (cuenta[v] || 0) + 1; }
   let base = dim === "canal" ? Object.keys(CANAL).filter((k) => cuenta[k] || F.canal.has(k)) : dim === "tipo" ? Object.keys(TIPO) : dim === "sent" ? Object.keys(SENT) : Object.keys(cuenta).sort((a, b) => cuenta[b] - cuenta[a]);
   return { lista: base.map((k) => [k, cuenta[k] || 0]), unidad: "mensajes" };
 }
@@ -1524,6 +1580,7 @@ document.addEventListener("pointermove", (e) => {
   tip.style.left = x + "px"; tip.style.top = y + "px";
 });
 document.addEventListener("pointerdown", (e) => { if (!e.target.closest?.("[data-tip]")) tip.classList.remove("on"); });
+window.addEventListener("scroll", () => tip.classList.remove("on"), { passive: true });
 
 $("#btnReporte").addEventListener("click", async () => {
   const b = $("#btnReporte"); b.disabled = true; b.textContent = "Escribiendo…";
