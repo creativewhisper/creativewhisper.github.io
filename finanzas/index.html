@@ -186,6 +186,7 @@ nav.abajo button.activo::before { content: ""; display: block; width: 28px; heig
 
 <script src="https://cdn.jsdelivr.net/npm/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js" integrity="sha384-rwykjmWNwVxboyFmvK9OXN0wj9hnMHA2aAHtits54DuACyCq0M2PrSNxhRb+hvXT" crossorigin="anonymous"></script>
+<script src="../assets/mfa.js"></script>
 <script>
 "use strict";
 (function () {
@@ -762,6 +763,7 @@ $('#btnSalir').addEventListener('click', async () => { await sb.auth.signOut(); 
 async function iniciar() {
   const { data } = await sb.auth.getSession();
   if (!data?.session) { $('#vLogin').classList.remove('oculto'); $('#vApp').classList.add('oculto'); return; }
+  if (!(await cwMfa.asegurar(sb))) { $('#vLogin').classList.remove('oculto'); $('#vApp').classList.add('oculto'); return; } // Fase 11.5b: segundo factor
   $('#vLogin').classList.add('oculto');
   $('#vApp').classList.remove('oculto');
   const previo = leer(CACHE);

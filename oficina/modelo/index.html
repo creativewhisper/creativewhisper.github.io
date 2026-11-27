@@ -96,6 +96,7 @@ pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;background:var(--
   </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js" integrity="sha384-rwykjmWNwVxboyFmvK9OXN0wj9hnMHA2aAHtits54DuACyCq0M2PrSNxhRb+hvXT" crossorigin="anonymous"></script>
+<script src="../../assets/mfa.js"></script>
 <script>
 "use strict";
 const SUPABASE_URL = "https://jlyrymgbykhpktabvlkl.supabase.co";
@@ -240,6 +241,7 @@ $("#pregunta").addEventListener("keydown", (e) => { if (e.key === "Enter") pregu
 async function entrar() {
   const { data } = await sb.auth.getSession();
   if (!data?.session) { $("#vLogin").classList.remove("oculto"); $("#vApp").classList.add("oculto"); return; }
+  if (!(await cwMfa.asegurar(sb))) { $("#vLogin").classList.remove("oculto"); $("#vApp").classList.add("oculto"); return; } // Fase 11.5b: segundo factor
   const { data: admin } = await sb.rpc("es_admin");
   if (admin !== true) { $("#lAviso").textContent = "Esta cuenta no tiene acceso."; await sb.auth.signOut(); $("#vLogin").classList.remove("oculto"); return; }
   $("#vLogin").classList.add("oculto"); $("#vApp").classList.remove("oculto"); $("#btnChat").classList.remove("oculto");

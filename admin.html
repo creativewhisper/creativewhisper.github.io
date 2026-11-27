@@ -228,6 +228,7 @@ footer{padding:48px 0 40px;color:var(--mute-2)}
 <div class="toast" id="toast"></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.4/dist/umd/supabase.js" integrity="sha384-rwykjmWNwVxboyFmvK9OXN0wj9hnMHA2aAHtits54DuACyCq0M2PrSNxhRb+hvXT" crossorigin="anonymous"></script>
+<script src="assets/mfa.js"></script>
 <script>
 (function () {
   "use strict";
@@ -267,6 +268,11 @@ footer{padding:48px 0 40px;color:var(--mute-2)}
     sb.auth.onAuthStateChange(function (_e, s) { mostrar(s); });
   }
   function mostrar(sesion) {
+    // Fase 11.5b: con segundo factor activado, primero el código de la app.
+    if (sesion) { cwMfa.asegurar(sb).then(function (ok) { if (ok) mostrarSesion(sesion); }); return; }
+    mostrarSesion(null);
+  }
+  function mostrarSesion(sesion) {
     var dentro = !!sesion;
     $("vistaLogin").hidden = dentro;
     $("vistaPanel").hidden = !dentro;

@@ -4,8 +4,24 @@ COTIZACIONES CIFRADAS — Creative Whisper
 Aquí van los archivos .json que genera _cotizador.html.
 Cada archivo es una propuesta cifrada con la clave de un cliente.
 
-Cómo se usa
------------
+Desde el 27-nov-2026 (fase 11.5b): formato v2
+---------------------------------------------
+- Las cotizaciones NUEVAS se cifran con: node .github/cotizaciones/cifrar.mjs --html propuesta.html --cliente "..." --titulo "..." --fecha AAAA-MM-DD
+  (desde la raíz del repo, en tu computadora). Genera una clave larga (CW-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX, unos 120 bits),
+  la muestra una sola vez y escribe cotizaciones/v2-<id>.json.
+- Nombre v2: PBKDF2-SHA256 de la clave, 600 000 iteraciones, sal "cw-cotizacion-id-v2" -> "v2-" + 32 hex.
+  Probar claves contra los nombres públicos cuesta 600 000 veces más que con v1.
+- Contenido v2: PBKDF2-SHA256 de 600 000 iteraciones (antes 310 000), sal aleatoria, AES-GCM.
+- Las de antes (v1) siguen abriendo igual. Para pasarlas a v2 con claves nuevas:
+  node .github/cotizaciones/migrar.mjs <ruta FUERA del repo a tu archivo de claves viejas>
+  El archivo lleva SOLO la clave en cada línea. Córrelo UNA vez (cada corrida crea claves nuevas).
+  Deja las claves nuevas en claves-nuevas-cotizaciones.txt junto a ese archivo. Los v1 no se borran solos.
+- OJO: borrar un v1 NO lo protege. Sigue en el historial público de git. Lo que protege una cotización vieja
+  es mandarle al cliente su clave nueva (la v1 se puede borrar después, para que nadie la use por error).
+- _cotizador.html (en tu PC) escribe v1: no lo uses más. Las nuevas, con cifrar.mjs.
+
+Cómo se usaba (v1)
+------------------
 1. Abre _cotizador.html (doble clic, en Chrome o Edge).
 2. Llena cliente, título y fecha.
 3. Arrastra el .html de la propuesta (o pégalo).
